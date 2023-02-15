@@ -1,0 +1,58 @@
+﻿
+@{
+
+}
+<script src="~/crystalreportviewers13/js/crviewer/crv.js"></script>
+<script src="~/Angular/ng-Reports.js"></script>
+<style>
+    .margin-top {
+        margin-top: 1px;
+    }
+
+    .center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px;
+    }
+
+    .vertical_center_initializing {
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+</style>
+<section id="crystal_section" ng-app="ng_HRD_App" ng-controller="cReports_ctrlr">
+    <div class="form-horizontal">
+        <div class="row margin-top">
+            <div id="iframe_content">
+                <div class="row wrapper border-bottom white-bg page-heading text-white" style="background-color:#507CD1;height:">
+                    <div class="col-lg-4">
+                        <label class="text-white headerX">Print Preview</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <button class="btn btn-primary pull-right" onclick="window.location.href='@Session["history_page"].ToString()'"><i class="fa fa-arrow-circle-left"></i> Back</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="padding-bottom:30px;">
+                        <div ng-show="show_initializing" style="z-index:99;position:absolute;" class="vertical_center_initializing">
+                            <div class="spiner-example fa-2x">
+                                <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
+                                    <span> Initializing Report </span>
+                                    <div class="sk-bounce1"></div>
+                                    <div class="sk-bounce2"></div>
+                                    <div class="sk-bounce3"></div>
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <iframe id="ReportFrame" name="ReportFrame" src="" style="border:10px #ffffff; height:92%;width:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

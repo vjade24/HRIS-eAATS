@@ -1,0 +1,456 @@
+﻿
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRIS-eAATS</title>
+    <base href="/" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+    <!-- orris -->
+    <link href="~/Content/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    
+    <link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Data picker -->
+    <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="~/Content/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
+    <link href="~/Content/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <!-- Toastr style -->
+    <link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    @*<link href="~/Content/plugins/gritter/jquery.gritter.css" rel="stylesheet">*@
+    <link href="~/Content/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+    <script src="~/Angular/angular.min.js"></script>
+    <script src="~/Angular/ng-file-upload.min.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+
+    <script src="~/Angular/ng-SharedLayout.js"></script>
+    <link href="~/Content/plugins/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/plugins/slick/slick-theme.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/steps/jquery.steps.css" rel="stylesheet" />
+    <script language="javascript" type="text/javascript">
+    var sessionTimeoutWarning   = @System.Configuration.ConfigurationManager.AppSettings["SessionWarning"].ToString(); //get session warning value from web config variable
+    var sessionTimeout          = @Session.Timeout; //get session timeout value from web config variable
+    var sTimeout                = sessionTimeoutWarning * 60000; //time to pop-up warning message
+    var set_time_var            = "";
+    var count                   = sessionTimeout * 60;
+    var counter = "";
+
+        var time_left = (sessionTimeout - sessionTimeoutWarning) * 60000;
+        var time_left2 = sessionTimeout - sessionTimeoutWarning;
+
+    //detect mouse click then call reset session time function
+    function mouse_detect(event) {
+        reset_session();
+    }
+
+    //detect mouse scroll then call reset session time function
+    function wheel_detect() {
+        reset_session();
+    }
+
+    //start session timer on page load
+    function onload_body() {
+        set_time();
+        timer();
+    }
+
+    function set_time() {
+        set_time_var = setTimeout('session_warning();', sTimeout);
+        counter = setInterval(timer, 1000);
+    }
+
+    function timer() {
+        count = count - 1;
+        if (count <= 0) {
+            setTimeout(function () {
+                swal({
+                    title: "Session Timeout",
+                    text: "You will be redirected to Login Page.",
+                    icon: "error",
+                    allowOutsideClick: false,
+                })
+                    .then(function () {
+                        clearInterval(counter);
+                        sessionStorage.clear();
+                        location.href = "../Login/Index"
+                        return;
+                    });
+            }, 1000);
+        }
+        $('#time_left').text(count);
+    }
+
+    function session_warning() {
+        setTimeout(function () {
+            toastr.options = {
+                closeOnHover: true,
+                closeButton: false,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: time_left
+            };
+            toastr.error('Your session is about to end in ' + time_left2 + ' minutes, try refreshing the page!', 'You have been idle for too long.');
+
+        }, 1000);
+    }
+
+    function reset_session() {
+        toastr.clear();
+        //var xmlHttp = null;
+        //xmlHttp = new XMLHttpRequest();
+        //xmlHttp.open("GET", "KeepAlive.aspx", true);
+        //xmlHttp.send(null);
+
+        count = sessionTimeout * 60;
+        toast_time_out = 1;
+        clearTimeout(set_time_var);
+        clearInterval(counter);
+        set_time();
+    }
+
+        //function log_out() {
+        //    sessionStorage.clear();
+        //    location.href = "../Login/Index"
+        //}
+    </script>
+    <style>
+        .row-height {
+            height: 40px !important;
+        }
+
+        .imgProfile {
+            border-radius: 50%;
+        }
+
+        .my-custom-scrollbar_notif {
+            position: absolute;
+            height: auto;
+            overflow: auto;
+            z-index: 9999;
+        }
+
+        .count-info .label {
+            padding: 2px 4px 2px 2px;
+        }
+
+
+        .modal-xl {
+            width: 1300px;
+        }
+
+        body {
+            padding-right: 0px !important;
+        }
+
+        .badge {
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 8px;
+            text-shadow: none;
+        }
+    </style>
+</head>
+<body ng-app="ng_HRD_App" ng-controller="SharedLayoutCtrlr" id="main_body" onload="onload_body()" onmousedown="mouse_detect(event)" onwheel="wheel_detect()">
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span>
+                                <img alt="image" class="img-circle" src="{{imgprofile}}" height="50" width="50" />
+                            </span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs">
+                                        <strong class="font-bold">{{username}} <span class="badge badge-primary"></span> </strong>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="logo-element">
+                            <span>
+                                <img alt="image" class="img-circle" src="{{imgprofile}}" height="50" width="50" />
+                            </span>
+                        </div>
+                    </li>
+
+                    <li ng-repeat="lst1 in MenuList" ng-if="lst1.menu_level == 1">
+                        <a ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst1)">{{lst1.menu_name}}<span class=""></span></a>
+
+                        <a ng-if="lst1.hasUrl == 0" ng-click="collapse(lst1.isOpen,lst1.id,lst1.hasUrl)">
+                            <i class="{{lst1.menu_icon}}"></i><span class="nav-label">{{lst1.menu_name}}</span>
+                            <span ng-show="!lst1.isOpen" class="fa fa-angle-right pull-right"></span>
+                            <span ng-show="lst1.isOpen" class="fa fa-angle-down pull-right"></span>
+                        </a>
+                        <ul class="tranx nav nav-second-level" ng-show="lst1.isOpen">
+                            <li ng-repeat="lst2 in MenuList" ng-if="lst2.menu_level == 2 && lst2.menu_id_link == lst1.id ">
+                                <a ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst2)">{{lst2.menu_name}}<span class=""></span></a>
+                                <a ng-if="lst2.hasUrl == 0" ng-click="collapse(lst2.isOpen,lst2.id,lst2.hasUrl)">
+                                    {{lst2.menu_name}}
+                                    <span ng-show="!lst2.isOpen" class="fa fa-angle-right pull-right"></span>
+                                    <span ng-show="lst2.isOpen" class="fa fa-angle-down pull-right"></span>
+                                </a>
+                                <ul class=" nav nav-third-level" ng-show="lst2.isOpen">
+                                    <li ng-repeat="lst3 in MenuList" ng-if="lst3.menu_level == 3 && lst2.id == lst3.menu_id_link ">
+                                        <a href="" ng-click="setActive(lst3)">{{lst3.menu_name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+    </div>
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href=""><i class="fa fa-bars"></i> </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown" ng-click="get_notification_index()">
+                        @*<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                            <i class="fa fa-bell"></i>  <span class="label label-danger" style="padding-top:-15px;" ng-show="!show_no_alerts">{{notifLst_length}}</span>
+                        </a>*@
+                        <ul class="dropdown-menu dropdown-alerts my-custom-scrollbar_notif">
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <div class="media-body">
+                                        <strong style="cursor:pointer;"> Today - {{ todays_date }}</strong>
+                                    </div>
+                                    <hr style="margin-top:10px;margin-bottom:6px" />
+                                </div>
+                                @*<hr style="margin-top:10px;margin-bottom:6px" />*@
+                            </li>
+                            <li ng-show="show_spinner">
+                                <div class="spiner-example" style="padding:0px; margin:0px; height:auto !important;">
+                                    <div class="sk-spinner sk-spinner-fading-circle">
+                                        <div class="sk-circle1 sk-circle"></div>
+                                        <div class="sk-circle2 sk-circle"></div>
+                                        <div class="sk-circle3 sk-circle"></div>
+                                        <div class="sk-circle4 sk-circle"></div>
+                                        <div class="sk-circle5 sk-circle"></div>
+                                        <div class="sk-circle6 sk-circle"></div>
+                                        <div class="sk-circle7 sk-circle"></div>
+                                        <div class="sk-circle8 sk-circle"></div>
+                                        <div class="sk-circle9 sk-circle"></div>
+                                        <div class="sk-circle10 sk-circle"></div>
+                                        <div class="sk-circle11 sk-circle"></div>
+                                        <div class="sk-circle12 sk-circle"></div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li ng-repeat="lst4 in NotifList" ng-show="!show_spinner">
+                                <div style="margin-top:10px;margin-bottom:10px;margin-left:5px;margin-right:5px;">
+                                    <span class="label {{ label_class(lst4.notify_code) }}" style="padding:7px !important;">{{ notif_int_values(lst4.notify_code) }}</span>
+                                    <label style="margin-left:5px; cursor:pointer;" ng-click="btn_redirect_to_page(lst4.notify_code)">{{ format_notif_short_msg(lst4.notify_short_msg) }}</label>
+                                </div>
+                                <hr style="margin-top:10px;margin-bottom:6px" />
+                            </li>
+                            <li ng-show="show_no_alerts">
+                                <div class="text-center link-block">
+                                    <a>
+                                        <strong>No New Notification</strong>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="~/cMainPage/Index">
+                            <i class="fa fa-home"></i> <span class="menu-display-none">Home</span>
+                        </a>
+                    </li>
+                    @*<li>
+                            <a ng-click="dl_manual()">
+                                <i class="fa fa-download"></i> Download Manual
+                            </a>
+                        </li>*@
+                    <li>
+                        <a ng-click="logout()">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                    @*@if (@Session["history_page"].ToString() != "")
+                        {
+                            <li>
+                                <a href="@Session["history_page"].ToString()">
+                                    <i class="fa fa-arrow-circle-left"></i> <span class="menu-display-none">Back</span>
+                                </a>
+                            </li>
+                        }*@
+                </ul>
+            </nav>
+        </div>
+
+        @RenderBody()
+
+    </div>
+    <div class="modal fade" id="common_loading_modal">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example" style="padding:0px; margin:0px; height:auto !important;">
+                    <div class="sk-spinner sk-spinner-fading-circle" style="width:150px;height:150px; margin-top:150px !important;">
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mainly scripts -->
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/moment.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+
+    <!-- Flot -->
+    <script src="~/Scripts/plugins/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.pie.js"></script>
+
+
+    <!-- Peity -->
+    <script src="~/Scripts/plugins/peity/jquery.peity.min.js"></script>
+    <script src="~/Scripts/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+
+    <script src="~/Scripts/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="~/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    @*<script src="~/Scripts/plugins/gritter/jquery.gritter.min.js"></script>*@
+
+    <!-- Sparkline -->
+    <script src="~/Scripts/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- slick carousel-->
+    <script src="~/Scripts/plugins/slick/slick.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="~/Scripts/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="~/Scripts/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/Scripts/plugins/toastr/toastr.min.js"></script>
+
+    <script src="~/Scripts/inspinia.js"></script>
+
+    <!-- iCheck -->
+    <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Morris -->
+    <script src="~/Scripts/plugins/morris/raphael-2.1.0.min.js"></script>
+    <script src="~/Scripts/plugins/morris/morris.js"></script>
+    
+    <!-- Data picker -->
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
+    <!-- Date range picker -->
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/select2/select2.min.js"></script>
+    <script src="~/Scripts/plugins/steps/jquery.steps.min.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            //$('.clockpicker').clockpicker({
+            //    placement: 'top',
+            //    align: 'left',
+            //    donetext: 'Done'
+            //});
+
+            //$('.clockpicker1').clockpicker({
+            //    placement: 'bottom',
+            //    align: 'left',
+            //    donetext: 'Done',
+            //    twelvehour: true
+
+            //});
+
+            $('.clockpicker').clockpicker({
+                placement: 'top',
+                align: 'left',
+                donetext: 'Done',
+                upperCaseAmPm: true,
+                leadingSpaceAmPm: false,
+                leadingZeroHours: true,
+            });
+
+            $('.clockpicker1').clockpicker({
+                placement: 'top',
+                align: 'left',
+                donetext: 'Done',
+                twelvehour: true,
+                upperCaseAmPm: true,
+                leadingSpaceAmPm: false,
+                leadingZeroHours: true,
+            });
+
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: "yyyy-mm-dd"
+            });
+        });
+        $(".select2_demo_3").select2({
+            allowClear: false
+        });
+
+    </script>
+
+</body>
+</html>

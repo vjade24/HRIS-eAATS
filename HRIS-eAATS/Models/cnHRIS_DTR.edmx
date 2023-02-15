@@ -1,0 +1,1318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRIS_DTRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_DTR.dbo.bio_extract_stg_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="bio_extract_stg_tbl">
+          <Key>
+            <PropertyRef Name="MachineNumber" />
+            <PropertyRef Name="IndRegID" />
+            <PropertyRef Name="DateTimeRecord" />
+            <PropertyRef Name="VerifyMode" />
+            <PropertyRef Name="InOutMode" />
+            <PropertyRef Name="WorkCode" />
+            <PropertyRef Name="DateOnlyRecord" />
+            <PropertyRef Name="TimeOnlyRecord" />
+          </Key>
+          <Property Name="MachineNumber" Type="int" Nullable="false" />
+          <Property Name="IndRegID" Type="int" Nullable="false" />
+          <Property Name="DateTimeRecord" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="VerifyMode" Type="int" Nullable="false" />
+          <Property Name="InOutMode" Type="int" Nullable="false" />
+          <Property Name="WorkCode" Type="int" Nullable="false" />
+          <Property Name="DateOnlyRecord" Type="datetime" Nullable="false" />
+          <Property Name="TimeOnlyRecord" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="bio_log_info_tbl">
+          <Key>
+            <PropertyRef Name="log_date" />
+            <PropertyRef Name="MachineNumber" />
+            <PropertyRef Name="ip_address" />
+          </Key>
+          <Property Name="log_date" Type="datetime" Nullable="false" />
+          <Property Name="MachineNumber" Type="int" Nullable="false" />
+          <Property Name="ip_address" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="bio_location" Type="varchar" MaxLength="255" />
+          <Property Name="log_descr" Type="varchar" MaxLength="255" />
+          <Property Name="log_status" Type="bit" />
+          <Property Name="prc_nbr" Type="bigint" />
+          <Property Name="prc_parameters" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_DTR.dbo.bio_machine_info_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="bio_machine_info_tbl">
+          <Key>
+            <PropertyRef Name="MachineNumber" />
+          </Key>
+          <Property Name="MachineNumber" Type="int" Nullable="false" />
+          <Property Name="ip_address" Type="varchar" MaxLength="20" />
+          <Property Name="port_number" Type="int" />
+          <Property Name="bio_location" Type="varchar" MaxLength="255" />
+          <Property Name="mac_address" Type="varchar" MaxLength="50" />
+          <Property Name="bio_status" Type="int" />
+          <Property Name="extract_type" Type="int" />
+        </EntityType>
+        <EntityType Name="dtr_from_bio_tbl">
+          <Key>
+            <PropertyRef Name="dtr_date" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="dtr_date" Type="date" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="time_in_am" Type="varchar" MaxLength="5" />
+          <Property Name="time_out_am" Type="varchar" MaxLength="5" />
+          <Property Name="time_in_pm" Type="varchar" MaxLength="5" />
+          <Property Name="time_out_pm" Type="varchar" MaxLength="5" />
+          <Property Name="time_in_ot" Type="varchar" MaxLength="5" />
+          <Property Name="time_out_ot" Type="varchar" MaxLength="5" />
+          <Property Name="dtr_status" Type="varchar" MaxLength="6" />
+          <Property Name="processed_by_user" Type="varchar" MaxLength="30" />
+          <Property Name="processed_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="dtr_processed_files_tbl">
+          <Key>
+            <PropertyRef Name="process_nbr" />
+          </Key>
+          <Property Name="process_nbr" Type="bigint" Nullable="false" />
+          <Property Name="result_value" Type="varchar" MaxLength="1" />
+          <Property Name="result_value_descr" Type="varchar" MaxLength="255" />
+          <Property Name="result_filename" Type="varchar" MaxLength="255" />
+          <Property Name="processed_by" Type="varchar" MaxLength="30" />
+          <Property Name="processed_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_personnelnames_tbl_DTR">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="birth_date" />
+            <PropertyRef Name="emp_status" />
+            <PropertyRef Name="gender" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="211" />
+          <Property Name="employee_name_format_2" Type="varchar" MaxLength="213" />
+          <Property Name="last_name" Type="varchar" MaxLength="100" />
+          <Property Name="first_name" Type="varchar" MaxLength="100" />
+          <Property Name="middle_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="suffix_name" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="courtisy_title" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="birth_date" Type="date" Nullable="false" />
+          <Property Name="emp_status" Type="bit" Nullable="false" />
+          <Property Name="gender" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Function Name="fn_check_time_bio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_etype" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_date" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_time" Type="varchar" Mode="In" />
+          <Parameter Name="p_ch1_time" Type="varchar" Mode="In" />
+          <Parameter Name="p_ch2_time" Type="varchar" Mode="In" />
+          <Parameter Name="p_chk_mode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_adjust_biodata_2dtr_stg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_adjust_biodata_2dtr_stg_shift" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_as_alerts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_month" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_batch_generate_dtr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_batch_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_bio_log_info_tbl_ip" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_ip" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_bio_machine_info_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_bio_status" Type="int" Mode="In" />
+          <Parameter Name="p_ip_address" Type="varchar" Mode="In" />
+          <Parameter Name="p_MachineNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_compare_dtr_bio_extract" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_date" Type="varchar" Mode="In" />
+          <Parameter Name="p_terminal" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_delete_bio_extract_stg_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_delete_bio_extract_stg_tbl_bydateAndMachine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_machine_number" Type="int" Mode="In" />
+          <Parameter Name="p_startdate" Type="date" Mode="In" />
+          <Parameter Name="p_lastdate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_dtr_bio_extract_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_bio_date" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_dtr_from_bio_tbl_dates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_year" Type="int" Mode="In" />
+          <Parameter Name="p_month" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_dtr_from_bio_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_dtr_date" Type="date" Mode="In" />
+          <Parameter Name="p_empl_id_ao" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_dtr_from_bio_tbl_list2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_month" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_dtr_from_bio_tbl_list3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_month" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_dtr_from_bio_tbl_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_dtr_date" Type="date" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_processed_by_user" Type="varchar" Mode="In" />
+          <Parameter Name="p_field_to_up" Type="varchar" Mode="In" />
+          <Parameter Name="p_field_value" Type="varchar" Mode="In" />
+          <Parameter Name="p_field_to_up2" Type="varchar" Mode="In" />
+          <Parameter Name="p_field_value2" Type="varchar" Mode="In" />
+          <Parameter Name="p_flag" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_getfile_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_location" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_bio_extract_stg_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_MachineNumber" Type="int" Mode="In" />
+          <Parameter Name="p_IndRegID" Type="int" Mode="In" />
+          <Parameter Name="p_DateTimeRecord" Type="varchar" Mode="In" />
+          <Parameter Name="p_VerifyMode" Type="int" Mode="In" />
+          <Parameter Name="p_InOutMode" Type="int" Mode="In" />
+          <Parameter Name="p_WorkCode" Type="int" Mode="In" />
+          <Parameter Name="p_DateOnlyRecord" Type="datetime" Mode="In" />
+          <Parameter Name="p_TimeOnlyRecord" Type="datetime" Mode="In" />
+          <Parameter Name="p_ExtractType" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_bio_log_info_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_log_date" Type="datetime" Mode="In" />
+          <Parameter Name="p_MachineNumber" Type="int" Mode="In" />
+          <Parameter Name="p_ip_address" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_location" Type="varchar" Mode="In" />
+          <Parameter Name="p_log_descr" Type="varchar" Mode="In" />
+          <Parameter Name="p_log_status" Type="int" Mode="In" />
+          <Parameter Name="p_prc_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_prc_parameters" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_in" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_in_perEmpl_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_out" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_out_perEmpl_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_perEmpl_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_shift" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_shift_pagro_pasian" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_process_biodata_2dtr_stg_shift_perEmpl_id" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_timefilter_bioextract" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_update_bio_log_info_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_log_date" Type="datetime" Mode="In" />
+          <Parameter Name="p_MachineNumber" Type="int" Mode="In" />
+          <Parameter Name="p_ip_address" Type="varchar" Mode="In" />
+          <Parameter Name="p_prc_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_prc_parameters" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_update_dtr_bio_extract_biotype" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_date" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_time" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_terminal" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_type_or" Type="varchar" Mode="In" />
+          <Parameter Name="p_bio_type" Type="varchar" Mode="In" />
+          <Parameter Name="p_updated_dttm" Type="varchar" Mode="In" />
+          <Parameter Name="p_updated_userby" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_upload_datfile_all" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_month" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upload_file_from_bio_to_stg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_location" Type="varchar" Mode="In" />
+          <Parameter Name="p_filename" Type="varchar" Mode="In" />
+          <Parameter Name="p_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_month" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upload_file_from_bio_to_stg_extracted" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_location" Type="varchar" Mode="In" />
+          <Parameter Name="p_filename" Type="varchar" Mode="In" />
+          <Parameter Name="p_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_month" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_DTRModelStoreContainer">
+          <EntitySet Name="bio_log_info_tbl" EntityType="Self.bio_log_info_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dtr_from_bio_tbl" EntityType="Self.dtr_from_bio_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dtr_processed_files_tbl" EntityType="Self.dtr_processed_files_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bio_extract_stg_tbl" EntityType="Self.bio_extract_stg_tbl" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [bio_extract_stg_tbl].[MachineNumber] AS [MachineNumber], 
+    [bio_extract_stg_tbl].[IndRegID] AS [IndRegID], 
+    [bio_extract_stg_tbl].[DateTimeRecord] AS [DateTimeRecord], 
+    [bio_extract_stg_tbl].[VerifyMode] AS [VerifyMode], 
+    [bio_extract_stg_tbl].[InOutMode] AS [InOutMode], 
+    [bio_extract_stg_tbl].[WorkCode] AS [WorkCode], 
+    [bio_extract_stg_tbl].[DateOnlyRecord] AS [DateOnlyRecord], 
+    [bio_extract_stg_tbl].[TimeOnlyRecord] AS [TimeOnlyRecord]
+    FROM [dbo].[bio_extract_stg_tbl] AS [bio_extract_stg_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="bio_machine_info_tbl" EntityType="Self.bio_machine_info_tbl" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [bio_machine_info_tbl].[MachineNumber] AS [MachineNumber], 
+    [bio_machine_info_tbl].[ip_address] AS [ip_address], 
+    [bio_machine_info_tbl].[port_number] AS [port_number], 
+    [bio_machine_info_tbl].[bio_location] AS [bio_location], 
+    [bio_machine_info_tbl].[mac_address] AS [mac_address], 
+    [bio_machine_info_tbl].[bio_status] AS [bio_status], 
+    [bio_machine_info_tbl].[extract_type] AS [extract_type]
+    FROM [dbo].[bio_machine_info_tbl] AS [bio_machine_info_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_personnelnames_tbl_DTR" EntityType="Self.vw_personnelnames_tbl_DTR" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_personnelnames_tbl_DTR].[empl_id] AS [empl_id], 
+    [vw_personnelnames_tbl_DTR].[employee_name] AS [employee_name], 
+    [vw_personnelnames_tbl_DTR].[employee_name_format_2] AS [employee_name_format_2], 
+    [vw_personnelnames_tbl_DTR].[last_name] AS [last_name], 
+    [vw_personnelnames_tbl_DTR].[first_name] AS [first_name], 
+    [vw_personnelnames_tbl_DTR].[middle_name] AS [middle_name], 
+    [vw_personnelnames_tbl_DTR].[suffix_name] AS [suffix_name], 
+    [vw_personnelnames_tbl_DTR].[courtisy_title] AS [courtisy_title], 
+    [vw_personnelnames_tbl_DTR].[birth_date] AS [birth_date], 
+    [vw_personnelnames_tbl_DTR].[emp_status] AS [emp_status], 
+    [vw_personnelnames_tbl_DTR].[gender] AS [gender]
+    FROM [dbo].[vw_personnelnames_tbl_DTR] AS [vw_personnelnames_tbl_DTR]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_DTRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bio_log_info_tbl">
+          <Key>
+            <PropertyRef Name="log_date" />
+            <PropertyRef Name="MachineNumber" />
+            <PropertyRef Name="ip_address" />
+          </Key>
+          <Property Name="log_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MachineNumber" Type="Int32" Nullable="false" />
+          <Property Name="ip_address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bio_location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="log_descr" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="log_status" Type="Boolean" />
+          <Property Name="prc_nbr" Type="Int64" />
+          <Property Name="prc_parameters" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="dtr_processed_files_tbl">
+          <Key>
+            <PropertyRef Name="process_nbr" />
+          </Key>
+          <Property Name="process_nbr" Type="Int64" Nullable="false" />
+          <Property Name="result_value" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="result_value_descr" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="result_filename" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="processed_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="processed_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="bio_extract_stg_tbl">
+          <Key>
+            <PropertyRef Name="MachineNumber" />
+            <PropertyRef Name="IndRegID" />
+            <PropertyRef Name="DateTimeRecord" />
+            <PropertyRef Name="VerifyMode" />
+            <PropertyRef Name="InOutMode" />
+            <PropertyRef Name="WorkCode" />
+            <PropertyRef Name="DateOnlyRecord" />
+            <PropertyRef Name="TimeOnlyRecord" />
+          </Key>
+          <Property Name="MachineNumber" Type="Int32" Nullable="false" />
+          <Property Name="IndRegID" Type="Int32" Nullable="false" />
+          <Property Name="DateTimeRecord" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="VerifyMode" Type="Int32" Nullable="false" />
+          <Property Name="InOutMode" Type="Int32" Nullable="false" />
+          <Property Name="WorkCode" Type="Int32" Nullable="false" />
+          <Property Name="DateOnlyRecord" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TimeOnlyRecord" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="bio_machine_info_tbl">
+          <Key>
+            <PropertyRef Name="MachineNumber" />
+          </Key>
+          <Property Name="MachineNumber" Type="Int32" Nullable="false" />
+          <Property Name="ip_address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="port_number" Type="Int32" />
+          <Property Name="bio_location" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="mac_address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="bio_status" Type="Int32" />
+          <Property Name="extract_type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vw_personnelnames_tbl_DTR">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="birth_date" />
+            <PropertyRef Name="emp_status" />
+            <PropertyRef Name="gender" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="employee_name" Type="String" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_format_2" Type="String" MaxLength="213" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="courtisy_title" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="birth_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="emp_status" Type="Boolean" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="HRIS_DTREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bio_log_info_tbl" EntityType="Self.bio_log_info_tbl" />
+          <EntitySet Name="dtr_processed_files_tbl" EntityType="Self.dtr_processed_files_tbl" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="bio_extract_stg_tbl" EntityType="Self.bio_extract_stg_tbl" />
+          <EntitySet Name="bio_machine_info_tbl" EntityType="Self.bio_machine_info_tbl" />
+          <EntitySet Name="vw_personnelnames_tbl_DTR" EntityType="Self.vw_personnelnames_tbl_DTR" />
+          <FunctionImport Name="sp_adjust_biodata_2dtr_stg">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_adjust_biodata_2dtr_stg_shift">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_as_alerts" ReturnType="Collection(HRIS_DTRModel.sp_as_alerts_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_year" Mode="In" Type="String" />
+            <Parameter Name="p_month" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_batch_generate_dtr" ReturnType="Collection(String)">
+          <Parameter Name="p_batch_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_bio_log_info_tbl_ip" ReturnType="Collection(HRIS_DTRModel.sp_bio_log_info_tbl_ip_Result)">
+          <Parameter Name="p_ip" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_bio_machine_info_tbl" ReturnType="Collection(HRIS_DTRModel.sp_bio_machine_info_tbl_Result)">
+            <Parameter Name="p_bio_status" Mode="In" Type="Int32" />
+            <Parameter Name="p_ip_address" Mode="In" Type="String" />
+            <Parameter Name="p_MachineNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_compare_dtr_bio_extract" ReturnType="Collection(HRIS_DTRModel.sp_compare_dtr_bio_extract_Result)">
+            <Parameter Name="p_date" Mode="In" Type="String" />
+            <Parameter Name="p_terminal" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_delete_bio_extract_stg_tbl" />
+          <FunctionImport Name="sp_delete_bio_extract_stg_tbl_bydateAndMachine">
+            <Parameter Name="p_machine_number" Mode="In" Type="Int32" />
+            <Parameter Name="p_startdate" Mode="In" Type="DateTime" />
+            <Parameter Name="p_lastdate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dtr_from_bio_tbl_dates" ReturnType="Collection(HRIS_DTRModel.sp_dtr_from_bio_tbl_dates_Result)">
+            <Parameter Name="p_year" Mode="In" Type="Int32" />
+            <Parameter Name="p_month" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dtr_from_bio_tbl_list2" ReturnType="Collection(HRIS_DTRModel.sp_dtr_from_bio_tbl_list2_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_year" Mode="In" Type="String" />
+            <Parameter Name="p_month" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dtr_from_bio_tbl_update" ReturnType="Collection(HRIS_DTRModel.sp_dtr_from_bio_tbl_update_Result)">
+            <Parameter Name="p_dtr_date" Mode="In" Type="DateTime" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_processed_by_user" Mode="In" Type="String" />
+            <Parameter Name="p_field_to_up" Mode="In" Type="String" />
+            <Parameter Name="p_field_value" Mode="In" Type="String" />
+            <Parameter Name="p_field_to_up2" Mode="In" Type="String" />
+            <Parameter Name="p_field_value2" Mode="In" Type="String" />
+            <Parameter Name="p_flag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_getfile_list" ReturnType="Collection(String)">
+          <Parameter Name="p_location" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(HRIS_DTRModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(HRIS_DTRModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_bio_extract_stg_tbl">
+            <Parameter Name="p_MachineNumber" Mode="In" Type="Int32" />
+            <Parameter Name="p_IndRegID" Mode="In" Type="Int32" />
+            <Parameter Name="p_DateTimeRecord" Mode="In" Type="String" />
+            <Parameter Name="p_VerifyMode" Mode="In" Type="Int32" />
+            <Parameter Name="p_InOutMode" Mode="In" Type="Int32" />
+            <Parameter Name="p_WorkCode" Mode="In" Type="Int32" />
+            <Parameter Name="p_DateOnlyRecord" Mode="In" Type="DateTime" />
+            <Parameter Name="p_TimeOnlyRecord" Mode="In" Type="DateTime" />
+            <Parameter Name="p_ExtractType" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_bio_log_info_tbl">
+            <Parameter Name="p_log_date" Mode="In" Type="DateTime" />
+            <Parameter Name="p_MachineNumber" Mode="In" Type="Int32" />
+            <Parameter Name="p_ip_address" Mode="In" Type="String" />
+            <Parameter Name="p_bio_location" Mode="In" Type="String" />
+            <Parameter Name="p_log_descr" Mode="In" Type="String" />
+            <Parameter Name="p_log_status" Mode="In" Type="Int32" />
+            <Parameter Name="p_prc_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_prc_parameters" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_timefilter_bioextract" ReturnType="Collection(HRIS_DTRModel.sp_timefilter_bioextract_Result)" />
+          <FunctionImport Name="sp_update_bio_log_info_tbl">
+            <Parameter Name="p_log_date" Mode="In" Type="DateTime" />
+            <Parameter Name="p_MachineNumber" Mode="In" Type="Int32" />
+            <Parameter Name="p_ip_address" Mode="In" Type="String" />
+            <Parameter Name="p_prc_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_prc_parameters" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="sp_upload_datfile_all" ReturnType="Collection(HRIS_DTRModel.sp_upload_datfile_all_Result)">
+            <Parameter Name="p_year" Mode="In" Type="String" />
+            <Parameter Name="p_month" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upload_file_from_bio_to_stg" ReturnType="Collection(HRIS_DTRModel.sp_upload_file_from_bio_to_stg_Result)">
+            <Parameter Name="p_location" Mode="In" Type="String" />
+            <Parameter Name="p_filename" Mode="In" Type="String" />
+            <Parameter Name="p_year" Mode="In" Type="String" />
+            <Parameter Name="p_month" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upload_file_from_bio_to_stg_extracted" ReturnType="Collection(HRIS_DTRModel.sp_upload_file_from_bio_to_stg_extracted_Result)">
+            <Parameter Name="p_location" Mode="In" Type="String" />
+            <Parameter Name="p_filename" Mode="In" Type="String" />
+            <Parameter Name="p_year" Mode="In" Type="String" />
+            <Parameter Name="p_month" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dtr_from_bio_tbl_list3" ReturnType="Collection(HRIS_DTRModel.sp_dtr_from_bio_tbl_list3_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_year" Mode="In" Type="String" />
+            <Parameter Name="p_month" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_in_perEmpl_id" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_in_perEmpl_id_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_out_perEmpl_id" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_out_perEmpl_id_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_perEmpl_id" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_perEmpl_id_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_shift_perEmpl_id" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_shift_perEmpl_id_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update_dtr_bio_extract_biotype" ReturnType="Collection(HRIS_DTRModel.sp_update_dtr_bio_extract_biotype_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_bio_date" Mode="In" Type="String" />
+            <Parameter Name="p_bio_time" Mode="In" Type="String" />
+            <Parameter Name="p_bio_terminal" Mode="In" Type="String" />
+            <Parameter Name="p_bio_type_or" Mode="In" Type="String" />
+            <Parameter Name="p_bio_type" Mode="In" Type="String" />
+            <Parameter Name="p_updated_dttm" Mode="In" Type="String" />
+            <Parameter Name="p_updated_userby" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="dtr_from_bio_tbl" EntityType="HRIS_DTRModel.dtr_from_bio_tbl" />
+          <FunctionImport Name="sp_dtr_from_bio_tbl_list" ReturnType="Collection(HRIS_DTRModel.sp_dtr_from_bio_tbl_list_Result)">
+            <Parameter Name="p_dtr_date" Mode="In" Type="DateTime" />
+            <Parameter Name="p_empl_id_ao" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dtr_bio_extract_list" ReturnType="Collection(HRIS_DTRModel.sp_dtr_bio_extract_list_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_bio_date" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_in" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_in_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_out" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_out_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_shift_pagro_pasian" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_shift_pagro_pasian_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg_shift" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg_shift_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_as_alerts_Result">
+          <Property Type="Int32" Name="AS_day" Nullable="true" />
+          <Property Type="Int32" Name="today_day" Nullable="true" />
+          <Property Type="Int32" Name="AS_month" Nullable="true" />
+          <Property Type="Int32" Name="today_month" Nullable="true" />
+          <Property Type="String" Name="dtr_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="time_in_am" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_out_am" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_in_pm" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_out_pm" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="dtr_status" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="dtr_status_descr" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="processed_by_user" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="processed_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_bio_log_info_tbl_ip_Result">
+          <Property Type="DateTime" Name="log_date" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="MachineNumber" Nullable="false" />
+          <Property Type="String" Name="ip_address" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="bio_location" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="log_descr" Nullable="true" MaxLength="255" />
+          <Property Type="Boolean" Name="log_status" Nullable="true" />
+          <Property Type="Int64" Name="prc_nbr" Nullable="true" />
+          <Property Type="String" Name="prc_parameters" Nullable="true" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="sp_bio_machine_info_tbl_Result">
+          <Property Type="Int32" Name="MachineNumber" Nullable="false" />
+          <Property Type="String" Name="ip_address" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="port_number" Nullable="true" />
+          <Property Type="String" Name="bio_location" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="mac_address" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="bio_status" Nullable="true" />
+          <Property Type="Int32" Name="extract_type" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_compare_dtr_bio_extract_Result">
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="bio_date" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="bio_time" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="bio_terminal" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="bio_etype" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="bio_filler1" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="bio_filler2" Nullable="true" MaxLength="5" />
+          <Property Type="Int64" Name="process_nbr" Nullable="true" />
+          <Property Type="String" Name="uploaded_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="uploaded_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_dtr_from_bio_tbl_dates_Result">
+          <Property Type="String" Name="dtr_date" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="day" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_dtr_from_bio_tbl_list2_Result">
+          <Property Type="String" Name="dtr_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="time_in_am" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_out_am" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_in_pm" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_out_pm" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="dtr_status" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="dtr_status_descr" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="processed_by_user" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="processed_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_dtr_from_bio_tbl_update_Result">
+          <Property Type="String" Name="result" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_msg" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_timefilter_bioextract_Result">
+          <Property Type="DateTime" Name="startdate" Nullable="true" />
+          <Property Type="DateTime" Name="lastdate" Nullable="true" />
+          <Property Type="String" Name="year" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="month" Nullable="true" MaxLength="11" />
+        </ComplexType>
+        <ComplexType Name="sp_upload_datfile_all_Result">
+          <Property Type="Int64" Name="process_nbr" Nullable="false" />
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="result_filename" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="processed_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="processed_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_upload_file_from_bio_to_stg_Result">
+          <Property Type="Int64" Name="process_nbr" Nullable="false" />
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="result_filename" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="processed_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="processed_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_upload_file_from_bio_to_stg_extracted_Result">
+          <Property Type="Int64" Name="process_nbr" Nullable="false" />
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="result_filename" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="processed_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="processed_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_dtr_from_bio_tbl_list3_Result">
+          <Property Type="String" Name="dtr_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="time_in_am" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_out_am" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_in_pm" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_out_pm" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_in_ot" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_out_ot" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="dtr_status" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="dtr_status_descr" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="processed_by_user" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="processed_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_in_perEmpl_id_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_out_perEmpl_id_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_perEmpl_id_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_shift_perEmpl_id_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_update_dtr_bio_extract_biotype_Result">
+          <Property Type="String" Name="month" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="year" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="extract_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="process_nbr" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="shift_flag" Nullable="true" MaxLength="1" />
+        </ComplexType>
+        <EntityType Name="dtr_from_bio_tbl">
+          <Key>
+            <PropertyRef Name="dtr_date" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="dtr_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="time_in_am" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_out_am" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_in_pm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_out_pm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_in_ot" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_out_ot" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="dtr_status" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="processed_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="processed_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_dtr_from_bio_tbl_list_Result">
+          <Property Type="String" Name="dtr_date" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="time_in_am" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_out_am" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_in_pm" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="time_out_pm" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="dtr_status" Nullable="true" MaxLength="6" />
+          <Property Type="String" Name="dtr_status_descr" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="processed_by_user" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="processed_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_dtr_bio_extract_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="bio_date" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="bio_time" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="bio_terminal" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="bio_location" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="bio_etype" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="bio_etype_descr" Nullable="true" MaxLength="1" />
+          <Property Type="Int64" Name="process_nbr" Nullable="true" />
+          <Property Type="Int32" Name="extract_type" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_in_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_out_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_shift_pagro_pasian_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg_shift_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_DTRModelStoreContainer" CdmEntityContainer="HRIS_DTREntities">
+          <EntitySetMapping Name="bio_log_info_tbl">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.bio_log_info_tbl">
+              <MappingFragment StoreEntitySet="bio_log_info_tbl">
+                <ScalarProperty Name="log_date" ColumnName="log_date" />
+                <ScalarProperty Name="MachineNumber" ColumnName="MachineNumber" />
+                <ScalarProperty Name="ip_address" ColumnName="ip_address" />
+                <ScalarProperty Name="bio_location" ColumnName="bio_location" />
+                <ScalarProperty Name="log_descr" ColumnName="log_descr" />
+                <ScalarProperty Name="log_status" ColumnName="log_status" />
+                <ScalarProperty Name="prc_nbr" ColumnName="prc_nbr" />
+                <ScalarProperty Name="prc_parameters" ColumnName="prc_parameters" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dtr_processed_files_tbl">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.dtr_processed_files_tbl">
+              <MappingFragment StoreEntitySet="dtr_processed_files_tbl">
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+                <ScalarProperty Name="result_filename" ColumnName="result_filename" />
+                <ScalarProperty Name="processed_by" ColumnName="processed_by" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bio_extract_stg_tbl">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.bio_extract_stg_tbl">
+              <MappingFragment StoreEntitySet="bio_extract_stg_tbl">
+                <ScalarProperty Name="MachineNumber" ColumnName="MachineNumber" />
+                <ScalarProperty Name="IndRegID" ColumnName="IndRegID" />
+                <ScalarProperty Name="DateTimeRecord" ColumnName="DateTimeRecord" />
+                <ScalarProperty Name="VerifyMode" ColumnName="VerifyMode" />
+                <ScalarProperty Name="InOutMode" ColumnName="InOutMode" />
+                <ScalarProperty Name="WorkCode" ColumnName="WorkCode" />
+                <ScalarProperty Name="DateOnlyRecord" ColumnName="DateOnlyRecord" />
+                <ScalarProperty Name="TimeOnlyRecord" ColumnName="TimeOnlyRecord" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="bio_machine_info_tbl">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.bio_machine_info_tbl">
+              <MappingFragment StoreEntitySet="bio_machine_info_tbl">
+                <ScalarProperty Name="MachineNumber" ColumnName="MachineNumber" />
+                <ScalarProperty Name="ip_address" ColumnName="ip_address" />
+                <ScalarProperty Name="port_number" ColumnName="port_number" />
+                <ScalarProperty Name="bio_location" ColumnName="bio_location" />
+                <ScalarProperty Name="mac_address" ColumnName="mac_address" />
+                <ScalarProperty Name="bio_status" ColumnName="bio_status" />
+                <ScalarProperty Name="extract_type" ColumnName="extract_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_personnelnames_tbl_DTR">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.vw_personnelnames_tbl_DTR">
+              <MappingFragment StoreEntitySet="vw_personnelnames_tbl_DTR">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_adjust_biodata_2dtr_stg" FunctionName="HRIS_DTRModel.Store.sp_adjust_biodata_2dtr_stg" />
+          <FunctionImportMapping FunctionImportName="sp_adjust_biodata_2dtr_stg_shift" FunctionName="HRIS_DTRModel.Store.sp_adjust_biodata_2dtr_stg_shift" />
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="HRIS_DTRModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_as_alerts" FunctionName="HRIS_DTRModel.Store.sp_as_alerts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_as_alerts_Result">
+                <ScalarProperty Name="AS_day" ColumnName="AS_day" />
+                <ScalarProperty Name="today_day" ColumnName="today_day" />
+                <ScalarProperty Name="AS_month" ColumnName="AS_month" />
+                <ScalarProperty Name="today_month" ColumnName="today_month" />
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="dtr_status" ColumnName="dtr_status" />
+                <ScalarProperty Name="dtr_status_descr" ColumnName="dtr_status_descr" />
+                <ScalarProperty Name="processed_by_user" ColumnName="processed_by_user" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_batch_generate_dtr" FunctionName="HRIS_DTRModel.Store.sp_batch_generate_dtr" />
+          <FunctionImportMapping FunctionImportName="sp_bio_log_info_tbl_ip" FunctionName="HRIS_DTRModel.Store.sp_bio_log_info_tbl_ip">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_bio_log_info_tbl_ip_Result">
+                <ScalarProperty Name="log_date" ColumnName="log_date" />
+                <ScalarProperty Name="MachineNumber" ColumnName="MachineNumber" />
+                <ScalarProperty Name="ip_address" ColumnName="ip_address" />
+                <ScalarProperty Name="bio_location" ColumnName="bio_location" />
+                <ScalarProperty Name="log_descr" ColumnName="log_descr" />
+                <ScalarProperty Name="log_status" ColumnName="log_status" />
+                <ScalarProperty Name="prc_nbr" ColumnName="prc_nbr" />
+                <ScalarProperty Name="prc_parameters" ColumnName="prc_parameters" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_bio_machine_info_tbl" FunctionName="HRIS_DTRModel.Store.sp_bio_machine_info_tbl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_bio_machine_info_tbl_Result">
+                <ScalarProperty Name="MachineNumber" ColumnName="MachineNumber" />
+                <ScalarProperty Name="ip_address" ColumnName="ip_address" />
+                <ScalarProperty Name="port_number" ColumnName="port_number" />
+                <ScalarProperty Name="bio_location" ColumnName="bio_location" />
+                <ScalarProperty Name="mac_address" ColumnName="mac_address" />
+                <ScalarProperty Name="bio_status" ColumnName="bio_status" />
+                <ScalarProperty Name="extract_type" ColumnName="extract_type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_compare_dtr_bio_extract" FunctionName="HRIS_DTRModel.Store.sp_compare_dtr_bio_extract">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_compare_dtr_bio_extract_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="bio_date" ColumnName="bio_date" />
+                <ScalarProperty Name="bio_time" ColumnName="bio_time" />
+                <ScalarProperty Name="bio_terminal" ColumnName="bio_terminal" />
+                <ScalarProperty Name="bio_etype" ColumnName="bio_etype" />
+                <ScalarProperty Name="bio_filler1" ColumnName="bio_filler1" />
+                <ScalarProperty Name="bio_filler2" ColumnName="bio_filler2" />
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="uploaded_by" ColumnName="uploaded_by" />
+                <ScalarProperty Name="uploaded_dttm" ColumnName="uploaded_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="HRIS_DTRModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_delete_bio_extract_stg_tbl" FunctionName="HRIS_DTRModel.Store.sp_delete_bio_extract_stg_tbl" />
+          <FunctionImportMapping FunctionImportName="sp_delete_bio_extract_stg_tbl_bydateAndMachine" FunctionName="HRIS_DTRModel.Store.sp_delete_bio_extract_stg_tbl_bydateAndMachine" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="HRIS_DTRModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_dtr_from_bio_tbl_dates" FunctionName="HRIS_DTRModel.Store.sp_dtr_from_bio_tbl_dates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_dtr_from_bio_tbl_dates_Result">
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="day" ColumnName="day" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_dtr_from_bio_tbl_list2" FunctionName="HRIS_DTRModel.Store.sp_dtr_from_bio_tbl_list2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_dtr_from_bio_tbl_list2_Result">
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="dtr_status" ColumnName="dtr_status" />
+                <ScalarProperty Name="dtr_status_descr" ColumnName="dtr_status_descr" />
+                <ScalarProperty Name="processed_by_user" ColumnName="processed_by_user" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_dtr_from_bio_tbl_update" FunctionName="HRIS_DTRModel.Store.sp_dtr_from_bio_tbl_update">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_dtr_from_bio_tbl_update_Result">
+                <ScalarProperty Name="result" ColumnName="result" />
+                <ScalarProperty Name="result_msg" ColumnName="result_msg" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_getfile_list" FunctionName="HRIS_DTRModel.Store.sp_getfile_list" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="HRIS_DTRModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="HRIS_DTRModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_insert_bio_extract_stg_tbl" FunctionName="HRIS_DTRModel.Store.sp_insert_bio_extract_stg_tbl" />
+          <FunctionImportMapping FunctionImportName="sp_insert_bio_log_info_tbl" FunctionName="HRIS_DTRModel.Store.sp_insert_bio_log_info_tbl" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="HRIS_DTRModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_timefilter_bioextract" FunctionName="HRIS_DTRModel.Store.sp_timefilter_bioextract">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_timefilter_bioextract_Result">
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="lastdate" ColumnName="lastdate" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="month" ColumnName="month" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_update_bio_log_info_tbl" FunctionName="HRIS_DTRModel.Store.sp_update_bio_log_info_tbl" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="HRIS_DTRModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_upload_datfile_all" FunctionName="HRIS_DTRModel.Store.sp_upload_datfile_all">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_upload_datfile_all_Result">
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+                <ScalarProperty Name="result_filename" ColumnName="result_filename" />
+                <ScalarProperty Name="processed_by" ColumnName="processed_by" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_upload_file_from_bio_to_stg" FunctionName="HRIS_DTRModel.Store.sp_upload_file_from_bio_to_stg">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_upload_file_from_bio_to_stg_Result">
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+                <ScalarProperty Name="result_filename" ColumnName="result_filename" />
+                <ScalarProperty Name="processed_by" ColumnName="processed_by" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_upload_file_from_bio_to_stg_extracted" FunctionName="HRIS_DTRModel.Store.sp_upload_file_from_bio_to_stg_extracted">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_upload_file_from_bio_to_stg_extracted_Result">
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+                <ScalarProperty Name="result_filename" ColumnName="result_filename" />
+                <ScalarProperty Name="processed_by" ColumnName="processed_by" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_dtr_from_bio_tbl_list3" FunctionName="HRIS_DTRModel.Store.sp_dtr_from_bio_tbl_list3">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_dtr_from_bio_tbl_list3_Result">
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="time_in_ot" ColumnName="time_in_ot" />
+                <ScalarProperty Name="time_out_ot" ColumnName="time_out_ot" />
+                <ScalarProperty Name="dtr_status" ColumnName="dtr_status" />
+                <ScalarProperty Name="dtr_status_descr" ColumnName="dtr_status_descr" />
+                <ScalarProperty Name="processed_by_user" ColumnName="processed_by_user" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_in_perEmpl_id" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_in_perEmpl_id">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_in_perEmpl_id_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_out_perEmpl_id" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_out_perEmpl_id">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_out_perEmpl_id_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_perEmpl_id" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_perEmpl_id">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_perEmpl_id_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_shift_perEmpl_id" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_shift_perEmpl_id">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_shift_perEmpl_id_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_update_dtr_bio_extract_biotype" FunctionName="HRIS_DTRModel.Store.sp_update_dtr_bio_extract_biotype">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_update_dtr_bio_extract_biotype_Result">
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="extract_type" ColumnName="extract_type" />
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="shift_flag" ColumnName="shift_flag" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="dtr_from_bio_tbl">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.dtr_from_bio_tbl">
+              <MappingFragment StoreEntitySet="dtr_from_bio_tbl">
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+                <ScalarProperty Name="processed_by_user" ColumnName="processed_by_user" />
+                <ScalarProperty Name="dtr_status" ColumnName="dtr_status" />
+                <ScalarProperty Name="time_out_ot" ColumnName="time_out_ot" />
+                <ScalarProperty Name="time_in_ot" ColumnName="time_in_ot" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_dtr_from_bio_tbl_list" FunctionName="HRIS_DTRModel.Store.sp_dtr_from_bio_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_dtr_from_bio_tbl_list_Result">
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="dtr_status" ColumnName="dtr_status" />
+                <ScalarProperty Name="dtr_status_descr" ColumnName="dtr_status_descr" />
+                <ScalarProperty Name="processed_by_user" ColumnName="processed_by_user" />
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_dtr_bio_extract_list" FunctionName="HRIS_DTRModel.Store.sp_dtr_bio_extract_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_dtr_bio_extract_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="bio_date" ColumnName="bio_date" />
+                <ScalarProperty Name="bio_time" ColumnName="bio_time" />
+                <ScalarProperty Name="bio_terminal" ColumnName="bio_terminal" />
+                <ScalarProperty Name="bio_location" ColumnName="bio_location" />
+                <ScalarProperty Name="bio_etype" ColumnName="bio_etype" />
+                <ScalarProperty Name="bio_etype_descr" ColumnName="bio_etype_descr" />
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="extract_type" ColumnName="extract_type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_in" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_in">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_in_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_out" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_out">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_out_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_shift_pagro_pasian" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_shift_pagro_pasian">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_shift_pagro_pasian_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg_shift" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg_shift">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_shift_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

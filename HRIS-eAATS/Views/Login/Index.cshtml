@@ -1,0 +1,172 @@
+﻿@model HRIS_eAATS.Models.Dev_Version_Name
+
+@{
+    Layout = null;
+}
+
+<html>
+
+
+<!-- Mirrored from webapplayers.com/inspinia_admin-v2.5/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 May 2016 13:21:22 GMT -->
+<head>
+    <script type="text/javascript">
+
+        function DisableBackButton() {
+            var mySession = '@Session["user_id"]';
+            if (mySession == null || mySession == '') {
+                window.history.forward();
+            }
+        }
+        window.onload = DisableBackButton();
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        //window.onunload = function() { void (0) }
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HRIS-eAATS | Login</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Angular/angular.min.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+    <script src="~/Angular/ng-file-upload.min.js"></script>
+    <script src="~/Angular/ng-Login.js?v=1"></script>
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+
+    <style type="text/css">
+        .body-login {
+            padding: 5%;
+            /*background-image: url('../../ResourcesImages/DDO Building Blur.jpg');*/
+            background-image:url('../../ResourcesImages/bg-login-system.jpg');
+            background-size: cover;
+        }
+
+        .screen-login {
+            /*background: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG') no-repeat;
+            background-size: contain;
+            box-shadow: 5px 10px 20px 0px #606060;
+            padding: 15px !important;
+            background-color: #f3f3f3;
+            border-radius: 10px;
+            border: 1px solid #f5f5f5;*/
+            background: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG') no-repeat;
+            background-size: contain;
+            box-shadow: 5px 10px 20px 0px #606060;
+            padding: 15px !important;
+            background-color: #00419b;
+            background-image:url('../../ResourcesImages/bg-login-system.jpg');
+            border-radius: 10px;
+            border: 1px solid;
+            z-index: 950;
+        }
+
+
+        /*.footer-login 
+        {
+            z-index: -1;
+            color: white;
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+        }*/
+
+    </style>
+
+</head>
+
+<body class="gray-bg body-login" ng-app="ng_HRD_App" ng-controller="LoginCtrlr">
+    <div class="middle-box text-center loginscreen animated fadeInDown screen-login">
+        <div style="margin-bottom:5px;">
+            <h1 class="logo-name">
+                <img src="~/ResourcesImages/ddo logo.png" height="200" width="200" />
+            </h1>
+        </div>
+        <div style="font-size:14px;color:white;margin-top:10px;">
+            <small style="font-size:16px;font-weight:bolder">Welcome to</small>
+            <small style="font-size:16px;font-weight:bolder">@Model.DVName  </small>
+        </div>
+        <hr style="margin-top:4px;margin-bottom:4px;border-color:white;" />
+        <h2 style="margin-top:3px;color:white"><strong>HRIS - eAATS </strong></h2>
+        <hr style="margin-top:4px;margin-bottom:0px;border-color:white;" />
+        <form class="m-t" role="form" style="margin-top:4px;">
+            <div class="form-group">
+                <label id="lbl_txtb_password_req" class="lbl_required text-center" style="width:100%;"></label>
+                <input type="text" id="txtb_username" class="form-control" placeholder="Username" ng-model="txt_username" required="">
+                <label id="lbl_txtb_username_req" class="lbl_required"></label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="txtb_password" class="form-control" placeholder="Password" style="padding-right:33px !important;" ng-model="txt_password" required="">
+                <span class="fa fa-eye-slash pull-right" id="show_pass_icn" onclick="showpassword()" style="margin-top:-32px;margin-right:2px;z-index:1000;background-color:white;padding:8px;cursor:pointer;"></span>
+            </div>
+            <button type="submit" ng-click="btn_Login_Submit()"  class="btn btn-primary block full-width "><i id="login_icon" class="fa fa-sign-in"></i> Login</button>
+            <br />
+        </form>
+        <p class="m-t-n text-white"> <small>Provincial Government of Davao de Oro &copy; @DateTime.Now.Year</small> </p>
+    </div>
+    @*<div class="footer-login">
+        <div style="width:50%;background-color:#00419b !important;padding:15px;border-top:10px solid #fd0906;border-radius: 0% 100% 0% 0% !important;">
+            <div class="row" >
+                <div class="col-lg-6">
+                    <div class="form-group row">
+                        <div class="col-lg-3">
+                            <img src="~/ResourcesImages/ddo logo.png" height="50" width="50" />
+                        </div>
+                        <div class="col-lg-6">
+                            <strong><small>PROVINCIAL INFORMATION AND COMMUNICATIONS TECHNOLOGY OFFICE</small></strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" >
+                    <div class="form-group row">
+                        <div class="col-lg-3">
+                            <img src="~/ResourcesImages/ddo logo.png" height="50" width="50" />
+                        </div>
+                        <div class="col-lg-6">
+                            <a href="http://eservices.davaodeoro.gov.ph/">eservices.davaodeoro.gov.ph</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:50%">
+            
+        </div>
+    </div>*@
+    <!-- Mainly scripts -->
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function myFunction() {
+            var x = document.getElementById("txtb_password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        function showpassword() {
+            var x = document.getElementById("txtb_password");
+            if (x.type === "password") {
+                x.type = "text";
+                $("#show_pass_icn").removeClass('fa-eye-slash');
+                $("#show_pass_icn").addClass('fa-eye');
+            }
+            else {
+                $("#show_pass_icn").removeClass('fa-eye');
+                $("#show_pass_icn").addClass('fa-eye-slash');
+                x.type = "password";
+            }
+        }
+    </script>
+</body>
+
+
+<!-- Mirrored from webapplayers.com/inspinia_admin-v2.5/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 May 2016 13:21:22 GMT -->
+</html>

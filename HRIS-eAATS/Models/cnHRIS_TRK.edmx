@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRIS_TRKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="edocument_trk_tbl">
+          <Key>
+            <PropertyRef Name="doc_ctrl_nbr" />
+            <PropertyRef Name="route_seq" />
+          </Key>
+          <Property Name="doc_ctrl_nbr" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="route_seq" Type="int" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="vlt_dept_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="doc_dttm" Type="datetime" Nullable="false" />
+          <Property Name="doc_remarks" Type="varchar" MaxLength="225" />
+          <Property Name="document_status" Type="varchar" MaxLength="1" />
+          <Property Name="doc_user_id" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <Function Name="sp_edocument_trk_tbl_history" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_doc_ctrl_nbr" Type="varchar" Mode="In" />
+          <Parameter Name="p_docmnt_type" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_TRKModelStoreContainer">
+          <EntitySet Name="edocument_trk_tbl" EntityType="Self.edocument_trk_tbl" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_TRKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="edocument_trk_tbl">
+          <Key>
+            <PropertyRef Name="doc_ctrl_nbr" />
+            <PropertyRef Name="route_seq" />
+          </Key>
+          <Property Name="doc_ctrl_nbr" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="route_seq" Type="Int32" Nullable="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="vlt_dept_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="doc_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="doc_remarks" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="document_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="doc_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="HRIS_TRKEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="edocument_trk_tbl" EntityType="Self.edocument_trk_tbl" />
+          <FunctionImport Name="sp_edocument_trk_tbl_history" ReturnType="Collection(HRIS_TRKModel.sp_edocument_trk_tbl_history_Result)">
+            <Parameter Name="p_doc_ctrl_nbr" Mode="In" Type="String" />
+            <Parameter Name="p_docmnt_type" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_edocument_trk_tbl_history_Result">
+          <Property Type="String" Name="doc_ctrl_nbr" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="route_seq" Nullable="true" />
+          <Property Type="String" Name="vlt_dept_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="docmnt_type" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="docmnt_type_descr" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="doc_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="doc_pbo_nbr" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="doc_voucher_nbr" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="doc_cafoa" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="doc_pto_nbr" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="document_status" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="doc_user_id" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="doc_remarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="payroll_registry_descr" Nullable="true" MaxLength="255" />
+          <Property Type="Decimal" Name="gross_pay" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="net_pay" Nullable="true" Precision="19" />
+          <Property Type="String" Name="payrolltemplate_code" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="payrolltemplate_descr" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="spent_time" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="spent_time_tot" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="doc_voucher_nbr_pay" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="doc_voucher_nbr_ca" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="payroll_registry_nbr_upd" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="ca_ctrl_nbr_upd" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_TRKModelStoreContainer" CdmEntityContainer="HRIS_TRKEntities">
+          <EntitySetMapping Name="edocument_trk_tbl">
+            <EntityTypeMapping TypeName="HRIS_TRKModel.edocument_trk_tbl">
+              <MappingFragment StoreEntitySet="edocument_trk_tbl">
+                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
+                <ScalarProperty Name="route_seq" ColumnName="route_seq" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="vlt_dept_code" ColumnName="vlt_dept_code" />
+                <ScalarProperty Name="doc_dttm" ColumnName="doc_dttm" />
+                <ScalarProperty Name="doc_remarks" ColumnName="doc_remarks" />
+                <ScalarProperty Name="document_status" ColumnName="document_status" />
+                <ScalarProperty Name="doc_user_id" ColumnName="doc_user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_edocument_trk_tbl_history" FunctionName="HRIS_TRKModel.Store.sp_edocument_trk_tbl_history">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_TRKModel.sp_edocument_trk_tbl_history_Result">
+                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
+                <ScalarProperty Name="route_seq" ColumnName="route_seq" />
+                <ScalarProperty Name="vlt_dept_code" ColumnName="vlt_dept_code" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="docmnt_type" ColumnName="docmnt_type" />
+                <ScalarProperty Name="docmnt_type_descr" ColumnName="docmnt_type_descr" />
+                <ScalarProperty Name="doc_dttm" ColumnName="doc_dttm" />
+                <ScalarProperty Name="doc_pbo_nbr" ColumnName="doc_pbo_nbr" />
+                <ScalarProperty Name="doc_voucher_nbr" ColumnName="doc_voucher_nbr" />
+                <ScalarProperty Name="doc_cafoa" ColumnName="doc_cafoa" />
+                <ScalarProperty Name="doc_pto_nbr" ColumnName="doc_pto_nbr" />
+                <ScalarProperty Name="document_status" ColumnName="document_status" />
+                <ScalarProperty Name="doc_user_id" ColumnName="doc_user_id" />
+                <ScalarProperty Name="doc_remarks" ColumnName="doc_remarks" />
+                <ScalarProperty Name="payroll_registry_descr" ColumnName="payroll_registry_descr" />
+                <ScalarProperty Name="gross_pay" ColumnName="gross_pay" />
+                <ScalarProperty Name="net_pay" ColumnName="net_pay" />
+                <ScalarProperty Name="payrolltemplate_code" ColumnName="payrolltemplate_code" />
+                <ScalarProperty Name="payrolltemplate_descr" ColumnName="payrolltemplate_descr" />
+                <ScalarProperty Name="spent_time" ColumnName="spent_time" />
+                <ScalarProperty Name="spent_time_tot" ColumnName="spent_time_tot" />
+                <ScalarProperty Name="doc_voucher_nbr_pay" ColumnName="doc_voucher_nbr_pay" />
+                <ScalarProperty Name="doc_voucher_nbr_ca" ColumnName="doc_voucher_nbr_ca" />
+                <ScalarProperty Name="payroll_registry_nbr_upd" ColumnName="payroll_registry_nbr_upd" />
+                <ScalarProperty Name="ca_ctrl_nbr_upd" ColumnName="ca_ctrl_nbr_upd" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

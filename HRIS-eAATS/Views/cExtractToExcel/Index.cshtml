@@ -1,0 +1,332 @@
+﻿@*
+    ****Page Development assigned to:   Jorge Rustom Villanueva.
+    ****Page Development started date:  04/28/2020
+    ****Page Purpose and Description:   This page is allow to auto generate remittance ledger.
+*@
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Angular/ng-cExtractToExcel.js"></script>
+
+<style type="text/css">
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    .badge {
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 8px;
+        text-shadow: none;
+    }
+
+
+    span.details-control {
+        background: url('../../ResourcesImages/show.jpg') no-repeat center center;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    tr.shown span.details-control {
+        background: url('../../ResourcesImages/unshow.jpg') no-repeat center center;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+</style>
+
+<section ng-app="ng_HRD_App" ng-controller="cExtractToExcel_ctrlr">
+
+    <label id="user_id_session" ng-hide="true" ng-model="user_id_session">@Session["user_id"].ToString().Trim()</label>
+    <div class="row" style="padding:50px;">
+        <div class="col-lg-12" style="padding:5% 5% 5% 5%;border: 1px solid gray;border-radius:10px;background-color:lightgray;">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="background-color:#507CD1;color:white;">
+                    <div class="row" style="margin-top:-5px;">
+                        <div class="col-lg-12">
+                            <h2 style="font-weight:bold;">On-Demand Extract to Excel</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <span>EXTRACT/REPORT TYPE:</span>
+                        </div>
+                        <div class="col-lg-9">
+                            <select class="form-control" id="ddl_report_type" ng-model="ddl_report_type" ng-change="RetrieveRepotType()">
+                                <option value="HISTORY"> Approved Leave application and Approved Leave Posting History</option>
+                                <option value="CANCEL_LEAVE">All Leave Application Cancel Pending and Disapproved</option>
+                                <option value="CANCEL_POST">All Leave Posting Cancel Pending and Disapproved </option>
+                                <option value="UND_TARD">Report on Attendance Absences, Undertime and Man-hour </option>
+                                <option value="BEST">Employees with NO UT, TARDY, CTO, VL+FL>5, SL AND LWOP (Best Attendance) </option>
+                                <option value="LWOP">Leave Without Pay </option>
+                                <option value="HISTORY-SPENT-TIME">History for Level 1 to Posting Approved</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px !important" ng-show="show_period">
+                        <div class="col-lg-3">
+                            <span>YEAR:</span>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
+                                <option value="">--All--</option>
+                                <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <span>MONTH:</span>
+                        </div>
+                        <div class="col-lg-3">
+                            <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
+                                <option value="">--All--</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px !important" ng-show="!show_period">
+                        <div class="col-lg-3">
+                            <span>LEAVE DATE FROM:</span>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group date" data-provide="datepicker">
+                                <input type="text" id="txtb_leave_date_from" ng-model="txtb_leave_date_from" class="form-control form-control-sm text-center font-bold" maxlength="10" />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                            <label id="lbl_txtb_leave_date_from_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-lg-3">
+                            <span>LEAVE DATE TO:</span>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group date" data-provide="datepicker">
+                                <input type="text" id="txtb_leave_date_to" ng-model="txtb_leave_date_to" class="form-control form-control-sm text-center font-bold" maxlength="10" />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                            <label id="lbl_txtb_leave_date_to_req" class="lbl_required"></label>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px !important" ng-show="show_emptype">
+                        <div class="col-lg-3">
+                            <span>EMPLOYMENT TYPE:</span>
+                        </div>
+                        <div class="col-lg-9">
+                            <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type">
+                                <option value=""> -- All Employment Type --</option>
+                                <option value="RE">Regular Employees</option>
+                                <option value="CE">Casual Employees</option>
+                                <option value="JO">Job-Order Employees</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px !important" ng-show="showdept">
+                        <div class="col-lg-3">
+                            <span>DEPARTMENT:</span>
+                        </div>
+                        <div class="col-lg-9">
+                            <select class="form-control" id="ddl_department" ng-model="ddl_department">
+                                <option value=""> -- All Department --</option>
+                                <option ng-repeat="lst in dep_lst" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-footer">
+                    <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <button class="btn btn-success pull-left" id="btn_inc_excl" ng-show="show_inc_exc" ng-click="btn_inc_excl()"> <i class="fa fa-plus-square-o"></i> INCLUDE/EXCLUDE</button>
+                            <button class="btn btn-success" id="btn_extract" ng-show="!showprint" ng-click="btn_extract()"> <i class="fa fa-file-excel-o"></i> EXTRACT</button>
+                            <button class="btn btn-primary" id="btn_print" ng-show="showprint" ng-click="btn_print(ddl_report_type)"> <i class="fa fa-print"></i> PRINT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_include_exclude" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title">LIST OF INCLUDED/EXCLUDED </h3>
+                </div>
+                <div class="modal-body with-background">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox">
+                                <div class="ibox-title">
+                                    <h5 class="text-primary"><b>List of Included/Excluded </b></h5>
+
+                                    <select class="form-control" id="ddl_option_type" ng-model="ddl_option_type" ng-change="RetrieveIncludeExclude()" style="width:80% !important;" >
+                                        <option value="01" selected>Included Employees</option>
+                                        <option value="02">Excluded Employees</option>
+                                    </select>
+                                    <button class="btn btn-primary" ng-click="btn_open_modal_add()" style="padding:3px 25px !important"><i class="fa fa-plus-square"></i> Add</button>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-responsive" style="width:100% !important;" id="datalist_grid">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>ID #</th>
+                                                    <th>NAME</th>
+                                                    <th>STATUS</th>
+                                                    <th>ACTION</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        @*<table id="datalist_dochistory" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="2%"></th>
+                                                    <th width="5%">MONTH</th>
+                                                    <th width="8%">MY NET PAY</th>
+                                                    <th width="30%">REMARKS</th>
+                                                    <th width="5%">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_include_exclude_add_edit" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title">LIST OF INCLUDED/EXCLUDED </h3>
+                </div>
+                <div class="modal-body with-background">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox" >
+                                <div class="ibox-title" style="padding-bottom:20px !important">
+                                    <h5 class="text-primary" style="margin-top:5px !important"><b>Employee Name </b></h5>
+                                    <select class="form-control" id="ddl_name" ng-model="ddl_name" style="width:100% !important;" ng-show="!show_empl">
+                                        <option value="">-- Employee Name --</option>
+                                        <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.employee_name}} - {{lst.empl_id}}</option>
+                                    </select>
+                                    <input type="text" id="txtb_employee_name" ng-model="txtb_employee_name" ng-show="show_empl" class="form-control form-control-sm" disabled />
+                                    <hr />
+                                    <input type="text" id="txtb_empl_id" ng-model="txtb_empl_id" ng-show="show_empl" class="form-control form-control-sm" disabled />
+                                    <hr />
+                                    <h5 class="text-primary"><b>Remarks 1 </b></h5>
+                                    <input type="text" id="txtb_remarks_1" ng-model="txtb_remarks_1" class="form-control form-control-sm" />
+                                    <h5 class="text-primary"><b>Remarks 2 </b></h5>
+                                    <input type="text" id="txtb_remarks_2" ng-model="txtb_remarks_2" class="form-control form-control-sm" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="btn_add_edit(action)" ><i class="fa fa-save"></i> Add/Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_generating_tax">
+        <div class="modal-dialog text-center">
+            <div class="spiner-example">
+                <div class="sk-spinner sk-spinner-cube-grid">
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <span style="color:white;padding:10px 20px 10px 20px;border:0.5px solid aquamarine;border-radius:5px 5px 5px 5px;background-image: linear-gradient(329deg, #268672 50%, #39a28c 50%);">
+                    <b>
+                        PLEASE WAIT...
+                    </b>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</section>

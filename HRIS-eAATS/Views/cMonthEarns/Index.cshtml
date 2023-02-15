@@ -1,0 +1,238 @@
+﻿<script src="~/Angular/ng-cMonthEarns.js"></script>
+<style type="text/css">
+    
+    span.details-control {
+        background: url('../../ResourcesImages/show.jpg') no-repeat center center;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    tr.shown span.details-control {
+        background: url('../../ResourcesImages/unshow.jpg') no-repeat center center;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .badge {
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 8px;
+        text-shadow: none;
+    }
+    .modal {
+        overflow-y: auto;
+    }
+
+    .swal-footer {
+        background-color: rgb(245, 248, 250);
+        margin-top: 32px;
+        border-top: 1px solid #E9EEF1;
+        overflow: hidden;
+        text-align:center !important;
+    }
+    .swal-text {
+        text-align: center !important;
+    }
+</style>
+<section ng-app="ng_selfService_App" ng-controller="cMonthEarns_ctrlr">
+
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h2 class="text-white">@Model.menu_name</h2>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group row">
+                                    <div class="col-lg-3">
+                                        <strong><span class="pull-left m-t-xs">Show</span></strong>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <strong><span class="pull-left m-t-xs">entries</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-8">
+                                <div class="form-group row">
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Earn Year:</b></label>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
+                                            <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Earn Month:</b></label>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button type="button" ng-click="btn_generate()" class="btn btn-success pull-right"><i class="fa fa-qrcode"></i> Generate Earning</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-8">
+                                <div class="form-group row">
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Department:</b></label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="ddl_dept" ng-model="ddl_dept" ng-change="FilterPageGrid()">
+                                            <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-t-xs" >
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-8">
+                                <div class="form-group row">
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Earning Type:</b></label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="ddl_earning_type" ng-model="ddl_earning_type" ng-change="FilterPageGrid()">
+                                            <option value="VL">Basic Monthly Earning</option>
+                                            <option value="CTO">Compensatory Time-Off Earning </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="col-12 table-resposive">
+                            <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th width="15%">OFFICE</th>
+                                        <th width="5%">ID #</th>
+                                        <th width="30%">EMPLOYEE NAME</th>
+                                        <th width="35%">REMARKS</th>
+                                        <th width="15%">DATE GENERATED</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Printing Preview -->
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview_trans"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Loading -->
+    <div class="modal fade" id="modal_generating_remittance">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-cube-grid" style="width:150px;height:150px;">
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="row">
+                            <div class="spiner-example text-white" style="margin-left:20px;">
+                                <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
+                                <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                    <div class="sk-bounce1" style="background-color:white;"></div>
+                                    <div class="sk-bounce2" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="89e0263448bd488eb39980cd7a36f83a" Name="Diagram1" ZoomLevel="77" ShowGrid="true">
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_leaveadmin_tbl_list" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_lv_ledger_info_curr_vl_sl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.aats_installation_tbl" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.astype_tbl" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leaveadmin_tbl" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leavesubtype_tbl" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leavetype_tbl" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.timeschedule_tbl" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.traveltype_tbl" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vl_fractionconvertion_tbl" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vl_wop_tbl" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vlslearned_dailybasis_tbl" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_leaveadmin_dept_list" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_leaveadmin_user_list" Width="1.5" PointX="4.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_dtl_tbl" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_lv_ledger_info" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_lv_ledger_info_curr" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_hdr_tbl" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.empl_dtr_dtl_tbl" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_all_applications" Width="1.5" PointX="2.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.dtr_overrides_tbl" Width="1.5" PointX="12.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leaveappl_dtl_tbl" Width="1.5" PointX="8.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leaveappl_hdr_tbl" Width="1.5" PointX="10.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.exc_inc_empl_attendance_tbl" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_hdr_tbl" Width="1.5" PointX="13.375" PointY="13.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_dtl_tbl" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" Width="1.5" PointX="15.375" PointY="7.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_leave_appl_posting_indv_history" Width="1.5" PointX="15.375" PointY="11.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_cancel_tbl" Width="1.5" PointX="15.375" PointY="15.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

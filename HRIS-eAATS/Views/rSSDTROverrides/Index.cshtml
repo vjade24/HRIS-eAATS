@@ -1,0 +1,394 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Angular/ng-rSSDTROverrides.js"></script>
+<style type="text/css">
+    @@media only screen and (min-width: 1300px) {
+        .div_content_override {
+            padding: 10px 10px 130px 10px;
+        }
+    }
+
+    @@media only screen and (max-width: 769px) 
+    {
+        .div_content_override {
+            padding-top: 10px !important;
+        }
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    /*.table > thead > tr > th {
+        background-color: #1AB394 !important;
+    }
+
+    table#datalist_grid {
+        font-weight: bold;
+    }
+
+    #datalist_grid tbody tr.even:hover, #datalist_grid tbody tr.even td.highlighted {
+        background-color: #1AB394;
+        color: white !important;
+    }
+
+    #datalist_grid tbody tr.odd:hover, #datalist_grid tbody tr.odd td.highlighted {
+        background-color: #1AB394;
+        color: white !important;
+    }
+
+    #datalist_grid tbody td.span td.highlighted {
+        background-color: #1AB394;
+        color: white !important;
+    }*/
+
+    span.required {
+        border: 1px solid red !important;
+    }
+
+    .add-edit-modal {
+        background-color: #1AB394 !important;
+    }
+
+    .atsfield {
+        border: 1px solid #5c5 !important;
+        font-size: 15px !important;
+        background-color: white !important;
+    }
+    textarea.required {
+        border-color:red !important;
+    }
+</style>
+
+<section ng-app="ng_selfService_App" ng-controller="rSSDTROverrides_ctrlr">
+    <!-- Add/Edit Modal -->
+    <div class="modal fade" id="main_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header add-icon add-edit-modal text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exchange_modal_title">OVERRIDE DTR ENTRIES</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:0px;">
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Employee Name :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input class="form-control font-bold" disabled id="txtb_empl_name" ng-model="txtb_empl_name" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Department :</label>
+                            </div>
+                            <div class="col-sm-9">
+
+                                <input class="form-control font-bold" disabled id="txtb_department2" ng-model="txtb_department2" />
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>DTR Date :</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input class="form-control font-bold" disabled id="txtb_dtr_date" ng-model="txtb_dtr_date" />
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Remarks Overrides</label>
+                            </div>
+                           
+                            <div class="col-lg-9">
+                                <textarea type="text" class="form-control font-bold" maxlength="255" id="txtb_remarks_override" ng-model="txtb_remarks_override" ng-disabled="true"></textarea>
+                            </div>
+                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                            </div>
+                        </div>
+
+                        @**@
+
+                        <div class="row">
+                            <div class="col-lg-12 m-b-md" style="padding-bottom:0px;margin-bottom:0px;">
+                                <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
+                                    <ul class="nav nav-tabs" id="tab_dtr_up">
+                                        <li id="tab1" class="active"><a data-toggle="tab" href="#tab-1"><b>DTR Time Entries</b></a></li>
+                                        <li id="tab2" class=""><a data-toggle="tab" href="#tab-2"><b>Others</b></a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="tab-1" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
+                                            <div class="panel-body" style="min-height:70% !important;">
+                                                <div class="row" style="margin-top:-15px;margin-bottom:-5px;padding-bottom:0px;">
+                                                    <div class="col-sm-6" style="padding-bottom:0px;margin-bottom:0px;">
+                                                        <ul class="sortable-list connectList agile-list" id="todo">
+                                                            <li class="success-element" id="task2">
+                                                                <h3>AM ENTRIES</h3>
+                                                                <div class="agile-detail">
+                                                                    <div id="clockpicker_icn">
+                                                                        <div class="input-group" style="margin-bottom:5px;">
+                                                                            <span class="input-group-addon">
+                                                                                <label style="width:35px;">IN</label>
+                                                                            </span>
+                                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_am_in,'AM-IN')" maxlength="5" id="txtb_am_in" ng-model="txtb_am_in">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="clockpicker_icn2">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <label style="width:35px;">OUT</label>
+                                                                            </span>
+                                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_am_out,'AM-OUT')" maxlength="5" id="txtb_am_out" ng-model="txtb_am_out">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-6" style="padding-bottom:0px;margin-bottom:0px;">
+                                                        <ul class="sortable-list connectList agile-list" id="todo">
+                                                            <li class="danger-element" id="task2">
+                                                                <h3>PM ENTRIES</h3>
+                                                                <div class="agile-detail">
+                                                                    <div id="clockpicker_icn3">
+                                                                        <div class="input-group" style="margin-bottom:5px;">
+                                                                            <span class="input-group-addon">
+                                                                                <label style="width:35px;">IN</label>
+                                                                            </span>
+                                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_pm_in,'PM-IN')" maxlength="5" id="txtb_pm_in" ng-model="txtb_pm_in">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="clockpicker_icn4">
+                                                                        <div class="input-group">
+                                                                            <span class="input-group-addon">
+                                                                                <label style="width:35px;">OUT</label>
+                                                                            </span>
+                                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_pm_out,'PM-OUT')" maxlength="5" id="txtb_pm_out" ng-model="txtb_pm_out">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <h3>UNDERTIME (minutes)</h3>
+                                                                <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_undertime,'UNDERTIME_MINUTE')" maxlength="4" id="txtb_undertime" ng-model="txtb_undertime" onkeypress='return event.charCode >= 8 && event.charCode <= 57'>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <h3>UNDERTIME REMARKS</h3>
+                                                                <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_undertime_remarks,'UNDERTIME_REMARKS')" maxlength="7" id="txtb_undertime_remarks" ng-model="txtb_undertime_remarks">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <h3>REMARKS</h3>
+                                                                <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_remarks,'REMARKS_DETAILS')" maxlength="255" id="txtb_remarks" ng-model="txtb_remarks">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <h3>OVERRIDE REASON</h3>
+                                                                <textarea type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_reason_override,'REASON_DETAILS')" maxlength="255" id="txtb_reason_override" ng-model="txtb_reason_override"></textarea>
+                                                                <label class="lbl_required" id="lbl_txtb_reason_override_req"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tab-2" class="tab-pane">
+                                            <div class="panel-body" style="min-height:40% !important;">
+                                                <div class="row" style="margin-top:-5px;margin-bottom:-5px;padding-bottom:0px;">
+                                                    <div class="col-sm-12" style="padding-bottom:0px;margin-bottom:0px;">
+                                                        <div class="col-sm-6">
+                                                            <h3>TIME OT HOURS</h3>
+                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" maxlength="15" ng-keyup="UpdateAction(txtb_time_ot_hours,'OT_TIME')" id="txtb_time_ot_hours" ng-model="txtb_time_ot_hours">
+                                                            <h3>DAYS EQUIVALENT</h3>
+                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" id="txtb_time_days_equiv" ng-keyup="UpdateAction(txtb_time_days_equiv,'DAY_EQUI')" ng-model="txtb_time_days_equiv">
+
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <h3>HOURS EQUIVALENT</h3>
+                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_time_hours_equiv,'HOURS_EQUI')" id="txtb_time_hours_equiv" ng-model="txtb_time_hours_equiv">
+                                                            <h3>TIME OT PAYABLE</h3>
+                                                            <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_time_ot_payable,'OT_PAYABLE')" id="txtb_time_ot_payable" ng-model="txtb_time_ot_payable">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                            <button id="dtr_print2" ng-show="isEditable" class="btn btn-primary pull-right" ng-click="btn_save_click('N')"><i class="fa fa-edit"></i> Save Changes</button>
+                            <button id="dtr_print2" ng-show="isEditable" class="btn btn-warning pull-right" ng-click="btn_save_click('S')"><i class="fa fa-send"></i> Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Print DTR Modal -->
+
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#1ab394;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h2 class="text-white">DTR Overrides @*@Model.menu_name*@</h2>
+                        </div>
+                        <div class="col-lg-8 text-right">
+                            <span ng-show="show_dtr_status" class="btn btn-block btn-warning pull-right"><i class="fa fa-info-circle"></i> <b> {{dtr_status_descr}}</b></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label>Month - Year :</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control text-left" data-provide="datepicker" id="txtb_dtr_mon_year" ng-model="txtb_dtr_mon_year">
+                                <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                <label id="lbl_txtb_dtr_mon_year2_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-sm-5">
+
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="dtr_print" class="btn btn-primary btn-block pull-right" ng-click="btn_print2()"><i class="fa fa-print"></i> Print DTR</button>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:3px;">
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Department :</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <select class="form-control field-select-sm" id="ddl_dept" ng-model="ddl_dept" ng-change="ddl_dept_chane() " ng-disabled="true">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                </select>
+                                @*<input type="text" class="form-control text-left" id="txtb_department" ng-model="txtb_department" disabled>*@
+                            </div>
+                            <div class="col-sm-2">
+                                <label>View Type :</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="ddl_viewtype" ng-model="ddl_viewtype" ng-change="FilterPageGrid()">
+                                    <option value="0" selected>Whole Month</option>
+                                    <option value="1">1st Quincena</option>
+                                    <option value="2">2nd Quincena</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row"  style="padding-top:5px;">
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Employee Name :</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <select class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width:100%;">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.empl_id}} - {{lst.employee_name}}</option>
+                                </select>
+                                <label id="lbl_ddl_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>ID No. :</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled>
+                                <label id="lbl_ddl_name_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table id="datalist_grid" ng-model="datalist_grid" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                        <thead>
+                                            <tr style="background-color: #1AB394 !important;">
+                                                <th width="5%">DAY</th>
+                                                <th width="10%">AM IN</th>
+                                                <th width="10%">AM OUT</th>
+                                                <th width="10%">PM IN</th>
+                                                <th width="10%">PM OUT</th>
+                                                <th width="10%">UNDERTIME</th>
+                                                <th width="20%">REMARKS</th>
+                                                <th width="10%">STATUS</th>
+                                                <th width="10%">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

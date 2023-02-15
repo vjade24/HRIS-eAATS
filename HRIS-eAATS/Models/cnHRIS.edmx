@@ -1,0 +1,984 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRIS_PAYModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="payrollemployeemaster_hdr_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="daily_rate" Type="money" />
+          <Property Name="hourly_rate" Type="money" />
+          <Property Name="rate_basis" Type="varchar" MaxLength="1" />
+          <Property Name="period_from" Type="date" />
+          <Property Name="period_to" Type="date" />
+          <Property Name="payroll_group_nbr" Type="varchar" MaxLength="4" />
+          <Property Name="emp_rcrd_status" Type="bit" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" />
+          <Property Name="fund_code" Type="varchar" MaxLength="8" />
+          <Property Name="flag_expt_gsis" Type="bit" />
+          <Property Name="flag_expt_phic" Type="bit" />
+          <Property Name="flag_expt_hdmf" Type="bit" />
+          <Property Name="hdmf_fix_rate" Type="money" />
+          <Property Name="date_of_assumption" Type="date" />
+        </EntityType>
+        <EntityType Name="personnel_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="bir_tin" Type="varchar" MaxLength="20" />
+          <Property Name="empl_photo" Type="varchar" MaxLength="255" />
+          <Property Name="umid" Type="varchar" MaxLength="20" />
+          <Property Name="birth_date" Type="date" />
+          <Property Name="csc_eligibility" Type="varchar" MaxLength="30" />
+          <Property Name="emp_status" Type="bit" />
+          <Property Name="civil_status" Type="varchar" MaxLength="1" />
+          <Property Name="status_details" Type="varchar" MaxLength="1" />
+          <Property Name="gender" Type="varchar" MaxLength="1" />
+          <Property Name="date_original_appointment" Type="date" />
+          <Property Name="emp_height" Type="varchar" MaxLength="10" />
+          <Property Name="emp_weight" Type="varchar" MaxLength="10" />
+          <Property Name="citizenship" Type="varchar" MaxLength="30" />
+          <Property Name="birth_place" Type="varchar" MaxLength="255" />
+          <Property Name="maiden_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_birth_place" Type="varchar" MaxLength="255" />
+          <Property Name="mother_birth_place" Type="varchar" MaxLength="255" />
+          <Property Name="empl_photo_img" Type="image" />
+          <Property Name="spouse_last_name" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_first_name" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_suffix_name" Type="varchar" MaxLength="5" />
+          <Property Name="spouse_occupation" Type="varchar" MaxLength="100" />
+          <Property Name="spouse_employer_name" Type="varchar" MaxLength="255" />
+          <Property Name="spouse_business_address" Type="varchar" MaxLength="255" />
+          <Property Name="spouse_tel_no" Type="varchar" MaxLength="20" />
+          <Property Name="father_last_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_first_name" Type="varchar" MaxLength="100" />
+          <Property Name="father_suffix_name" Type="varchar" MaxLength="5" />
+          <Property Name="mother_last_name" Type="varchar" MaxLength="100" />
+          <Property Name="mother_middle_name" Type="varchar" MaxLength="100" />
+          <Property Name="mother_first_name" Type="varchar" MaxLength="100" />
+          <Property Name="citizenship_type" Type="bit" />
+          <Property Name="citizenship_nature" Type="bit" />
+          <Property Name="citizenship_country" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="transactionsref_tbl">
+          <Key>
+            <PropertyRef Name="transaction_code" />
+          </Key>
+          <Property Name="transaction_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="transaction_descr" Type="varchar" MaxLength="50" />
+          <Property Name="level_of_approval" Type="tinyint" />
+          <Property Name="with_reviewer" Type="bit" />
+          <Property Name="transaction_APR_page_name" Type="varchar" MaxLength="150" />
+          <Property Name="transaction_SS_page_name" Type="varchar" MaxLength="150" />
+          <Property Name="module_id" Type="int" />
+          <Property Name="with_self_service" Type="bit" />
+          <Property Name="with_self_service_approval" Type="bit" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_PAY.dbo.vw_approvalworkflow_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_approvalworkflow_tbl">
+          <Key>
+            <PropertyRef Name="approval_id" />
+            <PropertyRef Name="transaction_code" />
+            <PropertyRef Name="transaction_descr" />
+            <PropertyRef Name="approval_status" />
+            <PropertyRef Name="approval_status_descr" />
+            <PropertyRef Name="approval_route_seq" />
+            <PropertyRef Name="reviewed_comment" />
+            <PropertyRef Name="level1_approval_comment" />
+            <PropertyRef Name="level2_approval_comment" />
+            <PropertyRef Name="final_approval_comment" />
+            <PropertyRef Name="disapproval_comment" />
+            <PropertyRef Name="cancel_pending_comment" />
+            <PropertyRef Name="cancelled_comment" />
+            <PropertyRef Name="user_id_creator" />
+            <PropertyRef Name="employee_name_creator" />
+            <PropertyRef Name="user_id_reviewer" />
+            <PropertyRef Name="employee_name_reviewer" />
+            <PropertyRef Name="user_id_level1_approver" />
+            <PropertyRef Name="employee_name_level1_approver" />
+            <PropertyRef Name="user_id_level2_approver" />
+            <PropertyRef Name="employee_name_level2_approver" />
+            <PropertyRef Name="user_id_final_approver" />
+            <PropertyRef Name="employee_name_final_approver" />
+            <PropertyRef Name="user_id_disapprover" />
+            <PropertyRef Name="employee_name_disapprover" />
+            <PropertyRef Name="user_id_cancel_pending" />
+            <PropertyRef Name="employee_name_cancel_pending" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employee_name" />
+          </Key>
+          <Property Name="approval_id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="transaction_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="transaction_descr" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="approval_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="approval_status_descr" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="approval_route_seq" Type="tinyint" Nullable="false" />
+          <Property Name="reviewed_comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="level1_approval_comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="level2_approval_comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="final_approval_comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="disapproval_comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="cancel_pending_comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="cancelled_comment" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="user_id_creator" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="employee_name_creator" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="user_id_reviewer" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="employee_name_reviewer" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="user_id_level1_approver" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="employee_name_level1_approver" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="user_id_level2_approver" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="employee_name_level2_approver" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="user_id_final_approver" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="employee_name_final_approver" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="user_id_disapprover" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="employee_name_disapprover" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="user_id_cancel_pending" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="employee_name_cancel_pending" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="reviewed_date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="level1_approval_date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="level2_approval_date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="final_approval_date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="disapproval_date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="cancel_pending_date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="cancelled_date" Type="nvarchar" MaxLength="4000" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="211" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_PAY.dbo.vw_departments_tbl_list' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_departments_tbl_list">
+          <Key>
+            <PropertyRef Name="department_code" />
+            <PropertyRef Name="department_short_name" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="department_name2" />
+            <PropertyRef Name="function_code" />
+          </Key>
+          <Property Name="effective_date" Type="varchar" MaxLength="36" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="department_short_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="department_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="department_name2" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_PAY.dbo.vw_payrollemployeemaster_hdr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_payrollemployeemaster_hdr_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="payroll_group_nbr" />
+            <PropertyRef Name="flag_expt_gsis" />
+            <PropertyRef Name="flag_expt_hdmf" />
+            <PropertyRef Name="flag_expt_phic" />
+            <PropertyRef Name="hdmf_fix_rate" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="daily_rate" Type="money" />
+          <Property Name="hourly_rate" Type="money" />
+          <Property Name="rate_basis" Type="varchar" MaxLength="1" />
+          <Property Name="period_from" Type="date" />
+          <Property Name="period_to" Type="date" />
+          <Property Name="payroll_group_nbr" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="emp_rcrd_status" Type="bit" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" />
+          <Property Name="fund_code" Type="varchar" MaxLength="8" />
+          <Property Name="flag_expt_gsis" Type="bit" Nullable="false" />
+          <Property Name="flag_expt_hdmf" Type="bit" Nullable="false" />
+          <Property Name="flag_expt_phic" Type="bit" Nullable="false" />
+          <Property Name="hdmf_fix_rate" Type="money" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_personnelnames_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="postfix_name" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="211" />
+          <Property Name="last_name" Type="varchar" MaxLength="100" />
+          <Property Name="first_name" Type="varchar" MaxLength="100" />
+          <Property Name="middle_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="suffix_name" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="courtisy_title" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="postfix_name" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="employee_name_format2" Type="varchar" MaxLength="217" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_personnelnames2_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="postfix_name" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="211" />
+          <Property Name="last_name" Type="varchar" MaxLength="100" />
+          <Property Name="first_name" Type="varchar" MaxLength="100" />
+          <Property Name="middle_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="suffix_name" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="courtisy_title" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="postfix_name" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="employee_name_format2" Type="varchar" MaxLength="255" />
+          <Property Name="employee_name_format3" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Function Name="sp_employee_list_dept" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_transaction_to_approvalworkflow_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_transaction_code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_update_transaction_in_approvalworkflow_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_approval_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_approval_status" Type="varchar" Mode="In" />
+          <Parameter Name="par_comments" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_user_login_ATS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_user_menu_access_role_list_ATS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_PAYModelStoreContainer">
+          <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="Self.payrollemployeemaster_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_approvalworkflow_tbl" EntityType="Self.vw_approvalworkflow_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_approvalworkflow_tbl].[approval_id] AS [approval_id], 
+    [vw_approvalworkflow_tbl].[transaction_code] AS [transaction_code], 
+    [vw_approvalworkflow_tbl].[transaction_descr] AS [transaction_descr], 
+    [vw_approvalworkflow_tbl].[approval_status] AS [approval_status], 
+    [vw_approvalworkflow_tbl].[approval_status_descr] AS [approval_status_descr], 
+    [vw_approvalworkflow_tbl].[approval_route_seq] AS [approval_route_seq], 
+    [vw_approvalworkflow_tbl].[reviewed_comment] AS [reviewed_comment], 
+    [vw_approvalworkflow_tbl].[level1_approval_comment] AS [level1_approval_comment], 
+    [vw_approvalworkflow_tbl].[level2_approval_comment] AS [level2_approval_comment], 
+    [vw_approvalworkflow_tbl].[final_approval_comment] AS [final_approval_comment], 
+    [vw_approvalworkflow_tbl].[disapproval_comment] AS [disapproval_comment], 
+    [vw_approvalworkflow_tbl].[cancel_pending_comment] AS [cancel_pending_comment], 
+    [vw_approvalworkflow_tbl].[cancelled_comment] AS [cancelled_comment], 
+    [vw_approvalworkflow_tbl].[user_id_creator] AS [user_id_creator], 
+    [vw_approvalworkflow_tbl].[employee_name_creator] AS [employee_name_creator], 
+    [vw_approvalworkflow_tbl].[user_id_reviewer] AS [user_id_reviewer], 
+    [vw_approvalworkflow_tbl].[employee_name_reviewer] AS [employee_name_reviewer], 
+    [vw_approvalworkflow_tbl].[user_id_level1_approver] AS [user_id_level1_approver], 
+    [vw_approvalworkflow_tbl].[employee_name_level1_approver] AS [employee_name_level1_approver], 
+    [vw_approvalworkflow_tbl].[user_id_level2_approver] AS [user_id_level2_approver], 
+    [vw_approvalworkflow_tbl].[employee_name_level2_approver] AS [employee_name_level2_approver], 
+    [vw_approvalworkflow_tbl].[user_id_final_approver] AS [user_id_final_approver], 
+    [vw_approvalworkflow_tbl].[employee_name_final_approver] AS [employee_name_final_approver], 
+    [vw_approvalworkflow_tbl].[user_id_disapprover] AS [user_id_disapprover], 
+    [vw_approvalworkflow_tbl].[employee_name_disapprover] AS [employee_name_disapprover], 
+    [vw_approvalworkflow_tbl].[user_id_cancel_pending] AS [user_id_cancel_pending], 
+    [vw_approvalworkflow_tbl].[employee_name_cancel_pending] AS [employee_name_cancel_pending], 
+    [vw_approvalworkflow_tbl].[reviewed_date] AS [reviewed_date], 
+    [vw_approvalworkflow_tbl].[level1_approval_date] AS [level1_approval_date], 
+    [vw_approvalworkflow_tbl].[level2_approval_date] AS [level2_approval_date], 
+    [vw_approvalworkflow_tbl].[final_approval_date] AS [final_approval_date], 
+    [vw_approvalworkflow_tbl].[disapproval_date] AS [disapproval_date], 
+    [vw_approvalworkflow_tbl].[cancel_pending_date] AS [cancel_pending_date], 
+    [vw_approvalworkflow_tbl].[cancelled_date] AS [cancelled_date], 
+    [vw_approvalworkflow_tbl].[empl_id] AS [empl_id], 
+    [vw_approvalworkflow_tbl].[employee_name] AS [employee_name]
+    FROM [dbo].[vw_approvalworkflow_tbl] AS [vw_approvalworkflow_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_departments_tbl_list" EntityType="Self.vw_departments_tbl_list" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_departments_tbl_list].[effective_date] AS [effective_date], 
+    [vw_departments_tbl_list].[department_code] AS [department_code], 
+    [vw_departments_tbl_list].[department_short_name] AS [department_short_name], 
+    [vw_departments_tbl_list].[department_name1] AS [department_name1], 
+    [vw_departments_tbl_list].[department_name2] AS [department_name2], 
+    [vw_departments_tbl_list].[function_code] AS [function_code]
+    FROM [dbo].[vw_departments_tbl_list] AS [vw_departments_tbl_list]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_payrollemployeemaster_hdr_tbl" EntityType="Self.vw_payrollemployeemaster_hdr_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_payrollemployeemaster_hdr_tbl].[empl_id] AS [empl_id], 
+    [vw_payrollemployeemaster_hdr_tbl].[employment_type] AS [employment_type], 
+    [vw_payrollemployeemaster_hdr_tbl].[effective_date] AS [effective_date], 
+    [vw_payrollemployeemaster_hdr_tbl].[monthly_rate] AS [monthly_rate], 
+    [vw_payrollemployeemaster_hdr_tbl].[daily_rate] AS [daily_rate], 
+    [vw_payrollemployeemaster_hdr_tbl].[hourly_rate] AS [hourly_rate], 
+    [vw_payrollemployeemaster_hdr_tbl].[rate_basis] AS [rate_basis], 
+    [vw_payrollemployeemaster_hdr_tbl].[period_from] AS [period_from], 
+    [vw_payrollemployeemaster_hdr_tbl].[period_to] AS [period_to], 
+    [vw_payrollemployeemaster_hdr_tbl].[payroll_group_nbr] AS [payroll_group_nbr], 
+    [vw_payrollemployeemaster_hdr_tbl].[emp_rcrd_status] AS [emp_rcrd_status], 
+    [vw_payrollemployeemaster_hdr_tbl].[department_code] AS [department_code], 
+    [vw_payrollemployeemaster_hdr_tbl].[subdepartment_code] AS [subdepartment_code], 
+    [vw_payrollemployeemaster_hdr_tbl].[division_code] AS [division_code], 
+    [vw_payrollemployeemaster_hdr_tbl].[section_code] AS [section_code], 
+    [vw_payrollemployeemaster_hdr_tbl].[function_code] AS [function_code], 
+    [vw_payrollemployeemaster_hdr_tbl].[fund_code] AS [fund_code], 
+    [vw_payrollemployeemaster_hdr_tbl].[flag_expt_gsis] AS [flag_expt_gsis], 
+    [vw_payrollemployeemaster_hdr_tbl].[flag_expt_hdmf] AS [flag_expt_hdmf], 
+    [vw_payrollemployeemaster_hdr_tbl].[flag_expt_phic] AS [flag_expt_phic], 
+    [vw_payrollemployeemaster_hdr_tbl].[hdmf_fix_rate] AS [hdmf_fix_rate]
+    FROM [dbo].[vw_payrollemployeemaster_hdr_tbl] AS [vw_payrollemployeemaster_hdr_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_personnelnames_tbl" EntityType="Self.vw_personnelnames_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_personnelnames_tbl].[empl_id] AS [empl_id], 
+    [vw_personnelnames_tbl].[employee_name] AS [employee_name], 
+    [vw_personnelnames_tbl].[last_name] AS [last_name], 
+    [vw_personnelnames_tbl].[first_name] AS [first_name], 
+    [vw_personnelnames_tbl].[middle_name] AS [middle_name], 
+    [vw_personnelnames_tbl].[suffix_name] AS [suffix_name], 
+    [vw_personnelnames_tbl].[courtisy_title] AS [courtisy_title], 
+    [vw_personnelnames_tbl].[postfix_name] AS [postfix_name], 
+    [vw_personnelnames_tbl].[employee_name_format2] AS [employee_name_format2]
+    FROM [dbo].[vw_personnelnames_tbl] AS [vw_personnelnames_tbl]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_personnelnames2_tbl" EntityType="Self.vw_personnelnames2_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_personnelnames2_tbl].[empl_id] AS [empl_id], 
+    [vw_personnelnames2_tbl].[employee_name] AS [employee_name], 
+    [vw_personnelnames2_tbl].[last_name] AS [last_name], 
+    [vw_personnelnames2_tbl].[first_name] AS [first_name], 
+    [vw_personnelnames2_tbl].[middle_name] AS [middle_name], 
+    [vw_personnelnames2_tbl].[suffix_name] AS [suffix_name], 
+    [vw_personnelnames2_tbl].[courtisy_title] AS [courtisy_title], 
+    [vw_personnelnames2_tbl].[postfix_name] AS [postfix_name], 
+    [vw_personnelnames2_tbl].[employee_name_format2] AS [employee_name_format2], 
+    [vw_personnelnames2_tbl].[employee_name_format3] AS [employee_name_format3]
+    FROM [dbo].[vw_personnelnames2_tbl] AS [vw_personnelnames2_tbl]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_PAYModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="personnel_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bir_tin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="umid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="birth_date" Type="DateTime" Precision="0" />
+          <Property Name="csc_eligibility" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="emp_status" Type="Boolean" />
+          <Property Name="civil_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="status_details" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="date_original_appointment" Type="DateTime" Precision="0" />
+          <Property Name="emp_height" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="emp_weight" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="maiden_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="mother_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="spouse_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_occupation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_employer_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_business_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_tel_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="father_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="mother_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship_type" Type="Boolean" />
+          <Property Name="citizenship_nature" Type="Boolean" />
+          <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="HRIS_DEVEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" />
+          <FunctionImport Name="sp_user_login_ATS" ReturnType="Collection(HRIS_PAYModel.sp_user_login_ATS_Result)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_user_password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_user_menu_access_role_list_ATS" ReturnType="Collection(HRIS_PAYModel.sp_user_menu_access_role_list_ATS_Result)">
+          <Parameter Name="par_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update_transaction_in_approvalworkflow_tbl" ReturnType="Collection(Boolean)">
+            <Parameter Name="par_approval_id" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_approval_status" Mode="In" Type="String" />
+            <Parameter Name="par_comments" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_transaction_to_approvalworkflow_tbl" ReturnType="Collection(String)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_transaction_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vw_departments_tbl_list" EntityType="HRIS_PAYModel.vw_departments_tbl_list" />
+          <EntitySet Name="vw_personnelnames_tbl" EntityType="HRIS_PAYModel.vw_personnelnames_tbl" />
+          <EntitySet Name="vw_personnelnames2_tbl" EntityType="HRIS_PAYModel.vw_personnelnames2_tbl" />
+          <EntitySet Name="vw_payrollemployeemaster_hdr_tbl" EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_tbl" />
+          <EntitySet Name="transactionsref_tbl" EntityType="HRIS_PAYModel.transactionsref_tbl" />
+          <EntitySet Name="vw_approvalworkflow_tbl" EntityType="HRIS_PAYModel.vw_approvalworkflow_tbl" />
+          <FunctionImport Name="sp_employee_list_dept" ReturnType="Collection(HRIS_PAYModel.sp_employee_list_dept_Result)">
+          <Parameter Name="p_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="HRIS_PAYModel.payrollemployeemaster_hdr_tbl" />
+        </EntityContainer>
+        <ComplexType Name="sp_user_login_ATS_Result">
+          <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="empl_photo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="211" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="Boolean" Name="locked_account" Nullable="true" />
+          <Property Type="Boolean" Name="change_password" Nullable="true" />
+          <Property Type="String" Name="log_in_flag" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="log_in_flag_descr" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_user_menu_access_role_list_ATS_Result">
+          <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="status" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="true" />
+          <Property Type="String" Name="menu_name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="menu_id_link" Nullable="true" />
+          <Property Type="Int32" Name="menu_level" Nullable="true" />
+          <Property Type="String" Name="menu_icon" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="menu_sort_order" Nullable="true" />
+          <Property Type="String" Name="url_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="page_title" Nullable="true" MaxLength="150" />
+          <Property Type="Byte" Name="module_id" Nullable="true" />
+          <Property Type="String" Name="role_id" Nullable="false" MaxLength="3" />
+          <Property Type="Int32" Name="allow_add" Nullable="false" />
+          <Property Type="Int32" Name="allow_edit" Nullable="false" />
+          <Property Type="Int32" Name="allow_delete" Nullable="false" />
+          <Property Type="Int32" Name="allow_print" Nullable="false" />
+          <Property Type="Int32" Name="allow_view" Nullable="false" />
+          <Property Type="Int32" Name="allow_edit_history" Nullable="false" />
+          <Property Type="Int32" Name="favorites_mode" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="vw_departments_tbl_list">
+          <Key>
+            <PropertyRef Name="department_code" />
+            <PropertyRef Name="department_short_name" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="department_name2" />
+            <PropertyRef Name="function_code" />
+          </Key>
+          <Property Name="effective_date" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="department_short_name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="department_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="department_name2" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_personnelnames_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="postfix_name" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="middle_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="suffix_name" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="courtisy_title" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="postfix_name" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_format2" Type="String" MaxLength="217" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_personnelnames2_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="postfix_name" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="middle_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="suffix_name" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="courtisy_title" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="postfix_name" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_format2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_format3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_payrollemployeemaster_hdr_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="payroll_group_nbr" />
+            <PropertyRef Name="flag_expt_gsis" />
+            <PropertyRef Name="flag_expt_hdmf" />
+            <PropertyRef Name="flag_expt_phic" />
+            <PropertyRef Name="hdmf_fix_rate" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="rate_basis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="period_from" Type="DateTime" Precision="0" />
+          <Property Name="period_to" Type="DateTime" Precision="0" />
+          <Property Name="payroll_group_nbr" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="emp_rcrd_status" Type="Boolean" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="fund_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="flag_expt_gsis" Type="Boolean" Nullable="false" />
+          <Property Name="flag_expt_hdmf" Type="Boolean" Nullable="false" />
+          <Property Name="flag_expt_phic" Type="Boolean" Nullable="false" />
+          <Property Name="hdmf_fix_rate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="transactionsref_tbl">
+          <Key>
+            <PropertyRef Name="transaction_code" />
+          </Key>
+          <Property Name="transaction_code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="transaction_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="level_of_approval" Type="Byte" />
+          <Property Name="with_reviewer" Type="Boolean" />
+          <Property Name="transaction_APR_page_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="transaction_SS_page_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="module_id" Type="Int32" />
+          <Property Name="with_self_service" Type="Boolean" />
+          <Property Name="with_self_service_approval" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="vw_approvalworkflow_tbl">
+          <Key>
+            <PropertyRef Name="approval_id" />
+            <PropertyRef Name="transaction_code" />
+            <PropertyRef Name="transaction_descr" />
+            <PropertyRef Name="approval_status" />
+            <PropertyRef Name="approval_status_descr" />
+            <PropertyRef Name="approval_route_seq" />
+            <PropertyRef Name="reviewed_comment" />
+            <PropertyRef Name="level1_approval_comment" />
+            <PropertyRef Name="level2_approval_comment" />
+            <PropertyRef Name="final_approval_comment" />
+            <PropertyRef Name="disapproval_comment" />
+            <PropertyRef Name="cancel_pending_comment" />
+            <PropertyRef Name="cancelled_comment" />
+            <PropertyRef Name="user_id_creator" />
+            <PropertyRef Name="employee_name_creator" />
+            <PropertyRef Name="user_id_reviewer" />
+            <PropertyRef Name="employee_name_reviewer" />
+            <PropertyRef Name="user_id_level1_approver" />
+            <PropertyRef Name="employee_name_level1_approver" />
+            <PropertyRef Name="user_id_level2_approver" />
+            <PropertyRef Name="employee_name_level2_approver" />
+            <PropertyRef Name="user_id_final_approver" />
+            <PropertyRef Name="employee_name_final_approver" />
+            <PropertyRef Name="user_id_disapprover" />
+            <PropertyRef Name="employee_name_disapprover" />
+            <PropertyRef Name="user_id_cancel_pending" />
+            <PropertyRef Name="employee_name_cancel_pending" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employee_name" />
+          </Key>
+          <Property Name="approval_id" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="transaction_code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="transaction_descr" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="approval_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="approval_status_descr" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="approval_route_seq" Type="Byte" Nullable="false" />
+          <Property Name="reviewed_comment" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="level1_approval_comment" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="level2_approval_comment" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="final_approval_comment" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="disapproval_comment" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="cancel_pending_comment" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="cancelled_comment" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="user_id_creator" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_creator" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="user_id_reviewer" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_reviewer" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="user_id_level1_approver" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_level1_approver" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="user_id_level2_approver" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_level2_approver" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="user_id_final_approver" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_final_approver" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="user_id_disapprover" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_disapprover" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="user_id_cancel_pending" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_cancel_pending" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="reviewed_date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="level1_approval_date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="level2_approval_date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="final_approval_date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="disapproval_date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="cancel_pending_date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="cancelled_date" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_employee_list_dept_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+        </ComplexType>
+        <EntityType Name="payrollemployeemaster_hdr_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="rate_basis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="period_from" Type="DateTime" Precision="0" />
+          <Property Name="period_to" Type="DateTime" Precision="0" />
+          <Property Name="payroll_group_nbr" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="emp_rcrd_status" Type="Boolean" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="fund_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="flag_expt_gsis" Type="Boolean" />
+          <Property Name="flag_expt_phic" Type="Boolean" />
+          <Property Name="flag_expt_hdmf" Type="Boolean" />
+          <Property Name="hdmf_fix_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="date_of_assumption" Type="DateTime" Precision="0" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_PAYModelStoreContainer" CdmEntityContainer="HRIS_DEVEntities">
+          <EntitySetMapping Name="personnel_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.personnel_tbl">
+              <MappingFragment StoreEntitySet="personnel_tbl">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
+                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
+                <ScalarProperty Name="umid" ColumnName="umid" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="csc_eligibility" ColumnName="csc_eligibility" />
+                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="status_details" ColumnName="status_details" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="date_original_appointment" ColumnName="date_original_appointment" />
+                <ScalarProperty Name="emp_height" ColumnName="emp_height" />
+                <ScalarProperty Name="emp_weight" ColumnName="emp_weight" />
+                <ScalarProperty Name="citizenship" ColumnName="citizenship" />
+                <ScalarProperty Name="birth_place" ColumnName="birth_place" />
+                <ScalarProperty Name="maiden_name" ColumnName="maiden_name" />
+                <ScalarProperty Name="father_birth_place" ColumnName="father_birth_place" />
+                <ScalarProperty Name="mother_birth_place" ColumnName="mother_birth_place" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="spouse_last_name" ColumnName="spouse_last_name" />
+                <ScalarProperty Name="spouse_first_name" ColumnName="spouse_first_name" />
+                <ScalarProperty Name="spouse_middle_name" ColumnName="spouse_middle_name" />
+                <ScalarProperty Name="spouse_suffix_name" ColumnName="spouse_suffix_name" />
+                <ScalarProperty Name="spouse_occupation" ColumnName="spouse_occupation" />
+                <ScalarProperty Name="spouse_employer_name" ColumnName="spouse_employer_name" />
+                <ScalarProperty Name="spouse_business_address" ColumnName="spouse_business_address" />
+                <ScalarProperty Name="spouse_tel_no" ColumnName="spouse_tel_no" />
+                <ScalarProperty Name="father_last_name" ColumnName="father_last_name" />
+                <ScalarProperty Name="father_middle_name" ColumnName="father_middle_name" />
+                <ScalarProperty Name="father_first_name" ColumnName="father_first_name" />
+                <ScalarProperty Name="father_suffix_name" ColumnName="father_suffix_name" />
+                <ScalarProperty Name="mother_last_name" ColumnName="mother_last_name" />
+                <ScalarProperty Name="mother_middle_name" ColumnName="mother_middle_name" />
+                <ScalarProperty Name="mother_first_name" ColumnName="mother_first_name" />
+                <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
+                <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
+                <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_user_login_ATS" FunctionName="HRIS_PAYModel.Store.sp_user_login_ATS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_user_login_ATS_Result">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="locked_account" ColumnName="locked_account" />
+                <ScalarProperty Name="change_password" ColumnName="change_password" />
+                <ScalarProperty Name="log_in_flag" ColumnName="log_in_flag" />
+                <ScalarProperty Name="log_in_flag_descr" ColumnName="log_in_flag_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_user_menu_access_role_list_ATS" FunctionName="HRIS_PAYModel.Store.sp_user_menu_access_role_list_ATS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_user_menu_access_role_list_ATS_Result">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="menu_name" ColumnName="menu_name" />
+                <ScalarProperty Name="menu_id_link" ColumnName="menu_id_link" />
+                <ScalarProperty Name="menu_level" ColumnName="menu_level" />
+                <ScalarProperty Name="menu_icon" ColumnName="menu_icon" />
+                <ScalarProperty Name="menu_sort_order" ColumnName="menu_sort_order" />
+                <ScalarProperty Name="url_name" ColumnName="url_name" />
+                <ScalarProperty Name="page_title" ColumnName="page_title" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="allow_add" ColumnName="allow_add" />
+                <ScalarProperty Name="allow_edit" ColumnName="allow_edit" />
+                <ScalarProperty Name="allow_delete" ColumnName="allow_delete" />
+                <ScalarProperty Name="allow_print" ColumnName="allow_print" />
+                <ScalarProperty Name="allow_view" ColumnName="allow_view" />
+                <ScalarProperty Name="allow_edit_history" ColumnName="allow_edit_history" />
+                <ScalarProperty Name="favorites_mode" ColumnName="favorites_mode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_update_transaction_in_approvalworkflow_tbl" FunctionName="HRIS_PAYModel.Store.sp_update_transaction_in_approvalworkflow_tbl" />
+          <FunctionImportMapping FunctionImportName="sp_insert_transaction_to_approvalworkflow_tbl" FunctionName="HRIS_PAYModel.Store.sp_insert_transaction_to_approvalworkflow_tbl" />
+          <EntitySetMapping Name="vw_departments_tbl_list">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.vw_departments_tbl_list">
+              <MappingFragment StoreEntitySet="vw_departments_tbl_list">
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="department_name2" ColumnName="department_name2" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_personnelnames_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.vw_personnelnames_tbl">
+              <MappingFragment StoreEntitySet="vw_personnelnames_tbl">
+                <ScalarProperty Name="employee_name_format2" ColumnName="employee_name_format2" />
+                <ScalarProperty Name="postfix_name" ColumnName="postfix_name" />
+                <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_personnelnames2_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.vw_personnelnames2_tbl">
+              <MappingFragment StoreEntitySet="vw_personnelnames2_tbl">
+                <ScalarProperty Name="employee_name_format3" ColumnName="employee_name_format3" />
+                <ScalarProperty Name="employee_name_format2" ColumnName="employee_name_format2" />
+                <ScalarProperty Name="postfix_name" ColumnName="postfix_name" />
+                <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_payrollemployeemaster_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.vw_payrollemployeemaster_hdr_tbl">
+              <MappingFragment StoreEntitySet="vw_payrollemployeemaster_hdr_tbl">
+                <ScalarProperty Name="hdmf_fix_rate" ColumnName="hdmf_fix_rate" />
+                <ScalarProperty Name="flag_expt_phic" ColumnName="flag_expt_phic" />
+                <ScalarProperty Name="flag_expt_hdmf" ColumnName="flag_expt_hdmf" />
+                <ScalarProperty Name="flag_expt_gsis" ColumnName="flag_expt_gsis" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="emp_rcrd_status" ColumnName="emp_rcrd_status" />
+                <ScalarProperty Name="payroll_group_nbr" ColumnName="payroll_group_nbr" />
+                <ScalarProperty Name="period_to" ColumnName="period_to" />
+                <ScalarProperty Name="period_from" ColumnName="period_from" />
+                <ScalarProperty Name="rate_basis" ColumnName="rate_basis" />
+                <ScalarProperty Name="hourly_rate" ColumnName="hourly_rate" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactionsref_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.transactionsref_tbl">
+              <MappingFragment StoreEntitySet="transactionsref_tbl">
+                <ScalarProperty Name="with_self_service_approval" ColumnName="with_self_service_approval" />
+                <ScalarProperty Name="with_self_service" ColumnName="with_self_service" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="transaction_SS_page_name" ColumnName="transaction_SS_page_name" />
+                <ScalarProperty Name="transaction_APR_page_name" ColumnName="transaction_APR_page_name" />
+                <ScalarProperty Name="with_reviewer" ColumnName="with_reviewer" />
+                <ScalarProperty Name="level_of_approval" ColumnName="level_of_approval" />
+                <ScalarProperty Name="transaction_descr" ColumnName="transaction_descr" />
+                <ScalarProperty Name="transaction_code" ColumnName="transaction_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_approvalworkflow_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.vw_approvalworkflow_tbl">
+              <MappingFragment StoreEntitySet="vw_approvalworkflow_tbl">
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="cancelled_date" ColumnName="cancelled_date" />
+                <ScalarProperty Name="cancel_pending_date" ColumnName="cancel_pending_date" />
+                <ScalarProperty Name="disapproval_date" ColumnName="disapproval_date" />
+                <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
+                <ScalarProperty Name="level2_approval_date" ColumnName="level2_approval_date" />
+                <ScalarProperty Name="level1_approval_date" ColumnName="level1_approval_date" />
+                <ScalarProperty Name="reviewed_date" ColumnName="reviewed_date" />
+                <ScalarProperty Name="employee_name_cancel_pending" ColumnName="employee_name_cancel_pending" />
+                <ScalarProperty Name="user_id_cancel_pending" ColumnName="user_id_cancel_pending" />
+                <ScalarProperty Name="employee_name_disapprover" ColumnName="employee_name_disapprover" />
+                <ScalarProperty Name="user_id_disapprover" ColumnName="user_id_disapprover" />
+                <ScalarProperty Name="employee_name_final_approver" ColumnName="employee_name_final_approver" />
+                <ScalarProperty Name="user_id_final_approver" ColumnName="user_id_final_approver" />
+                <ScalarProperty Name="employee_name_level2_approver" ColumnName="employee_name_level2_approver" />
+                <ScalarProperty Name="user_id_level2_approver" ColumnName="user_id_level2_approver" />
+                <ScalarProperty Name="employee_name_level1_approver" ColumnName="employee_name_level1_approver" />
+                <ScalarProperty Name="user_id_level1_approver" ColumnName="user_id_level1_approver" />
+                <ScalarProperty Name="employee_name_reviewer" ColumnName="employee_name_reviewer" />
+                <ScalarProperty Name="user_id_reviewer" ColumnName="user_id_reviewer" />
+                <ScalarProperty Name="employee_name_creator" ColumnName="employee_name_creator" />
+                <ScalarProperty Name="user_id_creator" ColumnName="user_id_creator" />
+                <ScalarProperty Name="cancelled_comment" ColumnName="cancelled_comment" />
+                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
+                <ScalarProperty Name="disapproval_comment" ColumnName="disapproval_comment" />
+                <ScalarProperty Name="final_approval_comment" ColumnName="final_approval_comment" />
+                <ScalarProperty Name="level2_approval_comment" ColumnName="level2_approval_comment" />
+                <ScalarProperty Name="level1_approval_comment" ColumnName="level1_approval_comment" />
+                <ScalarProperty Name="reviewed_comment" ColumnName="reviewed_comment" />
+                <ScalarProperty Name="approval_route_seq" ColumnName="approval_route_seq" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="transaction_descr" ColumnName="transaction_descr" />
+                <ScalarProperty Name="transaction_code" ColumnName="transaction_code" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_employee_list_dept" FunctionName="HRIS_PAYModel.Store.sp_employee_list_dept">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_employee_list_dept_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="payrollemployeemaster_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.payrollemployeemaster_hdr_tbl">
+              <MappingFragment StoreEntitySet="payrollemployeemaster_hdr_tbl">
+                <ScalarProperty Name="date_of_assumption" ColumnName="date_of_assumption" />
+                <ScalarProperty Name="hdmf_fix_rate" ColumnName="hdmf_fix_rate" />
+                <ScalarProperty Name="flag_expt_hdmf" ColumnName="flag_expt_hdmf" />
+                <ScalarProperty Name="flag_expt_phic" ColumnName="flag_expt_phic" />
+                <ScalarProperty Name="flag_expt_gsis" ColumnName="flag_expt_gsis" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="emp_rcrd_status" ColumnName="emp_rcrd_status" />
+                <ScalarProperty Name="payroll_group_nbr" ColumnName="payroll_group_nbr" />
+                <ScalarProperty Name="period_to" ColumnName="period_to" />
+                <ScalarProperty Name="period_from" ColumnName="period_from" />
+                <ScalarProperty Name="rate_basis" ColumnName="rate_basis" />
+                <ScalarProperty Name="hourly_rate" ColumnName="hourly_rate" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

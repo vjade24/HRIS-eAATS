@@ -1,0 +1,287 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Angular/ng-cMainPage.js?v=1"></script>
+<script language="javascript" type="text/javascript">
+    manual_alert();
+    function manual_alert()
+    {
+        setTimeout(function () {
+            toastr.options = {
+                closeOnHover: true,
+                closeButton: false,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: 7000
+            };
+            toastr.success('For now some page has no available manual. Thank You.', 'Download Manual for Reference');
+
+        }, 1300);
+    }
+    function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout('display_ct()', refresh)
+    }
+    function display_ct()
+    {
+        var x = new Date()
+        //var x1 = x.getHours() + ":" + x.getMinutes() + ":" + x.getSeconds();
+        var x1 = x.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true })
+        document.getElementById('ct').innerHTML = x1;
+        var x2 = x.toLocaleString('en-us', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+        document.getElementById('ct2').innerHTML = x2;
+        display_c();
+    }
+</script>
+
+<style type="text/css">
+    @@media only screen and (min-width: 1300px) {
+        .div_content_override {
+            padding: 10px 10px 130px 10px;
+        }
+    }
+
+    @@media only screen and (max-width: 769px) {
+        .div_content_override {
+            padding-top: 10px !important;
+        }
+    }
+    .table > thead > tr > th {
+        background-color: white !important;
+        color: #676A6C !important;
+    }
+    table#datalist_grid {
+        border-bottom-color: transparent !important;
+    }
+</style>
+<section ng-app="ng_HRD_App" ng-controller="cMainPageCtrlr">
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;" onload="display_ct()">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="summernote">
+                                    <h2><b class="text-success">HRIS</b> - <b class="text-success">A</b>utomated <b class="text-success">A</b>ttendance <b class="text-success">T</b>racking <b class="text-success">S</b>ystem</h2>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.1px solid cadetblue;" />
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-3">
+                                <div class="widget style1 navy-bg">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <i class="fa fa-warning fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-8 text-right">
+                                            <span> Unposted Leave </span>
+                                            <h2 class="font-bold">{{ unposted_leave }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="widget style1 blue-bg">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <i class="fa fa-check-circle fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-8 text-right">
+                                            <span> For Approval </span>
+                                            <h2 class="font-bold">{{ for_approval_ledger }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="widget style1 lazur-bg">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <i class="fa fa-users fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-8 text-right">
+                                            <span> Leave Administrator </span>
+                                            <h2 class="font-bold">{{ leave_administrator }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="widget style1 red-bg">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <i class="fa fa-ban fa-5x"></i>
+                                        </div>
+                                        <div class="col-xs-8 text-right">
+                                            <span> Cancelled/Disapproved </span>
+                                            <h2 class="font-bold">{{ canceled_disapproved }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-8">
+                                    <div class="ibox float-e-margins">
+                                        <div class="ibox-title">
+                                            <h5>Summary for Unposted Leave/CTO <small>Filtered by Department</small></h5>
+                                            <div class="ibox-tools">
+                                                <a class="collapse-link">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                                <a class="close-link">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div id="chart-leave-list" style="min-height: 200px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 b-r">
+                                    <div class="ibox float-e-margins" id="ibox1">
+                                        <div class="ibox-title">
+                                            <h5>Summary for Final Approve</h5>
+                                            <div class="ibox-tools">
+                                                <a class="collapse-link">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                                <a class="close-link">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div id="chart-leave-approval-list" style="min-height: 200px;"></div>
+                                            @*<div id="chart-leave-by-leavetype-list" style="min-height: 200px;"></div>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content with-background">
+                        <div class="row">
+                            <div class="ibox m-b-n">
+                                <div class="ibox-title blue-bg">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h2 class="m-t-lg">Unposted Leave/CTO</h2>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <label class="font-bold m-t-xxs"><b> Department:</b></label>
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <select class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;">
+                                                <option value="">-- All Assigned Department -- </option>
+                                                <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <label class="font-bold m-t-xxs"><b> Mode:</b></label>
+                                        </div>
+                                        <div class="col-lg-2">
+
+                                            <select class="select2_demo_3 form-control" id="ddl_rep_mode" ng-model="ddl_rep_mode" style="width:100%;">
+                                                <option value="1">Both Leave and CTO</option>
+                                                <option value="2">Leave</option>
+                                                <option value="3">CTO</option>
+                                            </select>
+                                            @*<select class="form-control" id="ddl_rep_mode" ng-model="ddl_rep_mode" ng-change="FilterPageGrid()">
+                                                <option value="1">Both Leave and CTO</option>
+                                                <option value="2">Leave</option>
+                                                <option value="3">CTO</option>
+                                            </select>*@
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="ibox-content">
+                                    <div class=" table-responsive">
+                                        <table id="datalist_grid" ng-model="datalist_grid" class="table table-hover" style="width:100% !important;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="12%">CONTROL NO</th>
+                                                    <th width="10%">ID NO</th>
+                                                    <th width="25%">EMPLOYEE NAME</th>
+                                                    <th width="15%">LEAVE TYPE</th>
+                                                    <th width="15%">INCLUSIVE DATES</th>
+                                                    <th width="13%">DATE CREATED</th>
+                                                    <th width="10%">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="ibox-footer" style="height:50px;">
+                        <div class="text-center col-lg-12">
+                            <h5>
+                                Provincial Government of Davao de Oro &copy; @DateTime.Now.Year
+                            </h5>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="width:80% !important">
+                <div class="modal-content  modal-content-add-edit">
+                    <div class="modal-header navy-bg text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                    </div>
+                    <div class="modal-body with-background" style="padding:0px !important">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" >
+                        <button class="btn btn-primary" ng-click="btn_approve_cancellation()">Approve Cancellation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inialiazing Modal -->
+        <div class="modal fade" id="modal_initializing">
+            <div class="modal-dialog modal-force-center modal-md">
+                <div class="modal-dialog text-center">
+                    <div class="col-lg-12" style="background-color:transparent !important;margin-top:30% !important;">
+                        <div class="spiner-example fa-2x">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
+                                <span style="color:white !important;"> Initializing Data </span>
+                                <div class="sk-bounce1" style="background-color: white !important;"></div>
+                                <div class="sk-bounce2" style="background-color: white !important;"></div>
+                                <div class="sk-bounce3" style="background-color: white !important;"></div>
+                                <br />
+                                <span style="color:white !important;font-size:18px;"> This might take a while </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
