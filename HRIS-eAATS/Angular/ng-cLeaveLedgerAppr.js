@@ -11,6 +11,8 @@
     s.ddl_route_nbr  = "01"
     s.ddl_dept = "";
     s.ddl_employment_type = "";
+    s.ddl_rep_mode_printing = "1"
+    var row_id_printing = "";
 
 
     function init() {
@@ -902,7 +904,7 @@
                                     '<button id="btn_show_dtl_id' + full["doc_ctrl_nbr"] + '"    type="button" style="padding:3px 10px 3px 10px !important" class="btn btn-warning btn-sm" ng-click="btn_show_dtl(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show Details">  <span class="badge badge-success" >' + full["transmittal_cnt"] +'</span> </button >' +
                                          '<button type="button" class="btn btn-info btn-sm"     ng-disabled="' + dis_btn+'"  ng-click="btn_edit_action_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
                                          '<button type="button" class="btn btn-danger btn-sm"   ng-disabled="' + dis_btn+'"  ng-click="btn_del_row_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
-                                         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn+'"  ng-click="btn_print_row(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
+                                         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn+'"  ng-click="btn_print_row(' + row["row"] + ',\'1\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
                                          '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn_rlsd+'" ng-click="btn_release(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Release"><i class="fa fa-forward"></i></button>' +
                                          '<button type="button" class="btn btn-success btn-sm"  ng-disabled="' + dis_btn_rcvd+'" ng-click="btn_receive(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Receive"><i class="fa fa-backward"></i></button>' +
                                          '<button type="button" class="btn btn-warning btn-sm"  ng-click="btn_view_history(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View Information and History"><i class="fa fa-history"></i></button>' +
@@ -1319,8 +1321,10 @@
     }
 
 
-    s.btn_print_row = function (row_id)
+    s.btn_print_row = function (row_id,rep_mode)
     {
+        s.row_id_printing = row_id
+
         if (parseFloat(s.datalistgrid5[row_id].transmittal_cnt) <= 0)
         {
             swal("You cannot Print this document","No data found",{ icon: "warning" });
@@ -1338,7 +1342,7 @@
         ReportPath = "~/Reports/cryTransmittal_Leave/";
         ReportName = "cryTransmittal_Leave";
         ReportPath = ReportPath + "" + ReportName + ".rpt";
-        sp = "sp_transmittal_leave_rep,par_doc_ctrl_nbr," + s.datalistgrid5[row_id].doc_ctrl_nbr
+        sp = "sp_transmittal_leave_rep,par_doc_ctrl_nbr," + s.datalistgrid5[row_id].doc_ctrl_nbr + ",par_view_mode," + rep_mode
         s.employee_name_print = 'LEAVE TRANSMITTAL REPORT';
         
         console.log(sp);
