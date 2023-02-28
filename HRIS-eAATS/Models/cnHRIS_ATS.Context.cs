@@ -54,10 +54,10 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<exc_inc_empl_attendance_tbl> exc_inc_empl_attendance_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_tbl> lv_ledger_hdr_tbl { get; set; }
         public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
-        public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
         public virtual DbSet<vw_leave_appl_posting_indv_history> vw_leave_appl_posting_indv_history { get; set; }
         public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
         public virtual DbSet<leave_application_dtl_cto_tbl> leave_application_dtl_cto_tbl { get; set; }
+        public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
     
         public virtual ObjectResult<sp_leavesubtype_tbl_list_Result> sp_leavesubtype_tbl_list(string par_leavetype_code)
         {
@@ -766,11 +766,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_Result>("sp_extract_best_attendance", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list");
-        }
-    
         public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type)
         {
             var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
@@ -915,6 +910,11 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_approve_cancellation", p_empl_idParameter, p_dtr_dateParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result1> sp_transmittal_leave_hdr_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result1>("sp_transmittal_leave_hdr_tbl_list");
         }
     }
 }

@@ -10,19 +10,21 @@
 namespace HRIS_eAATS.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class transmittal_leave_hdr_tbl
+    public partial class sp_transmittal_leave_hdr_tbl_list_Result1
     {
         public string doc_ctrl_nbr { get; set; }
-        public string transmittal_descr { get; set; }
+        public string department_descr { get; set; }
+        public string employment_type_desr { get; set; }
         public Nullable<System.DateTime> approved_period_from { get; set; }
         public Nullable<System.DateTime> approved_period_to { get; set; }
+        public string period_covered { get; set; }
+        public string transmittal_descr { get; set; }
         public string created_by { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }
-        public string updated_by { get; set; }
-        public Nullable<System.DateTime> updated_dttm { get; set; }
         public string doc_status { get; set; }
+        public string doc_status_descr { get; set; }
+        public int transmittal_cnt { get; set; }
         public string route_nbr { get; set; }
         public string department_code { get; set; }
         public string employment_tyep { get; set; }

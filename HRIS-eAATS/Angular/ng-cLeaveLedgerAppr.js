@@ -1085,12 +1085,14 @@
     {
         var data = {
                      
-                    doc_ctrl_nbr          : s.txtb_doc_ctrl_nbr
-                   ,transmittal_descr     : s.txtb_transmittal_descr
-                   ,approved_period_from  : $('#txtb_approved_period_from').val()
-                   ,approved_period_to    : $('#txtb_approved_period_to').val()
-                   ,doc_status            : "N"
-                   ,route_nbr             : s.ddl_route_nbr
+            doc_ctrl_nbr            : s.txtb_doc_ctrl_nbr
+            ,transmittal_descr      : s.txtb_transmittal_descr
+            ,approved_period_from   : $('#txtb_approved_period_from').val()
+            ,approved_period_to     : $('#txtb_approved_period_to').val()
+            ,doc_status             : "N"
+            ,route_nbr              : s.ddl_route_nbr
+            , department_code       : s.ddl_dept
+            , employment_tyep       : s.ddl_employment_type
         }
 
         if (s.action == "ADD")
@@ -1206,6 +1208,8 @@
         s.txtb_created_by           = s.datalistgrid5[row_id].created_by
         s.txtb_created_dttm         = moment(s.datalistgrid5[row_id].doc_dttm).format('YYYY-MM-DD HH:mm:ss')
         s.ddl_route_nbr             = s.datalistgrid5[row_id].route_nbr
+        s.ddl_dept                  = s.datalistgrid5[row_id].department_code
+        s.ddl_employment_type       = s.datalistgrid5[row_id].employment_tyep
         
         $('#modal_openCreateTransmittal_dtl').modal({ backdrop: 'static', keyboard: false }); 
     }
@@ -1231,6 +1235,8 @@
         s.txtb_created_by           = s.datalistgrid5[row_id].created_by
         s.txtb_created_dttm         = moment(s.datalistgrid5[row_id].doc_dttm).format('YYYY-MM-DD HH:mm:ss')
         s.ddl_route_nbr             = s.datalistgrid5[row_id].route_nbr
+        s.ddl_dept                  = s.datalistgrid5[row_id].department_code
+        s.ddl_employment_type       = s.datalistgrid5[row_id].employment_tyep
 
         $('#btn_show_dtl_id' + s.datalistgrid5[row_id].doc_ctrl_nbr).addClass('disabled');
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
@@ -1239,8 +1245,8 @@
             par_doc_ctrl_nbr            : s.datalistgrid5[row_id].doc_ctrl_nbr
             , par_approved_period_from  : moment(s.datalistgrid5[row_id].approved_period_from).format('YYYY-MM-DD')  
             , par_approved_period_to    : moment(s.datalistgrid5[row_id].approved_period_to).format('YYYY-MM-DD')  
-            , par_department_code       : "" 
-            , par_employment_type       : "" 
+            , par_department_code       : s.datalistgrid5[row_id].department_code
+            , par_employment_type       : s.datalistgrid5[row_id].employment_tyep
         }).then(function (d)
         {
             if (d.data.message == "success")
