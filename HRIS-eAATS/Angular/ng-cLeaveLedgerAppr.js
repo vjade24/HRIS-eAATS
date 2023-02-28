@@ -1061,7 +1061,9 @@
         s.txtb_approved_period_to        = "";
         s.txtb_created_by               = "";
         s.txtb_created_dttm             = "";
-        s.ddl_route_nbr                 = "01"
+        s.ddl_route_nbr = "01"
+        s.ddl_dept                  = "";
+        s.ddl_employment_type       = "";
         
         s.show_dtl = false;
         s.show_save = true
@@ -1199,7 +1201,9 @@
         s.txtb_approved_period_to       = "";
         s.txtb_created_by               = "";
         s.txtb_created_dttm             = "";
-        s.ddl_route_nbr                 = "01"
+        s.ddl_route_nbr = "01"
+        s.ddl_dept = "";
+        s.ddl_employment_type = "";
 
         s.txtb_doc_ctrl_nbr         = s.datalistgrid5[row_id].doc_ctrl_nbr
         s.txtb_transmittal_descr    = s.datalistgrid5[row_id].transmittal_descr  
@@ -1226,7 +1230,9 @@
         s.txtb_approved_period_to       = "";
         s.txtb_created_by               = "";
         s.txtb_created_dttm             = "";
-        s.ddl_route_nbr                 = "01"
+        s.ddl_route_nbr = "01"
+        s.ddl_dept = "";
+        s.ddl_employment_type = "";
 
         s.txtb_doc_ctrl_nbr         = s.datalistgrid5[row_id].doc_ctrl_nbr
         s.txtb_transmittal_descr    = s.datalistgrid5[row_id].transmittal_descr  
