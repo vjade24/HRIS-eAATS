@@ -118,6 +118,17 @@
           <Property Name="final_approved_dttm" Type="datetime" />
           <Property Name="final_approved_user" Type="varchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="leave_application_dtl_cto_tbl">
+          <Key>
+            <PropertyRef Name="leave_ctrlno" />
+            <PropertyRef Name="leave_date_from" />
+            <PropertyRef Name="leave_date_to" />
+          </Key>
+          <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="leave_date_from" Type="date" Nullable="false" />
+          <Property Name="leave_date_to" Type="date" Nullable="false" />
+          <Property Name="cto_remarks" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="leave_application_dtl_tbl">
           <Key>
             <PropertyRef Name="leave_ctrlno" />
@@ -578,11 +589,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Name="leaveledger_abs_und_wop_sl" Type="money" Nullable="false" />
         </EntityType>
         <Function Name="sp_aats_installation_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="sp_approve_cancellation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
-          <Parameter Name="p_dtr_date" Type="varchar" Mode="In" />
-          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_approved_overrides" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="p_status" Type="varchar" Mode="In" />
@@ -827,6 +833,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <EntitySet Name="empl_dtr_dtl_tbl" EntityType="Self.empl_dtr_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exc_inc_empl_attendance_tbl" EntityType="Self.exc_inc_empl_attendance_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_cancel_tbl" EntityType="Self.leave_application_cancel_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leave_application_dtl_cto_tbl" EntityType="Self.leave_application_dtl_cto_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_dtl_tbl" EntityType="Self.leave_application_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_hdr_tbl" EntityType="Self.leave_application_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leaveadmin_tbl" EntityType="Self.leaveadmin_tbl" Schema="dbo" store:Type="Tables" />
@@ -1259,6 +1266,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
+          <EntitySet Name="leave_application_dtl_cto_tbl" EntityType="HRIS_ATSModel.leave_application_dtl_cto_tbl" />
         </EntityContainer>
         <EntityType Name="vw_leaveadmin_tbl_list">
           <Key>
@@ -2559,6 +2567,17 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
           <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="leave_application_dtl_cto_tbl">
+          <Key>
+            <PropertyRef Name="leave_ctrlno" />
+            <PropertyRef Name="leave_date_from" />
+            <PropertyRef Name="leave_date_to" />
+          </Key>
+          <Property Name="leave_ctrlno" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="leave_date_from" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="leave_date_to" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="cto_remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3986,7 +4005,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_approve_cancellation" FunctionName="HRIS_ATSModel.Store.sp_approve_cancellation" />
           <EntitySetMapping Name="leave_application_cancel_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
               <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
@@ -4004,6 +4022,16 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
                 <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
                 <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leave_application_dtl_cto_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_dtl_cto_tbl">
+              <MappingFragment StoreEntitySet="leave_application_dtl_cto_tbl">
+                <ScalarProperty Name="cto_remarks" ColumnName="cto_remarks" />
+                <ScalarProperty Name="leave_date_to" ColumnName="leave_date_to" />
+                <ScalarProperty Name="leave_date_from" ColumnName="leave_date_from" />
                 <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
               </MappingFragment>
             </EntityTypeMapping>

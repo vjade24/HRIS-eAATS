@@ -283,6 +283,9 @@
     <Compile Include="Models\leave_application_cancel_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leave_application_dtl_cto_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leave_application_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
