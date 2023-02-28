@@ -288,6 +288,8 @@ namespace HRIS_eAATS.Controllers
                 data.approved_period_to     = data.approved_period_to   ;
                 data.created_by             = Session["user_id"].ToString();
                 data.created_dttm           = DateTime.Now;
+                data.department_code           = data.department_code;
+                data.employment_tyep           = data.employment_tyep;
                 db_ats.transmittal_leave_hdr_tbl.Add(data);
                 db_ats.SaveChangesAsync();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
@@ -316,6 +318,8 @@ namespace HRIS_eAATS.Controllers
                 od.updated_dttm          = DateTime.Now;
                 od.doc_status            = data.doc_status           ;
                 od.route_nbr             = data.route_nbr            ;
+                od.department_code             = data.department_code            ;
+                od.employment_tyep             = data.employment_tyep            ;
 
                 db_ats.SaveChanges();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
