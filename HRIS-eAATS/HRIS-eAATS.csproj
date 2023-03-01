@@ -642,27 +642,6 @@
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeaveCancellation.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryLeavePermission\cryLeavePermissionMainRep.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeavePermissionMainRep.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryLeavePermission\crySubLeavePermission.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>crySubLeavePermission.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Reports\cryLWOP\cryLWOP.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1799,18 +1778,18 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Reports\cryLeavePermission\cryLeaveCancellation.rpt">
+    <Content Include="Reports\cryLeavePermission\cryLeaveCancellation.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveCancellation1.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\cryLeavePermission\cryLeavePermissionMainRep.rpt">
+    </Content>
+    <Content Include="Reports\cryLeavePermission\cryLeavePermissionMainRep.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeavePermissionMainRep.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\cryLeavePermission\crySubLeavePermission.rpt">
+    </Content>
+    <Content Include="Reports\cryLeavePermission\crySubLeavePermission.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>crySubLeavePermission.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <EmbeddedResource Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTransmittal.cs</LastGenOutput>

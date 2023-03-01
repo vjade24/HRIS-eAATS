@@ -336,14 +336,17 @@ namespace HRIS_eAATS.Controllers
                             data_dtl_insert.empl_id                       = lv_dtl.empl_id              ;
                             data_dtl_insert.rcrd_status                   = "N"          ;
 
-                            data_dtl_cto_insert.leave_ctrlno              = new_appl_nbr[0].ToString();
-                            data_dtl_cto_insert.leave_date_from           = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
-                            data_dtl_cto_insert.leave_date_to             = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
-                            data_dtl_cto_insert.cto_remarks               = lv_dtl_cto.cto_remarks;
+                            if (lv_dtl_cto!= null)
+                            {
+                                data_dtl_cto_insert.leave_ctrlno              = new_appl_nbr[0].ToString();
+                                data_dtl_cto_insert.leave_date_from           = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
+                                data_dtl_cto_insert.leave_date_to             = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
+                                data_dtl_cto_insert.cto_remarks               = lv_dtl_cto.cto_remarks;
+                                db_ats.leave_application_dtl_cto_tbl.Add(data_dtl_cto_insert);
+                            }
                             
                             db_ats.leave_application_hdr_tbl.Add(data_hdr_insert);
                             db_ats.leave_application_dtl_tbl.Add(data_dtl_insert);
-                            db_ats.leave_application_dtl_cto_tbl.Add(data_dtl_cto_insert);
                             await db_ats.SaveChangesAsync();
 
                             message = "success";
