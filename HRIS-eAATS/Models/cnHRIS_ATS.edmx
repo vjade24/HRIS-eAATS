@@ -591,6 +591,11 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Name="leaveledger_abs_und_wop_sl" Type="money" Nullable="false" />
         </EntityType>
         <Function Name="sp_aats_installation_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_approve_cancellation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_dtr_date" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_approved_overrides" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="p_status" Type="varchar" Mode="In" />
@@ -1260,15 +1265,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_earning_type" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
+          <EntitySet Name="leave_application_dtl_cto_tbl" EntityType="HRIS_ATSModel.leave_application_dtl_cto_tbl" />
+          <EntitySet Name="transmittal_leave_hdr_tbl" EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" />
+          <FunctionImport Name="sp_transmittal_leave_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result1)" />
           <FunctionImport Name="sp_approve_cancellation">
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_dtr_date" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
-          <EntitySet Name="leave_application_dtl_cto_tbl" EntityType="HRIS_ATSModel.leave_application_dtl_cto_tbl" />
-          <EntitySet Name="transmittal_leave_hdr_tbl" EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" />
-          <FunctionImport Name="sp_transmittal_leave_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result1)" />
         </EntityContainer>
         <EntityType Name="vw_leaveadmin_tbl_list">
           <Key>
@@ -4061,6 +4066,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_approve_cancellation" FunctionName="HRIS_ATSModel.Store.sp_approve_cancellation" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

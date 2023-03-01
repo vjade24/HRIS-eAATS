@@ -895,6 +895,11 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_generate_earning_Result>("sp_lv_ledger_generate_earning", par_yearParameter, par_monthParameter, par_department_codeParameter, par_empl_idParameter, par_user_idParameter, par_earning_typeParameter);
         }
     
+        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result1> sp_transmittal_leave_hdr_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result1>("sp_transmittal_leave_hdr_tbl_list");
+        }
+    
         public virtual int sp_approve_cancellation(string p_empl_id, string p_dtr_date, string p_user_id)
         {
             var p_empl_idParameter = p_empl_id != null ?
@@ -910,11 +915,6 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_approve_cancellation", p_empl_idParameter, p_dtr_dateParameter, p_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result1> sp_transmittal_leave_hdr_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result1>("sp_transmittal_leave_hdr_tbl_list");
         }
     }
 }
