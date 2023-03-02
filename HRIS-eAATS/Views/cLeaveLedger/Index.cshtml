@@ -608,23 +608,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important" ng-show="no_action_posted">
-
+                @*<div class="modal-footer" style="padding: 10px 30px 10px 30px !important" ng-show="no_action_posted">*@
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important" >
                     <div class="row">
-                            <div class="col-lg-3">
-                                <button id="cancel_pending" ng-click="btn_cancel_disapprove('C')" ng-show="!show_save_edit_btn" type="button" class="btn btn-success pull-left btn-block"><i class="fa fa-ban"></i> Cancel Pending</button>
-                                <button id="disapprove" ng-click="btn_cancel_disapprove('D')" ng-show="!show_save_edit_btn" type="button" class="btn btn-danger pull-left btn-block"><i class="fa fa-thumbs-down"></i> Disapprove</button>
-                            </div>
-                            <div class="col-lg-5" ng-show="!show_save_edit_btn">
-                                <p class="text-left" style="margin-bottom:0px !important;font-weight:bold">Cancel Pending or Disapprove Remarks:</p>
-                                <textarea class="form-control form-control-sm" maxlength="255" ng-model="txtb_remarks" id="txtb_remarks"></textarea>
-                               @* <input class="form-control" maxlength="255" ng-model="txtb_remarks" id="txtb_remarks" />*@
-                                <label id="lbl_txtb_remarks_req" class="lbl_required"></label>
-                            </div>
-                            <div class="col-lg-4 m-t-md">
-                                @*<button type="button" ng-show="!show_save_edit_btn" class="btn btn-danger" data-dismiss="modal" ng-click="btn_reset_redirect()"><i class="fa fa-close"></i> Close</button>*@
-                                <button id="post" ng-show="!show_save_edit_btn" ng-click="btn_save_click('POST')" type="button" class="btn btn-warning"><i class="fa fa-paper-plane" id="icn_post"></i> Post Application</button>
-                            </div>
+                        <div class="col-lg-3">
+                            <button id="cancel_pending" ng-click="btn_cancel_disapprove('C')" ng-show="!show_save_edit_btn" type="button" class="btn btn-success pull-left btn-block"><i class="fa fa-ban"></i> Cancel Pending</button>
+                            <button id="disapprove" ng-click="btn_cancel_disapprove('D')" ng-show="!show_save_edit_btn" type="button" class="btn btn-danger pull-left btn-block"><i class="fa fa-thumbs-down"></i> Disapprove</button>
+                        </div>
+                        <div class="col-lg-5" ng-show="!show_save_edit_btn">
+                            <p class="text-left" style="margin-bottom:0px !important;font-weight:bold">Cancel Pending or Disapprove Remarks:</p>
+                            <textarea class="form-control form-control-sm" maxlength="255" ng-model="txtb_remarks" id="txtb_remarks"></textarea>
+                            @* <input class="form-control" maxlength="255" ng-model="txtb_remarks" id="txtb_remarks" />*@
+                            <label id="lbl_txtb_remarks_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-lg-4 m-t-md">
+                            @*<button type="button" ng-show="!show_save_edit_btn" class="btn btn-danger" data-dismiss="modal" ng-click="btn_reset_redirect()"><i class="fa fa-close"></i> Close</button>*@
+                            <button id="post" ng-show="!show_save_edit_btn" ng-click="btn_save_click('POST')" type="button" class="btn btn-warning"><i class="fa fa-paper-plane" id="icn_post"></i> Post Application</button>
+                        </div>
                     </div>
                     <div ng-show="show_save_edit_btn">
                         <label ng-show="show_cannot_save" style="float:left !important">You cannot Save if the Entry Type is <span class="text-navy"><u>Automated VL and SL Leave Earn</u></span></label>
