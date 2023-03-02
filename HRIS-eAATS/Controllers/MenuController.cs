@@ -273,13 +273,14 @@ namespace HRIS_eAATS.Controllers
                     for (int i = 0; i < chk_aprv.Count; i++)
                     {
                         // Insert to Override if HOLIDAY AND WORK SUSPENSION (Type of Cancellation)
-                        if (chk_aprv[i].leave_cancel_type == "HOL" || chk_aprv[i].leave_cancel_type == "WORK_SUS")
-                        {
-                            var ovr_inst = db_ats.sp_approve_cancellation(p_empl_id, DateTime.Parse(chk_aprv[i].leave_cancel_date.ToString()).ToString("yyyy-MM-dd"), user_id);
-                            message = "success";
-                        }
-                        // Insert to Leave Application HDR if TRANSFER FORCE LEAVE (Type of Cancellation)
-                        else if (chk_aprv[i].leave_cancel_type == "FL_TRNFR")
+                        //if (chk_aprv[i].leave_cancel_type == "HOL" || chk_aprv[i].leave_cancel_type == "WORK_SUS")
+                        //{
+                        //    var ovr_inst = db_ats.sp_approve_cancellation(p_empl_id, DateTime.Parse(chk_aprv[i].leave_cancel_date.ToString()).ToString("yyyy-MM-dd"), user_id);
+                        //    message = "success";
+                        //}
+                        //// Insert to Leave Application HDR if TRANSFER FORCE LEAVE (Type of Cancellation)
+                        //else 
+                        if ((chk_aprv[i].leave_cancel_type == "FL_TRNFR" || chk_aprv[i].leave_cancel_type == "HOL" || chk_aprv[i].leave_cancel_type == "WORK_SUS") && chk_aprv[i].leave_transfer_date != null)
                         {
                             var lv_hdr      = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
                             var lv_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
@@ -353,7 +354,9 @@ namespace HRIS_eAATS.Controllers
                         }
                         else
                         {
-                            message = "do nothing!";
+                            //message = "do nothing!";
+                            var ovr_inst = db_ats.sp_approve_cancellation(p_empl_id, DateTime.Parse(chk_aprv[i].leave_cancel_date.ToString()).ToString("yyyy-MM-dd"), user_id);
+                            message = "success";
                         }
                     }
                     if (message == "success")
