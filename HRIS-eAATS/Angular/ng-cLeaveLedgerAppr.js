@@ -1336,6 +1336,7 @@
     s.btn_print_row = function (row_id,rep_mode)
     {
         s.row_id_printing = row_id
+        rep_mode = s.ddl_rep_mode_printing
 
         if (parseFloat(s.datalistgrid5[row_id].transmittal_cnt) <= 0)
         {
