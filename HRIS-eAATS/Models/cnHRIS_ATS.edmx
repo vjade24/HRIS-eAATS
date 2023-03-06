@@ -117,6 +117,9 @@
           <Property Name="submitted_user" Type="varchar" MaxLength="30" />
           <Property Name="final_approved_dttm" Type="datetime" />
           <Property Name="final_approved_user" Type="varchar" MaxLength="30" />
+          <Property Name="returned_user" Type="varchar" MaxLength="30" />
+          <Property Name="returned_dttm" Type="datetime" />
+          <Property Name="returned_remarks" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="leave_application_dtl_cto_tbl">
           <Key>
@@ -2559,6 +2562,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
           <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_dttm" Type="DateTime" Precision="3" />
+          <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="leave_application_dtl_cto_tbl">
           <Key>
@@ -3999,6 +4005,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <EntitySetMapping Name="leave_application_cancel_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
               <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
+                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
+                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
+                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
                 <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
                 <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
                 <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />

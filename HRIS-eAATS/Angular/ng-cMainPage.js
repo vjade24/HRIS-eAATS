@@ -394,21 +394,31 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
     s.btn_return_cancellation = function ()
     {
         $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
-        h.post("../Menu/ReturnCancellation",
+        if ($('#returned_remarks').val().toString().trim() != '') {
+            h.post("../Menu/ReturnCancellation",
+            {
+                p_leave_ctrlno      : s.datalistgrid[s.row_id_pass].leave_ctrlno
+                , p_empl_id         : s.datalistgrid[s.row_id_pass].empl_id
+                , returned_remakrs  : $('#returned_remarks').val().toString().trim()
+            }).then(function (d) {
+                if (d.data.message == "success") {
+                    s.RetrieveList();
+                    $('#modal_print_preview').modal("hide");
+                    swal("Successfully Retruned", "", { icon: "success" });
+                }
+                else {
+                    swal("There Something wrong", d.data.message, { icon: "warning" });
+                }
+                $("#modal_initializing").modal("hide");
+            });
+        } else
         {
-            p_leave_ctrlno  : s.datalistgrid[s.row_id_pass].leave_ctrlno
-            , p_empl_id     : s.datalistgrid[s.row_id_pass].empl_id
-        }).then(function (d) {
-            if (d.data.message == "success") {
-                s.RetrieveList();
-                $('#modal_print_preview').modal("hide");
-                swal("Successfully Retruned", "", { icon: "success" });
-            }
-            else {
-                swal("There Something wrong", d.data.message, { icon: "warning" });
-            }
-            $("#modal_initializing").modal("hide");
-        });
+            swal("Return Remarks is Required!", { icon: "warning" });
+                $("#modal_initializing").modal("hide");
+        }
+
+
+
     }
 
 })
