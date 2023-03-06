@@ -399,7 +399,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
             {
                 p_leave_ctrlno      : s.datalistgrid[s.row_id_pass].leave_ctrlno
                 , p_empl_id         : s.datalistgrid[s.row_id_pass].empl_id
-                , returned_remakrs  : $('#returned_remarks').val().toString().trim()
+                , returned_remarks  : $('#returned_remarks').val().toString().trim()
             }).then(function (d) {
                 if (d.data.message == "success") {
                     s.RetrieveList();
