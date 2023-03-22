@@ -12,6 +12,7 @@
     s.ddl_dept = "";
     s.ddl_employment_type = "";
     s.ddl_rep_mode_printing = "1"
+    s.ddl_rep_mode_add_edit = "1"
     var row_id_printing = "";
 
 
@@ -1085,6 +1086,12 @@
 
     s.btn_save = function ()
     {
+        if ($('#txtb_approved_period_from').val() == "" || $('#txtb_approved_period_to').val() == "" || s.ddl_dept == "" || s.ddl_employment_type == "" || s.ddl_rep_mode_add_edit == "")
+        {
+            swal("REQUIRED FIELD!","Approved Period From, Approved Period To, Department, Employment Type and View Mode is Required! ",{ icon: "warning"});
+            return;
+        }
+
         var data = {
                      
             doc_ctrl_nbr            : s.txtb_doc_ctrl_nbr
@@ -1095,6 +1102,7 @@
             ,route_nbr              : s.ddl_route_nbr
             , department_code       : s.ddl_dept
             , employment_tyep       : s.ddl_employment_type
+            , view_mode             : s.ddl_rep_mode_add_edit
         }
 
         if (s.action == "ADD")
@@ -1246,13 +1254,14 @@
 
         $('#btn_show_dtl_id' + s.datalistgrid5[row_id].doc_ctrl_nbr).addClass('disabled');
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
-        
+
         h.post("../cLeaveLedgerAppr/RetrieveTransmittal_DTL", {
             par_doc_ctrl_nbr            : s.datalistgrid5[row_id].doc_ctrl_nbr
             , par_approved_period_from  : moment(s.datalistgrid5[row_id].approved_period_from).format('YYYY-MM-DD')  
             , par_approved_period_to    : moment(s.datalistgrid5[row_id].approved_period_to).format('YYYY-MM-DD')  
             , par_department_code       : s.datalistgrid5[row_id].department_code
             , par_employment_type       : s.datalistgrid5[row_id].employment_tyep
+            , par_view_mode             : s.ddl_rep_mode_add_edit
         }).then(function (d)
         {
             if (d.data.message == "success")
@@ -1609,7 +1618,7 @@
     }
 
 
-    s.RetrieveTransmittal_DTL = function(doc_ctrl_nbr, approved_period_from, approved_period_to, department_code, employment_type)
+    s.RetrieveTransmittal_DTL = function (doc_ctrl_nbr, approved_period_from, approved_period_to, department_code, employment_type, view_mode)
     {
 
         h.post("../cLeaveLedgerAppr/RetrieveTransmittal_DTL", {
@@ -1618,6 +1627,7 @@
             , par_approved_period_to    : approved_period_to
             , par_department_code       : department_code
             , par_employment_type       : employment_type
+            , par_view_mode: view_mode
         }).then(function (d)
         {
             if (d.data.message == "success")

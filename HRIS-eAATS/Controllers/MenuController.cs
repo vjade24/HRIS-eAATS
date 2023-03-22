@@ -384,13 +384,16 @@ namespace HRIS_eAATS.Controllers
 
         public ActionResult ReturnCancellation(string p_leave_ctrlno, string p_empl_id, string returned_remarks)
         {
-            var lv_cancel = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
+            var lv_cancel = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList();
             if (returned_remarks.ToString().Trim() != "" || returned_remarks != null)
             {
-                lv_cancel.leave_cancel_status = "C";
-                lv_cancel.returned_user = Session["user_id"].ToString().Trim();
-                lv_cancel.returned_dttm = DateTime.Now;
-                lv_cancel.returned_remarks = returned_remarks;
+                for (int i = 0; i < lv_cancel.Count; i++)
+                {
+                    lv_cancel[i].leave_cancel_status   = "C";
+                    lv_cancel[i].returned_user         = Session["user_id"].ToString().Trim();
+                    lv_cancel[i].returned_dttm         = DateTime.Now;
+                    lv_cancel[i].returned_remarks      = returned_remarks;
+                }
                 db_ats.SaveChangesAsync();
                 return Json(new { lv_cancel, message = "success" }, JsonRequestBehavior.AllowGet);
             }

@@ -19,5 +19,7 @@ namespace HRIS_eAATS.Models
         public string doc_remarks { get; set; }
         public string created_by { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }
+        public string received_by { get; set; }
+        public Nullable<System.DateTime> received_dttm { get; set; }
     }
 }

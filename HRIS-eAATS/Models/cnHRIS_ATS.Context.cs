@@ -766,31 +766,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_Result>("sp_extract_best_attendance", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type)
-        {
-            var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
-                new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
-                new ObjectParameter("par_doc_ctrl_nbr", typeof(string));
-    
-            var par_approved_period_fromParameter = par_approved_period_from.HasValue ?
-                new ObjectParameter("par_approved_period_from", par_approved_period_from) :
-                new ObjectParameter("par_approved_period_from", typeof(System.DateTime));
-    
-            var par_approved_period_toParameter = par_approved_period_to.HasValue ?
-                new ObjectParameter("par_approved_period_to", par_approved_period_to) :
-                new ObjectParameter("par_approved_period_to", typeof(System.DateTime));
-    
-            var par_department_codeParameter = par_department_code != null ?
-                new ObjectParameter("par_department_code", par_department_code) :
-                new ObjectParameter("par_department_code", typeof(string));
-    
-            var par_employment_typeParameter = par_employment_type != null ?
-                new ObjectParameter("par_employment_type", par_employment_type) :
-                new ObjectParameter("par_employment_type", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter);
-        }
-    
         public virtual ObjectResult<sp_extract_trk_leave_appl_lvl1_final_appr_Result> sp_extract_trk_leave_appl_lvl1_final_appr(Nullable<System.DateTime> p_leave_date_from, Nullable<System.DateTime> p_leave_date_to, string p_department_code, string p_empl_id, string p_lv_posting_status, string p_cancel_status, string p_employment_type)
         {
             var p_leave_date_fromParameter = p_leave_date_from.HasValue ?
@@ -895,11 +870,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_generate_earning_Result>("sp_lv_ledger_generate_earning", par_yearParameter, par_monthParameter, par_department_codeParameter, par_empl_idParameter, par_user_idParameter, par_earning_typeParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result1> sp_transmittal_leave_hdr_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result1>("sp_transmittal_leave_hdr_tbl_list");
-        }
-    
         public virtual int sp_approve_cancellation(string p_empl_id, string p_dtr_date, string p_user_id)
         {
             var p_empl_idParameter = p_empl_id != null ?
@@ -915,6 +885,40 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_approve_cancellation", p_empl_idParameter, p_dtr_dateParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list");
+        }
+    
+        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
+        {
+            var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
+                new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
+                new ObjectParameter("par_doc_ctrl_nbr", typeof(string));
+    
+            var par_approved_period_fromParameter = par_approved_period_from.HasValue ?
+                new ObjectParameter("par_approved_period_from", par_approved_period_from) :
+                new ObjectParameter("par_approved_period_from", typeof(System.DateTime));
+    
+            var par_approved_period_toParameter = par_approved_period_to.HasValue ?
+                new ObjectParameter("par_approved_period_to", par_approved_period_to) :
+                new ObjectParameter("par_approved_period_to", typeof(System.DateTime));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_view_modeParameter = par_view_mode != null ?
+                new ObjectParameter("par_view_mode", par_view_mode) :
+                new ObjectParameter("par_view_mode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
     }
 }

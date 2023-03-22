@@ -26,5 +26,6 @@ namespace HRIS_eAATS.Models
         public string route_nbr { get; set; }
         public string department_code { get; set; }
         public string employment_tyep { get; set; }
+        public string view_mode { get; set; }
     }
 }

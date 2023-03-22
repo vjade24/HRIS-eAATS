@@ -284,6 +284,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         
         s.row_id_pass = "";
         s.row_id_pass = row_id;
+        s.returned_remarks = "";
         
         var application_nbr = s.datalistgrid[row_id].leave_ctrlno
         var empl_id = s.datalistgrid[row_id].empl_id

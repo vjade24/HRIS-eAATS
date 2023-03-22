@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=1"></script>
+<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=2"></script>
 <style type="text/css">
     .field {
         border-radius: 3px;
@@ -738,23 +738,44 @@
                             <b><label class="pull-left" style="margin-top:9px;">Department :</label></b>
                         </div>
                         <div class="col-lg-12">
-                            <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type)">
+                            <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
                                 <option value="">-- All Department -- </option>
                                 <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
                             </select>
                             <label id="lbl_ddl_dept_req" class="lbl_required"></label>
                         </div>
-                        <div class="col-lg-12">
-                            <b><label class="pull-left" style="margin-top:9px;">Employment Type :</label></b>
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <b><label class="pull-left" style="margin-top:9px;">Employment Type :</label></b>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type" style="width:100%;" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
+                                        <option value="">-- All Employment Type -- </option>
+                                        <option value="RE">Regular Employees</option>
+                                        <option value="CE">Casual Employees</option>
+                                        <option value="JO">Job-Order Employees</option>
+                                    </select>
+                                </div>
+
+                            </div>
                         </div>
-                        <div class="col-lg-12">
-                            <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type" style="width:100%;" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type)">
-                                <option value="">-- All Employment Type -- </option>
-                                <option value="RE">Regular Employees</option>
-                                <option value="CE">Casual Employees</option>
-                                <option value="JO">Job-Order Employees</option>
-                            </select>
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label class="font-bold" style="margin-top:9px;"><b>View Mode :</b></label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="ddl_rep_mode_add_edit" ng-model="ddl_rep_mode_add_edit" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
+                                        <option value="1">Both Leave and CTO</option>
+                                        <option value="2">Leave Card</option>
+                                        <option value="3">CTO Card</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
+                        
+
                     </div>
                     <div class="row m-t-sm" ng-show="show_dtl">
 

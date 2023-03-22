@@ -223,7 +223,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2022-05-24
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult RetrieveTransmittal_DTL(string par_doc_ctrl_nbr, DateTime par_approved_period_from, DateTime par_approved_period_to, string par_department_code, string par_employment_type)
+        public ActionResult RetrieveTransmittal_DTL(string par_doc_ctrl_nbr, DateTime par_approved_period_from, DateTime par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace HRIS_eAATS.Controllers
                 {
                     //if (par_department_code.ToString().Trim() == "" || par_department_code == null)
                     //{
-                        var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type).ToList().OrderByDescending(a => a.transmitted_flag);
+                        var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).ToList().OrderByDescending(a => a.transmitted_flag);
                         return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
                     //}
                     //else
@@ -245,7 +245,7 @@ namespace HRIS_eAATS.Controllers
                 }
                 else
                 {
-                    var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type).Where(a=> a.transmitted_flag == "Y").ToList().OrderByDescending(a => a.transmitted_flag);
+                    var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).Where(a=> a.transmitted_flag == "Y").ToList().OrderByDescending(a => a.transmitted_flag);
                     return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -283,13 +283,14 @@ namespace HRIS_eAATS.Controllers
             try
             {
                 var nxt_ctrl_nbr = db_ats.sp_generate_key("transmittal_leave_hdr_tbl", "doc_ctrl_nbr", 12).ToList().FirstOrDefault();
-                data.doc_ctrl_nbr           = "LV-" + nxt_ctrl_nbr.key_value.ToString();
-                data.approved_period_from   = data.approved_period_from ;
-                data.approved_period_to     = data.approved_period_to   ;
-                data.created_by             = Session["user_id"].ToString();
-                data.created_dttm           = DateTime.Now;
-                data.department_code           = data.department_code;
-                data.employment_tyep           = data.employment_tyep;
+                data.doc_ctrl_nbr               = "LV-" + nxt_ctrl_nbr.key_value.ToString();
+                data.approved_period_from       = data.approved_period_from ;
+                data.approved_period_to         = data.approved_period_to   ;
+                data.created_by                 = Session["user_id"].ToString();
+                data.created_dttm               = DateTime.Now;
+                data.department_code            = data.department_code;
+                data.employment_tyep            = data.employment_tyep;
+                data.view_mode                  = data.view_mode;
                 db_ats.transmittal_leave_hdr_tbl.Add(data);
                 db_ats.SaveChangesAsync();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
@@ -318,8 +319,9 @@ namespace HRIS_eAATS.Controllers
                 od.updated_dttm          = DateTime.Now;
                 od.doc_status            = data.doc_status           ;
                 od.route_nbr             = data.route_nbr            ;
-                od.department_code             = data.department_code            ;
-                od.employment_tyep             = data.employment_tyep            ;
+                od.department_code       = data.department_code      ;
+                od.employment_tyep       = data.employment_tyep      ;
+                od.view_mode             = data.view_mode      ;
 
                 db_ats.SaveChanges();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
@@ -409,7 +411,7 @@ namespace HRIS_eAATS.Controllers
                 if (par_doc_ctrl_nbr.Length >=15)
                 {
                     var data            = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
-                    var data_dtl        = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to,"","").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
+                    var data_dtl        = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to,"","","").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
                     var data_history    = db_trk.sp_edocument_trk_tbl_history(par_doc_ctrl_nbr, "LV").ToList();
 
                     return Json(new {
