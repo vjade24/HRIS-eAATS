@@ -320,6 +320,15 @@
           <Property Name="created_dttm" Type="datetime" />
           <Property Name="received_by" Type="varchar" MaxLength="30" />
           <Property Name="received_dttm" Type="datetime" />
+          <Property Name="route_nbr" Type="varchar" MaxLength="2" />
+          <Property Name="lvl1_rcvd_user_id" Type="varchar" MaxLength="30" />
+          <Property Name="lvl1_rcvd_dttm" Type="datetime" />
+          <Property Name="lvl2_rcvd_user_id" Type="varchar" MaxLength="30" />
+          <Property Name="lvl2_rcvd_dttm" Type="datetime" />
+          <Property Name="lvl3_rcvd_user_id" Type="varchar" MaxLength="30" />
+          <Property Name="lvl3_rcvd_dttm" Type="datetime" />
+          <Property Name="payroll_rcvd_user_id" Type="varchar" MaxLength="30" />
+          <Property Name="payroll_rcvd_dttm" Type="datetime" />
         </EntityType>
         <EntityType Name="transmittal_leave_hdr_tbl">
           <Key>
@@ -1265,7 +1274,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_earning_type" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
           <EntitySet Name="leave_application_dtl_cto_tbl" EntityType="HRIS_ATSModel.leave_application_dtl_cto_tbl" />
           <EntitySet Name="transmittal_leave_hdr_tbl" EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" />
           <FunctionImport Name="sp_approve_cancellation">
@@ -1282,6 +1290,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
         </EntityContainer>
         <EntityType Name="vw_leaveadmin_tbl_list">
           <Key>
@@ -2415,6 +2424,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Name="created_dttm" Type="DateTime" Precision="3" />
           <Property Name="received_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="received_dttm" Type="DateTime" Precision="3" />
+          <Property Name="route_nbr" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="lvl1_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lvl1_rcvd_dttm" Type="DateTime" Precision="3" />
+          <Property Name="lvl2_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lvl2_rcvd_dttm" Type="DateTime" Precision="3" />
+          <Property Name="lvl3_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lvl3_rcvd_dttm" Type="DateTime" Precision="3" />
+          <Property Name="payroll_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="payroll_rcvd_dttm" Type="DateTime" Precision="3" />
         </EntityType>
         <ComplexType Name="sp_extract_trk_leave_appl_lvl1_final_appr_Result">
           <Property Type="String" Name="department_short_name" Nullable="false" MaxLength="30" />
@@ -2517,31 +2535,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Type="String" Name="return_flag" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="return_msg" Nullable="true" />
         </ComplexType>
-        <EntityType Name="leave_application_cancel_tbl">
-          <Key>
-            <PropertyRef Name="leave_ctrlno" />
-            <PropertyRef Name="empl_id" />
-            <PropertyRef Name="leave_cancel_date" />
-          </Key>
-          <Property Name="leave_ctrlno" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="leave_cancel_date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="leave_transfer_date" Type="DateTime" Precision="0" />
-          <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="leave_cancel_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="leave_cancel_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="approved_by" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="approved_by_desig" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Precision="3" />
-          <Property Name="created_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="submitted_dttm" Type="DateTime" Precision="3" />
-          <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
-          <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="returned_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="returned_dttm" Type="DateTime" Precision="3" />
-          <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="leave_application_dtl_cto_tbl">
           <Key>
             <PropertyRef Name="leave_ctrlno" />
@@ -2622,6 +2615,31 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Type="DateTime" Name="final_approval_date" Nullable="true" Precision="23" />
           <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
         </ComplexType>
+        <EntityType Name="leave_application_cancel_tbl">
+          <Key>
+            <PropertyRef Name="leave_ctrlno" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="leave_cancel_date" />
+          </Key>
+          <Property Name="leave_ctrlno" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="leave_cancel_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="leave_transfer_date" Type="DateTime" Precision="0" />
+          <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="leave_cancel_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="leave_cancel_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="approved_by" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="approved_by_desig" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="submitted_dttm" Type="DateTime" Precision="3" />
+          <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
+          <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_dttm" Type="DateTime" Precision="3" />
+          <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3874,6 +3892,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <EntitySetMapping Name="transmittal_leave_dtl_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.transmittal_leave_dtl_tbl">
               <MappingFragment StoreEntitySet="transmittal_leave_dtl_tbl">
+                <ScalarProperty Name="payroll_rcvd_dttm" ColumnName="payroll_rcvd_dttm" />
+                <ScalarProperty Name="payroll_rcvd_user_id" ColumnName="payroll_rcvd_user_id" />
+                <ScalarProperty Name="lvl3_rcvd_dttm" ColumnName="lvl3_rcvd_dttm" />
+                <ScalarProperty Name="lvl3_rcvd_user_id" ColumnName="lvl3_rcvd_user_id" />
+                <ScalarProperty Name="lvl2_rcvd_dttm" ColumnName="lvl2_rcvd_dttm" />
+                <ScalarProperty Name="lvl2_rcvd_user_id" ColumnName="lvl2_rcvd_user_id" />
+                <ScalarProperty Name="lvl1_rcvd_dttm" ColumnName="lvl1_rcvd_dttm" />
+                <ScalarProperty Name="lvl1_rcvd_user_id" ColumnName="lvl1_rcvd_user_id" />
+                <ScalarProperty Name="route_nbr" ColumnName="route_nbr" />
                 <ScalarProperty Name="received_dttm" ColumnName="received_dttm" />
                 <ScalarProperty Name="received_by" ColumnName="received_by" />
                 <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
@@ -3995,30 +4022,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="leave_application_cancel_tbl">
-            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
-              <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
-                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
-                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
-                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
-                <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
-                <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
-                <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
-                <ScalarProperty Name="submitted_dttm" ColumnName="submitted_dttm" />
-                <ScalarProperty Name="created_user" ColumnName="created_user" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="approved_by_desig" ColumnName="approved_by_desig" />
-                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
-                <ScalarProperty Name="leave_cancel_type" ColumnName="leave_cancel_type" />
-                <ScalarProperty Name="leave_cancel_status" ColumnName="leave_cancel_status" />
-                <ScalarProperty Name="reason" ColumnName="reason" />
-                <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
-                <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="leave_application_dtl_cto_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_dtl_cto_tbl">
               <MappingFragment StoreEntitySet="leave_application_dtl_cto_tbl">
@@ -4091,6 +4094,30 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="leave_application_cancel_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
+              <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
+                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
+                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
+                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
+                <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
+                <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
+                <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
+                <ScalarProperty Name="submitted_dttm" ColumnName="submitted_dttm" />
+                <ScalarProperty Name="created_user" ColumnName="created_user" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="approved_by_desig" ColumnName="approved_by_desig" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="leave_cancel_type" ColumnName="leave_cancel_type" />
+                <ScalarProperty Name="leave_cancel_status" ColumnName="leave_cancel_status" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
+                <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

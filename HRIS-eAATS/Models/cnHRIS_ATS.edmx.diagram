@@ -32,9 +32,9 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_hdr_tbl" Width="1.5" PointX="13.375" PointY="13.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_dtl_tbl" Width="1.5" PointX="15.375" PointY="4.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_leave_appl_posting_indv_history" Width="1.5" PointX="15.375" PointY="11.75" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_cancel_tbl" Width="1.5" PointX="15.375" PointY="15.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_dtl_cto_tbl" Width="1.5" PointX="3.375" PointY="16.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_cancel_tbl" Width="1.5" PointX="15.375" PointY="15.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

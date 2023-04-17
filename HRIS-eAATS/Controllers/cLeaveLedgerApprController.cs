@@ -205,11 +205,11 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2022-05-24
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult RetrieveTransmittal_HDR()
+        public ActionResult RetrieveTransmittal_HDR(int created_year, int created_month)
         {
             try
             {
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list().ToList();
+                var data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a=> DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month).ToList();
                 return JSON(new{message = "success",data}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -383,6 +383,7 @@ namespace HRIS_eAATS.Controllers
                     db_ats.transmittal_leave_dtl_tbl.Add(data);
                     data.created_by     = Session["user_id"].ToString();
                     data.created_dttm   = DateTime.Now;
+                    data.route_nbr   = data.route_nbr;
                     db_ats.SaveChangesAsync();
                 }
                 else if(par_transmitted_flag == "Y")
@@ -507,6 +508,7 @@ namespace HRIS_eAATS.Controllers
                 db_ats.transmittal_leave_dtl_tbl.Add(data);
                 data.created_by     = Session["user_id"].ToString();
                 data.created_dttm   = DateTime.Now;
+                data.route_nbr   = data.route_nbr;
                 db_ats.SaveChangesAsync();
                 
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);

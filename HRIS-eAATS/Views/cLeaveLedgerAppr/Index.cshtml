@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=2"></script>
+<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=4"></script>
 <style type="text/css">
     .field {
         border-radius: 3px;
@@ -531,7 +531,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-5">
-
+                                
                             </div>
                             <div class="col-lg-4" style="margin-top:5px">
                                 <div class="form-group row">
@@ -557,7 +557,9 @@
                                     <span class="checkmark"></span>
                                 </label>
                             </div>
-                            <div class="col-lg-5"></div>
+                            <div class="col-lg-5">
+
+                            </div>
                             <div class="col-lg-4">
                                 <div class="form-grop row">
                                     <div class="col-lg-4">
@@ -607,29 +609,53 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-3">
-                            <div class="form-group row">
+                        <div class="col-sm-2">
+                            <strong><span>Show</span></strong>
+                            <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid_transmit')">
+                                <option value="5">5</option>
+                                <option value="10" selected>10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                            </select>
+                            @*<div class="form-group row">
                                 <div class="col-lg-3">
-                                    <strong><span class="pull-left m-t-xs">Show</span></strong>
                                 </div>
                                 <div class="col-lg-6">
-                                    <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid_transmit')">
-                                        <option value="5">5</option>
-                                        <option value="10" selected>10</option>
-                                        <option value="15">15</option>
-                                        <option value="20">20</option>
-                                        <option value="50">50</option>
-                                    </select>
                                 </div>
                                 <div class="col-lg-3">
                                     <strong><span class="pull-left m-t-xs">entries</span></strong>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
-                        <div class="col-lg-7">
+                        <div class="col-lg-4">
+                            <strong><span>Search</span></strong>
                             <input type="search" class="form-control" ng-model="search_box_grid_transmit" ng-keyup="search_in_list(search_box_grid_transmit,'datalist_grid_transmit')" placeholder="Search ....">
                         </div>
                         <div class="col-lg-2">
+                            <strong><span >Year</span></strong>
+                            <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="RetrieveTransmittal_HDR()">
+                                <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <strong><span>Month</span></strong>
+                            <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="RetrieveTransmittal_HDR()">
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 m-t-md">
                             <button class="btn btn-primary btn-block" ng-click="openModal_Add()"> <i class="fa fa-plus-square"></i> Add</button>
                         </div>
                     </div>
@@ -641,9 +667,10 @@
                                     <tr>
                                         <th style="background-color:#1ab394 !important;"></th>
                                         <th style="background-color:#1ab394 !important;" width="20%">TRANSMITTAL #</th>
-                                        <th style="background-color:#1ab394 !important;" width="40%">DESCRIPTION</th>
-                                        <th style="background-color:#1ab394 !important;" width="5%">STATUS</th>
-                                        <th style="background-color:#1ab394 !important;" width="35%">ACTION</th>
+                                        <th style="background-color:#1ab394 !important;" width="45%">DESCRIPTION</th>
+                                        <th style="background-color:#1ab394 !important;" width="10%">STATUS</th>
+                                        <th style="background-color:#1ab394 !important;" width="5%">CNT</th>
+                                        <th style="background-color:#1ab394 !important;" width="20%">ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -710,6 +737,7 @@
                                         <option value="03"> 31-60 days</option>
                                         <option value="04"> 61 up and Other Types of Leave</option>
                                         <option value="05"> All VGO and SPO Employees</option>
+                                        <option value="06"> Release to Payroll</option>
                                     </select>
 
                                 </div>
@@ -892,6 +920,7 @@
                                                                         <option value="03"> 31-60 days</option>
                                                                         <option value="04"> 61 up and Other Types of Leave</option>
                                                                         <option value="05"> All VGO and SPO Employees</option>
+                                                                        <option value="06"> Release to Payroll </option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-12">

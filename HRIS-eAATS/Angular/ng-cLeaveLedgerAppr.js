@@ -26,7 +26,11 @@
         h.post("../cLeaveLedgerAppr/InitializeData").then(function (d) {
             if (d.data.message == "success")
             {
-
+                var curr_year = new Date().getFullYear().toString();
+                s.ddl_year = curr_year;
+                s.currentMonth = new Date().getMonth() + 1
+                s.ddl_month = datestring(s.currentMonth.toString())
+                RetrieveYear();
 
                 s.leave_type = d.data.leaveType;
                 s.leave_sub_type = d.data.leaveSubType;
@@ -831,6 +835,7 @@
                                 return "<span class='text-center'>&nbsp;&nbsp;" + data + "</span>"
                             }
                         },
+                        
                         {
                             "mData": "doc_status_descr",
                             "mRender": function (data, type, full, row)
@@ -863,6 +868,13 @@
                                 }
                                 
                                 return "<span class='badge badge-" + color+"'>" + data + "</span>"
+                            }
+                        },
+                        {
+                            "mData": "transmittal_cnt",
+                            "mRender": function (data, type, full, row)
+                            {
+                                return '<span class="badge badge-danger" >' + full["transmittal_cnt"] +'</span>'
                             }
                         },
                         {
@@ -901,15 +913,44 @@
                                     //s.show_rcvd = false;
                                 }
                                 
-                                return '<div class="btn-group pull-right">' +
-                                    '<button id="btn_show_dtl_id' + full["doc_ctrl_nbr"] + '"    type="button" style="padding:3px 10px 3px 10px !important" class="btn btn-warning btn-sm" ng-click="btn_show_dtl(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show Details">  <span class="badge badge-success" >' + full["transmittal_cnt"] +'</span> </button >' +
-                                         '<button type="button" class="btn btn-info btn-sm"     ng-disabled="' + dis_btn+'"  ng-click="btn_edit_action_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
-                                         '<button type="button" class="btn btn-danger btn-sm"   ng-disabled="' + dis_btn+'"  ng-click="btn_del_row_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
-                                         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn+'"  ng-click="btn_print_row(' + row["row"] + ',\'1\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
-                                         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn_rlsd+'" ng-click="btn_release(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Release"><i class="fa fa-forward"></i></button>' +
-                                         '<button type="button" class="btn btn-success btn-sm"  ng-disabled="' + dis_btn_rcvd+'" ng-click="btn_receive(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Receive"><i class="fa fa-backward"></i></button>' +
-                                         '<button type="button" class="btn btn-warning btn-sm"  ng-click="btn_view_history(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View Information and History"><i class="fa fa-history"></i></button>' +
-                                        '</div>';
+                                //return '<div class="btn-group pull-right">' +
+                                //         '<button id="btn_show_dtl_id' + full["doc_ctrl_nbr"] + '"    type="button" style="padding:3px 10px 3px 10px !important" class="btn btn-warning btn-sm" ng-click="btn_show_dtl(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show Details">  <span class="badge badge-success" >' + full["transmittal_cnt"] +'</span> </button >' +
+                                //         '<button type="button" class="btn btn-info btn-sm"     ng-disabled="' + dis_btn+'"  ng-click="btn_edit_action_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
+                                //         '<button type="button" class="btn btn-danger btn-sm"   ng-disabled="' + dis_btn+'"  ng-click="btn_del_row_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
+                                //         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn+'"  ng-click="btn_print_row(' + row["row"] + ',\'1\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
+                                //         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn_rlsd+'" ng-click="btn_release(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Release"><i class="fa fa-forward"></i></button>' +
+                                //         '<button type="button" class="btn btn-success btn-sm"  ng-disabled="' + dis_btn_rcvd+'" ng-click="btn_receive(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Receive"><i class="fa fa-backward"></i></button>' +
+                                //         '<button type="button" class="btn btn-warning btn-sm"  ng-click="btn_view_history(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View Information and History"><i class="fa fa-history"></i></button>' +
+                                //        '</div>';
+
+                                return '<div class="btn-group" >' +
+                                       '<div class="ibox-tools" style="text-align: center !important">' +
+                                       '<a class="dropdown-toggle btn btn-sm" data-toggle="dropdown" href="#">' +
+                                       '<i class="fa fa-cogs"></i> Action' +
+                                       '</a>' +
+                                       '<ul class="dropdown-menu dropdown-user">' +
+                                       '<li>' +
+                                        '<a id="btn_show_dtl_id' + full["doc_ctrl_nbr"] + '"    class="dropdown-item" ng-click="btn_show_dtl(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show Details">  <span class="badge badge-success" >' + full["transmittal_cnt"] +'</span> Show Details</a >' +
+                                       '</li>' +
+                                        '<li ng-hide="' + dis_btn +'">' +
+                                        '<a class="dropdown-item"  ng-disabled="' + dis_btn + '"  ng-click="btn_edit_action_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i> Edit</a >' +
+                                        '</li>' +
+                                        '<li ng-hide="' + dis_btn +'">' +
+                                        '<a class="dropdown-item"   ng-disabled="' + dis_btn + '"  ng-click="btn_del_row_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i> Delete</a>' +
+                                        '</li>' +
+                                        '<li ng-hide="' + dis_btn +'">' +
+                                        '<a class="dropdown-item"  ng-disabled="' + dis_btn + '"  ng-click="btn_print_row(' + row["row"] + ',\'1\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i> Print</a>' +
+                                        '</li>' +
+                                        '<li ng-hide="' + dis_btn_rlsd + '">' +
+                                        '<a class="dropdown-item"  ng-disabled="' + dis_btn_rlsd + '" ng-click="btn_release(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Release"><i class="fa fa-forward"></i> Release</a>' +
+                                        '</li>' +
+                                        '<li ng-hide="' + dis_btn_rcvd + '">' +
+                                        '<a class="dropdown-item"  ng-disabled="' + dis_btn_rcvd + '" ng-click="btn_receive(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Receive"><i class="fa fa-backward"></i> Receive</a>' +
+                                        '</li>' +
+                                        '<li>' +
+                                        '<a class="dropdown-item"  ng-click="btn_view_history(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View Information and History"><i class="fa fa-history"></i> View History</a>' +
+                                        '</div>' +
+                                        '</div>'
                             }
                         }
                     ],
@@ -1003,48 +1044,55 @@
 
     s.RetrieveTransmittal_HDR = function ()
     {
-        h.post("../cLeaveLedgerAppr/RetrieveTransmittal_HDR").then(function (d)
+        $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+
+        h.post("../cLeaveLedgerAppr/RetrieveTransmittal_HDR",
+        {
+             created_year   : s.ddl_year
+            ,created_month  : s.ddl_month
+
+        }).then(function (d)
         {
             if (d.data.message == "success")
             {
+                s.oTable5.fnClearTable();
+                s.datalistgrid5 = d.data.data;
                 if (d.data.data.length > 0)
                 {
-                    s.oTable5.fnClearTable();
-                    s.datalistgrid5 = d.data.data;
-                    if (d.data.data.length > 0)
+                    s.oTable5.fnAddData(d.data.data);
+                }
+
+                $('#datalist_grid_transmit tbody').on('click', 'span.details-control', function ()
+                {
+                    var tr = $(this).closest('tr');
+                    var row = $('#datalist_grid_transmit').DataTable().row(tr);
+
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else
                     {
-                        s.oTable5.fnAddData(d.data.data);
+                        // Open this row
+                        row.child(format(row.data())).show();
+                        tr.addClass('shown');
                     }
 
-                    $('#datalist_grid_transmit tbody').on('click', 'span.details-control', function ()
-                    {
-                        var tr = $(this).closest('tr');
-                        var row = $('#datalist_grid_transmit').DataTable().row(tr);
-
-                        if (row.child.isShown()) {
-                            // This row is already open - close it
-                            row.child.hide();
-                            tr.removeClass('shown');
-                        }
-                        else
-                        {
-                            // Open this row
-                            row.child(format(row.data())).show();
-                            tr.addClass('shown');
-                        }
-
-                    });
-                }
-                else
-                {
-                    // init_table_data5([]);
-                }
+                });
+                //if (d.data.data.length > 0)
+                //{
+                //}
+                //else
+                //{
+                //    // init_table_data5([]);
+                //}
             }
             else
             {
                 swal({ icon: "warning", title: d.data.message  });
             }
-
+            $('#modal_generating_remittance').modal("hide");
             $('#modal_openCreateTransmittal').modal({ backdrop: 'static', keyboard: false });
 
         })
@@ -1086,9 +1134,9 @@
 
     s.btn_save = function ()
     {
-        if ($('#txtb_approved_period_from').val() == "" || $('#txtb_approved_period_to').val() == "" || s.ddl_dept == "" || s.ddl_employment_type == "" || s.ddl_rep_mode_add_edit == "")
+        if ($('#txtb_approved_period_from').val() == "" || $('#txtb_approved_period_to').val() == "" || s.ddl_dept == "")
         {
-            swal("REQUIRED FIELD!","Approved Period From, Approved Period To, Department, Employment Type and View Mode is Required! ",{ icon: "warning"});
+            swal("REQUIRED FIELD!","Approved Period From, Approved Period To, and Department is Required! ",{ icon: "warning"});
             return;
         }
 
@@ -1206,7 +1254,9 @@
         s.txtb_doc_ctrl_nbr             = "";
         s.txtb_transmittal_descr        = "";
         s.txtb_approved_period_from     = "";
-        s.txtb_approved_period_to       = "";
+        s.txtb_approved_period_to = "";
+        $('#txtb_approved_period_from').val("")
+        $('#txtb_approved_period_to').val("")
         s.txtb_created_by               = "";
         s.txtb_created_dttm             = "";
         s.ddl_route_nbr = "01"
@@ -1216,7 +1266,9 @@
         s.txtb_doc_ctrl_nbr         = s.datalistgrid5[row_id].doc_ctrl_nbr
         s.txtb_transmittal_descr    = s.datalistgrid5[row_id].transmittal_descr  
         s.txtb_approved_period_from = moment(s.datalistgrid5[row_id].approved_period_from).format('YYYY-MM-DD')  
-        s.txtb_approved_period_to   = moment(s.datalistgrid5[row_id].approved_period_to).format('YYYY-MM-DD')  
+        s.txtb_approved_period_to = moment(s.datalistgrid5[row_id].approved_period_to).format('YYYY-MM-DD')  
+        $('#txtb_approved_period_from').val(moment(s.datalistgrid5[row_id].approved_period_from).format('YYYY-MM-DD'))
+        $('#txtb_approved_period_to').val(moment(s.datalistgrid5[row_id].approved_period_to).format('YYYY-MM-DD'))
         s.txtb_created_by           = s.datalistgrid5[row_id].created_by
         s.txtb_created_dttm         = moment(s.datalistgrid5[row_id].doc_dttm).format('YYYY-MM-DD HH:mm:ss')
         s.ddl_route_nbr             = s.datalistgrid5[row_id].route_nbr
@@ -1254,7 +1306,7 @@
 
         $('#btn_show_dtl_id' + s.datalistgrid5[row_id].doc_ctrl_nbr).addClass('disabled');
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
-
+        
         h.post("../cLeaveLedgerAppr/RetrieveTransmittal_DTL", {
             par_doc_ctrl_nbr            : s.datalistgrid5[row_id].doc_ctrl_nbr
             , par_approved_period_from  : moment(s.datalistgrid5[row_id].approved_period_from).format('YYYY-MM-DD')  
@@ -1323,6 +1375,7 @@
                      doc_ctrl_nbr        : s.txtb_doc_ctrl_nbr
                     ,ledger_ctrl_no      : s.datalistgrid6[row_id].ledger_ctrl_no  
                     ,doc_remarks         : ''  
+                    ,route_nbr           : s.ddl_route_nbr
         }
         h.post("../cLeaveLedgerAppr/Save_dtl", {
             data: data
@@ -1552,6 +1605,7 @@
                              doc_ctrl_nbr    : s.txtb_doc_ctrl_nbr
                             ,ledger_ctrl_no  : s.datalistgrid6[i].ledger_ctrl_no  
                             ,doc_remarks     : ''  
+                            , route_nbr     : s.ddl_route_nbr
                         }
                         h.post("../cLeaveLedgerAppr/CheckAll", {
                             data: data
@@ -1686,4 +1740,26 @@
 
     }
 
+    function RetrieveYear() {
+        var currentYear = new Date().getFullYear();
+        var prev_year = currentYear - 5;
+        for (var i = 1; i <= 8; i++) {
+            var data = { "year": prev_year }
+            s.year.push(data)
+            prev_year++;
+        }
+    }
+    //***********************************************************//
+    //*** VJA - 02/29/2020 - Convert date to String from 1 to 01 if less than 10
+    //***********************************************************// 
+    function datestring(d)
+    {
+        var date_val = ""
+        if (d < 10) {
+            date_val = '0' + d
+        } else {
+            date_val = d
+        }
+        return date_val
+    }
 })

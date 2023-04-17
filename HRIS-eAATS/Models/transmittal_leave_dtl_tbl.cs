@@ -21,5 +21,14 @@ namespace HRIS_eAATS.Models
         public Nullable<System.DateTime> created_dttm { get; set; }
         public string received_by { get; set; }
         public Nullable<System.DateTime> received_dttm { get; set; }
+        public string route_nbr { get; set; }
+        public string lvl1_rcvd_user_id { get; set; }
+        public Nullable<System.DateTime> lvl1_rcvd_dttm { get; set; }
+        public string lvl2_rcvd_user_id { get; set; }
+        public Nullable<System.DateTime> lvl2_rcvd_dttm { get; set; }
+        public string lvl3_rcvd_user_id { get; set; }
+        public Nullable<System.DateTime> lvl3_rcvd_dttm { get; set; }
+        public string payroll_rcvd_user_id { get; set; }
+        public Nullable<System.DateTime> payroll_rcvd_dttm { get; set; }
     }
 }

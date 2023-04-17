@@ -513,6 +513,15 @@ namespace HRIS_eAATS.Controllers
                                 {
                                     // Insert to Override if HOLIDAY AND WORK SUSPENSION (Type of Cancellation)
                                     var ovr_inst = db_ats.sp_approve_cancellation(p_empl_id, DateTime.Parse(chk_aprv[i].leave_cancel_date.ToString()).ToString("yyyy-MM-dd"), user_id);
+
+                                    var lv_hdr = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
+                                    var lv_dtl = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
+                                    
+                                    // Update Header and Details
+                                    lv_hdr.posting_status   = false;
+                                    lv_hdr.approval_status  = "L";
+                                    lv_dtl.rcrd_status      = "L";
+
                                     message = "success";
                                 }
                             }

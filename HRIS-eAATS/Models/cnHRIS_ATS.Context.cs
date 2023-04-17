@@ -55,9 +55,9 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<lv_ledger_hdr_tbl> lv_ledger_hdr_tbl { get; set; }
         public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
         public virtual DbSet<vw_leave_appl_posting_indv_history> vw_leave_appl_posting_indv_history { get; set; }
-        public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
         public virtual DbSet<leave_application_dtl_cto_tbl> leave_application_dtl_cto_tbl { get; set; }
         public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
+        public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
     
         public virtual ObjectResult<sp_leavesubtype_tbl_list_Result> sp_leavesubtype_tbl_list(string par_leavetype_code)
         {

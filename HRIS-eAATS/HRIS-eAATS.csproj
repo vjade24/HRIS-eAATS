@@ -642,6 +642,18 @@
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveCancellation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeavePermission\cryLeavePermissionMainRep.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeavePermissionMainRep.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryLWOP\cryLWOP.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
