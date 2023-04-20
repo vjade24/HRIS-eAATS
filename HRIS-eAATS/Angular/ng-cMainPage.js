@@ -350,13 +350,13 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
 
     s.btn_approve_cancellation = function ()
     {   
-        var store_date = {
-                             par_empl_id            : s.datalistgrid[s.row_id_pass].empl_id
-                            ,par_department_code    : s.datalistgrid[s.row_id_pass].department_code
-                            ,par_employee_name      : s.datalistgrid[s.row_id_pass].employee_name
-                            ,par_leavetype_code     : s.datalistgrid[s.row_id_pass].leave_type_code
-                            ,par_view_mode          : $("#ddl_rep_mode option:selected").val()
-                          }
+        //var store_date = {
+        //                     par_empl_id            : s.datalistgrid[s.row_id_pass].empl_id
+        //                    ,par_department_code    : s.datalistgrid[s.row_id_pass].department_code
+        //                    ,par_employee_name      : s.datalistgrid[s.row_id_pass].employee_name
+        //                    ,par_leavetype_code     : s.datalistgrid[s.row_id_pass].leave_type_code
+        //                    ,par_view_mode          : $("#ddl_rep_mode option:selected").val()
+        //                  }
 
         h.post("../Menu/CheckIfPosted",
         {
@@ -369,80 +369,83 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
             {
                 if (i.data.data.length > 0)
                 {
-                    swal("This Employee has already Leave Ledger Posted, Do you want to Restore Leave Application Balance?",
-                    {
-                        buttons: {
-                            cancel: "Close!",
-                            restore:
-                            {
-                                text    : "Yes, Approved Cancellation and Restore Leave Application Balance",
-                                restore : "restore",
-                            }
-                        },
-                    }).then((value) => {
-                        switch (value)
-                        {
-                            case "restore":
-                                h.post("../Menu/CancelLederPosted",
-                                {
-                                    p_leave_ctrlno     : s.datalistgrid[s.row_id_pass].leave_ctrlno
-                                    ,p_empl_id         : s.datalistgrid[s.row_id_pass].empl_id
-                                }).then(function (d)
-                                {
-                                    if (d.data.message == "success")
-                                    {
-                                        s.RetrieveList();
-                                        $('#modal_print_preview').modal("hide");
-                                        
-                                        swal("Successfully Approved and Restored Leave Application Balance","Do you want to Redirect to Leave Ledger?",
-                                        {
-                                            icon: "success",
-                                            buttons:
-                                            {
-                                                cancel  : "No!",
-                                                catch   :
-                                                {
-                                                    text    : "Go, Redirect to Leave Ledger",
-                                                    value   : "catch",
-                                                },
-                                            },
-                                        }).then((value) =>
-                                        {
-                                            switch (value)
-                                            { 
-                                                case "catch":
-                                                    h.post("../Menu/RedirectParam",
-                                                        {
-                                                             par_empl_id            : store_date.par_empl_id        
-                                                            ,par_department_code    : store_date.par_department_code
-                                                            ,par_employee_name      : store_date.par_employee_name  
-                                                            ,par_leavetype_code     : store_date.par_leavetype_code 
-                                                            ,par_view_mode          : store_date.par_view_mode      
-                                                        }).then(function (d)
-                                                        {
-                                                            if (d.data == "success")
-                                                            {
-                                                                location.href = "../cLeaveLedger/Index"
-                                                            }
-                                                        });
-                                                    break;
-                                                default:
-                                                    swal("You pressed No!");
-                                            }
-                                        });
-                                    }
-                                    else
-                                    {
-                                        swal("There Something wrong", d.data.message, { icon: "warning" });
-                                    }
-                                    
-                                })
+                    $('#details_remarks').val("")
+                    $('#modal_posted_leave').modal({ backdrop: 'static', keyboard: false });
 
-                                break;
-                            default:
-                                swal("Closed!");
-                        }
-                    });
+                    //swal("This Employee has already Leave Ledger Posted, Do you want to Restore Leave Application Balance?",
+                    //{
+                    //    buttons: {
+                    //        cancel: "Close!",
+                    //        restore:
+                    //        {
+                    //            text    : "Yes, Approved Cancellation and Restore Leave Application Balance",
+                    //            restore : "restore",
+                    //        }
+                    //    },
+                    //}).then((value) => {
+                    //    switch (value)
+                    //    {
+                    //        case "restore":
+                    //            h.post("../Menu/CancelLederPosted",
+                    //            {
+                    //                p_leave_ctrlno     : s.datalistgrid[s.row_id_pass].leave_ctrlno
+                    //                ,p_empl_id         : s.datalistgrid[s.row_id_pass].empl_id
+                    //            }).then(function (d)
+                    //            {
+                    //                if (d.data.message == "success")
+                    //                {
+                    //                    s.RetrieveList();
+                    //                    $('#modal_print_preview').modal("hide");
+                                        
+                    //                    swal("Successfully Approved and Restored Leave Application Balance","Do you want to Redirect to Leave Ledger?",
+                    //                    {
+                    //                        icon: "success",
+                    //                        buttons:
+                    //                        {
+                    //                            cancel  : "No!",
+                    //                            catch   :
+                    //                            {
+                    //                                text    : "Go, Redirect to Leave Ledger",
+                    //                                value   : "catch",
+                    //                            },
+                    //                        },
+                    //                    }).then((value) =>
+                    //                    {
+                    //                        switch (value)
+                    //                        { 
+                    //                            case "catch":
+                    //                                h.post("../Menu/RedirectParam",
+                    //                                    {
+                    //                                         par_empl_id            : store_date.par_empl_id        
+                    //                                        ,par_department_code    : store_date.par_department_code
+                    //                                        ,par_employee_name      : store_date.par_employee_name  
+                    //                                        ,par_leavetype_code     : store_date.par_leavetype_code 
+                    //                                        ,par_view_mode          : store_date.par_view_mode      
+                    //                                    }).then(function (d)
+                    //                                    {
+                    //                                        if (d.data == "success")
+                    //                                        {
+                    //                                            location.href = "../cLeaveLedger/Index"
+                    //                                        }
+                    //                                    });
+                    //                                break;
+                    //                            default:
+                    //                                swal("You pressed No!");
+                    //                        }
+                    //                    });
+                    //                }
+                    //                else
+                    //                {
+                    //                    swal("There Something wrong", d.data.message, { icon: "warning" });
+                    //                }
+                                    
+                    //            })
+
+                    //            break;
+                    //        default:
+                    //            swal("Closed!");
+                    //    }
+                    //});
                 }
                 else
                 {
@@ -520,8 +523,85 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
             swal("Return Remarks is Required!", { icon: "warning" });
                 $("#modal_initializing").modal("hide");
         }
+    }
 
 
+    s.CancelLederPosted = function ()
+    {
+        if (s.details_remarks == "" || $('#details_remarks').val() == "")
+        { 
+            swal("Details remarks is required!", {icon:"error"})
+            return;
+        }
+        else
+        {
+            var store_date = {
+                             par_empl_id            : s.datalistgrid[s.row_id_pass].empl_id
+                            ,par_department_code    : s.datalistgrid[s.row_id_pass].department_code
+                            ,par_employee_name      : s.datalistgrid[s.row_id_pass].employee_name
+                            ,par_leavetype_code     : s.datalistgrid[s.row_id_pass].leave_type_code
+                            ,par_view_mode          : $("#ddl_rep_mode option:selected").val()
+                            }
+
+            h.post("../Menu/CancelLederPosted",
+            {
+                p_leave_ctrlno       : s.datalistgrid[s.row_id_pass].leave_ctrlno
+                ,p_empl_id           : s.datalistgrid[s.row_id_pass].empl_id
+                , p_details_remarks  : $('#details_remarks').val()
+            }).then(function (d)
+            {
+                if (d.data.message == "success")
+                {
+                    s.RetrieveList();
+                    $('#modal_print_preview').modal("hide");
+                    $('#modal_posted_leave').modal("hide");
+                                        
+                    swal("Successfully Approved and Restored Leave Application Balance","Do you want to Redirect to Leave Ledger?",
+                    {
+                        icon: "success",
+                        buttons:
+                        {
+                            cancel  : "No!",
+                            catch   :
+                            {
+                                text    : "Go, Redirect to Leave Ledger",
+                                value   : "catch",
+                            },
+                        },
+                    }).then((value) =>
+                    {
+                        switch (value)
+                        { 
+                            case "catch":
+                                h.post("../Menu/RedirectParam",
+                                    {
+                                            par_empl_id            : store_date.par_empl_id        
+                                        ,par_department_code    : store_date.par_department_code
+                                        ,par_employee_name      : store_date.par_employee_name  
+                                        ,par_leavetype_code     : store_date.par_leavetype_code 
+                                        ,par_view_mode          : store_date.par_view_mode      
+                                    }).then(function (d)
+                                    {
+                                        if (d.data == "success")
+                                        {
+                                            location.href = "../cLeaveLedger/Index"
+                                        }
+                                    });
+                                break;
+                            default:
+                                swal("You pressed No!");
+                        }
+                    });
+                }
+                else
+                {
+                    swal("There Something wrong", d.data.message, { icon: "warning" });
+                }
+                                    
+            })
+
+        }
+        
 
     }
 

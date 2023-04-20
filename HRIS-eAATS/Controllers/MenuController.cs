@@ -413,7 +413,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public async Task<ActionResult> CancelLederPosted(string p_leave_ctrlno, string p_empl_id)
+        public async Task<ActionResult> CancelLederPosted(string p_leave_ctrlno, string p_empl_id, string p_details_remarks)
         {
             try
             {
@@ -531,6 +531,8 @@ namespace HRIS_eAATS.Controllers
                                 chk_aprv.ForEach(a => a.leave_cancel_status = "F");
                                 chk_aprv.ForEach(a => a.final_approved_user = user_id);
                                 chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
+
+                                chk.details_remarks = p_details_remarks;
                                 await db_ats.SaveChangesAsync();
                             }
                         }
