@@ -243,15 +243,14 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
             if (d.data.message == "success") {
 
                 s.TimeSked_HDR(d.data.p_empl_id);
-                s.empl_names        = d.data.empl_names
+                //s.empl_names        = d.data.empl_names
                 s.datalistgrid_data = d.data.data;
-                s.ddl_name = d.data.p_empl_id
+                //s.ddl_name = d.data.p_empl_id
                 s.all_appl  = d.data.all_appl;
                 s.trans_lst = d.data.trans_lst;
                 s.dept_list = d.data.dept_list
                 s.datalistgrid_data.refreshTable1('oTable', '');
                 $("#modal_loading").modal('hide');
-                console.log(s.dept_list)
             }
             else
             {
@@ -577,8 +576,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                     if (d.data.all_appl[i].rcrd_status == 'N') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
                     if (d.data.all_appl[i].rcrd_status == 'R') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up'    }
                     if (d.data.all_appl[i].rcrd_status == 'S') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
-
-                    console.log(d.data.all_appl[i].stat_color)
+                    
                 }
             }
             else {
@@ -590,7 +588,6 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
     s.appl_data = function (data)
     {
-        // console.log(data)
         return data.length
     }
 
@@ -924,7 +921,6 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
                 if (d.data.data.length >= 0)
                 {
-                    console.log(d.data.data[0])
                     s.time_sked_hdr_title = s.month_int_to_name(par_month) + " - " + par_year;
                 }
                 
@@ -980,8 +976,35 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
         return name_mons;
     }
-                        
-     
+        
+    $(document).ready(function () {
+        $("#ddl_name").select2({
+            placeholder: "Select a state",
+            minimumInputLength: 3,
+            ajax: {
+                url: "../cASTDTRSupport/Search",
+                dataType: 'json',
+                data: (params) => {
+                    return {
+                        term: params.term,
+                    }
+                },
+                processResults: (data, params) =>
+                {
+                    const results = data.data.map(item =>
+                    {
+                        return {
+                            id: item.empl_id,
+                            text: item.empl_id + " - " + item.employee_name ,
+                        };
+                    });
+                    return {
+                        results: results,
+                    }
+                },
+            },
+        });
+    })
         
 
     

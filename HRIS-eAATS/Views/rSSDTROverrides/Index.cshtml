@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Angular/ng-rSSDTROverrides.js"></script>
+<script src="~/Angular/ng-rSSDTROverrides.js?v=1"></script>
 <style type="text/css">
     @@media only screen and (min-width: 1300px) {
         .div_content_override {
@@ -124,12 +124,12 @@
                             <div class="col-sm-3" style="padding-top:5px">
                                 <label>Remarks Overrides</label>
                             </div>
-                           
+
                             <div class="col-lg-9">
                                 <textarea type="text" class="form-control font-bold" maxlength="255" id="txtb_remarks_override" ng-model="txtb_remarks_override" ng-disabled="true"></textarea>
                             </div>
                             <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
-                            
+
                         </div>
 
                         <div class="row">
@@ -344,15 +344,17 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row"  style="padding-top:5px;">
+                        <div class="row" style="padding-top:5px;">
                             <div class="col-sm-2" style="padding-top:5px">
                                 <label>Employee Name :</label>
                             </div>
                             <div class="col-sm-6">
-                                <select class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width:100%;">
-                                    <option value="">--Select Here--</option>
-                                    <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.empl_id}} - {{lst.employee_name}}</option>
-                                </select>
+                                @*<select class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width:100%;">
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.empl_id}} - {{lst.employee_name}}</option>
+                                    </select>*@
+
+                                <select id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width: 100%;"></select>
                                 <label id="lbl_ddl_name_req" class="lbl_required"></label>
                             </div>
                             <div class="col-sm-2">
@@ -390,5 +392,29 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+    <!-- Inialiazing Modal -->
+    <div class="modal fade" id="modal_initializing">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                <div class="col-lg-12" style="background-color:transparent !important;margin-top:30% !important;">
+                    <div class="spiner-example fa-2x">
+                        <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
+                            <span style="color:white !important;"> Initializing Data </span>
+                            <div class="sk-bounce1" style="background-color: white !important;"></div>
+                            <div class="sk-bounce2" style="background-color: white !important;"></div>
+                            <div class="sk-bounce3" style="background-color: white !important;"></div>
+                            <br />
+                            <span style="color:white !important;font-size:18px;"> This might take a while </span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </section>

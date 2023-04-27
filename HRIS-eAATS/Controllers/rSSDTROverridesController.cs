@@ -72,36 +72,36 @@ namespace HRIS_eAATS.Controllers
                 var dept_code   = Session["department_code"].ToString();
                 var user_id     = Session["user_id"].ToString();
                 var p_month     = DateTime.Now.Month < 10 ? "0"+ DateTime.Now.Month.ToString(): DateTime.Now.Month.ToString();
-                var dtr_val = db_ats.sp_dtr_override_list(DateTime.Now.Year.ToString(), p_month, empl_id, "0", dept_code, user_id);
+                var dtr_val = db_ats.sp_dtr_override_list(DateTime.Now.Year.ToString(), p_month, "", "0", dept_code, user_id);
 
                 //var empl_name = db_dev.sp_employee_list_dept(empl_id).ToList();
 
-                var empl_name = from s in db_dev.vw_personnelnames_tbl
-                                join r in db_dev.personnel_tbl
-                                on s.empl_id equals r.empl_id
-                                join t in db_dev.vw_payrollemployeemaster_hdr_tbl
-                                on s.empl_id equals t.empl_id
-                                where r.emp_status == true
-                                orderby s.last_name
+                //var empl_name = from s in db_dev.vw_personnelnames_tbl
+                //                join r in db_dev.personnel_tbl
+                //                on s.empl_id equals r.empl_id
+                //                join t in db_dev.vw_payrollemployeemaster_hdr_tbl
+                //                on s.empl_id equals t.empl_id
+                //                where r.emp_status == true
+                //                orderby s.last_name
 
-                                select new
-                                {
-                                    s.empl_id,
-                                    s.employee_name,
-                                    s.last_name,
-                                    s.first_name,
-                                    s.middle_name,
-                                    s.suffix_name,
-                                    s.courtisy_title,
-                                    s.postfix_name,
-                                    s.employee_name_format2,
-                                    t.department_code,
-                                    t.employment_type,
-                                };
+                //                select new
+                //                {
+                //                    s.empl_id,
+                //                    s.employee_name,
+                //                    s.last_name,
+                //                    s.first_name,
+                //                    s.middle_name,
+                //                    s.suffix_name,
+                //                    s.courtisy_title,
+                //                    s.postfix_name,
+                //                    s.employee_name_format2,
+                //                    t.department_code,
+                //                    t.employment_type,
+                //                };
 
                 var dept_list = db_dev.vw_departments_tbl_list.ToList();
 
-                return JSON(new { message = "success", um, dtr_val, empl_name, dept_list, dept_code }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", um, dtr_val,  dept_list, dept_code }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -263,6 +263,21 @@ namespace HRIS_eAATS.Controllers
             Session["history_page"] = Request.UrlReferrer.ToString();
             
             return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [Route("search")]
+        public ActionResult Search(string term)
+        {
+            if (!string.IsNullOrEmpty(term))
+            {
+                var data = db_dev.vw_personnelnames_tbl.Where(a => a.first_name.Contains(term) || a.last_name.Contains(term) || a.middle_name.Contains(term) || a.empl_id.Contains(term)).ToList();
+                return Json(new { data }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { data = "" }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

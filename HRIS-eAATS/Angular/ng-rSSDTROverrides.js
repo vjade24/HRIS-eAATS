@@ -33,6 +33,7 @@
     s.show_dtr_status = false;
     function init()
     {
+
         //format datepicker to month - year only
         $("#txtb_dtr_mon_year").datepicker({
             format: "MM - yyyy",
@@ -53,7 +54,7 @@
 
         var ddate = new Date();
         s.txtb_dtr_mon_year = moment(ddate).format("MMMM - YYYY");
-        $("#modal_generating_remittance").modal();
+        $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
         //**********************************************
         // Initialize data during page loads
         //**********************************************
@@ -89,7 +90,7 @@
                 //d.data.um.allow_view    == "1" ? s.ShowView     = true : s.ShowView     = false;
                 //d.data.um.allow_print == "1" ? s.ShowAdd = true : s.ShowAdd = false;
 
-                $("#modal_generating_remittance").modal("hide");
+                $("#modal_initializing").modal("hide");
             }
             else {
                 swal(d.data.message, { icon: "warning", });
@@ -241,8 +242,7 @@
     s.FilterPageGrid = function () {
         try
         {
-            console.log($("#txtb_dtr_mon_year").val())
-            console.log(s.txtb_dtr_mon_year)
+            $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
             h.post("../rSSDTROverrides/FilterPageGrid", {
                 p_dept_code     : $("#ddl_dept option:selected").val()
                 , p_empl_id     : $("#ddl_name option:selected").val()
@@ -283,6 +283,7 @@
                         s.show_dtr_status
                         s.oTable.fnAddData(d.data.filteredGrid);
                     }
+                    $("#modal_initializing").modal("hide");
                 }
             });
         }
@@ -911,7 +912,34 @@
         ////END EDIT TIME OUT AND DELETE TIME OUT -SINGLE UPDATE
     }
 
-   
+
+    $(document).ready(function () {
+        $("#ddl_name").select2({
+            minimumInputLength: 3,
+            ajax: {
+                url: "../rSSDTROverrides/Search",
+                dataType: 'json',
+                data: (params) => {
+                    return {
+                        term: params.term,
+                    }
+                },
+                processResults: (data, params) =>
+                {
+                    const results = data.data.map(item =>
+                    {
+                        return {
+                            id: item.empl_id,
+                            text: item.empl_id + " - " + item.employee_name,
+                        };
+                    });
+                    return {
+                        results: results,
+                    }
+                },
+            },
+        });
+    })
 
 
 })

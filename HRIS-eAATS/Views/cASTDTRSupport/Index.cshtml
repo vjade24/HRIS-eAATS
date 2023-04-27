@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Angular/ng-cASTDTRSupport.js"></script>
+<script src="~/Angular/ng-cASTDTRSupport.js?v=1"></script>
 <style type="text/css">
 
     .popover.clockpicker-popover {
@@ -305,10 +305,12 @@
                                             </select>
                                         </div>
                                         <div class="col-lg-8">
-                                            <select class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width:100%;">
+                                            @*<select class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width:100%;">
                                                 <option value="">-- Employee Name --</option>
                                                 <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.employee_name}} - {{lst.empl_id}}</option>
-                                            </select>
+                                            </select>*@
+
+                                            <select  id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width: 100%;"></select>
                                         </div>
 
                                     </div>
@@ -691,6 +693,7 @@
 
             
         </div>
+    </div>
 </section>
 
 

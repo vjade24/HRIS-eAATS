@@ -23,6 +23,8 @@ using System.Drawing;
 using System.IO;
 
 using HRIS_Common;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace HRIS_eAATS.Controllers
 {
@@ -92,36 +94,36 @@ namespace HRIS_eAATS.Controllers
 
                 var p_empl_id = Session["empl_id"].ToString();
 
-                var empl_names = from s in db.vw_personnelnames_tbl
-                         join r in db.personnel_tbl 
-                         on s.empl_id equals r.empl_id
-                         join t in db.vw_payrollemployeemaster_hdr_tbl 
-                         on s.empl_id equals t.empl_id
-                        where r.emp_status == true
-                        orderby s.last_name
+                //var empl_names = from s in db.vw_personnelnames_tbl
+                //         join r in db.personnel_tbl 
+                //         on s.empl_id equals r.empl_id
+                //         join t in db.vw_payrollemployeemaster_hdr_tbl 
+                //         on s.empl_id equals t.empl_id
+                //        where r.emp_status == true
+                //        orderby s.last_name
                         
-                        select new
-                        {
-                            s.empl_id              ,
-                            s.employee_name        ,
-                            s.last_name            ,
-                            s.first_name           ,
-                            s.middle_name          ,
-                            s.suffix_name          ,
-                            s.courtisy_title       ,
-                            s.postfix_name         ,
-                            s.employee_name_format2,
-                            t.department_code      ,
-                            t.employment_type      ,
-                        };
+                //        select new
+                //        {
+                //            s.empl_id              ,
+                //            s.employee_name        ,
+                //            s.last_name            ,
+                //            s.first_name           ,
+                //            s.middle_name          ,
+                //            s.suffix_name          ,
+                //            s.courtisy_title       ,
+                //            s.postfix_name         ,
+                //            s.employee_name_format2,
+                //            t.department_code      ,
+                //            t.employment_type      ,
+                //        };
                 var all_appl = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).ToList().OrderBy(a=> a.transaction_code);
                 // var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a=> a.transaction_code).ToList();
                 var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a => a.transaction_code).ToList();
                 var dept_list = db.vw_departments_tbl_list.ToList();
-                var data        = db_dtr.sp_dtr_from_bio_tbl_list3(p_empl_id, DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).ToList();
+                var data        = db_dtr.sp_dtr_from_bio_tbl_list3("", DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).ToList();
                 message = "success";
 
-                return JSON(new { empl_names, data, message, p_empl_id, all_appl, trans_lst, dept_list }, JsonRequestBehavior.AllowGet);
+                return JSON(new {  data, message, p_empl_id, all_appl, trans_lst, dept_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -554,6 +556,21 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
 
+        }
+        
+        [HttpGet]
+        [Route("search")]
+        public ActionResult Search(string term)
+        {
+            if (!string.IsNullOrEmpty(term))
+            {
+                var data = db.vw_personnelnames_tbl.Where(a => a.first_name.Contains(term) || a.last_name.Contains(term) || a.middle_name.Contains(term) || a.empl_id.Contains(term)).ToList();
+                return Json(new { data }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { data = ""}, JsonRequestBehavior.AllowGet);
+            }
         }
 
 
