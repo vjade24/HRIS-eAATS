@@ -979,8 +979,10 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         
     $(document).ready(function () {
         $("#ddl_name").select2({
-            placeholder: "Select a state",
+            
             minimumInputLength: 3,
+            placeholder: "Select Employee",
+            allowClear: true,
             ajax: {
                 url: "../cASTDTRSupport/Search",
                 dataType: 'json',

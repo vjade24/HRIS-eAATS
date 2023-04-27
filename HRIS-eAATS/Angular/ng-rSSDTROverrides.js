@@ -916,6 +916,8 @@
     $(document).ready(function () {
         $("#ddl_name").select2({
             minimumInputLength: 3,
+            placeholder: "Select Employee",
+            allowClear: true,
             ajax: {
                 url: "../rSSDTROverrides/Search",
                 dataType: 'json',

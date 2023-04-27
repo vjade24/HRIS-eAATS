@@ -310,7 +310,9 @@
                                                 <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.employee_name}} - {{lst.empl_id}}</option>
                                             </select>*@
 
-                                            <select  id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width: 100%;"></select>
+                                            <select id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width: 100%;">
+                                                <option></option>
+                                            </select>
                                         </div>
 
                                     </div>
