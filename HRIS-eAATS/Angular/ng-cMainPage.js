@@ -605,4 +605,27 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
 
     }
 
+    //$(document).ready(function () {
+    //    bindDatatable();
+    //});
+
+    //function bindDatatable()
+    //{
+    //    $(function () {
+    //        $("#TableStudents").dataTable({
+    //            "bServerSide": true, //make server side processing to true
+    //            "sAjaxSource": '../Menu/GetData', //url of the Ajax source,i.e. web api method
+    //            "sAjaxDataProp": "aaData", // data property of the returned ajax which contains table data
+    //            "bProcessing": true,
+    //            "bLengthChange": false,
+    //            "sPaginationType": "full_numbers",//pagination type
+    //            "aoColumns": [
+
+    //                { "mData": "employee_name" }
+
+    //            ]
+    //        });
+    //    });
+    //}
+
 })

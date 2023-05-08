@@ -740,6 +740,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Parameter Name="p_key_field" Type="varchar" Mode="In" />
           <Parameter Name="p_key_size" Type="int" Mode="In" />
         </Function>
+        <Function Name="sp_get_empl_employment_type" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_leaveledger_curr_bal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="p_year" Type="varchar" Mode="In" />
@@ -1291,6 +1294,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
+          <FunctionImport Name="sp_get_empl_employment_type" ReturnType="Collection(HRIS_ATSModel.sp_get_empl_employment_type_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="vw_leaveadmin_tbl_list">
           <Key>
@@ -2640,6 +2646,13 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Name="returned_dttm" Type="DateTime" Precision="3" />
           <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="sp_get_empl_employment_type_Result">
+          <Property Type="DateTime" Name="effective_date" Nullable="false" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4118,6 +4131,17 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_empl_employment_type" FunctionName="HRIS_ATSModel.Store.sp_get_empl_employment_type">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_get_empl_employment_type_Result">
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -395,6 +395,9 @@
     <Compile Include="Models\sp_generate_key_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_get_empl_employment_type_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
@@ -622,6 +625,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryCTO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryDTR\cryDTR.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryDTR.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryForgotPunchList\cryForgotPunchList.cs">
@@ -1730,10 +1739,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryApplicationForLeaveRep.cs</LastGenOutput>
     </Content>
-    <Content Include="Reports\cryDTR\cryDTR.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryDTR.cs</LastGenOutput>
-    </Content>
     <Content Include="Reports\cryLeaveLedger\cryLeaveLedger.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedger2.cs</LastGenOutput>
@@ -1801,6 +1806,10 @@
     <Content Include="Reports\cryLeavePermission\crySubLeavePermission.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>crySubLeavePermission.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryDTR\cryDTR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryDTR.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

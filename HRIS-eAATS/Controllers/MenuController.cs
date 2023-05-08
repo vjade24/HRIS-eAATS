@@ -90,6 +90,7 @@ namespace HRIS_eAATS.Controllers
             Session["cLV_Ledger_employee_name"] = "";
             if (Session["user_id"] != null)
             {
+                db_ats.Database.CommandTimeout = int.MaxValue;
                 var log_empl_id = Session["empl_id"].ToString();
 
                 var user_id             = Session["user_id"].ToString();
@@ -556,5 +557,62 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        //public class JqueryDatatableParam
+        //{
+        //    public string sEcho { get; set; }
+        //    public string sSearch { get; set; }
+        //    public int iDisplayLength { get; set; }
+        //    public int iDisplayStart { get; set; }
+        //    public int iColumns { get; set; }
+        //    public int iSortCol_0 { get; set; }
+        //    public string sSortDir_0 { get; set; }
+        //    public int iSortingCols { get; set; }
+        //    public string sColumns { get; set; }
+        //}
+
+        //public ActionResult GetData(JqueryDatatableParam param)
+        //{
+        //    var user_id = Session["user_id"].ToString();
+        //    var employees = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
+
+        //    if (!string.IsNullOrEmpty(param.sSearch))
+        //    {
+        //        employees = employees.Where(x => x.employee_name.ToLower().Contains(param.sSearch.ToLower())).ToList();
+        //    }
+
+        //    var sortColumnIndex = Convert.ToInt32(HttpContext.Request.QueryString["iSortCol_0"]);
+        //    var sortDirection = HttpContext.Request.QueryString["sSortDir_0"];
+        //    //if (sortColumnIndex == 3)
+        //    //{
+        //    //    employees = sortDirection == "asc" ? employees.OrderBy(c => c.Age) : employees.OrderByDescending(c => c.Age);
+        //    //}
+        //    //else if (sortColumnIndex == 4)
+        //    //{
+        //    //    employees = sortDirection == "asc" ? employees.OrderBy(c => c.StartDate) : employees.OrderByDescending(c => c.StartDate);
+        //    //}
+        //    //else if (sortColumnIndex == 5)
+        //    //{
+        //    //    employees = sortDirection == "asc" ? employees.OrderBy(c => c.Salary) : employees.OrderByDescending(c => c.Salary);
+        //    //}
+        //    //else
+        //    //{
+        //    //    Func<Employee, string> orderingFunction = e => sortColumnIndex == 0 ? e.Name : sortColumnIndex == 1 ? e.Position : e.Location;
+        //    //    employees = sortDirection == "asc" ? employees.OrderBy(orderingFunction) : employees.OrderByDescending(orderingFunction);
+        //    //}
+
+        //    var displayResult = employees.Skip(param.iDisplayStart)
+        //       .Take(param.iDisplayLength).ToList();
+        //    var totalRecords = employees.Count();
+
+        //    return Json(new
+        //    {
+        //        param.sEcho,
+        //        iTotalRecords = totalRecords,
+        //        iTotalDisplayRecords = totalRecords,
+        //        aaData = displayResult
+        //    }, JsonRequestBehavior.AllowGet);
+
+        //}
     }
 }

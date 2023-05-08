@@ -187,6 +187,8 @@ ng_HRD_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
                             s.imgprofile = "/ResourcesImages/upload_profile.png";
                         }
 
+                        $('#imgprofile').attr('src', s.imgprofile)
+
 
                         // **************************
                         //localStorage.clear();
@@ -220,18 +222,18 @@ ng_HRD_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
                         }
                     })
 
-                    h.post("../Login/Current_Value").then(function (d) {
-                        //console.log(d.data.session_time)
-                        $('#hideMsg1 span').text(d.data.session_time);
-                        var sec = d.data.session_time * 60000;
-                        var timer = setInterval(function () {
-                            $('#hideMsg span').text(sec--);
-                            if (sec == -1) {
-                                $('#hideMsg').fadeOut('fast');
-                                clearInterval(timer);
-                            }
-                        }, 1000);
-                    });
+                    //h.post("../Login/Current_Value").then(function (d) {
+                    //    //console.log(d.data.session_time)
+                    //    $('#hideMsg1 span').text(d.data.session_time);
+                    //    var sec = d.data.session_time * 60000;
+                    //    var timer = setInterval(function () {
+                    //        $('#hideMsg span').text(sec--);
+                    //        if (sec == -1) {
+                    //            $('#hideMsg').fadeOut('fast');
+                    //            clearInterval(timer);
+                    //        }
+                    //    }, 1000);
+                    //});
                 
                 }
             })

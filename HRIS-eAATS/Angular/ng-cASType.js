@@ -62,25 +62,25 @@
     }
     init()
 
-    function current_session_time_left() {
-        clearInterval(timer1);
-        $('#hideMsg3 span').val("");
-        $('#hideMsg2 span').val("");
+    //function current_session_time_left() {
+    //    clearInterval(timer1);
+    //    $('#hideMsg3 span').val("");
+    //    $('#hideMsg2 span').val("");
 
-        h.post("../cASType/Current_Value").then(function (d) {
-            console.log(d.data.session_time)
-            $('#hideMsg3 span').text(d.data.session_time);
-            var sec1 = d.data.session_time * 60000;
-            console.log(sec1);
-            timer1 = setInterval(function () {
-                $('#hideMsg2 span').text(sec1--);
-                if (sec1 == -1) {
-                    $('#hideMsg').fadeOut('fast');
-                    clearInterval(timer1);
-                }
-            }, 1000);
-        });
-    }
+    //    h.post("../cASType/Current_Value").then(function (d) {
+    //        console.log(d.data.session_time)
+    //        $('#hideMsg3 span').text(d.data.session_time);
+    //        var sec1 = d.data.session_time * 60000;
+    //        console.log(sec1);
+    //        timer1 = setInterval(function () {
+    //            $('#hideMsg2 span').text(sec1--);
+    //            if (sec1 == -1) {
+    //                $('#hideMsg').fadeOut('fast');
+    //                clearInterval(timer1);
+    //            }
+    //        }, 1000);
+    //    });
+    //}
 
     var init_table_data = function (par_data) {
         s.datalistgrid = par_data;

@@ -116,14 +116,13 @@ namespace HRIS_eAATS.Controllers
                 //            t.department_code      ,
                 //            t.employment_type      ,
                 //        };
-                var all_appl = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).ToList().OrderBy(a=> a.transaction_code);
-                // var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a=> a.transaction_code).ToList();
-                var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a => a.transaction_code).ToList();
+                //var all_appl = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).ToList().OrderBy(a=> a.transaction_code);
+                //var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a => a.transaction_code).ToList();
                 var dept_list = db.vw_departments_tbl_list.ToList();
                 var data        = db_dtr.sp_dtr_from_bio_tbl_list3("", DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).ToList();
                 message = "success";
 
-                return JSON(new {  data, message, p_empl_id, all_appl, trans_lst, dept_list }, JsonRequestBehavior.AllowGet);
+                return JSON(new {  data, message, p_empl_id,  dept_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -140,11 +139,11 @@ namespace HRIS_eAATS.Controllers
             var message = "";
             try
             {
-                var all_appl = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).ToList().OrderBy(a => a.transaction_code);
-                var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a => a.transaction_code).ToList();
+                //var all_appl = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).ToList().OrderBy(a => a.transaction_code);
+                //var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a => a.transaction_code).ToList();
                 var data = db_dtr.sp_dtr_from_bio_tbl_list3(p_empl_id, p_year, p_month).ToList();
                 message = "success";
-                return JSON(new { data ,message, all_appl , trans_lst }, JsonRequestBehavior.AllowGet);
+                return JSON(new { data ,message }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -264,9 +263,9 @@ namespace HRIS_eAATS.Controllers
                 return JSON(new { message = message, icon = "success" }, JsonRequestBehavior.AllowGet);
 
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                var msg = DbEntityValidationExceptionError(e);
+                var msg = e.Message.ToString();
                 return JSON(new { message = msg, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -281,35 +280,38 @@ namespace HRIS_eAATS.Controllers
             var message = "";
             try
             {
-                var empl_names = from s in db.vw_personnelnames_tbl
-                                join r in db.personnel_tbl
-                                on s.empl_id equals r.empl_id
-                                join t in db.vw_payrollemployeemaster_hdr_tbl
-                                on s.empl_id equals t.empl_id
-                                where r.emp_status == true
-                                 where r.empl_id == empl_id
-                                 orderby s.last_name
+                //var empl_names = from s in db.vw_personnelnames_tbl
+                //                join r in db.personnel_tbl
+                //                on s.empl_id equals r.empl_id
+                //                join t in db.vw_payrollemployeemaster_hdr_tbl
+                //                on s.empl_id equals t.empl_id
+                //                where r.emp_status == true
+                //                 where r.empl_id == empl_id
+                //                 orderby s.last_name
 
-                                select new
-                                {
-                                    s.empl_id,
-                                    s.employee_name,
-                                    s.last_name,
-                                    s.first_name,
-                                    s.middle_name,
-                                    s.suffix_name,
-                                    s.courtisy_title,
-                                    s.postfix_name,
-                                    s.employee_name_format2,
-                                    t.department_code,
-                                    t.employment_type,
-                                };
+                //                select new
+                //                {
+                //                    s.empl_id,
+                //                    s.employee_name,
+                //                    s.last_name,
+                //                    s.first_name,
+                //                    s.middle_name,
+                //                    s.suffix_name,
+                //                    s.courtisy_title,
+                //                    s.postfix_name,
+                //                    s.employee_name_format2,
+                //                    t.department_code,
+                //                    t.employment_type,
+                //                };
 
-                var employment_type    = empl_names.FirstOrDefault().employment_type;
-                var department_code    = empl_names.FirstOrDefault().department_code;
+                //var employment_type    = empl_names.FirstOrDefault().employment_type;
+                //var department_code    = empl_names.FirstOrDefault().department_code;
                 // var user_id            = "";
                 // var par_print_generate = "";
-                
+
+                var employment_type = db_ats.sp_get_empl_employment_type(empl_id).ToList()[0].employment_type;
+                var department_code = db_ats.sp_get_empl_employment_type(empl_id).ToList()[0].employment_type;
+
                 var par_view_type = "0";
                 var session_user_id = Session["user_id"].ToString();
                 icn = "success";
@@ -341,22 +343,22 @@ namespace HRIS_eAATS.Controllers
         // Created By : JMTJR - Created Date : 03/04/2020
         // Description: Initialize Page
         //*********************************************************************//
-        public ActionResult GetApplication(string p_empl_id, string p_transaction_code)
-        {
-            var message = "";
-            try
-            {
-                var all_appl     = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id && a.transaction_code == p_transaction_code).ToList().OrderBy(a=> a.application_date).OrderByDescending(a => a.rcrd_status);
-                var all_appl_cnt = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id && a.transaction_code == p_transaction_code).ToList().GroupBy(a=> a.rcrd_status);
-                message = "success";
-                return JSON(new { message, all_appl , all_appl_cnt }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return JSON(new { message = e.Message }, JsonRequestBehavior.AllowGet);
-            }
+        //public ActionResult GetApplication(string p_empl_id, string p_transaction_code)
+        //{
+        //    var message = "";
+        //    try
+        //    {
+        //        var all_appl     = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id && a.transaction_code == p_transaction_code).ToList().OrderBy(a=> a.application_date).OrderByDescending(a => a.rcrd_status);
+        //        var all_appl_cnt = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id && a.transaction_code == p_transaction_code).ToList().GroupBy(a=> a.rcrd_status);
+        //        message = "success";
+        //        return JSON(new { message, all_appl , all_appl_cnt }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return JSON(new { message = e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
 
-        }
+        //}
 
         public ActionResult get_bioextract_empl_data(string empl_id, string dtr_date)
         {
@@ -416,22 +418,22 @@ namespace HRIS_eAATS.Controllers
             }
         }
 
-        public String DbEntityValidationExceptionError(DbEntityValidationException e)
-        {
-            string message = "";
-            foreach (var eve in e.EntityValidationErrors)
-            {
-                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                foreach (var ve in eve.ValidationErrors)
-                {
-                    message = "- Property: \"{0}\", Error: \"{1}\"" + ve.PropertyName + "  :  " + ve.ErrorMessage;
-                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                        ve.PropertyName, ve.ErrorMessage);
-                }
-            }
-            return message;
-        }
+        //public String DbEntityValidationExceptionError(DbEntityValidationException e)
+        //{
+        //    string message = "";
+        //    foreach (var eve in e.EntityValidationErrors)
+        //    {
+        //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+        //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+        //        foreach (var ve in eve.ValidationErrors)
+        //        {
+        //            message = "- Property: \"{0}\", Error: \"{1}\"" + ve.PropertyName + "  :  " + ve.ErrorMessage;
+        //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+        //                ve.PropertyName, ve.ErrorMessage);
+        //        }
+        //    }
+        //    return message;
+        //}
 
         //*********************************************************************//
         // Created By : JMTJR - Created Date : 03/04/2020

@@ -920,5 +920,14 @@ namespace HRIS_eAATS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
+    
+        public virtual ObjectResult<sp_get_empl_employment_type_Result> sp_get_empl_employment_type(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_empl_employment_type_Result>("sp_get_empl_employment_type", par_empl_idParameter);
+        }
     }
 }

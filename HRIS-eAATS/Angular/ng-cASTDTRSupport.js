@@ -98,7 +98,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                         "mRender": function (data, type, full, row) {
 
                             return '<center><div class="btn-group">' +
-                                '<button type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit Record">  <i class="fa fa-edit"></i></button >' +
+                                '<button type="button" class="btn btn-info btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit Record">  <i class="fa fa-edit"></i></button >' +
                                 //'<button type="button" class="btn btn-warning btn-sm" ng-click="btn_edit_biotype(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Change Bio Type">  <i class="fa fa-arrow-right"></i></button >' +
                                 //'<button type="button" class="btn btn-danger btn-sm"  ng-click="btn_delete_row(' + row["row"] + ')"  data-toggle="tooltip" data-placement="top" title="Delete"> <i class="fa fa-trash"></i></button>' +
                                 '</div></center>';
@@ -171,8 +171,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     //********************************************// 
     s.FilterPageGrid = function ()
     {
-        $('#loading_msg').html("LOADING");
-        $("#modal_loading").modal();
+        //$('#loading_msg').html("LOADING");
+        $("#modal_initializing").modal();
         try
         {
             h.post("../cASTDTRSupport/FilterPageGrid", {
@@ -185,16 +185,24 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                 if (d.data.message == "success")
                 {
                     s.TimeSked_HDR($("#ddl_name option:selected").val());
-                    moment(d.data.all_appl.application_date).format('MMMM Do YYYY, h:mm:ss a');
-                    s.all_appl = d.data.all_appl;
-                    s.trans_lst = d.data.trans_lst
+                    //moment(d.data.all_appl.application_date).format('MMMM Do YYYY, h:mm:ss a');
+                    //s.all_appl = d.data.all_appl;
+                    //s.trans_lst = d.data.trans_lst
+
+                    var iframe = document.getElementById('iframe_print_preview4');
+                    iframe.src = "";
+
+                    s.time_sked_dtl = []
+                    s.time_sked_hdr_title = "";
+
                     s.datalistgrid_data = d.data.data;
                     s.datalistgrid_data.refreshTable1('oTable', '');
-                    $("#modal_loading").modal('hide');
+                    $("#modal_initializing").modal('hide');
                 }
                 else
                 {
                     swal(d.data.message, "", { icon: "warning" });
+                    $("#modal_initializing").modal('hide');
                 }
                 
             });
@@ -219,8 +227,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         RetrieveYear();
         init_table_data([]);
         init_extract_data([])
-        $('#loading_msg').html("LOADING");
-        $("#modal_loading").modal();
+        //$('#loading_msg').html("LOADING");
+        $("#modal_initializing").modal();
         var trk_year = s.track_year
 
         $("#ddl_name").val("");
@@ -241,20 +249,20 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         h.post("../cASTDTRSupport/InitializePage").then(function (d)
         {
             if (d.data.message == "success") {
-
-                s.TimeSked_HDR(d.data.p_empl_id);
+                
                 //s.empl_names        = d.data.empl_names
                 s.datalistgrid_data = d.data.data;
                 //s.ddl_name = d.data.p_empl_id
-                s.all_appl  = d.data.all_appl;
-                s.trans_lst = d.data.trans_lst;
+                //s.all_appl  = d.data.all_appl;
+                //s.trans_lst = d.data.trans_lst;
                 s.dept_list = d.data.dept_list
                 s.datalistgrid_data.refreshTable1('oTable', '');
-                $("#modal_loading").modal('hide');
+                $("#modal_initializing").modal('hide');
             }
             else
             {
                 swal(d.data.message, "", { icon: "warning" });
+                $("#modal_initializing").modal('hide');
             }
         })
     }
@@ -435,6 +443,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                         else
                         {
                             swal(d.data.message, "", { icon: "warning" });
+                            $("#modal_initializing").modal('hide');
                         }
                 
                     });
@@ -523,68 +532,68 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         })
     }
 
-    s.btn_collapsed = function (d2)
-    {
-        h.post("../cASTDTRSupport/GetApplication",
-        {
-            p_empl_id: $("#ddl_name").val(),
-            p_transaction_code: d2.transaction_code
+    //s.btn_collapsed = function (d2)
+    //{
+    //    h.post("../cASTDTRSupport/GetApplication",
+    //    {
+    //        p_empl_id: $("#ddl_name").val(),
+    //        p_transaction_code: d2.transaction_code
 
-        }).then(function (d) {
-            if (d.data.message == "success")
-            {
-                s.all_appl      = d.data.all_appl;
-                s.all_appl_cnt  = d.data.all_appl_cnt
+    //    }).then(function (d) {
+    //        if (d.data.message == "success")
+    //        {
+    //            s.all_appl      = d.data.all_appl;
+    //            s.all_appl_cnt  = d.data.all_appl_cnt
                 
-                for (var x = 0; x < d.data.all_appl_cnt.length; x++)
-                {
-                    var completed   = d.data.all_appl_cnt[x].length;
-                    var target      = d.data.all_appl.length
-                    d.data.all_appl_cnt[x][0].prog_stat_perc = completed / target * 100
+    //            for (var x = 0; x < d.data.all_appl_cnt.length; x++)
+    //            {
+    //                var completed   = d.data.all_appl_cnt[x].length;
+    //                var target      = d.data.all_appl.length
+    //                d.data.all_appl_cnt[x][0].prog_stat_perc = completed / target * 100
                     
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == '1') { d.data.all_appl_cnt[x][0].prog_stat_color = 'info' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == '2') { d.data.all_appl_cnt[x][0].prog_stat_color = 'info' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == 'C') { d.data.all_appl_cnt[x][0].prog_stat_color = 'danger' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == 'D') { d.data.all_appl_cnt[x][0].prog_stat_color = 'danger' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == 'F') { d.data.all_appl_cnt[x][0].prog_stat_color = 'navy' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == 'L') { d.data.all_appl_cnt[x][0].prog_stat_color = 'danger' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == 'N') { d.data.all_appl_cnt[x][0].prog_stat_color = 'success' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == 'R') { d.data.all_appl_cnt[x][0].prog_stat_color = 'info' }
-                    if (d.data.all_appl_cnt[x][0].rcrd_status == 'S') { d.data.all_appl_cnt[x][0].prog_stat_color = 'warning' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == '1') { d.data.all_appl_cnt[x][0].prog_stat_color = 'info' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == '2') { d.data.all_appl_cnt[x][0].prog_stat_color = 'info' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == 'C') { d.data.all_appl_cnt[x][0].prog_stat_color = 'danger' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == 'D') { d.data.all_appl_cnt[x][0].prog_stat_color = 'danger' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == 'F') { d.data.all_appl_cnt[x][0].prog_stat_color = 'navy' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == 'L') { d.data.all_appl_cnt[x][0].prog_stat_color = 'danger' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == 'N') { d.data.all_appl_cnt[x][0].prog_stat_color = 'success' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == 'R') { d.data.all_appl_cnt[x][0].prog_stat_color = 'info' }
+    //                if (d.data.all_appl_cnt[x][0].rcrd_status == 'S') { d.data.all_appl_cnt[x][0].prog_stat_color = 'warning' }
                     
-                }
+    //            }
 
 
-                for (var i = 0; i < d.data.all_appl.length; i++)
-                {
-                    if (d.data.all_appl[i].rcrd_status == '1') { d.data.all_appl[i].stat_color = 'info' }
-                    if (d.data.all_appl[i].rcrd_status == '2') { d.data.all_appl[i].stat_color = 'info' }
-                    if (d.data.all_appl[i].rcrd_status == 'C') { d.data.all_appl[i].stat_color = 'danger'  }
-                    if (d.data.all_appl[i].rcrd_status == 'D') { d.data.all_appl[i].stat_color = 'danger'  }
-                    if (d.data.all_appl[i].rcrd_status == 'F') { d.data.all_appl[i].stat_color = 'navy' }
-                    if (d.data.all_appl[i].rcrd_status == 'L') { d.data.all_appl[i].stat_color = 'danger'  }
-                    if (d.data.all_appl[i].rcrd_status == 'N') { d.data.all_appl[i].stat_color = 'success' }
-                    if (d.data.all_appl[i].rcrd_status == 'R') { d.data.all_appl[i].stat_color = 'info'    }
-                    if (d.data.all_appl[i].rcrd_status == 'S') { d.data.all_appl[i].stat_color = 'warning' }
+    //            for (var i = 0; i < d.data.all_appl.length; i++)
+    //            {
+    //                if (d.data.all_appl[i].rcrd_status == '1') { d.data.all_appl[i].stat_color = 'info' }
+    //                if (d.data.all_appl[i].rcrd_status == '2') { d.data.all_appl[i].stat_color = 'info' }
+    //                if (d.data.all_appl[i].rcrd_status == 'C') { d.data.all_appl[i].stat_color = 'danger'  }
+    //                if (d.data.all_appl[i].rcrd_status == 'D') { d.data.all_appl[i].stat_color = 'danger'  }
+    //                if (d.data.all_appl[i].rcrd_status == 'F') { d.data.all_appl[i].stat_color = 'navy' }
+    //                if (d.data.all_appl[i].rcrd_status == 'L') { d.data.all_appl[i].stat_color = 'danger'  }
+    //                if (d.data.all_appl[i].rcrd_status == 'N') { d.data.all_appl[i].stat_color = 'success' }
+    //                if (d.data.all_appl[i].rcrd_status == 'R') { d.data.all_appl[i].stat_color = 'info'    }
+    //                if (d.data.all_appl[i].rcrd_status == 'S') { d.data.all_appl[i].stat_color = 'warning' }
 
-                    if (d.data.all_appl[i].rcrd_status == '1') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
-                    if (d.data.all_appl[i].rcrd_status == '2') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
-                    if (d.data.all_appl[i].rcrd_status == 'C') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-down'  }
-                    if (d.data.all_appl[i].rcrd_status == 'D') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-down'  }
-                    if (d.data.all_appl[i].rcrd_status == 'F') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
-                    if (d.data.all_appl[i].rcrd_status == 'L') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-down'  }
-                    if (d.data.all_appl[i].rcrd_status == 'N') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
-                    if (d.data.all_appl[i].rcrd_status == 'R') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up'    }
-                    if (d.data.all_appl[i].rcrd_status == 'S') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
+    //                if (d.data.all_appl[i].rcrd_status == '1') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
+    //                if (d.data.all_appl[i].rcrd_status == '2') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
+    //                if (d.data.all_appl[i].rcrd_status == 'C') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-down'  }
+    //                if (d.data.all_appl[i].rcrd_status == 'D') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-down'  }
+    //                if (d.data.all_appl[i].rcrd_status == 'F') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
+    //                if (d.data.all_appl[i].rcrd_status == 'L') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-down'  }
+    //                if (d.data.all_appl[i].rcrd_status == 'N') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
+    //                if (d.data.all_appl[i].rcrd_status == 'R') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up'    }
+    //                if (d.data.all_appl[i].rcrd_status == 'S') { d.data.all_appl[i].stat_icon = 'fa fa-thumbs-up' }
                     
-                }
-            }
-            else {
-                swal(d.data.message, "", { icon: "warning" });
-            }
-        })
+    //            }
+    //        }
+    //        else {
+    //            swal(d.data.message, "", { icon: "warning" });
+    //        }
+    //    })
         
-    }
+    //}
 
     s.appl_data = function (data)
     {
@@ -596,7 +605,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     //***********************************************************//
     //*** VJA -  2021-06-03 - Button for Refresh DTR
     //***********************************************************//
-    s.RefreshDTR = function (print_generate)
+    s.RefreshDTR = function ()
     {
         //try
         //{
