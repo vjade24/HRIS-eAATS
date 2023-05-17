@@ -184,7 +184,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
             {
                 if (d.data.message == "success")
                 {
-                    s.TimeSked_HDR($("#ddl_name option:selected").val());
+                    s.TimeSked_HDR($("#ddl_name option:selected").val(), s.ddl_year);
                     //moment(d.data.all_appl.application_date).format('MMMM Do YYYY, h:mm:ss a');
                     //s.all_appl = d.data.all_appl;
                     //s.trans_lst = d.data.trans_lst
@@ -194,7 +194,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
                     s.time_sked_dtl = []
                     s.time_sked_hdr_title = "";
-
+                    
                     s.datalistgrid_data = d.data.data;
                     s.datalistgrid_data.refreshTable1('oTable', '');
                     $("#modal_initializing").modal('hide');
@@ -716,6 +716,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                     }
                     else
                     {
+                        $('#modal_initializing').modal("hide");
                        swal(d.data.message, {icon : d.data.icon})
                     }
                     
@@ -858,11 +859,12 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     //*************************************************//
     //***  VJA : Populate Particulars ****************//
     //***********************************************//
-    s.TimeSked_HDR = function (empl_id)
+    s.TimeSked_HDR = function (empl_id, par_tse_year)
     {
         h.post("../cASTDTRSupport/TimeSked_HDR",
             {
-                par_empl_id: empl_id
+                 par_empl_id    : empl_id
+                , par_tse_year  : par_tse_year
             }
         ).then(function (d)
         {

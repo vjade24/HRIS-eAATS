@@ -2960,7 +2960,8 @@
                 {
                     s.txtb_abs_und_wp_vl = d.data.bal_as_of_vl;
                     s.txtb_abs_und_wp_sl = d.data.bal_as_of_sl;
-                    s.txtb_no_of_days = parseFloat(d.data.bal_as_of_vl) + parseFloat(d.data.bal_as_of_sl) == "64.96000000000001" ? "64.96" : parseFloat(d.data.bal_as_of_vl) + parseFloat(d.data.bal_as_of_sl)
+                    console.log(d.data)
+                    s.txtb_no_of_days = parseFloat(d.data.bal_as_of_vl) + parseFloat(d.data.bal_as_of_sl) == "64.96000000000001" ? "64.96" : parseFloat(d.data.bal_as_of_vl + d.data.bal_as_of_sl).toFixed(3)
                     // JS Issues : Naay decimal pag e plus (49.5 + 15.46)
                     s.txtb_particulars = s.txtb_no_of_days + "-0-0";
                 }

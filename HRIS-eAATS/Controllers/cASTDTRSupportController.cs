@@ -310,7 +310,7 @@ namespace HRIS_eAATS.Controllers
                 // var par_print_generate = "";
 
                 var employment_type = db_ats.sp_get_empl_employment_type(empl_id).ToList()[0].employment_type;
-                var department_code = db_ats.sp_get_empl_employment_type(empl_id).ToList()[0].employment_type;
+                var department_code = db_ats.sp_get_empl_employment_type(empl_id).ToList()[0].department_code;
 
                 var par_view_type = "0";
                 var session_user_id = Session["user_id"].ToString();
@@ -524,18 +524,17 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2022-04-12
         // Description  : Retrieve Time Schedule List
         //*********************************************************************//
-        public ActionResult TimeSked_HDR(string par_empl_id)
+        public ActionResult TimeSked_HDR(string par_empl_id, string par_tse_year)
         {
             try
             {
-                var data = db_ats.sp_time_schedule_empl_hdr_tbl(par_empl_id).ToList();
+                var data = db_ats.sp_time_schedule_empl_hdr_tbl(par_empl_id).Where(a=> a.tse_year == par_tse_year).ToList();
                 return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 return Json(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
-
         }
         //*********************************************************************//
         // Created By   : Vincent Jade H. Alivio
@@ -566,7 +565,7 @@ namespace HRIS_eAATS.Controllers
         {
             if (!string.IsNullOrEmpty(term))
             {
-                var data = db.vw_personnelnames_tbl.Where(a => a.first_name.Contains(term) || a.last_name.Contains(term) || a.middle_name.Contains(term) || a.empl_id.Contains(term)).ToList();
+                var data = db.vw_personnelnames_tbl.Where(a => a.employee_name.Contains(term) || a.empl_id.Contains(term)).ToList();
                 return Json(new { data }, JsonRequestBehavior.AllowGet);
             }
             else
@@ -574,7 +573,7 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { data = ""}, JsonRequestBehavior.AllowGet);
             }
         }
-
+        
 
     }
 }
