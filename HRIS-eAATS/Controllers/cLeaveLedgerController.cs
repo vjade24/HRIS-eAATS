@@ -603,6 +603,38 @@ namespace HRIS_eAATS.Controllers
                         db_ats.SaveChanges();
                     }
                 }
+                else if (data.leaveledger_entry_type == "4") // Suspension
+                {
+                    // NOTE: Do not save the Data if the WP is equal to zero (0)
+                        //if (data_auto_sl.leaveledger_abs_und_wp != 0)
+                        //{
+                            data_auto_sl.ledger_ctrl_no                = new_appl_nbr[0];
+                            data_auto_sl.leavetype_code                = data_auto_sl.leavetype_code              ;
+                            data_auto_sl.leavesubtype_code             = data_auto_sl.leavesubtype_code           ;
+                            data_auto_sl.leaveledger_balance_as_of     = data_auto_sl.leaveledger_balance_as_of   ;
+                            data_auto_sl.leaveledger_restore_deduct    = data_auto_sl.leaveledger_restore_deduct  ;
+                            data_auto_sl.leaveledger_abs_und_wp        = data_auto_sl.leaveledger_abs_und_wp      ;
+                            data_auto_sl.leaveledger_abs_und_wop       = data_auto_sl.leaveledger_abs_und_wop     ;
+
+                            db_ats.lv_ledger_dtl_tbl.Add(data_auto_sl);
+                            db_ats.SaveChanges();
+                        //}
+
+                        // NOTE: Do not save the Data if the WP is equal to zero (0)
+                        //if (data_auto_vl.leaveledger_abs_und_wp != 0)
+                        //{
+                            data_auto_vl.ledger_ctrl_no                = new_appl_nbr[0];
+                            data_auto_vl.leavetype_code                = data_auto_vl.leavetype_code              ;
+                            data_auto_vl.leavesubtype_code             = data_auto_vl.leavesubtype_code           ;
+                            data_auto_vl.leaveledger_balance_as_of     = data_auto_vl.leaveledger_balance_as_of   ;
+                            data_auto_vl.leaveledger_restore_deduct    = data_auto_vl.leaveledger_restore_deduct  ;
+                            data_auto_vl.leaveledger_abs_und_wp        = data_auto_vl.leaveledger_abs_und_wp      ;
+                            data_auto_vl.leaveledger_abs_und_wop       = data_auto_vl.leaveledger_abs_und_wop     ;
+
+                            db_ats.lv_ledger_dtl_tbl.Add(data_auto_vl);
+                            db_ats.SaveChanges();
+                        //}
+                }
                 else
                 {
                     data2.ledger_ctrl_no                = new_appl_nbr[0];

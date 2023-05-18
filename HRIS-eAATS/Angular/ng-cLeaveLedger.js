@@ -1754,7 +1754,34 @@
                 ,leaveledger_abs_und_wop     : "0.00"
             }
             
-        } 
+        }
+
+        // Automated Leave
+        if ($("#ddl_entry_type option:selected").val() == "4" )
+        {
+            var data_auto_vl = {
+
+                 ledger_ctrl_no              : s.txtb_ledger_ctrl_no
+                ,leavetype_code              : "VL" 
+                ,leavesubtype_code           : ""
+                ,leaveledger_balance_as_of   : s.txtb_balance_as_of_vl
+                ,leaveledger_restore_deduct  : "0.00"
+                ,leaveledger_abs_und_wp      : "0.00"
+                ,leaveledger_abs_und_wop     : "0.00"
+            }
+
+            var data_auto_sl = {
+
+                 ledger_ctrl_no              : s.txtb_ledger_ctrl_no
+                ,leavetype_code              : "SL"
+                ,leavesubtype_code           : ""
+                ,leaveledger_balance_as_of   : s.txtb_balance_as_of_sl
+                ,leaveledger_restore_deduct  : "0.00"
+                ,leaveledger_abs_und_wp      : "0.00"
+                ,leaveledger_abs_und_wop     : "0.00"
+            }
+            
+        }
         // *******************************************************************
         // *********** SAVING FOR HEADER AND DETAILS *************************
         // *******************************************************************
@@ -2371,52 +2398,45 @@
         }
 
         // Automated Leave
-        if (s.ddl_entry_type == '1') 
-        {
-            s.hide_txtb_restore_deduct_hdr  = true;
-            s.hide_txtb_abs_und_wp_hdr      = true;
-            s.hide_txtb_balance_as_of_hdr   = true;
-            s.hide_txtb_abs_und_wop_hdr     = true;
-            s.dis_txtb_no_of_days           = true;
-            s.dis_txtb_balance_as_of_hdr    = false;
-            s.id_leave_dtl_show             = false;
-            s.hide_txtb_no_of_days          = true;
-            s.show_Automated                = false;
+        if (s.ddl_entry_type == '1') {
+            s.hide_txtb_restore_deduct_hdr = true;
+            s.hide_txtb_abs_und_wp_hdr = true;
+            s.hide_txtb_balance_as_of_hdr = true;
+            s.hide_txtb_abs_und_wop_hdr = true;
+            s.dis_txtb_no_of_days = true;
+            s.dis_txtb_balance_as_of_hdr = false;
+            s.id_leave_dtl_show = false;
+            s.hide_txtb_no_of_days = true;
+            s.show_Automated = false;
 
-            if (s.ddl_rep_mode == '3')
-            {
-                if (s.ADDEDITMODE == "ADD")
-                {
+            if (s.ddl_rep_mode == '3') {
+                if (s.ADDEDITMODE == "ADD") {
                     s.id_leave_dtl_show = false;
-                    s.show_Automated    = true;
-                    s.dis_leave_type    = true;
-                    s.ddl_leave_type    = "CTO"
-                    s.hide_txtb_restore_deduct_hdr  = false;
-                    s.hide_txtb_balance_as_of_hdr   = false;
-                    s.hide_txtb_abs_und_wp_hdr      = true;
-                    s.hide_txtb_abs_und_wop_hdr     = true;
-                    s.dis_txtb_balance_as_of_hdr    = true;
+                    s.show_Automated = true;
+                    s.dis_leave_type = true;
+                    s.ddl_leave_type = "CTO"
+                    s.hide_txtb_restore_deduct_hdr = false;
+                    s.hide_txtb_balance_as_of_hdr = false;
+                    s.hide_txtb_abs_und_wp_hdr = true;
+                    s.hide_txtb_abs_und_wop_hdr = true;
+                    s.dis_txtb_balance_as_of_hdr = true;
                 }
-                else if (s.ADDEDITMODE == "EDIT")
-                {
+                else if (s.ADDEDITMODE == "EDIT") {
                     s.id_leave_dtl_show = true;
-                    s.show_Automated    = true;
-                    s.dis_leave_type    = true;
+                    s.show_Automated = true;
+                    s.dis_leave_type = true;
                     //s.ddl_leave_type    = "CTO"
                 }
                 s.show_txtb_restore_deduct = true;
             }
-            else
-            {
-                if (s.ADDEDITMODE == "ADD")
-                {
+            else {
+                if (s.ADDEDITMODE == "ADD") {
                     s.id_leave_dtl_show = false;
                     s.show_Automated = false;
                     s.dis_leave_type = true;
-                    s.ddl_leave_type    = "VL"
+                    s.ddl_leave_type = "VL"
                 }
-                else if (s.ADDEDITMODE == "EDIT")
-                {
+                else if (s.ADDEDITMODE == "EDIT") {
                     s.id_leave_dtl_show = true;
                     s.show_Automated = true;
                     s.dis_leave_type = true;
@@ -2424,65 +2444,72 @@
                 }
                 s.show_txtb_restore_deduct = true;
             }
-            
+
         }
         // Leave adjustment 
-        else if (s.ddl_entry_type == '3') 
-        {
-            s.hide_txtb_restore_deduct_hdr  = false;
-            s.hide_txtb_abs_und_wp_hdr      = false;
-            s.hide_txtb_balance_as_of_hdr   = false;
-            s.hide_txtb_abs_und_wop_hdr     = false;
-            s.dis_txtb_no_of_days           = true;
-            s.dis_txtb_balance_as_of_hdr    = false;
-            s.id_leave_dtl_show             = false;
-            s.hide_txtb_no_of_days          = false;
+        else if (s.ddl_entry_type == '3') {
+            s.hide_txtb_restore_deduct_hdr = false;
+            s.hide_txtb_abs_und_wp_hdr = false;
+            s.hide_txtb_balance_as_of_hdr = false;
+            s.hide_txtb_abs_und_wop_hdr = false;
+            s.dis_txtb_no_of_days = true;
+            s.dis_txtb_balance_as_of_hdr = false;
+            s.id_leave_dtl_show = false;
+            s.hide_txtb_no_of_days = false;
 
-            s.show_Automated                = true;
-            s.dis_leave_type                = false;
+            s.show_Automated = true;
+            s.dis_leave_type = false;
             s.show_txtb_restore_deduct = true;
 
-            if (s.ddl_rep_mode == '3')
-            {
+            if (s.ddl_rep_mode == '3') {
                 s.dis_leave_type = true;
                 s.ddl_leave_type = "CTO"
             }
         }
         // Leave Application
-        else if (s.ddl_entry_type == '2') 
-        {
-            s.hide_txtb_restore_deduct_hdr  = true;
-            s.hide_txtb_abs_und_wp_hdr      = true;
-            s.hide_txtb_balance_as_of_hdr   = false;
-            s.hide_txtb_abs_und_wop_hdr     = true;
-            s.dis_txtb_no_of_days           = false;
-            s.dis_txtb_balance_as_of_hdr    = true;
-            s.hide_txtb_no_of_days          = false;
-           
-            s.show_Automated                = true;
-            
-            if (s.ADDEDITMODE == "ADD")
-            {
+        else if (s.ddl_entry_type == '2') {
+            s.hide_txtb_restore_deduct_hdr = true;
+            s.hide_txtb_abs_und_wp_hdr = true;
+            s.hide_txtb_balance_as_of_hdr = false;
+            s.hide_txtb_abs_und_wop_hdr = true;
+            s.dis_txtb_no_of_days = false;
+            s.dis_txtb_balance_as_of_hdr = true;
+            s.hide_txtb_no_of_days = false;
+
+            s.show_Automated = true;
+
+            if (s.ADDEDITMODE == "ADD") {
                 s.id_leave_dtl_show = false;
-                s.dis_leave_type    = false;
+                s.dis_leave_type = false;
             }
-            else if (s.ADDEDITMODE == "EDIT")
-            {
+            else if (s.ADDEDITMODE == "EDIT") {
                 s.id_leave_dtl_show = true;
-                s.dis_leave_type    = true;
+                s.dis_leave_type = true;
             }
-            else if (s.ADDEDITMODE == "POST")
-            {
+            else if (s.ADDEDITMODE == "POST") {
                 s.dis_leave_type = true;
                 s.dis_entry_type = true;
             }
             s.show_txtb_restore_deduct = false;
 
-            if (s.ddl_rep_mode == '3')
-            {
+            if (s.ddl_rep_mode == '3') {
                 s.dis_leave_type = true;
                 s.ddl_leave_type = "CTO"
             }
+        }
+        // Suspension
+        else if (s.ddl_entry_type == '4')
+        {
+            s.hide_txtb_restore_deduct_hdr = true;
+            s.hide_txtb_abs_und_wp_hdr = true;
+            s.hide_txtb_balance_as_of_hdr = false;
+            s.hide_txtb_abs_und_wop_hdr = true;
+            s.dis_txtb_no_of_days = false;
+            s.dis_txtb_balance_as_of_hdr = true;
+            s.hide_txtb_no_of_days = false;
+
+            s.show_Automated = true;
+            s.show_txtb_restore_deduct = false;
         }
     }
     //***********************************************************//
