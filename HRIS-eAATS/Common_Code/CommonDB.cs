@@ -2457,7 +2457,51 @@ namespace HRIS_Common
 			gv.DataBind();
 
 		}
-	   
-	
-	}
+
+        //*********************************************************************************
+        // Purpose      :   Create method to define Datatable based on SQL Select Parameter
+        // Method Name  :   GetDatatable
+        // Created By   :   Ariel Cabungcal (AEC)
+        // Date Created :   09/07/2018
+        //*********************************************************************************
+        public DataTable GetDatatable_ATS(string selectstring)
+        {
+            SqlConnection con;
+            DataTable dt = new DataTable();
+            DataSet ds = new DataSet();
+            SqlDataAdapter sda;
+            con = ConnectDB_ATS();
+            sda = new SqlDataAdapter(selectstring, con);
+            sda.Fill(ds);
+            dt = ds.Tables[0];
+            return dt;
+        }
+
+        //****************************************************************
+        // Purpose      :   Create Connection Object
+        // Method Name  :   ConnectDB
+        // Created By   :   Ariel Cabungcal (AEC)
+        // Date Created :   09/07/2018
+        //****************************************************************
+        public SqlConnection ConnectDB_ATS()
+        {
+            try
+            {
+                string ConnectString = ConfigurationManager.ConnectionStrings["cnHRISATS"].ConnectionString;
+                SqlConnection conn;
+                conn = new SqlConnection(ConnectString);
+                return conn;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        
+
+        
+
+
+    }
 }

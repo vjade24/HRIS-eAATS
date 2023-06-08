@@ -51,5 +51,7 @@ namespace HRIS_eAATS.Models
         public string lwop_date { get; set; }
         public string lwop_body_1 { get; set; }
         public string lwop_body_2 { get; set; }
+        public string appl_status { get; set; }
+        public string appl_remarks { get; set; }
     }
 }

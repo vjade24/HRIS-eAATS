@@ -449,6 +449,15 @@ namespace HRIS_eAATS.Controllers
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
 
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Deleted on Ledger";
+                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+
                 var od  = db_ats.lv_ledger_hdr_tbl.Where(a => a.ledger_ctrl_no == data.ledger_ctrl_no).FirstOrDefault();
                 var od2 = db_ats.lv_ledger_dtl_tbl.Where(a => a.ledger_ctrl_no == data.ledger_ctrl_no).ToList();
 
@@ -462,6 +471,7 @@ namespace HRIS_eAATS.Controllers
                 db_ats.lv_ledger_hdr_tbl.Remove(od);
                 db_ats.lv_ledger_dtl_tbl.RemoveRange(od2);
                 db_ats.SaveChangesAsync();
+
                 
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
@@ -761,8 +771,18 @@ namespace HRIS_eAATS.Controllers
                     od3.posting_status = true;
                 }
                 db_ats.lv_ledger_hdr_tbl.Add(data);
-                db_ats.SaveChanges();
 
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Reviewed & Posted to Ledger";
+                db_ats.sp_lv_ledger_history_insert(new_appl_nbr[0], data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+
+                db_ats.SaveChanges();
+                
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -871,7 +891,17 @@ namespace HRIS_eAATS.Controllers
                         db_ats.SaveChangesAsync();
                     }
                 }
-                
+
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Balance Restored";
+                db_ats.sp_lv_ledger_history_insert(par_ledger_ctrl_no, par_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+
+
                 return JSON(new{message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -1259,7 +1289,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 04/03/2020
         // Description  : Filter Page Grid
         //*********************************************************************//
-        public ActionResult ApprReviewerAction(leave_application_hdr_tbl data)
+        public ActionResult ApprReviewerAction(leave_application_hdr_tbl data,string ledger_ctrl_no)
         {
             try
             {
@@ -1276,6 +1306,15 @@ namespace HRIS_eAATS.Controllers
 
                 var query2 = db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno).ToList();
                 query2.ForEach(a => a.rcrd_status = data.approval_status);
+
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = (data.approval_status == "C" ? "(Cancel Pending)" : "(Disapproved)") + " from Review";
+                db_ats.sp_lv_ledger_history_insert(ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
 
                 db_ats.SaveChangesAsync();
                 return JSON(new { message_descr = "success" }, JsonRequestBehavior.AllowGet);
@@ -1347,6 +1386,15 @@ namespace HRIS_eAATS.Controllers
                     db_ats.SaveChanges();
                 }
 
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Reviewed & Posted to Ledger (Repost)";
+                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -1399,6 +1447,19 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
 
+        }
+        public ActionResult Retrieve_LeaveHistory(string leave_ctrlno)
+        {
+            try
+            {
+                var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno).OrderByDescending(a=>a.created_dttm).ToList();
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 

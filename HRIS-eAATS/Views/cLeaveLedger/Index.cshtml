@@ -7,9 +7,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=5"></script>
-<script src="~/Angular/ng-Reports.js?v=5"></script>
-<script src="~/Angular/ng-cLeaveLedger.js?v=5"></script>
+<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=6"></script>
+<script src="~/Angular/ng-Reports.js?v=6"></script>
+<script src="~/Angular/ng-cLeaveLedger.js?v=6"></script>
 <style type="text/css">
     
     .select2-container .select2-selection--single {
@@ -82,7 +82,9 @@
         padding: 3px 8px;
         text-shadow: none;
     }
-
+    .modal-xl {
+        width: 90% !important;
+    }
 </style>
 
 <section ng-app="ng_HRD_App" ng-controller="cLeaveLedger_ctrlr">
@@ -531,74 +533,101 @@
                                         </div>
                                     </div>
                                     <div id="tab-7" class="tab-pane">
-                                        <div class="ibox float-e-margins">
-                                            <div class="ibox-title">
-                                                <h3> <span class="fa fa-history"></span> APPROVAL HISTORY</h3>
-                                            </div>
-                                            <div class="ibox-content">
-                                                <div class="row">
-                                                    <div class="col-lg-12 ">
-                                                        <h5> <span class="fa fa-history"></span> LEAVE APPLICATION HISTORY</h5>
-                                                        <h4 class="text-danger"> <i class="fa fa-user"></i> Creator</h4>
-                                                        <p>{{employee_name_creator}}</p>
-                                                        <p>Created Date and Time: {{created_dttm}}</p>
-                                                    </div>
-                                                    <div class="col-lg-12" ng-show="employee_name_reviewer">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-6">
+                                                    <div class="feed-activity-list">
+                                                        <div class="feed-element" ng-repeat="lst in data_history">
 
-                                                        <h4 class="text-warning"><i class="fa fa-user"></i> Reviewer</h4>
-                                                        <p>{{employee_name_reviewer}}</p>
-                                                        <p>Date and Time: {{reviewed_date}}</p>
-                                                        <p ng-show="reviewed_comment">Comment: {{reviewed_comment}}</p>
+                                                            <div class="pull-left">
+                                                                <div class="img-circle">
+                                                                    <span class="fa fa-user fa-3x"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="media-body ">
+                                                                <small class="pull-right" style="padding-left:10px !important">{{lst.create_dttm_ago}}</small>
+                                                                {{lst.appl_status}} by <strong>{{lst.employee_name_format_2}}</strong>
+                                                                <small class="text-muted">on {{lst.create_dttm_descr}}</small>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
-                                                    <div class="col-lg-12" ng-show="employee_name_final_approver">
-                                                        <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
-                                                        <p>{{employee_name_final_approver}}</p>
-                                                        <p>Date and Time: {{final_approval_date}}</p>
-                                                        <p ng-show="final_approval_comment">Comment: {{final_approval_comment}}</p>
-                                                    </div>
-                                                    <div class="col-lg-12" ng-show="employee_name_disapprover">
-                                                        <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
-                                                        <p>{{employee_name_disapprover}}</p>
-                                                        <p>Date and Time: {{disapproval_date}}</p>
-                                                        <p ng-show="disapproval_comment">Comment: {{disapproval_comment}}</p>
-                                                    </div>
-                                                    <div class="col-lg-12" ng-show="employee_name_cancel_pending">
-                                                        <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
-                                                        <p>{{employee_name_cancel_pending}}</p>
-                                                        <p>Date and Time: {{cancel_pending_date}}</p>
-                                                        <p ng-show="cancel_pending_comment">Comment: {{cancel_pending_comment}}</p>
-                                                    </div>
+                                                    <button class="btn btn-primary btn-block m-t" ng-click="Retrieve_LeaveHistory()"><i class="fa fa-arrow-down" id="view_details_history"></i> View Details</button>
+
                                                 </div>
-                                                <div class="row" ng-show="employee_name_creator_posting">
-                                                    <div class="col-lg-12 ">
-                                                        <hr />
-                                                        <h5> <span class="fa fa-history"></span> POSTING HISTORY</h5>
-                                                        <h4 class="text-danger"> <i class="fa fa-user"></i> Carded By</h4>
-                                                        <p>{{employee_name_creator_posting}}</p>
-                                                        <p ng-show="created_dttm_posting">Created Date and Time: {{created_dttm_posting}}</p>
-                                                    </div>
-                                                    <div class="col-lg-12" ng-show="employee_name_disapprover_posting">
-                                                        <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
-                                                        <p>{{employee_name_disapprover_posting}}</p>
-                                                        <p>Date and Time: {{disapproval_date_posting}}</p>
-                                                        <p ng-show="disapproval_comment_posting">Comment: {{disapproval_comment_posting}}</p>
-                                                    </div>
-                                                    <div class="col-lg-12" ng-show="employee_name_cancel_pending_posting">
-                                                        <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
-                                                        <p>{{employee_name_cancel_pending_posting}}</p>
-                                                        <p>Date and Time: {{cancel_pending_date_posting}}</p>
-                                                        <p ng-show="cancel_pending_comment_posting">Comment: {{cancel_pending_comment_posting}}</p>
-                                                    </div>
-                                                    <div class="col-lg-12" ng-show="employee_name_final_approver_posting">
-                                                        <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
-                                                        <p>{{employee_name_final_approver_posting}}</p>
-                                                        <p>Date and Time: {{final_approval_date_posting}}</p>
-                                                        <p ng-show="final_approval_comment_posting">Comment: {{final_approval_comment_posting}}</p>
-                                                    </div>
-                                                </div>
+                                                <div class="col-lg-3"></div>
                                             </div>
                                         </div>
+                                        @*<div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <h3> <span class="fa fa-history"></span> APPROVAL HISTORY</h3>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <h5> <span class="fa fa-history"></span> LEAVE APPLICATION HISTORY</h5>
+                        <h4 class="text-danger"> <i class="fa fa-user"></i> Creator</h4>
+                        <p>{{employee_name_creator}}</p>
+                        <p>Created Date and Time: {{created_dttm}}</p>
+                    </div>
+                    <div class="col-lg-12" ng-show="employee_name_reviewer">
+
+                        <h4 class="text-warning"><i class="fa fa-user"></i> Reviewer</h4>
+                        <p>{{employee_name_reviewer}}</p>
+                        <p>Date and Time: {{reviewed_date}}</p>
+                        <p ng-show="reviewed_comment">Comment: {{reviewed_comment}}</p>
+                    </div>
+
+                    <div class="col-lg-12" ng-show="employee_name_final_approver">
+                        <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
+                        <p>{{employee_name_final_approver}}</p>
+                        <p>Date and Time: {{final_approval_date}}</p>
+                        <p ng-show="final_approval_comment">Comment: {{final_approval_comment}}</p>
+                    </div>
+                    <div class="col-lg-12" ng-show="employee_name_disapprover">
+                        <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
+                        <p>{{employee_name_disapprover}}</p>
+                        <p>Date and Time: {{disapproval_date}}</p>
+                        <p ng-show="disapproval_comment">Comment: {{disapproval_comment}}</p>
+                    </div>
+                    <div class="col-lg-12" ng-show="employee_name_cancel_pending">
+                        <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
+                        <p>{{employee_name_cancel_pending}}</p>
+                        <p>Date and Time: {{cancel_pending_date}}</p>
+                        <p ng-show="cancel_pending_comment">Comment: {{cancel_pending_comment}}</p>
+                    </div>
+                </div>
+                <div class="row" ng-show="employee_name_creator_posting">
+                    <div class="col-lg-12 ">
+                        <hr />
+                        <h5> <span class="fa fa-history"></span> POSTING HISTORY</h5>
+                        <h4 class="text-danger"> <i class="fa fa-user"></i> Carded By</h4>
+                        <p>{{employee_name_creator_posting}}</p>
+                        <p ng-show="created_dttm_posting">Created Date and Time: {{created_dttm_posting}}</p>
+                    </div>
+                    <div class="col-lg-12" ng-show="employee_name_disapprover_posting">
+                        <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
+                        <p>{{employee_name_disapprover_posting}}</p>
+                        <p>Date and Time: {{disapproval_date_posting}}</p>
+                        <p ng-show="disapproval_comment_posting">Comment: {{disapproval_comment_posting}}</p>
+                    </div>
+                    <div class="col-lg-12" ng-show="employee_name_cancel_pending_posting">
+                        <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
+                        <p>{{employee_name_cancel_pending_posting}}</p>
+                        <p>Date and Time: {{cancel_pending_date_posting}}</p>
+                        <p ng-show="cancel_pending_comment_posting">Comment: {{cancel_pending_comment_posting}}</p>
+                    </div>
+                    <div class="col-lg-12" ng-show="employee_name_final_approver_posting">
+                        <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
+                        <p>{{employee_name_final_approver_posting}}</p>
+                        <p>Date and Time: {{final_approval_date_posting}}</p>
+                        <p ng-show="final_approval_comment_posting">Comment: {{final_approval_comment_posting}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
                                     </div>
                                 </div>
 
@@ -624,7 +653,7 @@
                         </div>
                         <div class="col-lg-4 m-t-md">
                             @*<button type="button" ng-show="!show_save_edit_btn" class="btn btn-danger" data-dismiss="modal" ng-click="btn_reset_redirect()"><i class="fa fa-close"></i> Close</button>*@
-                            <button id="post" ng-show="!show_save_edit_btn" ng-click="btn_save_click('POST')" type="button" class="btn btn-warning"><i class="fa fa-paper-plane" id="icn_post"></i> Post Application</button>
+                            <button id="post" ng-show="!show_save_edit_btn" ng-click="btn_save_click('POST')" type="button" class="btn btn-warning"><i class="fa fa-paper-plane" id="icn_post"></i> Review & Post to Ledger</button>
                         </div>
                     </div>
                     <div ng-show="show_save_edit_btn">
@@ -632,7 +661,7 @@
                         <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="btn_reset_redirect()"><i class="fa fa-close"></i> Close</button>
                         <button id="addFinal" ng-disabled="dis_when_s" ng-show="!isEdit" ng-click="btn_save_click('SAVE')" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
                         <button id="edit" ng-disabled="dis_when_s" ng-show="isEdit" ng-click="btn_save_click('EDIT')" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save Edit</button>
-                        <button id="repost" ng-show="isrepost" ng-click="btn_save_click('REPOST')" type="button" class="btn btn-warning"><i class="fa fa-send"></i> Re-Post</button>
+                        <button id="repost" ng-show="isrepost" ng-click="btn_save_click('REPOST')" type="button" class="btn btn-warning"><i class="fa fa-send"></i> Review & Re-Post to Ledger</button>
                     </div>
 
                 </div>
@@ -764,48 +793,45 @@
 
     <!-- Print Leave Application Modal -->
     <div class="modal fade" id="leave_app_print_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content animated bounceInDown modal-content-add-edit">
-                <div class="modal-header ">
-                    <div class="form-group row">
-                        <div class="col-lg-4">
-                            <h4 class="modal-title" id="modalLabelSmall">Print Application for Leave/CTO Form</h4>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content ">
+                <div class="modal-header blue-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">Print Application for Leave/CTO Form</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-top:10px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-6" ng-show="show_appl_rep">
+                                    <div class="form-group row">
+                                        <div class="col-lg-2">
+                                            <label class="font-bold"><b>Report Option:</b></label>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <select class="form-control field-select-sm" id="ddl_report_appl" ng-model="ddl_report_appl" ng-change="SelectReport_Appl()">
+                                                <option value="01" selected>Application for Leave Form - Old</option>
+                                                <option value="02" selected>Application for Leave Form - New</option>
+                                                <option value="03" selected>Notice of Leave Without Pay </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 b-r" >
+                            <div class="print_preview_iframe_css">
+                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview3" scrolling="no" src=""></iframe>
+                            </div>
                         </div>
                         <div class="col-lg-6">
-                            <div class="form-group row">
-                                <div class="col-lg-4" style="padding-top:6px;" ng-show="show_appl_rep">
-                                    <label class="font-bold"><b>Report Option:</b></label>
-                                </div>
-                                <div class="col-lg-8" ng-show="show_appl_rep">
-                                    <select class="form-control field-select-sm" id="ddl_report_appl" ng-model="ddl_report_appl" ng-change="SelectReport_Appl()">
-                                        <option value="01" selected>Application for Leave Form - Old</option>
-                                        <option value="02" selected>Application for Leave Form - New</option>
-                                        <option value="03" selected>Notice of Leave Without Pay </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1"></div>
-                        <div class="col-lg-1">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px !important">
-                    <div class="panel-body" style="min-height:100% !important;">
-                        <div class="row">
-                           
-                            <div class="col-lg-12" style="padding-top:10px;">
-                                <div class="print_preview_iframe_css">
-                                    <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview3" scrolling="no" src=""></iframe>
-                                </div>
+                            <div class="print_preview_iframe_css">
+                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview_carding" scrolling="no" src=""></iframe>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
                 </div>
             </div>
         </div>
@@ -955,14 +981,14 @@
                     <div class="col-lg-12 m-b-md" style="padding-bottom:0px;margin-bottom:0px;">
                         <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
                             <ul class="nav nav-tabs" id="tab_dtr_up">
-                                <li id="tab11" class="active ">   <a data-toggle="tab" href="#tab-11" id="click_tab11"><div class="font_tab_ovrd"><b> <i class="fa fa-book"></i>Leave Balance      </b></div></a></li>
-                                <li id="tab12" class="">         <a data-toggle="tab" href="#tab-12" id="click_tab12"><div class="font_tab_ovrd"><b> <i class="fa fa-user"></i>Leave Applications </b></div></a></li>
+                                <li id="tab11" class=" ">   <a data-toggle="tab" href="#tab-11" id="click_tab11"><div class="font_tab_ovrd"><b> <i class="fa fa-book"></i>Leave Balance      </b></div></a></li>
+                                <li id="tab12" class="active">         <a data-toggle="tab" href="#tab-12" id="click_tab12"><div class="font_tab_ovrd"><b> <i class="fa fa-user"></i>Leave Applications </b></div></a></li>
                                 <li id="tab13" class="">         <a data-toggle="tab" href="#tab-13" id="click_tab13"><div class="font_tab_ovrd"><b> <i class="fa fa-database"></i>Leave Ledger       </b></div></a></li>
                                 <li id="tab14" class="">         <a data-toggle="tab" href="#tab-14" id="click_tab14"><div class="font_tab_ovrd"><b> <i class="fa fa-file-text"></i>Employee DTR       </b></div></a></li>
                                 <li id="tab15" class="">         <a data-toggle="tab" href="#tab-15" id="click_tab15"><div class="font_tab_ovrd"><b> <i class="fa fa-history"></i>Time Schedule        </b> <span class="badge badge-primary"> New </span></div></a></li>
                             </ul>
                             <div class="tab-content">
-                                <div id="tab-11" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
+                                <div id="tab-11" class="tab-pane " style="padding-bottom:0px;margin-bottom:0px;">
                                     <div class="panel-body" >
                                         <div class="row">
                                             <div class="col-lg-7">
@@ -1121,7 +1147,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="tab-12" class="tab-pane">
+                                <div id="tab-12" class="tab-pane active">
                                     <div class="panel-body" >
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -1237,8 +1263,8 @@
                                         <div class="row" style="padding-top:5px;">
                                             <div class="col-lg-12">
                                                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                                    <table id="datalist_grid" ng-model="datalist_grid" class="table table-hover table-responsive" style="width:100% !important;">
-                                                        <thead>
+                                                    <table id="datalist_grid" ng-model="datalist_grid" class="table table-hover table-responsive" style="width:100% !important;" >
+                                                        <thead style="position:sticky !important; top: 0; z-index: 1;"> 
                                                             <tr>
                                                                 <th width="10%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
@@ -1289,6 +1315,11 @@
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
                                                                         ABS. UND. WOP
+                                                                    </h3>
+                                                                </th>
+                                                                <th width="8%" style="vertical-align: middle;">
+                                                                    <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
+                                                                        STATUS
                                                                     </h3>
                                                                 </th>
                                                                 <th width="16%" style="vertical-align: middle;">

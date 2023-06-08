@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=4"></script>
+<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=6"></script>
 <style type="text/css">
     .field {
         border-radius: 3px;
@@ -107,64 +107,25 @@
     {
         display:none!important;
     }
+
+    .modal-xl {
+        width: 90% !important;
+    }
 </style>
 <section ng-app="ng_selfService_App" ng-controller="cLeaveLedgerAppr_ctrlr">
 
 
     <!-- Add Modal -->
     <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content animated flipInY modal-content-add-edit">
-                <div class="modal-header modal-header-add-edit text-white">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header blue-bg text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
                 </div>
                 <div class="modal-body with-background" style="padding-bottom:5px;">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-7">
-                                <div class="row">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Ledger Ctrl. Nbr.:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control text-left" id="txtb_ledger_ctrl_no" ng-model="txtb_ledger_ctrl_no" disabled style="font-weight:bolder" />
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-top:6px;">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Employee Name:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled style="font-weight:bolder" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <div class="row">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Date Applied:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <div class="input-group date" data-provide="datepicker">
-                                            <input type="text" id="txtb_date_applied" ng-model="txtb_date_applied" class="form-control form-control-sm text-center font-bold" maxlength="10" ng-disabled="true" style="font-weight:bolder" />
-                                            @*<span class="input-group-addon">
-                                                    <span class="fa fa-calendar"></span>
-                                                </span>*@
-                                        </div>
-                                        <label id="lbl_txtb_date_applied_req" class="lbl_required"></label>
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-top:6px;">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Employee ID:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled style="font-weight:bolder;width:50%" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         <div class="col-lg-12 m-b-md" style="padding-bottom:0px;margin-bottom:0px;margin-top:10px ">
                             <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
@@ -175,14 +136,62 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
-                                        <div class="panel-body" style="min-height:50% !important;">
-                                            <div class="print_preview_iframe_css">
-                                                <iframe class="print_preview_iframe_css2" id="iframe_print_preview" scrolling="no" src=""></iframe>
+                                        <div class="panel-body" style="min-height:30% !important;">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="print_preview_iframe_css">
+                                                        <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview" scrolling="no" src=""></iframe>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="print_preview_iframe_css">
+                                                        <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview_carding" scrolling="no" src=""></iframe>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div id="tab-5" class="tab-pane" style="padding-bottom:0px;margin-bottom:0px;">
                                         <div class="panel-body">
+                                            <div class="col-lg-7">
+                                                <div class="row">
+                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                        <label class="font-bold"><b> Ledger Ctrl. Nbr.:</b></label>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <input class="form-control text-left" id="txtb_ledger_ctrl_no" ng-model="txtb_ledger_ctrl_no" disabled style="font-weight:bolder" />
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="padding-top:6px;">
+                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                        <label class="font-bold"><b> Employee Name:</b></label>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled style="font-weight:bolder" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <div class="row">
+                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                        <label class="font-bold"><b> Date Applied:</b></label>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <div class="input-group date" data-provide="datepicker">
+                                                            <input type="text" id="txtb_date_applied" ng-model="txtb_date_applied" class="form-control form-control-sm text-center font-bold" maxlength="10" ng-disabled="true" style="font-weight:bolder" />
+                                                        </div>
+                                                        <label id="lbl_txtb_date_applied_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="padding-top:6px;">
+                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                        <label class="font-bold"><b> Employee ID:</b></label>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <input class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled style="font-weight:bolder;width:50%" />
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-7 b-r">
                                                 <div class="row" style="padding-top:6px;">
                                                     <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
@@ -267,25 +276,22 @@
                                             </div>
                                             <div class="col-lg-5">
                                                 <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-5" style="padding-right:0px;padding-top:9px;">
+                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
                                                         <label class="font-bold"><b> Ledger Date:</b></label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-8">
                                                         <div class="input-group date" data-provide="datepicker">
                                                             <input type="text" id="txtb_ledger_date" ng-model="txtb_ledger_date" class="form-control form-control-sm text-center font-bold" maxlength="10" ng-disabled="true" />
-                                                            @*<span class="input-group-addon">
-                                                                    <span class="fa fa-calendar"></span>
-                                                                </span>*@
                                                         </div>
                                                         <label id="lbl_txtb_ledger_date_req" class="lbl_required"></label>
                                                     </div>
                                                 </div>
 
                                                 <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_no_of_days">
-                                                    <div class="col-lg-5" style="padding-right:0px;padding-top:9px;">
+                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
                                                         <label class="font-bold"><b>{{lbl_nbr_days_hrs}}</b></label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-8">
                                                         <input class="form-control text-right" id="txtb_no_of_days" ng-model="txtb_no_of_days" ng-disabled="true" />
                                                         <label id="lbl_txtb_no_of_days_req" class="lbl_required"></label>
                                                     </div>
@@ -294,10 +300,10 @@
 
 
                                                 <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_balance_as_of_hdr">
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-4">
                                                         <label class="font-bold" style="padding-top:9px;"><b>Bal. as of:</b></label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-8">
                                                         <input class="form-control text-right" id="txtb_balance_as_of_hdr" ng-model="txtb_balance_as_of_hdr" ng-disabled="true" />
                                                         <label id="lbl_txtb_balance_as_of_hdr_req" class="lbl_required"></label>
                                                     </div>
@@ -305,30 +311,30 @@
 
                                                 <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_restore_deduct_hdr">
 
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-4">
                                                         <label class="font-bold" style="padding-top:9px;"><b>Lv. Earned:</b></label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-8">
                                                         <input class="form-control text-right" id="txtb_restore_deduct_hdr" ng-model="txtb_restore_deduct_hdr" ng-disabled="true" />
                                                         <label id="lbl_txtb_restore_deduct_hdr_req" class="lbl_required"></label>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_abs_und_wp_hdr">
 
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-4">
                                                         <label class="font-bold" style="padding-top:9px;"><b>Abs/Und.WP:</b></label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-8">
                                                         <input class="form-control text-right" id="txtb_abs_und_wp_hdr" ng-model="txtb_abs_und_wp_hdr" ng-disabled="true" />
                                                         <label id="lbl_txtb_abs_und_wp_hdr_req" class="lbl_required"></label>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_abs_und_wop_hdr">
 
-                                                    <div class="col-lg-5">
+                                                    <div class="col-lg-4">
                                                         <label class="font-bold" style="padding-top:9px;"><b>Abs/Und.WOP:</b></label>
                                                     </div>
-                                                    <div class="col-lg-7">
+                                                    <div class="col-lg-8">
                                                         <input class="form-control text-right" id="txtb_abs_und_wop_hdr" ng-model="txtb_abs_und_wop_hdr" ng-disabled="true" />
                                                         <label id="lbl_txtb_abs_und_wop_hdr_req" class="lbl_required"></label>
                                                     </div>
@@ -462,25 +468,30 @@
                 </div>
 
                 <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
-                    <div class="row" style="margin-bottom:5px">
-                        <div class="col-lg-1">
-                            <label class="font-bold" style="padding-top:9px;"><b>Remarks:</b></label>
+                    <div class="row" >
+                        <div class="col-lg-2">
+                            <button id="cancel_pending" ng-show="show_cancel"  ng-click="btn_cancel_pending()" type="button" class="btn btn-warning dim btn-block"><i class="fa fa-ban"></i> Cancel Pending</button>
                         </div>
-                        <div class="col-lg-11">
-                            <textarea class="form-control" id="txtb_remarks" ng-model="txtb_remarks"></textarea>
-                            <label id="lbl_txtb_remarks_req" class="lbl_required"></label>
+                        <div class="col-lg-8 text-left">
+                            <div class="form-group row">
+                                <div class="col-lg-2">
+                                    <label class="font-bold" style="padding-top:9px;"><b>Cancel Pending Remarks:</b></label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <textarea class="form-control" id="txtb_remarks" ng-model="txtb_remarks"></textarea>
+                                    <label id="lbl_txtb_remarks_req" class="lbl_required"></label>
+                                </div>
+                            </div>
                         </div>
+                        <div class="col-lg-2">
+                            <button id="approve"        ng-show="show_actions" ng-click="btn_approve()"  type="button" class="btn btn-success dim btn-block"><i class="fa fa-thumbs-up"></i> Evaluate </button>
+                        </div>
+                        @*<button id="disapprove" ng-click="btn_disapprove()" ng-disabled="dis_action" type="button" class="btn btn-danger"><i class="fa fa-thumbs-down"></i> Disapprove</button>*@
+                        @*<div ng-show="show_cancel">
+                                <button id="btn_cancel" ng-click="btn_cancel_click()" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Cancel Application"><i class="fa fa-ban"></i> Cancel Leave</button>
+                        </div>*@
                     </div>
 
-                    @*<button id="disapprove" ng-click="btn_disapprove()" ng-disabled="dis_action" type="button" class="btn btn-danger"><i class="fa fa-thumbs-down"></i> Disapprove</button>*@
-                        
-                    <button id="cancel_pending" ng-show="show_cancel"  ng-click="btn_cancel_pending()" type="button" class="btn btn-warning"><i class="fa fa-ban"></i> Cancel Pending</button>
-                    <button id="approve"        ng-show="show_actions" ng-click="btn_approve()"  type="button" class="btn btn-success"><i class="fa fa-thumbs-up"></i> Approve</button>
-                        
-                        
-                    @*<div ng-show="show_cancel">
-                            <button id="btn_cancel" ng-click="btn_cancel_click()" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Cancel Application"><i class="fa fa-ban"></i> Cancel Leave</button>
-                        </div>*@
                 </div>
             </div>
         </div>
@@ -536,11 +547,12 @@
                             <div class="col-lg-4" style="margin-top:5px">
                                 <div class="form-group row">
                                     <div class="col-lg-4"></div>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-8" style="display:none">
                                         <div class="btn-group  btn-block">
                                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-block"><i class="fa fa-qrcode"></i> View/Create Transmittal </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" ng-click="RetrieveTransmittal_HDR()">Create/View Transmittal</a></li>
+                                                <li><a class="dropdown-item" ng-click="RetrieveTransmittal_HDR('daily')">Create/View Transmittal (Daily)</a></li>
+                                                <li><a class="dropdown-item" ng-click="RetrieveTransmittal_HDR('monthly')">Create/View Transmittal (Monthly)</a></li>
                                                @* <li><a class="dropdown-item" ng-click="openTrackTransmital()">Track Transmittal</a></li>*@
                                             </ul>
                                         </div>
@@ -611,7 +623,7 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <strong><span>Show</span></strong>
-                            <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid_transmit')">
+                            <select class="form-control field-select-sm" ng-model="rowLen_trans" ng-change="setNumOfRow(rowLen_trans,'datalist_grid_transmit')">
                                 <option value="5">5</option>
                                 <option value="10" selected>10</option>
                                 <option value="15">15</option>
@@ -634,13 +646,13 @@
                         </div>
                         <div class="col-lg-2">
                             <strong><span >Year</span></strong>
-                            <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="RetrieveTransmittal_HDR()">
+                            <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="RetrieveTransmittal_HDR('{{var_daily_monthly}}')">
                                 <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
                             </select>
                         </div>
                         <div class="col-lg-2">
                             <strong><span>Month</span></strong>
-                            <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="RetrieveTransmittal_HDR()">
+                            <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="RetrieveTransmittal_HDR('{{var_daily_monthly}}')">
                                 <option value="01">January</option>
                                 <option value="02">February</option>
                                 <option value="03">March</option>
@@ -704,13 +716,13 @@
                             
                             <div id="collapseOne" class="panel-collapse collapse in">
                                 <div class="col-sm-12">
-                                    <label>Transmittal Description</label>
+                                    <label>Transmittal Description <span class="text-danger"><small>*required</small></span></label>
                                     <textarea class="form-control" placeholder="Type Transmittal Description here..." id="txtb_transmittal_descr" ng-model="txtb_transmittal_descr" ng-disabled="dis_title"></textarea>
                                     <hr />
                                 </div>
                                 
                                 <div class="col-sm-6">
-                                    <label>Approved Period From</label>
+                                    <label>Approved Period From<span class="text-danger"><small>*required</small></span></label>
                                     <div class="input-group date" data-provide="datepicker">
                                         <input type="text"  class="form-control"  id="txtb_approved_period_from" ng-model="txtb_approved_period_from" ng-disabled="dis_title" />
                                         <span class="input-group-addon">
@@ -720,7 +732,7 @@
 
                                 </div>
                                 <div class="col-sm-6">
-                                    <label>Approved Period To</label>
+                                    <label>Approved Period To<span class="text-danger"><small>*required</small></span></label>
                                     <div class="input-group date" data-provide="datepicker">
                                         <input type="text" class="form-control" id="txtb_approved_period_to" ng-model="txtb_approved_period_to" ng-disabled="dis_title" />
                                         <span class="input-group-addon">
@@ -730,14 +742,14 @@
                                 </div>
 
                                 <div class="col-sm-12">
-                                    <label>Document Route</label>
+                                    <label>Document Route<span class="text-danger"><small>*required</small></span></label>
                                     <select class="form-control" id="ddl_route_nbr" ng-model="ddl_route_nbr" ng-disabled="dis_title">
-                                        <option value="01" selected> 1-10  days</option>
+                                        @*<option value="01" selected> 1-10  days</option>
                                         <option value="02"> 11-30 days</option>
                                         <option value="03"> 31-60 days</option>
                                         <option value="04"> 61 up and Other Types of Leave</option>
                                         <option value="05"> All VGO and SPO Employees</option>
-                                        <option value="06"> Release to Payroll</option>
+                                        <option value="06"> Release to Payroll</option>*@
                                     </select>
 
                                 </div>
@@ -763,7 +775,7 @@
                     <div class="row">
 
                         <div class="col-lg-12">
-                            <b><label class="pull-left" style="margin-top:9px;">Department :</label></b>
+                            <b><label class="pull-left" style="margin-top:9px;">Department :<span class="text-danger"><small>*required</small></span></label></b>
                         </div>
                         <div class="col-lg-12">
                             <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
@@ -795,7 +807,7 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <select class="form-control" id="ddl_rep_mode_add_edit" ng-model="ddl_rep_mode_add_edit" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
-                                        <option value="1">Both Leave and CTO</option>
+                                        @*<option value="1">Both Leave and CTO</option>*@
                                         <option value="2">Leave Card</option>
                                         <option value="3">CTO Card</option>
                                     </select>
@@ -824,7 +836,7 @@
                 </div>
                 <div class="modal-footer" ng-show="show_footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-                    <button type="button" ng-show="show_save" class="btn btn-success" ng-click="btn_save()"><i class="fa fa-save"></i> Save</button>
+                    <button type="button" ng-show="show_save" class="btn btn-success" ng-click="btn_save()" ng-disabled="dis_btn_save"><i class="fa fa-save"></i> Save</button>
                     <button type="button" ng-show="!show_save" class="btn btn-info" ng-click="btn_save()"><i class="fa fa-save"></i> Update</button>
                 </div>
             </div>
@@ -848,7 +860,7 @@
                         </div>
                         <div class="col-lg-3">
                             <select class="form-control" id="ddl_rep_mode_printing" ng-model="ddl_rep_mode_printing" ng-change="btn_print_row(row_id_printing,ddl_rep_mode_printing)">
-                                <option selected value="1">Both Leave and CTO</option>
+                                @*<option selected value="1">Both Leave and CTO</option>*@
                                 <option value="2">Leave Card</option>
                                 <option value="3">CTO Card</option>
                             </select>

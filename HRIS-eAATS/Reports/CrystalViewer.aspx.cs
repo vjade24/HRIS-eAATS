@@ -74,13 +74,17 @@ namespace HRIS_eAATS.Reports
         }
         private void loadreport(string[] ls_splitvalue, string printfile)
         {
-
+            lbl_cannot_print.Visible = false;
             DataTable dt = null;
             DataTable dtSub = null;
             //DataTable dtTemp = null;
             string locationpath = printfile;
             cryRpt.Load(Server.MapPath(locationpath));
-            
+
+            crvPrint.HasExportButton = true;
+            crvPrint.HasPrintButton = true;
+            lnkbtn_export.Visible = false;
+
             if (ls_splitvalue.Length == 3)
             {
 
@@ -92,10 +96,13 @@ namespace HRIS_eAATS.Reports
                 {
                     dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2]);
                 }
+                crvPrint.HasExportButton = false;
+                crvPrint.HasPrintButton = false;
+                lnkbtn_export.Visible = true;
             }
             else if (ls_splitvalue.Length == 5 && ls_splitvalue[0] == "sp_leave_application_cancel_tbl_rep")
             {
-                dt = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);
+                dt = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);               
             }
             else if (ls_splitvalue.Length == 5)
             {
@@ -271,7 +278,7 @@ namespace HRIS_eAATS.Reports
                 //END
                 crvPrint.ReportSource = cryRpt;
                 crvPrint.DataBind();
-                PrinterSettings settings = new PrinterSettings();
+                PrinterSettings settings = new PrinterSettings();               
             }
             catch (Exception)
             {
@@ -414,5 +421,65 @@ namespace HRIS_eAATS.Reports
             //     }
         }
 
+        protected void lnkbtn_export_Click(object sender, EventArgs e)
+        {
+            string ls_val;
+            string[] ls_splitvalue;
+            ls_val = Request.QueryString["id"];
+            ls_splitvalue = ls_val.Split(',');
+            loadreport(ls_splitvalue, reportPath);
+
+            lbl_cannot_print.Visible = false;
+            if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report")
+            {
+                DataTable dt = null;
+                dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2]);
+                    
+                DataTable chk = new DataTable();
+                //string query = "SELECT * FROM lv_ledger_history_tbl WHERE appl_status = 'Evaluated' AND ledger_ctrl_no = '" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "' AND leave_ctrlno = '"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim()+ "' ";
+                string query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
+                chk = MyCmn.GetDatatable_ATS(query);
+
+                if (chk.Rows.Count > 0)
+                {
+                    DataTable chk_if_Uploaded = new DataTable();
+                    string query_if_Uploaded = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "') WHERE appl_status = 'Uploaded' ORDER BY created_dttm DESC";
+                    chk_if_Uploaded = MyCmn.GetDatatable_ATS(query_if_Uploaded);
+
+                    if (chk_if_Uploaded.Rows.Count > 0)
+                    {
+                        lbl_cannot_print.Visible = true;
+                        lbl_cannot_print.Text = "You cannot Print this Report, This Leave Application is already Uploaded";
+                    }
+                    else
+                    {
+                        DataTable dt2 = new DataTable();
+                        dt2 = MyCmn.RetrieveDataATS("sp_lv_ledger_history_insert", "p_ledger_ctrl_no", dt.Rows[0]["ledger_ctrl_no"].ToString(), "p_leave_ctrlno", dt.Rows[0]["leave_ctrlno"].ToString(), "p_appl_status", "Leave Application Printed", "p_appl_remarks", "", "p_created_by", Session["user_id"].ToString());
+
+                        var filename = "";
+                        filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");
+                        filename = filename + "_" + Session["user_id"].ToString() + "_" + DateTime.Now.ToString("yyyy_MM_dd_hhmmsstt");
+                        cryRpt.ExportToHttpResponse
+                        (CrystalDecisions.Shared.ExportFormatType.WordForWindows, Response, true, filename);
+                    }
+
+                }
+                else
+                {
+                    lbl_cannot_print.Visible = true;
+                    lbl_cannot_print.Text = "You cannot Print this Report, Evaluate first before you proceed.";
+                }
+            }
+            else
+            {
+                var filename = "";
+                filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");
+                filename = filename + "_" + Session["user_id"].ToString() + "_" + DateTime.Now.ToString("yyyy_MM_dd_hhmmsstt");
+                cryRpt.ExportToHttpResponse
+                (CrystalDecisions.Shared.ExportFormatType.WordForWindows, Response, true, filename);
+            }
+
+            
+        }
     }
 }

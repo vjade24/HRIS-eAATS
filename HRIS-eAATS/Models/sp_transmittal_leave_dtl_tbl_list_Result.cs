@@ -27,5 +27,6 @@ namespace HRIS_eAATS.Models
         public string transmitted_flag { get; set; }
         public Nullable<System.DateTime> final_approval_date { get; set; }
         public string employment_type { get; set; }
+        public string doc_remarks { get; set; }
     }
 }

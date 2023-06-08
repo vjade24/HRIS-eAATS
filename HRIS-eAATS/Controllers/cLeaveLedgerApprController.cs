@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -131,12 +132,31 @@ namespace HRIS_eAATS.Controllers
                 {
                     var od3 = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == query.leave_ctrlno).FirstOrDefault();
                     od3.posting_status = true;
+
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
+                    var appl_status = "Evaluated";
+                    db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
+
                 }
                 //Update leave_application_hdr_tbl change posting status to 0 (false) and details will be Cancelled or Disapporved
                 if (data.approval_status == "C" || data.approval_status == "D")
                 {
                     var od3 = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == query.leave_ctrlno).FirstOrDefault();
                     od3.posting_status = false;
+
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
+                    var appl_status = (data.approval_status == "C" ? "(Cancel Pending)" : "(Disapproved)") + " from Evaluation";
+                    db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
                 }
                 
                 db.SaveChanges();
@@ -205,11 +225,21 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2022-05-24
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult RetrieveTransmittal_HDR(int created_year, int created_month)
+        public ActionResult RetrieveTransmittal_HDR(int created_year, int created_month, string daily_monthly)
         {
             try
             {
                 var data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a=> DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month).ToList();
+
+                if (daily_monthly == "daily")
+                {
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a=> DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month && a.route_nbr != "06").ToList();
+                }
+                else if (daily_monthly == "monthly")
+                {
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a=> DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month && a.route_nbr == "06").ToList();
+                }
+
                 return JSON(new{message = "success",data}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -278,10 +308,12 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 01/13/2020
         // Description  : Add new record to leave sub-type table
         //*********************************************************************//
-        public ActionResult Save(transmittal_leave_hdr_tbl data)
+        public  ActionResult Save(transmittal_leave_hdr_tbl data)
         {
             try
             {
+                List<transmittal_leave_dtl_tbl> data_dtl = new List<transmittal_leave_dtl_tbl>();
+
                 var nxt_ctrl_nbr = db_ats.sp_generate_key("transmittal_leave_hdr_tbl", "doc_ctrl_nbr", 12).ToList().FirstOrDefault();
                 data.doc_ctrl_nbr               = "LV-" + nxt_ctrl_nbr.key_value.ToString();
                 data.approved_period_from       = data.approved_period_from ;
@@ -292,7 +324,27 @@ namespace HRIS_eAATS.Controllers
                 data.employment_tyep            = data.employment_tyep;
                 data.view_mode                  = data.view_mode;
                 db_ats.transmittal_leave_hdr_tbl.Add(data);
+                
+                var data_dtl_insert = db_ats.sp_transmittal_leave_dtl_tbl_list("", data.approved_period_from, data.approved_period_to, data.department_code, data.employment_tyep, data.view_mode).ToList();
+                if (data_dtl_insert.Count > 0)
+                {
+                    for (int i = 0; i < data_dtl_insert.Count; i++)
+                    {
+                        transmittal_leave_dtl_tbl dta1 = new transmittal_leave_dtl_tbl();
+
+                        dta1.doc_ctrl_nbr           = "LV-" + nxt_ctrl_nbr.key_value.ToString();
+                        dta1.ledger_ctrl_no         = data_dtl_insert[i].ledger_ctrl_no.ToString().Trim();
+                        dta1.created_by             = Session["user_id"].ToString();
+                        dta1.created_dttm           = DateTime.Now;
+                        dta1.route_nbr              = data.route_nbr;
+                        dta1.leave_ctrlno           = data_dtl_insert[i].leave_ctrlno.ToString().Trim();
+                        data_dtl.Add(dta1);
+                    }
+                }
+                db_ats.transmittal_leave_dtl_tbl.AddRange(data_dtl);
                 db_ats.SaveChangesAsync();
+
+
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -322,6 +374,9 @@ namespace HRIS_eAATS.Controllers
                 od.department_code       = data.department_code      ;
                 od.employment_tyep       = data.employment_tyep      ;
                 od.view_mode             = data.view_mode      ;
+
+                var od_dtl = db_ats.transmittal_leave_dtl_tbl.Where(a => a.doc_ctrl_nbr == data.doc_ctrl_nbr).ToList();
+                od_dtl.ForEach(a => a.route_nbr = data.route_nbr);
 
                 db_ats.SaveChanges();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
@@ -384,6 +439,7 @@ namespace HRIS_eAATS.Controllers
                     data.created_by     = Session["user_id"].ToString();
                     data.created_dttm   = DateTime.Now;
                     data.route_nbr   = data.route_nbr;
+                    data.leave_ctrlno   = data.leave_ctrlno;
                     db_ats.SaveChangesAsync();
                 }
                 else if(par_transmitted_flag == "Y")
@@ -466,26 +522,30 @@ namespace HRIS_eAATS.Controllers
                 var upd = db_ats.transmittal_leave_hdr_tbl.Where(a => a.doc_ctrl_nbr == data.doc_ctrl_nbr).FirstOrDefault();
                 upd.doc_status  = data_hdr.doc_status;
                 upd.route_nbr   = data_hdr.route_nbr;
-                db_ats.SaveChangesAsync();
                 // **** UPDATE TRANSMITTAL HEADER
 
-                message         = "success";
+                var upd_dtl = db_ats.transmittal_leave_dtl_tbl.Where(a => a.doc_ctrl_nbr == data.doc_ctrl_nbr).ToList();
 
                 if (data.document_status == "V")
                 {
-                    message_descr = "Successfully Received!";
-                    message_descr1 = "This Record is Successfully Received!";
+                    upd_dtl.ForEach(a => a.received_by = Session["user_id"].ToString());
+                    upd_dtl.ForEach(a => a.received_dttm = DateTime.Now);
+
+                    message_descr   = "Successfully Received!";
+                    message_descr1  = "This Record is Successfully Received!";
                 }
                 else if (data.document_status == "L")
                 {
-                    message_descr = "Successfully Released!";
-                    message_descr1 = "This Record is Successfully Released!";
+                    message_descr   = "Successfully Released!";
+                    message_descr1  = "This Record is Successfully Released!";
                 }
                 else if (data.document_status == "T")
                 {
-                    message_descr = "Successfully Receive Return!";
-                    message_descr1 = "This Record is Successfully Return!";
+                    message_descr   = "Successfully Receive Return!";
+                    message_descr1  = "This Record is Successfully Return!";
                 }
+                db_ats.SaveChangesAsync();
+                message         = "success";
                 
                 return Json(new { message, message_descr, message_descr1 , data_hdr }, JsonRequestBehavior.AllowGet);
             }
@@ -509,6 +569,7 @@ namespace HRIS_eAATS.Controllers
                 data.created_by     = Session["user_id"].ToString();
                 data.created_dttm   = DateTime.Now;
                 data.route_nbr   = data.route_nbr;
+                data.leave_ctrlno   = data.leave_ctrlno;
                 db_ats.SaveChangesAsync();
                 
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);

@@ -78,20 +78,20 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                         {
                             if (full["url_name"] == "")
                             {
-                                return '<div style="visibility:hidden;">' + full["url_name"] +'</div>' + '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-danger btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Re-Post Leave Application"><i class="fa fa-send"></i> Re-Post Application</button >' +
+                                return '<div style="display:none;">' + full["url_name"] +'</div>' + '<center><div class="btn-group">' +
+                                    '<button type="button" class="btn btn-danger btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Re-Post to Ledger"><i class="fa fa-send"></i> Review & Re-Post to Ledger</button >' +
                                     '</div></center>';
                             }
                             else if (full["url_name"] == "../cCancellation")
                             {
-                                return '<div style="visibility:hidden;">' + full["url_name"] + '</div>' + '<center><div class="btn-group">' +
+                                return '<div style="display:none;">' + full["url_name"] + '</div>' + '<center><div class="btn-group">' +
                                         '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_preview_cancellation(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Approve Cancellation"><i class="fa fa-thumbs-up"></i> Approve Cancellation</button >' +
                                         '</div></center>';
                             }
                             else
                             {
-                                return '<div style="visibility:hidden;">' + full["url_name"] + '</div>' + '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Post Leave Application"><i class="fa fa-send"></i> Post Application</button >' +
+                                return '<div style="display:none;">' + full["url_name"] + '</div>' + '<center><div class="btn-group">' +
+                                    '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger"><i class="fa fa-send"></i> Review & Post to Ledger</button >' +
                                     '</div></center>';
                             }
                             
@@ -281,70 +281,94 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
 
     s.btn_preview_cancellation = function (row_id)
     {
-        
-        s.row_id_pass = "";
-        s.row_id_pass = row_id;
-        s.returned_remarks = "";
-        
-        var application_nbr = s.datalistgrid[row_id].leave_ctrlno
-        var empl_id = s.datalistgrid[row_id].empl_id
-        var ReportName = "CrystalReport"
-        var SaveName = "Crystal_Report"
-        var ReportType = "inline"
-        var ReportPath = ""
-        var sp = ""
 
-        ReportPath = "~/Reports/cryLeavePermission/cryLeaveCancellation.rpt";
-        sp = "sp_leave_application_cancel_tbl_rep,par_empl_id," + empl_id + ",par_leave_ctrlno," + application_nbr;
-
-        // *******************************************************
-        // *** VJA : 2021-07-14 - Validation and Loading hide ****
-        // *******************************************************
-        s.employee_name_print = "LEAVE CANCELLATION";
-        $("#loading_data").modal({ keyboard: false, backdrop: "static" })
-        var iframe = document.getElementById('iframe_print_preview');
-        var iframe_page = $("#iframe_print_preview")[0];
-        iframe.style.visibility = "hidden";
-
-        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
-            + "&ReportName=" + ReportName
-            + "&SaveName=" + SaveName
-            + "&ReportType=" + ReportType
-            + "&ReportPath=" + ReportPath
-            + "&id=" + sp //+ parameters
-
-        console.log(iframe)
-        if (!/*@cc_on!@*/0) { //if not IE
-            iframe.onload = function () {
-                iframe.style.visibility = "visible";
-                $("#loading_data").modal("hide")
-            };
-        }
-        else if (iframe_page.innerHTML()) {
-            // get and check the Title (and H tags if you want)
-            var ifTitle = iframe_page.contentDocument.title;
-            if (ifTitle.indexOf("404") >= 0) {
-                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
-                iframe.src = "";
-            }
-            else if (ifTitle != "") {
-                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
-                iframe.src = "";
-            }
-        }
-        else {
-            iframe.onreadystatechange = function () {
-                if (iframe.readyState == "complete") {
-                    iframe.style.visibility = "visible";
-                    $("#loading_data").modal("hide")
+        h.post("../Menu/CheckIfRunningLeaveApplication",
+        {
+             p_leave_ctrlno : s.datalistgrid[row_id].leave_ctrlno
+            ,p_empl_id      : s.datalistgrid[row_id].empl_id
+        }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                if (d.data.data.length > 0)
+                {
+                    swal("This employee has already processed Leave Application", "You cannot Proceed!", { icon: "warning" });
                 }
-            };
-        }
+                else
+                {
+                    s.row_id_pass       = "";
+                    s.row_id_pass       = row_id;
+                    s.returned_remarks  = "";
+        
+                    var application_nbr = s.datalistgrid[row_id].leave_ctrlno
+                    var empl_id         = s.datalistgrid[row_id].empl_id
+                    var ReportName      = "CrystalReport"
+                    var SaveName        = "Crystal_Report"
+                    var ReportType      = "inline"
+                    var ReportPath      = ""
+                    var sp              = ""
 
-        iframe.src = s.embed_link;
-        $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
-        // *******************************************************
-        // *******************************************************
+                    ReportPath  = "~/Reports/cryLeavePermission/cryLeaveCancellation.rpt";
+                    sp          = "sp_leave_application_cancel_tbl_rep,par_empl_id," + empl_id + ",par_leave_ctrlno," + application_nbr;
+
+                    // *******************************************************
+                    // *** VJA : 2021-07-14 - Validation and Loading hide ****
+                    // *******************************************************
+                    s.employee_name_print = "LEAVE CANCELLATION";
+                    $("#loading_data").modal({ keyboard: false, backdrop: "static" })
+                    var iframe = document.getElementById('iframe_print_preview');
+                    var iframe_page = $("#iframe_print_preview")[0];
+                    iframe.style.visibility = "hidden";
+
+                    s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                        + "&ReportName=" + ReportName
+                        + "&SaveName=" + SaveName
+                        + "&ReportType=" + ReportType
+                        + "&ReportPath=" + ReportPath
+                        + "&id=" + sp //+ parameters
+
+                    console.log(iframe)
+                    if (!/*@cc_on!@*/0) { //if not IE
+                        iframe.onload = function () {
+                            iframe.style.visibility = "visible";
+                            $("#loading_data").modal("hide")
+                        };
+                    }
+                    else if (iframe_page.innerHTML()) {
+                        // get and check the Title (and H tags if you want)
+                        var ifTitle = iframe_page.contentDocument.title;
+                        if (ifTitle.indexOf("404") >= 0) {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                        else if (ifTitle != "") {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                    }
+                    else {
+                        iframe.onreadystatechange = function () {
+                            if (iframe.readyState == "complete") {
+                                iframe.style.visibility = "visible";
+                                $("#loading_data").modal("hide")
+                            }
+                        };
+                    }
+
+                    iframe.src = s.embed_link;
+                    $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+                    // *******************************************************
+                    // *******************************************************
+
+                }
+                
+            }
+            else
+            {
+                swal("There Something wrong", d.data.message, { icon: "warning" });
+            }
+
+        })
     }
 
 

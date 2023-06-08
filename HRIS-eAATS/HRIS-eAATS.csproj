@@ -154,6 +154,7 @@
     <Compile Include="Controllers\cLeaveLedgerApprController.cs" />
     <Compile Include="Controllers\cLeaveLedgerController.cs" />
     <Compile Include="Controllers\cLeaveSubTypeController.cs" />
+    <Compile Include="Controllers\cLeaveTransmittalController.cs" />
     <Compile Include="Controllers\cLeaveTypeController.cs" />
     <Compile Include="Controllers\cMainPageController.cs" />
     <Compile Include="Controllers\cMonthEarnsController.cs" />
@@ -265,6 +266,9 @@
     <Compile Include="Models\exc_inc_empl_attendance_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_lv_ledger_history_notif_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leaveadmin_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -296,6 +300,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lv_ledger_hdr_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_history_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Menu.cs" />
@@ -500,9 +507,6 @@
     <Compile Include="Models\sp_transmittal_leave_hdr_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_transmittal_leave_hdr_tbl_list_Result1.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_traveltype_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -621,6 +625,12 @@
       <DependentUpon>cryCOC.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryCOC_Earn\cryCOC_Earn.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryCOC_Earn.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryCTO\cryCTO.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -717,6 +727,7 @@
     <Content Include="Angular\ng-cLeaveEarnedVLSL.js" />
     <Content Include="Angular\ng-cLeaveLedger.js" />
     <Content Include="Angular\ng-cLeaveHistory.js" />
+    <Content Include="Angular\ng-cLeaveTransmittal.js" />
     <Content Include="Angular\ng-cMonthEarns.js" />
     <Content Include="Angular\ng-cLeaveLedgerAppr.js" />
     <Content Include="Angular\ng-cLeaveSubType.js" />
@@ -1714,6 +1725,7 @@
     <Content Include="TemplateExcelFile\Extract_Tracking_History_of_Leave_Application_w_spenttime.xlsx" />
     <Content Include="Views\cMonthEarns\Index.cshtml" />
     <Content Include="Views\cLeaveHistory\Index.cshtml" />
+    <Content Include="Views\cLeaveTransmittal\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1810,6 +1822,10 @@
     <Content Include="Reports\cryDTR\cryDTR.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryDTR.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryCOC_Earn\cryCOC_Earn.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryCOC_Earn.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

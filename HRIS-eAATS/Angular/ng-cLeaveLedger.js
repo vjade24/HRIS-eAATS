@@ -404,6 +404,16 @@
                             }
                         },
                         {
+                            "width": "8%",
+                            "targets": 9,
+                            "mData": "appl_status",
+                            "mRender": function (data, type, full, row)
+                            {
+                                return "<span class='badge badge-primary' >" + data + "</span>";
+                                
+                            }
+                        },
+                        {
                             "width": "16%",
                             "targets": 10,
                             "mData": null,
@@ -416,10 +426,10 @@
                                 //}
 
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-info btn-sm"     ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
-                                    '<button type="button" class="btn btn-danger btn-sm"   ng-click="btn_delete(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
-                                    '<button type="button" class="btn btn-primary btn-sm"  ng-click="btn_print_leave_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO Form"><i class="fa fa-print"></i></button>' +
-                                    '<button type="button" class="btn btn-warning btn-sm"  ng-click="btn_cancel_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Cancel Posted Record"><i class="fa fa-refresh"></i></button>' +
+                                    '<button type="button" class="btn btn-info btn-xs"     ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
+                                    '<button type="button" class="btn btn-danger btn-xs"   ng-click="btn_delete(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
+                                    '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_print_leave_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO Form"><i class="fa fa-print"></i></button>' +
+                                    '<button type="button" class="btn btn-warning btn-xs"  ng-click="btn_cancel_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Cancel Posted Record"><i class="fa fa-refresh"></i></button>' +
                                     '</div></center>';
                             }
                         }
@@ -479,7 +489,7 @@
                             "mRender": function (data, type, full, row) {
                                 
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-warning btn-sm" ng-click="btn_post(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Post Application">  Post Application </button >' +
+                                    '<button type="button" class="btn btn-warning btn-sm" ng-click="btn_post(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger">  Review & Post to Ledger </button >' +
                                     '</div></center>';
                             }
                         }
@@ -758,8 +768,6 @@
                     }
                 }
                 s.TimeSked_HDR($("#ddl_name option:selected").val() == "" ? "" : $("#ddl_name option:selected").val());
-                //s.time_sked_dtl = [];
-                //s.TimeSked_DTL("", "", "", "1998-04-24");
                 $('#modal_initializing').modal("hide");
                 //**********************************************
                 //**********************************************
@@ -961,7 +969,7 @@
         s.add_modal_descr   = "Add New Record";
         s.ADDEDITMODE       = "ADD";
         s.isEdit            = false;   
-
+        s.data_history = [];
         //**********************************************
         //  Set Description or Label for Number of ---
         //**********************************************
@@ -1006,7 +1014,7 @@
 
         s.show_save_edit_btn = true;
         s.no_action_posted   = true;
-        
+        s.data_history = [];
         if (s.datalistgrid[row_id].ledger_ctrl_no == '' || s.datalistgrid[row_id].ledger_ctrl_no == null)
         {
             swal("No Data Found","No Header and Details save on table", { icon: "warning", });
@@ -1060,7 +1068,7 @@
             s.SelectEntryType();
             s.SelectLeaveType();
             s.ToogleBy_LeaveType();
-            s.Populate_ApprovalHistory();
+            //s.Populate_ApprovalHistory();
 
             setTimeout(function ()
             {
@@ -1113,7 +1121,7 @@
         clear_entry();
         s.isEdit = true;
         s.dis_leave_ctrlno = true;
-        
+        s.data_history = [];
         s.txtb_ledger_ctrl_no   = s.datalistgrid2[row_id].ledger_ctrl_no;
         s.txtb_empl_name        = s.datalistgrid2[row_id].employee_name;
         s.txtb_empl_id          = s.datalistgrid2[row_id].empl_id;
@@ -1139,7 +1147,7 @@
         s.SelectEntryType();
         s.SelectLeaveType();
         //s.ToogleBy_LeaveType();
-        s.Populate_ApprovalHistory();
+        //s.Populate_ApprovalHistory();
         
         //setTimeout(function ()
         //{
@@ -1309,7 +1317,10 @@
         s.print_ledger_ctrl_no  = "";
         s.print_ledger_ctrl_no  = s.datalistgrid[row_id].ledger_ctrl_no;
         s.show_appl_rep         = true;
+        
 
+        var p_date_fr = $("#txtb_date_fr").val()
+        var p_date_to = $("#txtb_date_to").val()
 
         if (s.datalistgrid[row_id].approval_status == 'D' ||
             s.datalistgrid[row_id].approval_status == 'L' ||
@@ -1318,7 +1329,7 @@
         {
             swal("You cannot Edit, Delete, Print and Cancel Posted", "Data already Disapproved or Cancelled", { icon: "warning", });
         }
-        else if (s.datalistgrid[row_id].leaveledger_entry_type != '2')
+        else if (s.datalistgrid[row_id].leaveledger_entry_type != '2' && s.datalistgrid[row_id].leavetype_code != "CTO")
         {
             swal("You cannot Print", "You cannot print if the entry type are Automated and Leave Adjustment!", { icon: "warning", });
         }
@@ -1326,9 +1337,15 @@
         {
             try
             {
-                var ledger_ctrl_no = s.datalistgrid[row_id].ledger_ctrl_no;
-                var leave_ctrlno    = s.datalistgrid[row_id].leave_ctrlno;
-                var empl_id         = s.datalistgrid[row_id].empl_id;
+                var ledger_ctrl_no      = s.datalistgrid[row_id].ledger_ctrl_no;
+                var leave_ctrlno        = s.datalistgrid[row_id].leave_ctrlno;
+                var empl_id             = s.datalistgrid[row_id].empl_id;
+
+                var p_month_year        = s.datalistgrid[row_id].leaveledger_period.split("/")[1] + "-" + s.datalistgrid[row_id].leaveledger_period.split("/")[0] + "-01";
+                var p_number_of_hours   = s.datalistgrid[row_id].vl_earned;
+                var p_date_issued       = s.datalistgrid[row_id].leaveledger_date;
+                var p_date_valid        = s.datalistgrid[row_id].leaveledger_date;
+                var p_signatory_name    = "LARA ZAPHIRE KRISTY N. BERMEJO";
 
                 var controller  = "Reports"
                 var action      = "Index"
@@ -1343,33 +1360,35 @@
                     s.show_appl_rep = false;
                     if (leave_ctrlno == "" || leave_ctrlno == null)
                     {
-                        swal("You cannot Print this Report", "There is no CTO Application on Self-Service", { icon: "warning" })
-                        return;
+                        if (s.datalistgrid[row_id].leaveledger_entry_type == '1')
+                        {
+                            ReportPath = "~/Reports/cryCOC_Earn/cryCOC_Earn.rpt";
+                            sp = "sp_leave_application_coc_earn_report,p_empl_id," + empl_id + ",p_month_year," + p_month_year + ",p_number_of_hours," + p_number_of_hours + ",p_date_issued," + p_date_issued + ",p_date_valid," + p_date_valid + ",p_signatory_name," + p_signatory_name;
+
+                            s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO")
+                        }
+                        else
+                        {
+                            swal("You cannot Print this Report", "There is no CTO Application on Self-Service", { icon: "warning" })
+                            return;
+                        }
                     }
                     else
                     {
                         ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
                         sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
+
+                        s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO")
                     }
                 }
                 else
                 {
                     s.show_appl_rep = true;
-                    // ReportPath = "~/Reports/cryApplicationForLeaveRep/cryApplicationForLeaveRep.rpt";
-                    // sp = "sp_leave_application_rep3,par_ledger_ctrl_no," + ledger_ctrl_no;
-
                     ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
                     sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
-                }
 
-                // s.embed_link3 = "../" + controller + "/" + action + "?ReportName=" + ReportName
-                //     + "&SaveName=" + SaveName
-                //     + "&ReportType=" + ReportType
-                //     + "&ReportPath=" + ReportPath
-                //     + "&Sp=" + sp;
-                // 
-                // $('#iframe_print_preview3').attr('src', s.embed_link3);
-                // $('#leave_app_print_modal').modal({ backdrop: 'static', keyboard: false });
+                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "2", "LEAVE")
+                }
 
                 // *******************************************************
                 // *** VJA : 2021-07-14 - Validation and Loading hide ****
@@ -1871,7 +1890,9 @@
                                         if (d.data.message != "") {
                                             swal({ icon: "warning", title: d.data.message });
                                         }
-                                        else {
+                                        else
+                                        {
+                                            
                                             h.post("../cLeaveLedger/Post_Leave_App", {
                                                 data: data
                                                 , data2: data2
@@ -1885,12 +1906,14 @@
                                                 , data_auto_mz_tl: data_auto_mz_tl
 
                                             }).then(function (d) {
-                                                if (d.data.message == "success") {
+                                                if (d.data.message == "success")
+                                                {
                                                     $('#main_modal').modal("hide");
-                                                    swal("Record Successfully Posted", "Your record has been posted!", { icon: "success", });
+                                                    swal("Record Successfully Reviewd & Posted to Ledger", "Your record has been posted!", { icon: "success", });
                                                     s.FilterPageGrid(s.txtb_empl_id);
                                                 }
-                                                else {
+                                                else
+                                                {
                                                     swal(d.data.message, { icon: "warning", });
                                                 }
                                             });
@@ -1912,7 +1935,8 @@
                             if (d.data.message != "") {
                                 swal({ icon: "warning", title: d.data.message });
                             }
-                            else {
+                            else
+                            {
                                 h.post("../cLeaveLedger/Post_Leave_App", {
                                     data: data
                                     , data2: data2
@@ -1926,12 +1950,14 @@
                                     , data_auto_mz_tl: data_auto_mz_tl
 
                                 }).then(function (d) {
-                                    if (d.data.message == "success") {
+                                    if (d.data.message == "success")
+                                    {
                                         $('#main_modal').modal("hide");
-                                        swal("Record Successfully Posted", "Your record has been posted!", { icon: "success", });
+                                        swal("Record Successfully Reviewd & Posted to Ledger", "Your record has been posted!", { icon: "success", });
                                         s.FilterPageGrid(s.txtb_empl_id);
                                     }
-                                    else {
+                                    else
+                                    {
                                         swal(d.data.message, { icon: "warning", });
                                     }
                                 });
@@ -1953,7 +1979,7 @@
             }).then(function (d) {
                 if (d.data.message == "success") {
                     $('#main_modal').modal("hide");
-                    swal("Record Successfully Re-Posted", "Your record has been successfully re-posted!", { icon: "success", });
+                    swal("Record Successfully Reviewd & Posted to Ledger (Re-Posted)", "Your record has been successfully re-posted!", { icon: "success", });
                     s.FilterPageGrid(s.txtb_empl_id);
                 }
                 else {
@@ -3126,88 +3152,88 @@
     //*************************************************//
     //***  VJA : Populate Particulars ****************//
     //***********************************************//
-    s.Populate_ApprovalHistory = function ()
-    {
-        h.post("../cLeaveLedger/ApprovalHistory",
-        {
-            par_leave_ctlno: s.txtb_leave_ctrlno
-        }).then(function (d) {
-            if (d.data.message_descr == "success") {
+    //s.Populate_ApprovalHistory = function ()
+    //{
+    //    h.post("../cLeaveLedger/ApprovalHistory",
+    //    {
+    //        par_leave_ctlno: s.txtb_leave_ctrlno
+    //    }).then(function (d) {
+    //        if (d.data.message_descr == "success") {
 
 
-                s.level1_approval_comment       = d.data.data.level1_approval_comment
-                s.level2_approval_comment       = d.data.data.level2_approval_comment
-                s.final_approval_comment        = d.data.data.final_approval_comment
-                s.disapproval_comment           = d.data.data.disapproval_comment
-                s.cancel_pending_comment        = d.data.data.cancel_pending_comment
-                s.cancelled_comment             = d.data.data.cancelled_comment
-                s.user_id_creator               = d.data.data.user_id_creator
-                s.employee_name_creator         = d.data.data.employee_name_creator
-                s.user_id_reviewer              = d.data.data.user_id_reviewer
-                s.employee_name_reviewer        = d.data.data.employee_name_reviewer
-                s.user_id_level1_approver       = d.data.data.user_id_level1_approver
-                s.employee_name_level1_approver = d.data.data.employee_name_level1_approver
-                s.user_id_level2_approver       = d.data.data.user_id_level2_approver
-                s.employee_name_level2_approver = d.data.data.employee_name_level2_approver
-                s.user_id_final_approver        = d.data.data.user_id_final_approver
-                s.employee_name_final_approver  = d.data.data.employee_name_final_approver
-                s.user_id_disapprover           = d.data.data.user_id_disapprover
-                s.employee_name_disapprover     = d.data.data.employee_name_disapprover
-                s.user_id_cancel_pending        = d.data.data.user_id_cancel_pending
-                s.employee_name_cancel_pending = d.data.data.employee_name_cancel_pending
+    //            s.level1_approval_comment       = d.data.data.level1_approval_comment
+    //            s.level2_approval_comment       = d.data.data.level2_approval_comment
+    //            s.final_approval_comment        = d.data.data.final_approval_comment
+    //            s.disapproval_comment           = d.data.data.disapproval_comment
+    //            s.cancel_pending_comment        = d.data.data.cancel_pending_comment
+    //            s.cancelled_comment             = d.data.data.cancelled_comment
+    //            s.user_id_creator               = d.data.data.user_id_creator
+    //            s.employee_name_creator         = d.data.data.employee_name_creator
+    //            s.user_id_reviewer              = d.data.data.user_id_reviewer
+    //            s.employee_name_reviewer        = d.data.data.employee_name_reviewer
+    //            s.user_id_level1_approver       = d.data.data.user_id_level1_approver
+    //            s.employee_name_level1_approver = d.data.data.employee_name_level1_approver
+    //            s.user_id_level2_approver       = d.data.data.user_id_level2_approver
+    //            s.employee_name_level2_approver = d.data.data.employee_name_level2_approver
+    //            s.user_id_final_approver        = d.data.data.user_id_final_approver
+    //            s.employee_name_final_approver  = d.data.data.employee_name_final_approver
+    //            s.user_id_disapprover           = d.data.data.user_id_disapprover
+    //            s.employee_name_disapprover     = d.data.data.employee_name_disapprover
+    //            s.user_id_cancel_pending        = d.data.data.user_id_cancel_pending
+    //            s.employee_name_cancel_pending = d.data.data.employee_name_cancel_pending
 
-                s.reviewed_date                 = d.data.data.reviewed_date          == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.reviewed_date          ;
-                s.level1_approval_date          = d.data.data.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level1_approval_date   ;
-                s.level2_approval_date          = d.data.data.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level2_approval_date   ;
-                s.final_approval_date           = d.data.data.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.final_approval_date    ;
-                s.disapproval_date              = d.data.data.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.disapproval_date       ;
-                s.cancel_pending_date           = d.data.data.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancel_pending_date    ;
-                s.cancelled_date                = d.data.data.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancelled_date         ;
-                s.created_dttm                  = moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim()    == "1900-01-01 12:00:00 pm" ? "----" : moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A")    ;
+    //            s.reviewed_date                 = d.data.data.reviewed_date          == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.reviewed_date          ;
+    //            s.level1_approval_date          = d.data.data.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level1_approval_date   ;
+    //            s.level2_approval_date          = d.data.data.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level2_approval_date   ;
+    //            s.final_approval_date           = d.data.data.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.final_approval_date    ;
+    //            s.disapproval_date              = d.data.data.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.disapproval_date       ;
+    //            s.cancel_pending_date           = d.data.data.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancel_pending_date    ;
+    //            s.cancelled_date                = d.data.data.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancelled_date         ;
+    //            s.created_dttm                  = moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim()    == "1900-01-01 12:00:00 pm" ? "----" : moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A")    ;
 
 
-                // POSTING HISTORY
+    //            // POSTING HISTORY
 
-                s.level1_approval_comment_posting       = d.data.data_posting.level1_approval_comment
-                s.level2_approval_comment_posting       = d.data.data_posting.level2_approval_comment
-                s.final_approval_comment_posting        = d.data.data_posting.final_approval_comment
-                s.disapproval_comment_posting           = d.data.data_posting.disapproval_comment
-                s.cancel_pending_comment_posting        = d.data.data_posting.cancel_pending_comment
-                s.cancelled_comment_posting             = d.data.data_posting.cancelled_comment
-                s.user_id_creator_posting               = d.data.data_posting.user_id_creator
-                s.employee_name_creator_posting         = d.data.data_posting.employee_name_creator
-                s.user_id_reviewer_posting              = d.data.data_posting.user_id_reviewer
-                s.employee_name_reviewer_posting        = d.data.data_posting.employee_name_reviewer
-                s.user_id_level1_approver_posting       = d.data.data_posting.user_id_level1_approver
-                s.employee_name_level1_approver_posting = d.data.data_posting.employee_name_level1_approver
-                s.user_id_level2_approver_posting       = d.data.data_posting.user_id_level2_approver
-                s.employee_name_level2_approver_posting = d.data.data_posting.employee_name_level2_approver
-                s.user_id_final_approver_posting        = d.data.data_posting.user_id_final_approver
-                s.employee_name_final_approver_posting  = d.data.data_posting.employee_name_final_approver
-                s.user_id_disapprover_posting           = d.data.data_posting.user_id_disapprover
-                s.employee_name_disapprover_posting     = d.data.data_posting.employee_name_disapprover
-                s.user_id_cancel_pending_posting        = d.data.data_posting.user_id_cancel_pending
-                s.employee_name_cancel_pending_posting  = d.data.data_posting.employee_name_cancel_pending
+    //            s.level1_approval_comment_posting       = d.data.data_posting.level1_approval_comment
+    //            s.level2_approval_comment_posting       = d.data.data_posting.level2_approval_comment
+    //            s.final_approval_comment_posting        = d.data.data_posting.final_approval_comment
+    //            s.disapproval_comment_posting           = d.data.data_posting.disapproval_comment
+    //            s.cancel_pending_comment_posting        = d.data.data_posting.cancel_pending_comment
+    //            s.cancelled_comment_posting             = d.data.data_posting.cancelled_comment
+    //            s.user_id_creator_posting               = d.data.data_posting.user_id_creator
+    //            s.employee_name_creator_posting         = d.data.data_posting.employee_name_creator
+    //            s.user_id_reviewer_posting              = d.data.data_posting.user_id_reviewer
+    //            s.employee_name_reviewer_posting        = d.data.data_posting.employee_name_reviewer
+    //            s.user_id_level1_approver_posting       = d.data.data_posting.user_id_level1_approver
+    //            s.employee_name_level1_approver_posting = d.data.data_posting.employee_name_level1_approver
+    //            s.user_id_level2_approver_posting       = d.data.data_posting.user_id_level2_approver
+    //            s.employee_name_level2_approver_posting = d.data.data_posting.employee_name_level2_approver
+    //            s.user_id_final_approver_posting        = d.data.data_posting.user_id_final_approver
+    //            s.employee_name_final_approver_posting  = d.data.data_posting.employee_name_final_approver
+    //            s.user_id_disapprover_posting           = d.data.data_posting.user_id_disapprover
+    //            s.employee_name_disapprover_posting     = d.data.data_posting.employee_name_disapprover
+    //            s.user_id_cancel_pending_posting        = d.data.data_posting.user_id_cancel_pending
+    //            s.employee_name_cancel_pending_posting  = d.data.data_posting.employee_name_cancel_pending
                 
-                s.level1_approval_date_posting          = d.data.data_posting.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level1_approval_date   ;
-                s.level2_approval_date_posting          = d.data.data_posting.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level2_approval_date   ;
-                s.final_approval_date_posting           = d.data.data_posting.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.final_approval_date    ;
-                s.disapproval_date_posting              = d.data.data_posting.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.disapproval_date       ;
-                s.cancel_pending_date_posting           = d.data.data_posting.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancel_pending_date    ;
-                s.cancelled_date_posting                = d.data.data_posting.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancelled_date         ;
+    //            s.level1_approval_date_posting          = d.data.data_posting.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level1_approval_date   ;
+    //            s.level2_approval_date_posting          = d.data.data_posting.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level2_approval_date   ;
+    //            s.final_approval_date_posting           = d.data.data_posting.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.final_approval_date    ;
+    //            s.disapproval_date_posting              = d.data.data_posting.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.disapproval_date       ;
+    //            s.cancel_pending_date_posting           = d.data.data_posting.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancel_pending_date    ;
+    //            s.cancelled_date_posting                = d.data.data_posting.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancelled_date         ;
 
-                if (d.data.lv_hdr != null)
-                {
-                    s.created_dttm_posting = moment(d.data.lv_hdr.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim() == "1900-01-01 12:00:00 AM" ? "----" : moment(d.data.lv_hdr.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim();
-                }
+    //            if (d.data.lv_hdr != null)
+    //            {
+    //                s.created_dttm_posting = moment(d.data.lv_hdr.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim() == "1900-01-01 12:00:00 AM" ? "----" : moment(d.data.lv_hdr.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim();
+    //            }
 
-                s.txtb_approval_id = d.data.data_posting.approval_id
-            }
-            else {
-                swal('Error in Getting Approval History', d.data.message_descr, {icon:"warning"})
-            }
-        });
-    }
+    //            s.txtb_approval_id = d.data.data_posting.approval_id
+    //        }
+    //        else {
+    //            swal('Error in Getting Approval History', d.data.message_descr, {icon:"warning"})
+    //        }
+    //    });
+    //}
     //*************************************************//
     //***  VJA : Populate Particulars ****************//
     //***********************************************//
@@ -3263,7 +3289,7 @@
                 switch (value)
                 {
                     case "submit_appl":
-                        h.post("../cLeaveLedger/ApprReviewerAction", { data: data }).then(function (d)
+                        h.post("../cLeaveLedger/ApprReviewerAction", { data: data, ledger_ctrl_no: s.txtb_ledger_ctrl_no}).then(function (d)
                         {
                             if (d.data.message_descr == "success")
                             {
@@ -3530,6 +3556,104 @@
             swal({ icon: "warning", title: err.message });
 
         }
+    }
+
+
+    s.RetrieveCardingReport = function (par_empl_id, par_date_from, par_date_to, par_rep_mode, print_mode)
+    {
+        // *******************************************************
+        // *******************************************************
+        var empl_id     = par_empl_id;
+        var ReportName  = "CrystalReport"
+        var SaveName    = "Crystal_Report"
+        var ReportType  = "inline"
+        var ReportPath  = ""
+        var sp          = ""
+        var p_date_fr   = par_date_from
+        var p_date_to   = par_date_to
+        var p_rep_mode  = par_rep_mode
+        
+        sp = "sp_leaveledger_report,p_empl_id," + empl_id + ",p_date_fr," + p_date_fr + ",p_date_to," + p_date_to + ",p_rep_mode," + p_rep_mode;
+
+        if (print_mode == 'CTO')
+        {
+            ReportPath = "~/Reports/cryCOC/cryCOC.rpt";
+        }
+        else
+        {
+            ReportPath = "~/Reports/cryLeaveLedger2/cryLeaveLedger.rpt";
+        }
+        // *******************************************************
+        // *** VJA : 2021-07-14 - Validation and Loading hide ****
+        // *******************************************************
+        var iframe = document.getElementById('iframe_print_preview_carding');
+        var iframe_page = $("#iframe_print_preview_carding")[0];
+        iframe.style.visibility = "hidden";
+
+        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+            + "&ReportName=" + ReportName
+            + "&SaveName=" + SaveName
+            + "&ReportType=" + ReportType
+            + "&ReportPath=" + ReportPath
+            + "&id=" + sp // + "," + parameters
+
+        if (!/*@cc_on!@*/0) { //if not IE
+            iframe.onload = function () {
+                iframe.style.visibility = "visible";
+            };
+        }
+        else if (iframe_page.innerHTML()) {
+            // get and check the Title (and H tags if you want)
+            var ifTitle = iframe_page.contentDocument.title;
+            if (ifTitle.indexOf("404") >= 0) {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+            else if (ifTitle != "") {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+        }
+        else {
+            iframe.onreadystatechange = function ()
+            {
+                if (iframe.readyState == "complete")
+                {
+                    iframe.style.visibility = "visible";
+                }
+            };
+        }
+        iframe.src = s.embed_link;
+        // *******************************************************
+        // *******************************************************
+
+    }
+
+    s.Retrieve_LeaveHistory = function ()
+    {
+        $('#view_details_history').removeClass()
+        $('#view_details_history').addClass('fa fa-spinner fa-spin')
+        s.data_history = [];
+        h.post("../cLeaveLedger/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_leave_ctrlno}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                s.data_history = d.data.data
+                for (var i = 0; i < d.data.data.length; i++)
+                {
+                    d.data.data[i].create_dttm_descr = moment(d.data.data[i].created_dttm).format("LLLL")
+                    d.data.data[i].create_dttm_ago   = moment(d.data.data[i].created_dttm).fromNow()
+                }
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+            }
+            else
+            {
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
     }
 
 

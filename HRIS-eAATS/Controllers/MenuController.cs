@@ -277,13 +277,13 @@ namespace HRIS_eAATS.Controllers
                         if ((chk_aprv[i].leave_cancel_type == "FL_TRNFR" || chk_aprv[i].leave_cancel_type == "HOL" || chk_aprv[i].leave_cancel_type == "WORK_SUS" || chk_aprv[i].leave_cancel_type == "CNCEL_ONLY") && chk_aprv[i].leave_transfer_date != null)
                         {
                             var lv_hdr      = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
-                            var lv_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
-                            var lv_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
+                            var lv_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList();
+                            var lv_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == p_leave_ctrlno).ToList();
 
                             // Update Header and Details
-                            lv_hdr.posting_status  = false;
-                            lv_hdr.approval_status = "L";
-                            lv_dtl.rcrd_status     = "L";
+                            lv_hdr.posting_status                 = false;
+                            lv_hdr.approval_status                = "L";
+                            lv_dtl.ForEach(a => a.rcrd_status     = "L");
 
                             // Insert Header and Details
                             leave_application_hdr_tbl       data_hdr_insert         = new leave_application_hdr_tbl();
@@ -325,17 +325,17 @@ namespace HRIS_eAATS.Controllers
                             data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                             data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
                             data_dtl_insert.leave_date_to                 = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
-                            data_dtl_insert.date_num_day                  = lv_dtl.date_num_day         ;
-                            data_dtl_insert.date_num_day_total            = lv_dtl.date_num_day_total   ;
-                            data_dtl_insert.empl_id                       = lv_dtl.empl_id              ;
+                            data_dtl_insert.date_num_day                  = lv_dtl[0].date_num_day         ;
+                            data_dtl_insert.date_num_day_total            = lv_dtl[0].date_num_day_total   ;
+                            data_dtl_insert.empl_id                       = lv_dtl[0].empl_id              ;
                             data_dtl_insert.rcrd_status                   = "N"          ;
 
-                            if (lv_dtl_cto!= null)
+                            if (lv_dtl_cto.Count > 0)
                             {
                                 data_dtl_cto_insert.leave_ctrlno              = new_appl_nbr[0].ToString();
                                 data_dtl_cto_insert.leave_date_from           = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
                                 data_dtl_cto_insert.leave_date_to             = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
-                                data_dtl_cto_insert.cto_remarks               = lv_dtl_cto.cto_remarks;
+                                data_dtl_cto_insert.cto_remarks               = lv_dtl_cto[0].cto_remarks;
                                 db_ats.leave_application_dtl_cto_tbl.Add(data_dtl_cto_insert);
                             }
                             
@@ -358,6 +358,25 @@ namespace HRIS_eAATS.Controllers
                         chk_aprv.ForEach(a => a.leave_cancel_status = "F");
                         chk_aprv.ForEach(a => a.final_approved_user = user_id);
                         chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
+
+                        var lv_hdr      = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList();
+                        var lv_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList();
+                        var lv_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == p_leave_ctrlno).ToList();
+
+                        // Update Header and Details
+                        lv_hdr.ForEach(a => a.posting_status  = false);
+                        lv_hdr.ForEach(a => a.approval_status = "L");
+                        lv_dtl.ForEach(a => a.rcrd_status     = "L");
+
+                        // *************************************************************
+                        // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                        // *************************************************************
+                        var appl_status = "Cancellation Approved";
+                        db_ats.sp_lv_ledger_history_insert("", p_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                        // *************************************************************
+                        // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                        // *************************************************************
+
                         await db_ats.SaveChangesAsync();
                     }
                 }
@@ -442,13 +461,13 @@ namespace HRIS_eAATS.Controllers
                                 if ((chk_aprv[i].leave_cancel_type == "FL_TRNFR" || chk_aprv[i].leave_cancel_type == "HOL" || chk_aprv[i].leave_cancel_type == "WORK_SUS" || chk_aprv[i].leave_cancel_type == "CNCEL_ONLY") && chk_aprv[i].leave_transfer_date != null)
                                 {
                                     var lv_hdr      = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
-                                    var lv_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
-                                    var lv_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
+                                    var lv_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList();
+                                    var lv_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == p_leave_ctrlno).ToList();
 
                                     // Update Header and Details
-                                    lv_hdr.posting_status  = false;
-                                    lv_hdr.approval_status = "L";
-                                    lv_dtl.rcrd_status     = "L";
+                                    lv_hdr.posting_status                 = false;
+                                    lv_hdr.approval_status                = "L";
+                                    lv_dtl.ForEach(a => a.rcrd_status     = "L");
 
                                     // Insert Header and Details
                                     leave_application_hdr_tbl       data_hdr_insert         = new leave_application_hdr_tbl();
@@ -490,17 +509,17 @@ namespace HRIS_eAATS.Controllers
                                     data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                                     data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
                                     data_dtl_insert.leave_date_to                 = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
-                                    data_dtl_insert.date_num_day                  = lv_dtl.date_num_day         ;
-                                    data_dtl_insert.date_num_day_total            = lv_dtl.date_num_day_total   ;
-                                    data_dtl_insert.empl_id                       = lv_dtl.empl_id              ;
+                                    data_dtl_insert.date_num_day                  = lv_dtl[0].date_num_day         ;
+                                    data_dtl_insert.date_num_day_total            = lv_dtl[0].date_num_day_total   ;
+                                    data_dtl_insert.empl_id                       = lv_dtl[0].empl_id              ;
                                     data_dtl_insert.rcrd_status                   = "N"          ;
 
-                                    if (lv_dtl_cto!= null)
+                                    if (lv_dtl_cto.Count >0)
                                     {
                                         data_dtl_cto_insert.leave_ctrlno              = new_appl_nbr[0].ToString();
                                         data_dtl_cto_insert.leave_date_from           = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
                                         data_dtl_cto_insert.leave_date_to             = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
-                                        data_dtl_cto_insert.cto_remarks               = lv_dtl_cto.cto_remarks;
+                                        data_dtl_cto_insert.cto_remarks               = lv_dtl_cto[0].cto_remarks;
                                         db_ats.leave_application_dtl_cto_tbl.Add(data_dtl_cto_insert);
                                     }
                             
@@ -515,14 +534,6 @@ namespace HRIS_eAATS.Controllers
                                     // Insert to Override if HOLIDAY AND WORK SUSPENSION (Type of Cancellation)
                                     var ovr_inst = db_ats.sp_approve_cancellation(p_empl_id, DateTime.Parse(chk_aprv[i].leave_cancel_date.ToString()).ToString("yyyy-MM-dd"), user_id);
 
-                                    var lv_hdr = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
-                                    var lv_dtl = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
-                                    
-                                    // Update Header and Details
-                                    lv_hdr.posting_status   = false;
-                                    lv_hdr.approval_status  = "L";
-                                    lv_dtl.rcrd_status      = "L";
-
                                     message = "success";
                                 }
                             }
@@ -532,8 +543,17 @@ namespace HRIS_eAATS.Controllers
                                 chk_aprv.ForEach(a => a.leave_cancel_status = "F");
                                 chk_aprv.ForEach(a => a.final_approved_user = user_id);
                                 chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
-
                                 chk.details_remarks = p_details_remarks;
+
+                                // *************************************************************
+                                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                                // *************************************************************
+                                var appl_status = "Cancellation Approved & Balance Restored";
+                                db_ats.sp_lv_ledger_history_insert(chk.ledger_ctrl_no, p_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                                // *************************************************************
+                                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                                // *************************************************************
+
                                 await db_ats.SaveChangesAsync();
                             }
                         }
@@ -546,9 +566,8 @@ namespace HRIS_eAATS.Controllers
                     {
                         message = data.result_msg;
                     }
-
+                    
                 }
-                
                 return JSON(new{message}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -614,5 +633,17 @@ namespace HRIS_eAATS.Controllers
         //    }, JsonRequestBehavior.AllowGet);
 
         //}
+        public ActionResult CheckIfRunningLeaveApplication(string p_leave_ctrlno, string p_empl_id)
+        {
+            try
+            {
+                var data = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno && (a.approval_status == "S" || a.approval_status == "R" || (a.approval_status == "F" && a.posting_status == false))).ToList();
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
