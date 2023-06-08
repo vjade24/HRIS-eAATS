@@ -154,6 +154,7 @@
     <Compile Include="Controllers\cLeaveLedgerApprController.cs" />
     <Compile Include="Controllers\cLeaveLedgerController.cs" />
     <Compile Include="Controllers\cLeaveSubTypeController.cs" />
+    <Compile Include="Controllers\cLeaveTrackingController.cs" />
     <Compile Include="Controllers\cLeaveTypeController.cs" />
     <Compile Include="Controllers\cMainPageController.cs" />
     <Compile Include="Controllers\cMonthEarnsController.cs" />
@@ -298,6 +299,9 @@
     <Compile Include="Models\lv_ledger_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\lv_ledger_history_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\payrollemployeemaster_hdr_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -396,6 +400,12 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_get_empl_employment_type_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_get_leave_transmittal_for_uploading_dtl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_get_leave_transmittal_for_uploading_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
@@ -717,6 +727,7 @@
     <Content Include="Angular\ng-cLeaveEarnedVLSL.js" />
     <Content Include="Angular\ng-cLeaveLedger.js" />
     <Content Include="Angular\ng-cLeaveHistory.js" />
+    <Content Include="Angular\ng-cLeaveTracking.js" />
     <Content Include="Angular\ng-cMonthEarns.js" />
     <Content Include="Angular\ng-cLeaveLedgerAppr.js" />
     <Content Include="Angular\ng-cLeaveSubType.js" />
@@ -1714,6 +1725,7 @@
     <Content Include="TemplateExcelFile\Extract_Tracking_History_of_Leave_Application_w_spenttime.xlsx" />
     <Content Include="Views\cMonthEarns\Index.cshtml" />
     <Content Include="Views\cLeaveHistory\Index.cshtml" />
+    <Content Include="Views\cLeaveTracking\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,5 +30,6 @@ namespace HRIS_eAATS.Models
         public Nullable<System.DateTime> lvl3_rcvd_dttm { get; set; }
         public string payroll_rcvd_user_id { get; set; }
         public Nullable<System.DateTime> payroll_rcvd_dttm { get; set; }
+        public string leave_ctrlno { get; set; }
     }
 }
