@@ -154,11 +154,6 @@
     <Compile Include="Controllers\cLeaveLedgerApprController.cs" />
     <Compile Include="Controllers\cLeaveLedgerController.cs" />
     <Compile Include="Controllers\cLeaveSubTypeController.cs" />
-<<<<<<< HEAD
-    <Compile Include="Controllers\cLeaveTransmittalController.cs" />
-=======
-    <Compile Include="Controllers\cLeaveTrackingController.cs" />
->>>>>>> origin/master
     <Compile Include="Controllers\cLeaveTypeController.cs" />
     <Compile Include="Controllers\cMainPageController.cs" />
     <Compile Include="Controllers\cMonthEarnsController.cs" />
@@ -737,11 +732,6 @@
     <Content Include="Angular\ng-cLeaveEarnedVLSL.js" />
     <Content Include="Angular\ng-cLeaveLedger.js" />
     <Content Include="Angular\ng-cLeaveHistory.js" />
-<<<<<<< HEAD
-    <Content Include="Angular\ng-cLeaveTransmittal.js" />
-=======
-    <Content Include="Angular\ng-cLeaveTracking.js" />
->>>>>>> origin/master
     <Content Include="Angular\ng-cMonthEarns.js" />
     <Content Include="Angular\ng-cLeaveLedgerAppr.js" />
     <Content Include="Angular\ng-cLeaveSubType.js" />
@@ -1739,11 +1729,6 @@
     <Content Include="TemplateExcelFile\Extract_Tracking_History_of_Leave_Application_w_spenttime.xlsx" />
     <Content Include="Views\cMonthEarns\Index.cshtml" />
     <Content Include="Views\cLeaveHistory\Index.cshtml" />
-<<<<<<< HEAD
-    <Content Include="Views\cLeaveTransmittal\Index.cshtml" />
-=======
-    <Content Include="Views\cLeaveTracking\Index.cshtml" />
->>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
