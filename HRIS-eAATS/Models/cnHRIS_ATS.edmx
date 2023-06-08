@@ -773,6 +773,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
         <Function Name="sp_get_empl_employment_type" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_get_leave_transmittal_for_uploading_dtl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_doc_ctrl_nbr" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_get_leave_transmittal_for_uploading_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_year" Type="varchar" Mode="In" />
+          <Parameter Name="par_month" Type="varchar" Mode="In" />
+          <Parameter Name="par_filter" Type="varchar" Mode="In" />
+          <Parameter Name="par_department" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_leaveledger_curr_bal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="p_year" Type="varchar" Mode="In" />
@@ -1337,6 +1346,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
           </FunctionImport>
+<<<<<<< HEAD
           <FunctionImport Name="sp_leaveledger_report" ReturnType="Collection(HRIS_ATSModel.sp_leaveledger_report_Result)">
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_date_fr" Mode="In" Type="String" />
@@ -1345,6 +1355,21 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           </FunctionImport>
           <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
             <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
+=======
+          <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
+          <FunctionImport Name="sp_get_empl_employment_type" ReturnType="Collection(HRIS_ATSModel.sp_get_empl_employment_type_Result)">
+          <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_leave_transmittal_for_uploading_dtl_list" ReturnType="Collection(HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_dtl_list_Result)">
+          <Parameter Name="par_doc_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="lv_ledger_history_tbl" EntityType="HRIS_ATSModel.lv_ledger_history_tbl" />
+          <FunctionImport Name="sp_get_leave_transmittal_for_uploading_list" ReturnType="Collection(HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_list_Result)">
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_month" Mode="In" Type="String" />
+            <Parameter Name="par_filter" Mode="In" Type="String" />
+            <Parameter Name="par_department" Mode="In" Type="String" />
+>>>>>>> origin/master
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="vw_leaveadmin_tbl_list">
@@ -2427,6 +2452,32 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Type="String" Name="remarks_1" Nullable="false" />
           <Property Type="String" Name="remarks_2" Nullable="false" />
         </ComplexType>
+<<<<<<< HEAD
+=======
+        <EntityType Name="transmittal_leave_dtl_tbl">
+          <Key>
+            <PropertyRef Name="doc_ctrl_nbr" />
+            <PropertyRef Name="ledger_ctrl_no" />
+          </Key>
+          <Property Name="doc_ctrl_nbr" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="ledger_ctrl_no" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="doc_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="received_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="received_dttm" Type="DateTime" Precision="3" />
+          <Property Name="route_nbr" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="lvl1_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lvl1_rcvd_dttm" Type="DateTime" Precision="3" />
+          <Property Name="lvl2_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lvl2_rcvd_dttm" Type="DateTime" Precision="3" />
+          <Property Name="lvl3_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="lvl3_rcvd_dttm" Type="DateTime" Precision="3" />
+          <Property Name="payroll_rcvd_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="payroll_rcvd_dttm" Type="DateTime" Precision="3" />
+          <Property Name="leave_ctrlno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+>>>>>>> origin/master
         <ComplexType Name="sp_extract_trk_leave_appl_lvl1_final_appr_Result">
           <Property Type="String" Name="department_short_name" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
@@ -2607,6 +2658,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
         </ComplexType>
+<<<<<<< HEAD
         <EntityType Name="lv_ledger_history_tbl">
           <Key>
             <PropertyRef Name="id" />
@@ -2643,6 +2695,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Name="leave_ctrlno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_transmittal_leave_dtl_tbl_list_Result">
+=======
+        <ComplexType Name="sp_get_leave_transmittal_for_uploading_dtl_list_Result">
+>>>>>>> origin/master
           <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
@@ -2657,6 +2712,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Type="String" Name="transmitted_flag" Nullable="false" MaxLength="1" />
           <Property Type="DateTime" Name="final_approval_date" Nullable="true" Precision="23" />
           <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+<<<<<<< HEAD
           <Property Type="String" Name="doc_remarks" Nullable="true" MaxLength="255" />
         </ComplexType>
         <ComplexType Name="sp_leaveledger_report_Result">
@@ -2710,6 +2766,38 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
           <Property Type="String" Name="trace_code" Nullable="false" MaxLength="2" />
+=======
+          <Property Type="Boolean" Name="check_defualt" Nullable="true" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <EntityType Name="lv_ledger_history_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ledger_ctrl_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="leave_ctrlno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="appl_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="appl_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_get_leave_transmittal_for_uploading_list_Result">
+          <Property Type="String" Name="doc_ctrl_nbr" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="transmittal_descr" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="approved_period_from" Nullable="true" />
+          <Property Type="DateTime" Name="approved_period_to" Nullable="true" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="doc_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="route_nbr" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="employment_tyep" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="view_mode" Nullable="true" MaxLength="4" />
+          <Property Type="Int32" Name="current_status" Nullable="true" />
+>>>>>>> origin/master
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3916,6 +4004,32 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+<<<<<<< HEAD
+=======
+          <EntitySetMapping Name="transmittal_leave_dtl_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.transmittal_leave_dtl_tbl">
+              <MappingFragment StoreEntitySet="transmittal_leave_dtl_tbl">
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="payroll_rcvd_dttm" ColumnName="payroll_rcvd_dttm" />
+                <ScalarProperty Name="payroll_rcvd_user_id" ColumnName="payroll_rcvd_user_id" />
+                <ScalarProperty Name="lvl3_rcvd_dttm" ColumnName="lvl3_rcvd_dttm" />
+                <ScalarProperty Name="lvl3_rcvd_user_id" ColumnName="lvl3_rcvd_user_id" />
+                <ScalarProperty Name="lvl2_rcvd_dttm" ColumnName="lvl2_rcvd_dttm" />
+                <ScalarProperty Name="lvl2_rcvd_user_id" ColumnName="lvl2_rcvd_user_id" />
+                <ScalarProperty Name="lvl1_rcvd_dttm" ColumnName="lvl1_rcvd_dttm" />
+                <ScalarProperty Name="lvl1_rcvd_user_id" ColumnName="lvl1_rcvd_user_id" />
+                <ScalarProperty Name="route_nbr" ColumnName="route_nbr" />
+                <ScalarProperty Name="received_dttm" ColumnName="received_dttm" />
+                <ScalarProperty Name="received_by" ColumnName="received_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="doc_remarks" ColumnName="doc_remarks" />
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+>>>>>>> origin/master
           <FunctionImportMapping FunctionImportName="sp_extract_trk_leave_appl_lvl1_final_appr" FunctionName="HRIS_ATSModel.Store.sp_extract_trk_leave_appl_lvl1_final_appr">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_extract_trk_leave_appl_lvl1_final_appr_Result">
@@ -4114,6 +4228,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+<<<<<<< HEAD
           <EntitySetMapping Name="lv_ledger_history_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_history_tbl">
               <MappingFragment StoreEntitySet="lv_ledger_history_tbl">
@@ -4154,6 +4269,11 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
           <FunctionImportMapping FunctionImportName="sp_transmittal_leave_dtl_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_transmittal_leave_dtl_tbl_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_transmittal_leave_dtl_tbl_list_Result">
+=======
+          <FunctionImportMapping FunctionImportName="sp_get_leave_transmittal_for_uploading_dtl_list" FunctionName="HRIS_ATSModel.Store.sp_get_leave_transmittal_for_uploading_dtl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_dtl_list_Result">
+>>>>>>> origin/master
                 <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
                 <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
@@ -4168,6 +4288,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
                 <ScalarProperty Name="transmitted_flag" ColumnName="transmitted_flag" />
                 <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
                 <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+<<<<<<< HEAD
                 <ScalarProperty Name="doc_remarks" ColumnName="doc_remarks" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -4229,6 +4350,43 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info_curr_vl_sl' does no
                 <ScalarProperty Name="created_by" ColumnName="created_by" />
                 <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
                 <ScalarProperty Name="trace_code" ColumnName="trace_code" />
+=======
+                <ScalarProperty Name="check_defualt" ColumnName="check_defualt" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="lv_ledger_history_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_history_tbl">
+              <MappingFragment StoreEntitySet="lv_ledger_history_tbl">
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_leave_transmittal_for_uploading_list" FunctionName="HRIS_ATSModel.Store.sp_get_leave_transmittal_for_uploading_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_list_Result">
+                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
+                <ScalarProperty Name="transmittal_descr" ColumnName="transmittal_descr" />
+                <ScalarProperty Name="approved_period_from" ColumnName="approved_period_from" />
+                <ScalarProperty Name="approved_period_to" ColumnName="approved_period_to" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="doc_status" ColumnName="doc_status" />
+                <ScalarProperty Name="route_nbr" ColumnName="route_nbr" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="employment_tyep" ColumnName="employment_tyep" />
+                <ScalarProperty Name="view_mode" ColumnName="view_mode" />
+                <ScalarProperty Name="current_status" ColumnName="current_status" />
+>>>>>>> origin/master
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
