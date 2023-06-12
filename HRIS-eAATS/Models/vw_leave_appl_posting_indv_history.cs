@@ -21,7 +21,7 @@ namespace HRIS_eAATS.Models
         public string leavetype_descr { get; set; }
         public string leavesubtype_descr { get; set; }
         public string leave_dates { get; set; }
-        public System.DateTime action_dttm { get; set; }
+        public Nullable<System.DateTime> action_dttm { get; set; }
         public string action_user_id { get; set; }
         public string action_employee_name { get; set; }
         public string action_remarks { get; set; }

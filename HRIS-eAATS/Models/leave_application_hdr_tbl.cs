@@ -21,10 +21,6 @@ namespace HRIS_eAATS.Models
         public string leave_type_code { get; set; }
         public string leave_subtype_code { get; set; }
         public Nullable<decimal> number_of_days { get; set; }
-        public Nullable<System.DateTime> leaveledger_date { get; set; }
-        public Nullable<decimal> leaveledger_balance_as_of_sl { get; set; }
-        public Nullable<decimal> leaveledger_balance_as_of_vl { get; set; }
-        public Nullable<decimal> leaveledger_balance_as_of_oth { get; set; }
         public Nullable<decimal> sl_restore_deduct { get; set; }
         public Nullable<decimal> vl_restore_deduct { get; set; }
         public Nullable<decimal> oth_restore_deduct { get; set; }
@@ -40,6 +36,10 @@ namespace HRIS_eAATS.Models
         public string created_by_user { get; set; }
         public Nullable<System.DateTime> updated_dttm { get; set; }
         public string updated_by_user { get; set; }
+        public Nullable<System.DateTime> leaveledger_date { get; set; }
+        public Nullable<decimal> leaveledger_balance_as_of_sl { get; set; }
+        public Nullable<decimal> leaveledger_balance_as_of_vl { get; set; }
+        public Nullable<decimal> leaveledger_balance_as_of_oth { get; set; }
         public Nullable<decimal> leaveledger_balance_as_of_sp { get; set; }
         public Nullable<decimal> leaveledger_balance_as_of_fl { get; set; }
         public Nullable<decimal> sp_restore_deduct { get; set; }

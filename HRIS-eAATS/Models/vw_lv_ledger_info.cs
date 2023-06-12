@@ -39,9 +39,9 @@ namespace HRIS_eAATS.Models
         public decimal leaveledger_restore_deduct { get; set; }
         public decimal leaveledger_abs_und_wp { get; set; }
         public decimal leaveledger_abs_und_wop { get; set; }
+        public decimal leaveledger_balance_current { get; set; }
         public string leavetype_descr { get; set; }
         public string leavesubtype_descr { get; set; }
         public double leavetype_maxperyear { get; set; }
-        public decimal leaveledger_balance_current { get; set; }
     }
 }

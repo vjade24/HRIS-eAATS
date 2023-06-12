@@ -27,74 +27,358 @@ namespace HRIS_eAATS.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<vw_leaveadmin_tbl_list> vw_leaveadmin_tbl_list { get; set; }
-        public virtual DbSet<vw_lv_ledger_info_curr_vl_sl> vw_lv_ledger_info_curr_vl_sl { get; set; }
         public virtual DbSet<aats_installation_tbl> aats_installation_tbl { get; set; }
         public virtual DbSet<astype_tbl> astype_tbl { get; set; }
+        public virtual DbSet<authorization_slip_tbl> authorization_slip_tbl { get; set; }
+        public virtual DbSet<authorization_slipt_dtl_tbl> authorization_slipt_dtl_tbl { get; set; }
+        public virtual DbSet<authorization_slipt_hdr_tbl> authorization_slipt_hdr_tbl { get; set; }
+        public virtual DbSet<cancel_application_tbl> cancel_application_tbl { get; set; }
+        public virtual DbSet<coc_earnings_dtl_tbl> coc_earnings_dtl_tbl { get; set; }
+        public virtual DbSet<coc_earnings_hdr_tbl> coc_earnings_hdr_tbl { get; set; }
+        public virtual DbSet<dtr_empl_national_dtl_tbl> dtr_empl_national_dtl_tbl { get; set; }
+        public virtual DbSet<dtr_empl_national_hdr_tbl> dtr_empl_national_hdr_tbl { get; set; }
+        public virtual DbSet<dtr_overrides_tbl> dtr_overrides_tbl { get; set; }
+        public virtual DbSet<dtr_transmittal_dtl_tbl> dtr_transmittal_dtl_tbl { get; set; }
+        public virtual DbSet<dtr_transmittal_hdr_tbl> dtr_transmittal_hdr_tbl { get; set; }
+        public virtual DbSet<empl_aoh_render_dtl_tbl> empl_aoh_render_dtl_tbl { get; set; }
+        public virtual DbSet<empl_aoh_render_hdr_tbl> empl_aoh_render_hdr_tbl { get; set; }
+        public virtual DbSet<empl_dtr_dtl_tbl> empl_dtr_dtl_tbl { get; set; }
+        public virtual DbSet<empl_dtr_hdr_tbl> empl_dtr_hdr_tbl { get; set; }
+        public virtual DbSet<empl_dtr_transmital_update> empl_dtr_transmital_update { get; set; }
+        public virtual DbSet<empl_list_dtr_AO> empl_list_dtr_AO { get; set; }
+        public virtual DbSet<employee_dtr_tbl> employee_dtr_tbl { get; set; }
+        public virtual DbSet<exc_inc_empl_attendance_tbl> exc_inc_empl_attendance_tbl { get; set; }
+        public virtual DbSet<fl_plan_dtl_rep_tbl> fl_plan_dtl_rep_tbl { get; set; }
+        public virtual DbSet<fl_plan_hdr_rep_tbl> fl_plan_hdr_rep_tbl { get; set; }
+        public virtual DbSet<force_leave_plan_dtl_tbl> force_leave_plan_dtl_tbl { get; set; }
+        public virtual DbSet<force_leave_plan_hdr_tbl> force_leave_plan_hdr_tbl { get; set; }
+        public virtual DbSet<force_leave_plan_tbl> force_leave_plan_tbl { get; set; }
+        public virtual DbSet<forceleaveplan_tbl> forceleaveplan_tbl { get; set; }
+        public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
+        public virtual DbSet<leave_application_dtl_cto_tbl> leave_application_dtl_cto_tbl { get; set; }
+        public virtual DbSet<leave_application_dtl_tbl> leave_application_dtl_tbl { get; set; }
+        public virtual DbSet<leave_application_hdr_justi_tbl> leave_application_hdr_justi_tbl { get; set; }
+        public virtual DbSet<leave_application_hdr_tbl> leave_application_hdr_tbl { get; set; }
+        public virtual DbSet<leave_application_signatories_tbl> leave_application_signatories_tbl { get; set; }
         public virtual DbSet<leaveadmin_tbl> leaveadmin_tbl { get; set; }
+        public virtual DbSet<leaveappl_dtl_tbl> leaveappl_dtl_tbl { get; set; }
+        public virtual DbSet<leaveappl_hdr_tbl> leaveappl_hdr_tbl { get; set; }
+        public virtual DbSet<leaveledger_convert_toDAys> leaveledger_convert_toDAys { get; set; }
+        public virtual DbSet<leaveledger_tbl> leaveledger_tbl { get; set; }
         public virtual DbSet<leavesubtype_tbl> leavesubtype_tbl { get; set; }
+        public virtual DbSet<leavetype_oth_info_tbl> leavetype_oth_info_tbl { get; set; }
         public virtual DbSet<leavetype_tbl> leavetype_tbl { get; set; }
+        public virtual DbSet<lv_days_frac_tbl> lv_days_frac_tbl { get; set; }
+        public virtual DbSet<lv_ledger_dtl_tbl> lv_ledger_dtl_tbl { get; set; }
+        public virtual DbSet<lv_ledger_earn_history_tbl> lv_ledger_earn_history_tbl { get; set; }
+        public virtual DbSet<lv_ledger_hdr_oth_tbl> lv_ledger_hdr_oth_tbl { get; set; }
+        public virtual DbSet<lv_ledger_hdr_tbl> lv_ledger_hdr_tbl { get; set; }
+        public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
+        public virtual DbSet<monthly_working_hrs_tbl> monthly_working_hrs_tbl { get; set; }
+        public virtual DbSet<ot_request_dates_dtl_tbl> ot_request_dates_dtl_tbl { get; set; }
+        public virtual DbSet<ot_request_empl_dtl_tbl> ot_request_empl_dtl_tbl { get; set; }
+        public virtual DbSet<ot_request_hdr_tbl> ot_request_hdr_tbl { get; set; }
+        public virtual DbSet<ot_request_purpose_dtl_tbl> ot_request_purpose_dtl_tbl { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<time_schedule_empl_dtl_tbl> time_schedule_empl_dtl_tbl { get; set; }
+        public virtual DbSet<time_schedule_empl_hdr_tbl> time_schedule_empl_hdr_tbl { get; set; }
+        public virtual DbSet<time_schedule_empl_tbl> time_schedule_empl_tbl { get; set; }
+        public virtual DbSet<timeentries_mysql_tbl> timeentries_mysql_tbl { get; set; }
+        public virtual DbSet<timeentries_tbl> timeentries_tbl { get; set; }
         public virtual DbSet<timeschedule_tbl> timeschedule_tbl { get; set; }
+        public virtual DbSet<to_disapprove_comment> to_disapprove_comment { get; set; }
+        public virtual DbSet<to_disapprove_reason_tbl> to_disapprove_reason_tbl { get; set; }
+        public virtual DbSet<to_final_approver_tbl> to_final_approver_tbl { get; set; }
+        public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
+        public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
+        public virtual DbSet<transmittal_leave_trk_setup_tbl> transmittal_leave_trk_setup_tbl { get; set; }
+        public virtual DbSet<travel_order_check_tbl> travel_order_check_tbl { get; set; }
+        public virtual DbSet<travel_order_ldnf_tbl> travel_order_ldnf_tbl { get; set; }
+        public virtual DbSet<travelorder_dates_dtl_tbl> travelorder_dates_dtl_tbl { get; set; }
+        public virtual DbSet<travelorder_empl_dtl_tbl> travelorder_empl_dtl_tbl { get; set; }
+        public virtual DbSet<travelorder_hdr_tbl> travelorder_hdr_tbl { get; set; }
+        public virtual DbSet<travelorder_lvl2_tbl> travelorder_lvl2_tbl { get; set; }
+        public virtual DbSet<travelordertype_empl_dtl_tbl> travelordertype_empl_dtl_tbl { get; set; }
+        public virtual DbSet<travelpurpose_tbl> travelpurpose_tbl { get; set; }
         public virtual DbSet<traveltype_tbl> traveltype_tbl { get; set; }
+        public virtual DbSet<tse_check_tbl> tse_check_tbl { get; set; }
         public virtual DbSet<vl_fractionconvertion_tbl> vl_fractionconvertion_tbl { get; set; }
         public virtual DbSet<vl_wop_tbl> vl_wop_tbl { get; set; }
         public virtual DbSet<vlslearned_dailybasis_tbl> vlslearned_dailybasis_tbl { get; set; }
+        public virtual DbSet<view_lv_ledger_history_notif> view_lv_ledger_history_notif { get; set; }
+        public virtual DbSet<vw_all_applications> vw_all_applications { get; set; }
+        public virtual DbSet<vw_approvalstatus_tbl> vw_approvalstatus_tbl { get; set; }
+        public virtual DbSet<vw_as_info> vw_as_info { get; set; }
+        public virtual DbSet<vw_authorization_slipt_dtr_info> vw_authorization_slipt_dtr_info { get; set; }
+        public virtual DbSet<vw_dtr_viewing_all> vw_dtr_viewing_all { get; set; }
+        public virtual DbSet<vw_empl_dtr_dtl_tbl> vw_empl_dtr_dtl_tbl { get; set; }
+        public virtual DbSet<vw_empl_dtr_info> vw_empl_dtr_info { get; set; }
+        public virtual DbSet<vw_empl_time_sched> vw_empl_time_sched { get; set; }
+        public virtual DbSet<vw_force_leave_application_dtr_info> vw_force_leave_application_dtr_info { get; set; }
+        public virtual DbSet<vw_leave_appl_posting_indv_history> vw_leave_appl_posting_indv_history { get; set; }
+        public virtual DbSet<vw_leave_application_dtr_info> vw_leave_application_dtr_info { get; set; }
+        public virtual DbSet<vw_leave_application_hdr_tbl_list_curr_bal> vw_leave_application_hdr_tbl_list_curr_bal { get; set; }
+        public virtual DbSet<vw_leave_application_signatories_tbl_list> vw_leave_application_signatories_tbl_list { get; set; }
         public virtual DbSet<vw_leaveadmin_dept_list> vw_leaveadmin_dept_list { get; set; }
+        public virtual DbSet<vw_leaveadmin_tbl_list> vw_leaveadmin_tbl_list { get; set; }
         public virtual DbSet<vw_leaveadmin_user_list> vw_leaveadmin_user_list { get; set; }
-        public virtual DbSet<leave_application_dtl_tbl> leave_application_dtl_tbl { get; set; }
-        public virtual DbSet<lv_ledger_dtl_tbl> lv_ledger_dtl_tbl { get; set; }
+        public virtual DbSet<vw_lv_earn_compute> vw_lv_earn_compute { get; set; }
+        public virtual DbSet<vw_lv_info> vw_lv_info { get; set; }
         public virtual DbSet<vw_lv_ledger_info> vw_lv_ledger_info { get; set; }
         public virtual DbSet<vw_lv_ledger_info_curr> vw_lv_ledger_info_curr { get; set; }
-        public virtual DbSet<leave_application_hdr_tbl> leave_application_hdr_tbl { get; set; }
-        public virtual DbSet<empl_dtr_dtl_tbl> empl_dtr_dtl_tbl { get; set; }
-        public virtual DbSet<vw_all_applications> vw_all_applications { get; set; }
-        public virtual DbSet<dtr_overrides_tbl> dtr_overrides_tbl { get; set; }
-        public virtual DbSet<leaveappl_dtl_tbl> leaveappl_dtl_tbl { get; set; }
-        public virtual DbSet<leaveappl_hdr_tbl> leaveappl_hdr_tbl { get; set; }
-        public virtual DbSet<exc_inc_empl_attendance_tbl> exc_inc_empl_attendance_tbl { get; set; }
-        public virtual DbSet<lv_ledger_hdr_tbl> lv_ledger_hdr_tbl { get; set; }
-        public virtual DbSet<vw_leave_appl_posting_indv_history> vw_leave_appl_posting_indv_history { get; set; }
-        public virtual DbSet<leave_application_dtl_cto_tbl> leave_application_dtl_cto_tbl { get; set; }
-        public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
-        public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
-        public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
-<<<<<<< HEAD
-        public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
-=======
->>>>>>> origin/master
+        public virtual DbSet<vw_lv_ledger_info_curr_bal> vw_lv_ledger_info_curr_bal { get; set; }
+        public virtual DbSet<vw_lv_ledger_info_curr_vl_sl> vw_lv_ledger_info_curr_vl_sl { get; set; }
+        public virtual DbSet<vw_lv_ledger_info_rep> vw_lv_ledger_info_rep { get; set; }
+        public virtual DbSet<vw_lv_ledger_posted_unposted> vw_lv_ledger_posted_unposted { get; set; }
+        public virtual DbSet<vw_ot_info> vw_ot_info { get; set; }
+        public virtual DbSet<vw_ot_request_dtr_info> vw_ot_request_dtr_info { get; set; }
+        public virtual DbSet<vw_payrollemployeemaster_asg_tbl> vw_payrollemployeemaster_asg_tbl { get; set; }
+        public virtual DbSet<vw_payrollemployeemaster_ATS> vw_payrollemployeemaster_ATS { get; set; }
+        public virtual DbSet<vw_personnelnames_tbl_HRIS_ATS> vw_personnelnames_tbl_HRIS_ATS { get; set; }
+        public virtual DbSet<vw_timeentries_dtr_info> vw_timeentries_dtr_info { get; set; }
+        public virtual DbSet<vw_to_info> vw_to_info { get; set; }
+        public virtual DbSet<vw_to_info_daily_rep> vw_to_info_daily_rep { get; set; }
+        public virtual DbSet<vw_travel_order_dtr_info> vw_travel_order_dtr_info { get; set; }
+        public virtual DbSet<vw_with_absent_perstrans_half> vw_with_absent_perstrans_half { get; set; }
     
-        public virtual ObjectResult<sp_leavesubtype_tbl_list_Result> sp_leavesubtype_tbl_list(string par_leavetype_code)
+        [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
+        public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
         {
-            var par_leavetype_codeParameter = par_leavetype_code != null ?
-                new ObjectParameter("par_leavetype_code", par_leavetype_code) :
-                new ObjectParameter("par_leavetype_code", typeof(string));
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavesubtype_tbl_list_Result>("sp_leavesubtype_tbl_list", par_leavetype_codeParameter);
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<fn_calendar_days_Result>("[HRIS_ATSEntities].[fn_calendar_days](@p_year, @p_month)", p_yearParameter, p_monthParameter);
         }
     
-        public virtual ObjectResult<sp_leavetype_tbl_list_Result> sp_leavetype_tbl_list()
+        [DbFunction("HRIS_ATSEntities", "func_approval_worklist_authorization_slip_notif")]
+        public virtual IQueryable<func_approval_worklist_authorization_slip_notif_Result> func_approval_worklist_authorization_slip_notif(string par_user_id, string par_department_code, string par_as_year, string par_as_month, string par_employment_type, string par_show_approved)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavetype_tbl_list_Result>("sp_leavetype_tbl_list");
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_as_yearParameter = par_as_year != null ?
+                new ObjectParameter("par_as_year", par_as_year) :
+                new ObjectParameter("par_as_year", typeof(string));
+    
+            var par_as_monthParameter = par_as_month != null ?
+                new ObjectParameter("par_as_month", par_as_month) :
+                new ObjectParameter("par_as_month", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_show_approvedParameter = par_show_approved != null ?
+                new ObjectParameter("par_show_approved", par_show_approved) :
+                new ObjectParameter("par_show_approved", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_approval_worklist_authorization_slip_notif_Result>("[HRIS_ATSEntities].[func_approval_worklist_authorization_slip_notif](@par_user_id, @par_department_code, @par_as_year, @par_as_month, @par_employment_type, @par_show_approved)", par_user_idParameter, par_department_codeParameter, par_as_yearParameter, par_as_monthParameter, par_employment_typeParameter, par_show_approvedParameter);
         }
     
-        public virtual ObjectResult<string> sp_generate_appl_nbr(string p_table_name, Nullable<int> p_charlen, string p_column_name)
+        [DbFunction("HRIS_ATSEntities", "func_approval_worklist_force_leave_application_notif")]
+        public virtual IQueryable<func_approval_worklist_force_leave_application_notif_Result> func_approval_worklist_force_leave_application_notif(string par_dept_code, string par_empl_type, string par_year, string par_user_id, string par_user_empl_id)
         {
-            var p_table_nameParameter = p_table_name != null ?
-                new ObjectParameter("p_table_name", p_table_name) :
-                new ObjectParameter("p_table_name", typeof(string));
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
     
-            var p_charlenParameter = p_charlen.HasValue ?
-                new ObjectParameter("p_charlen", p_charlen) :
-                new ObjectParameter("p_charlen", typeof(int));
+            var par_empl_typeParameter = par_empl_type != null ?
+                new ObjectParameter("par_empl_type", par_empl_type) :
+                new ObjectParameter("par_empl_type", typeof(string));
     
-            var p_column_nameParameter = p_column_name != null ?
-                new ObjectParameter("P_column_name", p_column_name) :
-                new ObjectParameter("P_column_name", typeof(string));
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_generate_appl_nbr", p_table_nameParameter, p_charlenParameter, p_column_nameParameter);
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_user_empl_idParameter = par_user_empl_id != null ?
+                new ObjectParameter("par_user_empl_id", par_user_empl_id) :
+                new ObjectParameter("par_user_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_approval_worklist_force_leave_application_notif_Result>("[HRIS_ATSEntities].[func_approval_worklist_force_leave_application_notif](@par_dept_code, @par_empl_type, @par_year, @par_user_id, @par_user_empl_id)", par_dept_codeParameter, par_empl_typeParameter, par_yearParameter, par_user_idParameter, par_user_empl_idParameter);
         }
     
-        public virtual ObjectResult<sp_leaveledger_empl_undertime_Result> sp_leaveledger_empl_undertime(string par_empl_id, string par_month, string par_year)
+        [DbFunction("HRIS_ATSEntities", "func_approval_worklist_leave_application_notif")]
+        public virtual IQueryable<func_approval_worklist_leave_application_notif_Result> func_approval_worklist_leave_application_notif(string par_user_id, string par_year, string par_show_history)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_approval_worklist_leave_application_notif_Result>("[HRIS_ATSEntities].[func_approval_worklist_leave_application_notif](@par_user_id, @par_year, @par_show_history)", par_user_idParameter, par_yearParameter, par_show_historyParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_approval_worklist_timeschedule_application_notif")]
+        public virtual IQueryable<func_approval_worklist_timeschedule_application_notif_Result> func_approval_worklist_timeschedule_application_notif(string par_user_id, string par_month, string par_year, string par_show_history)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_approval_worklist_timeschedule_application_notif_Result>("[HRIS_ATSEntities].[func_approval_worklist_timeschedule_application_notif](@par_user_id, @par_month, @par_year, @par_show_history)", par_user_idParameter, par_monthParameter, par_yearParameter, par_show_historyParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_approval_worklist_travel_order_notif")]
+        public virtual IQueryable<func_approval_worklist_travel_order_notif_Result> func_approval_worklist_travel_order_notif(string par_user_id, string par_department_code, string par_to_year, string par_to_month, string par_employment_type)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_to_yearParameter = par_to_year != null ?
+                new ObjectParameter("par_to_year", par_to_year) :
+                new ObjectParameter("par_to_year", typeof(string));
+    
+            var par_to_monthParameter = par_to_month != null ?
+                new ObjectParameter("par_to_month", par_to_month) :
+                new ObjectParameter("par_to_month", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_approval_worklist_travel_order_notif_Result>("[HRIS_ATSEntities].[func_approval_worklist_travel_order_notif](@par_user_id, @par_department_code, @par_to_year, @par_to_month, @par_employment_type)", par_user_idParameter, par_department_codeParameter, par_to_yearParameter, par_to_monthParameter, par_employment_typeParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_as_info_date")]
+        public virtual IQueryable<func_as_info_date_Result> func_as_info_date(string p_year, string p_month)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_as_info_date_Result>("[HRIS_ATSEntities].[func_as_info_date](@p_year, @p_month)", p_yearParameter, p_monthParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_as_info_date_new")]
+        public virtual IQueryable<func_as_info_date_new_Result> func_as_info_date_new(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_as_info_date_new_Result>("[HRIS_ATSEntities].[func_as_info_date_new](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_empl_monthly_entries")]
+        public virtual IQueryable<func_empl_monthly_entries_Result> func_empl_monthly_entries(string p_year, string p_month)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_empl_monthly_entries_Result>("[HRIS_ATSEntities].[func_empl_monthly_entries](@p_year, @p_month)", p_yearParameter, p_monthParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_empl_monthly_entries_new")]
+        public virtual IQueryable<func_empl_monthly_entries_new_Result> func_empl_monthly_entries_new(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_empl_monthly_entries_new_Result>("[HRIS_ATSEntities].[func_empl_monthly_entries_new](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_empl_monthly_entries_new_report")]
+        public virtual IQueryable<func_empl_monthly_entries_new_report_Result> func_empl_monthly_entries_new_report(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_empl_monthly_entries_new_report_Result>("[HRIS_ATSEntities].[func_empl_monthly_entries_new_report](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_empl_monthly_entries_new1")]
+        public virtual IQueryable<func_empl_monthly_entries_new1_Result> func_empl_monthly_entries_new1(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_empl_monthly_entries_new1_Result>("[HRIS_ATSEntities].[func_empl_monthly_entries_new1](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_get_employee_monthly_entries")]
+        public virtual IQueryable<func_get_employee_monthly_entries_Result> func_get_employee_monthly_entries(string par_empl_id, string par_month, string par_year, string par_employment_type, string par_department_code)
         {
             var par_empl_idParameter = par_empl_id != null ?
                 new ObjectParameter("par_empl_id", par_empl_id) :
@@ -108,20 +392,204 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_year", par_year) :
                 new ObjectParameter("par_year", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_empl_undertime_Result>("sp_leaveledger_empl_undertime", par_empl_idParameter, par_monthParameter, par_yearParameter);
-        }
-    
-        public virtual ObjectResult<sp_lv_empl_lst_wout_jo_Result> sp_lv_empl_lst_wout_jo(string par_department_code, string par_employment_type)
-        {
-            var par_department_codeParameter = par_department_code != null ?
-                new ObjectParameter("par_department_code", par_department_code) :
-                new ObjectParameter("par_department_code", typeof(string));
-    
             var par_employment_typeParameter = par_employment_type != null ?
                 new ObjectParameter("par_employment_type", par_employment_type) :
                 new ObjectParameter("par_employment_type", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_empl_lst_wout_jo_Result>("sp_lv_empl_lst_wout_jo", par_department_codeParameter, par_employment_typeParameter);
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_get_employee_monthly_entries_Result>("[HRIS_ATSEntities].[func_get_employee_monthly_entries](@par_empl_id, @par_month, @par_year, @par_employment_type, @par_department_code)", par_empl_idParameter, par_monthParameter, par_yearParameter, par_employment_typeParameter, par_department_codeParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_get_leave_request_dates_dtl_tbl")]
+        public virtual IQueryable<func_get_leave_request_dates_dtl_tbl_Result> func_get_leave_request_dates_dtl_tbl()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_get_leave_request_dates_dtl_tbl_Result>("[HRIS_ATSEntities].[func_get_leave_request_dates_dtl_tbl]()");
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_get_ot_request_dates_dtl_tbl")]
+        public virtual IQueryable<func_get_ot_request_dates_dtl_tbl_Result> func_get_ot_request_dates_dtl_tbl()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_get_ot_request_dates_dtl_tbl_Result>("[HRIS_ATSEntities].[func_get_ot_request_dates_dtl_tbl]()");
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_get_travelorder_dates_dtl_tbl")]
+        public virtual IQueryable<func_get_travelorder_dates_dtl_tbl_Result> func_get_travelorder_dates_dtl_tbl()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_get_travelorder_dates_dtl_tbl_Result>("[HRIS_ATSEntities].[func_get_travelorder_dates_dtl_tbl]()");
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_leave_application_cancel_tbl")]
+        public virtual IQueryable<func_leave_application_cancel_tbl_Result> func_leave_application_cancel_tbl(string par_empl_id, string par_leave_ctrlno)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_leave_application_cancel_tbl_Result>("[HRIS_ATSEntities].[func_leave_application_cancel_tbl](@par_empl_id, @par_leave_ctrlno)", par_empl_idParameter, par_leave_ctrlnoParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_leave_info_date")]
+        public virtual IQueryable<func_leave_info_date_Result> func_leave_info_date(string p_leave_ctrlno)
+        {
+            var p_leave_ctrlnoParameter = p_leave_ctrlno != null ?
+                new ObjectParameter("p_leave_ctrlno", p_leave_ctrlno) :
+                new ObjectParameter("p_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_leave_info_date_Result>("[HRIS_ATSEntities].[func_leave_info_date](@p_leave_ctrlno)", p_leave_ctrlnoParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_LV_info_date")]
+        public virtual IQueryable<func_LV_info_date_Result> func_LV_info_date(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_LV_info_date_Result>("[HRIS_ATSEntities].[func_LV_info_date](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_LV_info_date_empl_id")]
+        public virtual IQueryable<func_LV_info_date_empl_id_Result> func_LV_info_date_empl_id(string p_empl_id)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_LV_info_date_empl_id_Result>("[HRIS_ATSEntities].[func_LV_info_date_empl_id](@p_empl_id)", p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_lv_ledger_history_notif")]
+        public virtual IQueryable<func_lv_ledger_history_notif_Result> func_lv_ledger_history_notif(string p_leave_ctrlno)
+        {
+            var p_leave_ctrlnoParameter = p_leave_ctrlno != null ?
+                new ObjectParameter("p_leave_ctrlno", p_leave_ctrlno) :
+                new ObjectParameter("p_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_lv_ledger_history_notif_Result>("[HRIS_ATSEntities].[func_lv_ledger_history_notif](@p_leave_ctrlno)", p_leave_ctrlnoParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_otrqst_info_date")]
+        public virtual IQueryable<func_otrqst_info_date_Result> func_otrqst_info_date(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_otrqst_info_date_Result>("[HRIS_ATSEntities].[func_otrqst_info_date](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_splitstring")]
+        public virtual IQueryable<func_splitstring_Result> func_splitstring(string stringToSplit, string splitter)
+        {
+            var stringToSplitParameter = stringToSplit != null ?
+                new ObjectParameter("stringToSplit", stringToSplit) :
+                new ObjectParameter("stringToSplit", typeof(string));
+    
+            var splitterParameter = splitter != null ?
+                new ObjectParameter("splitter", splitter) :
+                new ObjectParameter("splitter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_splitstring_Result>("[HRIS_ATSEntities].[func_splitstring](@stringToSplit, @splitter)", stringToSplitParameter, splitterParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_timeentries_tbl_schedule")]
+        public virtual IQueryable<func_timeentries_tbl_schedule_Result> func_timeentries_tbl_schedule(string par_empl_id, Nullable<int> par_month, Nullable<int> par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month.HasValue ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(int));
+    
+            var par_yearParameter = par_year.HasValue ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_timeentries_tbl_schedule_Result>("[HRIS_ATSEntities].[func_timeentries_tbl_schedule](@par_empl_id, @par_month, @par_year)", par_empl_idParameter, par_monthParameter, par_yearParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_timeentries_tbl_schedule_regular")]
+        public virtual IQueryable<func_timeentries_tbl_schedule_regular_Result> func_timeentries_tbl_schedule_regular(string par_empl_id, Nullable<int> par_month, Nullable<int> par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month.HasValue ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(int));
+    
+            var par_yearParameter = par_year.HasValue ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_timeentries_tbl_schedule_regular_Result>("[HRIS_ATSEntities].[func_timeentries_tbl_schedule_regular](@par_empl_id, @par_month, @par_year)", par_empl_idParameter, par_monthParameter, par_yearParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_to_info_date")]
+        public virtual IQueryable<func_to_info_date_Result> func_to_info_date(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_to_info_date_Result>("[HRIS_ATSEntities].[func_to_info_date](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_to_info_date_daily_rep")]
+        public virtual IQueryable<func_to_info_date_daily_rep_Result> func_to_info_date_daily_rep(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_to_info_date_daily_rep_Result>("[HRIS_ATSEntities].[func_to_info_date_daily_rep](@p_year, @p_month, @p_empl_id)", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<astype_tbl_list_Result> astype_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<astype_tbl_list_Result>("astype_tbl_list");
         }
     
         public virtual ObjectResult<sp_aats_installation_tbl_list_Result> sp_aats_installation_tbl_list()
@@ -129,179 +597,53 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_aats_installation_tbl_list_Result>("sp_aats_installation_tbl_list");
         }
     
-        public virtual ObjectResult<sp_astype_tbl_list_Result> sp_astype_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_astype_tbl_list_Result>("sp_astype_tbl_list");
-        }
-    
-        public virtual ObjectResult<sp_timeschedule_tbl_list_Result> sp_timeschedule_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_timeschedule_tbl_list_Result>("sp_timeschedule_tbl_list");
-        }
-    
-        public virtual ObjectResult<sp_traveltype_tbl_list_Result> sp_traveltype_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_traveltype_tbl_list_Result>("sp_traveltype_tbl_list");
-        }
-    
-        public virtual ObjectResult<sp_vlslearned_dailybasis_tbl_List_Result> sp_vlslearned_dailybasis_tbl_List()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vlslearned_dailybasis_tbl_List_Result>("sp_vlslearned_dailybasis_tbl_List");
-        }
-    
-        public virtual ObjectResult<sp_vl_fractionconvertion_tbl_list_Result> sp_vl_fractionconvertion_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vl_fractionconvertion_tbl_list_Result>("sp_vl_fractionconvertion_tbl_list");
-        }
-    
-        public virtual ObjectResult<sp_vl_wop_tbl_list_Result> sp_vl_wop_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vl_wop_tbl_list_Result>("sp_vl_wop_tbl_list");
-        }
-    
-        public virtual ObjectResult<sp_lv_info_Result> sp_lv_info(string par_user_id)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info_Result>("sp_lv_info", par_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_lv_info2_Result> sp_lv_info2(string par_user_id)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info2_Result>("sp_lv_info2", par_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_leavetype_current_bal_Result> sp_leavetype_current_bal(string par_empl_id)
+        public virtual int sp_addTimeEntries_list(string par_empl_id, string par_date, Nullable<int> par_hours, Nullable<int> par_minutes, Nullable<int> par_meridiem)
         {
             var par_empl_idParameter = par_empl_id != null ?
                 new ObjectParameter("par_empl_id", par_empl_id) :
                 new ObjectParameter("par_empl_id", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavetype_current_bal_Result>("sp_leavetype_current_bal", par_empl_idParameter);
+            var par_dateParameter = par_date != null ?
+                new ObjectParameter("par_date", par_date) :
+                new ObjectParameter("par_date", typeof(string));
+    
+            var par_hoursParameter = par_hours.HasValue ?
+                new ObjectParameter("par_hours", par_hours) :
+                new ObjectParameter("par_hours", typeof(int));
+    
+            var par_minutesParameter = par_minutes.HasValue ?
+                new ObjectParameter("par_minutes", par_minutes) :
+                new ObjectParameter("par_minutes", typeof(int));
+    
+            var par_meridiemParameter = par_meridiem.HasValue ?
+                new ObjectParameter("par_meridiem", par_meridiem) :
+                new ObjectParameter("par_meridiem", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_addTimeEntries_list", par_empl_idParameter, par_dateParameter, par_hoursParameter, par_minutesParameter, par_meridiemParameter);
         }
     
-        public virtual ObjectResult<sp_lv_ledger_dtl_tbl_list_Result> sp_lv_ledger_dtl_tbl_list(string par_ledger_ctrl_no)
+        public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {
-            var par_ledger_ctrl_noParameter = par_ledger_ctrl_no != null ?
-                new ObjectParameter("par_ledger_ctrl_no", par_ledger_ctrl_no) :
-                new ObjectParameter("par_ledger_ctrl_no", typeof(string));
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_dtl_tbl_list_Result>("sp_lv_ledger_dtl_tbl_list", par_ledger_ctrl_noParameter);
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_alterdiagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
         }
     
-        public virtual ObjectResult<sp_lv_ledger_cancel_Result> sp_lv_ledger_cancel(string p_ledger_ctrl_no, string p_leaveledger_date, string p_user_id)
-        {
-            var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
-                new ObjectParameter("p_ledger_ctrl_no", p_ledger_ctrl_no) :
-                new ObjectParameter("p_ledger_ctrl_no", typeof(string));
-    
-            var p_leaveledger_dateParameter = p_leaveledger_date != null ?
-                new ObjectParameter("p_leaveledger_date", p_leaveledger_date) :
-                new ObjectParameter("p_leaveledger_date", typeof(string));
-    
-            var p_user_idParameter = p_user_id != null ?
-                new ObjectParameter("p_user_id", p_user_id) :
-                new ObjectParameter("p_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_cancel_Result>("sp_lv_ledger_cancel", p_ledger_ctrl_noParameter, p_leaveledger_dateParameter, p_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_lv_ledger_posted_unposted_Result> sp_lv_ledger_posted_unposted(string par_empl_id, string par_posting_flag)
-        {
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_posting_flagParameter = par_posting_flag != null ?
-                new ObjectParameter("par_posting_flag", par_posting_flag) :
-                new ObjectParameter("par_posting_flag", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_posted_unposted_Result>("sp_lv_ledger_posted_unposted", par_empl_idParameter, par_posting_flagParameter);
-        }
-    
-        public virtual ObjectResult<sp_leaveledger_curr_bal_Result> sp_leaveledger_curr_bal(string p_empl_id, string p_year, string p_leavetype_code)
-        {
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_yearParameter = p_year != null ?
-                new ObjectParameter("p_year", p_year) :
-                new ObjectParameter("p_year", typeof(string));
-    
-            var p_leavetype_codeParameter = p_leavetype_code != null ?
-                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
-                new ObjectParameter("p_leavetype_code", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_curr_bal_Result>("sp_leaveledger_curr_bal", p_empl_idParameter, p_yearParameter, p_leavetype_codeParameter);
-        }
-    
-        public virtual ObjectResult<sp_batch_generate_dtr_emptype_Result> sp_batch_generate_dtr_emptype(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
-        {
-            var p_dtr_yearParameter = p_dtr_year != null ?
-                new ObjectParameter("p_dtr_year", p_dtr_year) :
-                new ObjectParameter("p_dtr_year", typeof(string));
-    
-            var p_dtr_monthParameter = p_dtr_month != null ?
-                new ObjectParameter("p_dtr_month", p_dtr_month) :
-                new ObjectParameter("p_dtr_month", typeof(string));
-    
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_employment_typeParameter = p_employment_type != null ?
-                new ObjectParameter("p_employment_type", p_employment_type) :
-                new ObjectParameter("p_employment_type", typeof(string));
-    
-            var p_department_codeParameter = p_department_code != null ?
-                new ObjectParameter("p_department_code", p_department_code) :
-                new ObjectParameter("p_department_code", typeof(string));
-    
-            var p_user_idParameter = p_user_id != null ?
-                new ObjectParameter("p_user_id", p_user_id) :
-                new ObjectParameter("p_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_Result>("sp_batch_generate_dtr_emptype", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_leaveledger_curr_bal2_Result> sp_leaveledger_curr_bal2(string p_empl_id, string p_year, string p_leavetype_code)
-        {
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_yearParameter = p_year != null ?
-                new ObjectParameter("p_year", p_year) :
-                new ObjectParameter("p_year", typeof(string));
-    
-            var p_leavetype_codeParameter = p_leavetype_code != null ?
-                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
-                new ObjectParameter("p_leavetype_code", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_curr_bal2_Result>("sp_leaveledger_curr_bal2", p_empl_idParameter, p_yearParameter, p_leavetype_codeParameter);
-        }
-    
-        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_show_historyParameter = par_show_history != null ?
-                new ObjectParameter("par_show_history", par_show_history) :
-                new ObjectParameter("par_show_history", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter);
-        }
-    
-        public virtual ObjectResult<sp_generate_empl_dtr_Result> sp_generate_empl_dtr(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_employment_type, string par_user_id)
+        public virtual ObjectResult<sp_aoh_render_hdr_dtl_tbl_list_Result> sp_aoh_render_hdr_dtl_tbl_list(string par_year, string par_month, string par_department)
         {
             var par_yearParameter = par_year != null ?
                 new ObjectParameter("par_year", par_year) :
@@ -311,190 +653,112 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_month", par_month) :
                 new ObjectParameter("par_month", typeof(string));
     
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
+            var par_departmentParameter = par_department != null ?
+                new ObjectParameter("par_department", par_department) :
+                new ObjectParameter("par_department", typeof(string));
     
-            var par_view_typeParameter = par_view_type != null ?
-                new ObjectParameter("par_view_type", par_view_type) :
-                new ObjectParameter("par_view_type", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_aoh_render_hdr_dtl_tbl_list_Result>("sp_aoh_render_hdr_dtl_tbl_list", par_yearParameter, par_monthParameter, par_departmentParameter);
+        }
+    
+        public virtual ObjectResult<sp_approval_status_list_Result> sp_approval_status_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_approval_status_list_Result>("sp_approval_status_list");
+        }
+    
+        public virtual ObjectResult<sp_approval_worklist_authorization_slip_Result> sp_approval_worklist_authorization_slip(string par_user_id, string par_department_code, string par_as_year, string par_as_month, string par_employment_type, string par_show_approved)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
     
             var par_department_codeParameter = par_department_code != null ?
                 new ObjectParameter("par_department_code", par_department_code) :
                 new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_as_yearParameter = par_as_year != null ?
+                new ObjectParameter("par_as_year", par_as_year) :
+                new ObjectParameter("par_as_year", typeof(string));
+    
+            var par_as_monthParameter = par_as_month != null ?
+                new ObjectParameter("par_as_month", par_as_month) :
+                new ObjectParameter("par_as_month", typeof(string));
     
             var par_employment_typeParameter = par_employment_type != null ?
                 new ObjectParameter("par_employment_type", par_employment_type) :
                 new ObjectParameter("par_employment_type", typeof(string));
     
+            var par_show_approvedParameter = par_show_approved != null ?
+                new ObjectParameter("par_show_approved", par_show_approved) :
+                new ObjectParameter("par_show_approved", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_approval_worklist_authorization_slip_Result>("sp_approval_worklist_authorization_slip", par_user_idParameter, par_department_codeParameter, par_as_yearParameter, par_as_monthParameter, par_employment_typeParameter, par_show_approvedParameter);
+        }
+    
+        public virtual ObjectResult<sp_approval_worklist_ot_request_Result> sp_approval_worklist_ot_request(string par_user_id, string par_department_code, string par_ot_year, string par_ot_month, string par_employment_type)
+        {
             var par_user_idParameter = par_user_id != null ?
                 new ObjectParameter("par_user_id", par_user_id) :
                 new ObjectParameter("par_user_id", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_empl_dtr_Result>("sp_generate_empl_dtr", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_employment_typeParameter, par_user_idParameter);
-        }
-    
-        public virtual ObjectResult<string> sp_batch_generate_dtr_shift(Nullable<int> p_batch_id)
-        {
-            var p_batch_idParameter = p_batch_id.HasValue ?
-                new ObjectParameter("p_batch_id", p_batch_id) :
-                new ObjectParameter("p_batch_id", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_batch_generate_dtr_shift", p_batch_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_generate_empl_dtr_shift_Result> sp_generate_empl_dtr_shift(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_employment_type, string par_user_id)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_view_typeParameter = par_view_type != null ?
-                new ObjectParameter("par_view_type", par_view_type) :
-                new ObjectParameter("par_view_type", typeof(string));
-    
             var par_department_codeParameter = par_department_code != null ?
                 new ObjectParameter("par_department_code", par_department_code) :
                 new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_ot_yearParameter = par_ot_year != null ?
+                new ObjectParameter("par_ot_year", par_ot_year) :
+                new ObjectParameter("par_ot_year", typeof(string));
+    
+            var par_ot_monthParameter = par_ot_month != null ?
+                new ObjectParameter("par_ot_month", par_ot_month) :
+                new ObjectParameter("par_ot_month", typeof(string));
     
             var par_employment_typeParameter = par_employment_type != null ?
                 new ObjectParameter("par_employment_type", par_employment_type) :
                 new ObjectParameter("par_employment_type", typeof(string));
     
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_approval_worklist_ot_request_Result>("sp_approval_worklist_ot_request", par_user_idParameter, par_department_codeParameter, par_ot_yearParameter, par_ot_monthParameter, par_employment_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_approval_worklist_travel_order_Result> sp_approval_worklist_travel_order(string par_user_id, string par_department_code, string par_to_year, string par_to_month, string par_employment_type)
+        {
             var par_user_idParameter = par_user_id != null ?
                 new ObjectParameter("par_user_id", par_user_id) :
                 new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_empl_dtr_shift_Result>("sp_generate_empl_dtr_shift", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_employment_typeParameter, par_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_dtr_override_approval_list_Result> sp_dtr_override_approval_list(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id, string par_showoption)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_view_typeParameter = par_view_type != null ?
-                new ObjectParameter("par_view_type", par_view_type) :
-                new ObjectParameter("par_view_type", typeof(string));
     
             var par_department_codeParameter = par_department_code != null ?
                 new ObjectParameter("par_department_code", par_department_code) :
                 new ObjectParameter("par_department_code", typeof(string));
     
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
+            var par_to_yearParameter = par_to_year != null ?
+                new ObjectParameter("par_to_year", par_to_year) :
+                new ObjectParameter("par_to_year", typeof(string));
     
-            var par_showoptionParameter = par_showoption != null ?
-                new ObjectParameter("par_showoption", par_showoption) :
-                new ObjectParameter("par_showoption", typeof(string));
+            var par_to_monthParameter = par_to_month != null ?
+                new ObjectParameter("par_to_month", par_to_month) :
+                new ObjectParameter("par_to_month", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_override_approval_list_Result>("sp_dtr_override_approval_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter, par_showoptionParameter);
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_approval_worklist_travel_order_Result>("sp_approval_worklist_travel_order", par_user_idParameter, par_department_codeParameter, par_to_yearParameter, par_to_monthParameter, par_employment_typeParameter);
         }
     
-        public virtual ObjectResult<sp_employee_dtr_override_approval_list_Result> sp_employee_dtr_override_approval_list(string par_department_code, string par_year, string par_month, string par_showoption)
+        public virtual int sp_approve_cancellation(string p_empl_id, string p_dtr_date, string p_user_id)
         {
-            var par_department_codeParameter = par_department_code != null ?
-                new ObjectParameter("par_department_code", par_department_code) :
-                new ObjectParameter("par_department_code", typeof(string));
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
     
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
+            var p_dtr_dateParameter = p_dtr_date != null ?
+                new ObjectParameter("p_dtr_date", p_dtr_date) :
+                new ObjectParameter("p_dtr_date", typeof(string));
     
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
     
-            var par_showoptionParameter = par_showoption != null ?
-                new ObjectParameter("par_showoption", par_showoption) :
-                new ObjectParameter("par_showoption", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_dtr_override_approval_list_Result>("sp_employee_dtr_override_approval_list", par_department_codeParameter, par_yearParameter, par_monthParameter, par_showoptionParameter);
-        }
-    
-        public virtual ObjectResult<sp_department_list_override_approval_Result> sp_department_list_override_approval(string par_year, string par_month)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_department_list_override_approval_Result>("sp_department_list_override_approval", par_yearParameter, par_monthParameter);
-        }
-    
-        public virtual int sp_dtr_override_approved_all(string par_year, string par_month, string par_empl_id, string par_user_id, string par_status)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_statusParameter = par_status != null ?
-                new ObjectParameter("par_status", par_status) :
-                new ObjectParameter("par_status", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dtr_override_approved_all", par_yearParameter, par_monthParameter, par_empl_idParameter, par_user_idParameter, par_statusParameter);
-        }
-    
-        public virtual ObjectResult<sp_dtr_override_list_Result> sp_dtr_override_list(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_view_typeParameter = par_view_type != null ?
-                new ObjectParameter("par_view_type", par_view_type) :
-                new ObjectParameter("par_view_type", typeof(string));
-    
-            var par_department_codeParameter = par_department_code != null ?
-                new ObjectParameter("par_department_code", par_department_code) :
-                new ObjectParameter("par_department_code", typeof(string));
-    
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_override_list_Result>("sp_dtr_override_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_approve_cancellation", p_empl_idParameter, p_dtr_dateParameter, p_user_idParameter);
         }
     
         public virtual ObjectResult<sp_approved_overrides_Result> sp_approved_overrides(string p_empl_id, string p_status, string p_year, string p_month, string p_period)
@@ -551,28 +815,315 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_approved_timeschedule_Result>("sp_approved_timeschedule", p_empl_idParameter, p_statusParameter, p_yearParameter, p_monthParameter, p_periodParameter, p_effect_dateParameter);
         }
     
-        public virtual ObjectResult<sp_update_dtr_transmittal_add_Result> sp_update_dtr_transmittal_add(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_status)
+        public virtual ObjectResult<sp_as_search_list_Result> sp_as_search_list(string par_empl_id, string par_year, string par_month)
         {
-            var p_dtr_yearParameter = p_dtr_year != null ?
-                new ObjectParameter("p_dtr_year", p_dtr_year) :
-                new ObjectParameter("p_dtr_year", typeof(string));
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
     
-            var p_dtr_monthParameter = p_dtr_month != null ?
-                new ObjectParameter("p_dtr_month", p_dtr_month) :
-                new ObjectParameter("p_dtr_month", typeof(string));
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
     
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
     
-            var p_statusParameter = p_status != null ?
-                new ObjectParameter("p_status", p_status) :
-                new ObjectParameter("p_status", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_update_dtr_transmittal_add_Result>("sp_update_dtr_transmittal_add", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_statusParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_as_search_list_Result>("sp_as_search_list", par_empl_idParameter, par_yearParameter, par_monthParameter);
         }
     
-        public virtual ObjectResult<sp_update_dtr_transmittal_remove_Result> sp_update_dtr_transmittal_remove(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_status)
+        public virtual ObjectResult<sp_astype_tbl_list_Result> sp_astype_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_astype_tbl_list_Result>("sp_astype_tbl_list");
+        }
+    
+        public virtual ObjectResult<sp_authority_onhours_render_generate_Result> sp_authority_onhours_render_generate(string par_year, string par_month, string par_department, string par_employment_type, string par_empl_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_departmentParameter = par_department != null ?
+                new ObjectParameter("par_department", par_department) :
+                new ObjectParameter("par_department", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authority_onhours_render_generate_Result>("sp_authority_onhours_render_generate", par_yearParameter, par_monthParameter, par_departmentParameter, par_employment_typeParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_authority_onhours_render_rep_Result> sp_authority_onhours_render_rep(string par_year, string par_month, string par_department, string par_employment_type, string par_empl_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_departmentParameter = par_department != null ?
+                new ObjectParameter("par_department", par_department) :
+                new ObjectParameter("par_department", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authority_onhours_render_rep_Result>("sp_authority_onhours_render_rep", par_yearParameter, par_monthParameter, par_departmentParameter, par_employment_typeParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_authorization_slip_dtl_tbl_list_Result> sp_authorization_slip_dtl_tbl_list(string par_application_nbr)
+        {
+            var par_application_nbrParameter = par_application_nbr != null ?
+                new ObjectParameter("par_application_nbr", par_application_nbr) :
+                new ObjectParameter("par_application_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authorization_slip_dtl_tbl_list_Result>("sp_authorization_slip_dtl_tbl_list", par_application_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_authorization_slip_report_Result> sp_authorization_slip_report(string p_application_nbr)
+        {
+            var p_application_nbrParameter = p_application_nbr != null ?
+                new ObjectParameter("p_application_nbr", p_application_nbr) :
+                new ObjectParameter("p_application_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authorization_slip_report_Result>("sp_authorization_slip_report", p_application_nbrParameter);
+        }
+    
+        public virtual int sp_authorization_slip_tbl_save(string par_as_ctrl_no, string par_as_empl_id, string par_as_dtr_date, string par_as_date_filed, string par_as_am_in, string par_as_am_out, string par_as_pm_in, string par_as_pm_out, string par_reason_code, string par_astype_code, string par_as_comment, string par_as_venue, string par_approval_status, string par_approval_id)
+        {
+            var par_as_ctrl_noParameter = par_as_ctrl_no != null ?
+                new ObjectParameter("par_as_ctrl_no", par_as_ctrl_no) :
+                new ObjectParameter("par_as_ctrl_no", typeof(string));
+    
+            var par_as_empl_idParameter = par_as_empl_id != null ?
+                new ObjectParameter("par_as_empl_id", par_as_empl_id) :
+                new ObjectParameter("par_as_empl_id", typeof(string));
+    
+            var par_as_dtr_dateParameter = par_as_dtr_date != null ?
+                new ObjectParameter("par_as_dtr_date", par_as_dtr_date) :
+                new ObjectParameter("par_as_dtr_date", typeof(string));
+    
+            var par_as_date_filedParameter = par_as_date_filed != null ?
+                new ObjectParameter("par_as_date_filed", par_as_date_filed) :
+                new ObjectParameter("par_as_date_filed", typeof(string));
+    
+            var par_as_am_inParameter = par_as_am_in != null ?
+                new ObjectParameter("par_as_am_in", par_as_am_in) :
+                new ObjectParameter("par_as_am_in", typeof(string));
+    
+            var par_as_am_outParameter = par_as_am_out != null ?
+                new ObjectParameter("par_as_am_out", par_as_am_out) :
+                new ObjectParameter("par_as_am_out", typeof(string));
+    
+            var par_as_pm_inParameter = par_as_pm_in != null ?
+                new ObjectParameter("par_as_pm_in", par_as_pm_in) :
+                new ObjectParameter("par_as_pm_in", typeof(string));
+    
+            var par_as_pm_outParameter = par_as_pm_out != null ?
+                new ObjectParameter("par_as_pm_out", par_as_pm_out) :
+                new ObjectParameter("par_as_pm_out", typeof(string));
+    
+            var par_reason_codeParameter = par_reason_code != null ?
+                new ObjectParameter("par_reason_code", par_reason_code) :
+                new ObjectParameter("par_reason_code", typeof(string));
+    
+            var par_astype_codeParameter = par_astype_code != null ?
+                new ObjectParameter("par_astype_code", par_astype_code) :
+                new ObjectParameter("par_astype_code", typeof(string));
+    
+            var par_as_commentParameter = par_as_comment != null ?
+                new ObjectParameter("par_as_comment", par_as_comment) :
+                new ObjectParameter("par_as_comment", typeof(string));
+    
+            var par_as_venueParameter = par_as_venue != null ?
+                new ObjectParameter("par_as_venue", par_as_venue) :
+                new ObjectParameter("par_as_venue", typeof(string));
+    
+            var par_approval_statusParameter = par_approval_status != null ?
+                new ObjectParameter("par_approval_status", par_approval_status) :
+                new ObjectParameter("par_approval_status", typeof(string));
+    
+            var par_approval_idParameter = par_approval_id != null ?
+                new ObjectParameter("par_approval_id", par_approval_id) :
+                new ObjectParameter("par_approval_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_authorization_slip_tbl_save", par_as_ctrl_noParameter, par_as_empl_idParameter, par_as_dtr_dateParameter, par_as_date_filedParameter, par_as_am_inParameter, par_as_am_outParameter, par_as_pm_inParameter, par_as_pm_outParameter, par_reason_codeParameter, par_astype_codeParameter, par_as_commentParameter, par_as_venueParameter, par_approval_statusParameter, par_approval_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_authorization_slipt_tbl_list_Result> sp_authorization_slipt_tbl_list(string par_year, string par_month, string par_empl_id, string par_creator_id, string par_status)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_creator_idParameter = par_creator_id != null ?
+                new ObjectParameter("par_creator_id", par_creator_id) :
+                new ObjectParameter("par_creator_id", typeof(string));
+    
+            var par_statusParameter = par_status != null ?
+                new ObjectParameter("par_status", par_status) :
+                new ObjectParameter("par_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authorization_slipt_tbl_list_Result>("sp_authorization_slipt_tbl_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_creator_idParameter, par_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_authorization_slipt_tbl_list_by_employee_Result> sp_authorization_slipt_tbl_list_by_employee(string par_year, string par_month, string par_empl_id, string par_creator_id, string par_status)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_creator_idParameter = par_creator_id != null ?
+                new ObjectParameter("par_creator_id", par_creator_id) :
+                new ObjectParameter("par_creator_id", typeof(string));
+    
+            var par_statusParameter = par_status != null ?
+                new ObjectParameter("par_status", par_status) :
+                new ObjectParameter("par_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authorization_slipt_tbl_list_by_employee_Result>("sp_authorization_slipt_tbl_list_by_employee", par_yearParameter, par_monthParameter, par_empl_idParameter, par_creator_idParameter, par_statusParameter);
+        }
+    
+        public virtual int sp_authorization_tbl_list(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_authorization_tbl_list", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_auto_apply_force_leave_Result> sp_auto_apply_force_leave(string par_empl_id, Nullable<System.DateTime> par_fl_date, string par_approved_user_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_fl_dateParameter = par_fl_date.HasValue ?
+                new ObjectParameter("par_fl_date", par_fl_date) :
+                new ObjectParameter("par_fl_date", typeof(System.DateTime));
+    
+            var par_approved_user_idParameter = par_approved_user_id != null ?
+                new ObjectParameter("par_approved_user_id", par_approved_user_id) :
+                new ObjectParameter("par_approved_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_auto_apply_force_leave_Result>("sp_auto_apply_force_leave", par_empl_idParameter, par_fl_dateParameter, par_approved_user_idParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_available_leave(string par_empl_id, string par_year, string par_leavetype_code, string table_name, string date_field, string empl_id_field, string status_field)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_leavetype_codeParameter = par_leavetype_code != null ?
+                new ObjectParameter("par_leavetype_code", par_leavetype_code) :
+                new ObjectParameter("par_leavetype_code", typeof(string));
+    
+            var table_nameParameter = table_name != null ?
+                new ObjectParameter("table_name", table_name) :
+                new ObjectParameter("table_name", typeof(string));
+    
+            var date_fieldParameter = date_field != null ?
+                new ObjectParameter("date_field", date_field) :
+                new ObjectParameter("date_field", typeof(string));
+    
+            var empl_id_fieldParameter = empl_id_field != null ?
+                new ObjectParameter("empl_id_field", empl_id_field) :
+                new ObjectParameter("empl_id_field", typeof(string));
+    
+            var status_fieldParameter = status_field != null ?
+                new ObjectParameter("status_field", status_field) :
+                new ObjectParameter("status_field", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_available_leave", par_empl_idParameter, par_yearParameter, par_leavetype_codeParameter, table_nameParameter, date_fieldParameter, empl_id_fieldParameter, status_fieldParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_batch_backup_hris_db()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_batch_backup_hris_db");
+        }
+    
+        public virtual ObjectResult<string> sp_batch_generate_dtr(Nullable<int> p_batch_id)
+        {
+            var p_batch_idParameter = p_batch_id.HasValue ?
+                new ObjectParameter("p_batch_id", p_batch_id) :
+                new ObjectParameter("p_batch_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_batch_generate_dtr", p_batch_idParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_batch_generate_dtr_DEPT(Nullable<int> p_batch_id, string p_department_code, Nullable<System.DateTime> p_date)
+        {
+            var p_batch_idParameter = p_batch_id.HasValue ?
+                new ObjectParameter("p_batch_id", p_batch_id) :
+                new ObjectParameter("p_batch_id", typeof(int));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_dateParameter = p_date.HasValue ?
+                new ObjectParameter("p_date", p_date) :
+                new ObjectParameter("p_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_batch_generate_dtr_DEPT", p_batch_idParameter, p_department_codeParameter, p_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_employee_Result> sp_batch_generate_dtr_employee(string p_empl_id, string p_year, string p_month)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_employee_Result>("sp_batch_generate_dtr_employee", p_empl_idParameter, p_yearParameter, p_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_Result> sp_batch_generate_dtr_emptype(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
         {
             var p_dtr_yearParameter = p_dtr_year != null ?
                 new ObjectParameter("p_dtr_year", p_dtr_year) :
@@ -586,11 +1137,1544 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_empl_id", p_empl_id) :
                 new ObjectParameter("p_empl_id", typeof(string));
     
-            var p_statusParameter = p_status != null ?
-                new ObjectParameter("p_status", p_status) :
-                new ObjectParameter("p_status", typeof(string));
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_update_dtr_transmittal_remove_Result>("sp_update_dtr_transmittal_remove", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_statusParameter);
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_Result>("sp_batch_generate_dtr_emptype", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_01_Result> sp_batch_generate_dtr_emptype_01(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_01_Result>("sp_batch_generate_dtr_emptype_01", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_02_reg_Result> sp_batch_generate_dtr_emptype_02_reg(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_02_reg_Result>("sp_batch_generate_dtr_emptype_02_reg", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_03_Result> sp_batch_generate_dtr_emptype_03(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_03_Result>("sp_batch_generate_dtr_emptype_03", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_04_Result> sp_batch_generate_dtr_emptype_04(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_04_Result>("sp_batch_generate_dtr_emptype_04", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_05_Result> sp_batch_generate_dtr_emptype_05(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_05_Result>("sp_batch_generate_dtr_emptype_05", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_06_Result> sp_batch_generate_dtr_emptype_06(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_06_Result>("sp_batch_generate_dtr_emptype_06", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_07_Result> sp_batch_generate_dtr_emptype_07(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_07_Result>("sp_batch_generate_dtr_emptype_07", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_08_Result> sp_batch_generate_dtr_emptype_08(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_08_Result>("sp_batch_generate_dtr_emptype_08", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_10_Result> sp_batch_generate_dtr_emptype_10(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_10_Result>("sp_batch_generate_dtr_emptype_10", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_11_Result> sp_batch_generate_dtr_emptype_11(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_11_Result>("sp_batch_generate_dtr_emptype_11", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_16_Result> sp_batch_generate_dtr_emptype_16(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_16_Result>("sp_batch_generate_dtr_emptype_16", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_17_Result> sp_batch_generate_dtr_emptype_17(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_17_Result>("sp_batch_generate_dtr_emptype_17", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_18_Result> sp_batch_generate_dtr_emptype_18(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_18_Result>("sp_batch_generate_dtr_emptype_18", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_19_Result> sp_batch_generate_dtr_emptype_19(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_19_Result>("sp_batch_generate_dtr_emptype_19", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_20_Result> sp_batch_generate_dtr_emptype_20(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_20_Result>("sp_batch_generate_dtr_emptype_20", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_26_Result> sp_batch_generate_dtr_emptype_26(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_26_Result>("sp_batch_generate_dtr_emptype_26", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_rerun_july_Result> sp_batch_generate_dtr_emptype_rerun_july(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_rerun_july_Result>("sp_batch_generate_dtr_emptype_rerun_july", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_Result> sp_batch_generate_dtr_emptype_shift(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_Result>("sp_batch_generate_dtr_emptype_shift", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_02_Result> sp_batch_generate_dtr_emptype_shift_02(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_02_Result>("sp_batch_generate_dtr_emptype_shift_02", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_12_Result> sp_batch_generate_dtr_emptype_shift_12(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_12_Result>("sp_batch_generate_dtr_emptype_shift_12", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_13_Result> sp_batch_generate_dtr_emptype_shift_13(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_13_Result>("sp_batch_generate_dtr_emptype_shift_13", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_17_Result> sp_batch_generate_dtr_emptype_shift_17(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_17_Result>("sp_batch_generate_dtr_emptype_shift_17", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_21_Result> sp_batch_generate_dtr_emptype_shift_21(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_21_Result>("sp_batch_generate_dtr_emptype_shift_21", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_22_Result> sp_batch_generate_dtr_emptype_shift_22(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_22_Result>("sp_batch_generate_dtr_emptype_shift_22", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_23_Result> sp_batch_generate_dtr_emptype_shift_23(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_23_Result>("sp_batch_generate_dtr_emptype_shift_23", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_shift_24_Result> sp_batch_generate_dtr_emptype_shift_24(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_shift_24_Result>("sp_batch_generate_dtr_emptype_shift_24", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual int sp_batch_generate_dtr_emptype_shift_modified(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_batch_generate_dtr_emptype_shift_modified", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_batch_generate_dtr_emptype_TEST_Result> sp_batch_generate_dtr_emptype_TEST(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_employment_type, string p_department_code, string p_user_id)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_batch_generate_dtr_emptype_TEST_Result>("sp_batch_generate_dtr_emptype_TEST", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_employment_typeParameter, p_department_codeParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_batch_generate_dtr_shift(Nullable<int> p_batch_id)
+        {
+            var p_batch_idParameter = p_batch_id.HasValue ?
+                new ObjectParameter("p_batch_id", p_batch_id) :
+                new ObjectParameter("p_batch_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_batch_generate_dtr_shift", p_batch_idParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_batch_generate_dtr_shift_DEPT(Nullable<int> p_batch_id, string p_department_code, Nullable<System.DateTime> p_date)
+        {
+            var p_batch_idParameter = p_batch_id.HasValue ?
+                new ObjectParameter("p_batch_id", p_batch_id) :
+                new ObjectParameter("p_batch_id", typeof(int));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_dateParameter = p_date.HasValue ?
+                new ObjectParameter("p_date", p_date) :
+                new ObjectParameter("p_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_batch_generate_dtr_shift_DEPT", p_batch_idParameter, p_department_codeParameter, p_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_cancel_application_dtl_list_to_Result> sp_cancel_application_dtl_list_to(string p_par_application_nbr, string p_transaction_code, string p_empl_id)
+        {
+            var p_par_application_nbrParameter = p_par_application_nbr != null ?
+                new ObjectParameter("p_par_application_nbr", p_par_application_nbr) :
+                new ObjectParameter("p_par_application_nbr", typeof(string));
+    
+            var p_transaction_codeParameter = p_transaction_code != null ?
+                new ObjectParameter("p_transaction_code", p_transaction_code) :
+                new ObjectParameter("p_transaction_code", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_cancel_application_dtl_list_to_Result>("sp_cancel_application_dtl_list_to", p_par_application_nbrParameter, p_transaction_codeParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_check_shiftsched_Result> sp_check_shiftsched(string par_year, string par_month, string par_empl_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_check_shiftsched_Result>("sp_check_shiftsched", par_yearParameter, par_monthParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_checkremove_transmital_Result> sp_checkremove_transmital(string p_action, string p_empl_id, string p_year, string p_month)
+        {
+            var p_actionParameter = p_action != null ?
+                new ObjectParameter("p_action", p_action) :
+                new ObjectParameter("p_action", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_checkremove_transmital_Result>("sp_checkremove_transmital", p_actionParameter, p_empl_idParameter, p_yearParameter, p_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_checkTimeEntries_Result> sp_checkTimeEntries(string par_empl_id, Nullable<System.DateTime> par_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_dateParameter = par_date.HasValue ?
+                new ObjectParameter("par_date", par_date) :
+                new ObjectParameter("par_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_checkTimeEntries_Result>("sp_checkTimeEntries", par_empl_idParameter, par_dateParameter);
+        }
+    
+        public virtual int sp_coc_earnings_hdr_tbl_list(string par_empl_id, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_coc_earnings_hdr_tbl_list", par_empl_idParameter, par_yearParameter);
+        }
+    
+        public virtual int sp_creatediagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var versionParameter = version.HasValue ?
+                new ObjectParameter("version", version) :
+                new ObjectParameter("version", typeof(int));
+    
+            var definitionParameter = definition != null ?
+                new ObjectParameter("definition", definition) :
+                new ObjectParameter("definition", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_creatediagram", diagramnameParameter, owner_idParameter, versionParameter, definitionParameter);
+        }
+    
+        public virtual int sp_delete_application_dtl_list_to(string p_par_application_nbr, string p_transaction_code, string p_empl_id, Nullable<System.DateTime> p_app_inclusive_date)
+        {
+            var p_par_application_nbrParameter = p_par_application_nbr != null ?
+                new ObjectParameter("p_par_application_nbr", p_par_application_nbr) :
+                new ObjectParameter("p_par_application_nbr", typeof(string));
+    
+            var p_transaction_codeParameter = p_transaction_code != null ?
+                new ObjectParameter("p_transaction_code", p_transaction_code) :
+                new ObjectParameter("p_transaction_code", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_app_inclusive_dateParameter = p_app_inclusive_date.HasValue ?
+                new ObjectParameter("p_app_inclusive_date", p_app_inclusive_date) :
+                new ObjectParameter("p_app_inclusive_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_delete_application_dtl_list_to", p_par_application_nbrParameter, p_transaction_codeParameter, p_empl_idParameter, p_app_inclusive_dateParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> sp_delete_on_travelorder_empl_dtl_tbl(string p_travel_order_no, string p_empl_id, string p_user_id)
+        {
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_delete_on_travelorder_empl_dtl_tbl", p_travel_order_noParameter, p_empl_idParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_department_list_override_approval_Result> sp_department_list_override_approval(string par_year, string par_month)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_department_list_override_approval_Result>("sp_department_list_override_approval", par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual int sp_dropdiagram(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dropdiagram", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_descri_rep_Result> sp_dtr_descri_rep(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_descri_rep_Result>("sp_dtr_descri_rep", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_descri_rep_test_Result> sp_dtr_descri_rep_test(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_descri_rep_test_Result>("sp_dtr_descri_rep_test", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_national_dtl_list_Result> sp_dtr_national_dtl_list(string par_year, string par_month, string par_empl_id, string par_view_type)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_national_dtl_list_Result>("sp_dtr_national_dtl_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_national_manual_approval_list_Result> sp_dtr_national_manual_approval_list(string par_year, string par_month, string par_department_code, string par_employment_type, string par_show_option)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_show_optionParameter = par_show_option != null ?
+                new ObjectParameter("par_show_option", par_show_option) :
+                new ObjectParameter("par_show_option", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_national_manual_approval_list_Result>("sp_dtr_national_manual_approval_list", par_yearParameter, par_monthParameter, par_department_codeParameter, par_employment_typeParameter, par_show_optionParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_override_approval_list_Result> sp_dtr_override_approval_list(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id, string par_showoption)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_showoptionParameter = par_showoption != null ?
+                new ObjectParameter("par_showoption", par_showoption) :
+                new ObjectParameter("par_showoption", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_override_approval_list_Result>("sp_dtr_override_approval_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter, par_showoptionParameter);
+        }
+    
+        public virtual int sp_dtr_override_approved_all(string par_year, string par_month, string par_empl_id, string par_user_id, string par_status)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_statusParameter = par_status != null ?
+                new ObjectParameter("par_status", par_status) :
+                new ObjectParameter("par_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dtr_override_approved_all", par_yearParameter, par_monthParameter, par_empl_idParameter, par_user_idParameter, par_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_override_list_Result> sp_dtr_override_list(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_override_list_Result>("sp_dtr_override_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_rep_Result> sp_dtr_rep(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_rep_Result>("sp_dtr_rep", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_transmittal_addressto_list_Result> sp_dtr_transmittal_addressto_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_addressto_list_Result>("sp_dtr_transmittal_addressto_list");
+        }
+    
+        public virtual ObjectResult<sp_dtr_transmittal_dtl_tbl_list_Result> sp_dtr_transmittal_dtl_tbl_list(string p_department_code, string p_subdepartment_code, string p_division_code, string p_section_code, string p_transmittal_nbr)
+        {
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_subdepartment_codeParameter = p_subdepartment_code != null ?
+                new ObjectParameter("p_subdepartment_code", p_subdepartment_code) :
+                new ObjectParameter("p_subdepartment_code", typeof(string));
+    
+            var p_division_codeParameter = p_division_code != null ?
+                new ObjectParameter("p_division_code", p_division_code) :
+                new ObjectParameter("p_division_code", typeof(string));
+    
+            var p_section_codeParameter = p_section_code != null ?
+                new ObjectParameter("p_section_code", p_section_code) :
+                new ObjectParameter("p_section_code", typeof(string));
+    
+            var p_transmittal_nbrParameter = p_transmittal_nbr != null ?
+                new ObjectParameter("p_transmittal_nbr", p_transmittal_nbr) :
+                new ObjectParameter("p_transmittal_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_dtl_tbl_list_Result>("sp_dtr_transmittal_dtl_tbl_list", p_department_codeParameter, p_subdepartment_codeParameter, p_division_codeParameter, p_section_codeParameter, p_transmittal_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_transmittal_hdr_tbl_list_Result> sp_dtr_transmittal_hdr_tbl_list(string p_dtr_year, string p_dtr_month, string p_dtr_view, string p_approval_status)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_dtr_viewParameter = p_dtr_view != null ?
+                new ObjectParameter("p_dtr_view", p_dtr_view) :
+                new ObjectParameter("p_dtr_view", typeof(string));
+    
+            var p_approval_statusParameter = p_approval_status != null ?
+                new ObjectParameter("p_approval_status", p_approval_status) :
+                new ObjectParameter("p_approval_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_hdr_tbl_list_Result>("sp_dtr_transmittal_hdr_tbl_list", p_dtr_yearParameter, p_dtr_monthParameter, p_dtr_viewParameter, p_approval_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_transmittal_rep_Result> sp_dtr_transmittal_rep(string par_transmittal_nbr)
+        {
+            var par_transmittal_nbrParameter = par_transmittal_nbr != null ?
+                new ObjectParameter("par_transmittal_nbr", par_transmittal_nbr) :
+                new ObjectParameter("par_transmittal_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_rep_Result>("sp_dtr_transmittal_rep", par_transmittal_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_transmittal_requestedfrom_list_Result> sp_dtr_transmittal_requestedfrom_list(string p_department_code, string p_subdepartment_code, string p_division_code, string p_section_code)
+        {
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_subdepartment_codeParameter = p_subdepartment_code != null ?
+                new ObjectParameter("p_subdepartment_code", p_subdepartment_code) :
+                new ObjectParameter("p_subdepartment_code", typeof(string));
+    
+            var p_division_codeParameter = p_division_code != null ?
+                new ObjectParameter("p_division_code", p_division_code) :
+                new ObjectParameter("p_division_code", typeof(string));
+    
+            var p_section_codeParameter = p_section_code != null ?
+                new ObjectParameter("p_section_code", p_section_code) :
+                new ObjectParameter("p_section_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_requestedfrom_list_Result>("sp_dtr_transmittal_requestedfrom_list", p_department_codeParameter, p_subdepartment_codeParameter, p_division_codeParameter, p_section_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_transmittal_sub_rep_Result> sp_dtr_transmittal_sub_rep(string par_transmittal_nbr)
+        {
+            var par_transmittal_nbrParameter = par_transmittal_nbr != null ?
+                new ObjectParameter("par_transmittal_nbr", par_transmittal_nbr) :
+                new ObjectParameter("par_transmittal_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_sub_rep_Result>("sp_dtr_transmittal_sub_rep", par_transmittal_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_transmittal_sub_rep2_Result> sp_dtr_transmittal_sub_rep2(string par_transmittal_nbr)
+        {
+            var par_transmittal_nbrParameter = par_transmittal_nbr != null ?
+                new ObjectParameter("par_transmittal_nbr", par_transmittal_nbr) :
+                new ObjectParameter("par_transmittal_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_sub_rep2_Result>("sp_dtr_transmittal_sub_rep2", par_transmittal_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_dtr_override_approval_list_Result> sp_employee_dtr_override_approval_list(string par_department_code, string par_year, string par_month, string par_showoption)
+        {
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_showoptionParameter = par_showoption != null ?
+                new ObjectParameter("par_showoption", par_showoption) :
+                new ObjectParameter("par_showoption", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_dtr_override_approval_list_Result>("sp_employee_dtr_override_approval_list", par_department_codeParameter, par_yearParameter, par_monthParameter, par_showoptionParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_dtr_tbl_list_Result> sp_employee_dtr_tbl_list(string par_empl_id, string par_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_dateParameter = par_date != null ?
+                new ObjectParameter("par_date", par_date) :
+                new ObjectParameter("par_date", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_dtr_tbl_list_Result>("sp_employee_dtr_tbl_list", par_empl_idParameter, par_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_list_all_Result> sp_employee_list_all(string p_empl_id)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_all_Result>("sp_employee_list_all", p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_list_dept_Result> sp_employee_list_dept(string p_empl_id)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_Result>("sp_employee_list_dept", p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_list_dept_dtr_appr_Result> sp_employee_list_dept_dtr_appr(string p_empl_id_ao, string p_dtr_year, string p_dtr_month)
+        {
+            var p_empl_id_aoParameter = p_empl_id_ao != null ?
+                new ObjectParameter("p_empl_id_ao", p_empl_id_ao) :
+                new ObjectParameter("p_empl_id_ao", typeof(string));
+    
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_dtr_appr_Result>("sp_employee_list_dept_dtr_appr", p_empl_id_aoParameter, p_dtr_yearParameter, p_dtr_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_list_dept_position_Result> sp_employee_list_dept_position(string p_empl_id)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_position_Result>("sp_employee_list_dept_position", p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_employee_list_dtr_AO(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_employee_list_dtr_AO", par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_list_without_jo_Result> sp_employee_list_without_jo(string p_empl_id)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_without_jo_Result>("sp_employee_list_without_jo", p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_list_without_jo1_Result> sp_employee_list_without_jo1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_without_jo1_Result>("sp_employee_list_without_jo1");
+        }
+    
+        public virtual ObjectResult<sp_exc_inc_empl_attendance_tbl_list_Result> sp_exc_inc_empl_attendance_tbl_list(string p_option_type)
+        {
+            var p_option_typeParameter = p_option_type != null ?
+                new ObjectParameter("p_option_type", p_option_type) :
+                new ObjectParameter("p_option_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_exc_inc_empl_attendance_tbl_list_Result>("sp_exc_inc_empl_attendance_tbl_list", p_option_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_extract_best_attendance_Result> sp_extract_best_attendance(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_department_code, string p_employment_type, string p_empl_id)
+        {
+            var p_period_fromParameter = p_period_from.HasValue ?
+                new ObjectParameter("p_period_from", p_period_from) :
+                new ObjectParameter("p_period_from", typeof(System.DateTime));
+    
+            var p_period_toParameter = p_period_to.HasValue ?
+                new ObjectParameter("p_period_to", p_period_to) :
+                new ObjectParameter("p_period_to", typeof(System.DateTime));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_Result>("sp_extract_best_attendance", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_extract_best_attendance_no_quali_Result> sp_extract_best_attendance_no_quali(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_department_code, string p_employment_type, string p_empl_id)
+        {
+            var p_period_fromParameter = p_period_from.HasValue ?
+                new ObjectParameter("p_period_from", p_period_from) :
+                new ObjectParameter("p_period_from", typeof(System.DateTime));
+    
+            var p_period_toParameter = p_period_to.HasValue ?
+                new ObjectParameter("p_period_to", p_period_to) :
+                new ObjectParameter("p_period_to", typeof(System.DateTime));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_no_quali_Result>("sp_extract_best_attendance_no_quali", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_extract_lwop_Result> sp_extract_lwop(string p_year, string p_month)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_lwop_Result>("sp_extract_lwop", p_yearParameter, p_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_extract_timeentries_rep_Result> sp_extract_timeentries_rep(string par_year, string par_month, string par_department_code, string par_sub_department_code, string par_division_code, string par_section_code)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_sub_department_codeParameter = par_sub_department_code != null ?
+                new ObjectParameter("par_sub_department_code", par_sub_department_code) :
+                new ObjectParameter("par_sub_department_code", typeof(string));
+    
+            var par_division_codeParameter = par_division_code != null ?
+                new ObjectParameter("par_division_code", par_division_code) :
+                new ObjectParameter("par_division_code", typeof(string));
+    
+            var par_section_codeParameter = par_section_code != null ?
+                new ObjectParameter("par_section_code", par_section_code) :
+                new ObjectParameter("par_section_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_timeentries_rep_Result>("sp_extract_timeentries_rep", par_yearParameter, par_monthParameter, par_department_codeParameter, par_sub_department_codeParameter, par_division_codeParameter, par_section_codeParameter);
         }
     
         public virtual ObjectResult<sp_extract_trk_leave_appl_Result> sp_extract_trk_leave_appl(Nullable<System.DateTime> p_leave_date_from, Nullable<System.DateTime> p_leave_date_to, string p_department_code, string p_empl_id, string p_lv_posting_status, string p_cancel_status, string p_employment_type)
@@ -626,129 +2710,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_trk_leave_appl_Result>("sp_extract_trk_leave_appl", p_leave_date_fromParameter, p_leave_date_toParameter, p_department_codeParameter, p_empl_idParameter, p_lv_posting_statusParameter, p_cancel_statusParameter, p_employment_typeParameter);
         }
     
-        public virtual ObjectResult<sp_check_shiftsched_Result> sp_check_shiftsched(string par_year, string par_month, string par_empl_id)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_check_shiftsched_Result>("sp_check_shiftsched", par_yearParameter, par_monthParameter, par_empl_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_time_schedule_empl_hdr_tbl_Result> sp_time_schedule_empl_hdr_tbl(string par_empl_id)
-        {
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_hdr_tbl_Result>("sp_time_schedule_empl_hdr_tbl", par_empl_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_time_schedule_empl_tbl1_Result> sp_time_schedule_empl_tbl1(string par_empl_id, string par_month, string par_year, Nullable<System.DateTime> par_effective_date)
-        {
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_effective_dateParameter = par_effective_date.HasValue ?
-                new ObjectParameter("par_effective_date", par_effective_date) :
-                new ObjectParameter("par_effective_date", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl1_Result>("sp_time_schedule_empl_tbl1", par_empl_idParameter, par_monthParameter, par_yearParameter, par_effective_dateParameter);
-        }
-    
-        public virtual ObjectResult<sp_forgot_punch_rep_Result> sp_forgot_punch_rep(string p_rep_year, string p_rep_month, Nullable<System.DateTime> p_rep_date_from, Nullable<System.DateTime> p_rep_date_to, string p_empl_id)
-        {
-            var p_rep_yearParameter = p_rep_year != null ?
-                new ObjectParameter("p_rep_year", p_rep_year) :
-                new ObjectParameter("p_rep_year", typeof(string));
-    
-            var p_rep_monthParameter = p_rep_month != null ?
-                new ObjectParameter("p_rep_month", p_rep_month) :
-                new ObjectParameter("p_rep_month", typeof(string));
-    
-            var p_rep_date_fromParameter = p_rep_date_from.HasValue ?
-                new ObjectParameter("p_rep_date_from", p_rep_date_from) :
-                new ObjectParameter("p_rep_date_from", typeof(System.DateTime));
-    
-            var p_rep_date_toParameter = p_rep_date_to.HasValue ?
-                new ObjectParameter("p_rep_date_to", p_rep_date_to) :
-                new ObjectParameter("p_rep_date_to", typeof(System.DateTime));
-    
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_forgot_punch_rep_Result>("sp_forgot_punch_rep", p_rep_yearParameter, p_rep_monthParameter, p_rep_date_fromParameter, p_rep_date_toParameter, p_empl_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_exc_inc_empl_attendance_tbl_list_Result> sp_exc_inc_empl_attendance_tbl_list(string p_option_type)
-        {
-            var p_option_typeParameter = p_option_type != null ?
-                new ObjectParameter("p_option_type", p_option_type) :
-                new ObjectParameter("p_option_type", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_exc_inc_empl_attendance_tbl_list_Result>("sp_exc_inc_empl_attendance_tbl_list", p_option_typeParameter);
-        }
-    
-        public virtual ObjectResult<sp_generate_key_Result> sp_generate_key(string p_table_name, string p_key_field, Nullable<int> p_key_size)
-        {
-            var p_table_nameParameter = p_table_name != null ?
-                new ObjectParameter("p_table_name", p_table_name) :
-                new ObjectParameter("p_table_name", typeof(string));
-    
-            var p_key_fieldParameter = p_key_field != null ?
-                new ObjectParameter("p_key_field", p_key_field) :
-                new ObjectParameter("p_key_field", typeof(string));
-    
-            var p_key_sizeParameter = p_key_size.HasValue ?
-                new ObjectParameter("p_key_size", p_key_size) :
-                new ObjectParameter("p_key_size", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_key_Result>("sp_generate_key", p_table_nameParameter, p_key_fieldParameter, p_key_sizeParameter);
-        }
-    
-        public virtual ObjectResult<sp_extract_best_attendance_Result> sp_extract_best_attendance(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_department_code, string p_employment_type, string p_empl_id)
-        {
-            var p_period_fromParameter = p_period_from.HasValue ?
-                new ObjectParameter("p_period_from", p_period_from) :
-                new ObjectParameter("p_period_from", typeof(System.DateTime));
-    
-            var p_period_toParameter = p_period_to.HasValue ?
-                new ObjectParameter("p_period_to", p_period_to) :
-                new ObjectParameter("p_period_to", typeof(System.DateTime));
-    
-            var p_department_codeParameter = p_department_code != null ?
-                new ObjectParameter("p_department_code", p_department_code) :
-                new ObjectParameter("p_department_code", typeof(string));
-    
-            var p_employment_typeParameter = p_employment_type != null ?
-                new ObjectParameter("p_employment_type", p_employment_type) :
-                new ObjectParameter("p_employment_type", typeof(string));
-    
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_Result>("sp_extract_best_attendance", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
-        }
-    
         public virtual ObjectResult<sp_extract_trk_leave_appl_lvl1_final_appr_Result> sp_extract_trk_leave_appl_lvl1_final_appr(Nullable<System.DateTime> p_leave_date_from, Nullable<System.DateTime> p_leave_date_to, string p_department_code, string p_empl_id, string p_lv_posting_status, string p_cancel_status, string p_employment_type)
         {
             var p_leave_date_fromParameter = p_leave_date_from.HasValue ?
@@ -782,6 +2743,1175 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_trk_leave_appl_lvl1_final_appr_Result>("sp_extract_trk_leave_appl_lvl1_final_appr", p_leave_date_fromParameter, p_leave_date_toParameter, p_department_codeParameter, p_empl_idParameter, p_lv_posting_statusParameter, p_cancel_statusParameter, p_employment_typeParameter);
         }
     
+        public virtual ObjectResult<sp_extract_und_abs_tardi_Result> sp_extract_und_abs_tardi(string p_year, string p_month, string p_department_code, string p_employment_type, string p_empl_id, string p_prepared_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_prepared_empl_idParameter = p_prepared_empl_id != null ?
+                new ObjectParameter("p_prepared_empl_id", p_prepared_empl_id) :
+                new ObjectParameter("p_prepared_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_und_abs_tardi_Result>("sp_extract_und_abs_tardi", p_yearParameter, p_monthParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter, p_prepared_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_fl_plan_dtl_rep_tbl_list_Result> sp_fl_plan_dtl_rep_tbl_list(string p_fl_plan_rep_ctrlno, string p_fl_plan_rep_year, string p_department_code, string par_division_code)
+        {
+            var p_fl_plan_rep_ctrlnoParameter = p_fl_plan_rep_ctrlno != null ?
+                new ObjectParameter("p_fl_plan_rep_ctrlno", p_fl_plan_rep_ctrlno) :
+                new ObjectParameter("p_fl_plan_rep_ctrlno", typeof(string));
+    
+            var p_fl_plan_rep_yearParameter = p_fl_plan_rep_year != null ?
+                new ObjectParameter("p_fl_plan_rep_year", p_fl_plan_rep_year) :
+                new ObjectParameter("p_fl_plan_rep_year", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var par_division_codeParameter = par_division_code != null ?
+                new ObjectParameter("par_division_code", par_division_code) :
+                new ObjectParameter("par_division_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_fl_plan_dtl_rep_tbl_list_Result>("sp_fl_plan_dtl_rep_tbl_list", p_fl_plan_rep_ctrlnoParameter, p_fl_plan_rep_yearParameter, p_department_codeParameter, par_division_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_fl_plan_hdr_rep_tbl_list_Result> sp_fl_plan_hdr_rep_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_fl_plan_hdr_rep_tbl_list_Result>("sp_fl_plan_hdr_rep_tbl_list");
+        }
+    
+        public virtual int sp_for_approval_authorization_slip_tbl_list(string par_approval_id, string par_user_id)
+        {
+            var par_approval_idParameter = par_approval_id != null ?
+                new ObjectParameter("par_approval_id", par_approval_id) :
+                new ObjectParameter("par_approval_id", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_for_approval_authorization_slip_tbl_list", par_approval_idParameter, par_user_idParameter);
+        }
+    
+        public virtual int sp_for_approval_coc_appl(string par_approval_id, string par_user_id)
+        {
+            var par_approval_idParameter = par_approval_id != null ?
+                new ObjectParameter("par_approval_id", par_approval_id) :
+                new ObjectParameter("par_approval_id", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_for_approval_coc_appl", par_approval_idParameter, par_user_idParameter);
+        }
+    
+        public virtual int sp_for_approval_forceleave_plan_appl(string par_approval_id, string par_user_id)
+        {
+            var par_approval_idParameter = par_approval_id != null ?
+                new ObjectParameter("par_approval_id", par_approval_id) :
+                new ObjectParameter("par_approval_id", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_for_approval_forceleave_plan_appl", par_approval_idParameter, par_user_idParameter);
+        }
+    
+        public virtual int sp_for_approval_leave_appl(string par_approval_id, string par_user_id)
+        {
+            var par_approval_idParameter = par_approval_id != null ?
+                new ObjectParameter("par_approval_id", par_approval_id) :
+                new ObjectParameter("par_approval_id", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_for_approval_leave_appl", par_approval_idParameter, par_user_idParameter);
+        }
+    
+        public virtual int sp_for_approval_overtime_tbl(string par_approval_id, string par_user_id)
+        {
+            var par_approval_idParameter = par_approval_id != null ?
+                new ObjectParameter("par_approval_id", par_approval_id) :
+                new ObjectParameter("par_approval_id", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_for_approval_overtime_tbl", par_approval_idParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_force_leave_plan_approval_list_Result> sp_force_leave_plan_approval_list(string par_dept_code, string par_empl_type, string par_year, string par_user_id, string par_user_empl_id)
+        {
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_empl_typeParameter = par_empl_type != null ?
+                new ObjectParameter("par_empl_type", par_empl_type) :
+                new ObjectParameter("par_empl_type", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_user_empl_idParameter = par_user_empl_id != null ?
+                new ObjectParameter("par_user_empl_id", par_user_empl_id) :
+                new ObjectParameter("par_user_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_force_leave_plan_approval_list_Result>("sp_force_leave_plan_approval_list", par_dept_codeParameter, par_empl_typeParameter, par_yearParameter, par_user_idParameter, par_user_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_force_leave_plan_ctrl_list(string par_year, string par_month)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_force_leave_plan_ctrl_list", par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_force_leave_plan_dtl_tbl_list_Result> sp_force_leave_plan_dtl_tbl_list(string par_application_nbr)
+        {
+            var par_application_nbrParameter = par_application_nbr != null ?
+                new ObjectParameter("par_application_nbr", par_application_nbr) :
+                new ObjectParameter("par_application_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_force_leave_plan_dtl_tbl_list_Result>("sp_force_leave_plan_dtl_tbl_list", par_application_nbrParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_force_leave_plan_generate_appl_nbr()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_force_leave_plan_generate_appl_nbr");
+        }
+    
+        public virtual ObjectResult<sp_force_leave_plan_tbl_list_Result> sp_force_leave_plan_tbl_list(string par_empl_id, string par_appr_status, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_appr_statusParameter = par_appr_status != null ?
+                new ObjectParameter("par_appr_status", par_appr_status) :
+                new ObjectParameter("par_appr_status", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_force_leave_plan_tbl_list_Result>("sp_force_leave_plan_tbl_list", par_empl_idParameter, par_appr_statusParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_force_leave_plan_tbl_list_chk_Result> sp_force_leave_plan_tbl_list_chk(string par_empl_id, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_force_leave_plan_tbl_list_chk_Result>("sp_force_leave_plan_tbl_list_chk", par_empl_idParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_force_leave_plan_tbl_list1_Result> sp_force_leave_plan_tbl_list1(string par_empl_id, string par_appr_status, string par_year, string par_log_in_as_AO, string par_user_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_appr_statusParameter = par_appr_status != null ?
+                new ObjectParameter("par_appr_status", par_appr_status) :
+                new ObjectParameter("par_appr_status", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_log_in_as_AOParameter = par_log_in_as_AO != null ?
+                new ObjectParameter("par_log_in_as_AO", par_log_in_as_AO) :
+                new ObjectParameter("par_log_in_as_AO", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_force_leave_plan_tbl_list1_Result>("sp_force_leave_plan_tbl_list1", par_empl_idParameter, par_appr_statusParameter, par_yearParameter, par_log_in_as_AOParameter, par_user_idParameter);
+        }
+    
+        public virtual int sp_forceleave_plan_tbl_list(string par_empl_id, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_forceleave_plan_tbl_list", par_empl_idParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_ForceLogout_Result> sp_ForceLogout(string par_empl_id, string par_date, string par_hours, string par_minutes, string par_meridiem)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_dateParameter = par_date != null ?
+                new ObjectParameter("par_date", par_date) :
+                new ObjectParameter("par_date", typeof(string));
+    
+            var par_hoursParameter = par_hours != null ?
+                new ObjectParameter("par_hours", par_hours) :
+                new ObjectParameter("par_hours", typeof(string));
+    
+            var par_minutesParameter = par_minutes != null ?
+                new ObjectParameter("par_minutes", par_minutes) :
+                new ObjectParameter("par_minutes", typeof(string));
+    
+            var par_meridiemParameter = par_meridiem != null ?
+                new ObjectParameter("par_meridiem", par_meridiem) :
+                new ObjectParameter("par_meridiem", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ForceLogout_Result>("sp_ForceLogout", par_empl_idParameter, par_dateParameter, par_hoursParameter, par_minutesParameter, par_meridiemParameter);
+        }
+    
+        public virtual ObjectResult<sp_forgot_punch_rep_Result> sp_forgot_punch_rep(string p_rep_year, string p_rep_month, Nullable<System.DateTime> p_rep_date_from, Nullable<System.DateTime> p_rep_date_to, string p_empl_id)
+        {
+            var p_rep_yearParameter = p_rep_year != null ?
+                new ObjectParameter("p_rep_year", p_rep_year) :
+                new ObjectParameter("p_rep_year", typeof(string));
+    
+            var p_rep_monthParameter = p_rep_month != null ?
+                new ObjectParameter("p_rep_month", p_rep_month) :
+                new ObjectParameter("p_rep_month", typeof(string));
+    
+            var p_rep_date_fromParameter = p_rep_date_from.HasValue ?
+                new ObjectParameter("p_rep_date_from", p_rep_date_from) :
+                new ObjectParameter("p_rep_date_from", typeof(System.DateTime));
+    
+            var p_rep_date_toParameter = p_rep_date_to.HasValue ?
+                new ObjectParameter("p_rep_date_to", p_rep_date_to) :
+                new ObjectParameter("p_rep_date_to", typeof(System.DateTime));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_forgot_punch_rep_Result>("sp_forgot_punch_rep", p_rep_yearParameter, p_rep_monthParameter, p_rep_date_fromParameter, p_rep_date_toParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_genearate_empl_dtr_backend_Result> sp_genearate_empl_dtr_backend(string par_year, string par_month, string par_empl_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_genearate_empl_dtr_backend_Result>("sp_genearate_empl_dtr_backend", par_yearParameter, par_monthParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_generate_appl_nbr(string p_table_name, Nullable<int> p_charlen, string p_column_name)
+        {
+            var p_table_nameParameter = p_table_name != null ?
+                new ObjectParameter("p_table_name", p_table_name) :
+                new ObjectParameter("p_table_name", typeof(string));
+    
+            var p_charlenParameter = p_charlen.HasValue ?
+                new ObjectParameter("p_charlen", p_charlen) :
+                new ObjectParameter("p_charlen", typeof(int));
+    
+            var p_column_nameParameter = p_column_name != null ?
+                new ObjectParameter("P_column_name", p_column_name) :
+                new ObjectParameter("P_column_name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_generate_appl_nbr", p_table_nameParameter, p_charlenParameter, p_column_nameParameter);
+        }
+    
+        public virtual ObjectResult<sp_generate_empl_dtr_Result> sp_generate_empl_dtr(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_employment_type, string par_user_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_empl_dtr_Result>("sp_generate_empl_dtr", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_employment_typeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_generate_empl_dtr_shift_Result> sp_generate_empl_dtr_shift(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_employment_type, string par_user_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_empl_dtr_shift_Result>("sp_generate_empl_dtr_shift", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_employment_typeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_generate_key_Result> sp_generate_key(string p_table_name, string p_key_field, Nullable<int> p_key_size)
+        {
+            var p_table_nameParameter = p_table_name != null ?
+                new ObjectParameter("p_table_name", p_table_name) :
+                new ObjectParameter("p_table_name", typeof(string));
+    
+            var p_key_fieldParameter = p_key_field != null ?
+                new ObjectParameter("p_key_field", p_key_field) :
+                new ObjectParameter("p_key_field", typeof(string));
+    
+            var p_key_sizeParameter = p_key_size.HasValue ?
+                new ObjectParameter("p_key_size", p_key_size) :
+                new ObjectParameter("p_key_size", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_key_Result>("sp_generate_key", p_table_nameParameter, p_key_fieldParameter, p_key_sizeParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_generate_next_ot_ctrl_nbr()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_generate_next_ot_ctrl_nbr");
+        }
+    
+        public virtual ObjectResult<sp_generate_ovtm_Result> sp_generate_ovtm(string p_year, string p_month, string p_empl_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_ovtm_Result>("sp_generate_ovtm", p_yearParameter, p_monthParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_dtr_original_entry_Result> sp_get_dtr_original_entry(string par_empl_id, Nullable<System.DateTime> par_dtr_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_dtr_dateParameter = par_dtr_date.HasValue ?
+                new ObjectParameter("par_dtr_date", par_dtr_date) :
+                new ObjectParameter("par_dtr_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_dtr_original_entry_Result>("sp_get_dtr_original_entry", par_empl_idParameter, par_dtr_dateParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_get_dtrmanual_role_id(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_get_dtrmanual_role_id", par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_empl_employment_type_Result> sp_get_empl_employment_type(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_empl_employment_type_Result>("sp_get_empl_employment_type", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_dtl_list_Result> sp_get_leave_transmittal_for_uploading_dtl_list(string par_doc_ctrl_nbr)
+        {
+            var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
+                new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
+                new ObjectParameter("par_doc_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_dtl_list_Result>("sp_get_leave_transmittal_for_uploading_dtl_list", par_doc_ctrl_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_list_Result> sp_get_leave_transmittal_for_uploading_list(string par_year, string par_month, string par_filter, string par_department)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_filterParameter = par_filter != null ?
+                new ObjectParameter("par_filter", par_filter) :
+                new ObjectParameter("par_filter", typeof(string));
+    
+            var par_departmentParameter = par_department != null ?
+                new ObjectParameter("par_department", par_department) :
+                new ObjectParameter("par_department", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_list_Result>("sp_get_leave_transmittal_for_uploading_list", par_yearParameter, par_monthParameter, par_filterParameter, par_departmentParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_get_next_transmittal_no()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_get_next_transmittal_no");
+        }
+    
+        public virtual ObjectResult<string> sp_get_next_travel_order_no()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_get_next_travel_order_no");
+        }
+    
+        public virtual ObjectResult<sp_get_notification_list_Result> sp_get_notification_list(string par_user_id, Nullable<byte> par_module_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_module_idParameter = par_module_id.HasValue ?
+                new ObjectParameter("par_module_id", par_module_id) :
+                new ObjectParameter("par_module_id", typeof(byte));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_notification_list_Result>("sp_get_notification_list", par_user_idParameter, par_module_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_number_force_leave_plan_Result> sp_get_number_force_leave_plan(string par_year, string par_empl_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_number_force_leave_plan_Result>("sp_get_number_force_leave_plan", par_yearParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_personnel_attendance_api_Result> sp_get_personnel_attendance_api(string p_empl_id, string p_year, string p_month)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_personnel_attendance_api_Result>("sp_get_personnel_attendance_api", p_empl_idParameter, p_yearParameter, p_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagramdefinition_Result> sp_helpdiagramdefinition(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagramdefinition_Result>("sp_helpdiagramdefinition", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_helpdiagrams_Result> sp_helpdiagrams(string diagramname, Nullable<int> owner_id)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_helpdiagrams_Result>("sp_helpdiagrams", diagramnameParameter, owner_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_cancel_tbl_list_Result> sp_leave_application_cancel_tbl_list(string par_empl_id, string par_leave_ctrlno)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_cancel_tbl_list_Result>("sp_leave_application_cancel_tbl_list", par_empl_idParameter, par_leave_ctrlnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_coc_earn_report_Result> sp_leave_application_coc_earn_report(string p_empl_id, Nullable<System.DateTime> p_month_year, Nullable<decimal> p_number_of_hours, Nullable<System.DateTime> p_date_issued, Nullable<System.DateTime> p_date_valid, string p_signatory_name)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_month_yearParameter = p_month_year.HasValue ?
+                new ObjectParameter("p_month_year", p_month_year) :
+                new ObjectParameter("p_month_year", typeof(System.DateTime));
+    
+            var p_number_of_hoursParameter = p_number_of_hours.HasValue ?
+                new ObjectParameter("p_number_of_hours", p_number_of_hours) :
+                new ObjectParameter("p_number_of_hours", typeof(decimal));
+    
+            var p_date_issuedParameter = p_date_issued.HasValue ?
+                new ObjectParameter("p_date_issued", p_date_issued) :
+                new ObjectParameter("p_date_issued", typeof(System.DateTime));
+    
+            var p_date_validParameter = p_date_valid.HasValue ?
+                new ObjectParameter("p_date_valid", p_date_valid) :
+                new ObjectParameter("p_date_valid", typeof(System.DateTime));
+    
+            var p_signatory_nameParameter = p_signatory_name != null ?
+                new ObjectParameter("p_signatory_name", p_signatory_name) :
+                new ObjectParameter("p_signatory_name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_coc_earn_report_Result>("sp_leave_application_coc_earn_report", p_empl_idParameter, p_month_yearParameter, p_number_of_hoursParameter, p_date_issuedParameter, p_date_validParameter, p_signatory_nameParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_curr_bal_Result> sp_leave_application_curr_bal(string p_empl_id, string p_year, string p_leavetype_code)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_leavetype_codeParameter = p_leavetype_code != null ?
+                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
+                new ObjectParameter("p_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_curr_bal_Result>("sp_leave_application_curr_bal", p_empl_idParameter, p_yearParameter, p_leavetype_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_dtl_tbl_list_Result> sp_leave_application_dtl_tbl_list(string par_leave_ctrlno)
+        {
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_dtl_tbl_list_Result>("sp_leave_application_dtl_tbl_list", par_leave_ctrlnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_for_approval_list_Result> sp_leave_application_for_approval_list(string par_user_id, string par_year, string par_show_history)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_for_approval_list_Result>("sp_leave_application_for_approval_list", par_user_idParameter, par_yearParameter, par_show_historyParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_leave_application_generate_appl_nbr()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_leave_application_generate_appl_nbr");
+        }
+    
+        public virtual ObjectResult<sp_leave_application_hdr_tbl_report_Result> sp_leave_application_hdr_tbl_report(string par_leave_ctrlno, string par_empl_id)
+        {
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_hdr_tbl_report_Result>("sp_leave_application_hdr_tbl_report", par_leave_ctrlnoParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_hdr_tbl_report_cto_Result> sp_leave_application_hdr_tbl_report_cto(string par_leave_ctrlno, string par_empl_id, string par_view_mode)
+        {
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_modeParameter = par_view_mode != null ?
+                new ObjectParameter("par_view_mode", par_view_mode) :
+                new ObjectParameter("par_view_mode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_hdr_tbl_report_cto_Result>("sp_leave_application_hdr_tbl_report_cto", par_leave_ctrlnoParameter, par_empl_idParameter, par_view_modeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_rep_Result> sp_leave_application_rep(string par_ledger_ctrl_no)
+        {
+            var par_ledger_ctrl_noParameter = par_ledger_ctrl_no != null ?
+                new ObjectParameter("par_ledger_ctrl_no", par_ledger_ctrl_no) :
+                new ObjectParameter("par_ledger_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_rep_Result>("sp_leave_application_rep", par_ledger_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_rep2_Result> sp_leave_application_rep2(string par_ledger_ctrl_no)
+        {
+            var par_ledger_ctrl_noParameter = par_ledger_ctrl_no != null ?
+                new ObjectParameter("par_ledger_ctrl_no", par_ledger_ctrl_no) :
+                new ObjectParameter("par_ledger_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_rep2_Result>("sp_leave_application_rep2", par_ledger_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_rep3_Result> sp_leave_application_rep3(string par_ledger_ctrl_no)
+        {
+            var par_ledger_ctrl_noParameter = par_ledger_ctrl_no != null ?
+                new ObjectParameter("par_ledger_ctrl_no", par_ledger_ctrl_no) :
+                new ObjectParameter("par_ledger_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_rep3_Result>("sp_leave_application_rep3", par_ledger_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_report_Result> sp_leave_application_report(string p_ledger_ctrl_no)
+        {
+            var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
+                new ObjectParameter("p_ledger_ctrl_no", p_ledger_ctrl_no) :
+                new ObjectParameter("p_ledger_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_report_Result>("sp_leave_application_report", p_ledger_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_sig_empl_pos_Result> sp_leave_application_sig_empl_pos(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_sig_empl_pos_Result>("sp_leave_application_sig_empl_pos", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_tbl_list_Result> sp_leave_application_tbl_list(string par_empl_id, string par_appr_status, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_appr_statusParameter = par_appr_status != null ?
+                new ObjectParameter("par_appr_status", par_appr_status) :
+                new ObjectParameter("par_appr_status", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_tbl_list_Result>("sp_leave_application_tbl_list", par_empl_idParameter, par_appr_statusParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_tbl_list1_Result> sp_leave_application_tbl_list1(string par_empl_id, string par_appr_status, string par_year, string par_log_in_as_AO, string par_user_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_appr_statusParameter = par_appr_status != null ?
+                new ObjectParameter("par_appr_status", par_appr_status) :
+                new ObjectParameter("par_appr_status", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_log_in_as_AOParameter = par_log_in_as_AO != null ?
+                new ObjectParameter("par_log_in_as_AO", par_log_in_as_AO) :
+                new ObjectParameter("par_log_in_as_AO", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_tbl_list1_Result>("sp_leave_application_tbl_list1", par_empl_idParameter, par_appr_statusParameter, par_yearParameter, par_log_in_as_AOParameter, par_user_idParameter);
+        }
+    
+        public virtual int sp_leave_dtl_by_empl_tbl_list(string par_empl_id, string par_moth, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_mothParameter = par_moth != null ?
+                new ObjectParameter("par_moth", par_moth) :
+                new ObjectParameter("par_moth", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_leave_dtl_by_empl_tbl_list", par_empl_idParameter, par_mothParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_electric_sig_Result> sp_leave_electric_sig(string par_leave_ctrlno, string par_empl_id)
+        {
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_electric_sig_Result>("sp_leave_electric_sig", par_leave_ctrlnoParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_search_list_Result> sp_leave_search_list(string par_empl_id, string par_year, string par_month)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_search_list_Result>("sp_leave_search_list", par_empl_idParameter, par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveappl_dtl_tbl_list_Result> sp_leaveappl_dtl_tbl_list(string leave_ctrlno)
+        {
+            var leave_ctrlnoParameter = leave_ctrlno != null ?
+                new ObjectParameter("leave_ctrlno", leave_ctrlno) :
+                new ObjectParameter("leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveappl_dtl_tbl_list_Result>("sp_leaveappl_dtl_tbl_list", leave_ctrlnoParameter);
+        }
+    
+        public virtual int sp_leaveappl_hdr_tbl_list(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_leaveappl_hdr_tbl_list", par_empl_idParameter);
+        }
+    
+        public virtual int sp_leaveappl_report(string par_user_id, string par_ctrl_no)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_ctrl_noParameter = par_ctrl_no != null ?
+                new ObjectParameter("par_ctrl_no", par_ctrl_no) :
+                new ObjectParameter("par_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_leaveappl_report", par_user_idParameter, par_ctrl_noParameter);
+        }
+    
+        public virtual int sp_leaveappl_tbl_list(string par_year, string par_empl_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_leaveappl_tbl_list", par_yearParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_curr_bal_Result> sp_leaveledger_curr_bal(string p_empl_id, string p_year, string p_leavetype_code)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_leavetype_codeParameter = p_leavetype_code != null ?
+                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
+                new ObjectParameter("p_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_curr_bal_Result>("sp_leaveledger_curr_bal", p_empl_idParameter, p_yearParameter, p_leavetype_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_curr_bal2_Result> sp_leaveledger_curr_bal2(string p_empl_id, string p_year, string p_leavetype_code)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_leavetype_codeParameter = p_leavetype_code != null ?
+                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
+                new ObjectParameter("p_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_curr_bal2_Result>("sp_leaveledger_curr_bal2", p_empl_idParameter, p_yearParameter, p_leavetype_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_dtl_tbl_list_Result> sp_leaveledger_dtl_tbl_list(string par_ledger_ctrl_no)
+        {
+            var par_ledger_ctrl_noParameter = par_ledger_ctrl_no != null ?
+                new ObjectParameter("par_ledger_ctrl_no", par_ledger_ctrl_no) :
+                new ObjectParameter("par_ledger_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_dtl_tbl_list_Result>("sp_leaveledger_dtl_tbl_list", par_ledger_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_empl_undertime_Result> sp_leaveledger_empl_undertime(string par_empl_id, string par_month, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_empl_undertime_Result>("sp_leaveledger_empl_undertime", par_empl_idParameter, par_monthParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_for_posting_Result> sp_leaveledger_for_posting(string par_empl_id, string par_leave_ctrlno)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_for_posting_Result>("sp_leaveledger_for_posting", par_empl_idParameter, par_leave_ctrlnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_posted_leave_app_Result> sp_leaveledger_posted_leave_app(string par_empl_id, string par_year, string par_month, string par_leavetype, string par_dept_code)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_leavetypeParameter = par_leavetype != null ?
+                new ObjectParameter("par_leavetype", par_leavetype) :
+                new ObjectParameter("par_leavetype", typeof(string));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_posted_leave_app_Result>("sp_leaveledger_posted_leave_app", par_empl_idParameter, par_yearParameter, par_monthParameter, par_leavetypeParameter, par_dept_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_report_Result> sp_leaveledger_report(string p_empl_id, string p_date_fr, string p_date_to, Nullable<int> p_rep_mode)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_date_frParameter = p_date_fr != null ?
+                new ObjectParameter("p_date_fr", p_date_fr) :
+                new ObjectParameter("p_date_fr", typeof(string));
+    
+            var p_date_toParameter = p_date_to != null ?
+                new ObjectParameter("p_date_to", p_date_to) :
+                new ObjectParameter("p_date_to", typeof(string));
+    
+            var p_rep_modeParameter = p_rep_mode.HasValue ?
+                new ObjectParameter("p_rep_mode", p_rep_mode) :
+                new ObjectParameter("p_rep_mode", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_report_Result>("sp_leaveledger_report", p_empl_idParameter, p_date_frParameter, p_date_toParameter, p_rep_modeParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_leaveledger_seq_no(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_leaveledger_seq_no", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_tbl_list_Result> sp_leaveledger_tbl_list(string par_empl_id, string par_leavetype_code)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_leavetype_codeParameter = par_leavetype_code != null ?
+                new ObjectParameter("par_leavetype_code", par_leavetype_code) :
+                new ObjectParameter("par_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_tbl_list_Result>("sp_leaveledger_tbl_list", par_empl_idParameter, par_leavetype_codeParameter);
+        }
+    
+        public virtual int sp_leaveledger_tbl_list_filtered(string par_ledger_year, string par_employment_type, string par_department_code, string par_leavetype_code)
+        {
+            var par_ledger_yearParameter = par_ledger_year != null ?
+                new ObjectParameter("par_ledger_year", par_ledger_year) :
+                new ObjectParameter("par_ledger_year", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_leavetype_codeParameter = par_leavetype_code != null ?
+                new ObjectParameter("par_leavetype_code", par_leavetype_code) :
+                new ObjectParameter("par_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_leaveledger_tbl_list_filtered", par_ledger_yearParameter, par_employment_typeParameter, par_department_codeParameter, par_leavetype_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_unposted_leave_app_Result> sp_leaveledger_unposted_leave_app(string par_empl_id, string par_year, string par_month, string par_leavetype, string par_dept_code, string par_log_user_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_leavetypeParameter = par_leavetype != null ?
+                new ObjectParameter("par_leavetype", par_leavetype) :
+                new ObjectParameter("par_leavetype", typeof(string));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_log_user_idParameter = par_log_user_id != null ?
+                new ObjectParameter("par_log_user_id", par_log_user_id) :
+                new ObjectParameter("par_log_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_unposted_leave_app_Result>("sp_leaveledger_unposted_leave_app", par_empl_idParameter, par_yearParameter, par_monthParameter, par_leavetypeParameter, par_dept_codeParameter, par_log_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leavesubtype_tbl_list_Result> sp_leavesubtype_tbl_list(string par_leavetype_code)
+        {
+            var par_leavetype_codeParameter = par_leavetype_code != null ?
+                new ObjectParameter("par_leavetype_code", par_leavetype_code) :
+                new ObjectParameter("par_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavesubtype_tbl_list_Result>("sp_leavesubtype_tbl_list", par_leavetype_codeParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> sp_leavetype_balance_projection(string par_leavetype_code, string par_empl_id)
+        {
+            var par_leavetype_codeParameter = par_leavetype_code != null ?
+                new ObjectParameter("par_leavetype_code", par_leavetype_code) :
+                new ObjectParameter("par_leavetype_code", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_leavetype_balance_projection", par_leavetype_codeParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leavetype_current_bal_Result> sp_leavetype_current_bal(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavetype_current_bal_Result>("sp_leavetype_current_bal", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leavetype_tbl_Result> sp_leavetype_tbl(string par_leavetype_code)
+        {
+            var par_leavetype_codeParameter = par_leavetype_code != null ?
+                new ObjectParameter("par_leavetype_code", par_leavetype_code) :
+                new ObjectParameter("par_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavetype_tbl_Result>("sp_leavetype_tbl", par_leavetype_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leavetype_tbl_list_Result> sp_leavetype_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavetype_tbl_list_Result>("sp_leavetype_tbl_list");
+        }
+    
+        public virtual ObjectResult<sp_leavetype_tbl_list1_Result> sp_leavetype_tbl_list1()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leavetype_tbl_list1_Result>("sp_leavetype_tbl_list1");
+        }
+    
+        public virtual ObjectResult<sp_ledger_info_Result> sp_ledger_info(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledger_info_Result>("sp_ledger_info", par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter);
+        }
+    
+        public virtual ObjectResult<sp_ledgerposting_notification_Result> sp_ledgerposting_notification(string par_user_id, Nullable<System.DateTime> par_date)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_dateParameter = par_date.HasValue ?
+                new ObjectParameter("par_date", par_date) :
+                new ObjectParameter("par_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_notification_Result>("sp_ledgerposting_notification", par_user_idParameter, par_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_ledgerposting_notification_hdr_Result> sp_ledgerposting_notification_hdr(string p_user_id, Nullable<System.DateTime> p_date)
+        {
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            var p_dateParameter = p_date.HasValue ?
+                new ObjectParameter("p_date", p_date) :
+                new ObjectParameter("p_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_notification_hdr_Result>("sp_ledgerposting_notification_hdr", p_user_idParameter, p_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_empl_lst_wout_jo_Result> sp_lv_empl_lst_wout_jo(string par_department_code, string par_employment_type)
+        {
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_empl_lst_wout_jo_Result>("sp_lv_empl_lst_wout_jo", par_department_codeParameter, par_employment_typeParameter);
+        }
+    
         public virtual ObjectResult<sp_lv_empl_lst_wout_jo_yr_mt_Result> sp_lv_empl_lst_wout_jo_yr_mt(string par_department_code, string par_employment_type, string par_year, string par_month)
         {
             var par_department_codeParameter = par_department_code != null ?
@@ -801,6 +3931,50 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_month", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_empl_lst_wout_jo_yr_mt_Result>("sp_lv_empl_lst_wout_jo_yr_mt", par_department_codeParameter, par_employment_typeParameter, par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_info_Result> sp_lv_info(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info_Result>("sp_lv_info", par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_info2_Result> sp_lv_info2(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info2_Result>("sp_lv_info2", par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_ledger_cancel_Result> sp_lv_ledger_cancel(string p_ledger_ctrl_no, string p_leaveledger_date, string p_user_id)
+        {
+            var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
+                new ObjectParameter("p_ledger_ctrl_no", p_ledger_ctrl_no) :
+                new ObjectParameter("p_ledger_ctrl_no", typeof(string));
+    
+            var p_leaveledger_dateParameter = p_leaveledger_date != null ?
+                new ObjectParameter("p_leaveledger_date", p_leaveledger_date) :
+                new ObjectParameter("p_leaveledger_date", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_cancel_Result>("sp_lv_ledger_cancel", p_ledger_ctrl_noParameter, p_leaveledger_dateParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_ledger_dtl_tbl_list_Result> sp_lv_ledger_dtl_tbl_list(string par_ledger_ctrl_no)
+        {
+            var par_ledger_ctrl_noParameter = par_ledger_ctrl_no != null ?
+                new ObjectParameter("par_ledger_ctrl_no", par_ledger_ctrl_no) :
+                new ObjectParameter("par_ledger_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_dtl_tbl_list_Result>("sp_lv_ledger_dtl_tbl_list", par_ledger_ctrl_noParameter);
         }
     
         public virtual ObjectResult<sp_lv_ledger_earn_history_tbl_list_Result> sp_lv_ledger_earn_history_tbl_list(string par_gen_year, string par_gen_month, string par_department_code, string par_earning_type)
@@ -853,37 +4027,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_generate_earning_Result>("sp_lv_ledger_generate_earning", par_yearParameter, par_monthParameter, par_department_codeParameter, par_empl_idParameter, par_user_idParameter, par_earning_typeParameter);
         }
     
-        public virtual int sp_approve_cancellation(string p_empl_id, string p_dtr_date, string p_user_id)
-        {
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_dtr_dateParameter = p_dtr_date != null ?
-                new ObjectParameter("p_dtr_date", p_dtr_date) :
-                new ObjectParameter("p_dtr_date", typeof(string));
-    
-            var p_user_idParameter = p_user_id != null ?
-                new ObjectParameter("p_user_id", p_user_id) :
-                new ObjectParameter("p_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_approve_cancellation", p_empl_idParameter, p_dtr_dateParameter, p_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list");
-        }
-    
-        public virtual ObjectResult<sp_get_empl_employment_type_Result> sp_get_empl_employment_type(string par_empl_id)
-        {
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_empl_employment_type_Result>("sp_get_empl_employment_type", par_empl_idParameter);
-        }
-    
         public virtual int sp_lv_ledger_history_insert(string p_ledger_ctrl_no, string p_leave_ctrlno, string p_appl_status, string p_appl_remarks, string p_created_by)
         {
             var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
@@ -907,6 +4050,491 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_created_by", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_lv_ledger_history_insert", p_ledger_ctrl_noParameter, p_leave_ctrlnoParameter, p_appl_statusParameter, p_appl_remarksParameter, p_created_byParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_ledger_posted_unposted_Result> sp_lv_ledger_posted_unposted(string par_empl_id, string par_posting_flag)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_posting_flagParameter = par_posting_flag != null ?
+                new ObjectParameter("par_posting_flag", par_posting_flag) :
+                new ObjectParameter("par_posting_flag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_posted_unposted_Result>("sp_lv_ledger_posted_unposted", par_empl_idParameter, par_posting_flagParameter);
+        }
+    
+        public virtual ObjectResult<sp_monthly_working_hrs_tbl_Result> sp_monthly_working_hrs_tbl()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_monthly_working_hrs_tbl_Result>("sp_monthly_working_hrs_tbl");
+        }
+    
+        public virtual ObjectResult<sp_ot_hdr_for_approval_Result> sp_ot_hdr_for_approval(string par_ot_ctrl_no)
+        {
+            var par_ot_ctrl_noParameter = par_ot_ctrl_no != null ?
+                new ObjectParameter("par_ot_ctrl_no", par_ot_ctrl_no) :
+                new ObjectParameter("par_ot_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ot_hdr_for_approval_Result>("sp_ot_hdr_for_approval", par_ot_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_ot_hdr_tbl_list_Result> sp_ot_hdr_tbl_list(string par_year, string par_month, string par_empl_id, string par_creator_id, string par_status)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_creator_idParameter = par_creator_id != null ?
+                new ObjectParameter("par_creator_id", par_creator_id) :
+                new ObjectParameter("par_creator_id", typeof(string));
+    
+            var par_statusParameter = par_status != null ?
+                new ObjectParameter("par_status", par_status) :
+                new ObjectParameter("par_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ot_hdr_tbl_list_Result>("sp_ot_hdr_tbl_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_creator_idParameter, par_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_ot_request_calendar_list_Result> sp_ot_request_calendar_list(string par_year, string par_month, string par_empl_id, string par_creator_id, string par_status)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_creator_idParameter = par_creator_id != null ?
+                new ObjectParameter("par_creator_id", par_creator_id) :
+                new ObjectParameter("par_creator_id", typeof(string));
+    
+            var par_statusParameter = par_status != null ?
+                new ObjectParameter("par_status", par_status) :
+                new ObjectParameter("par_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ot_request_calendar_list_Result>("sp_ot_request_calendar_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_creator_idParameter, par_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_ot_request_dates_dtl_tbl_list_Result> sp_ot_request_dates_dtl_tbl_list(string par_ot_ctrl_no)
+        {
+            var par_ot_ctrl_noParameter = par_ot_ctrl_no != null ?
+                new ObjectParameter("par_ot_ctrl_no", par_ot_ctrl_no) :
+                new ObjectParameter("par_ot_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ot_request_dates_dtl_tbl_list_Result>("sp_ot_request_dates_dtl_tbl_list", par_ot_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_ot_request_empl_dtl_tbl_list_Result> sp_ot_request_empl_dtl_tbl_list(string par_crtl_no)
+        {
+            var par_crtl_noParameter = par_crtl_no != null ?
+                new ObjectParameter("par_crtl_no", par_crtl_no) :
+                new ObjectParameter("par_crtl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ot_request_empl_dtl_tbl_list_Result>("sp_ot_request_empl_dtl_tbl_list", par_crtl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_ot_request_purpose_dtl_tbl_list_Result> sp_ot_request_purpose_dtl_tbl_list(string par_ot_ctrl_no)
+        {
+            var par_ot_ctrl_noParameter = par_ot_ctrl_no != null ?
+                new ObjectParameter("par_ot_ctrl_no", par_ot_ctrl_no) :
+                new ObjectParameter("par_ot_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ot_request_purpose_dtl_tbl_list_Result>("sp_ot_request_purpose_dtl_tbl_list", par_ot_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_overtime_request_dates_sub_rep_Result> sp_overtime_request_dates_sub_rep(string par_ot_ctrl_no)
+        {
+            var par_ot_ctrl_noParameter = par_ot_ctrl_no != null ?
+                new ObjectParameter("par_ot_ctrl_no", par_ot_ctrl_no) :
+                new ObjectParameter("par_ot_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_overtime_request_dates_sub_rep_Result>("sp_overtime_request_dates_sub_rep", par_ot_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_overtime_request_rep_Result> sp_overtime_request_rep(string par_ot_ctrl_no)
+        {
+            var par_ot_ctrl_noParameter = par_ot_ctrl_no != null ?
+                new ObjectParameter("par_ot_ctrl_no", par_ot_ctrl_no) :
+                new ObjectParameter("par_ot_ctrl_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_overtime_request_rep_Result>("sp_overtime_request_rep", par_ot_ctrl_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_personnel_requestovertime_api_Result> sp_personnel_requestovertime_api(string p_empl_id, string p_year, string p_month)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_personnel_requestovertime_api_Result>("sp_personnel_requestovertime_api", p_empl_idParameter, p_yearParameter, p_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_personnel_timeschedule_api_Result> sp_personnel_timeschedule_api(string p_empl_id, string p_year, string p_month)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_personnel_timeschedule_api_Result>("sp_personnel_timeschedule_api", p_empl_idParameter, p_yearParameter, p_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_personnelnames_combolist5_Result> sp_personnelnames_combolist5(string par_employment_type, string par_department_code, string par_month, string par_year)
+        {
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_personnelnames_combolist5_Result>("sp_personnelnames_combolist5", par_employment_typeParameter, par_department_codeParameter, par_monthParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_prcmonitor_tbl_list_SS_Result> sp_prcmonitor_tbl_list_SS(string p_year, string p_month, string p_user_id, string p_prc_status, Nullable<int> p_module_id)
+        {
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            var p_prc_statusParameter = p_prc_status != null ?
+                new ObjectParameter("p_prc_status", p_prc_status) :
+                new ObjectParameter("p_prc_status", typeof(string));
+    
+            var p_module_idParameter = p_module_id.HasValue ?
+                new ObjectParameter("p_module_id", p_module_id) :
+                new ObjectParameter("p_module_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_prcmonitor_tbl_list_SS_Result>("sp_prcmonitor_tbl_list_SS", p_yearParameter, p_monthParameter, p_user_idParameter, p_prc_statusParameter, p_module_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_prcmonitor_users_list_SS_Result> sp_prcmonitor_users_list_SS()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_prcmonitor_users_list_SS_Result>("sp_prcmonitor_users_list_SS");
+        }
+    
+        public virtual int sp_renamediagram(string diagramname, Nullable<int> owner_id, string new_diagramname)
+        {
+            var diagramnameParameter = diagramname != null ?
+                new ObjectParameter("diagramname", diagramname) :
+                new ObjectParameter("diagramname", typeof(string));
+    
+            var owner_idParameter = owner_id.HasValue ?
+                new ObjectParameter("owner_id", owner_id) :
+                new ObjectParameter("owner_id", typeof(int));
+    
+            var new_diagramnameParameter = new_diagramname != null ?
+                new ObjectParameter("new_diagramname", new_diagramname) :
+                new ObjectParameter("new_diagramname", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_renamediagram", diagramnameParameter, owner_idParameter, new_diagramnameParameter);
+        }
+    
+        public virtual int sp_save_lv_ledger_dtl_tbl(string p_ledger_ctrl_no, string p_empl_id, string p_leavetype_code, string p_leavesubtype_code, Nullable<System.DateTime> p_leaveledger_date, Nullable<decimal> p_lv_nodays)
+        {
+            var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
+                new ObjectParameter("p_ledger_ctrl_no", p_ledger_ctrl_no) :
+                new ObjectParameter("p_ledger_ctrl_no", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_leavetype_codeParameter = p_leavetype_code != null ?
+                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
+                new ObjectParameter("p_leavetype_code", typeof(string));
+    
+            var p_leavesubtype_codeParameter = p_leavesubtype_code != null ?
+                new ObjectParameter("p_leavesubtype_code", p_leavesubtype_code) :
+                new ObjectParameter("p_leavesubtype_code", typeof(string));
+    
+            var p_leaveledger_dateParameter = p_leaveledger_date.HasValue ?
+                new ObjectParameter("p_leaveledger_date", p_leaveledger_date) :
+                new ObjectParameter("p_leaveledger_date", typeof(System.DateTime));
+    
+            var p_lv_nodaysParameter = p_lv_nodays.HasValue ?
+                new ObjectParameter("p_lv_nodays", p_lv_nodays) :
+                new ObjectParameter("p_lv_nodays", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_save_lv_ledger_dtl_tbl", p_ledger_ctrl_noParameter, p_empl_idParameter, p_leavetype_codeParameter, p_leavesubtype_codeParameter, p_leaveledger_dateParameter, p_lv_nodaysParameter);
+        }
+    
+        public virtual int sp_save_lv_ledger_dtl_tbl2(string p_ledger_ctrl_no, string p_leavetype_code, string p_leavesubtype_code, Nullable<decimal> p_leaveledger_balance_as_of, Nullable<decimal> p_leaveledger_restore_deduct, Nullable<decimal> p_leaveledger_abs_und_wp, Nullable<decimal> p_leaveledger_abs_und_wop)
+        {
+            var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
+                new ObjectParameter("p_ledger_ctrl_no", p_ledger_ctrl_no) :
+                new ObjectParameter("p_ledger_ctrl_no", typeof(string));
+    
+            var p_leavetype_codeParameter = p_leavetype_code != null ?
+                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
+                new ObjectParameter("p_leavetype_code", typeof(string));
+    
+            var p_leavesubtype_codeParameter = p_leavesubtype_code != null ?
+                new ObjectParameter("p_leavesubtype_code", p_leavesubtype_code) :
+                new ObjectParameter("p_leavesubtype_code", typeof(string));
+    
+            var p_leaveledger_balance_as_ofParameter = p_leaveledger_balance_as_of.HasValue ?
+                new ObjectParameter("p_leaveledger_balance_as_of", p_leaveledger_balance_as_of) :
+                new ObjectParameter("p_leaveledger_balance_as_of", typeof(decimal));
+    
+            var p_leaveledger_restore_deductParameter = p_leaveledger_restore_deduct.HasValue ?
+                new ObjectParameter("p_leaveledger_restore_deduct", p_leaveledger_restore_deduct) :
+                new ObjectParameter("p_leaveledger_restore_deduct", typeof(decimal));
+    
+            var p_leaveledger_abs_und_wpParameter = p_leaveledger_abs_und_wp.HasValue ?
+                new ObjectParameter("p_leaveledger_abs_und_wp", p_leaveledger_abs_und_wp) :
+                new ObjectParameter("p_leaveledger_abs_und_wp", typeof(decimal));
+    
+            var p_leaveledger_abs_und_wopParameter = p_leaveledger_abs_und_wop.HasValue ?
+                new ObjectParameter("p_leaveledger_abs_und_wop", p_leaveledger_abs_und_wop) :
+                new ObjectParameter("p_leaveledger_abs_und_wop", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_save_lv_ledger_dtl_tbl2", p_ledger_ctrl_noParameter, p_leavetype_codeParameter, p_leavesubtype_codeParameter, p_leaveledger_balance_as_ofParameter, p_leaveledger_restore_deductParameter, p_leaveledger_abs_und_wpParameter, p_leaveledger_abs_und_wopParameter);
+        }
+    
+        public virtual ObjectResult<sp_slvl_current_leave_bal_Result> sp_slvl_current_leave_bal(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_slvl_current_leave_bal_Result>("sp_slvl_current_leave_bal", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_slvlsp_current_leave_bal_Result> sp_slvlsp_current_leave_bal(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_slvlsp_current_leave_bal_Result>("sp_slvlsp_current_leave_bal", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_ss_auto_approval_Result> sp_ss_auto_approval(string par_user_id, string par_transaction_code)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_transaction_codeParameter = par_transaction_code != null ?
+                new ObjectParameter("par_transaction_code", par_transaction_code) :
+                new ObjectParameter("par_transaction_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ss_auto_approval_Result>("sp_ss_auto_approval", par_user_idParameter, par_transaction_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_time_schedule_empl_hdr_tbl_Result> sp_time_schedule_empl_hdr_tbl(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_hdr_tbl_Result>("sp_time_schedule_empl_hdr_tbl", par_empl_idParameter);
+        }
+    
+        public virtual int sp_time_schedule_empl_tbl(string par_empl_id, Nullable<int> par_month, Nullable<int> par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month.HasValue ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(int));
+    
+            var par_yearParameter = par_year.HasValue ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_time_schedule_empl_tbl", par_empl_idParameter, par_monthParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_time_schedule_empl_tbl_copy_Result> sp_time_schedule_empl_tbl_copy(string par_tse_ctrl_no, string par_empl_id, string par_month, string par_year)
+        {
+            var par_tse_ctrl_noParameter = par_tse_ctrl_no != null ?
+                new ObjectParameter("par_tse_ctrl_no", par_tse_ctrl_no) :
+                new ObjectParameter("par_tse_ctrl_no", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl_copy_Result>("sp_time_schedule_empl_tbl_copy", par_tse_ctrl_noParameter, par_empl_idParameter, par_monthParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_time_schedule_empl_tbl_reg_sched_Result> sp_time_schedule_empl_tbl_reg_sched(string par_empl_id, string par_month, string par_year, Nullable<System.DateTime> par_effective_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_effective_dateParameter = par_effective_date.HasValue ?
+                new ObjectParameter("par_effective_date", par_effective_date) :
+                new ObjectParameter("par_effective_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl_reg_sched_Result>("sp_time_schedule_empl_tbl_reg_sched", par_empl_idParameter, par_monthParameter, par_yearParameter, par_effective_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_time_schedule_empl_tbl1_Result> sp_time_schedule_empl_tbl1(string par_empl_id, string par_month, string par_year, Nullable<System.DateTime> par_effective_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_effective_dateParameter = par_effective_date.HasValue ?
+                new ObjectParameter("par_effective_date", par_effective_date) :
+                new ObjectParameter("par_effective_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl1_Result>("sp_time_schedule_empl_tbl1", par_empl_idParameter, par_monthParameter, par_yearParameter, par_effective_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_time_schedule_for_approval_list_Result> sp_time_schedule_for_approval_list(string par_user_id, string par_month, string par_year, string par_show_history)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_for_approval_list_Result>("sp_time_schedule_for_approval_list", par_user_idParameter, par_monthParameter, par_yearParameter, par_show_historyParameter);
+        }
+    
+        public virtual ObjectResult<sp_timeentries_tbl_list_Result> sp_timeentries_tbl_list(string par_empl_id, Nullable<System.DateTime> par_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_dateParameter = par_date.HasValue ?
+                new ObjectParameter("par_date", par_date) :
+                new ObjectParameter("par_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_timeentries_tbl_list_Result>("sp_timeentries_tbl_list", par_empl_idParameter, par_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_timeschedule_tbl_Result> sp_timeschedule_tbl(string par_ts_code)
+        {
+            var par_ts_codeParameter = par_ts_code != null ?
+                new ObjectParameter("par_ts_code", par_ts_code) :
+                new ObjectParameter("par_ts_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_timeschedule_tbl_Result>("sp_timeschedule_tbl", par_ts_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_timeschedule_tbl_list_Result> sp_timeschedule_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_timeschedule_tbl_list_Result>("sp_timeschedule_tbl_list");
+        }
+    
+        public virtual ObjectResult<sp_timeschedule_tbl_list2_Result> sp_timeschedule_tbl_list2()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_timeschedule_tbl_list2_Result>("sp_timeschedule_tbl_list2");
+        }
+    
+        public virtual ObjectResult<string> sp_to_disapprove_comment()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_to_disapprove_comment");
+        }
+    
+        public virtual ObjectResult<sp_transmittal_check_Result> sp_transmittal_check(string p_empl_id, string p_year, string p_month, string p_view_type)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_view_typeParameter = p_view_type != null ?
+                new ObjectParameter("p_view_type", p_view_type) :
+                new ObjectParameter("p_view_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_check_Result>("sp_transmittal_check", p_empl_idParameter, p_yearParameter, p_monthParameter, p_view_typeParameter);
         }
     
         public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
@@ -938,48 +4566,426 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
     
-        public virtual ObjectResult<sp_leaveledger_report_Result> sp_leaveledger_report(string p_empl_id, string p_date_fr, string p_date_to, Nullable<int> p_rep_mode)
+        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list()
         {
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_date_frParameter = p_date_fr != null ?
-                new ObjectParameter("p_date_fr", p_date_fr) :
-                new ObjectParameter("p_date_fr", typeof(string));
-    
-            var p_date_toParameter = p_date_to != null ?
-                new ObjectParameter("p_date_to", p_date_to) :
-                new ObjectParameter("p_date_to", typeof(string));
-    
-            var p_rep_modeParameter = p_rep_mode.HasValue ?
-                new ObjectParameter("p_rep_mode", p_rep_mode) :
-                new ObjectParameter("p_rep_mode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_report_Result>("sp_leaveledger_report", p_empl_idParameter, p_date_frParameter, p_date_toParameter, p_rep_modeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list");
         }
     
-        [DbFunction("HRIS_ATSEntities", "func_lv_ledger_history_notif")]
-        public virtual IQueryable<func_lv_ledger_history_notif_Result> func_lv_ledger_history_notif(string p_leave_ctrlno)
-        {
-            var p_leave_ctrlnoParameter = p_leave_ctrlno != null ?
-                new ObjectParameter("p_leave_ctrlno", p_leave_ctrlno) :
-                new ObjectParameter("p_leave_ctrlno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_lv_ledger_history_notif_Result>("[HRIS_ATSEntities].[func_lv_ledger_history_notif](@p_leave_ctrlno)", p_leave_ctrlnoParameter);
-        }
-    
-        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_dtl_list_Result> sp_get_leave_transmittal_for_uploading_dtl_list(string par_doc_ctrl_nbr)
+        public virtual ObjectResult<sp_transmittal_leave_rep_Result> sp_transmittal_leave_rep(string par_doc_ctrl_nbr, string par_view_mode)
         {
             var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
                 new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
                 new ObjectParameter("par_doc_ctrl_nbr", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_dtl_list_Result>("sp_get_leave_transmittal_for_uploading_dtl_list", par_doc_ctrl_nbrParameter);
+            var par_view_modeParameter = par_view_mode != null ?
+                new ObjectParameter("par_view_mode", par_view_mode) :
+                new ObjectParameter("par_view_mode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_rep_Result>("sp_transmittal_leave_rep", par_doc_ctrl_nbrParameter, par_view_modeParameter);
         }
     
-        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_list_Result> sp_get_leave_transmittal_for_uploading_list(string par_year, string par_month, string par_filter, string par_department)
+        public virtual ObjectResult<sp_travel_order_approve_Result> sp_travel_order_approve(Nullable<bool> p_check_stat, string p_travel_order_no, string p_empl_id, string p_approval_status, string p_travel_details, string p_user_id)
         {
+            var p_check_statParameter = p_check_stat.HasValue ?
+                new ObjectParameter("p_check_stat", p_check_stat) :
+                new ObjectParameter("p_check_stat", typeof(bool));
+    
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_approval_statusParameter = p_approval_status != null ?
+                new ObjectParameter("p_approval_status", p_approval_status) :
+                new ObjectParameter("p_approval_status", typeof(string));
+    
+            var p_travel_detailsParameter = p_travel_details != null ?
+                new ObjectParameter("p_travel_details", p_travel_details) :
+                new ObjectParameter("p_travel_details", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_approve_Result>("sp_travel_order_approve", p_check_statParameter, p_travel_order_noParameter, p_empl_idParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_dept_rep_Result> sp_travel_order_daily_dept_rep(string par_period_year, string par_period_month, string par_user_id)
+        {
+            var par_period_yearParameter = par_period_year != null ?
+                new ObjectParameter("par_period_year", par_period_year) :
+                new ObjectParameter("par_period_year", typeof(string));
+    
+            var par_period_monthParameter = par_period_month != null ?
+                new ObjectParameter("par_period_month", par_period_month) :
+                new ObjectParameter("par_period_month", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_dept_rep_Result>("sp_travel_order_daily_dept_rep", par_period_yearParameter, par_period_monthParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_pa_rep_Result> sp_travel_order_daily_pa_rep(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_Result>("sp_travel_order_daily_pa_rep", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_pa_rep_2_Result> sp_travel_order_daily_pa_rep_2(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_2_Result>("sp_travel_order_daily_pa_rep_2", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_pa_rep_actioned_Result> sp_travel_order_daily_pa_rep_actioned(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_actioned_Result>("sp_travel_order_daily_pa_rep_actioned", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_pa_rep_check_Result> sp_travel_order_daily_pa_rep_check(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_check_Result>("sp_travel_order_daily_pa_rep_check", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_pa_rep_TEST_Result> sp_travel_order_daily_pa_rep_TEST(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_TEST_Result>("sp_travel_order_daily_pa_rep_TEST", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_pa_rep2_Result> sp_travel_order_daily_pa_rep2(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep2_Result>("sp_travel_order_daily_pa_rep2", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_daily_rep_Result> sp_travel_order_daily_rep(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_rep_Result>("sp_travel_order_daily_rep", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_disapprove_Result> sp_travel_order_disapprove(Nullable<bool> p_check_stat, string p_travel_order_no, string p_empl_id, string p_approval_status, string p_travel_details, string p_user_id)
+        {
+            var p_check_statParameter = p_check_stat.HasValue ?
+                new ObjectParameter("p_check_stat", p_check_stat) :
+                new ObjectParameter("p_check_stat", typeof(bool));
+    
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_approval_statusParameter = p_approval_status != null ?
+                new ObjectParameter("p_approval_status", p_approval_status) :
+                new ObjectParameter("p_approval_status", typeof(string));
+    
+            var p_travel_detailsParameter = p_travel_details != null ?
+                new ObjectParameter("p_travel_details", p_travel_details) :
+                new ObjectParameter("p_travel_details", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_disapprove_Result>("sp_travel_order_disapprove", p_check_statParameter, p_travel_order_noParameter, p_empl_idParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_disapproved_rep_Result> sp_travel_order_disapproved_rep(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_disapproved_rep_Result>("sp_travel_order_disapproved_rep", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_report_Result> sp_travel_order_report(string par_travel_order_no)
+        {
+            var par_travel_order_noParameter = par_travel_order_no != null ?
+                new ObjectParameter("par_travel_order_no", par_travel_order_no) :
+                new ObjectParameter("par_travel_order_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_report_Result>("sp_travel_order_report", par_travel_order_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_travel_order_report_TEST_Result> sp_travel_order_report_TEST(string par_travel_order_no)
+        {
+            var par_travel_order_noParameter = par_travel_order_no != null ?
+                new ObjectParameter("par_travel_order_no", par_travel_order_no) :
+                new ObjectParameter("par_travel_order_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_report_TEST_Result>("sp_travel_order_report_TEST", par_travel_order_noParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> sp_travel_order_reviewapproved(string p_travel_order_no, string p_approval_status, string p_travel_details, string p_user_id)
+        {
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_approval_statusParameter = p_approval_status != null ?
+                new ObjectParameter("p_approval_status", p_approval_status) :
+                new ObjectParameter("p_approval_status", typeof(string));
+    
+            var p_travel_detailsParameter = p_travel_details != null ?
+                new ObjectParameter("p_travel_details", p_travel_details) :
+                new ObjectParameter("p_travel_details", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_travel_order_reviewapproved", p_travel_order_noParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_dates_dtl_tbl_list_Result> sp_travelorder_dates_dtl_tbl_list(string par_travelorder_no)
+        {
+            var par_travelorder_noParameter = par_travelorder_no != null ?
+                new ObjectParameter("par_travelorder_no", par_travelorder_no) :
+                new ObjectParameter("par_travelorder_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_dates_dtl_tbl_list_Result>("sp_travelorder_dates_dtl_tbl_list", par_travelorder_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_empl_dtl_tbl_list_Result> sp_travelorder_empl_dtl_tbl_list(string par_travelorder_no)
+        {
+            var par_travelorder_noParameter = par_travelorder_no != null ?
+                new ObjectParameter("par_travelorder_no", par_travelorder_no) :
+                new ObjectParameter("par_travelorder_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_empl_dtl_tbl_list_Result>("sp_travelorder_empl_dtl_tbl_list", par_travelorder_noParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_employee_rep_Result> sp_travelorder_employee_rep(string par_empl_id, string par_year, string par_month)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
             var par_yearParameter = par_year != null ?
                 new ObjectParameter("par_year", par_year) :
                 new ObjectParameter("par_year", typeof(string));
@@ -988,15 +4994,324 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_month", par_month) :
                 new ObjectParameter("par_month", typeof(string));
     
-            var par_filterParameter = par_filter != null ?
-                new ObjectParameter("par_filter", par_filter) :
-                new ObjectParameter("par_filter", typeof(string));
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_employee_rep_Result>("sp_travelorder_employee_rep", par_empl_idParameter, par_yearParameter, par_monthParameter);
+        }
     
-            var par_departmentParameter = par_department != null ?
-                new ObjectParameter("par_department", par_department) :
-                new ObjectParameter("par_department", typeof(string));
+        public virtual ObjectResult<sp_travelorder_exists_check_Result> sp_travelorder_exists_check(string par_dept_code)
+        {
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_list_Result>("sp_get_leave_transmittal_for_uploading_list", par_yearParameter, par_monthParameter, par_filterParameter, par_departmentParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_exists_check_Result>("sp_travelorder_exists_check", par_dept_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_hdr_tbl_calendar_list_Result> sp_travelorder_hdr_tbl_calendar_list(string par_empl_id, string par_appr_status, string par_year, string par_month)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_appr_statusParameter = par_appr_status != null ?
+                new ObjectParameter("par_appr_status", par_appr_status) :
+                new ObjectParameter("par_appr_status", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_hdr_tbl_calendar_list_Result>("sp_travelorder_hdr_tbl_calendar_list", par_empl_idParameter, par_appr_statusParameter, par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_hdr_tbl_list_Result> sp_travelorder_hdr_tbl_list(string par_empl_id, string par_appr_status, string par_year, string par_month)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_appr_statusParameter = par_appr_status != null ?
+                new ObjectParameter("par_appr_status", par_appr_status) :
+                new ObjectParameter("par_appr_status", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_hdr_tbl_list_Result>("sp_travelorder_hdr_tbl_list", par_empl_idParameter, par_appr_statusParameter, par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_search_list_Result> sp_travelorder_search_list(string par_empl_id, string par_year, string par_month)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_search_list_Result>("sp_travelorder_search_list", par_empl_idParameter, par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_search_names_Result> sp_travelorder_search_names(string par_payroll_year, string par_payroll_month)
+        {
+            var par_payroll_yearParameter = par_payroll_year != null ?
+                new ObjectParameter("par_payroll_year", par_payroll_year) :
+                new ObjectParameter("par_payroll_year", typeof(string));
+    
+            var par_payroll_monthParameter = par_payroll_month != null ?
+                new ObjectParameter("par_payroll_month", par_payroll_month) :
+                new ObjectParameter("par_payroll_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_search_names_Result>("sp_travelorder_search_names", par_payroll_yearParameter, par_payroll_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelordertype_empl_dtl_tbl_Result> sp_travelordertype_empl_dtl_tbl(string p_travel_order_no, string p_empl_id)
+        {
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelordertype_empl_dtl_tbl_Result>("sp_travelordertype_empl_dtl_tbl", p_travel_order_noParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_traveltype_tbl_list_Result> sp_traveltype_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_traveltype_tbl_list_Result>("sp_traveltype_tbl_list");
+        }
+    
+        public virtual ObjectResult<sp_tse_empl_addedit_tbl_Result> sp_tse_empl_addedit_tbl(string par_empl_id, string par_month, string par_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tse_empl_addedit_tbl_Result>("sp_tse_empl_addedit_tbl", par_empl_idParameter, par_monthParameter, par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_tse_empl_tbl_list_Result> sp_tse_empl_tbl_list(string par_month, string par_year, string par_department_code, string par_empl_type, string par_budget_code)
+        {
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_empl_typeParameter = par_empl_type != null ?
+                new ObjectParameter("par_empl_type", par_empl_type) :
+                new ObjectParameter("par_empl_type", typeof(string));
+    
+            var par_budget_codeParameter = par_budget_code != null ?
+                new ObjectParameter("par_budget_code", par_budget_code) :
+                new ObjectParameter("par_budget_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tse_empl_tbl_list_Result>("sp_tse_empl_tbl_list", par_monthParameter, par_yearParameter, par_department_codeParameter, par_empl_typeParameter, par_budget_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_tse_empl_tbl_list1_Result> sp_tse_empl_tbl_list1(string par_month, string par_year, string par_department_code, string par_empl_type)
+        {
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_empl_typeParameter = par_empl_type != null ?
+                new ObjectParameter("par_empl_type", par_empl_type) :
+                new ObjectParameter("par_empl_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_tse_empl_tbl_list1_Result>("sp_tse_empl_tbl_list1", par_monthParameter, par_yearParameter, par_department_codeParameter, par_empl_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_update_dtr_transmittal_add_Result> sp_update_dtr_transmittal_add(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_status)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_statusParameter = p_status != null ?
+                new ObjectParameter("p_status", p_status) :
+                new ObjectParameter("p_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_update_dtr_transmittal_add_Result>("sp_update_dtr_transmittal_add", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_update_dtr_transmittal_remove_Result> sp_update_dtr_transmittal_remove(string p_dtr_year, string p_dtr_month, string p_empl_id, string p_status)
+        {
+            var p_dtr_yearParameter = p_dtr_year != null ?
+                new ObjectParameter("p_dtr_year", p_dtr_year) :
+                new ObjectParameter("p_dtr_year", typeof(string));
+    
+            var p_dtr_monthParameter = p_dtr_month != null ?
+                new ObjectParameter("p_dtr_month", p_dtr_month) :
+                new ObjectParameter("p_dtr_month", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_statusParameter = p_status != null ?
+                new ObjectParameter("p_status", p_status) :
+                new ObjectParameter("p_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_update_dtr_transmittal_remove_Result>("sp_update_dtr_transmittal_remove", p_dtr_yearParameter, p_dtr_monthParameter, p_empl_idParameter, p_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_update_timeentries_tbl_Result> sp_update_timeentries_tbl(string par_empl_id, Nullable<System.DateTime> par_date, string par_time_entry, string par_timtype)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_dateParameter = par_date.HasValue ?
+                new ObjectParameter("par_date", par_date) :
+                new ObjectParameter("par_date", typeof(System.DateTime));
+    
+            var par_time_entryParameter = par_time_entry != null ?
+                new ObjectParameter("par_time_entry", par_time_entry) :
+                new ObjectParameter("par_time_entry", typeof(string));
+    
+            var par_timtypeParameter = par_timtype != null ?
+                new ObjectParameter("par_timtype", par_timtype) :
+                new ObjectParameter("par_timtype", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_update_timeentries_tbl_Result>("sp_update_timeentries_tbl", par_empl_idParameter, par_dateParameter, par_time_entryParameter, par_timtypeParameter);
+        }
+    
+        public virtual ObjectResult<sp_update_TO_status_Result> sp_update_TO_status(string p_travel_order_no, Nullable<bool> p_update_action, string p_update_status)
+        {
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_update_actionParameter = p_update_action.HasValue ?
+                new ObjectParameter("p_update_action", p_update_action) :
+                new ObjectParameter("p_update_action", typeof(bool));
+    
+            var p_update_statusParameter = p_update_status != null ?
+                new ObjectParameter("p_update_status", p_update_status) :
+                new ObjectParameter("p_update_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_update_TO_status_Result>("sp_update_TO_status", p_travel_order_noParameter, p_update_actionParameter, p_update_statusParameter);
+        }
+    
+        public virtual int sp_upgraddiagrams()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual ObjectResult<sp_user_menu_access_role_list_ATS_Result> sp_user_menu_access_role_list_ATS(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_user_menu_access_role_list_ATS_Result>("sp_user_menu_access_role_list_ATS", par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_validate_dtr_month_entry_Result> sp_validate_dtr_month_entry(string par_empl_id, string par_dtr_month, string par_dtr_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_dtr_monthParameter = par_dtr_month != null ?
+                new ObjectParameter("par_dtr_month", par_dtr_month) :
+                new ObjectParameter("par_dtr_month", typeof(string));
+    
+            var par_dtr_yearParameter = par_dtr_year != null ?
+                new ObjectParameter("par_dtr_year", par_dtr_year) :
+                new ObjectParameter("par_dtr_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_validate_dtr_month_entry_Result>("sp_validate_dtr_month_entry", par_empl_idParameter, par_dtr_monthParameter, par_dtr_yearParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_validate_empl_dates(string par_mode, string par_keyField, string par_keyEmpl_Id, string par_keyDate, string par_keyStartTime, string par_keyEndTime)
+        {
+            var par_modeParameter = par_mode != null ?
+                new ObjectParameter("par_mode", par_mode) :
+                new ObjectParameter("par_mode", typeof(string));
+    
+            var par_keyFieldParameter = par_keyField != null ?
+                new ObjectParameter("par_keyField", par_keyField) :
+                new ObjectParameter("par_keyField", typeof(string));
+    
+            var par_keyEmpl_IdParameter = par_keyEmpl_Id != null ?
+                new ObjectParameter("par_keyEmpl_Id", par_keyEmpl_Id) :
+                new ObjectParameter("par_keyEmpl_Id", typeof(string));
+    
+            var par_keyDateParameter = par_keyDate != null ?
+                new ObjectParameter("par_keyDate", par_keyDate) :
+                new ObjectParameter("par_keyDate", typeof(string));
+    
+            var par_keyStartTimeParameter = par_keyStartTime != null ?
+                new ObjectParameter("par_keyStartTime", par_keyStartTime) :
+                new ObjectParameter("par_keyStartTime", typeof(string));
+    
+            var par_keyEndTimeParameter = par_keyEndTime != null ?
+                new ObjectParameter("par_keyEndTime", par_keyEndTime) :
+                new ObjectParameter("par_keyEndTime", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_validate_empl_dates", par_modeParameter, par_keyFieldParameter, par_keyEmpl_IdParameter, par_keyDateParameter, par_keyStartTimeParameter, par_keyEndTimeParameter);
+        }
+    
+        public virtual ObjectResult<sp_vl_fractionconvertion_tbl_list_Result> sp_vl_fractionconvertion_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vl_fractionconvertion_tbl_list_Result>("sp_vl_fractionconvertion_tbl_list");
+        }
+    
+        public virtual ObjectResult<sp_vl_wop_tbl_list_Result> sp_vl_wop_tbl_list()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vl_wop_tbl_list_Result>("sp_vl_wop_tbl_list");
+        }
+    
+        public virtual ObjectResult<sp_vlslearned_dailybasis_tbl_List_Result> sp_vlslearned_dailybasis_tbl_List()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vlslearned_dailybasis_tbl_List_Result>("sp_vlslearned_dailybasis_tbl_List");
         }
     }
 }

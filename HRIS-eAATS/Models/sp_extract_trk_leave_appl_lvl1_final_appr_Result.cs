@@ -13,6 +13,7 @@ namespace HRIS_eAATS.Models
     
     public partial class sp_extract_trk_leave_appl_lvl1_final_appr_Result
     {
+        public string department_code { get; set; }
         public string department_short_name { get; set; }
         public string empl_id { get; set; }
         public string employee_name { get; set; }
@@ -61,5 +62,6 @@ namespace HRIS_eAATS.Models
         public string spent_time { get; set; }
         public string final_approval_date_lv { get; set; }
         public string final_approval_date_ps { get; set; }
+        public string date_applied_month_descr { get; set; }
     }
 }

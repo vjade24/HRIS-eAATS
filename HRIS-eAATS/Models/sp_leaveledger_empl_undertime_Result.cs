@@ -13,7 +13,7 @@ namespace HRIS_eAATS.Models
     
     public partial class sp_leaveledger_empl_undertime_Result
     {
-        public Nullable<int> total_underTime { get; set; }
+        public int total_underTime { get; set; }
         public string equiv_to_day { get; set; }
     }
 }
