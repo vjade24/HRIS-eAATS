@@ -1452,8 +1452,16 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno).OrderByDescending(a=>a.created_dttm).ToList();
-                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                if (leave_ctrlno == null || leave_ctrlno == "")
+                {
+                    var data = "";
+                    return Json(new { message = "no data found!", data }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno).OrderByDescending(a=>a.created_dttm).ToList();
+                    return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {

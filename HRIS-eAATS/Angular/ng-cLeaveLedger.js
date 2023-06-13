@@ -489,7 +489,7 @@
                             "mRender": function (data, type, full, row) {
                                 
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-warning btn-sm" ng-click="btn_post(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger">  Review & Post to Ledger </button >' +
+                                    '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_post(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger">  Review & Post to Ledger </button >' +
                                     '</div></center>';
                             }
                         }
