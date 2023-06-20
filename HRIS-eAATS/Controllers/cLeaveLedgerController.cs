@@ -862,7 +862,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult CancelLederPosted(string par_ledger_ctrl_no, string par_leaveledger_date, string par_execute_mode, string par_leave_ctrlno, string par_approval_id)
+        public ActionResult CancelLederPosted(string par_ledger_ctrl_no, string par_leaveledger_date, string par_execute_mode, string par_leave_ctrlno, string par_approval_id,string empl_id)
         {
             try
             {
@@ -895,7 +895,7 @@ namespace HRIS_eAATS.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Balance Restored";
-                db_ats.sp_lv_ledger_history_insert(par_ledger_ctrl_no, par_leave_ctrlno, , appl_status, "", Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert(par_ledger_ctrl_no, par_leave_ctrlno, empl_id, appl_status, "", Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************

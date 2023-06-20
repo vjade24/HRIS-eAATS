@@ -214,7 +214,7 @@ namespace HRIS_eAATS.Controllers
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
                         var appl_status = "Create Transmittal for Signature";
-                        db_ats.sp_lv_ledger_history_insert(data_dtl_insert[i].ledger_ctrl_no.ToString().Trim(), data_dtl_insert[i].leave_ctrlno.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
+                        db_ats.sp_lv_ledger_history_insert(data_dtl_insert[i].ledger_ctrl_no.ToString().Trim(), data_dtl_insert[i].leave_ctrlno.ToString().Trim(), data_dtl_insert[i].empl_id.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
@@ -309,7 +309,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 01/13/2020
         // Description  : Add new record to leave sub-type table
         //*********************************************************************//
-        public ActionResult Save_dtl(transmittal_leave_dtl_tbl data, string par_transmitted_flag, string leave_ctrlno)
+        public ActionResult Save_dtl(transmittal_leave_dtl_tbl data, string par_transmitted_flag, string leave_ctrlno, string empl_id)
         {
             try
             {
@@ -336,7 +336,7 @@ namespace HRIS_eAATS.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Create Transmittal for Signature";
-                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no.ToString().Trim(), leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no.ToString().Trim(), leave_ctrlno, empl_id, appl_status, "", Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -426,7 +426,7 @@ namespace HRIS_eAATS.Controllers
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
                         var appl_status = "Transmitted for Signature (Received)";
-                        db_ats.sp_lv_ledger_history_insert(upd_dtl[i].ledger_ctrl_no.ToString().Trim(), upd_dtl[i].leave_ctrlno.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
+                        db_ats.sp_lv_ledger_history_insert(upd_dtl[i].ledger_ctrl_no.ToString().Trim(), upd_dtl[i].leave_ctrlno, "", appl_status, "", Session["user_id"].ToString());
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
@@ -455,7 +455,7 @@ namespace HRIS_eAATS.Controllers
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
                         var appl_status = "Transmitted for Signature (Released)";
-                        db_ats.sp_lv_ledger_history_insert(upd_dtl[i].ledger_ctrl_no.ToString().Trim(), upd_dtl[i].leave_ctrlno.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
+                        db_ats.sp_lv_ledger_history_insert(upd_dtl[i].ledger_ctrl_no.ToString().Trim(), upd_dtl[i].leave_ctrlno.ToString().Trim(),"", appl_status, "", Session["user_id"].ToString());
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************

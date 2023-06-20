@@ -2719,6 +2719,7 @@
                                     , par_execute_mode    : "cancel_with_ss"
                                     ,par_leave_ctrlno     : s.datalistgrid[row_id].leave_ctrlno
                                     , par_approval_id     : s.datalistgrid[row_id].approval_id
+                                    , empl_id     : s.datalistgrid[row_id].empl_id
                                     
                                 }).then(function (d) {
                                  if (d.data.message == "success") {

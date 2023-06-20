@@ -372,7 +372,7 @@ namespace HRIS_eAATS.Controllers
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
                         var appl_status = "Cancellation Approved";
-                        db_ats.sp_lv_ledger_history_insert("", p_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                        db_ats.sp_lv_ledger_history_insert("", p_leave_ctrlno, p_empl_id, appl_status, "", Session["user_id"].ToString());
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
@@ -549,7 +549,7 @@ namespace HRIS_eAATS.Controllers
                                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                                 // *************************************************************
                                 var appl_status = "Cancellation Approved & Balance Restored";
-                                db_ats.sp_lv_ledger_history_insert(chk.ledger_ctrl_no, p_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                                db_ats.sp_lv_ledger_history_insert(chk.ledger_ctrl_no,p_empl_id, p_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
                                 // *************************************************************
                                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                                 // *************************************************************

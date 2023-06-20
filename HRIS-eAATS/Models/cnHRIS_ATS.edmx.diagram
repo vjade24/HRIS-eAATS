@@ -82,7 +82,6 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.vl_fractionconvertion_tbl" Width="1.5" PointX="26.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vl_wop_tbl" Width="1.5" PointX="6.75" PointY="26.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vlslearned_dailybasis_tbl" Width="1.5" PointX="26.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.view_lv_ledger_history_notif" Width="1.5" PointX="26.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_all_applications" Width="1.5" PointX="26.75" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_approvalstatus_tbl" Width="1.5" PointX="26.75" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_as_info" Width="1.5" PointX="26.75" PointY="21.75" IsExpanded="true" />

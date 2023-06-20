@@ -104,7 +104,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vl_fractionconvertion_tbl> vl_fractionconvertion_tbl { get; set; }
         public virtual DbSet<vl_wop_tbl> vl_wop_tbl { get; set; }
         public virtual DbSet<vlslearned_dailybasis_tbl> vlslearned_dailybasis_tbl { get; set; }
-        public virtual DbSet<view_lv_ledger_history_notif> view_lv_ledger_history_notif { get; set; }
         public virtual DbSet<vw_all_applications> vw_all_applications { get; set; }
         public virtual DbSet<vw_approvalstatus_tbl> vw_approvalstatus_tbl { get; set; }
         public virtual DbSet<vw_as_info> vw_as_info { get; set; }

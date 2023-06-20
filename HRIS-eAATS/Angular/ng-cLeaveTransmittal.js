@@ -850,6 +850,7 @@
             data: data
             , par_transmitted_flag: s.datalistgrid6[row_id].transmitted_flag 
             , leave_ctrlno        : s.datalistgrid6[row_id].leave_ctrlno   
+            , empl_id        : s.datalistgrid6[row_id].empl_id   
         }).then(function (d)
             {
                 if (d.data.message == "success")

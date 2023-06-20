@@ -6570,26 +6570,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="vl_earned" Type="Double" />
           <Property Name="sl_earned" Type="Double" />
         </EntityType>
-        <EntityType Name="view_lv_ledger_history_notif">
-          <Key>
-            <PropertyRef Name="ledger_ctrl_no" />
-            <PropertyRef Name="leave_ctrlno" />
-            <PropertyRef Name="appl_status" />
-            <PropertyRef Name="appl_remarks" />
-            <PropertyRef Name="created_dttm" />
-            <PropertyRef Name="created_by" />
-            <PropertyRef Name="employee_name_format_2" />
-            <PropertyRef Name="trace_code" />
-          </Key>
-          <Property Name="ledger_ctrl_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="leave_ctrlno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="appl_status" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="appl_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="employee_name_format_2" Type="String" MaxLength="249" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="trace_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
-        </EntityType>
         <EntityType Name="vw_all_applications">
           <Key>
             <PropertyRef Name="application_nbr" />
@@ -7579,7 +7559,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="vl_fractionconvertion_tbl" EntityType="Self.vl_fractionconvertion_tbl" />
           <EntitySet Name="vl_wop_tbl" EntityType="Self.vl_wop_tbl" />
           <EntitySet Name="vlslearned_dailybasis_tbl" EntityType="Self.vlslearned_dailybasis_tbl" />
-          <EntitySet Name="view_lv_ledger_history_notif" EntityType="Self.view_lv_ledger_history_notif" />
           <EntitySet Name="vw_all_applications" EntityType="Self.vw_all_applications" />
           <EntitySet Name="vw_approvalstatus_tbl" EntityType="Self.vw_approvalstatus_tbl" />
           <EntitySet Name="vw_as_info" EntityType="Self.vw_as_info" />
