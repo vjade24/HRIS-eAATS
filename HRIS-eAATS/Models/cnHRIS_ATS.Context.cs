@@ -73,7 +73,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<lv_ledger_earn_history_tbl> lv_ledger_earn_history_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_oth_tbl> lv_ledger_hdr_oth_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_tbl> lv_ledger_hdr_tbl { get; set; }
-        public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
         public virtual DbSet<monthly_working_hrs_tbl> monthly_working_hrs_tbl { get; set; }
         public virtual DbSet<ot_request_dates_dtl_tbl> ot_request_dates_dtl_tbl { get; set; }
         public virtual DbSet<ot_request_empl_dtl_tbl> ot_request_empl_dtl_tbl { get; set; }
@@ -140,6 +139,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_to_info_daily_rep> vw_to_info_daily_rep { get; set; }
         public virtual DbSet<vw_travel_order_dtr_info> vw_travel_order_dtr_info { get; set; }
         public virtual DbSet<vw_with_absent_perstrans_half> vw_with_absent_perstrans_half { get; set; }
+        public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -471,16 +471,6 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_empl_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_LV_info_date_empl_id_Result>("[HRIS_ATSEntities].[func_LV_info_date_empl_id](@p_empl_id)", p_empl_idParameter);
-        }
-    
-        [DbFunction("HRIS_ATSEntities", "func_lv_ledger_history_notif")]
-        public virtual IQueryable<func_lv_ledger_history_notif_Result> func_lv_ledger_history_notif(string p_leave_ctrlno)
-        {
-            var p_leave_ctrlnoParameter = p_leave_ctrlno != null ?
-                new ObjectParameter("p_leave_ctrlno", p_leave_ctrlno) :
-                new ObjectParameter("p_leave_ctrlno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_lv_ledger_history_notif_Result>("[HRIS_ATSEntities].[func_lv_ledger_history_notif](@p_leave_ctrlno)", p_leave_ctrlnoParameter);
         }
     
         [DbFunction("HRIS_ATSEntities", "func_otrqst_info_date")]
@@ -4027,31 +4017,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_generate_earning_Result>("sp_lv_ledger_generate_earning", par_yearParameter, par_monthParameter, par_department_codeParameter, par_empl_idParameter, par_user_idParameter, par_earning_typeParameter);
         }
     
-        public virtual int sp_lv_ledger_history_insert(string p_ledger_ctrl_no, string p_leave_ctrlno, string p_appl_status, string p_appl_remarks, string p_created_by)
-        {
-            var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
-                new ObjectParameter("p_ledger_ctrl_no", p_ledger_ctrl_no) :
-                new ObjectParameter("p_ledger_ctrl_no", typeof(string));
-    
-            var p_leave_ctrlnoParameter = p_leave_ctrlno != null ?
-                new ObjectParameter("p_leave_ctrlno", p_leave_ctrlno) :
-                new ObjectParameter("p_leave_ctrlno", typeof(string));
-    
-            var p_appl_statusParameter = p_appl_status != null ?
-                new ObjectParameter("p_appl_status", p_appl_status) :
-                new ObjectParameter("p_appl_status", typeof(string));
-    
-            var p_appl_remarksParameter = p_appl_remarks != null ?
-                new ObjectParameter("p_appl_remarks", p_appl_remarks) :
-                new ObjectParameter("p_appl_remarks", typeof(string));
-    
-            var p_created_byParameter = p_created_by != null ?
-                new ObjectParameter("p_created_by", p_created_by) :
-                new ObjectParameter("p_created_by", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_lv_ledger_history_insert", p_ledger_ctrl_noParameter, p_leave_ctrlnoParameter, p_appl_statusParameter, p_appl_remarksParameter, p_created_byParameter);
-        }
-    
         public virtual ObjectResult<sp_lv_ledger_posted_unposted_Result> sp_lv_ledger_posted_unposted(string par_empl_id, string par_posting_flag)
         {
             var par_empl_idParameter = par_empl_id != null ?
@@ -5312,6 +5277,49 @@ namespace HRIS_eAATS.Models
         public virtual ObjectResult<sp_vlslearned_dailybasis_tbl_List_Result> sp_vlslearned_dailybasis_tbl_List()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vlslearned_dailybasis_tbl_List_Result>("sp_vlslearned_dailybasis_tbl_List");
+        }
+    
+        [DbFunction("HRIS_ATSEntities", "func_lv_ledger_history_notif")]
+        public virtual IQueryable<func_lv_ledger_history_notif_Result> func_lv_ledger_history_notif(string p_leave_ctrlno, string p_empl_id)
+        {
+            var p_leave_ctrlnoParameter = p_leave_ctrlno != null ?
+                new ObjectParameter("p_leave_ctrlno", p_leave_ctrlno) :
+                new ObjectParameter("p_leave_ctrlno", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_lv_ledger_history_notif_Result>("[HRIS_ATSEntities].[func_lv_ledger_history_notif](@p_leave_ctrlno, @p_empl_id)", p_leave_ctrlnoParameter, p_empl_idParameter);
+        }
+    
+        public virtual int sp_lv_ledger_history_insert(string p_ledger_ctrl_no, string p_leave_ctrlno, string p_empl_id, string p_appl_status, string p_appl_remarks, string p_created_by)
+        {
+            var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
+                new ObjectParameter("p_ledger_ctrl_no", p_ledger_ctrl_no) :
+                new ObjectParameter("p_ledger_ctrl_no", typeof(string));
+    
+            var p_leave_ctrlnoParameter = p_leave_ctrlno != null ?
+                new ObjectParameter("p_leave_ctrlno", p_leave_ctrlno) :
+                new ObjectParameter("p_leave_ctrlno", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_appl_statusParameter = p_appl_status != null ?
+                new ObjectParameter("p_appl_status", p_appl_status) :
+                new ObjectParameter("p_appl_status", typeof(string));
+    
+            var p_appl_remarksParameter = p_appl_remarks != null ?
+                new ObjectParameter("p_appl_remarks", p_appl_remarks) :
+                new ObjectParameter("p_appl_remarks", typeof(string));
+    
+            var p_created_byParameter = p_created_by != null ?
+                new ObjectParameter("p_created_by", p_created_by) :
+                new ObjectParameter("p_created_by", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_lv_ledger_history_insert", p_ledger_ctrl_noParameter, p_leave_ctrlnoParameter, p_empl_idParameter, p_appl_statusParameter, p_appl_remarksParameter, p_created_byParameter);
         }
     }
 }

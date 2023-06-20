@@ -254,12 +254,12 @@
                                 <div class="col-sm-6">
                                     <label>Document Route<span class="text-danger"><small>*required</small></span></label>
                                     <select class="form-control" id="ddl_route_nbr" ng-model="ddl_route_nbr" ng-disabled="dis_title">
-                                        @*<option value="01" selected> 1-10  days</option>
+                                        <option value="01" selected> 1-10  days</option>
                                         <option value="02"> 11-30 days</option>
                                         <option value="03"> 31-60 days</option>
                                         <option value="04"> 61 up and Other Types of Leave</option>
                                         <option value="05"> All VGO and SPO Employees</option>
-                                        <option value="06"> Release to Payroll</option>*@
+                                        <option value="06"> Release to Payroll</option>
                                     </select>
 
                                 </div>
@@ -282,7 +282,7 @@
 
                         <div class="col-lg-6">
                             <b><label class="pull-left" style="margin-top:9px;">Department :<span class="text-danger"><small>*required</small></span></label></b>
-                            <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
+                            <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" >
                                 <option value="">-- All Department -- </option>
                                 <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
                             </select>
@@ -294,11 +294,11 @@
                                     <b><label class="pull-left" style="margin-top:9px;">Employment Type :</label></b>
                                 </div>
                                 <div class="col-lg-12">
-                                    <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type" style="width:100%;" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
+                                    <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type" style="width:100%;" >
                                         <option value="">-- All Employment Type -- </option>
                                         <option value="RE">Regular Employees</option>
                                         <option value="CE">Casual Employees</option>
-                                        <option value="JO">Job-Order Employees</option>
+                                        @*<option value="JO">Job-Order Employees</option>*@
                                     </select>
                                 </div>
 
@@ -310,7 +310,7 @@
                                     <label class="font-bold" style="margin-top:9px;"><b>View Mode :</b></label>
                                 </div>
                                 <div class="col-lg-12">
-                                    <select class="form-control" id="ddl_rep_mode_add_edit" ng-model="ddl_rep_mode_add_edit" ng-change="RetrieveTransmittal_DTL(txtb_doc_ctrl_nbr,txtb_approved_period_from,txtb_approved_period_to,ddl_dept,ddl_employment_type,ddl_rep_mode_add_edit)">
+                                    <select class="form-control" id="ddl_rep_mode_add_edit" ng-model="ddl_rep_mode_add_edit">
                                         @*<option value="1">Both Leave and CTO</option>*@
                                         <option value="2">Leave Card</option>
                                         <option value="3">CTO Card</option>

@@ -137,7 +137,7 @@ namespace HRIS_eAATS.Controllers
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
                     var appl_status = "Evaluated";
-                    db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, query.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                     // *************************************************************
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
@@ -153,7 +153,7 @@ namespace HRIS_eAATS.Controllers
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
                     var appl_status = (data.approval_status == "C" ? "(Cancel Pending)" : "(Disapproved)") + " from Evaluation";
-                    db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, query.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                     // *************************************************************
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************

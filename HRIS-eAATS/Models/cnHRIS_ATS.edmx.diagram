@@ -51,7 +51,6 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_earn_history_tbl" Width="1.5" PointX="14.75" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_hdr_oth_tbl" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_hdr_tbl" Width="1.5" PointX="20.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_history_tbl" Width="1.5" PointX="20.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.monthly_working_hrs_tbl" Width="1.5" PointX="20.75" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.ot_request_dates_dtl_tbl" Width="1.5" PointX="16.75" PointY="20.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.ot_request_empl_dtl_tbl" Width="1.5" PointX="20.75" PointY="18.75" IsExpanded="true" />
@@ -118,6 +117,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_to_info_daily_rep" Width="1.5" PointX="32.75" PointY="20.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_travel_order_dtr_info" Width="1.5" PointX="32.75" PointY="24.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_with_absent_perstrans_half" Width="1.5" PointX="26.75" PointY="32.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_history_tbl" Width="1.5" PointX="0.75" PointY="33.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

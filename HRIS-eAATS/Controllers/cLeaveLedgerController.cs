@@ -453,7 +453,7 @@ namespace HRIS_eAATS.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Deleted on Ledger";
-                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno,data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -776,7 +776,7 @@ namespace HRIS_eAATS.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Reviewed & Posted to Ledger";
-                db_ats.sp_lv_ledger_history_insert(new_appl_nbr[0], data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert(new_appl_nbr[0], data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -871,7 +871,6 @@ namespace HRIS_eAATS.Controllers
                 var approval_status = "L";
                 var user_id = Session["user_id"].ToString();
                 var data = db_ats.sp_lv_ledger_cancel(par_ledger_ctrl_no, par_leaveledger_date, user_id).FirstOrDefault();
-
                 if (par_execute_mode == "cancel_with_ss")
                 {
                     var transac_apprvr = db.sp_update_transaction_in_approvalworkflow_tbl(par_approval_id, user_id, approval_status, "Ledger Post - Cancellation");
@@ -896,7 +895,7 @@ namespace HRIS_eAATS.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Balance Restored";
-                db_ats.sp_lv_ledger_history_insert(par_ledger_ctrl_no, par_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert(par_ledger_ctrl_no, par_leave_ctrlno, , appl_status, "", Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1311,7 +1310,7 @@ namespace HRIS_eAATS.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = (data.approval_status == "C" ? "(Cancel Pending)" : "(Disapproved)") + " from Review";
-                db_ats.sp_lv_ledger_history_insert(ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert(ledger_ctrl_no, data.leave_ctrlno,data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1390,7 +1389,7 @@ namespace HRIS_eAATS.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Reviewed & Posted to Ledger (Repost)";
-                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert(data.ledger_ctrl_no, data.leave_ctrlno,data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1448,7 +1447,7 @@ namespace HRIS_eAATS.Controllers
             }
 
         }
-        public ActionResult Retrieve_LeaveHistory(string leave_ctrlno)
+        public ActionResult Retrieve_LeaveHistory(string leave_ctrlno, string empl_id)
         {
             try
             {
@@ -1459,7 +1458,7 @@ namespace HRIS_eAATS.Controllers
                 }
                 else
                 {
-                    var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno).OrderByDescending(a=>a.created_dttm).ToList();
+                    var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno,empl_id).OrderByDescending(a=>a.created_dttm).ToList();
                     return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
                 }
             }

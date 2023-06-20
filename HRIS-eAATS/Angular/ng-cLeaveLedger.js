@@ -110,8 +110,8 @@
                 }
                 if (d.data.cLV_Ledger_employee_name != null)
                 {
-                    s.cLV_Ledger_employee_name = d.data.cLV_Ledger_employee_name;
-
+                    s.cLV_Ledger_employee_name  = d.data.cLV_Ledger_employee_name;
+                    s.txtb_info_empl_name       = d.data.cLV_Ledger_employee_name;
                 }
 
                 $("#info_vl_balance").text("0.000");
@@ -548,7 +548,7 @@
                             "mRender": function (data, type, full, row) {
 
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-primary btn-sm" ng-click="btn_print_leave_app_posted(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO"><i class="fa fa-print"></i></button>' +
+                                    '<button type="button" class="btn btn-primary btn-xs" ng-click="btn_print_leave_app_posted(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO"><i class="fa fa-print"></i></button>' +
                                     '</div></center>';
                             }
                         }
@@ -616,8 +616,8 @@
                             "mRender": function (data, type, full, row) {
 
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-info btn-sm"   ng-click="btn_edit_bal(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
-                                    '<button type="button" class="btn btn-danger btn-sm" ng-show="false" ng-click="btn_delete_bal(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete">  <i class="fa fa-trash"></i></button >' +
+                                    '<button type="button" class="btn btn-info btn-xs"   ng-click="btn_edit_bal(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
+                                    '<button type="button" class="btn btn-danger btn-xs" ng-show="false" ng-click="btn_delete_bal(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete">  <i class="fa fa-trash"></i></button >' +
                                     '</div></center>';
                             }
                         }
@@ -3634,7 +3634,7 @@
         $('#view_details_history').removeClass()
         $('#view_details_history').addClass('fa fa-spinner fa-spin')
         s.data_history = [];
-        h.post("../cLeaveLedger/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_leave_ctrlno}).then(function (d)
+        h.post("../cLeaveLedger/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_leave_ctrlno, empl_id: $("#ddl_name option:selected").val()}).then(function (d)
         {
             if (d.data.message == "success")
             {

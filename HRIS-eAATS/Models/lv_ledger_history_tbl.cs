@@ -17,6 +17,7 @@ namespace HRIS_eAATS.Models
         public int id { get; set; }
         public string ledger_ctrl_no { get; set; }
         public string leave_ctrlno { get; set; }
+        public string empl_id { get; set; }
         public string appl_status { get; set; }
         public string appl_remarks { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }

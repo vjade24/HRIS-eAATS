@@ -435,32 +435,39 @@
 
     s.RetrieveTransmittal_HDR = function (daily_monthly)
     {
-        daySelect = document.getElementById('ddl_route_nbr');
-        $("#ddl_route_nbr option[value='01']").remove();
-        $("#ddl_route_nbr option[value='02']").remove();
-        $("#ddl_route_nbr option[value='03']").remove();
-        $("#ddl_route_nbr option[value='04']").remove();
-        $("#ddl_route_nbr option[value='05']").remove();
-        $("#ddl_route_nbr option[value='06']").remove();
-        daySelect.options[daySelect.options.length] = new Option('1-10  days', '01')
-        daySelect.options[daySelect.options.length] = new Option('11-30 days', '02')
-        daySelect.options[daySelect.options.length] = new Option('31-60 days', '03')
-        daySelect.options[daySelect.options.length] = new Option('61 up and Other Types of Leave', '04')
-        daySelect.options[daySelect.options.length] = new Option('All VGO and SPO Employees', '05')
-        daySelect.options[daySelect.options.length] = new Option('Release to Payroll', '06')
+        //daySelect = document.getElementById('ddl_route_nbr');
+        //$("#ddl_route_nbr option[value='01']").remove();
+        //$("#ddl_route_nbr option[value='02']").remove();
+        //$("#ddl_route_nbr option[value='03']").remove();
+        //$("#ddl_route_nbr option[value='04']").remove();
+        //$("#ddl_route_nbr option[value='05']").remove();
+        //$("#ddl_route_nbr option[value='06']").remove();
+        //daySelect.options[daySelect.options.length] = new Option('1-10  days', '01')
+        //daySelect.options[daySelect.options.length] = new Option('11-30 days', '02')
+        //daySelect.options[daySelect.options.length] = new Option('31-60 days', '03')
+        //daySelect.options[daySelect.options.length] = new Option('61 up and Other Types of Leave', '04')
+        //daySelect.options[daySelect.options.length] = new Option('All VGO and SPO Employees', '05')
+        //daySelect.options[daySelect.options.length] = new Option('Release to Payroll', '06')
 
-        if (s.ddl_transmittal_class == "monthly")
-        {
-            $("#ddl_route_nbr option[value='01']").remove();
-            $("#ddl_route_nbr option[value='02']").remove();
-            $("#ddl_route_nbr option[value='03']").remove();
-            $("#ddl_route_nbr option[value='04']").remove();
-            $("#ddl_route_nbr option[value='05']").remove();
+        //if (s.ddl_transmittal_class == "monthly")
+        //{
+        //    $("#ddl_route_nbr option[value='01']").remove();
+        //    $("#ddl_route_nbr option[value='02']").remove();
+        //    $("#ddl_route_nbr option[value='03']").remove();
+        //    $("#ddl_route_nbr option[value='04']").remove();
+        //    $("#ddl_route_nbr option[value='05']").remove();
+        //    $('#ddl_route_nbr').val('06')
+        //}
+        //else
+        //{
+        //    $("#ddl_route_nbr option[value='06']").remove();
+        //    $('#ddl_route_nbr').val('01')
+        //}
+
+        if (s.ddl_transmittal_class == "monthly") {
             $('#ddl_route_nbr').val('06')
         }
-        else
-        {
-            $("#ddl_route_nbr option[value='06']").remove();
+        else {
             $('#ddl_route_nbr').val('01')
         }
 
@@ -527,8 +534,8 @@
         s.show_footer               = true;
         s.txtb_doc_ctrl_nbr         = "";
         s.txtb_transmittal_descr    = "";
-        s.txtb_approved_period_from = "";
-        s.txtb_approved_period_to   = "";
+        $('#txtb_approved_period_from').val('')
+        $('#txtb_approved_period_to').val('')
         s.txtb_created_by           = "";
         s.txtb_created_dttm         = "";
         s.ddl_route_nbr             = "01"
@@ -539,34 +546,43 @@
         s.show_save                 = true
         s.action                    = "ADD";
 
-        daySelect = document.getElementById('ddl_route_nbr');
-        $("#ddl_route_nbr option[value='01']").remove();
-        $("#ddl_route_nbr option[value='02']").remove();
-        $("#ddl_route_nbr option[value='03']").remove();
-        $("#ddl_route_nbr option[value='04']").remove();
-        $("#ddl_route_nbr option[value='05']").remove();
-        $("#ddl_route_nbr option[value='06']").remove();
-        daySelect.options[daySelect.options.length] = new Option('1-10  days', '01')
-        daySelect.options[daySelect.options.length] = new Option('11-30 days', '02')
-        daySelect.options[daySelect.options.length] = new Option('31-60 days', '03')
-        daySelect.options[daySelect.options.length] = new Option('61 up and Other Types of Leave', '04')
-        daySelect.options[daySelect.options.length] = new Option('All VGO and SPO Employees', '05')
-        daySelect.options[daySelect.options.length] = new Option('Release to Payroll', '06')
+        //daySelect = document.getElementById('ddl_route_nbr');
+        //$("#ddl_route_nbr option[value='01']").remove();
+        //$("#ddl_route_nbr option[value='02']").remove();
+        //$("#ddl_route_nbr option[value='03']").remove();
+        //$("#ddl_route_nbr option[value='04']").remove();
+        //$("#ddl_route_nbr option[value='05']").remove();
+        //$("#ddl_route_nbr option[value='06']").remove();
+        //daySelect.options[daySelect.options.length] = new Option('1-10  days', '01')
+        //daySelect.options[daySelect.options.length] = new Option('11-30 days', '02')
+        //daySelect.options[daySelect.options.length] = new Option('31-60 days', '03')
+        //daySelect.options[daySelect.options.length] = new Option('61 up and Other Types of Leave', '04')
+        //daySelect.options[daySelect.options.length] = new Option('All VGO and SPO Employees', '05')
+        //daySelect.options[daySelect.options.length] = new Option('Release to Payroll', '06')
+
+        //if (s.ddl_transmittal_class == "monthly")
+        //{
+        //    $("#ddl_route_nbr option[value='']").remove();
+        //    $("#ddl_route_nbr option[value='01']").remove();
+        //    $("#ddl_route_nbr option[value='02']").remove();
+        //    $("#ddl_route_nbr option[value='03']").remove();
+        //    $("#ddl_route_nbr option[value='04']").remove();
+        //    $("#ddl_route_nbr option[value='05']").remove();
+        //    $('#ddl_route_nbr').val('06')
+        //}
+        //else
+        //{
+        //    $("#ddl_route_nbr option[value='']").remove();
+        //    $("#ddl_route_nbr option[value='06']").remove();
+        //    $('#ddl_route_nbr').val('01')
+        //}
 
         if (s.ddl_transmittal_class == "monthly")
         {
-            $("#ddl_route_nbr option[value='']").remove();
-            $("#ddl_route_nbr option[value='01']").remove();
-            $("#ddl_route_nbr option[value='02']").remove();
-            $("#ddl_route_nbr option[value='03']").remove();
-            $("#ddl_route_nbr option[value='04']").remove();
-            $("#ddl_route_nbr option[value='05']").remove();
             $('#ddl_route_nbr').val('06')
         }
         else
         {
-            $("#ddl_route_nbr option[value='']").remove();
-            $("#ddl_route_nbr option[value='06']").remove();
             $('#ddl_route_nbr').val('01')
         }
 
@@ -600,7 +616,7 @@
             ,approved_period_from   : $('#txtb_approved_period_from').val()
             ,approved_period_to     : $('#txtb_approved_period_to').val()
             ,doc_status             : "N"
-            ,route_nbr              : s.ddl_route_nbr
+            ,route_nbr              : $('#ddl_route_nbr option:selected').val()
             , department_code       : s.ddl_dept
             , employment_tyep       : s.ddl_employment_type
             , view_mode             : s.ddl_rep_mode_add_edit
@@ -739,8 +755,8 @@
 
         s.txtb_doc_ctrl_nbr             = "";
         s.txtb_transmittal_descr        = "";
-        s.txtb_approved_period_from     = "";
-        s.txtb_approved_period_to       = "";
+        $('#txtb_approved_period_from').val('')
+        $('#txtb_approved_period_to').val('')
         s.txtb_created_by               = "";
         s.txtb_created_dttm             = "";
         s.ddl_route_nbr = "01"
