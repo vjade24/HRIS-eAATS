@@ -123,7 +123,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2022-05-24
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult RetrieveTransmittal_DTL(string par_doc_ctrl_nbr, DateTime par_approved_period_from, DateTime par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
+        public ActionResult RetrieveTransmittal_DTL(string par_doc_ctrl_nbr, DateTime par_approved_period_from, DateTime par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode, string transmittal_class)
         {
             try
             {
@@ -131,22 +131,30 @@ namespace HRIS_eAATS.Controllers
 
                 if (hdr != null)
                 {
-                    //if (par_department_code.ToString().Trim() == "" || par_department_code == null)
-                    //{
-                    var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).ToList().OrderByDescending(a => a.transmitted_flag);
-                    return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
-                    //}
-                    //else
-                    //{
-                    //    var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to).Where(a => a.department_code == par_department_code).ToList().OrderByDescending(a => a.transmitted_flag);
-                    //    return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
-                    //}
+                    if (transmittal_class.ToString().Trim() == "daily" )
+                    {
+                        var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).ToList().OrderByDescending(a => a.transmitted_flag);
+                        return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        var data = db_ats.sp_transmittal_leave_dtl_monthly_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).ToList().OrderByDescending(a => a.transmitted_flag);
+                        return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                    }
 
                 }
                 else
                 {
-                    var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).Where(a => a.transmitted_flag == "Y").ToList().OrderByDescending(a => a.transmitted_flag);
-                    return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                    if (transmittal_class.ToString().Trim() == "daily")
+                    {
+                        var data = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).Where(a => a.transmitted_flag == "Y").ToList().OrderByDescending(a => a.transmitted_flag);
+                        return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        var data = db_ats.sp_transmittal_leave_dtl_monthly_tbl_list(par_doc_ctrl_nbr, par_approved_period_from, par_approved_period_to, par_department_code, par_employment_type, par_view_mode).Where(a => a.transmitted_flag == "Y").ToList().OrderByDescending(a => a.transmitted_flag);
+                        return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                    }
                 }
             }
             catch (Exception e)
@@ -184,43 +192,77 @@ namespace HRIS_eAATS.Controllers
             {
                 List<transmittal_leave_dtl_tbl> data_dtl = new List<transmittal_leave_dtl_tbl>();
 
-                var nxt_ctrl_nbr = db_ats.sp_generate_key("transmittal_leave_hdr_tbl", "doc_ctrl_nbr", 12).ToList().FirstOrDefault();
-                data.doc_ctrl_nbr = "LV-" + nxt_ctrl_nbr.key_value.ToString();
-                data.approved_period_from = data.approved_period_from;
-                data.approved_period_to = data.approved_period_to;
-                data.created_by = Session["user_id"].ToString();
-                data.created_dttm = DateTime.Now;
-                data.department_code = data.department_code;
-                data.employment_tyep = data.employment_tyep;
-                data.view_mode = data.view_mode;
-                db_ats.transmittal_leave_hdr_tbl.Add(data);
+                var nxt_ctrl_nbr            = db_ats.sp_generate_key("transmittal_leave_hdr_tbl", "doc_ctrl_nbr", 12).ToList().FirstOrDefault();
+                data.doc_ctrl_nbr           = "LV-" + nxt_ctrl_nbr.key_value.ToString();
+                data.approved_period_from   = data.approved_period_from;
+                data.approved_period_to     = data.approved_period_to;
+                data.created_by             = Session["user_id"].ToString();
+                data.created_dttm           = DateTime.Now;
+                data.department_code        = data.department_code;
+                data.employment_tyep        = data.employment_tyep;
+                data.view_mode              = data.view_mode;
+                data.route_nbr              = data.route_nbr;
 
-                var data_dtl_insert = db_ats.sp_transmittal_leave_dtl_tbl_list("", data.approved_period_from, data.approved_period_to, data.department_code, data.employment_tyep, data.view_mode).ToList();
-                if (data_dtl_insert.Count > 0)
+                if (data.route_nbr.ToString().Trim() != "06")
                 {
-                    for (int i = 0; i < data_dtl_insert.Count; i++)
+                    var data_dtl_insert = db_ats.sp_transmittal_leave_dtl_tbl_list("", data.approved_period_from, data.approved_period_to, data.department_code, data.employment_tyep, data.view_mode).ToList();
+                    if (data_dtl_insert.Count > 0)
                     {
-                        transmittal_leave_dtl_tbl dta1 = new transmittal_leave_dtl_tbl();
+                        for (int i = 0; i < data_dtl_insert.Count; i++)
+                        {
+                            transmittal_leave_dtl_tbl dta1 = new transmittal_leave_dtl_tbl();
 
-                        dta1.doc_ctrl_nbr       = "LV-" + nxt_ctrl_nbr.key_value.ToString();
-                        dta1.ledger_ctrl_no     = data_dtl_insert[i].ledger_ctrl_no.ToString().Trim();
-                        dta1.created_by         = Session["user_id"].ToString();
-                        dta1.created_dttm       = DateTime.Now;
-                        dta1.route_nbr          = data.route_nbr;
-                        dta1.leave_ctrlno       = data_dtl_insert[i].leave_ctrlno.ToString().Trim();
-                        data_dtl.Add(dta1);
+                            dta1.doc_ctrl_nbr       = "LV-" + nxt_ctrl_nbr.key_value.ToString();
+                            dta1.ledger_ctrl_no     = data_dtl_insert[i].ledger_ctrl_no.ToString().Trim();
+                            dta1.created_by         = Session["user_id"].ToString();
+                            dta1.created_dttm       = DateTime.Now;
+                            dta1.route_nbr          = data.route_nbr;
+                            dta1.leave_ctrlno       = data_dtl_insert[i].leave_ctrlno.ToString().Trim();
+                            data_dtl.Add(dta1);
 
-                        // *************************************************************
-                        // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
-                        // *************************************************************
-                        var appl_status = "Create Transmittal for Signature";
-                        db_ats.sp_lv_ledger_history_insert(data_dtl_insert[i].ledger_ctrl_no.ToString().Trim(), data_dtl_insert[i].leave_ctrlno.ToString().Trim(), data_dtl_insert[i].empl_id.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
-                        // *************************************************************
-                        // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
-                        // *************************************************************
+                            // *************************************************************
+                            // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                            // *************************************************************
+                            var appl_status = "Create Transmittal for Signature";
+                            db_ats.sp_lv_ledger_history_insert(data_dtl_insert[i].ledger_ctrl_no.ToString().Trim(), data_dtl_insert[i].leave_ctrlno.ToString().Trim(), data_dtl_insert[i].empl_id.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
+                            // *************************************************************
+                            // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                            // *************************************************************
 
+                        }
                     }
                 }
+                else
+                {
+                    var data_dtl_insert = db_ats.sp_transmittal_leave_dtl_monthly_tbl_list("", data.approved_period_from, data.approved_period_to, data.department_code, data.employment_tyep, data.view_mode).ToList();
+                    if (data_dtl_insert.Count > 0)
+                    {
+                        for (int i = 0; i < data_dtl_insert.Count; i++)
+                        {
+                            transmittal_leave_dtl_tbl dta1 = new transmittal_leave_dtl_tbl();
+
+                            dta1.doc_ctrl_nbr       = "LV-" + nxt_ctrl_nbr.key_value.ToString();
+                            dta1.ledger_ctrl_no     = data_dtl_insert[i].ledger_ctrl_no.ToString().Trim();
+                            dta1.created_by         = Session["user_id"].ToString();
+                            dta1.created_dttm       = DateTime.Now;
+                            dta1.route_nbr          = data.route_nbr;
+                            dta1.leave_ctrlno       = data_dtl_insert[i].leave_ctrlno.ToString().Trim();
+                            data_dtl.Add(dta1);
+
+                            // *************************************************************
+                            // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                            // *************************************************************
+                            var appl_status = "Create Monthly Transmittal for Payroll";
+                            db_ats.sp_lv_ledger_history_insert(data_dtl_insert[i].ledger_ctrl_no.ToString().Trim(), data_dtl_insert[i].leave_ctrlno.ToString().Trim(), data_dtl_insert[i].empl_id.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
+                            // *************************************************************
+                            // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                            // *************************************************************
+
+                        }
+                    }
+                }
+
+                db_ats.transmittal_leave_hdr_tbl.Add(data);
                 db_ats.transmittal_leave_dtl_tbl.AddRange(data_dtl);
                 db_ats.SaveChangesAsync();
 
@@ -351,23 +393,42 @@ namespace HRIS_eAATS.Controllers
             }
         }
 
-        public ActionResult RetriveTransmittalInfo(string par_doc_ctrl_nbr)
+        public ActionResult RetriveTransmittalInfo(string par_doc_ctrl_nbr, string route_nbr)
         {
             try
             {
                 if (par_doc_ctrl_nbr.Length >= 15)
                 {
-                    var data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
-                    var data_dtl = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to, "", "", "").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
-                    var data_history = db_trk.sp_edocument_trk_tbl_history(par_doc_ctrl_nbr, "LV").ToList();
-
-                    return Json(new
+                    if (route_nbr.ToString().Trim() != "06")
                     {
-                        data_dtl,
-                        data,
-                        data_history,
-                        message = "success"
-                    }, JsonRequestBehavior.AllowGet);
+                        var data            = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
+                        var data_dtl        = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to, "", "", "").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
+                        var data_history    = db_trk.sp_edocument_trk_tbl_history(par_doc_ctrl_nbr, "LV").ToList();
+
+                        return Json(new
+                        {
+                            data_dtl,
+                            data,
+                            data_history,
+                            message = "success"
+                        }, JsonRequestBehavior.AllowGet);
+
+                    }
+                    else
+                    {
+                        var data            = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
+                        var data_dtl        = db_ats.sp_transmittal_leave_dtl_monthly_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to, "", "", "").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
+                        var data_history    = db_trk.sp_edocument_trk_tbl_history(par_doc_ctrl_nbr, "LV").ToList();
+
+                        return Json(new
+                        {
+                            data_dtl,
+                            data,
+                            data_history,
+                            message = "success"
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+
                 }
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }

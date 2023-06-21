@@ -783,6 +783,7 @@
             , par_department_code       : s.datalistgrid5[row_id].department_code
             , par_employment_type       : s.datalistgrid5[row_id].employment_tyep
             , par_view_mode             : s.ddl_rep_mode_add_edit
+            , transmittal_class         : s.ddl_transmittal_class
         }).then(function (d)
         {
             if (d.data.message == "success")
@@ -953,11 +954,12 @@
     }
 
 
-    s.scan_transmittal_ctrl_nbr = function (doc_ctrl_nbr)
+    s.scan_transmittal_ctrl_nbr = function (doc_ctrl_nbr, route_nbr)
     {
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveTransmittal/RetriveTransmittalInfo", {
             par_doc_ctrl_nbr            : doc_ctrl_nbr
+            ,route_nbr                  : route_nbr
         }).then(function (d) {
             
             if (d.data.message == "success")
@@ -1032,7 +1034,8 @@
 
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveTransmittal/RetriveTransmittalInfo", {
-            par_doc_ctrl_nbr            : s.datalistgrid5[row_id].doc_ctrl_nbr
+            par_doc_ctrl_nbr      : s.datalistgrid5[row_id].doc_ctrl_nbr
+            ,route_nbr            : s.datalistgrid5[row_id].route_nbr
         }).then(function (d) {
             
             if (d.data.message == "success")
@@ -1078,6 +1081,7 @@
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveTransmittal/RetriveTransmittalInfo", {
             par_doc_ctrl_nbr            : s.datalistgrid5[row_id].doc_ctrl_nbr
+            , route_nbr                 : s.datalistgrid5[row_id].route_nbr
         }).then(function (d) {
             
             if (d.data.message == "success")
@@ -1196,7 +1200,7 @@
     //}
 
 
-    s.RetrieveTransmittal_DTL = function (doc_ctrl_nbr, approved_period_from, approved_period_to, department_code, employment_type, view_mode)
+    s.RetrieveTransmittal_DTL = function (doc_ctrl_nbr, approved_period_from, approved_period_to, department_code, employment_type, view_mode, transmittal_class)
     {
 
         h.post("../cLeaveTransmittal/RetrieveTransmittal_DTL", {
@@ -1205,7 +1209,8 @@
             , par_approved_period_to    : approved_period_to
             , par_department_code       : department_code
             , par_employment_type       : employment_type
-            , par_view_mode: view_mode
+            , par_view_mode             : view_mode
+            , transmittal_class         : transmittal_class
         }).then(function (d)
         {
             if (d.data.message == "success")
@@ -1259,7 +1264,8 @@
 
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveTransmittal/RetriveTransmittalInfo", {
-            par_doc_ctrl_nbr            : s.datalistgrid5[row_id].doc_ctrl_nbr
+            par_doc_ctrl_nbr       : s.datalistgrid5[row_id].doc_ctrl_nbr
+            , route_nbr            : s.datalistgrid5[row_id].route_nbr
         }).then(function (d) {
             
             if (d.data.message == "success")

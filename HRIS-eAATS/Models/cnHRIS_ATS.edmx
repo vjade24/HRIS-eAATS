@@ -208,6 +208,17 @@
           <Property Name="approved_by" Type="varchar" MaxLength="6" />
           <Property Name="approved_dttm" Type="datetime" />
         </EntityType>
+        <EntityType Name="dtr_overrides_tickets_tbl">
+          <Key>
+            <PropertyRef Name="dtr_order_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="dtr_order_no" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="ticket_number" Type="int" Nullable="false" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="created_dttm" Type="datetime" />
+        </EntityType>
         <EntityType Name="dtr_transmittal_dtl_tbl">
           <Key>
             <PropertyRef Name="transmittal_nbr" />
@@ -3646,6 +3657,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <Function Name="sp_get_empl_employment_type" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_get_leave_transmittal_for_uploading_dtl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_doc_ctrl_nbr" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_get_leave_transmittal_for_uploading_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_year" Type="varchar" Mode="In" />
+          <Parameter Name="par_month" Type="varchar" Mode="In" />
+          <Parameter Name="par_filter" Type="varchar" Mode="In" />
+          <Parameter Name="par_department" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_get_next_transmittal_no" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_get_next_travel_order_no" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_get_notification_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -4271,6 +4291,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="dtr_empl_national_dtl_tbl" EntityType="Self.dtr_empl_national_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dtr_empl_national_hdr_tbl" EntityType="Self.dtr_empl_national_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dtr_overrides_tbl" EntityType="Self.dtr_overrides_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dtr_overrides_tickets_tbl" EntityType="Self.dtr_overrides_tickets_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dtr_transmittal_dtl_tbl" EntityType="Self.dtr_transmittal_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dtr_transmittal_hdr_tbl" EntityType="Self.dtr_transmittal_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="empl_aoh_render_dtl_tbl" EntityType="Self.empl_aoh_render_dtl_tbl" Schema="dbo" store:Type="Tables" />
@@ -8427,15 +8448,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <FunctionImport Name="sp_get_empl_employment_type" ReturnType="Collection(HRIS_ATSModel.sp_get_empl_employment_type_Result)">
           <Parameter Name="par_empl_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_get_leave_transmittal_for_uploading_dtl_list" ReturnType="Collection(HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_dtl_list_Result)">
-          <Parameter Name="par_doc_ctrl_nbr" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_get_leave_transmittal_for_uploading_list" ReturnType="Collection(HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_list_Result)">
-            <Parameter Name="par_year" Mode="In" Type="String" />
-            <Parameter Name="par_month" Mode="In" Type="String" />
-            <Parameter Name="par_filter" Mode="In" Type="String" />
-            <Parameter Name="par_department" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_get_next_transmittal_no" ReturnType="Collection(String)" />
           <FunctionImport Name="sp_get_next_travel_order_no" ReturnType="Collection(String)" />
           <FunctionImport Name="sp_get_notification_list" ReturnType="Collection(HRIS_ATSModel.sp_get_notification_list_Result)">
@@ -9055,6 +9067,16 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_date_valid" Mode="In" Type="DateTime" />
             <Parameter Name="p_signatory_name" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_get_leave_transmittal_for_uploading_dtl_list" ReturnType="Collection(HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_dtl_list_Result)">
+          <Parameter Name="par_doc_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_leave_transmittal_for_uploading_list" ReturnType="Collection(HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_list_Result)">
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_month" Mode="In" Type="String" />
+            <Parameter Name="par_filter" Mode="In" Type="String" />
+            <Parameter Name="par_department" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="dtr_overrides_tickets_tbl" EntityType="HRIS_ATSModel.dtr_overrides_tickets_tbl" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -10325,40 +10347,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
           <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-        </ComplexType>
-        <ComplexType Name="sp_get_leave_transmittal_for_uploading_dtl_list_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="211" />
-          <Property Type="String" Name="leavetype_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="leavetype_descr" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="leavesubtype_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="leavesubtype_descr" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="leaveledger_period" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="doc_ctrl_nbr" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="transmitted_flag" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="final_approval_date" Nullable="true" Precision="23" />
-          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
-          <Property Type="Boolean" Name="check_defualt" Nullable="true" />
-          <Property Type="String" Name="remarks" Nullable="false" MaxLength="255" />
-        </ComplexType>
-        <ComplexType Name="sp_get_leave_transmittal_for_uploading_list_Result">
-          <Property Type="String" Name="doc_ctrl_nbr" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="transmittal_descr" Nullable="true" MaxLength="255" />
-          <Property Type="DateTime" Name="approved_period_from" Nullable="true" />
-          <Property Type="DateTime" Name="approved_period_to" Nullable="true" />
-          <Property Type="String" Name="created_by" Nullable="true" MaxLength="30" />
-          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
-          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="30" />
-          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
-          <Property Type="String" Name="doc_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="route_nbr" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="employment_tyep" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="view_mode" Nullable="true" MaxLength="4" />
-          <Property Type="Int32" Name="current_status" Nullable="true" />
         </ComplexType>
         <ComplexType Name="sp_get_notification_list_Result">
           <Property Type="Int32" Name="counter_notif" Nullable="true" />
@@ -12621,6 +12609,51 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="signatory_desig" Nullable="false" MaxLength="19" />
           <Property Type="String" Name="gender" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <ComplexType Name="sp_get_leave_transmittal_for_uploading_dtl_list_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="211" />
+          <Property Type="String" Name="leavetype_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leavetype_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="leavesubtype_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leavesubtype_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="leaveledger_period" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="doc_ctrl_nbr" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="transmitted_flag" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="final_approval_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="Boolean" Name="check_defualt" Nullable="true" />
+          <Property Type="String" Name="remarks" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="sp_get_leave_transmittal_for_uploading_list_Result">
+          <Property Type="String" Name="doc_ctrl_nbr" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="transmittal_descr" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="approved_period_from" Nullable="true" />
+          <Property Type="DateTime" Name="approved_period_to" Nullable="true" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="doc_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="route_nbr" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="employment_tyep" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="view_mode" Nullable="true" MaxLength="4" />
+          <Property Type="Int32" Name="current_status" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="dtr_overrides_tickets_tbl">
+          <Key>
+            <PropertyRef Name="dtr_order_no" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="dtr_order_no" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ticket_number" Type="Int32" Nullable="false" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19470,6 +19503,59 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_leave_transmittal_for_uploading_dtl_list" FunctionName="HRIS_ATSModel.Store.sp_get_leave_transmittal_for_uploading_dtl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_dtl_list_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
+                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
+                <ScalarProperty Name="leavesubtype_descr" ColumnName="leavesubtype_descr" />
+                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
+                <ScalarProperty Name="transmitted_flag" ColumnName="transmitted_flag" />
+                <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="check_defualt" ColumnName="check_defualt" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_leave_transmittal_for_uploading_list" FunctionName="HRIS_ATSModel.Store.sp_get_leave_transmittal_for_uploading_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_list_Result">
+                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
+                <ScalarProperty Name="transmittal_descr" ColumnName="transmittal_descr" />
+                <ScalarProperty Name="approved_period_from" ColumnName="approved_period_from" />
+                <ScalarProperty Name="approved_period_to" ColumnName="approved_period_to" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="doc_status" ColumnName="doc_status" />
+                <ScalarProperty Name="route_nbr" ColumnName="route_nbr" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="employment_tyep" ColumnName="employment_tyep" />
+                <ScalarProperty Name="view_mode" ColumnName="view_mode" />
+                <ScalarProperty Name="current_status" ColumnName="current_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="dtr_overrides_tickets_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.dtr_overrides_tickets_tbl">
+              <MappingFragment StoreEntitySet="dtr_overrides_tickets_tbl">
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="ticket_number" ColumnName="ticket_number" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="dtr_order_no" ColumnName="dtr_order_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

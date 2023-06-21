@@ -117,6 +117,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_with_absent_perstrans_half" Width="1.5" PointX="26.75" PointY="32.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_history_tbl" Width="1.5" PointX="0.75" PointY="33.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_dtl_tbl" Width="1.5" PointX="3.375" PointY="33.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.dtr_overrides_tickets_tbl" Width="1.5" PointX="21.375" PointY="24.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

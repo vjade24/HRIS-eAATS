@@ -282,6 +282,9 @@
     <Compile Include="Models\dtr_overrides_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\dtr_overrides_tickets_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\dtr_processed_files_tbl.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>

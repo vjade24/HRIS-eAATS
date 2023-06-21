@@ -139,6 +139,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_with_absent_perstrans_half> vw_with_absent_perstrans_half { get; set; }
         public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
         public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
+        public virtual DbSet<dtr_overrides_tickets_tbl> dtr_overrides_tickets_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -3192,36 +3193,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_empl_employment_type_Result>("sp_get_empl_employment_type", par_empl_idParameter);
         }
     
-        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_dtl_list_Result> sp_get_leave_transmittal_for_uploading_dtl_list(string par_doc_ctrl_nbr)
-        {
-            var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
-                new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
-                new ObjectParameter("par_doc_ctrl_nbr", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_dtl_list_Result>("sp_get_leave_transmittal_for_uploading_dtl_list", par_doc_ctrl_nbrParameter);
-        }
-    
-        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_list_Result> sp_get_leave_transmittal_for_uploading_list(string par_year, string par_month, string par_filter, string par_department)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_filterParameter = par_filter != null ?
-                new ObjectParameter("par_filter", par_filter) :
-                new ObjectParameter("par_filter", typeof(string));
-    
-            var par_departmentParameter = par_department != null ?
-                new ObjectParameter("par_department", par_department) :
-                new ObjectParameter("par_department", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_list_Result>("sp_get_leave_transmittal_for_uploading_list", par_yearParameter, par_monthParameter, par_filterParameter, par_departmentParameter);
-        }
-    
         public virtual ObjectResult<string> sp_get_next_transmittal_no()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_get_next_transmittal_no");
@@ -5348,6 +5319,36 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_signatory_name", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_coc_earn_report_Result>("sp_leave_application_coc_earn_report", p_empl_idParameter, p_month_yearParameter, p_number_of_hoursParameter, p_date_issuedParameter, p_date_validParameter, p_signatory_nameParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_dtl_list_Result> sp_get_leave_transmittal_for_uploading_dtl_list(string par_doc_ctrl_nbr)
+        {
+            var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
+                new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
+                new ObjectParameter("par_doc_ctrl_nbr", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_dtl_list_Result>("sp_get_leave_transmittal_for_uploading_dtl_list", par_doc_ctrl_nbrParameter);
+        }
+    
+        public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_list_Result> sp_get_leave_transmittal_for_uploading_list(string par_year, string par_month, string par_filter, string par_department)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_filterParameter = par_filter != null ?
+                new ObjectParameter("par_filter", par_filter) :
+                new ObjectParameter("par_filter", typeof(string));
+    
+            var par_departmentParameter = par_department != null ?
+                new ObjectParameter("par_department", par_department) :
+                new ObjectParameter("par_department", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_list_Result>("sp_get_leave_transmittal_for_uploading_list", par_yearParameter, par_monthParameter, par_filterParameter, par_departmentParameter);
         }
     }
 }
