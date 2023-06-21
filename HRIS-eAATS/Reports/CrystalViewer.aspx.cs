@@ -437,13 +437,13 @@ namespace HRIS_eAATS.Reports
                     
                 DataTable chk = new DataTable();
                 //string query = "SELECT * FROM lv_ledger_history_tbl WHERE appl_status = 'Evaluated' AND ledger_ctrl_no = '" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "' AND leave_ctrlno = '"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim()+ "' ";
-                string query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
+                string query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "','"+ dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
                 chk = MyCmn.GetDatatable_ATS(query);
 
                 if (chk.Rows.Count > 0)
                 {
                     DataTable chk_if_Uploaded = new DataTable();
-                    string query_if_Uploaded = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "') WHERE appl_status = 'Uploaded' ORDER BY created_dttm DESC";
+                    string query_if_Uploaded = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "','" + dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Uploaded' ORDER BY created_dttm DESC";
                     chk_if_Uploaded = MyCmn.GetDatatable_ATS(query_if_Uploaded);
 
                     if (chk_if_Uploaded.Rows.Count > 0)
@@ -454,7 +454,7 @@ namespace HRIS_eAATS.Reports
                     else
                     {
                         DataTable dt2 = new DataTable();
-                        dt2 = MyCmn.RetrieveDataATS("sp_lv_ledger_history_insert", "p_ledger_ctrl_no", dt.Rows[0]["ledger_ctrl_no"].ToString(), "p_leave_ctrlno", dt.Rows[0]["leave_ctrlno"].ToString(), "p_appl_status", "Leave Application Printed", "p_appl_remarks", "", "p_created_by", Session["user_id"].ToString());
+                        dt2 = MyCmn.RetrieveDataATS("sp_lv_ledger_history_insert", "p_ledger_ctrl_no", dt.Rows[0]["ledger_ctrl_no"].ToString(), "p_leave_ctrlno", dt.Rows[0]["leave_ctrlno"].ToString(), "p_empl_id", dt.Rows[0]["empl_id"].ToString(), "p_appl_status", "Leave Application Printed", "p_appl_remarks", "", "p_created_by", Session["user_id"].ToString());
 
                         var filename = "";
                         filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");

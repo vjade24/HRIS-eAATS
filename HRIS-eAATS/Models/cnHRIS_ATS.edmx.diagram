@@ -66,7 +66,6 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.to_disapprove_comment" Width="1.5" PointX="0.75" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.to_disapprove_reason_tbl" Width="1.5" PointX="6.75" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.to_final_approver_tbl" Width="1.5" PointX="12.75" PointY="23.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_dtl_tbl" Width="1.5" PointX="22.75" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" Width="1.5" PointX="24.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_trk_setup_tbl" Width="1.5" PointX="24.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.travel_order_check_tbl" Width="1.5" PointX="24.75" PointY="8.75" IsExpanded="true" />
@@ -117,6 +116,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_travel_order_dtr_info" Width="1.5" PointX="32.75" PointY="24.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_with_absent_perstrans_half" Width="1.5" PointX="26.75" PointY="32.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_history_tbl" Width="1.5" PointX="0.75" PointY="33.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_dtl_tbl" Width="1.5" PointX="3.375" PointY="33.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -22,5 +22,6 @@ namespace HRIS_eAATS.Models
         public Nullable<System.DateTime> date_valid { get; set; }
         public string signatory_name { get; set; }
         public string signatory_desig { get; set; }
+        public string gender { get; set; }
     }
 }

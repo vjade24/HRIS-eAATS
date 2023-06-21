@@ -88,7 +88,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<to_disapprove_comment> to_disapprove_comment { get; set; }
         public virtual DbSet<to_disapprove_reason_tbl> to_disapprove_reason_tbl { get; set; }
         public virtual DbSet<to_final_approver_tbl> to_final_approver_tbl { get; set; }
-        public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
         public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
         public virtual DbSet<transmittal_leave_trk_setup_tbl> transmittal_leave_trk_setup_tbl { get; set; }
         public virtual DbSet<travel_order_check_tbl> travel_order_check_tbl { get; set; }
@@ -139,6 +138,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_travel_order_dtr_info> vw_travel_order_dtr_info { get; set; }
         public virtual DbSet<vw_with_absent_perstrans_half> vw_with_absent_perstrans_half { get; set; }
         public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
+        public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -3314,35 +3314,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_cancel_tbl_list_Result>("sp_leave_application_cancel_tbl_list", par_empl_idParameter, par_leave_ctrlnoParameter);
         }
     
-        public virtual ObjectResult<sp_leave_application_coc_earn_report_Result> sp_leave_application_coc_earn_report(string p_empl_id, Nullable<System.DateTime> p_month_year, Nullable<decimal> p_number_of_hours, Nullable<System.DateTime> p_date_issued, Nullable<System.DateTime> p_date_valid, string p_signatory_name)
-        {
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_month_yearParameter = p_month_year.HasValue ?
-                new ObjectParameter("p_month_year", p_month_year) :
-                new ObjectParameter("p_month_year", typeof(System.DateTime));
-    
-            var p_number_of_hoursParameter = p_number_of_hours.HasValue ?
-                new ObjectParameter("p_number_of_hours", p_number_of_hours) :
-                new ObjectParameter("p_number_of_hours", typeof(decimal));
-    
-            var p_date_issuedParameter = p_date_issued.HasValue ?
-                new ObjectParameter("p_date_issued", p_date_issued) :
-                new ObjectParameter("p_date_issued", typeof(System.DateTime));
-    
-            var p_date_validParameter = p_date_valid.HasValue ?
-                new ObjectParameter("p_date_valid", p_date_valid) :
-                new ObjectParameter("p_date_valid", typeof(System.DateTime));
-    
-            var p_signatory_nameParameter = p_signatory_name != null ?
-                new ObjectParameter("p_signatory_name", p_signatory_name) :
-                new ObjectParameter("p_signatory_name", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_coc_earn_report_Result>("sp_leave_application_coc_earn_report", p_empl_idParameter, p_month_yearParameter, p_number_of_hoursParameter, p_date_issuedParameter, p_date_validParameter, p_signatory_nameParameter);
-        }
-    
         public virtual ObjectResult<sp_leave_application_curr_bal_Result> sp_leave_application_curr_bal(string p_empl_id, string p_year, string p_leavetype_code)
         {
             var p_empl_idParameter = p_empl_id != null ?
@@ -5278,6 +5249,35 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vlslearned_dailybasis_tbl_List_Result>("sp_vlslearned_dailybasis_tbl_List");
         }
     
+        public virtual ObjectResult<sp_transmittal_leave_dtl_monthly_tbl_list_Result> sp_transmittal_leave_dtl_monthly_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
+        {
+            var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
+                new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
+                new ObjectParameter("par_doc_ctrl_nbr", typeof(string));
+    
+            var par_approved_period_fromParameter = par_approved_period_from.HasValue ?
+                new ObjectParameter("par_approved_period_from", par_approved_period_from) :
+                new ObjectParameter("par_approved_period_from", typeof(System.DateTime));
+    
+            var par_approved_period_toParameter = par_approved_period_to.HasValue ?
+                new ObjectParameter("par_approved_period_to", par_approved_period_to) :
+                new ObjectParameter("par_approved_period_to", typeof(System.DateTime));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_view_modeParameter = par_view_mode != null ?
+                new ObjectParameter("par_view_mode", par_view_mode) :
+                new ObjectParameter("par_view_mode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_monthly_tbl_list_Result>("sp_transmittal_leave_dtl_monthly_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
+        }
+    
         [DbFunction("HRIS_ATSEntities", "func_lv_ledger_history_notif")]
         public virtual IQueryable<func_lv_ledger_history_notif_Result> func_lv_ledger_history_notif(string p_leave_ctrlno, string p_empl_id)
         {
@@ -5319,6 +5319,35 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_created_by", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_lv_ledger_history_insert", p_ledger_ctrl_noParameter, p_leave_ctrlnoParameter, p_empl_idParameter, p_appl_statusParameter, p_appl_remarksParameter, p_created_byParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_coc_earn_report_Result> sp_leave_application_coc_earn_report(string p_empl_id, Nullable<System.DateTime> p_month_year, Nullable<decimal> p_number_of_hours, Nullable<System.DateTime> p_date_issued, Nullable<System.DateTime> p_date_valid, string p_signatory_name)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_month_yearParameter = p_month_year.HasValue ?
+                new ObjectParameter("p_month_year", p_month_year) :
+                new ObjectParameter("p_month_year", typeof(System.DateTime));
+    
+            var p_number_of_hoursParameter = p_number_of_hours.HasValue ?
+                new ObjectParameter("p_number_of_hours", p_number_of_hours) :
+                new ObjectParameter("p_number_of_hours", typeof(decimal));
+    
+            var p_date_issuedParameter = p_date_issued.HasValue ?
+                new ObjectParameter("p_date_issued", p_date_issued) :
+                new ObjectParameter("p_date_issued", typeof(System.DateTime));
+    
+            var p_date_validParameter = p_date_valid.HasValue ?
+                new ObjectParameter("p_date_valid", p_date_valid) :
+                new ObjectParameter("p_date_valid", typeof(System.DateTime));
+    
+            var p_signatory_nameParameter = p_signatory_name != null ?
+                new ObjectParameter("p_signatory_name", p_signatory_name) :
+                new ObjectParameter("p_signatory_name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_coc_earn_report_Result>("sp_leave_application_coc_earn_report", p_empl_idParameter, p_month_yearParameter, p_number_of_hoursParameter, p_date_issuedParameter, p_date_validParameter, p_signatory_nameParameter);
         }
     }
 }
