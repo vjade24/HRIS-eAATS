@@ -151,9 +151,10 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         h.post("../Menu/RedirectParam", {
             par_empl_id             : s.datalistgrid[lst].empl_id
             , par_department_code   : s.datalistgrid[lst].department_code
-            , par_employee_name: s.datalistgrid[lst].employee_name
-            , par_leavetype_code   : s.datalistgrid[lst].leavetype_code
-            ,  par_view_mode       : $("#ddl_rep_mode option:selected").val()
+            , par_employee_name     : s.datalistgrid[lst].employee_name
+            , par_leavetype_code    : s.datalistgrid[lst].leave_type_code
+            //,  par_view_mode        : $("#ddl_rep_mode option:selected").val()
+            ,  par_view_mode        : (s.datalistgrid[lst].leave_type_code.toString().trim() == "CTO" ? "3" : "2")
         }).then(function (d) {
             if (d.data == "success") {
                 location.href = "../cLeaveLedger/Index"
@@ -292,7 +293,21 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
             {
                 if (d.data.data.length > 0)
                 {
-                    swal("This employee has already processed Leave Application", "You cannot Proceed!", { icon: "warning" });
+                    var status_descr = "";
+                    if (d.data.data[0].approval_status.toString().trim() == "R")
+                    {
+                        status_descr = "(Reviewed)";
+                    }
+                    else if (d.data.data[0].approval_status.toString().trim() == "F")
+                    {
+                        status_descr = "(Final Approved)";
+                    }
+                    else if (d.data.data[0].approval_status.toString().trim() == "S")
+                    {
+                        status_descr = "(Submitted)";
+                    }
+                    
+                    swal("This employee has already processed " + status_descr + " Leave Application", "You cannot Proceed!", { icon: "warning" });
                 }
                 else
                 {
@@ -564,7 +579,8 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                             ,par_department_code    : s.datalistgrid[s.row_id_pass].department_code
                             ,par_employee_name      : s.datalistgrid[s.row_id_pass].employee_name
                             ,par_leavetype_code     : s.datalistgrid[s.row_id_pass].leave_type_code
-                            ,par_view_mode          : $("#ddl_rep_mode option:selected").val()
+                            //,par_view_mode          : $("#ddl_rep_mode option:selected").val()
+                            ,par_view_mode          : (s.datalistgrid[s.row_id_pass].leave_type_code.toString().trim() == "CTO" ? "3" : "2")
                             }
 
             h.post("../Menu/CancelLederPosted",

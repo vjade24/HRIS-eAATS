@@ -229,15 +229,15 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a=> DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month).ToList();
+                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).ToList();
 
                 if (daily_monthly == "daily")
                 {
-                    data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a=> DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month && a.route_nbr != "06").ToList();
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a=> a.route_nbr != "06").ToList();
                 }
                 else if (daily_monthly == "monthly")
                 {
-                    data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a=> DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month && a.route_nbr == "06").ToList();
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a=> a.route_nbr == "06").ToList();
                 }
 
                 return JSON(new{message = "success",data}, JsonRequestBehavior.AllowGet);
@@ -467,7 +467,7 @@ namespace HRIS_eAATS.Controllers
             {
                 if (par_doc_ctrl_nbr.Length >=15)
                 {
-                    var data            = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
+                    var data            = db_ats.transmittal_leave_hdr_tbl.Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
                     var data_dtl        = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to,"","","").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
                     var data_history    = db_trk.sp_edocument_trk_tbl_history(par_doc_ctrl_nbr, "LV").ToList();
 

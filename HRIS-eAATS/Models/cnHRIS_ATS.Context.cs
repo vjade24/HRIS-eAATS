@@ -4472,9 +4472,17 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list()
+        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list(string par_created_year, string par_created_month)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list");
+            var par_created_yearParameter = par_created_year != null ?
+                new ObjectParameter("par_created_year", par_created_year) :
+                new ObjectParameter("par_created_year", typeof(string));
+    
+            var par_created_monthParameter = par_created_month != null ?
+                new ObjectParameter("par_created_month", par_created_month) :
+                new ObjectParameter("par_created_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list", par_created_yearParameter, par_created_monthParameter);
         }
     
         public virtual ObjectResult<sp_transmittal_leave_rep_Result> sp_transmittal_leave_rep(string par_doc_ctrl_nbr, string par_view_mode)

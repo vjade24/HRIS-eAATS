@@ -76,7 +76,7 @@ namespace HRIS_eAATS.Controllers
 
                 //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList();
 
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => DateTime.Parse(a.created_dttm.ToString()).Year == DateTime.Now.Year && DateTime.Parse(a.created_dttm.ToString()).Month == DateTime.Now.Month && a.route_nbr != "06").ToList();
+                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06").ToList();
                 return JSON(new { message = "success", um
                     //, leaveType, leaveSubType
                     // , ledgerposting_for_approval_list
@@ -99,15 +99,15 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month).ToList();
+                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).ToList();
 
                 if (daily_monthly == "daily")
                 {
-                    data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month && a.route_nbr != "06").ToList();
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a => a.route_nbr != "06").ToList();
                 }
                 else if (daily_monthly == "monthly")
                 {
-                    data = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => DateTime.Parse(a.created_dttm.ToString()).Year == created_year && DateTime.Parse(a.created_dttm.ToString()).Month == created_month && a.route_nbr == "06").ToList();
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a => a.route_nbr == "06").ToList();
                 }
 
                 return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
@@ -401,7 +401,7 @@ namespace HRIS_eAATS.Controllers
                 {
                     if (route_nbr.ToString().Trim() != "06")
                     {
-                        var data            = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
+                        var data            = db_ats.transmittal_leave_hdr_tbl.Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
                         var data_dtl        = db_ats.sp_transmittal_leave_dtl_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to, "", "", "").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
                         var data_history    = db_trk.sp_edocument_trk_tbl_history(par_doc_ctrl_nbr, "LV").ToList();
 
@@ -416,7 +416,7 @@ namespace HRIS_eAATS.Controllers
                     }
                     else
                     {
-                        var data            = db_ats.sp_transmittal_leave_hdr_tbl_list().Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
+                        var data            = db_ats.transmittal_leave_hdr_tbl.Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList().FirstOrDefault();
                         var data_dtl        = db_ats.sp_transmittal_leave_dtl_monthly_tbl_list(par_doc_ctrl_nbr, data.approved_period_from, data.approved_period_to, "", "", "").Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr && a.transmitted_flag == "Y").ToList();
                         var data_history    = db_trk.sp_edocument_trk_tbl_history(par_doc_ctrl_nbr, "LV").ToList();
 
@@ -501,7 +501,7 @@ namespace HRIS_eAATS.Controllers
                     data.doc_ctrl_nbr       = data.doc_ctrl_nbr;
                     data.route_seq          = nxt_route_seq;
                     data.department_code    = "00";
-                    data.vlt_dept_code      = "01";
+                    data.vlt_dept_code      = (data_hdr.route_nbr.ToString().Trim() == "06" ? "06" :"01");
                     data.doc_dttm           = DateTime.Now;
                     data.doc_remarks        = data.doc_remarks;
                     data.document_status    = data.document_status;
@@ -515,7 +515,7 @@ namespace HRIS_eAATS.Controllers
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
-                        var appl_status = "Transmitted for Signature (Released)";
+                        var appl_status = (data_hdr.route_nbr.ToString().Trim() == "06" ? "Transmitted for Payroll" : "Transmitted for Signature (Released)");
                         db_ats.sp_lv_ledger_history_insert(upd_dtl[i].ledger_ctrl_no.ToString().Trim(), upd_dtl[i].leave_ctrlno.ToString().Trim(),"", appl_status, "", Session["user_id"].ToString());
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********

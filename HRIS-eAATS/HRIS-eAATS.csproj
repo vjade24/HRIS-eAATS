@@ -1472,7 +1472,7 @@
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation1.cs">
+    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLeaveCancellation.rpt</DependentUpon>
@@ -2620,10 +2620,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Reports\cryLeavePermission\cryLeaveCancellation.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryLeaveCancellation1.cs</LastGenOutput>
-    </Content>
     <Content Include="Reports\cryLeavePermission\cryLeavePermissionMainRep.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeavePermissionMainRep.cs</LastGenOutput>
@@ -2639,6 +2635,10 @@
     <Content Include="Reports\cryCOC_Earn\cryCOC_Earn.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryCOC_Earn.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryLeavePermission\cryLeaveCancellation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveCancellation.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

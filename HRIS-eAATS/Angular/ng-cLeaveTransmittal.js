@@ -190,19 +190,25 @@
                         {
                             "mData": "doc_ctrl_nbr",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
+                                return "<span class='small text-center btn-block'>" + data + "</span>"
                             }
                         },
                         {
                             "mData": "transmittal_descr",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center'>&nbsp;&nbsp;" + data + "</span>"
+                                return "<span class='small text-center'>&nbsp;&nbsp;" + data + "</span>"
+                            }
+                        },
+                        {
+                            "mData": "department_descr",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='small'>&nbsp;&nbsp;" + data + "</span>"
                             }
                         },
                         {
                             "mRender": function (data, type, full, row)
                             {
-                                return "<center><span class='text-center'>&nbsp;&nbsp;" + moment(full["approved_period_from"].toString()).format('ll') + " - " + moment(full["approved_period_to"].toString()).format('ll') + "</span></center>"
+                                return "<center><span class='small text-center'>&nbsp;&nbsp;" + moment(full["approved_period_from"].toString()).format('ll') + " - " + moment(full["approved_period_to"].toString()).format('ll') + "</span></center>"
                             }
                         },
                         {
@@ -210,42 +216,39 @@
                             "mRender": function (data, type, full, row)
                             {
                                 var color = "";
+                                var icon_class = "";
 
                                 if (full["doc_status"].toString() == "N")
                                 {
-                                    color = "primary"
+                                    color       = "primary"
+                                    icon_class  = "fa fa-minus-circle"
                                 }
                                 else if (full["doc_status"].toString() == "V")
                                 {
-                                    color = "info"
+                                    color       = "info"
+                                    icon_class  = "fa fa-arrow-circle-o-left"
                                 }
                                     else if (full["doc_status"].toString() == "L" )
                                 {
-                                    color = "warning"
+                                    color      = "warning"
+                                    icon_class = "fa fa-arrow-circle-o-right"
                                 }
-                                else if (full["doc_status"].toString() == "F")
+                                else if (full["doc_status"].toString() == "F" ||
+                                         full["doc_status"].toString() == "T" ||
+                                         full["doc_status"].toString() == "U" )
                                 {
-                                    color = "success"
-                                }
-                                else if (full["doc_status"].toString() == "T")
-                                {
-                                    color = "danger"
+                                    color       = "success"
+                                    icon_class  = "fa fa-thumbs-up"
                                 }
                                 else
                                 {
-                                    color = "danger"
+                                    color       = "danger"
+                                    icon_class  = "fa fa-minus-cirlce"
                                 }
                                 
-                                return "<center><span class='badge badge-" + color + "'>" + data + "</span></center>"
+                                return "<center><span class='badge badge-" + color + "'> <i class='" + icon_class+"'></i>  " + data + "</span></center>"
                             }
                         },
-                        //{
-                        //    "mData": "transmittal_cnt",
-                        //    "mRender": function (data, type, full, row)
-                        //    {
-                        //        return '<span class="badge badge-danger" >' + full["transmittal_cnt"] +'</span>'
-                        //    }
-                        //},
                         {
                             "bSortable": false,
                             "mRender": function (data, type, full, row)
@@ -256,21 +259,12 @@
                                 {
                                     dis_btn = false
                                 }
-
-                                //var dis_rls_rcvd = true;
-                                //if (full["doc_status"].toString() == "T" ||
-                                //    full["doc_status"].toString() == "N") {
-                                //    dis_rls_rcvd = false
-                                //}
-
                                 var dis_btn_rlsd = true;
                                 if (full["doc_status"].toString() == "R" ||
                                     full["doc_status"].toString() == "T" ||
                                     full["doc_status"].toString() == "N")
                                 {
                                     dis_btn_rlsd    = false;
-                                    //s.show_rlsd     = false;
-                                    //s.show_rcvd     = true;
                                 }
 
                                 var dis_btn_rcvd = true;
@@ -279,21 +273,8 @@
                                     )
                                 {
                                     dis_btn_rcvd = false;
-                                    //s.show_rlsd = true;
-                                    //s.show_rcvd = false;
                                 }
-                                
-                                //return '<div class="btn-group pull-right">' +
-                                //         '<button id="btn_show_dtl_id' + full["doc_ctrl_nbr"] + '"    type="button" style="padding:3px 10px 3px 10px !important" class="btn btn-warning btn-sm" ng-click="btn_show_dtl(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show Details">  <span class="badge badge-success" >' + full["transmittal_cnt"] +'</span> </button >' +
-                                //         '<button type="button" class="btn btn-info btn-sm"     ng-disabled="' + dis_btn+'"  ng-click="btn_edit_action_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
-                                //         '<button type="button" class="btn btn-danger btn-sm"   ng-disabled="' + dis_btn+'"  ng-click="btn_del_row_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
-                                //         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn+'"  ng-click="btn_print_row(' + row["row"] + ',\'1\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
-                                //         '<button type="button" class="btn btn-primary btn-sm"  ng-disabled="' + dis_btn_rlsd+'" ng-click="btn_release(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Release"><i class="fa fa-forward"></i></button>' +
-                                //         '<button type="button" class="btn btn-success btn-sm"  ng-disabled="' + dis_btn_rcvd+'" ng-click="btn_receive(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Receive"><i class="fa fa-backward"></i></button>' +
-                                //         '<button type="button" class="btn btn-warning btn-sm"  ng-click="btn_view_history(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View Information and History"><i class="fa fa-history"></i></button>' +
-                                //        '</div>';
-
-                                return '<div class="btn-group" >' +
+                                return '<div class="btn-group btn-xs" >' +
                                        '<div class="ibox-tools" style="text-align: center !important">' +
                                        '<a class="dropdown-toggle btn btn-xs" data-toggle="dropdown" href="#">' +
                                        '&nbsp;&nbsp;<span class="badge badge-danger" >' + full["transmittal_cnt"] + '</span>'+
@@ -301,7 +282,7 @@
                                        '</a>' +
                                        '<ul class="dropdown-menu dropdown-user">' +
                                        '<li>' +
-                                        '<a id="btn_show_dtl_id' + full["doc_ctrl_nbr"] + '"    class="dropdown-item" ng-click="btn_show_dtl(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show Details">  <span class="badge badge-success" >' + full["transmittal_cnt"] +'</span> Show Details</a >' +
+                                        '<a id="btn_show_dtl_id' + full["doc_ctrl_nbr"] + '"    class="dropdown-item" ng-click="btn_show_dtl(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Show Details">  <span class="badge badge-danger" >' + full["transmittal_cnt"] +'</span> Show Details</a >' +
                                        '</li>' +
                                         '<li ng-hide="' + dis_btn +'">' +
                                         '<a class="dropdown-item" ng-click="btn_edit_action_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i> Edit</a >' +
@@ -529,6 +510,7 @@
 
     s.openModal_Add = function ()
     {
+        ValidationResultColor("ALL", false);
         s.show_dtl                  = false;
         s.dis_title                 = false;
         s.show_footer               = true;
@@ -601,59 +583,156 @@
         
     }
 
-    s.btn_save = function ()
+    //***********************************************************//
+    //***Field validation for remittance type before opening add modal
+    //***********************************************************// 
+    function ValidationResultColor(par_object_id, par_v_result)
     {
-        if ($('#txtb_approved_period_from').val() == "" || $('#txtb_approved_period_to').val() == "" || s.ddl_dept == "" || s.ddl_route_nbr == "")
+        if (par_v_result)
         {
-            swal("REQUIRED FIELD!","Approved Period From , Approved Period To, Document Route, and Department is Required! ",{ icon: "warning"});
+            $("#" + par_object_id).addClass("required");
+            $("#lbl_" + par_object_id + "_req").text("Required Field");
+        }
+        else
+        {
+            $("#txtb_transmittal_descr").removeClass("required");
+            $("#lbl_txtb_transmittal_descr_req").text("");
+
+            $("#txtb_approved_period_from").removeClass("required");
+            $("#lbl_txtb_approved_period_from_req").text("");
+
+            $("#txtb_approved_period_to").removeClass("required");
+            $("#lbl_txtb_approved_period_to_req").text("");
+
+            $("#ddl_dept").removeClass("required");
+            $("#lbl_ddl_dept_req").text("");
+
+            $("#ddl_route_nbr").removeClass("required");
+            $("#lbl_ddl_route_nbr_req").text("");
+        }
+    }
+
+    //***********************************************************//
+    //***Field validation everytime generation button is click***//
+    //***********************************************************// 
+    function ValidateFields()
+    {
+        var return_val = true;
+        ValidationResultColor("ALL", false);
+
+        if ($('#txtb_transmittal_descr').val() == "") {
+            ValidationResultColor("txtb_transmittal_descr", true);
+            return_val = false;
+        }
+        if ($('#ddl_dept option:selected').val().trim() == "")
+        {
+            ValidationResultColor("ddl_dept", true);
+            return_val = false;
+        }
+        if ($('#txtb_approved_period_from').val() == "") {
+            ValidationResultColor("txtb_approved_period_from", true);
+            return_val = false;
+        }
+        if (checkisdate($('#txtb_approved_period_from').val().trim()) == false) {
+            ValidationResultColor("txtb_approved_period_from", true);
+            $("#lbl_txtb_leave_date_to_req").text("Invalid Date Format");
+            return_val = false;
+        }
+        if ($('#txtb_approved_period_to').val() == "") {
+            ValidationResultColor("txtb_approved_period_to", true);
             return;
         }
+        if (checkisdate($('#txtb_approved_period_to').val().trim()) == false) {
+            ValidationResultColor("txtb_approved_period_to", true);
+            $("#lbl_txtb_approved_period_to_req").text("Invalid Date Format");
+            return_val = false;
+        }
+        if ($('#ddl_route_nbr option:selected').val().trim() == "") {
+            ValidationResultColor("ddl_route_nbr", true);
+            return_val = false;
+        }
+        
+        return return_val;
+    }
+    //***********************************************************//
+    //*** VJA - 02/27/2020 - Reject or Check if Date
+    //***********************************************************// 
+    function checkisdate(d)
+    {
+        // Regex 1 - This will match yyyy-mm-dd and also yyyy-m-d:
+        var regex1 = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/;
+        // Regex 2 - If you're looking for an exact match for yyyy-mm-dd then try this
+        var regex2 = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
+        // Regex 3 - or use this one if you need to find a date inside a string like The date is 2017-11-30
+        var regex3 = /\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])*/;
 
-        var data = {
+        var istrue = false;
+        if (regex1.test(d) == true ||
+            regex2.test(d) == true ||
+            regex3.test(d) == true) {
+            istrue = true;
+        } else {
+            istrue = false;
+        }
+        return istrue;
+
+    }
+
+    s.btn_save = function ()
+    {
+
+        if (ValidateFields())
+        {
+            var data = {
                      
-            doc_ctrl_nbr            : s.txtb_doc_ctrl_nbr
-            ,transmittal_descr      : s.txtb_transmittal_descr
-            ,approved_period_from   : $('#txtb_approved_period_from').val()
-            ,approved_period_to     : $('#txtb_approved_period_to').val()
-            ,doc_status             : "N"
-            ,route_nbr              : $('#ddl_route_nbr option:selected').val()
-            , department_code       : s.ddl_dept
-            , employment_tyep       : s.ddl_employment_type
-            , view_mode             : s.ddl_rep_mode_add_edit
-        }
+                 doc_ctrl_nbr          : s.txtb_doc_ctrl_nbr
+                ,transmittal_descr     : s.txtb_transmittal_descr
+                ,approved_period_from  : $('#txtb_approved_period_from').val()
+                ,approved_period_to    : $('#txtb_approved_period_to').val()
+                ,doc_status            : "N"
+                ,route_nbr             : $('#ddl_route_nbr option:selected').val()
+                ,department_code       : s.ddl_dept
+                ,employment_tyep       : s.ddl_employment_type
+                ,view_mode             : s.ddl_rep_mode_add_edit
+            }
 
-        if (s.action == "ADD")
-        {
-            h.post("../cLeaveTransmittal/Save", { data: data }).then(function (d)
+            if (s.action == "ADD")
             {
-                if (d.data.message == "success")
+                $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+                h.post("../cLeaveTransmittal/Save", { data: data }).then(function (d)
                 {
-                    $('#modal_openCreateTransmittal_dtl').modal("hide");
-                    swal("Successfully Saved!","Your record has been saved!",{ icon: "success"});
-                    s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
-                }
-                else
-                {
-                    swal({ icon: "warning", title: d.data.message });
-                }
-            })
-        }
-        else if (s.action == "EDIT")
-        {
-            h.post("../cLeaveTransmittal/SaveEdit", { data: data }).then(function (d)
+                    if (d.data.message == "success")
+                    {
+                        $('#modal_openCreateTransmittal_dtl').modal("hide");
+                        swal("Successfully Saved!", "Your record has been saved!", { icon: "success" });
+                        s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
+                        $('#modal_generating_remittance').modal('hide');
+                    }
+                    else
+                    {
+                        swal({ icon: "warning", title: d.data.message });
+                    }
+                })
+            }
+            else if (s.action == "EDIT")
             {
-                if (d.data.message == "success")
+                $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+                h.post("../cLeaveTransmittal/SaveEdit", { data: data }).then(function (d)
                 {
-                    $('#modal_openCreateTransmittal_dtl').modal("hide");
-                    swal("Successfully Updated!", "Your record has been updated!", { icon: "success" });
-                    s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
+                    if (d.data.message == "success")
+                    {
+                        $('#modal_openCreateTransmittal_dtl').modal("hide");
+                        swal("Successfully Updated!", "Your record has been updated!", { icon: "success" });
+                        s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
+                        $('#modal_generating_remittance').modal('hide');
+                    }
+                    else
+                    {
+                        swal({ icon: "warning", title: d.data.message });
+                    }
+                })
+            }
 
-                }
-                else
-                {
-                    swal({ icon: "warning", title: d.data.message });
-                }
-            })
         }
         
     }
@@ -714,6 +793,7 @@
     //**********************************// 
     s.btn_edit_action_trans = function (row_id)
     {
+        ValidationResultColor("ALL", false);
         s.show_dtl = false;
         s.show_footer = true;
         s.dis_title = false;
@@ -749,6 +829,7 @@
 
     s.btn_show_dtl = function (row_id)
     {
+        ValidationResultColor("ALL", false);
         s.show_footer = false;
         s.show_dtl = true;
         s.dis_title = true;
@@ -1200,44 +1281,44 @@
     //}
 
 
-    s.RetrieveTransmittal_DTL = function (doc_ctrl_nbr, approved_period_from, approved_period_to, department_code, employment_type, view_mode, transmittal_class)
-    {
-
-        h.post("../cLeaveTransmittal/RetrieveTransmittal_DTL", {
-            par_doc_ctrl_nbr            : doc_ctrl_nbr
-            , par_approved_period_from  : approved_period_from
-            , par_approved_period_to    : approved_period_to
-            , par_department_code       : department_code
-            , par_employment_type       : employment_type
-            , par_view_mode             : view_mode
-            , transmittal_class         : transmittal_class
-        }).then(function (d)
-        {
-            if (d.data.message == "success")
-            {
-                s.oTable6.fnClearTable();
-                if (d.data.data.length > 0)
-                {
-                    s.datalistgrid6 = d.data.data;
-                    if (d.data.data.length > 0)
-                    {
-                        s.oTable6.fnAddData(d.data.data);
-                    }
-                    $('#modal_generating_remittance').modal("hide");
-                }
-                else
-                {
-                    $('#modal_generating_remittance').modal("hide");
-                }
-                $('#modal_openCreateTransmittal_dtl').modal({ backdrop: 'static', keyboard: false });
+    //s.RetrieveTransmittal_DTL = function (doc_ctrl_nbr, approved_period_from, approved_period_to, department_code, employment_type, view_mode, transmittal_class)
+    //{
+    //    ValidationResultColor("ALL", false);
+    //    h.post("../cLeaveTransmittal/RetrieveTransmittal_DTL", {
+    //        par_doc_ctrl_nbr            : doc_ctrl_nbr
+    //        , par_approved_period_from  : approved_period_from
+    //        , par_approved_period_to    : approved_period_to
+    //        , par_department_code       : department_code
+    //        , par_employment_type       : employment_type
+    //        , par_view_mode             : view_mode
+    //        , transmittal_class         : transmittal_class
+    //    }).then(function (d)
+    //    {
+    //        if (d.data.message == "success")
+    //        {
+    //            s.oTable6.fnClearTable();
+    //            if (d.data.data.length > 0)
+    //            {
+    //                s.datalistgrid6 = d.data.data;
+    //                if (d.data.data.length > 0)
+    //                {
+    //                    s.oTable6.fnAddData(d.data.data);
+    //                }
+    //                $('#modal_generating_remittance').modal("hide");
+    //            }
+    //            else
+    //            {
+    //                $('#modal_generating_remittance').modal("hide");
+    //            }
+    //            $('#modal_openCreateTransmittal_dtl').modal({ backdrop: 'static', keyboard: false });
                 
-            }
-            else
-            {
-                swal({ icon: "warning", title: d.data.message });
-            }
-        })
-    }
+    //        }
+    //        else
+    //        {
+    //            swal({ icon: "warning", title: d.data.message });
+    //        }
+    //    })
+    //}
 
 
     s.convertdateX = function (val)

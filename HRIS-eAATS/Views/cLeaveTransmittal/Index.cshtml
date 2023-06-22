@@ -103,7 +103,7 @@
         overflow-y: auto;
     }
 
-    .display-none 
+    .display-none
     {
         display:none!important;
     }
@@ -111,6 +111,15 @@
     .modal-xl {
         width: 90% !important;
     }
+
+    .form-control-sm {
+        height: 30px;
+        padding: 5px 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+
 </style>
 <section ng-app="ng_selfService_App" ng-controller="cLeaveTransmittal_ctrlr">
 
@@ -191,7 +200,8 @@
                                         <tr>
                                             <th></th>
                                             <th width="10%">TRANSMITTAL #</th>
-                                            <th width="55%">DESCRIPTION</th>
+                                            <th width="30%">DESCRIPTION</th>
+                                            <th width="25%">DEPARTMENT</th>
                                             <th width="15%">APPROVED COVERED</th>
                                             <th width="10%">STATUS</th>
                                             <th width="10%">ACTION</th>
@@ -218,72 +228,63 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-
-                            <div class="col-sm-3">
-                                <label>Transmittal Ctrl. # &nbsp;&nbsp;<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-info-circle"></i> <small> Show/Hide Info</small> </a></label>
-                                <input class="form-control font-bold" disabled id="txtb_doc_ctrl_nbr" ng-model="txtb_doc_ctrl_nbr" />
+                        <div class="col-sm-3">
+                            <label>Transmittal Ctrl. #</label>
+                            <input class="form-control font-bold" disabled id="txtb_doc_ctrl_nbr" ng-model="txtb_doc_ctrl_nbr" />
+                        </div>
+                        <div class="col-sm-12">
+                            <label>Transmittal Description <span class="text-danger"><small>*required</small></span></label>
+                            <textarea class="form-control" placeholder="Type Transmittal Description here..." id="txtb_transmittal_descr" ng-model="txtb_transmittal_descr" ng-disabled="dis_title"></textarea>
+                            <label id="lbl_txtb_transmittal_descr_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Approved Period From<span class="text-danger"><small>*required</small></span></label>
+                            <div class="input-group date" data-provide="datepicker">
+                                <input type="text" class="form-control" id="txtb_approved_period_from" ng-model="txtb_approved_period_from" maxlength="10" ng-disabled="dis_title" />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
                             </div>
-                            
-                            <div id="collapseOne" class="panel-collapse collapse in">
-                                <div class="col-sm-12">
-                                    <label>Transmittal Description <span class="text-danger"><small>*required</small></span></label>
-                                    <textarea class="form-control" placeholder="Type Transmittal Description here..." id="txtb_transmittal_descr" ng-model="txtb_transmittal_descr" ng-disabled="dis_title"></textarea>
-                                    @*<hr style="margin-top:10px;margin-bottom:10px" />*@
-                                </div>
-                                
-                                <div class="col-sm-3">
-                                    <label>Approved Period From<span class="text-danger"><small>*required</small></span></label>
-                                    <div class="input-group date" data-provide="datepicker">
-                                        <input type="text"  class="form-control"  id="txtb_approved_period_from" ng-model="txtb_approved_period_from" ng-disabled="dis_title" />
-                                        <span class="input-group-addon">
-                                            <span class="fa fa-calendar"></span>
-                                        </span>
-                                    </div>
-
-                                </div>
-                                <div class="col-sm-3">
-                                    <label>Approved Period To<span class="text-danger"><small>*required</small></span></label>
-                                    <div class="input-group date" data-provide="datepicker">
-                                        <input type="text" class="form-control" id="txtb_approved_period_to" ng-model="txtb_approved_period_to" ng-disabled="dis_title" />
-                                        <span class="input-group-addon">
-                                            <span class="fa fa-calendar"></span>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <label>Document Route<span class="text-danger"><small>*required</small></span></label>
-                                    <select class="form-control" id="ddl_route_nbr" ng-model="ddl_route_nbr" ng-disabled="dis_title">
-                                        <option value="01" selected> 1-10  days</option>
-                                        <option value="02"> 11-30 days</option>
-                                        <option value="03"> 31-60 days</option>
-                                        <option value="04"> 61 up and Other Types of Leave</option>
-                                        <option value="05"> All VGO and SPO Employees</option>
-                                        <option value="06"> Release to Payroll</option>
-                                    </select>
-
-                                </div>
-                                <div class="col-sm-6">
-                                    <label>Created By</label>
-                                    <input class="form-control" id="txtb_created_by" ng-model="txtb_created_by" disabled />
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <label>Created DateTime</label>
-                                    <input class="form-control" id="txtb_created_dttm" ng-model="txtb_created_dttm" disabled />
-                                </div>
+                            <label id="lbl_txtb_approved_period_from_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Approved Period To<span class="text-danger"><small>*required</small></span></label>
+                            <div class="input-group date" data-provide="datepicker">
+                                <input type="text" class="form-control" id="txtb_approved_period_to" ng-model="txtb_approved_period_to" maxlength="10" ng-disabled="dis_title" />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
                             </div>
+                            <label id="lbl_txtb_approved_period_to_req" class="lbl_required"></label>
+                        </div>
 
-                        
+                        <div class="col-sm-6">
+                            <label>Document Route<span class="text-danger"><small>*required</small></span></label>
+                            <select class="form-control" id="ddl_route_nbr" ng-model="ddl_route_nbr" ng-disabled="dis_title">
+                                <option value="01" selected> 1-10  days</option>
+                                <option value="02"> 11-30 days</option>
+                                <option value="03"> 31-60 days</option>
+                                <option value="04"> 61 up and Other Types of Leave</option>
+                                <option value="05"> All VGO and SPO Employees</option>
+                                <option value="06"> Release to Payroll</option>
+                            </select>
+                            <label id="lbl_ddl_route_nbr_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-sm-6" style="display:none">
+                            <label>Created By</label>
+                            <input class="form-control" id="txtb_created_by" ng-model="txtb_created_by" disabled />
+                        </div>
+
+                        <div class="col-sm-6" style="display:none">
+                            <label>Created DateTime</label>
+                            <input class="form-control" id="txtb_created_dttm" ng-model="txtb_created_dttm" disabled />
+                        </div>
                     </div>
-                    @*<hr ng-show="show_dtl" style="margin-top:10px;margin-bottom:10px"/>*@
-                    
                     <div class="row">
-
                         <div class="col-lg-6">
                             <b><label class="pull-left" style="margin-top:9px;">Department :<span class="text-danger"><small>*required</small></span></label></b>
                             <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" >
-                                <option value="">-- All Department -- </option>
+                                <option value="">-- Select Here -- </option>
                                 <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
                             </select>
                             <label id="lbl_ddl_dept_req" class="lbl_required"></label>
@@ -333,13 +334,13 @@
                                         <th             style="background-color:#1c84c6 !important;">
                                         @*<div style="cursor: pointer;" class="checkbox-primary text-center"><input style="width:20px;" id="checkbox_all" ng-click="btn_check_action_all()" type="checkbox" ><label for="checkbox"></label></div>*@
                                         </th>
-                                        <th width="5%"  style="width:5%;background-color:#1c84c6 !important;">ID #</th>
-                                        <th width="45%" style="width:45%;background-color:#1c84c6 !important;">EMPLOYEE NAME</th>
-                                        <th width="10%" style="width:10%;background-color:#1c84c6 !important;">TYPE</th>
-                                        <th width="10%" style="width:10%;background-color:#1c84c6 !important;">INCLUSIVE DATE</th>
-                                        <th width="10%" style="width:10%;background-color:#1c84c6 !important;">LEAVE CTRL NO</th>
-                                        <th width="10%" style="width:10%;background-color:#1c84c6 !important;">LEDGER CTRL NO</th>
-                                        <th width="10%" style="width:10%;background-color:#1c84c6 !important;">APPROVED DTTM</th>
+                                        <th width="5%"  style="width:5%  !important;background-color:#1c84c6 !important;">ID #</th>
+                                        <th width="45%" style="width:45% !important;background-color:#1c84c6 !important;">EMPLOYEE NAME</th>
+                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">TYPE</th>
+                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">INCLUSIVE DATE</th>
+                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">LEAVE CTRL NO</th>
+                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">LEDGER CTRL NO</th>
+                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">APPROVED DTTM</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -366,7 +367,7 @@
                     </button>
                     <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
                 </div>
-                <div class="modal-body with-background" style="padding:0px !important">
+                <div class="modal-body with-background" style="padding-top:5px !important">
                     <div class="row p-xs">
                         <div class="col-lg-2">
                             <label class="font-bold" style="margin-top:9px;"><b>View Mode :</b></label>
@@ -492,8 +493,8 @@
                                                                         <thead>
                                                                             <tr>
                                                                                 <th style="background-color:#1ab394 !important" width="5%">ID #</th>
-                                                                                <th style="background-color:#1ab394 !important" width="45%">EMPLOYEES NAME</th>
-                                                                                <th style="background-color:#1ab394 !important" width="10%">LEAVE TYPE</th>
+                                                                                <th style="background-color:#1ab394 !important" width="35%">EMPLOYEES NAME</th>
+                                                                                <th style="background-color:#1ab394 !important" width="20%">LEAVE TYPE</th>
                                                                                 <th style="background-color:#1ab394 !important" width="10%">INCLUSIVE DATES</th>
                                                                                 <th style="background-color:#1ab394 !important" width="30%">REMARKS</th>
                                                                             </tr>
@@ -501,11 +502,11 @@
                                                                         <tbody>
 
                                                                             <tr ng-repeat="lst in lst_trans_dtl">
-                                                                                <td class="text-center">{{lst.empl_id}}</td>
+                                                                                <td class="text-center">{{lst.empl_id}} </td>
                                                                                 <td>&nbsp;{{lst.employee_name}}</td>
                                                                                 <td>&nbsp;{{lst.leavetype_descr}} {{lst.leavesubtype_descr}}</td>
                                                                                 <td>&nbsp;{{lst.leaveledger_period}}</td>
-                                                                                <td><input class="form-control" id="input_doc_remarks_{{lst.leave_ctrlno}}" ng-keyup="save_trk($event,lst)" placeholder="Input Remarks here ..." ng-model="lst.doc_remarks" /></td>
+                                                                                <td><input class="form-control form-control-sm" id="input_doc_remarks_{{lst.leave_ctrlno}}" ng-keyup="save_trk($event,lst)" placeholder="Input Remarks and Hit Enter here ..." ng-model="lst.doc_remarks" /></td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>

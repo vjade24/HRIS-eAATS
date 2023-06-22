@@ -429,7 +429,8 @@
                                     '<button type="button" class="btn btn-info btn-xs"     ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
                                     '<button type="button" class="btn btn-danger btn-xs"   ng-click="btn_delete(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
                                     '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_print_leave_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO Form"><i class="fa fa-print"></i></button>' +
-                                    '<button type="button" class="btn btn-warning btn-xs"  ng-click="btn_cancel_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Cancel Posted Record"><i class="fa fa-refresh"></i></button>' +
+                                    // 2023-06-22 = Getanggal sa nako kay naay case na ma restore nila na walay cancellation
+                                    //'<button type="button" class="btn btn-warning btn-xs"  ng-click="btn_cancel_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Cancel Posted Record"><i class="fa fa-refresh"></i></button>' +
                                     '</div></center>';
                             }
                         }
@@ -1805,12 +1806,15 @@
         // *********** SAVING FOR HEADER AND DETAILS *************************
         // *******************************************************************
         if (save_mode == "SAVE") {
-            if (ValidateFields_New()) {
+            if (ValidateFields_New())
+            {
+                $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
                 h.post("../cLeaveLedger/CheckData", {
                     data: data
                 }).then(function (d) {
                     if (d.data.message != "") {
                         swal({ icon: "warning", title: d.data.message });
+                        
                     }
                     else {
                         h.post("../cLeaveLedger/Save_NewLogic", {
@@ -1823,10 +1827,12 @@
                             if (d.data.message == "success") {
                                 $('#main_modal').modal("hide");
                                 swal("Record Successfully Saved", "Your record has been saved!", { icon: "success", });
+                                
                                 s.FilterPageGrid(s.txtb_empl_id);
                             }
                             else {
                                 swal(d.data.message, { icon: "warning", });
+                                
                             }
                         });
                     }
@@ -1836,7 +1842,9 @@
         // *****************************************************************
         // *********** EDIT FOR HEADER AND DETAILS *************************
         // *****************************************************************
-        else if (save_mode == "EDIT") {
+        else if (save_mode == "EDIT")
+        {
+            $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
             h.post("../cLeaveLedger/Update", {
                 data: data
                 , data2: data2
@@ -1844,10 +1852,12 @@
                 if (d.data.message == "success") {
                     $('#main_modal').modal("hide");
                     swal("Record Successfully Updated", "Your record has been successfully updated!", { icon: "success", });
+                    
                     s.FilterPageGrid(s.txtb_empl_id);
                 }
                 else {
                     swal(d.data.message, { icon: "warning", });
+                    
                 }
             });
         }
@@ -1861,7 +1871,7 @@
 
             data.approval_status = "S";
             data.leave_ctrlno = s.temp_leave_ctrlno;
-
+            
             h.post("../cLeaveLedger/CheckLeaveApplicationDetails", {
                 data: data
             }).then(function (d) {
@@ -1892,7 +1902,7 @@
                                         }
                                         else
                                         {
-                                            
+                                            $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
                                             h.post("../cLeaveLedger/Post_Leave_App", {
                                                 data: data
                                                 , data2: data2
@@ -1910,11 +1920,13 @@
                                                 {
                                                     $('#main_modal').modal("hide");
                                                     swal("Record Successfully Reviewd & Posted to Ledger", "Your record has been posted!", { icon: "success", });
+                                                    
                                                     s.FilterPageGrid(s.txtb_empl_id);
                                                 }
                                                 else
                                                 {
                                                     swal(d.data.message, { icon: "warning", });
+                                                    
                                                 }
                                             });
                                         }
@@ -1937,6 +1949,7 @@
                             }
                             else
                             {
+                                $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
                                 h.post("../cLeaveLedger/Post_Leave_App", {
                                     data: data
                                     , data2: data2
@@ -1973,6 +1986,7 @@
         }
         else if (save_mode == "REPOST")
         {
+            $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
             h.post("../cLeaveLedger/RePost", {
                 data: data
                 , data2: data2
@@ -1980,10 +1994,12 @@
                 if (d.data.message == "success") {
                     $('#main_modal').modal("hide");
                     swal("Record Successfully Reviewd & Posted to Ledger (Re-Posted)", "Your record has been successfully re-posted!", { icon: "success", });
+                    $("#modal_initializing").modal("hide")
                     s.FilterPageGrid(s.txtb_empl_id);
                 }
                 else {
                     swal(d.data.message, { icon: "warning", });
+                    $("#modal_initializing").modal("hide")
                 }
             });
         }
@@ -2712,6 +2728,7 @@
                         //    break;
 
                         case "cancel_with_ss":
+                            $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
                             h.post("../cLeaveLedger/CancelLederPosted",
                                 {
                                     par_ledger_ctrl_no    : s.datalistgrid[row_id].ledger_ctrl_no
@@ -2726,16 +2743,19 @@
                              
                                      if (d.data.data.result_flag == "Y") {
                                          swal("Your record has been cancelled!", d.data.data.result_msg, { icon: "success" });
+                                         
                                          s.FilterPageGrid($("#ddl_name option:selected").val());
                                      }
                                      else {
                                          swal("There something wrong!", d.data.data.result_msg, { icon: "warning" });
+                                         
                                          s.FilterPageGrid($("#ddl_name option:selected").val());
                                      }
                              
                                  }
                                  else {
                                      swal("There something wrong!", d.data.message, { icon: "warning" });
+                                     
                                      s.FilterPageGrid($("#ddl_name option:selected").val());
                                  }
                              })
