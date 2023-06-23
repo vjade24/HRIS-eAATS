@@ -240,26 +240,30 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         var lv  = 0;
         var cto = 0;
 
-        for (var i = 0; i < s.info_list2_donut_chart.length; i++)
+        if (s.info_list2_donut_chart.length > 0)
         {
-            if (s.info_list2_donut_chart[i]["leavetype_code"] == "CTO")
+            for (var i = 0; i < s.info_list2_donut_chart.length; i++)
             {
-                cto = cto + 1;
+                if (s.info_list2_donut_chart[i]["leavetype_code"] == "CTO")
+                {
+                    cto = cto + 1;
+                }
+                else
+                {
+                    lv = lv + 1;
+                }
             }
-            else
-            {
-                lv = lv + 1;
-            }
+
+            new Morris.Donut({
+                element: 'chart-leave-approval-list',
+                data: [
+                    { label: "Leave Card", value: lv },
+                    { label: "CTO Card", value: cto }
+                ],
+                resize: true
+            });
         }
 
-        new Morris.Donut({
-            element: 'chart-leave-approval-list',
-            data: [
-                { label: "Leave Card", value: lv },
-                { label: "CTO Card", value: cto }
-            ],
-            resize: true
-        });
 
         //console.log(s.datalistgrid_chart)
 
