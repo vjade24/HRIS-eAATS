@@ -2646,10 +2646,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveCancellation.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\cryExtractTrackingHistoryLeaveApplication\cryExtractTrackingHistoryLeaveApplication.rpt">
+    <Content Include="Reports\cryExtractTrackingHistoryLeaveApplication\cryExtractTrackingHistoryLeaveApplication.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryExtractTrackingHistoryLeaveApplication.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <EmbeddedResource Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTransmittal.cs</LastGenOutput>
