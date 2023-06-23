@@ -210,27 +210,31 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         // console.log(s.info_list2_chart)
         // console.log(s.info_list2_donut_chart)
 
-        new Morris.Bar({
-            // ID of the element in which to draw the chart.
-            element: 'chart-leave-list',
-            // Chart data records -- each entry in this array corresponds to a point on
-            // the chart.
-            data: s.info_list2_chart,
-            // The name of the data record attribute that contains x-values.
-            // xkey: 'year',
-            xkey: 'department_short_name',
-            // A list of names of data record attributes that contain y-values.
-            // ykeys: ['value'],
-            ykeys: ['Count'],
-            // Labels for the ykeys -- will be displayed when you hover over the
-            // chart.
-            labels: ['# of Pending'],
-            barColors: ['#f7a54a'],
-            xLabelAngle: 25,
-            gridTextSize: 8,
-            resize: true,
-            xLabelMargin: 5
-        });
+        if (s.info_list2_chart.length > 0)
+        {
+            new Morris.Bar({
+                // ID of the element in which to draw the chart.
+                element: 'chart-leave-list',
+                // Chart data records -- each entry in this array corresponds to a point on
+                // the chart.
+                data: s.info_list2_chart,
+                // The name of the data record attribute that contains x-values.
+                // xkey: 'year',
+                xkey: 'department_short_name',
+                // A list of names of data record attributes that contain y-values.
+                // ykeys: ['value'],
+                ykeys: ['Count'],
+                // Labels for the ykeys -- will be displayed when you hover over the
+                // chart.
+                labels: ['# of Pending'],
+                barColors: ['#f7a54a'],
+                xLabelAngle: 25,
+                gridTextSize: 8,
+                resize: true,
+                xLabelMargin: 5
+            });
+
+        }
  
 
         var lv  = 0;
