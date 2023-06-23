@@ -1454,6 +1454,12 @@
       <DependentUpon>cryDTR.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryExtractTrackingHistoryLeaveApplication\cryExtractTrackingHistoryLeaveApplication.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryExtractTrackingHistoryLeaveApplication.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryForgotPunchList\cryForgotPunchList.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2640,6 +2646,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveCancellation.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Reports\cryExtractTrackingHistoryLeaveApplication\cryExtractTrackingHistoryLeaveApplication.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryExtractTrackingHistoryLeaveApplication.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTransmittal.cs</LastGenOutput>

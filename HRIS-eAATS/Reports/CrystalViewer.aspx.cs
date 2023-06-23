@@ -132,6 +132,11 @@ namespace HRIS_eAATS.Reports
                 }
             }
 
+            if (ls_splitvalue.Length == 15)
+            {
+                dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4], ls_splitvalue[5], ls_splitvalue[6], ls_splitvalue[7], ls_splitvalue[8], ls_splitvalue[9], ls_splitvalue[10], ls_splitvalue[11], ls_splitvalue[12], ls_splitvalue[13], ls_splitvalue[14]);
+            }
+
             if (dt == null)
             {
                 return;

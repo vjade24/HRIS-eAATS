@@ -6,7 +6,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Angular/ng-cExtractToExcel.js"></script>
+<script src="~/Angular/ng-cExtractToExcel.js?v1"></script>
 
 <style type="text/css">
 
@@ -60,6 +60,10 @@
         width: 20px;
         height: 20px;
         cursor: pointer;
+    }
+
+    .modal-xl {
+        width: 90% !important;
     }
 </style>
 
@@ -189,7 +193,7 @@
     </div>
 
     <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content  modal-content-add-edit">
                 <div class="modal-header navy-bg text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -197,7 +201,7 @@
                     </button>
                     <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
                 </div>
-                <div class="modal-body with-background" style="padding:0px !important">
+                <div class="modal-body with-background" style="padding-top:5px !important">
                     <div class="row">
                         <div class="col-lg-12">
                             <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
