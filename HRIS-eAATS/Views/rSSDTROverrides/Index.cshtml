@@ -10,8 +10,7 @@
         }
     }
 
-    @@media only screen and (max-width: 769px) 
-    {
+    @@media only screen and (max-width: 769px) {
         .div_content_override {
             padding-top: 10px !important;
         }
@@ -77,8 +76,13 @@
         font-size: 15px !important;
         background-color: white !important;
     }
+
     textarea.required {
-        border-color:red !important;
+        border-color: red !important;
+    }
+
+    input[type=text].required {
+        border-color: red !important;
     }
 </style>
 
@@ -218,19 +222,27 @@
                                                                 <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_undertime_remarks,'UNDERTIME_REMARKS')" maxlength="7" id="txtb_undertime_remarks" ng-model="txtb_undertime_remarks">
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <h3>REMARKS</h3>
                                                                 <input type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_remarks,'REMARKS_DETAILS')" maxlength="255" id="txtb_remarks" ng-model="txtb_remarks">
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <h3>OVERRIDE REASON</h3>
-                                                                <textarea type="text" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_reason_override,'REASON_DETAILS')" maxlength="255" id="txtb_reason_override" ng-model="txtb_reason_override"></textarea>
+                                                                <textarea type="text" rows="4" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_reason_override,'REASON_DETAILS')" maxlength="255" id="txtb_reason_override" ng-model="txtb_reason_override"></textarea>
                                                                 <label class="lbl_required" id="lbl_txtb_reason_override_req"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <h3>TICKET NUMBER</h3>
+                                                                <input type="number" ng-disabled="!isEditable" class="form-control font-bold atsfield" ng-keyup="UpdateAction(txtb_ticket_number,'UNDERTIME_REMARKS')" maxlength="7" id="txtb_ticket_number" ng-model="txtb_ticket_number">
+                                                                <label class="lbl_required" id="lbl_txtb_ticket_number_req"></label>
                                                             </div>
                                                         </div>
                                                     </div>

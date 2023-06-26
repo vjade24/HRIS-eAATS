@@ -16,6 +16,7 @@ namespace HRIS_eAATS.Models
     {
         public string dtr_order_no { get; set; }
         public string empl_id { get; set; }
+        public System.DateTime dtr_date { get; set; }
         public int ticket_number { get; set; }
         public string created_by { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }

@@ -304,7 +304,8 @@
                     {
                         par_ledger_ctrl_no: s.rowX.ledger_ctrl_no,
                         par_doc_ctrl_nbr: s.rowX.doc_ctrl_nbr,
-                        par_leave_ctrlno: s.rowX.leave_ctrlno
+                        par_leave_ctrlno: s.rowX.leave_ctrlno,
+                        par_empl_id: s.rowX.empl_id
                     }).then(function (d) {
                         if (d.data.message == "success")
                         {

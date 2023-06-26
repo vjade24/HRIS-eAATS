@@ -186,69 +186,79 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/15/2020
         // Description  : Add new record to table with status as New
         //*********************************************************************//
-        public ActionResult Save(dtr_overrides_tbl data)
+        public ActionResult Save(dtr_overrides_tbl data, string ticket_number)
         {
             try
             {
+                db_ats.Database.CommandTimeout = int.MaxValue;
                 var check_exist = db_ats.dtr_overrides_tbl.Where(a => a.dtr_order_no == data.dtr_order_no && a.empl_id == data.empl_id && a.dtr_date == data.dtr_date).FirstOrDefault();
 
                 if (check_exist == null)
                 {
                     //var new_appl_nbr        = db_ats.sp_generate_appl_nbr("dtr_overrides_tbl", 10, "dtr_order_no").ToList();
                     //data.dtr_order_no       = new_appl_nbr[0].ToString();
-                    
-                    data.time_in_am  =   data.time_in_am     == "" || data.time_in_am == null ? string.Empty : data.time_in_am;
-                    data.time_out_am =   data.time_out_am    == "" || data.time_out_am == null ? string.Empty : data.time_out_am;
-                    data.time_in_pm  =   data.time_in_pm     == "" || data.time_in_pm == null ? string.Empty : data.time_in_pm;
-                    data.time_out_pm =   data.time_out_pm     == "" || data.time_out_pm == null ? string.Empty : data.time_out_pm;
-                    data.under_Time         =   data.under_Time         == null ? 0 : data.under_Time;
-                    data.under_Time_remarks =   data.under_Time_remarks == "" || data.under_Time_remarks == null ? string.Empty : data.under_Time_remarks;
-                    data.remarks_details    =   data.remarks_details    == "" || data.remarks_details == null ? string.Empty : data.remarks_details;
-                    data.time_ot_hris       =   data.time_ot_hris       == "" || data.time_ot_hris == null ? string.Empty : data.time_ot_hris;
-                    data.time_days_equi     =   data.time_days_equi     == null ? 0 : data.time_days_equi;
-                    data.time_hours_equi    =   data.time_hours_equi    == null ? 0 : data.time_hours_equi;
-                    data.time_ot_payable    =   data.time_ot_payable    == null ? 0 : data.time_ot_payable;
-                    data.no_of_as           =   data.no_of_as           == null ? 0 : data.no_of_as;
-                    data.no_of_ob           =   data.no_of_ob           == null ? 0 : data.no_of_ob;
-                    data.no_of_lv           =   data.no_of_lv           == null ? 0 : data.no_of_lv;
-                    data.remarks_override   = data.remarks_override     == null ? "" : data.remarks_override;
-                    data.reason_override    = data.reason_override      == null ? "" : data.reason_override;
-                    data.approval_status    = data.approval_status      == null ? "" : data.approval_status;
+
+                    data.time_in_am = data.time_in_am == "" || data.time_in_am == null ? string.Empty : data.time_in_am;
+                    data.time_out_am = data.time_out_am == "" || data.time_out_am == null ? string.Empty : data.time_out_am;
+                    data.time_in_pm = data.time_in_pm == "" || data.time_in_pm == null ? string.Empty : data.time_in_pm;
+                    data.time_out_pm = data.time_out_pm == "" || data.time_out_pm == null ? string.Empty : data.time_out_pm;
+                    data.under_Time = data.under_Time == null ? 0 : data.under_Time;
+                    data.under_Time_remarks = data.under_Time_remarks == "" || data.under_Time_remarks == null ? string.Empty : data.under_Time_remarks;
+                    data.remarks_details = data.remarks_details == "" || data.remarks_details == null ? string.Empty : data.remarks_details;
+                    data.time_ot_hris = data.time_ot_hris == "" || data.time_ot_hris == null ? string.Empty : data.time_ot_hris;
+                    data.time_days_equi = data.time_days_equi == null ? 0 : data.time_days_equi;
+                    data.time_hours_equi = data.time_hours_equi == null ? 0 : data.time_hours_equi;
+                    data.time_ot_payable = data.time_ot_payable == null ? 0 : data.time_ot_payable;
+                    data.no_of_as = data.no_of_as == null ? 0 : data.no_of_as;
+                    data.no_of_ob = data.no_of_ob == null ? 0 : data.no_of_ob;
+                    data.no_of_lv = data.no_of_lv == null ? 0 : data.no_of_lv;
+                    data.remarks_override = data.remarks_override == null ? "" : data.remarks_override;
+                    data.reason_override = data.reason_override == null ? "" : data.reason_override;
+                    data.approval_status = data.approval_status == null ? "" : data.approval_status;
 
 
-                    data.created_by_user    = Session["user_id"].ToString();
-                    data.created_dttm       = DateTime.Now;
+                    data.created_by_user = Session["user_id"].ToString();
+                    data.created_dttm = DateTime.Now;
 
-                    db_ats.dtr_overrides_tbl.Add(data);
-                    
+                    string dtr_order_no = db_ats.dtr_overrides_tbl.Add(data).dtr_order_no;
+                
+                    dtr_overrides_tickets_tbl ticket = new dtr_overrides_tickets_tbl();
+                    ticket.empl_id = data.empl_id;
+                    ticket.dtr_order_no = dtr_order_no;
+                    ticket.dtr_date = data.dtr_date;
+                    ticket.ticket_number = int.Parse(ticket_number);
+                    ticket.created_by = Session["user_id"].ToString();
+                    ticket.created_dttm = DateTime.Now;
+
+                    db_ats.dtr_overrides_tickets_tbl.Add(ticket);
                     db_ats.SaveChangesAsync();
                 }
                 else
                 {
-                    
-                    check_exist.updated_by_user     = Session["user_id"].ToString();
-                    check_exist.updated_dttm        = DateTime.Now;
-                    check_exist.time_in_am          = data.time_in_am == "" || data.time_in_am == null ? string.Empty : data.time_in_am;
-                    check_exist.time_out_am         = data.time_out_am == "" || data.time_out_am == null ? string.Empty : data.time_out_am;
-                    check_exist.time_in_pm          = data.time_in_pm == "" || data.time_in_pm == null ? string.Empty : data.time_in_pm;
-                    check_exist.time_out_pm         = data.time_out_pm == "" || data.time_out_pm == null ? string.Empty : data.time_out_pm;
-                    check_exist.ts_code             = data.ts_code;
-                    check_exist.under_Time          = data.under_Time == null ? 0 : data.under_Time;
-                    check_exist.under_Time_remarks  = data.under_Time_remarks == "" || data.under_Time_remarks == null ? string.Empty : data.under_Time_remarks;
-                    check_exist.remarks_details     = data.remarks_details == "" || data.remarks_details == null ? string.Empty : data.remarks_details;
-                    check_exist.time_ot_hris        = data.time_ot_hris == "" || data.time_ot_hris == null ? string.Empty : data.time_ot_hris;
-                    check_exist.time_days_equi      = data.time_days_equi == null ? 0 : data.time_days_equi;
-                    check_exist.time_hours_equi     = data.time_hours_equi == null ? 0 : data.time_hours_equi;
-                    check_exist.time_ot_payable     = data.time_ot_payable == null ? 0 : data.time_ot_payable;
-                    check_exist.no_of_as            = data.no_of_as == null ? 0 : data.no_of_as;
-                    check_exist.no_of_ob            = data.no_of_ob == null ? 0 : data.no_of_ob;
-                    check_exist.no_of_lv            = data.no_of_lv == null ? 0 : data.no_of_lv;
-                    check_exist.remarks_override    = data.remarks_override == null ? "" : data.remarks_override;
-                    check_exist.reason_override     = data.reason_override == null ? "" : data.reason_override;
-                    check_exist.approval_status     = data.approval_status == null ? "" : data.approval_status;
+
+                    check_exist.updated_by_user = Session["user_id"].ToString();
+                    check_exist.updated_dttm = DateTime.Now;
+                    check_exist.time_in_am = data.time_in_am == "" || data.time_in_am == null ? string.Empty : data.time_in_am;
+                    check_exist.time_out_am = data.time_out_am == "" || data.time_out_am == null ? string.Empty : data.time_out_am;
+                    check_exist.time_in_pm = data.time_in_pm == "" || data.time_in_pm == null ? string.Empty : data.time_in_pm;
+                    check_exist.time_out_pm = data.time_out_pm == "" || data.time_out_pm == null ? string.Empty : data.time_out_pm;
+                    check_exist.ts_code = data.ts_code;
+                    check_exist.under_Time = data.under_Time == null ? 0 : data.under_Time;
+                    check_exist.under_Time_remarks = data.under_Time_remarks == "" || data.under_Time_remarks == null ? string.Empty : data.under_Time_remarks;
+                    check_exist.remarks_details = data.remarks_details == "" || data.remarks_details == null ? string.Empty : data.remarks_details;
+                    check_exist.time_ot_hris = data.time_ot_hris == "" || data.time_ot_hris == null ? string.Empty : data.time_ot_hris;
+                    check_exist.time_days_equi = data.time_days_equi == null ? 0 : data.time_days_equi;
+                    check_exist.time_hours_equi = data.time_hours_equi == null ? 0 : data.time_hours_equi;
+                    check_exist.time_ot_payable = data.time_ot_payable == null ? 0 : data.time_ot_payable;
+                    check_exist.no_of_as = data.no_of_as == null ? 0 : data.no_of_as;
+                    check_exist.no_of_ob = data.no_of_ob == null ? 0 : data.no_of_ob;
+                    check_exist.no_of_lv = data.no_of_lv == null ? 0 : data.no_of_lv;
+                    check_exist.remarks_override = data.remarks_override == null ? "" : data.remarks_override;
+                    check_exist.reason_override = data.reason_override == null ? "" : data.reason_override;
+                    check_exist.approval_status = data.approval_status == null ? "" : data.approval_status;
                     db_ats.SaveChangesAsync();
                 }
-                
+
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

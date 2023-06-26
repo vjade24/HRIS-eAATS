@@ -350,6 +350,7 @@
         s.txtb_pm_in            = s.datalistgrid[row].time_in_pm;
         s.txtb_pm_out           = s.datalistgrid[row].time_out_pm;
         s.txtb_remarks          = s.datalistgrid[row].remarks_details;
+        s.txtb_ticket_number    = s.datalistgrid[row].ticket_number;
 
         s.txtb_time_ot_hours    = s.datalistgrid[row].time_ot_hris;
         s.txtb_time_days_equiv  = s.datalistgrid[row].time_days_equi;
@@ -417,11 +418,12 @@
                     , approval_status   : action_status
                     , approved_by       : ""
                     , approved_dttm     : ""
+                    , ticket_number     : s.txtb_ticket_number
                 }
 
 
                 //ENDED BY JORGE
-                h.post("../rSSDTROverrides/Save", { data: data }).then(function (d) {
+                h.post("../rSSDTROverrides/Save", { data: data, ticket_number: s.txtb_ticket_number }).then(function (d) {
                     if (d.data.message == "success") {
                         s.FilterPageGrid();
                         $('#main_modal').modal("hide");
@@ -511,10 +513,23 @@
     {
         var return_val = true;
         ValidationResultColor("ALL", false);
-
-        if ($('#txtb_reason_override').val() == "")
+        var focus = 0;
+        if ($('#txtb_reason_override').val().toString().trim() == "")
         {
+            $('#txtb_reason_override').val("");
+            $('#txtb_reason_override').focus();
+            focus = 1;
             ValidationResultColor("txtb_reason_override", true);
+            return_val = false;
+        }
+
+        if ($('#txtb_ticket_number').val().toString().trim() == "") {
+            $('#txtb_ticket_number').val("");
+            if (focus == 0)
+            {
+             $('#txtb_ticket_number').focus();
+            }
+            ValidationResultColor("txtb_ticket_number", true);
             return_val = false;
         }
 
@@ -537,6 +552,9 @@
 
             $("#txtb_reason_override").removeClass("required");
             $("#lbl_txtb_reason_override_req").text("");
+
+            $("#txtb_ticket_number").removeClass("required");
+            $("#lbl_txtb_ticket_number_req").text("");
 
             //$("#txtb_dtr_mon_year2").removeClass("required");
             //$("#lbl_txtb_dtr_mon_year2_req").text("");

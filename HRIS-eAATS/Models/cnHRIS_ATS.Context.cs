@@ -2308,35 +2308,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dtr_override_approved_all", par_yearParameter, par_monthParameter, par_empl_idParameter, par_user_idParameter, par_statusParameter);
         }
     
-        public virtual ObjectResult<sp_dtr_override_list_Result> sp_dtr_override_list(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
-        {
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_view_typeParameter = par_view_type != null ?
-                new ObjectParameter("par_view_type", par_view_type) :
-                new ObjectParameter("par_view_type", typeof(string));
-    
-            var par_department_codeParameter = par_department_code != null ?
-                new ObjectParameter("par_department_code", par_department_code) :
-                new ObjectParameter("par_department_code", typeof(string));
-    
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_override_list_Result>("sp_dtr_override_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
-        }
-    
         public virtual ObjectResult<sp_dtr_rep_Result> sp_dtr_rep(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
         {
             var par_yearParameter = par_year != null ?
@@ -5357,6 +5328,35 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_department", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_get_leave_transmittal_for_uploading_list_Result>("sp_get_leave_transmittal_for_uploading_list", par_yearParameter, par_monthParameter, par_filterParameter, par_departmentParameter);
+        }
+    
+        public virtual ObjectResult<sp_dtr_override_list_Result> sp_dtr_override_list(string par_year, string par_month, string par_empl_id, string par_view_type, string par_department_code, string par_user_id)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_view_typeParameter = par_view_type != null ?
+                new ObjectParameter("par_view_type", par_view_type) :
+                new ObjectParameter("par_view_type", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_override_list_Result>("sp_dtr_override_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
         }
     }
 }
