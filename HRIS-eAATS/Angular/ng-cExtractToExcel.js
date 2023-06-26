@@ -150,36 +150,117 @@ ng_HRD_App.controller("cExtractToExcel_ctrlr", function ($scope, $compile, $http
         if (ValidateFields())
         {
             $("#modal_generating_tax").modal({ keyboard: false, backdrop: "static" });
-            h.post("../cExtractToExcel/ExtractExcel",
-            {
-                par_extract_type     : s.ddl_report_type,
-                p_leave_date_from    : $('#txtb_leave_date_from').val(),
-                p_leave_date_to      : $('#txtb_leave_date_to').val(),
-                p_department_code    : s.ddl_department,
-                p_empl_id            : "",
-                p_lv_posting_status  : "",
-                p_cancel_status      : "",
-                par_extract_type_descr: $('#ddl_report_type option:selected').text(),
-                par_employment_type : $('#ddl_employment_type').val() 
 
-            }).then(function (d)
-            { 
-                if (d.data.message == "success")
-                {
-                    window.open(d.data.filePath, '', '');
-                    $("#modal_generating_tax").modal("hide");
+            if (s.ddl_report_type == "HISTORY")
+            {
+                var controller = "Reports";
+                var action = "Index";
+                var ReportName = "";
+                var SaveName = "Crystal_Report";
+                var ReportType = "inline";
+                var sp = "";
+                var ReportPath = ""
+
+                var p_year              = s.ddl_year.toString().trim()
+                var p_month             = s.ddl_month.toString().trim()
+                var p_department_code   = s.ddl_department.toString().trim();
+                var p_employment_type = $('#ddl_employment_type').val().toString().trim() 
+                var p_empl_id           = "";
+                var p_prepared_empl_id = user_id_session;
+
+                var p_period_from   = $('#txtb_leave_date_from').val();
+                var p_period_to     = $('#txtb_leave_date_to').val();
+
+                ReportPath = "~/Reports/cryExtractTrackingHistoryLeaveApplication/";
+                ReportName = "cryExtractTrackingHistoryLeaveApplication";
+                ReportPath = ReportPath + "" + ReportName + ".rpt";
+                sp = "sp_extract_trk_leave_appl,p_leave_date_from," + p_period_from + ",p_leave_date_to," + p_period_to + ",p_department_code," + p_department_code + ",p_empl_id," + "" + ",p_lv_posting_status," + "" + ",p_cancel_status," + "" + ",p_employment_type," + "";
+                s.employee_name_print = 'Approved Leave application and Approved Leave Posting History';
+
+                // *******************************************************
+                // *** VJA : 2021-07-14 - Validation and Loading hide ****
+                // *******************************************************
+                
+                var iframe = document.getElementById('iframe_print_preview');
+                var iframe_page = $("#iframe_print_preview")[0];
+                iframe.style.visibility = "hidden";
+
+                s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                    + "&ReportName=" + ReportName
+                    + "&SaveName=" + SaveName
+                    + "&ReportType=" + ReportType
+                    + "&ReportPath=" + ReportPath
+                    + "&id=" + sp //+ parameters
+
+                //console.log(s.embed_link);
+                if (!/*@cc_on!@*/0) { //if not IE
+                    iframe.onload = function () {
+                        iframe.style.visibility = "visible";
+                        $("#modal_generating_tax").modal("hide")
+                    };
                 }
-                else if (d.data.message == "no-data-found")
-                {
-                    $("#modal_generating_tax").modal("hide");
-                    swal("No Data Found!", "Generation Message", "warning");
+                else if (iframe_page.innerHTML()) {
+                    // get and check the Title (and H tags if you want)
+                    var ifTitle = iframe_page.contentDocument.title;
+                    if (ifTitle.indexOf("404") >= 0) {
+                        swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                        iframe.src = "";
+                    }
+                    else if (ifTitle != "") {
+                        swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                        iframe.src = "";
+                    }
                 }
-                else
-                {
-                    $("#modal_generating_tax").modal("hide");
-                    swal(d.data.message, "Generation Message", "error");
+                else {
+                    iframe.onreadystatechange = function () {
+                        if (iframe.readyState == "complete") {
+                            iframe.style.visibility = "visible";
+                            $("#modal_generating_tax").modal("hide")
+                        }
+                    };
                 }
-            })
+
+                iframe.src = s.embed_link;
+                $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+                // *******************************************************
+                // *******************************************************
+
+
+            }
+            else
+            {
+                h.post("../cExtractToExcel/ExtractExcel",
+                {
+                    par_extract_type     : s.ddl_report_type,
+                    p_leave_date_from    : $('#txtb_leave_date_from').val(),
+                    p_leave_date_to      : $('#txtb_leave_date_to').val(),
+                    p_department_code    : s.ddl_department,
+                    p_empl_id            : "",
+                    p_lv_posting_status  : "",
+                    p_cancel_status      : "",
+                    par_extract_type_descr: $('#ddl_report_type option:selected').text(),
+                    par_employment_type : $('#ddl_employment_type').val() 
+
+                }).then(function (d)
+                { 
+                    if (d.data.message == "success")
+                    {
+                        window.open(d.data.filePath, '', '');
+                        $("#modal_generating_tax").modal("hide");
+                    }
+                    else if (d.data.message == "no-data-found")
+                    {
+                        $("#modal_generating_tax").modal("hide");
+                        swal("No Data Found!", "Generation Message", "warning");
+                    }
+                    else
+                    {
+                        $("#modal_generating_tax").modal("hide");
+                        swal(d.data.message, "Generation Message", "error");
+                    }
+                })
+            }
+
         }
 
     }

@@ -914,6 +914,42 @@ namespace HRIS_Common
             }
 
         }
+        //***********************************************************************************************************************
+        // Purpose      :   Create Overloaded Datatable object based SQL script (stored prodecure) with one string parameter
+        //                  and 1 int paramater - FOR DTR PRINTING ATS
+        // Method Name  :   RetrieveData
+        // Created By   :   JORGE RUSTOM VILLANUEVA
+        // Date Created :   09/15/2020
+        //***********************************************************************************************************************
+        public DataTable RetrieveDataATS(string sp_script, string parmagr1, string parmvalue1, string parmagr2, string parmvalue2, string parmagr3, string parmvalue3, string parmagr4, string parmvalue4, string parmagr5, string parmvalue5, string parmagr6, string parmvalue6, string parmagr7, string parmvalue7)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["cnHRISATS"].ConnectionString;
+                using (SqlConnection cn = new SqlConnection(connStr))
+                {
+                    SqlCommand cmd = new SqlCommand(sp_script, cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = Int32.MaxValue;
+                    SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                    cmd.Parameters.Add("@" + parmagr1, SqlDbType.VarChar).Value = parmvalue1;
+                    cmd.Parameters.Add("@" + parmagr2, SqlDbType.VarChar).Value = parmvalue2;
+                    cmd.Parameters.Add("@" + parmagr3, SqlDbType.VarChar).Value = parmvalue3;
+                    cmd.Parameters.Add("@" + parmagr4, SqlDbType.VarChar).Value = parmvalue4;
+                    cmd.Parameters.Add("@" + parmagr5, SqlDbType.VarChar).Value = parmvalue5;
+                    cmd.Parameters.Add("@" + parmagr6, SqlDbType.VarChar).Value = parmvalue6;
+                    cmd.Parameters.Add("@" + parmagr7, SqlDbType.VarChar).Value = parmvalue7;
+                    adp.Fill(dt);
+                }
+                return dt;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
 
         //***********************************************************************************************************************
         // Purpose      :   Create Overloaded Datatable object based SQL script (stored prodecure) with one string parameter
