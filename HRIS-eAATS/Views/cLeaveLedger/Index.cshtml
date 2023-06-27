@@ -95,7 +95,7 @@
 
     <!-- Add/Edit Modal -->
     <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" style="overflow:scroll !important">
-        <div class="modal-dialog modal-lg" >
+        <div class="modal-dialog modal-lg">
             <div class="modal-content animated bounceInDown modal-content-add-edit">
                 <div class="modal-header ">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -170,17 +170,17 @@
                             </div>
                         </div>
                         @*<div class="col-lg-12" style="padding-top:20px;">
-                            <div class="alert alert-danger" role="alert">
-                                {{posting_status_descr}}
-                            </div>
-                        </div>*@
+                                <div class="alert alert-danger" role="alert">
+                                    {{posting_status_descr}}
+                                </div>
+                            </div>*@
                         <div class="col-lg-12 m-b-md" style="padding-top:20px;">
                             <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
                                 <ul class="nav nav-tabs" id="tab_lv_ledger_dtl">
                                     <li id="tab5" class="active">   <a data-toggle="tab" id="tab_1_click" href="#tab-5"><div class="font_tab_ovrd"><b>Leave Header  </b></div></a></li>
                                     <li id="tab4" class="" ng-show="id_leave_dtl_show">         <a data-toggle="tab" href="#tab-lwop"><div><b>LWOP Details </b></div></a></li>
                                     <li id="tab6" class="" ng-show="id_leave_dtl_show">         <a data-toggle="tab" href="#tab-6"><div class="font_tab_ovrd"><b>Leave Details </b></div></a></li>
-                                    <li id="tab7" class="" >        <a data-toggle="tab" href="#tab-7"><div><b>Approval History </b></div></a></li>
+                                    <li id="tab7" class="">        <a data-toggle="tab" href="#tab-7"><div><b>Approval History </b></div></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-5" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
@@ -409,35 +409,35 @@
 
                                                 </div>
                                                 @*<div class="row" ng-hide="show_CTO">
-                                    <div class="col-lg-12">
-                                        <h3 class="text-success"><b>Compensatory Time Off</b></h3>
-                                    </div>
-                                    <div class="col-lg-5" style="padding-top:6px;">
-                                        <label class="font-bold" style="padding-top:9px;"><b>-- Bal as of:</b></label>
-                                    </div>
-                                    <div class="col-lg-7" style="padding-top:6px;">
-                                        <input class="form-control text-right" id="txtb_balance_as_of_cto" ng-model="txtb_balance_as_of_cto" />
-                                    </div>
-                                    <div class="col-lg-5" style="padding-top:6px;">
-                                        <label class="font-bold" style="padding-top:9px;"><b>-- Earned:</b></label>
-                                    </div>
-                                    <div class="col-lg-7" style="padding-top:6px;">
-                                        <input class="form-control text-right" id="txtb_restore_deduct_cto" ng-model="txtb_restore_deduct_cto" />
-                                    </div>
-                                    <div class="col-lg-5" style="padding-top:6px;">
-                                        <label class="font-bold" style="padding-top:9px;font-weight:bolder" id="lbl_abs_und_wp_vl"><b>-- Abs/Und.WP:</b></label>
-                                    </div>
-                                    <div class="col-lg-7" style="padding-top:6px;">
-                                        <input class="form-control text-right" id="txtb_abs_und_wp_cto" ng-model="txtb_abs_und_wp_cto" />
-                                        <label id="lbl_txtb_abs_und_wp_vl_req" class="lbl_required"></label>
-                                    </div>
-                                    <div class="col-lg-5" style="padding-top:6px;" >
-                                        <label class="font-bold" style="padding-top:9px;"><b>-- Abs/Und.WOP:</b></label>
-                                    </div>
-                                    <div class="col-lg-7" style="padding-top:6px;" >
-                                        <input class="form-control text-right" id="txtb_abs_und_wop_cto" ng-model="txtb_abs_und_wop_cto" />
-                                    </div>
-                                </div>*@
+                                                        <div class="col-lg-12">
+                                                            <h3 class="text-success"><b>Compensatory Time Off</b></h3>
+                                                        </div>
+                                                        <div class="col-lg-5" style="padding-top:6px;">
+                                                            <label class="font-bold" style="padding-top:9px;"><b>-- Bal as of:</b></label>
+                                                        </div>
+                                                        <div class="col-lg-7" style="padding-top:6px;">
+                                                            <input class="form-control text-right" id="txtb_balance_as_of_cto" ng-model="txtb_balance_as_of_cto" />
+                                                        </div>
+                                                        <div class="col-lg-5" style="padding-top:6px;">
+                                                            <label class="font-bold" style="padding-top:9px;"><b>-- Earned:</b></label>
+                                                        </div>
+                                                        <div class="col-lg-7" style="padding-top:6px;">
+                                                            <input class="form-control text-right" id="txtb_restore_deduct_cto" ng-model="txtb_restore_deduct_cto" />
+                                                        </div>
+                                                        <div class="col-lg-5" style="padding-top:6px;">
+                                                            <label class="font-bold" style="padding-top:9px;font-weight:bolder" id="lbl_abs_und_wp_vl"><b>-- Abs/Und.WP:</b></label>
+                                                        </div>
+                                                        <div class="col-lg-7" style="padding-top:6px;">
+                                                            <input class="form-control text-right" id="txtb_abs_und_wp_cto" ng-model="txtb_abs_und_wp_cto" />
+                                                            <label id="lbl_txtb_abs_und_wp_vl_req" class="lbl_required"></label>
+                                                        </div>
+                                                        <div class="col-lg-5" style="padding-top:6px;" >
+                                                            <label class="font-bold" style="padding-top:9px;"><b>-- Abs/Und.WOP:</b></label>
+                                                        </div>
+                                                        <div class="col-lg-7" style="padding-top:6px;" >
+                                                            <input class="form-control text-right" id="txtb_abs_und_wop_cto" ng-model="txtb_abs_und_wop_cto" />
+                                                        </div>
+                                                    </div>*@
                                             </div>
 
 
@@ -453,15 +453,15 @@
                                                     <input class="form-control text-left" id="txtb_lwop_date" ng-model="txtb_lwop_date" />
                                                 </div>
                                                 @*<div class="col-lg-3 pull-right">
-                                    <button class="btn btn-primary btn-block" ng-click="btn_print_ledger('LWOP')"><i class="fa fa-print"> </i> Print Notice of LWOP </button>
-                                </div>*@
+                                                        <button class="btn btn-primary btn-block" ng-click="btn_print_ledger('LWOP')"><i class="fa fa-print"> </i> Print Notice of LWOP </button>
+                                                    </div>*@
                                             </div>
                                             <div class="row" style="padding-top:6px;">
                                                 <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
                                                     <label class="font-bold"><b> LWOP Body 1:</b></label>
                                                 </div>
                                                 <div class="col-lg-10">
-                                                    <textarea class="form-control text-left" id="txtb_lwop_body_1" ng-model="txtb_lwop_body_1" ></textarea>
+                                                    <textarea class="form-control text-left" id="txtb_lwop_body_1" ng-model="txtb_lwop_body_1"></textarea>
                                                 </div>
                                             </div>
                                             <div class="row" style="padding-top:6px;">
@@ -564,73 +564,73 @@
                                             </div>
                                         </div>
                                         @*<div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h3> <span class="fa fa-history"></span> APPROVAL HISTORY</h3>
-            </div>
-            <div class="ibox-content">
-                <div class="row">
-                    <div class="col-lg-12 ">
-                        <h5> <span class="fa fa-history"></span> LEAVE APPLICATION HISTORY</h5>
-                        <h4 class="text-danger"> <i class="fa fa-user"></i> Creator</h4>
-                        <p>{{employee_name_creator}}</p>
-                        <p>Created Date and Time: {{created_dttm}}</p>
-                    </div>
-                    <div class="col-lg-12" ng-show="employee_name_reviewer">
+                                                <div class="ibox-title">
+                                                    <h3> <span class="fa fa-history"></span> APPROVAL HISTORY</h3>
+                                                </div>
+                                                <div class="ibox-content">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 ">
+                                                            <h5> <span class="fa fa-history"></span> LEAVE APPLICATION HISTORY</h5>
+                                                            <h4 class="text-danger"> <i class="fa fa-user"></i> Creator</h4>
+                                                            <p>{{employee_name_creator}}</p>
+                                                            <p>Created Date and Time: {{created_dttm}}</p>
+                                                        </div>
+                                                        <div class="col-lg-12" ng-show="employee_name_reviewer">
 
-                        <h4 class="text-warning"><i class="fa fa-user"></i> Reviewer</h4>
-                        <p>{{employee_name_reviewer}}</p>
-                        <p>Date and Time: {{reviewed_date}}</p>
-                        <p ng-show="reviewed_comment">Comment: {{reviewed_comment}}</p>
-                    </div>
+                                                            <h4 class="text-warning"><i class="fa fa-user"></i> Reviewer</h4>
+                                                            <p>{{employee_name_reviewer}}</p>
+                                                            <p>Date and Time: {{reviewed_date}}</p>
+                                                            <p ng-show="reviewed_comment">Comment: {{reviewed_comment}}</p>
+                                                        </div>
 
-                    <div class="col-lg-12" ng-show="employee_name_final_approver">
-                        <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
-                        <p>{{employee_name_final_approver}}</p>
-                        <p>Date and Time: {{final_approval_date}}</p>
-                        <p ng-show="final_approval_comment">Comment: {{final_approval_comment}}</p>
-                    </div>
-                    <div class="col-lg-12" ng-show="employee_name_disapprover">
-                        <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
-                        <p>{{employee_name_disapprover}}</p>
-                        <p>Date and Time: {{disapproval_date}}</p>
-                        <p ng-show="disapproval_comment">Comment: {{disapproval_comment}}</p>
-                    </div>
-                    <div class="col-lg-12" ng-show="employee_name_cancel_pending">
-                        <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
-                        <p>{{employee_name_cancel_pending}}</p>
-                        <p>Date and Time: {{cancel_pending_date}}</p>
-                        <p ng-show="cancel_pending_comment">Comment: {{cancel_pending_comment}}</p>
-                    </div>
-                </div>
-                <div class="row" ng-show="employee_name_creator_posting">
-                    <div class="col-lg-12 ">
-                        <hr />
-                        <h5> <span class="fa fa-history"></span> POSTING HISTORY</h5>
-                        <h4 class="text-danger"> <i class="fa fa-user"></i> Carded By</h4>
-                        <p>{{employee_name_creator_posting}}</p>
-                        <p ng-show="created_dttm_posting">Created Date and Time: {{created_dttm_posting}}</p>
-                    </div>
-                    <div class="col-lg-12" ng-show="employee_name_disapprover_posting">
-                        <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
-                        <p>{{employee_name_disapprover_posting}}</p>
-                        <p>Date and Time: {{disapproval_date_posting}}</p>
-                        <p ng-show="disapproval_comment_posting">Comment: {{disapproval_comment_posting}}</p>
-                    </div>
-                    <div class="col-lg-12" ng-show="employee_name_cancel_pending_posting">
-                        <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
-                        <p>{{employee_name_cancel_pending_posting}}</p>
-                        <p>Date and Time: {{cancel_pending_date_posting}}</p>
-                        <p ng-show="cancel_pending_comment_posting">Comment: {{cancel_pending_comment_posting}}</p>
-                    </div>
-                    <div class="col-lg-12" ng-show="employee_name_final_approver_posting">
-                        <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
-                        <p>{{employee_name_final_approver_posting}}</p>
-                        <p>Date and Time: {{final_approval_date_posting}}</p>
-                        <p ng-show="final_approval_comment_posting">Comment: {{final_approval_comment_posting}}</p>
-                    </div>
-                </div>
-            </div>
-        </div>*@
+                                                        <div class="col-lg-12" ng-show="employee_name_final_approver">
+                                                            <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
+                                                            <p>{{employee_name_final_approver}}</p>
+                                                            <p>Date and Time: {{final_approval_date}}</p>
+                                                            <p ng-show="final_approval_comment">Comment: {{final_approval_comment}}</p>
+                                                        </div>
+                                                        <div class="col-lg-12" ng-show="employee_name_disapprover">
+                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
+                                                            <p>{{employee_name_disapprover}}</p>
+                                                            <p>Date and Time: {{disapproval_date}}</p>
+                                                            <p ng-show="disapproval_comment">Comment: {{disapproval_comment}}</p>
+                                                        </div>
+                                                        <div class="col-lg-12" ng-show="employee_name_cancel_pending">
+                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
+                                                            <p>{{employee_name_cancel_pending}}</p>
+                                                            <p>Date and Time: {{cancel_pending_date}}</p>
+                                                            <p ng-show="cancel_pending_comment">Comment: {{cancel_pending_comment}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" ng-show="employee_name_creator_posting">
+                                                        <div class="col-lg-12 ">
+                                                            <hr />
+                                                            <h5> <span class="fa fa-history"></span> POSTING HISTORY</h5>
+                                                            <h4 class="text-danger"> <i class="fa fa-user"></i> Carded By</h4>
+                                                            <p>{{employee_name_creator_posting}}</p>
+                                                            <p ng-show="created_dttm_posting">Created Date and Time: {{created_dttm_posting}}</p>
+                                                        </div>
+                                                        <div class="col-lg-12" ng-show="employee_name_disapprover_posting">
+                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
+                                                            <p>{{employee_name_disapprover_posting}}</p>
+                                                            <p>Date and Time: {{disapproval_date_posting}}</p>
+                                                            <p ng-show="disapproval_comment_posting">Comment: {{disapproval_comment_posting}}</p>
+                                                        </div>
+                                                        <div class="col-lg-12" ng-show="employee_name_cancel_pending_posting">
+                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
+                                                            <p>{{employee_name_cancel_pending_posting}}</p>
+                                                            <p>Date and Time: {{cancel_pending_date_posting}}</p>
+                                                            <p ng-show="cancel_pending_comment_posting">Comment: {{cancel_pending_comment_posting}}</p>
+                                                        </div>
+                                                        <div class="col-lg-12" ng-show="employee_name_final_approver_posting">
+                                                            <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
+                                                            <p>{{employee_name_final_approver_posting}}</p>
+                                                            <p>Date and Time: {{final_approval_date_posting}}</p>
+                                                            <p ng-show="final_approval_comment_posting">Comment: {{final_approval_comment_posting}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>*@
                                     </div>
                                 </div>
 
@@ -642,7 +642,7 @@
                     </div>
                 </div>
                 @*<div class="modal-footer" style="padding: 10px 30px 10px 30px !important" ng-show="no_action_posted">*@
-                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important" >
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
                     <div class="row">
                         <div class="col-lg-3">
                             <button id="cancel_pending" ng-click="btn_cancel_disapprove('C')" ng-show="!show_save_edit_btn" type="button" class="btn btn-success pull-left btn-block"><i class="fa fa-ban"></i> Cancel Pending</button>
@@ -746,7 +746,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content animated bounceInDown modal-content-add-edit">
                 <div class="modal-header ">
-                    
+
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <h4 class="modal-title" id="modalLabelSmall">{{lbl_report_header}}</h4>
@@ -764,7 +764,7 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             @*<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btn_print_ledger_close()"><span aria-hidden="true">&times;</span></button>*@
                         </div>
                         <div class="col-lg-1"></div>
@@ -773,7 +773,7 @@
                             @*<button type="button" class="btn-danger btn btn-block" data-dismiss="modal" aria-label="Close" ng-click="btn_print_ledger_close()"><span><i class="fa fa-times"></i></span></button>*@
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px !important">
 
@@ -820,11 +820,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6" >
+                                <div class="col-lg-6">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 b-r" >
+                        <div class="col-lg-6 b-r">
                             <div class="print_preview_iframe_css">
                                 <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview3" scrolling="no" src=""></iframe>
                             </div>
@@ -850,7 +850,7 @@
                         <div class="col-sm-4">
 
                             <h2 class="text-white">@Model.menu_name</h2>
-                            
+
                         </div>
                         <div class="col-sm-6"></div>
                         <div class="col-sm-2">
@@ -967,7 +967,7 @@
                                 <label class="font-bold" style="margin-top:9px;"><b>View Mode :</b></label>
                             </div>
                             <div class="col-lg-7">
-                                <select class="form-control" id="ddl_rep_mode" ng-model="ddl_rep_mode" >
+                                <select class="form-control" id="ddl_rep_mode" ng-model="ddl_rep_mode">
                                     <option value="1">Both Leave and CTO</option>
                                     <option value="2">Leave Card</option>
                                     <option value="3">CTO Card</option>
@@ -992,7 +992,7 @@
                             </ul>
                             <div class="tab-content">
                                 <div id="tab-11" class="tab-pane " style="padding-bottom:0px;margin-bottom:0px;">
-                                    <div class="panel-body" >
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-7">
                                                 <div class="row">
@@ -1151,7 +1151,7 @@
                                     </div>
                                 </div>
                                 <div id="tab-12" class="tab-pane active">
-                                    <div class="panel-body" >
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <div class="row">
@@ -1237,7 +1237,7 @@
                                     </div>
                                 </div>
                                 <div id="tab-13" class="tab-pane">
-                                    <div class="panel-body" >
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-7" style="padding-top:5px;">
 
@@ -1266,8 +1266,8 @@
                                         <div class="row" style="padding-top:5px;">
                                             <div class="col-lg-12">
                                                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                                    <table id="datalist_grid" ng-model="datalist_grid" class="table table-hover table-responsive" style="width:100% !important;" >
-                                                        <thead style="position:sticky !important; top: 0; z-index: 1;"> 
+                                                    <table id="datalist_grid" ng-model="datalist_grid" class="table table-hover table-responsive" style="width:100% !important;">
+                                                        <thead style="position:sticky !important; top: 0; z-index: 1;">
                                                             <tr>
                                                                 <th width="10%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
@@ -1340,7 +1340,7 @@
                                     </div>
                                 </div>
                                 <div id="tab-14" class="tab-pane">
-                                    <div class="panel-body" >
+                                    <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-4">
                                             </div>
@@ -1364,14 +1364,14 @@
                                             <div class="col-lg-3">
                                                 <div class="ibox">
                                                     <div class="ibox-title">
-                                                        <h5  class="text-primary"><b>List of Time Schedule </b></h5>
+                                                        <h5 class="text-primary"><b>List of Time Schedule </b></h5>
                                                     </div>
                                                     <div class="ibox-content">
-                                                        <ul class="sortable-list connectList agile-list" id="todo" >
+                                                        <ul class="sortable-list connectList agile-list" id="todo">
                                                             <li class="{{lst.color}}-element" id="task1" ng-repeat="lst in time_sked_hdr">
                                                                 <span class="label label-warning"> <i class="fa fa-calendar-o"></i> {{month_int_to_name(lst.tse_month)}} - {{lst.tse_year}}</span><br /><br />
                                                                 <small><b>{{lst.employee_name}}</b></small><br />
-                                                                
+
                                                                 <small><b>Effective Date - {{lst.tse_effective_date}}</b></small>
                                                                 <div class="form-group row" style="margin-top:5px !important">
                                                                     <div class="col-lg-6">
@@ -1389,8 +1389,8 @@
                                             <div class="col-lg-9" style="border-left:1px solid #dbdbdb !important">
                                                 <div class="ibox">
                                                     <div class="ibox-title ">
-                                                        <h5 ><b>Time Schedule </b></h5>
-                                                        <div class="ibox-tools" style="float:right !important" >
+                                                        <h5><b>Time Schedule </b></h5>
+                                                        <div class="ibox-tools" style="float:right !important">
                                                             <span class="label label-warning"> <i class="fa fa-calendar-o"></i> {{time_sked_hdr_title}}</span>
                                                         </div>
                                                     </div>
@@ -1400,13 +1400,13 @@
                                                             <table class="table table-hover table-striped">
                                                                 <thead style="position:sticky !important; top: 0; z-index: 1;">
                                                                     <tr>
-                                                                        <th width="15%" >DAY</th>
-                                                                        <th width="10%" >AM IN</th>
-                                                                        <th width="10%" >AM OUT</th>
-                                                                        <th width="10%" >PM IN</th>
-                                                                        <th width="10%" >PM OUT</th>
-                                                                        <th width="40%" >TIME SCHEDULE</th>
-                                                                        <th width="5%"  >EQUI</th>
+                                                                        <th width="15%">DAY</th>
+                                                                        <th width="10%">AM IN</th>
+                                                                        <th width="10%">AM OUT</th>
+                                                                        <th width="10%">PM IN</th>
+                                                                        <th width="10%">PM OUT</th>
+                                                                        <th width="40%">TIME SCHEDULE</th>
+                                                                        <th width="5%">EQUI</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -1432,6 +1432,29 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_justification" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content ">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">View Justification</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="mail-text h-200">
+                        <div id="summernote_justification">
+                            @*<p>May 4, 2023</p><p><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head<br>PHRMDO</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of Sick Leave applied for April 3, 2023. I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>VINCENT JADE H. ALIVIO<br>Computer Programmer</p><p><br></p><p>Noted:<br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head</p>*@
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                </div>
+                @*<div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="btn_save_justification()"><i class="fa fa-save"></i> Save Justification</button>
+                </div>*@
             </div>
         </div>
     </div>

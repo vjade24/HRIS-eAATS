@@ -12,12 +12,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HRIS-eAATS</title>
     <base href="/" />
+
+    <link href="~/Content/plugins/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/Content/plugins/summernote/summernote-bs3.css" rel="stylesheet" />
+
     <link href="~/Content/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
     <link href="~/Content/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print" />
 
     <!-- orris -->
     <link href="~/Content/plugins/morris/morris-0.4.3.min.css" rel="stylesheet" />
-    
+
     <link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -237,8 +241,8 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown" ng-click="get_notification_index()">
                         @*<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell"></i>  <span class="label label-danger" style="padding-top:-15px;" ng-show="!show_no_alerts">{{notifLst_length}}</span>
-                        </a>*@
+                                <i class="fa fa-bell"></i>  <span class="label label-danger" style="padding-top:-15px;" ng-show="!show_no_alerts">{{notifLst_length}}</span>
+                            </a>*@
                         <ul class="dropdown-menu dropdown-alerts my-custom-scrollbar_notif">
                             <li>
                                 <div class="dropdown-messages-box">
@@ -391,7 +395,7 @@
     <!-- Morris -->
     <script src="~/Scripts/plugins/morris/raphael-2.1.0.min.js"></script>
     <script src="~/Scripts/plugins/morris/morris.js"></script>
-    
+
     <!-- Data picker -->
     <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
@@ -401,6 +405,9 @@
     <script src="~/Scripts/plugins/select2/select2.min.js"></script>
     <script src="~/Scripts/plugins/steps/jquery.steps.min.js"></script>
     <script src="~/Scripts/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+    <!-- SUMMERNOTE -->
+    <script src="~/Scripts/plugins/summernote/summernote.min.js"></script>
 
     <script>
         $(document).ready(function () {

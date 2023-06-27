@@ -1179,7 +1179,7 @@
         //**********************************************
         //**********************************************
 
-        
+        s.openJustification()
         
         $('#main_modal').modal({ backdrop: 'static', keyboard: false })
     }
@@ -3673,6 +3673,32 @@
                 $('#view_details_history').removeClass()
                 $('#view_details_history').addClass('fa fa-arrow-down')
                 swal({ icon: "warning", title: d.data.message });
+            }
+        })
+    }
+
+    s.openJustification = function ()
+    {
+        //$('#modal_justification').modal({ backdrop: 'static', keyboard: false });
+        //if ($('#ddl_leave_type option:selected').val() == "")
+        //{
+        //    swal({ icon: "warning", title: "LEAVE TYPE IS REQUIRED!" });
+        //    return;
+        //}
+        h.post("../cLeaveLedger/Retrieve_Justification", { leave_ctrlno: s.txtb_leave_ctrlno, empl_id: s.txtb_empl_id}).then(function (d)
+        {
+            
+            if (d.data.message == "success")
+            {
+                $('#summernote_justification').summernote();
+                var myHtml = $('.note-editable')
+                myHtml.html("")
+                myHtml.prepend(d.data.data.summernote_descr)
+                $('#modal_justification').modal({ backdrop: 'static', keyboard: false });
+            }
+            else
+            {
+                //swal({ icon: "warning", title: d.data.message });
             }
         })
     }
