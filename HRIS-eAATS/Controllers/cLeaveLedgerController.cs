@@ -1294,7 +1294,9 @@ namespace HRIS_eAATS.Controllers
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var transac_apprvr = db.sp_update_transaction_in_approvalworkflow_tbl(data.approval_id, Session["user_id"].ToString(), data.approval_status, data.details_remarks);
+                var data_leave = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
+
+                var transac_apprvr = db.sp_update_transaction_in_approvalworkflow_tbl(data_leave.approval_id, Session["user_id"].ToString(), data.approval_status, data.details_remarks);
 
                 var query = db_ats.leave_application_hdr_tbl.Where(a =>
                     a.leave_ctrlno          == data.leave_ctrlno).FirstOrDefault();

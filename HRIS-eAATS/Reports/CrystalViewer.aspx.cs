@@ -106,7 +106,15 @@ namespace HRIS_eAATS.Reports
             }
             else if (ls_splitvalue.Length == 5)
             {
-                dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);
+                if(ls_splitvalue[0] == "sp_leave_application_hdr_justi_rep")
+                {
+                    dt = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);
+                }
+                else
+                {
+                    dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);
+                }
+
             }
             else if (ls_splitvalue.Length == 7)
             {

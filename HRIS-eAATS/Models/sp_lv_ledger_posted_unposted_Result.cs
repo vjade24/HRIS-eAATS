@@ -29,5 +29,6 @@ namespace HRIS_eAATS.Models
         public string created_by_user { get; set; }
         public Nullable<decimal> number_of_days { get; set; }
         public string leaveledger_entry_type { get; set; }
+        public Nullable<bool> justification_flag { get; set; }
     }
 }

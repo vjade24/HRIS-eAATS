@@ -487,10 +487,21 @@
                             "width": "20%",
                             "targets": 3,
                             "mData": null,
-                            "mRender": function (data, type, full, row) {
-                                
+                            "mRender": function (data, type, full, row)
+                            {
+                                var with_justi = false
+                                if (full["justification_flag"] == true)
+                                {
+                                    with_justi = true
+                                }
+                                else
+                                {
+                                    with_justi = false
+                                }
+
                                 return '<center><div class="btn-group">' +
                                     '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_post(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger">  Review & Post to Ledger </button >' +
+                                    '<button type="button" ng-show="' + with_justi + '" class="btn btn-primary btn-xs" ng-click=\'btn_print_ledger("justification",' + row["row"] + ')\' data-toggle="tooltip" data-placement="top" title="View Justification">  View Justification </button >' +
                                     '</div></center>';
                             }
                         }
@@ -1179,7 +1190,7 @@
         //**********************************************
         //**********************************************
 
-        s.openJustification()
+        //s.openJustification()
         
         $('#main_modal').modal({ backdrop: 'static', keyboard: false })
     }
@@ -1187,7 +1198,7 @@
     //***********************************************************//
     //*** VJA -  2021-06-03 - Button for Print Ledger
     //***********************************************************//
-    s.btn_print_ledger = function (print_mode)
+    s.btn_print_ledger = function (print_mode,row_index)
     {
         if (s.ddl_rep_mode == "3") // CTO Only
         {
@@ -1229,6 +1240,13 @@
                     p_rep_mode = "3";
                     s.show_lv_card_rep_option = false;
                     ReportPath = "~/Reports/cryCOC/cryCOC.rpt";
+                }
+                else if (print_mode == 'justification')
+                {
+                    s.lbl_report_header         = "Print Leave Justification";
+                    s.show_lv_card_rep_option = false;
+                    ReportPath                  = "~/Reports/cryLeaveJustification/cryLeaveJustification.rpt";
+                    sp                          = "sp_leave_application_hdr_justi_rep,par_leave_ctrlno," + s.datalistgrid2[row_index].leave_ctrlno + ",par_empl_id," + s.datalistgrid2[row_index].empl_id;
                 }
                 // else if (print_mode == 'LWOP') {
                 //     p_rep_mode = "3";
@@ -3273,6 +3291,7 @@
             , approval_status   : approval_status
             , details_remarks   : s.txtb_remarks
             , approval_id       : s.txtb_approval_id
+            , empl_id           : s.txtb_empl_id
         }
 
         if (approval_status == "D")
@@ -3676,34 +3695,6 @@
             }
         })
     }
-
-    s.openJustification = function ()
-    {
-        //$('#modal_justification').modal({ backdrop: 'static', keyboard: false });
-        //if ($('#ddl_leave_type option:selected').val() == "")
-        //{
-        //    swal({ icon: "warning", title: "LEAVE TYPE IS REQUIRED!" });
-        //    return;
-        //}
-        h.post("../cLeaveLedger/Retrieve_Justification", { leave_ctrlno: s.txtb_leave_ctrlno, empl_id: s.txtb_empl_id}).then(function (d)
-        {
-            
-            if (d.data.message == "success")
-            {
-                $('#summernote_justification').summernote();
-                var myHtml = $('.note-editable')
-                myHtml.html("")
-                myHtml.prepend(d.data.data.summernote_descr)
-                $('#modal_justification').modal({ backdrop: 'static', keyboard: false });
-            }
-            else
-            {
-                //swal({ icon: "warning", title: d.data.message });
-            }
-        })
-    }
-
-
     //*********************************************************************************************************
     // ************************ END OF CODE *******************************************************************
     //*********************************************************************************************************

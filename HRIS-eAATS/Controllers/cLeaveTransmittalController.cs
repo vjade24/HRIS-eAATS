@@ -208,6 +208,41 @@ namespace HRIS_eAATS.Controllers
                     var data_dtl_insert = db_ats.sp_transmittal_leave_dtl_tbl_list("", data.approved_period_from, data.approved_period_to, data.department_code, data.employment_tyep, data.view_mode).ToList();
                     if (data_dtl_insert.Count > 0)
                     {
+                        // ----- ROUTE NBRS
+                        // 01 =  1-10  days
+                        // 02 =  11-30 days
+                        // 03 =  31-60 days
+                        // 04 =  61 up and Other Types of Leave
+                        // 05 =  All VGO Employees
+                        // 06 =  Release to Payroll 
+                        // 07 =  All SPO Employees
+
+                        // ------ VIEW MODE
+                        // 1 = Both Leave and CTO
+                        // 2 = Leave Only
+                        // 3 = CTO Only
+                        
+                        if (data.view_mode == "2" && (data.department_code != "18" && data.department_code != "19"))
+                        {
+                            if (data.route_nbr == "01")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a=> a.lv_nodays <= 10).ToList();
+                            }
+                            else if (data.route_nbr == "02")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.lv_nodays >= 11 && a.lv_nodays <=30).ToList();
+                            }
+                            else if (data.route_nbr == "03")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.lv_nodays >= 31 && a.lv_nodays <= 60).ToList();
+                            }
+                            else if (data.route_nbr == "04")
+                            {
+                                data_dtl_insert =  data_dtl_insert.Where(a => a.lv_nodays >= 61).ToList();
+                            }
+                        }
+
+
                         for (int i = 0; i < data_dtl_insert.Count; i++)
                         {
                             transmittal_leave_dtl_tbl dta1 = new transmittal_leave_dtl_tbl();

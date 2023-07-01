@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HRIS_eSelfService.Reports.cryCTO {
+namespace HRIS_eAATS.Reports.cryCTONew {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -16,14 +16,14 @@ namespace HRIS_eSelfService.Reports.cryCTO {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class cryCTO : ReportClass {
+    public class cryCTONew : ReportClass {
         
-        public cryCTO() {
+        public cryCTONew() {
         }
         
         public override string ResourceName {
             get {
-                return "cryCTO.rpt";
+                return "cryCTONew.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         public override string FullResourceName {
             get {
-                return "HRIS_eSelfService.Reports.cryCTO.cryCTO.rpt";
+                return "HRIS_eAATS.Reports.cryCTONew.cryCTONew.rpt";
             }
             set {
                 // Do nothing
@@ -58,7 +58,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection10 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section2 {
             get {
                 return this.ReportDefinition.Sections[1];
             }
@@ -66,7 +66,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection7 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection3 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +90,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection3 {
+        public CrystalDecisions.CrystalReports.Engine.Section DetailSection4 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,7 +98,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
             get {
                 return this.ReportDefinition.Sections[6];
             }
@@ -106,33 +106,9 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection4 {
-            get {
-                return this.ReportDefinition.Sections[7];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection5 {
-            get {
-                return this.ReportDefinition.Sections[8];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
-            get {
-                return this.ReportDefinition.Sections[9];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public CrystalDecisions.CrystalReports.Engine.Section Section5 {
             get {
-                return this.ReportDefinition.Sections[10];
+                return this.ReportDefinition.Sections[7];
             }
         }
         
@@ -162,9 +138,9 @@ namespace HRIS_eSelfService.Reports.cryCTO {
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedcryCTO : Component, ICachedReport {
+    public class CachedcryCTONew : Component, ICachedReport {
         
-        public CachedcryCTO() {
+        public CachedcryCTONew() {
         }
         
         [Browsable(false)]
@@ -201,7 +177,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            cryCTO rpt = new cryCTO();
+            cryCTONew rpt = new cryCTONew();
             rpt.Site = this.Site;
             return rpt;
         }

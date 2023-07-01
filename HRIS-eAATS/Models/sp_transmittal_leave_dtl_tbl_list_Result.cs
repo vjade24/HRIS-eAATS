@@ -28,5 +28,6 @@ namespace HRIS_eAATS.Models
         public Nullable<System.DateTime> final_approval_date { get; set; }
         public string employment_type { get; set; }
         public string doc_remarks { get; set; }
+        public decimal lv_nodays { get; set; }
     }
 }

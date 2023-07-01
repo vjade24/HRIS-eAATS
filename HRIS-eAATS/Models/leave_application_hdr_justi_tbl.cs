@@ -22,5 +22,11 @@ namespace HRIS_eAATS.Models
         public string created_by { get; set; }
         public Nullable<System.DateTime> updated_dttm { get; set; }
         public string updated_by { get; set; }
+        public Nullable<System.DateTime> justi_date { get; set; }
+        public string justi_reason { get; set; }
+        public string justi_employee_name { get; set; }
+        public string justi_employee_position { get; set; }
+        public string justi_noted_by { get; set; }
+        public string justi_noted_desig { get; set; }
     }
 }

@@ -7,9 +7,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=6"></script>
-<script src="~/Angular/ng-Reports.js?v=6"></script>
-<script src="~/Angular/ng-cLeaveLedger.js?v=6"></script>
+<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=7"></script>
+<script src="~/Angular/ng-Reports.js?v=7"></script>
+<script src="~/Angular/ng-cLeaveLedger.js?v=7"></script>
 <style type="text/css">
     
     .select2-container .select2-selection--single {
@@ -743,7 +743,7 @@
 
     <!-- Print Leave Ledger Modal -->
     <div class="modal fade" id="leave_ledger_print_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content animated bounceInDown modal-content-add-edit">
                 <div class="modal-header ">
 
@@ -757,7 +757,7 @@
                                     <label class="font-bold"><b>Report Option:</b></label>
                                 </div>
                                 <div class="col-lg-8" ng-show="show_lv_card_rep_option">
-                                    <select class="form-control field-select-sm" id="ddl_report_lv_card" ng-model="ddl_report_lv_card" ng-change="btn_print_ledger(ddl_report_lv_card)">
+                                    <select class="form-control field-select-sm" id="ddl_report_lv_card" ng-model="ddl_report_lv_card" ng-change="btn_print_ledger(ddl_report_lv_card,0)">
                                         <option value="OLD" selected>Leave Card - Old</option>
                                         <option value="NEW">Leave Card - New</option>
                                         @*<option value="CTO" selected>Compensatory Overtime Credit (CTO)</option>*@
@@ -1247,7 +1247,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="pull-right">
                                                             <button id="add" class="btn btn-success" ng-click="btn_add_modal()"><i class="fa fa-plus-circle"> </i> Add </button>
-                                                            <button id="add" class="btn btn-primary" ng-click="btn_print_ledger('OLD')"><i class="fa fa-print"> </i> Print Card </button>
+                                                            <button id="add" class="btn btn-primary" ng-click="btn_print_ledger('OLD',0)"><i class="fa fa-print"> </i> Print Card </button>
                                                             @*<div class="btn-group">
                                                                     <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Print Ledger <span class="caret"></span></button>
                                                                     <ul class="dropdown-menu">
@@ -1436,28 +1436,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal_justification" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content ">
-                <div class="modal-header ">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h2 class="modal-title">View Justification</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="mail-text h-200">
-                        <div id="summernote_justification">
-                            @*<p>May 4, 2023</p><p><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head<br>PHRMDO</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of Sick Leave applied for April 3, 2023. I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>VINCENT JADE H. ALIVIO<br>Computer Programmer</p><p><br></p><p>Noted:<br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head</p>*@
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-
-                </div>
-                @*<div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="btn_save_justification()"><i class="fa fa-save"></i> Save Justification</button>
-                </div>*@
-            </div>
-        </div>
-    </div>
 
     <!-- Inialiazing Modal -->
     <div class="modal fade" id="modal_initializing">

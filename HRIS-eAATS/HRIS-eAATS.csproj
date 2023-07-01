@@ -1442,6 +1442,15 @@
       <DependentUpon>cryCOC_Earn.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryCTONew\cryCTONew.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCTONew\cryCTONew1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryCTONew.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryCTO\cryCTO.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1464,6 +1473,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryForgotPunchList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveJustification.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeaveLedger2\cryLeaveLedger.cs">
@@ -2650,10 +2668,18 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryExtractTrackingHistoryLeaveApplication.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
+    <Content Include="Reports\cryCTONew\cryCTONew.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryCTONew1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryLeaveJustification\cryLeaveJustification.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveJustification1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTransmittal.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
