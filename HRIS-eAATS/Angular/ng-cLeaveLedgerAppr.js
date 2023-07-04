@@ -579,7 +579,7 @@
         }
         else
         {
-            ReportPath = "~/Reports/cryLeaveLedger2/cryLeaveLedger.rpt";
+            ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
         }
         // *******************************************************
         // *** VJA : 2021-07-14 - Validation and Loading hide ****

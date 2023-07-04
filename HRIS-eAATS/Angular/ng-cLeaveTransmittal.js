@@ -290,7 +290,7 @@
                                         '<li ng-hide="' + dis_btn +'">' +
                                         '<a class="dropdown-item" ng-click="btn_del_row_trans(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i> Delete</a>' +
                                         '</li>' +
-                                        '<li ng-hide="' + dis_btn +'">' +
+                                        '<li >' +
                                         '<a class="dropdown-item" ng-click="btn_print_row(' + row["row"] + ',\'1\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i> Print</a>' +
                                         '</li>' +
                                         '<li ng-hide="' + dis_btn_rlsd + '">' +
