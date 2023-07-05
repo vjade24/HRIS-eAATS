@@ -451,8 +451,11 @@ namespace HRIS_eAATS.Reports
                 DataTable chk = new DataTable();
                 //string query = "SELECT * FROM lv_ledger_history_tbl WHERE appl_status = 'Evaluated' AND ledger_ctrl_no = '" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "' AND leave_ctrlno = '"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim()+ "' ";
                 string query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "','"+ dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
+                if (dt.Rows[0]["leavetype_code"].ToString().Trim() == "MZ")
+                {
+                    query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "','" + dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
+                }
                 chk = MyCmn.GetDatatable_ATS(query);
-
                 if (chk.Rows.Count > 0)
                 {
                     DataTable chk_if_Uploaded = new DataTable();
