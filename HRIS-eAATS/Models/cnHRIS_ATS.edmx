@@ -538,7 +538,7 @@
           <Property Name="updated_dttm" Type="datetime" />
           <Property Name="updated_by" Type="varchar" MaxLength="8" />
           <Property Name="justi_date" Type="date" />
-          <Property Name="justi_reason" Type="varchar" MaxLength="255" />
+          <Property Name="justi_reason" Type="varchar(max)" />
           <Property Name="justi_employee_name" Type="varchar" MaxLength="100" />
           <Property Name="justi_employee_position" Type="varchar" MaxLength="100" />
           <Property Name="justi_noted_by" Type="varchar" MaxLength="100" />
@@ -4075,6 +4075,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_department_code" Type="varchar" Mode="In" />
           <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
           <Parameter Name="par_view_mode" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_transmittal_leave_hdr_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_created_year" Type="varchar" Mode="In" />
@@ -5898,7 +5899,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="updated_dttm" Type="DateTime" Precision="3" />
           <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="justi_date" Type="DateTime" Precision="0" />
-          <Property Name="justi_reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="justi_reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="justi_employee_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="justi_employee_position" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="justi_noted_by" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -9096,6 +9097,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_department_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">

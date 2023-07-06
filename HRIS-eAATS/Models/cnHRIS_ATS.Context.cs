@@ -5330,7 +5330,7 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_monthly_tbl_list_Result>("sp_transmittal_leave_dtl_monthly_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
+        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode, string par_user_id)
         {
             var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
                 new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
@@ -5356,7 +5356,11 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_view_mode", par_view_mode) :
                 new ObjectParameter("par_view_mode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter, par_user_idParameter);
         }
     }
 }

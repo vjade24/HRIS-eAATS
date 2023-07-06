@@ -624,7 +624,7 @@
             ValidationResultColor("txtb_transmittal_descr", true);
             return_val = false;
         }
-        if ($('#ddl_dept option:selected').val().trim() == "")
+        if ($('#ddl_dept option:selected').val().trim() == "" && $('#ddl_transmittal_class option:selected').val().trim() == "monthly")
         {
             ValidationResultColor("ddl_dept", true);
             return_val = false;
