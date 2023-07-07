@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=7"></script>
+<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=8"></script>
 <style type="text/css">
     .field {
         border-radius: 3px;
@@ -110,6 +110,17 @@
 
     .modal-xl {
         width: 90% !important;
+    }
+    .swal-footer {
+        background-color: rgb(245, 248, 250);
+        margin-top: 32px;
+        border-top: 1px solid #E9EEF1;
+        overflow: hidden;
+        text-align: center !important;
+    }
+
+    .swal-text {
+        text-align: center !important;
     }
 </style>
 <section ng-app="ng_selfService_App" ng-controller="cLeaveLedgerAppr_ctrlr">

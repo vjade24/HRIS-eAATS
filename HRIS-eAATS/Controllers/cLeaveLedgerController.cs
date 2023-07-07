@@ -1483,6 +1483,39 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult SaveReprint(lv_ledger_hdr_reprint_tbl data)
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+                var data_chk = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == data.ledger_ctrl_no && a.empl_id == data.empl_id).FirstOrDefault();
+                if (data_chk == null)
+                {
+                    data.created_by   = Session["user_id"].ToString();
+                    data.created_dttm = DateTime.Now;
+                    db_ats.lv_ledger_hdr_reprint_tbl.Add(data);
+                }
+                else
+                {
+                    data_chk.reprint_reason    = data.reprint_reason    ;
+                    data_chk.reprint_date_from = data.reprint_date_from ;
+                    data_chk.reprint_date_to   = data.reprint_date_to   ;
+                    data_chk.approved_by       = Session["user_id"].ToString();
+                    data_chk.approved_dttm     = DateTime.Now;
+                }
+                db_ats.SaveChanges();
+
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
     }
 
 }

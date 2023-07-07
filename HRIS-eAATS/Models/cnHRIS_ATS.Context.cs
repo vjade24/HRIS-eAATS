@@ -140,6 +140,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
         public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
         public virtual DbSet<dtr_overrides_tickets_tbl> dtr_overrides_tickets_tbl { get; set; }
+        public virtual DbSet<lv_ledger_hdr_reprint_tbl> lv_ledger_hdr_reprint_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -5361,6 +5362,27 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_printing_list_Result> sp_leave_printing_list(Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_user_id)
+        {
+            var par_approved_period_fromParameter = par_approved_period_from.HasValue ?
+                new ObjectParameter("par_approved_period_from", par_approved_period_from) :
+                new ObjectParameter("par_approved_period_from", typeof(System.DateTime));
+    
+            var par_approved_period_toParameter = par_approved_period_to.HasValue ?
+                new ObjectParameter("par_approved_period_to", par_approved_period_to) :
+                new ObjectParameter("par_approved_period_to", typeof(System.DateTime));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_printing_list_Result>("sp_leave_printing_list", par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_user_idParameter);
         }
     }
 }

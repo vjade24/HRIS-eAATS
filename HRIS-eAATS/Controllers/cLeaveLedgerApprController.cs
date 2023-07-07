@@ -604,5 +604,37 @@ namespace HRIS_eAATS.Controllers
         //    }
         //}
         
+        public ActionResult RetrieveRePrint(string ledger_ctrl_no, string empl_id)
+        {
+            try
+            {
+                var data = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == ledger_ctrl_no && a.empl_id == empl_id).OrderByDescending(a => a.created_dttm).FirstOrDefault();
+                return Json(new { message= "success",data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        public ActionResult UpdateRePrint(string ledger_ctrl_no, string empl_id)
+        {
+            try
+            {
+                var data_upd = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == ledger_ctrl_no && a.empl_id == empl_id).OrderByDescending(a => a.created_dttm).FirstOrDefault();
+                data_upd.approved_by        = Session["user_id"].ToString();
+                data_upd.approved_dttm      = DateTime.Now;
+                data_upd.reprint_status     = "REQUEST-APPROVED";
+                db_ats.SaveChanges();
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
     }
 }

@@ -7,9 +7,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=8"></script>
-<script src="~/Angular/ng-Reports.js?v=8"></script>
-<script src="~/Angular/ng-cLeaveLedger.js?v=8"></script>
+<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=9"></script>
+<script src="~/Angular/ng-Reports.js?v=9"></script>
+<script src="~/Angular/ng-cLeaveLedger.js?v=9"></script>
 <style type="text/css">
     
     .select2-container .select2-selection--single {
@@ -802,7 +802,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modalLabelSmall">Print Application for Leave/CTO Form</h4>
                 </div>
-                <div class="modal-body with-background" style="padding-top:10px !important">
+                <div class="modal-body" style="padding-top:10px !important">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group row">
@@ -826,12 +826,53 @@
                         </div>
                         <div class="col-lg-6 b-r">
                             <div class="print_preview_iframe_css">
-                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview3" scrolling="no" src=""></iframe>
+                                <iframe style="width:100% !important;height:60% !important;border:0px none;" id="iframe_print_preview3" scrolling="no" src=""></iframe>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="print_preview_iframe_css">
-                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview_carding" scrolling="no" src=""></iframe>
+                                <iframe style="width:100% !important;height:60% !important;border:0px none;" id="iframe_print_preview_carding" scrolling="no" src=""></iframe>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 m-t-sm">
+                            <div class="form-group row" style="border: 1px solid;border-radius: 10px;padding: 10px;">
+                                <div class="col-lg-1">
+                                    <label class="font-bold" style="margin-top:9px;"><b>Ledger Ctrl No:</b></label>
+                                    <input type="text" id="ledger_ctrl_no_reprint" ng-model="ledger_ctrl_no_reprint" class="form-control form-control-sm font-bold" disabled style="font-size:12px" />
+                                </div>
+                                <div class="col-lg-1">
+                                    <label class="font-bold" style="margin-top:9px;"><b>ID No:</b></label>
+                                    <input type="text" id="empl_id_reprint" ng-model="empl_id_reprint" class="form-control form-control-sm font-bold text-center" disabled />
+                                </div>
+                                <div class="col-lg-1">
+                                    <label class="font-bold" style="margin-top:9px;"><b>Re-Print Status:</b></label>
+                                    <input type="text" id="reprint_status" ng-model="reprint_status" class="form-control form-control-sm font-bold" disabled />
+                                </div>
+                                <div class="col-lg-3">
+                                    <label class="font-bold" style="margin-top:9px;"><b>Reprint Reason:</b></label>
+                                    <textarea id="reprint_reason" ng-model="reprint_reason" class="form-control form-control-sm font-bold"></textarea>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label class="font-bold" style="margin-top:9px;"><b>Re-Print From:</b></label>
+                                    <div class="input-group date" data-provide="datepicker">
+                                        <input type="text" id="reprint_date_from" ng-model="reprint_date_from" class="form-control form-control-sm text-center font-bold" maxlength="10" />
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <label class="font-bold" style="margin-top:9px;"><b>Re-Print To:</b></label>
+                                    <div class="input-group date" data-provide="datepicker">
+                                        <input type="text" id="reprint_date_to" ng-model="reprint_date_to" class="form-control form-control-sm text-center font-bold" maxlength="10" />
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button class="btn btn-primary btn-block m-t-lg" ng-click="btn_save_reprint_request()"> <i class="fa fa-save"></i> REQUEST REPRINT</button>
+                                </div>
                             </div>
                         </div>
                     </div>

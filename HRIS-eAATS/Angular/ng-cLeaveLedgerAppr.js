@@ -125,6 +125,10 @@
                             {
                                 temp = "<b><span class='text-center btn-block submitted-bg '>" + "Reviewed & Posted to Ledger" + "</span></b>"
                             }
+                            else if (full["approval_status"].toString() == "RR")
+                            {
+                                temp = "<b><span class='text-center btn-block new-bg '>" + "REQUEST RE-PRINT" + "</span></b>"
+                            }
                             return temp;
                         }
                     },
@@ -137,15 +141,26 @@
                             if (full["worklist_action"].toString() == "For Final Approval")
                             {
                                 btn_approve = "For Evaluation"
+                                return '<center><div class="btn-group">' +
+                                    '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    '</div></center>';
+                            }
+                            else if (full["worklist_action"].toString() == "REQUEST RE-PRINT")
+                            {
+                                btn_approve = "REQUEST RE-PRINT"
+                                return '<center><div class="btn-group">' +
+                                        '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-sm" ng-click="btn_request_reprint(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                        '</div></center>';
                             }
                             else
                             {
                                 btn_approve = data
+                                return '<center><div class="btn-group">' +
+                                    '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    '</div></center>';
                             }
 
-                            return '<center><div class="btn-group">' +
-                                '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve+'> ' + btn_approve + '</button >' +
-                                '</div></center>';
+                            
                         }
                     }
                 ],
@@ -1943,4 +1958,63 @@
         }
         return date_val
     }
+
+    s.btn_request_reprint = function (row_id)
+    {
+        s.rowX = s.datalistgrid[row_id];
+
+        h.post("../cLeaveLedgerAppr/RetrieveRePrint",
+            {
+                ledger_ctrl_no  : s.rowX.ledger_ctrl_no
+                , empl_id       : s.rowX.empl_id
+            }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                swal(
+                    {
+                        title: "Are You Sure To Approved Request for Re-Printing?",
+                        text: "We would like to confirm this action from you! \n" + "\n Reason: \n" + d.data.data.reprint_reason + " \n \n RePrinting Period: \n" + moment(d.data.data.reprint_date_from).format('LL') + " - " + moment(d.data.data.reprint_date_to).format('LL'),
+                        icon: "warning",
+                        buttons: [
+                            'No, cancel it!',
+                            'Yes, I am sure!'
+                        ],
+                        dangerMode: true,
+                    }
+                ).then(function (isConfirm) {
+                    if (isConfirm)
+                    {
+                        h.post("../cLeaveLedgerAppr/UpdateRePrint",
+                            {
+                                ledger_ctrl_no  : s.rowX.ledger_ctrl_no,
+                                empl_id         : s.rowX.empl_id
+                            }).then(function (d) {
+                                if (d.data.message == "success")
+                                {
+                                    s.FilterPageGrid();
+                                    swal({
+                                        title: 'SUCCESSFULLY RE-PRINTING APPROVED!',
+                                        text: 'Successfully re-printing approved!',
+                                        icon: 'success'
+                                    });
+                                }
+                            });
+
+                    } else
+                    {
+                        swal("Cancelled", "Upload action cancelled!", "error");
+                    }
+                });
+
+            }
+            else
+            {
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
+
+    }
+
+
 })

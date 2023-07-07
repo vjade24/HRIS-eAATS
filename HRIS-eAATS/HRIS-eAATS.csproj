@@ -153,6 +153,7 @@
     <Compile Include="Controllers\cLeaveEarnedVLSLController.cs" />
     <Compile Include="Controllers\cLeaveLedgerApprController.cs" />
     <Compile Include="Controllers\cLeaveLedgerController.cs" />
+    <Compile Include="Controllers\cLeavePrintingController.cs" />
     <Compile Include="Controllers\cLeaveSubTypeController.cs" />
     <Compile Include="Controllers\cLeaveTrackingController.cs" />
     <Compile Include="Controllers\cLeaveTransmittalController.cs" />
@@ -472,6 +473,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lv_ledger_hdr_oth_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_hdr_reprint_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lv_ledger_hdr_tbl.cs">
@@ -935,6 +939,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_electric_sig_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leave_printing_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_search_list_Result.cs">
@@ -1562,6 +1569,7 @@
     <Content Include="Angular\ng-cLeaveEarnedVLSL.js" />
     <Content Include="Angular\ng-cLeaveLedger.js" />
     <Content Include="Angular\ng-cLeaveHistory.js" />
+    <Content Include="Angular\ng-cLeavePrinting.js" />
     <Content Include="Angular\ng-cLeaveTracking.js" />
     <Content Include="Angular\ng-cLeaveTransmittal.js" />
     <Content Include="Angular\ng-cMonthEarns.js" />
@@ -2563,6 +2571,7 @@
     <Content Include="Views\cLeaveHistory\Index.cshtml" />
     <Content Include="Views\cLeaveTracking\Index.cshtml" />
     <Content Include="Views\cLeaveTransmittal\Index.cshtml" />
+    <Content Include="Views\cLeavePrinting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

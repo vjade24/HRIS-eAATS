@@ -1336,7 +1336,16 @@
         s.print_ledger_ctrl_no  = "";
         s.print_ledger_ctrl_no  = s.datalistgrid[row_id].ledger_ctrl_no;
         s.show_appl_rep         = true;
-        
+
+        s.ledger_ctrl_no_reprint       = ""
+        s.empl_id_reprint              = ""
+
+        s.ledger_ctrl_no_reprint       = s.datalistgrid[row_id].ledger_ctrl_no;
+        s.empl_id_reprint              = s.datalistgrid[row_id].empl_id;
+        s.reprint_reason               = ""
+        $('#reprint_date_from').val("") 
+        $('#reprint_date_to').val("")   
+        s.reprint_status               = "REQUEST"
 
         var p_date_fr = $("#txtb_date_fr").val()
         var p_date_to = $("#txtb_date_to").val()
@@ -3691,6 +3700,43 @@
             {
                 $('#view_details_history').removeClass()
                 $('#view_details_history').addClass('fa fa-arrow-down')
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
+    }
+
+
+    s.btn_save_reprint_request = function ()
+    {
+         var data =
+        {
+             ledger_ctrl_no     : s.ledger_ctrl_no_reprint    
+            ,empl_id            : s.empl_id_reprint           
+            ,reprint_reason     : s.reprint_reason    
+            ,reprint_date_from  : $('#reprint_date_from').val() 
+            ,reprint_date_to    : $('#reprint_date_to').val()   
+            ,reprint_status     : s.reprint_status  
+        }
+        
+        if ($('#reprint_date_from').val().trim() == "" || $('#reprint_date_to').val().trim()  == "")
+        {
+            swal({ icon: "warning", title: "REPRINT FROM AND PERPRINT TO IS REQUIRED!"});
+            return;
+        }
+        if ($('#reprint_reason').val().trim() == "" )
+        {
+            swal({ icon: "warning", title: "REPRINT REASON IS REQUIRED!"});
+            return;
+        }
+        
+        h.post("../cLeaveLedger/SaveReprint", {data:data}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                swal({ icon: "success", title: "Successfully Saved!" });
+            }
+            else
+            {
                 swal({ icon: "warning", title: d.data.message });
             }
         })

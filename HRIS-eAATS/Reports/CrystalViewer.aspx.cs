@@ -447,44 +447,60 @@ namespace HRIS_eAATS.Reports
             {
                 DataTable dt = null;
                 dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2]);
-                    
-                DataTable chk = new DataTable();
-                //string query = "SELECT * FROM lv_ledger_history_tbl WHERE appl_status = 'Evaluated' AND ledger_ctrl_no = '" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "' AND leave_ctrlno = '"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim()+ "' ";
-                string query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "','"+ dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
-                if (dt.Rows[0]["leavetype_code"].ToString().Trim() == "MZ")
+
+                DataTable chk_reprinting = new DataTable();
+                string query_chk_reprinting = "SELECT TOP 1 * FROM lv_ledger_hdr_reprint_tbl WHERE ledger_ctrl_no = '"+ dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "' AND empl_id = '"+ dt.Rows[0]["empl_id"].ToString().Trim() + "' AND reprint_status = 'REQUEST-APPROVED' ORDER BY created_dttm DESC";
+                chk_reprinting = MyCmn.GetDatatable_ATS(query_chk_reprinting);
+                if (chk_reprinting.Rows.Count > 0)
                 {
-                    query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "','" + dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
-                }
-                chk = MyCmn.GetDatatable_ATS(query);
-                if (chk.Rows.Count > 0)
-                {
-                    DataTable chk_if_Uploaded = new DataTable();
-                    string query_if_Uploaded = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "','" + dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Uploaded' ORDER BY created_dttm DESC";
-                    chk_if_Uploaded = MyCmn.GetDatatable_ATS(query_if_Uploaded);
-
-                    if (chk_if_Uploaded.Rows.Count > 0)
-                    {
-                        lbl_cannot_print.Visible = true;
-                        lbl_cannot_print.Text = "You cannot Print this Report, This Leave Application is already Uploaded";
-                    }
-                    else
-                    {
-                        DataTable dt2 = new DataTable();
-                        dt2 = MyCmn.RetrieveDataATS("sp_lv_ledger_history_insert", "p_ledger_ctrl_no", dt.Rows[0]["ledger_ctrl_no"].ToString(), "p_leave_ctrlno", dt.Rows[0]["leave_ctrlno"].ToString(), "p_empl_id", dt.Rows[0]["empl_id"].ToString(), "p_appl_status", "Leave Application Printed", "p_appl_remarks", "", "p_created_by", Session["user_id"].ToString());
-
-                        var filename = "";
-                        filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");
-                        filename = filename + "_" + Session["user_id"].ToString() + "_" + DateTime.Now.ToString("yyyy_MM_dd_hhmmsstt");
-                        cryRpt.ExportToHttpResponse
-                        (CrystalDecisions.Shared.ExportFormatType.WordForWindows, Response, true, filename);
-                    }
-
+                    var filename = "";
+                    filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");
+                    filename = filename + "_" + Session["user_id"].ToString() + "_" + DateTime.Now.ToString("yyyy_MM_dd_hhmmsstt");
+                    cryRpt.ExportToHttpResponse
+                    (CrystalDecisions.Shared.ExportFormatType.WordForWindows, Response, true, filename);
                 }
                 else
                 {
-                    lbl_cannot_print.Visible = true;
-                    lbl_cannot_print.Text = "You cannot Print this Report, Evaluate first before you proceed.";
+                    DataTable chk = new DataTable();
+                    //string query = "SELECT * FROM lv_ledger_history_tbl WHERE appl_status = 'Evaluated' AND ledger_ctrl_no = '" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "' AND leave_ctrlno = '"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim()+ "' ";
+                    string query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('"+ dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "','"+ dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
+                    if (dt.Rows[0]["leavetype_code"].ToString().Trim() == "MZ")
+                    {
+                        query = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "','" + dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Evaluated' ORDER BY created_dttm DESC";
+                    }
+                    chk = MyCmn.GetDatatable_ATS(query);
+                    if (chk.Rows.Count > 0)
+                    {
+                        DataTable chk_if_Uploaded = new DataTable();
+                        string query_if_Uploaded = "SELECT TOP 1 * FROM dbo.func_lv_ledger_history_notif('" + dt.Rows[0]["leave_ctrlno"].ToString().Trim() + "','" + dt.Rows[0]["empl_id"].ToString().Trim() + "') WHERE appl_status = 'Uploaded' ORDER BY created_dttm DESC";
+                        chk_if_Uploaded = MyCmn.GetDatatable_ATS(query_if_Uploaded);
+
+                        if (chk_if_Uploaded.Rows.Count > 0)
+                        {
+                            lbl_cannot_print.Visible = true;
+                            lbl_cannot_print.Text = "You cannot Print this Report, This Leave Application is already Uploaded";
+                        }
+                        else
+                        {
+                            DataTable dt2 = new DataTable();
+                            dt2 = MyCmn.RetrieveDataATS("sp_lv_ledger_history_insert", "p_ledger_ctrl_no", dt.Rows[0]["ledger_ctrl_no"].ToString(), "p_leave_ctrlno", dt.Rows[0]["leave_ctrlno"].ToString(), "p_empl_id", dt.Rows[0]["empl_id"].ToString(), "p_appl_status", "Leave Application Printed", "p_appl_remarks", "", "p_created_by", Session["user_id"].ToString());
+
+                            var filename = "";
+                            filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");
+                            filename = filename + "_" + Session["user_id"].ToString() + "_" + DateTime.Now.ToString("yyyy_MM_dd_hhmmsstt");
+                            cryRpt.ExportToHttpResponse
+                            (CrystalDecisions.Shared.ExportFormatType.WordForWindows, Response, true, filename);
+                        }
+
+                    }
+                    else
+                    {
+                        lbl_cannot_print.Visible = true;
+                        lbl_cannot_print.Text = "You cannot Print this Report, Evaluate first before you proceed.";
+                    }
+
                 }
+
             }
             else
             {
