@@ -1490,10 +1490,11 @@ namespace HRIS_eAATS.Controllers
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
                 var data_chk = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == data.ledger_ctrl_no && a.empl_id == data.empl_id).FirstOrDefault();
-                if (data_chk == null)
+                if (data_chk == null || data_chk.reprint_reason  != data.reprint_reason)
                 {
-                    data.created_by   = Session["user_id"].ToString();
-                    data.created_dttm = DateTime.Now;
+                    data.created_by     = Session["user_id"].ToString();
+                    data.created_dttm   = DateTime.Now;
+                    data.reprint_status = "REQUEST";
                     db_ats.lv_ledger_hdr_reprint_tbl.Add(data);
                 }
                 else
@@ -1514,7 +1515,19 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult RetrieveReprint(string par_ledger_ctrl_no, string par_empl_id)
+        {
+            try
+            {
+                var data = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == par_ledger_ctrl_no && a.empl_id == par_empl_id).OrderByDescending(a=> a.id).FirstOrDefault();
+                return Json(new { message = "success", data}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 

@@ -7,9 +7,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=9"></script>
-<script src="~/Angular/ng-Reports.js?v=9"></script>
-<script src="~/Angular/ng-cLeaveLedger.js?v=9"></script>
+<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=10"></script>
+<script src="~/Angular/ng-Reports.js?v=10"></script>
+<script src="~/Angular/ng-cLeaveLedger.js?v=10"></script>
 <style type="text/css">
     
     .select2-container .select2-selection--single {
@@ -838,24 +838,24 @@
                             <div class="form-group row" style="border: 1px solid;border-radius: 10px;padding: 10px;">
                                 <div class="col-lg-1">
                                     <label class="font-bold" style="margin-top:9px;"><b>Ledger Ctrl No:</b></label>
-                                    <input type="text" id="ledger_ctrl_no_reprint" ng-model="ledger_ctrl_no_reprint" class="form-control form-control-sm font-bold" disabled style="font-size:12px" />
+                                    <input type="text" id="ledger_ctrl_no_reprint" ng-model="ledger_ctrl_no_reprint" class="form-control form-control-sm font-bold" disabled style="font-size:10px" />
                                 </div>
                                 <div class="col-lg-1">
                                     <label class="font-bold" style="margin-top:9px;"><b>ID No:</b></label>
-                                    <input type="text" id="empl_id_reprint" ng-model="empl_id_reprint" class="form-control form-control-sm font-bold text-center" disabled />
+                                    <input type="text" id="empl_id_reprint" ng-model="empl_id_reprint" class="form-control form-control-sm font-bold text-center" disabled style="font-size:10px"/>
                                 </div>
                                 <div class="col-lg-1">
                                     <label class="font-bold" style="margin-top:9px;"><b>Re-Print Status:</b></label>
-                                    <input type="text" id="reprint_status" ng-model="reprint_status" class="form-control form-control-sm font-bold" disabled />
+                                    <input type="text" id="reprint_status" ng-model="reprint_status" class="form-control form-control-sm font-bold text-center" disabled style="font-size:10px"/>
                                 </div>
                                 <div class="col-lg-3">
                                     <label class="font-bold" style="margin-top:9px;"><b>Reprint Reason:</b></label>
-                                    <textarea id="reprint_reason" ng-model="reprint_reason" class="form-control form-control-sm font-bold"></textarea>
+                                    <textarea id="reprint_reason" ng-model="reprint_reason" class="form-control form-control-sm font-bold" style="font-size:10px" placeholder="Missing, Blurry, etc."></textarea>
                                 </div>
                                 <div class="col-lg-2">
                                     <label class="font-bold" style="margin-top:9px;"><b>Re-Print From:</b></label>
                                     <div class="input-group date" data-provide="datepicker">
-                                        <input type="text" id="reprint_date_from" ng-model="reprint_date_from" class="form-control form-control-sm text-center font-bold" maxlength="10" />
+                                        <input type="text" id="reprint_date_from" ng-model="reprint_date_from" class="form-control form-control-sm text-center font-bold" maxlength="10" style="font-size:10px"/>
                                         <span class="input-group-addon">
                                             <span class="fa fa-calendar"></span>
                                         </span>
@@ -864,7 +864,7 @@
                                 <div class="col-lg-2">
                                     <label class="font-bold" style="margin-top:9px;"><b>Re-Print To:</b></label>
                                     <div class="input-group date" data-provide="datepicker">
-                                        <input type="text" id="reprint_date_to" ng-model="reprint_date_to" class="form-control form-control-sm text-center font-bold" maxlength="10" />
+                                        <input type="text" id="reprint_date_to" ng-model="reprint_date_to" class="form-control form-control-sm text-center font-bold" maxlength="10" style="font-size:10px"/>
                                         <span class="input-group-addon">
                                             <span class="fa fa-calendar"></span>
                                         </span>

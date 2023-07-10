@@ -1340,12 +1340,31 @@
         s.ledger_ctrl_no_reprint       = ""
         s.empl_id_reprint              = ""
 
+        var date_now = new Date();
         s.ledger_ctrl_no_reprint       = s.datalistgrid[row_id].ledger_ctrl_no;
         s.empl_id_reprint              = s.datalistgrid[row_id].empl_id;
         s.reprint_reason               = ""
-        $('#reprint_date_from').val("") 
-        $('#reprint_date_to').val("")   
-        s.reprint_status               = "REQUEST"
+        $('#reprint_date_from').val(moment(date_now).format('YYYY-MM-DD')) 
+        $('#reprint_date_to').val(moment(date_now).format('YYYY-MM-DD'))   
+        s.reprint_status = "REQUEST"
+
+        h.post("../cLeaveLedger/RetrieveReprint", {
+            par_ledger_ctrl_no  : s.datalistgrid[row_id].ledger_ctrl_no,
+            par_empl_id         : s.datalistgrid[row_id].empl_id
+        }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                if (d.data.data != null)
+                {
+                    $('#reprint_date_from').val(moment(d.data.data.reprint_date_from).format('YYYY-MM-DD'))
+                    $('#reprint_date_to').val(moment(d.data.data.reprint_date_to).format('YYYY-MM-DD'))
+                    s.reprint_status = d.data.data.reprint_status
+                    s.reprint_reason = d.data.data.reprint_reason
+                }
+            }
+        })
+
 
         var p_date_fr = $("#txtb_date_fr").val()
         var p_date_to = $("#txtb_date_to").val()

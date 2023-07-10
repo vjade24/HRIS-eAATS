@@ -608,7 +608,7 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var data = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == ledger_ctrl_no && a.empl_id == empl_id).OrderByDescending(a => a.created_dttm).FirstOrDefault();
+                var data = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == ledger_ctrl_no && a.empl_id == empl_id).OrderByDescending(a => a.id).FirstOrDefault();
                 return Json(new { message= "success",data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -622,7 +622,7 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var data_upd = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == ledger_ctrl_no && a.empl_id == empl_id).OrderByDescending(a => a.created_dttm).FirstOrDefault();
+                var data_upd = db_ats.lv_ledger_hdr_reprint_tbl.Where(a => a.ledger_ctrl_no == ledger_ctrl_no && a.empl_id == empl_id).OrderByDescending(a => a.id).FirstOrDefault();
                 data_upd.approved_by        = Session["user_id"].ToString();
                 data_upd.approved_dttm      = DateTime.Now;
                 data_upd.reprint_status     = "REQUEST-APPROVED";
