@@ -330,7 +330,8 @@
                                         @*<li class=""><a data-toggle="tab" href="#tab-22">All Applications</a></li>*@
                                         <li class=""><a data-toggle="tab" href="#tab-33">Daily Time Record and Time Schedule</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab-44">Update Application Status</a></li>
-                                        @*<li class=""><a data-toggle="tab" href="#tab-55">Time Schedule</a></li>*@
+                                      
+                                        <li class=""><a data-toggle="tab" href="#tab-55">Extract Biometrics Data</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div id="tab-11" class="tab-pane active">
@@ -668,7 +669,75 @@
                                         </div>
                                         <div id="tab-55" class="tab-pane">
                                             <div class="panel-body">
-                                                
+                                                <div class="row">
+                                                    <div class="col-sm-2" style="padding-top:5px">
+                                                        <label>Biometrics Location :</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <select class="select2_demo_3 form-control" id="ddl_bioloc" ng-model="ddl_bioloc" style="width:100%;">
+                                                            <option value="">--Select Here--</option>
+                                                            <option ng-repeat="lst in biometrics_location" value="{{lst.MachineNumber}}">({{lst.MachineNumber}}){{lst.bio_location}} - {{lst.ip_address}}</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button id="dtr_print" class="btn btn-primary btn-block pull-right" ng-click="btn_bio_extract()"><i class="fa fa-print"></i> Extract</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="padding-top:5px;">
+
+                                                    <div class="col-sm-2" style="padding-top:5px">
+                                                        <label>Extract Period From:</label>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" class="form-control text-left" data-provide="datepicker" id="extract_period_from" ng-model="extract_period_from">
+                                                        <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                                    </div>
+
+                                                    <div class="col-sm-2" style="padding-top:5px">
+                                                        <label>Extract Period To:</label>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" class="form-control text-left" data-provide="datepicker" id="extract_period_to" ng-model="extract_period_to">
+                                                        <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                                    </div>
+                                                    <div class="col-sm-1" style="padding-top:5px">
+                                                        <label>CATS No.:</label>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" class="form-control text-left" id="empl_id" ng-model="empl_id">
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <hr style="margin-top:10px;margin-bottom:10px" />
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                                            <div class="table-resposive">
+                                                                <table id="bioextract_grid" ng-model="bioextract_grid" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                                                    <thead>
+                                                                        <tr sstyle="background-color: #1AB394 !important;">
+                                                                            <th>DEVICE ID</th>
+                                                                            <th>CATS NO.</th>
+                                                                            <th>DATE TIME</th>
+                                                                            <th>VERIFY MODE</th>
+                                                                            <th>IN_OUT MODE</th>
+                                                                            <th>WORK CODE</th>
+                                                                            <th>DATE ONLY</th>
+                                                                            <th>TIME ONLY</th>
+                                                                            <th>ACTION</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

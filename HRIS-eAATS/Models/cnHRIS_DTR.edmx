@@ -210,6 +210,16 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
           <Parameter Name="p_field_value2" Type="varchar" Mode="In" />
           <Parameter Name="p_flag" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_extract_process" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_start_date" Type="varchar" Mode="In" />
+          <Parameter Name="p_last_date" Type="varchar" Mode="In" />
+          <Parameter Name="p_filename" Type="varchar" Mode="In" />
+          <Parameter Name="p_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_month" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_extract_type" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_getfile_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_location" Type="varchar" Mode="In" />
         </Function>
@@ -668,6 +678,16 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
             <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_extract_process" ReturnType="Collection(HRIS_DTRModel.sp_extract_process_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_start_date" Mode="In" Type="String" />
+            <Parameter Name="p_last_date" Mode="In" Type="String" />
+            <Parameter Name="p_filename" Mode="In" Type="String" />
+            <Parameter Name="p_year" Mode="In" Type="String" />
+            <Parameter Name="p_month" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+            <Parameter Name="p_extract_type" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_as_alerts_Result">
           <Property Type="Int32" Name="AS_day" Nullable="true" />
@@ -877,6 +897,12 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
         <ComplexType Name="sp_process_biodata_2dtr_stg_shift_Result">
           <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
           <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_extract_process_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="prc_parameter" Nullable="true" MaxLength="500" />
+          <Property Type="Int64" Name="process_nbr" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1289,6 +1315,16 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
               <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg_shift_Result">
                 <ScalarProperty Name="result_value" ColumnName="result_value" />
                 <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_extract_process" FunctionName="HRIS_DTRModel.Store.sp_extract_process">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_extract_process_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
+                <ScalarProperty Name="prc_parameter" ColumnName="prc_parameter" />
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
