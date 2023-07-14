@@ -101,7 +101,7 @@ namespace HRIS_eAATS.Controllers
                 //         on s.empl_id equals t.empl_id
                 //        where r.emp_status == true
                 //        orderby s.last_name
-                        
+
                 //        select new
                 //        {
                 //            s.empl_id              ,
@@ -118,11 +118,12 @@ namespace HRIS_eAATS.Controllers
                 //        };
                 //var all_appl = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).ToList().OrderBy(a=> a.transaction_code);
                 //var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a => a.transaction_code).ToList();
+                var biometrics_location = db_dtr.bio_machine_info_tbl.Where(a => a.bio_status == 1);
                 var dept_list = db.vw_departments_tbl_list.ToList();
                 var data        = db_dtr.sp_dtr_from_bio_tbl_list3("", DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).ToList();
                 message = "success";
 
-                return JSON(new {  data, message, p_empl_id,  dept_list }, JsonRequestBehavior.AllowGet);
+                return JSON(new {  data, message, p_empl_id,  dept_list, biometrics_location }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

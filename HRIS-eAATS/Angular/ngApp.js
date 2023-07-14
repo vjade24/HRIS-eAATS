@@ -1185,6 +1185,7 @@ ng_HRD_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             }
         },
 
+
         dynamicSort: function (property) {
             var sortOrder = 1;
             if (property[0] === "-") {

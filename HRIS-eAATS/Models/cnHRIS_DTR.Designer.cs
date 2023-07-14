@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\FILE_REPO\101 - SOLUTION BACKUP\HRIS_SIT\HRIS-eAATS 2022-05-11\HRIS-eAATS\Models\cnHRIS_DTR.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\New folder\WORKING SOLUTION\HRIS-eAATS\HRIS-eAATS\Models\cnHRIS_DTR.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

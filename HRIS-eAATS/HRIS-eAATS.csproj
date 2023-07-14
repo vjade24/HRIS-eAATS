@@ -46,11 +46,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine">
+      <HintPath>..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource">
+      <HintPath>..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared">
+      <HintPath>..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="CrystalDecisions.VSDesigner, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
-    <Reference Include="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Web">
+      <HintPath>..\..\..\..\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.Web.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -144,7 +152,11 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common_Code\CommonDB.cs" />
+    <Compile Include="Common_Code\DeviceManipulator.cs" />
     <Compile Include="Common_Code\HRIS_Common.cs" />
+    <Compile Include="Common_Code\UniversalStatic.cs" />
+    <Compile Include="Common_Code\ZkemClient.cs" />
+    <Compile Include="Controllers\BioExtractController.cs" />
     <Compile Include="Controllers\cAATSInstallationController.cs" />
     <Compile Include="Controllers\cASTDTRSupportController.cs" />
     <Compile Include="Controllers\cASTypeController.cs" />
@@ -171,6 +183,7 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\rSSDTROverridesApprovalController.cs" />
     <Compile Include="Controllers\rSSDTROverridesController.cs" />
+    <Compile Include="Enums\ClearFlag.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -192,6 +205,7 @@
     <Compile Include="Models\authorization_slip_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\biomachine_data.cs" />
     <Compile Include="Models\bio_extract_stg_tbl.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
@@ -270,6 +284,7 @@
     <Compile Include="Models\coc_earnings_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DeviceTimeInfo.cs" />
     <Compile Include="Models\Dev_Version_Name.cs" />
     <Compile Include="Models\dtr_empl_national_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -484,6 +499,7 @@
     <Compile Include="Models\lv_ledger_history_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MachineInfo.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\monthly_working_hrs_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -770,6 +786,9 @@
     <Compile Include="Models\sp_extract_lwop_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_extract_process_Result.cs">
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_extract_timeentries_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -846,10 +865,10 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leaveappl_dtl_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1230,7 +1249,7 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\timeentries_mysql_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1301,6 +1320,8 @@
     <Compile Include="Models\tse_check_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserIDInfo.cs" />
+    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\vlslearned_dailybasis_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -2575,6 +2596,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BioExtract\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
@@ -2689,6 +2711,17 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTransmittal.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="zkemkeeper">
+      <Guid>{FE9DED34-E159-408E-8490-B720A5E632C7}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

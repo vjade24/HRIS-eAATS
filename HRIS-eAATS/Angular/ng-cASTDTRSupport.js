@@ -30,7 +30,16 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.rate_basis = "";
     s.payroll_year  = ""
     s.payroll_month = ""
+
+
+    //dtr extract objects
+    s.ddl_bioloc = ""
+    s.extract_period_from =""
+    s.extract_period_to = ""
+    s.empl_id = ""
+    s.process_number = ""
     s.extract_selected = {}
+    s.biometrics_location = []
 
     var biotype = [
           { bio_type:"0",bio_type_descr: "AM IN" }
@@ -166,6 +175,71 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
 
     }
+
+    var init_bioextract_data = function (par_data) {
+        s.bioextract_grid_data = par_data;
+        s.bioextractdata_table = $('#bioextract_grid').dataTable(
+            {
+
+                data: s.bioextract_grid_data,
+                sDom: '',
+                pageLength: 100,
+                order: [[0, "asc"]],
+                columns: [
+
+                    {
+                        "mData": "MachineNumber",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": "IndRegID",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": "DateTimeRecord",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": "VerifyMode",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": "InOutMode",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": "WorkCode",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": "DateOnlyRecord",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": "TimeOnlyRecord",
+                        "mRender": function (data, type, full, row) { return "<span class='text-center btn-block'>" + data + "</span>" }
+                    },
+                    {
+                        "mData": null,
+                        "bSortable": false,
+                        "mRender": function (data, type, full, row) {
+                            return '<center><div class="btn-group">' +
+                                    '<button type="button" class="btn btn-info btn-sm" ng-click="btn_change_biotype(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit Record">  <i class="fa fa-edit"></i></button >' +
+                                    '</div></center>';
+
+                        }
+                    }
+
+                ],
+                "createdRow": function (row, data, index) {
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+            }
+        );
+
+        $("div.toolbar").html('<b>Custom tool bar! Text/images etc.</b>');
+
+    }
     //*********************************************//
     //*** Filter Page Grid
     //********************************************// 
@@ -219,6 +293,10 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
             s.FilterPageGrid();
         });
 
+        $("#ddl_bioloc").select2().on('change', function (e) {
+            s.FilterOption();
+        });
+
         var curr_year   = new Date().getFullYear().toString();
         s.ddl_year      = curr_year
         s.currentMonth  = new Date().getMonth() + 1
@@ -227,6 +305,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         RetrieveYear();
         init_table_data([]);
         init_extract_data([])
+        init_bioextract_data([])
         //$('#loading_msg').html("LOADING");
         $("#modal_initializing").modal();
         var trk_year = s.track_year
@@ -257,6 +336,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                 //s.trans_lst = d.data.trans_lst;
                 s.dept_list = d.data.dept_list
                 s.datalistgrid_data.refreshTable1('oTable', '');
+                s.biometrics_location = d.data.biometrics_location
                 $("#modal_initializing").modal('hide');
             }
             else
@@ -682,6 +762,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                             + "&ReportPath=" + ReportPath
                             + "&id=" + sp // + "," + parameters
 
+                        console.log(s.embed_link)
+
                         if (!/*@cc_on!@*/0) { //if not IE
                             iframe.onload = function () {
                                 iframe.style.visibility = "visible";
@@ -1019,6 +1101,86 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         });
     })
         
+    //***********************************************************//
+    //*** MMO - 07/13/2023 - Extract Biometrics data per machine
+    //***********************************************************// 
+    s.btn_bio_extract = function () {
+
+        var req = 0
+        var ddl_bioloc = $("#ddl_bioloc").val()
+        var extract_period_from = $("#extract_period_from").val()
+        var extract_period_to = $("#extract_period_to").val()
+       
+        var ip_address = s.biometrics_location.filter(function (d) {
+            return d.MachineNumber == ddl_bioloc
+        })[0].ip_address
+
+       
+        var empl_id = $("#empl_id").val()
+        if (cs.elEmpty(ddl_bioloc) == true) {
+            cs.required2("ddl_bioloc", "Required Field!")
+            req = req + 1
+        }
+        else {
+            cs.notrequired2("ddl_bioloc")
+        }
+
+        if (cs.elEmpty(extract_period_from) == true) {
+            cs.required2("extract_period_from", "Required Field!")
+            req = req + 1
+        }
+        else {
+            cs.notrequired2("extract_period_from")
+        }
+
+
+        if (cs.elEmpty(extract_period_to) == true) {
+            cs.required2("extract_period_to", "Required Field!")
+            req = req + 1
+        }
+        else {
+            cs.notrequired2("extract_period_to")
+        }
+
+        if (req > 0)return
+
+        $("#modal_initializing").modal("show")
+
+        h.post("BioExtract/RerunBioExtract", {
+              ip: ip_address
+            , date_from  :  extract_period_from
+            , date_to    :  extract_period_to
+            , MachineNumber: ddl_bioloc
+            , empl_id    :  empl_id
+        }).then(function (d) {
+
+            if (d.data.icon == "success") {
+                console.log(d.data.machineinfo)
+                s.bioextract_grid_data = d.data.machineinfo.refreshTable("bioextract_grid", "");
+            }
+            else {
+
+                swal(d.data.message, {icon:"error"})
+            }
+            $("#modal_initializing").modal("hide")
+                
+
+        })
+    }
+
+    s.FilterOption = function () {
+
+        //h.post("BioExtract/GetBiometricsInfo").then(function (d) {
+        //    if (d.data.icon = "success") {
+        //        s.biometrics_location = d.data.biometrics_location
+        //    }
+        //    else {
+        //        s.biometrics_location = []
+        //    }
+            
+        //})
+        
+    }
 
     
     //*****************************************************************************************************//

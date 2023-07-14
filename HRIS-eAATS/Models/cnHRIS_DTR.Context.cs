@@ -714,5 +714,42 @@ namespace HRIS_eAATS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_process_biodata_2dtr_stg_shift_Result>("sp_process_biodata_2dtr_stg_shift", p_process_nbrParameter, p_user_idParameter);
         }
+    
+        public virtual ObjectResult<sp_extract_process_Result> sp_extract_process(string p_empl_id, string p_start_date, string p_last_date, string p_filename, string p_year, string p_month, string p_user_id, Nullable<int> p_extract_type)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_start_dateParameter = p_start_date != null ?
+                new ObjectParameter("p_start_date", p_start_date) :
+                new ObjectParameter("p_start_date", typeof(string));
+    
+            var p_last_dateParameter = p_last_date != null ?
+                new ObjectParameter("p_last_date", p_last_date) :
+                new ObjectParameter("p_last_date", typeof(string));
+    
+            var p_filenameParameter = p_filename != null ?
+                new ObjectParameter("p_filename", p_filename) :
+                new ObjectParameter("p_filename", typeof(string));
+    
+            var p_yearParameter = p_year != null ?
+                new ObjectParameter("p_year", p_year) :
+                new ObjectParameter("p_year", typeof(string));
+    
+            var p_monthParameter = p_month != null ?
+                new ObjectParameter("p_month", p_month) :
+                new ObjectParameter("p_month", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            var p_extract_typeParameter = p_extract_type.HasValue ?
+                new ObjectParameter("p_extract_type", p_extract_type) :
+                new ObjectParameter("p_extract_type", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_process_Result>("sp_extract_process", p_empl_idParameter, p_start_dateParameter, p_last_dateParameter, p_filenameParameter, p_yearParameter, p_monthParameter, p_user_idParameter, p_extract_typeParameter);
+        }
     }
 }
