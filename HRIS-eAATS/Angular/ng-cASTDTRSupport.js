@@ -37,6 +37,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.extract_period_from =""
     s.extract_period_to = ""
     s.empl_id = ""
+    s.process_number = ""
     s.extract_selected = {}
     s.biometrics_location = []
 

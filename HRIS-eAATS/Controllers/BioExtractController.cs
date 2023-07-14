@@ -181,6 +181,10 @@ namespace HRIS_eAATS.Controllers
                 return para;
             }
         }
+
+
+       
+
         public ActionResult RerunBioExtract(string ip, string date_from, string date_to, int MachineNumber, string empl_id)
         {
 
@@ -194,13 +198,15 @@ namespace HRIS_eAATS.Controllers
             long prc_nbr = 0;
             var prc_parameters = "";
             int fail = 0;
+           
+            
 
 
             var year = Convert.ToDateTime(date_from).Year.ToString();
             var month = Convert.ToDateTime(date_from).Month.ToString().ToCharArray().Count() > 1 ? Convert.ToDateTime(date_from).Month.ToString() : "0" + Convert.ToDateTime(date_from).Month.ToString();
             List<bio_machine_info_tbl> bmil = new List<bio_machine_info_tbl>();
             List<sp_timefilter_bioextract_Result> sfdl = new List<sp_timefilter_bioextract_Result>();
-            List<MachineInfo> machineinfo = new List<MachineInfo>();
+            List<biomachine_data> machineinfo = new List<biomachine_data>();
             List<sp_extract_process_Result> dpfl = new List<sp_extract_process_Result>();
             List<machine_prim_key> mpkl = new List<machine_prim_key>();
             ICollection<MachineInfo> lstMachineInfo;
@@ -216,7 +222,9 @@ namespace HRIS_eAATS.Controllers
                 fnd1 = bmil.Count;
 
                 if (fnd1 == 0) throw new Exception("IP Address not found in bio_machine_info_tbl");
+
                 port = bmil[0].port_number.ToString();
+              
                 var bmil_count = bmil.Count;
 
 
@@ -234,15 +242,15 @@ namespace HRIS_eAATS.Controllers
                         int lstMachineInfo_fetch = 0;
                         foreach (var l in lstMachineInfo)
                         {
-                            MachineInfo mi = new MachineInfo();
+                            biomachine_data mi = new biomachine_data();
                             mi.MachineNumber = l.MachineNumber;
                             mi.IndRegID = l.IndRegID;
                             mi.DateTimeRecord = l.DateTimeRecord;
                             mi.VerifyMode = l.VerifyMode;
                             mi.InOutMode = l.InOutMode;
                             mi.WorkCode = l.WorkCode;
-                            mi.DateOnlyRecord = l.DateOnlyRecord;
-                            mi.TimeOnlyRecord = l.TimeOnlyRecord;
+                            mi.DateOnlyRecord = l.DateOnlyRecord.ToShortDateString();
+                            mi.TimeOnlyRecord = l.TimeOnlyRecord.ToShortTimeString();
                             machineinfo.Add(mi);
 
                             int a = db_dtr.sp_insert_bio_extract_stg_tbl(
@@ -319,7 +327,7 @@ namespace HRIS_eAATS.Controllers
                    , dpfl[0].process_nbr
                    , dpfl[0].prc_parameter);
 
-                return JSON(new { message = bio_connect_info, icon = "success", machineinfo }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = bio_connect_info, icon = "success", machineinfo,process_number = dpfl[0].process_nbr }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

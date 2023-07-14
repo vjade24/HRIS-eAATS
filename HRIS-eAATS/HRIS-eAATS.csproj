@@ -205,6 +205,7 @@
     <Compile Include="Models\authorization_slip_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\biomachine_data.cs" />
     <Compile Include="Models\bio_extract_stg_tbl.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
