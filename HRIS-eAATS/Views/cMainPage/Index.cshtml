@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cMainPage.js?v=5"></script>
+<script src="~/Angular/ng-cMainPage.js?v=6"></script>
 <script language="javascript" type="text/javascript">
     manual_alert();
     function manual_alert()
@@ -55,14 +55,28 @@
     table#datalist_grid {
         border-bottom-color: transparent !important;
     }
+    .label {
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 8px;
+        text-shadow: none;
+    }
+    .badge {
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 8px;
+        text-shadow: none;
+    }
 </style>
 <section ng-app="ng_HRD_App" ng-controller="cMainPageCtrlr">
     <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;" onload="display_ct()">
         <div class="row">
             <div class="col-lg-12">
-                <div class="ibox float-e-margins">
+                <div class="ibox ">
                     <div class="ibox-title">
-                        <div class="row">
+                        @*<div class="row">
                             <div class="col-sm-8">
                                 <div class="summernote">
                                     <h2><b class="text-success">HRIS</b> - <b class="text-success">A</b>utomated <b class="text-success">A</b>ttendance <b class="text-success">T</b>racking <b class="text-success">S</b>ystem</h2>
@@ -70,68 +84,119 @@
                             </div>
                             <div class="col-sm-4">
                             </div>
-                        </div>
-                        <hr style="margin-top:5px;margin-bottom:2px;border:0.1px solid cadetblue;" />
+                        </div>*@
+                        @*<hr style="margin-top:5px;margin-bottom:2px;border:0.1px solid cadetblue;" />*@
 
                         <div class="row" style="padding-top:5px;">
-                            <div class="col-lg-3">
-                                <div class="widget style1 navy-bg">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <i class="fa fa-warning fa-5x"></i>
-                                        </div>
-                                        <div class="col-xs-8 text-right">
-                                            <span> Unposted Leave </span>
-                                            <h2 class="font-bold">{{ unposted_leave }}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="widget style1 blue-bg">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <i class="fa fa-check-circle fa-5x"></i>
-                                        </div>
-                                        <div class="col-xs-8 text-right">
-                                            <span> For Approval </span>
-                                            <h2 class="font-bold">{{ for_approval_ledger }}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="widget style1 lazur-bg">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <i class="fa fa-users fa-5x"></i>
-                                        </div>
-                                        <div class="col-xs-8 text-right">
-                                            <span> Leave Administrator </span>
-                                            <h2 class="font-bold">{{ leave_administrator }}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="widget style1 red-bg">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <i class="fa fa-ban fa-5x"></i>
-                                        </div>
-                                        <div class="col-xs-8 text-right">
-                                            <span> Cancelled/Disapproved </span>
-                                            <h2 class="font-bold">{{ canceled_disapproved }}</h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="col-sm-4 b-r">
+                                <h2>Welcome, @Session["first_name"].ToString()</h2>
+                                <small>You have {{total_notif}} notifications as of @DateTime.Now.ToLongDateString() @DateTime.Now.ToShortTimeString().</small>
+                                <ul class="list-group clear-list m-t">
+                                    <li class="list-group-item ">
+                                        <span class="pull-right" style="font-size:9px;">
+                                            Leave : {{total_leave_review_leave}}
+                                            <br />
+                                            CTO : {{total_leave_review_cto}}
 
+                                        </span>
+                                        <span class="label label-warning-light" >{{total_leave_review}}</span> &nbsp; Total number of for Review & Post to Ledger
+                                    </li>
+                                    <li class="list-group-item ">
+                                        @*<span class="pull-right">
+                                            09:00 pm
+                                        </span>*@
+                                        <span class="label label-primary" >{{total_leave_cancellation}}</span> &nbsp; Total number of Leave Cancellation
+                                    </li>
+                                    <li class="list-group-item">
+                                        @*<span class="pull-right">
+                                            10:16 am
+                                        </span>*@
+                                        <span class="label label-info" >{{total_leave_printing}}</span> &nbsp; Total number of Leave Printing
+                                    </li>
+                                    <li class="list-group-item">
+                                        @*<span class="pull-right">
+                                            <small class="text-muted">@DateTime.Now.ToLongDateString() @DateTime.Now.ToShortTimeString()</small>
+                                        </span>*@
+                                        <span class="label label-danger">{{total_leave_transmittal}}</span> &nbsp; Total number of Not released Leave Transmittal
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-8 m-t-lg">
+                                <h2><b class="text-success">HRIS</b> - <b class="text-success">A</b>utomated <b class="text-success">A</b>ttendance <b class="text-success">T</b>racking <b class="text-success">S</b>ystem</h2>
+                                <div class="form-group row">
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 navy-bg">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-warning fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-right">
+                                                    <span> For Review & Post to Ledger </span>
+                                                    <h1 class="font-bold" style="font-size:40px !important">{{ unposted_leave }}</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 blue-bg">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-check-circle fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-right">
+                                                    <span> For Evaluation and Signature</span>
+                                                    <h1 class="font-bold" style="font-size:40px !important">{{ for_approval_ledger }}</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 lazur-bg">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-users fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-right">
+                                                    <span> Assigned Department </span>
+                                                    <h1 class="font-bold" style="font-size:40px !important">{{ leave_administrator }}</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="widget style1 red-bg">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <i class="fa fa-ban fa-5x"></i>
+                                                </div>
+                                                <div class="col-xs-8 text-right">
+                                                    <span> Cancel Pending from Evaluation</span>
+                                                    <h1 class="font-bold" style="font-size:40px !important">{{ canceled_disapproved }}</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-lg-12">
+
+                <div class="progress progress-striped active">
+                    <div style="width: 30%" class="progress-bar progress-bar-success">
+                        <span class="sr-only">30% Complete (success)</span>
+                    </div>
+                    <div style="width: 20%" class="progress-bar progress-bar-warning">
+                        <span class="sr-only">15% Complete (warning)</span>
+                    </div>
+                    <div style="width: 50%" class="progress-bar progress-bar-danger">
+                        <span class="sr-only">40% Complete (danger)</span>
+                    </div>
+                </div>
+            </div>*@
+                                </div>
+                            </div>
                             <div class="row">
 
                                 <div class="col-lg-8">
-                                    <div class="ibox float-e-margins">
-                                        <div class="ibox-title">
+                                    <div class="ibox" style="margin-bottom:0px !important">
+                                        <div class="ibox-title" >
                                             <h5>Summary for Unposted Leave/CTO <small>Filtered by Department</small></h5>
                                             <div class="ibox-tools">
                                                 <a class="collapse-link">
@@ -142,13 +207,13 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="ibox-content">
+                                        <div class="ibox-content" style="padding:5px !important">
                                             <div id="chart-leave-list" style="min-height: 200px;"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 b-r">
-                                    <div class="ibox float-e-margins" id="ibox1">
+                                    <div class="ibox" id="ibox1" style="margin-bottom:0px !important">
                                         <div class="ibox-title">
                                             <h5>Summary for Final Approve</h5>
                                             <div class="ibox-tools">
@@ -160,7 +225,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="ibox-content">
+                                        <div class="ibox-content" style="padding:5px !important">
                                             <div id="chart-leave-approval-list" style="min-height: 200px;"></div>
                                             @*<div id="chart-leave-by-leavetype-list" style="min-height: 200px;"></div>*@
                                         </div>
@@ -191,8 +256,8 @@
                                         </div>
                                         <div class="col-lg-2">
 
-                                            <select class="select2_demo_3 form-control" id="ddl_rep_mode" ng-model="ddl_rep_mode" style="width:100%;">
-                                                <option value="1">Both Leave and CTO</option>
+                                            <select class="form-control" id="ddl_rep_mode" ng-model="ddl_rep_mode" style="width:100%;">
+                                                @*<option value="1">Both Leave and CTO</option>*@
                                                 <option value="2">Leave</option>
                                                 <option value="3">CTO</option>
                                             </select>

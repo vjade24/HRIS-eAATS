@@ -874,20 +874,31 @@ namespace HRIS_eAATS.Controllers
                 if (par_execute_mode == "cancel_with_ss")
                 {
                     var transac_apprvr = db.sp_update_transaction_in_approvalworkflow_tbl(par_approval_id, user_id, approval_status, "Ledger Post - Cancellation");
-                    var apl_hdr = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault();
-                    var apl_dtl = db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).ToList();
+                    //var apl_hdr = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault();
+                    //var apl_dtl = db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).ToList();
 
-                    if (apl_hdr != null)
-                    {
-                        apl_hdr.approval_status = approval_status;
-                        apl_hdr.posting_status  = false;
-                        db_ats.SaveChanges();
-                    }
+                    //if (apl_hdr != null)
+                    //{
+                    //    apl_hdr.approval_status = approval_status;
+                    //    apl_hdr.posting_status  = false;
+                    //    db_ats.SaveChanges();
+                    //}
 
-                    if (apl_dtl != null)
+                    //if (apl_dtl != null)
+                    //{
+                    //    apl_dtl.ForEach(a => a.rcrd_status = approval_status);
+                    //    db_ats.SaveChangesAsync();
+                    //}
+                    var lv_hdr = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == par_leave_ctrlno).ToList();
+                    var lv_dtl = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == par_leave_ctrlno).ToList();
+                    var lv_dtl_cto = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).ToList();
+
+                    if ((lv_hdr[0].leave_type_code != "CTO" && lv_hdr[0].number_of_days < 2) || (lv_hdr[0].leave_type_code == "CTO" && lv_hdr[0].number_of_days <= 8))
                     {
-                        apl_dtl.ForEach(a => a.rcrd_status = approval_status);
-                        db_ats.SaveChangesAsync();
+                        // Update Header and Details
+                        lv_hdr.ForEach(a => a.posting_status = false);
+                        lv_hdr.ForEach(a => a.approval_status = "L");
+                        lv_dtl.ForEach(a => a.rcrd_status = "L");
                     }
                 }
 

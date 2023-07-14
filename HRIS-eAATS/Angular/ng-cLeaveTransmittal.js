@@ -194,7 +194,7 @@
                             }
                         },
                         {
-                            "mData": "transmittal_descr",
+                            "mData": "employment_type_desr",
                             "mRender": function (data, type, full, row) {
                                 return "<span class='small text-center'>&nbsp;&nbsp;" + data + "</span>"
                             }
@@ -206,9 +206,15 @@
                             }
                         },
                         {
+                            "mData": "transmittal_descr",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='small'>&nbsp;&nbsp;" + data + "</span>"
+                            }
+                        },
+                        {
                             "mRender": function (data, type, full, row)
                             {
-                                return "<center><span class='small text-center'>&nbsp;&nbsp;" + moment(full["approved_period_from"].toString()).format('ll') + " - " + moment(full["approved_period_to"].toString()).format('ll') + "</span></center>"
+                                return "<center><span class='small text-center'>&nbsp;&nbsp;" + moment(full["approved_period_from"].toString()).format('LL') + " - " + moment(full["approved_period_to"].toString()).format('LL') + "</span></center>"
                             }
                         },
                         {
@@ -515,9 +521,10 @@
         s.dis_title                 = false;
         s.show_footer               = true;
         s.txtb_doc_ctrl_nbr         = "";
-        s.txtb_transmittal_descr    = "";
-        $('#txtb_approved_period_from').val('')
-        $('#txtb_approved_period_to').val('')
+        s.txtb_transmittal_descr = "";
+        var date_now = new Date();
+        $('#txtb_approved_period_from').val(moment(date_now).format('YYYY-MM-DD'))
+        $('#txtb_approved_period_to').val(moment(date_now).format('YYYY-MM-DD'))
         s.txtb_created_by           = "";
         s.txtb_created_dttm         = "";
         s.ddl_route_nbr             = "01"
@@ -620,10 +627,10 @@
         var return_val = true;
         ValidationResultColor("ALL", false);
 
-        if ($('#txtb_transmittal_descr').val() == "") {
-            ValidationResultColor("txtb_transmittal_descr", true);
-            return_val = false;
-        }
+        //if ($('#txtb_transmittal_descr').val() == "") {
+        //    ValidationResultColor("txtb_transmittal_descr", true);
+        //    return_val = false;
+        //}
         if ($('#ddl_dept option:selected').val().trim() == "" && $('#ddl_transmittal_class option:selected').val().trim() == "monthly")
         {
             ValidationResultColor("ddl_dept", true);
@@ -950,7 +957,9 @@
 
     s.btn_print_row = function (row_id, rep_mode) {
         s.row_id_printing = row_id
-        rep_mode = s.ddl_rep_mode_printing
+        rep_mode = s.datalistgrid5[row_id].view_mode
+
+        s.ddl_rep_mode_printing = s.datalistgrid5[row_id].view_mode
 
         
         if (parseFloat(s.datalistgrid5[row_id].transmittal_cnt) <= 0) {

@@ -1965,7 +1965,7 @@
                                                 if (d.data.message == "success")
                                                 {
                                                     $('#main_modal').modal("hide");
-                                                    swal("Record Successfully Reviewd & Posted to Ledger", "Your record has been posted!", { icon: "success", });
+                                                    swal("Record Successfully Reviewed & Posted to Ledger", "Your record has been posted!", { icon: "success", });
                                                     
                                                     s.FilterPageGrid(s.txtb_empl_id);
                                                 }
@@ -2012,7 +2012,7 @@
                                     if (d.data.message == "success")
                                     {
                                         $('#main_modal').modal("hide");
-                                        swal("Record Successfully Reviewd & Posted to Ledger", "Your record has been posted!", { icon: "success", });
+                                        swal("Record Successfully Reviewed & Posted to Ledger", "Your record has been posted!", { icon: "success", });
                                         s.FilterPageGrid(s.txtb_empl_id);
                                     }
                                     else
@@ -2039,7 +2039,7 @@
             }).then(function (d) {
                 if (d.data.message == "success") {
                     $('#main_modal').modal("hide");
-                    swal("Record Successfully Reviewd & Posted to Ledger (Re-Posted)", "Your record has been successfully re-posted!", { icon: "success", });
+                    swal("Record Successfully Reviewed & Posted to Ledger (Re-Posted)", "Your record has been successfully re-posted!", { icon: "success", });
                     $("#modal_initializing").modal("hide")
                     s.FilterPageGrid(s.txtb_empl_id);
                 }

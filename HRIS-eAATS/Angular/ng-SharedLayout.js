@@ -25,7 +25,7 @@ ng_HRD_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
     {
         s.todays_date = moment(new Date()).format('MMM D, YYYY').toString();
         CheckSession();
-        get_notification();
+        //get_notification();
     }
    
 
@@ -314,38 +314,38 @@ ng_HRD_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
     //************GET NOTIFICATION*********//
     //**************************************// 
 
-    function get_notification()
-    {
-        h.post("../Menu/GetNotification").then(function (d) {
-            if (d.data.message == "success") {
-                s.NotifList = d.data.notif_list;
-                s.InfoList = d.data.info_list;
-                s.notifLst_length = d.data.notif_list.length;
+    //function get_notification()
+    //{
+    //    h.post("../Menu/GetNotification").then(function (d) {
+    //        if (d.data.message == "success") {
+    //            s.NotifList = d.data.notif_list;
+    //            s.InfoList = d.data.info_list;
+    //            s.notifLst_length = d.data.notif_list.length;
                 
-            }
-        });
+    //        }
+    //    });
 
-        if (s.notifLst_length > 0) {
-            s.show_no_alerts = false;
-            s.show_spinner = true;
+    //    if (s.notifLst_length > 0) {
+    //        s.show_no_alerts = false;
+    //        s.show_spinner = true;
 
-            setTimeout(function () {
-                s.show_spinner = false;
-            }, 300);
-        }
-        else {
-            s.show_no_alerts = true;
-            s.show_spinner = false;
-        }
+    //        setTimeout(function () {
+    //            s.show_spinner = false;
+    //        }, 300);
+    //    }
+    //    else {
+    //        s.show_no_alerts = true;
+    //        s.show_spinner = false;
+    //    }
         
-    }
+    //}
 
     //**************************************//
     //************GET NOTIFICATION*********//
     //**************************************// 
-    s.get_notification_index = function() {
-        get_notification();
-    }
+    //s.get_notification_index = function() {
+    //    get_notification();
+    //}
 
     s.notif_int_values = function (lst) {
         if (lst == "2") {

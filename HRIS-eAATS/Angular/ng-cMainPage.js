@@ -2,7 +2,7 @@
 ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filter) {
     var s = $scope
     var h = $http
-    s.ddl_rep_mode = "1";
+    s.ddl_rep_mode = "2";
     s.info_list2_chart = []
     s.info_list2_donut_chart = [];
     s.datalistgrid_chart = []
@@ -21,7 +21,8 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         });
 
         get_ledger_info()
-
+        
+        
     }
     
     init();
@@ -85,7 +86,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                             else if (full["url_name"] == "../cCancellation")
                             {
                                 return '<div style="display:none;">' + full["url_name"] + '</div>' + '<center><div class="btn-group">' +
-                                        '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_preview_cancellation(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Approve Cancellation"><i class="fa fa-thumbs-up"></i> Approve Cancellation</button >' +
+                                    '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_preview_cancellation(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Approve Cancellation"><i class="fa fa-thumbs-up"></i> Approve Cancellation <span class="badge badge-danger">' + full["ledger_status"] +'</span></button >' +
                                         '</div></center>';
                             }
                             else
@@ -118,15 +119,15 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
             }
             ).then(function (d) {
             {
-                s.unposted_leave            = d.data.info_list[0].unposted_leave;
-                s.for_approval_ledger       = d.data.info_list[0].for_approval_ledger;
-                s.leave_administrator       = d.data.info_list[0].leave_administrator;
-                s.canceled_disapproved      = d.data.info_list[0].canceled_disapproved;
+                s.unposted_leave            = d.data.total_leave_review_leave ; //d.data.info_list[0].unposted_leave;
+                s.for_approval_ledger       = d.data.info_list2_donut_chart.length; //d.data.info_list[0].for_approval_ledger;
+                s.leave_administrator       = d.data.lv_admin_dept_list.length; //d.data.info_list[0].leave_administrator;
+                s.canceled_disapproved      = d.data.total_leave_posted_cancellation; //d.data.info_list[0].canceled_disapproved;
                 s.lv_admin_dept_list        = d.data.lv_admin_dept_list;
 
                 s.info_list2_chart          = d.data.info_list2_chart;
                 s.info_list2_donut_chart    = d.data.info_list2_donut_chart;
-                    s.datalistgrid_chart = d.data.info_list2
+                s.datalistgrid_chart = d.data.info_list2
                 //setTimeout(function ()
                 //{
                     chart_leave_list();
@@ -140,7 +141,16 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                 {
                     init_table_data([]);
                 }
+                    
+                s.total_leave_review        = d.data.total_leave_review 
+                s.total_leave_review_cto    = d.data.total_leave_review_cto 
+                s.total_leave_review_leave  = d.data.total_leave_review_leave 
 
+                s.total_leave_cancellation  = d.data.total_leave_cancellation 
+                s.total_leave_printing      = d.data.total_leave_printing     
+                s.total_leave_transmittal   = d.data.total_leave_transmittal 
+                s.total_notif               = d.data.total_leave_review + d.data.total_leave_cancellation + d.data.total_leave_printing + d.data.total_leave_transmittal 
+                
                 $("#modal_initializing").modal("hide");
             }
         });
@@ -207,8 +217,6 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
 
     function chart_leave_list()
     {
-        // console.log(s.info_list2_chart)
-        // console.log(s.info_list2_donut_chart)
 
         if (s.info_list2_chart.length > 0)
         {
@@ -575,9 +583,11 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
 
     s.CancelLederPosted = function ()
     {
+        $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
         if (s.details_remarks == "" || $('#details_remarks').val() == "")
         { 
-            swal("Details remarks is required!", {icon:"error"})
+            swal("Details remarks is required!", { icon: "error" })
+            $("#modal_initializing").modal("hide");
             return;
         }
         else
@@ -603,7 +613,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                     s.RetrieveList();
                     $('#modal_print_preview').modal("hide");
                     $('#modal_posted_leave').modal("hide");
-                                        
+                    $("#modal_initializing").modal("hide");
                     swal("Successfully Approved and Restored Leave Application Balance","Do you want to Redirect to Leave Ledger?",
                     {
                         icon: "success",
@@ -644,6 +654,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                 else
                 {
                     swal("There Something wrong", d.data.message, { icon: "warning" });
+                    $("#modal_initializing").modal("hide");
                 }
                                     
             })

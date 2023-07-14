@@ -551,7 +551,7 @@ namespace HRIS_eAATS.Controllers
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************
                         var appl_status = (data_hdr.route_nbr.ToString().Trim() == "06" ? "Transmitted for Payroll" : "Transmitted for Signature (Released)");
-                        db_ats.sp_lv_ledger_history_insert(upd_dtl[i].ledger_ctrl_no.ToString().Trim(), upd_dtl[i].leave_ctrlno.ToString().Trim(),"", appl_status, "", Session["user_id"].ToString());
+                        db_ats.sp_lv_ledger_history_insert(upd_dtl[i].ledger_ctrl_no.ToString().Trim(), upd_dtl[i].leave_ctrlno,"", appl_status, "", Session["user_id"].ToString());
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                         // *************************************************************

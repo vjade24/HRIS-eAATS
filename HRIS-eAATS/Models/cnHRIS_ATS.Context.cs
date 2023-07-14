@@ -3845,15 +3845,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info_Result>("sp_lv_info", par_user_idParameter);
         }
     
-        public virtual ObjectResult<sp_lv_info2_Result> sp_lv_info2(string par_user_id)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info2_Result>("sp_lv_info2", par_user_idParameter);
-        }
-    
         public virtual ObjectResult<sp_lv_ledger_cancel_Result> sp_lv_ledger_cancel(string p_ledger_ctrl_no, string p_leaveledger_date, string p_user_id)
         {
             var p_ledger_ctrl_noParameter = p_ledger_ctrl_no != null ?
@@ -5383,6 +5374,15 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_printing_list_Result>("sp_leave_printing_list", par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_info2_Result> sp_lv_info2(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info2_Result>("sp_lv_info2", par_user_idParameter);
         }
     }
 }

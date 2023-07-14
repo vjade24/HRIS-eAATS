@@ -245,7 +245,7 @@
                         ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
                         sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
 
-                        s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO")
+                        //s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO")
                     //}
                 }
                 else
@@ -254,7 +254,7 @@
                     ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
                     sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
 
-                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "2", "LEAVE")
+                    //s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "2", "LEAVE")
                 }
 
                 // *******************************************************
@@ -313,75 +313,75 @@
         //}
     }
 
-    s.RetrieveCardingReport = function (par_empl_id, par_date_from, par_date_to, par_rep_mode, print_mode)
-    {
-        // *******************************************************
-        // *******************************************************
-        var empl_id     = par_empl_id;
-        var ReportName  = "CrystalReport"
-        var SaveName    = "Crystal_Report"
-        var ReportType  = "inline"
-        var ReportPath  = ""
-        var sp          = ""
-        var p_date_fr   = par_date_from
-        var p_date_to   = par_date_to
-        var p_rep_mode  = par_rep_mode
+    //s.RetrieveCardingReport = function (par_empl_id, par_date_from, par_date_to, par_rep_mode, print_mode)
+    //{
+    //    // *******************************************************
+    //    // *******************************************************
+    //    var empl_id     = par_empl_id;
+    //    var ReportName  = "CrystalReport"
+    //    var SaveName    = "Crystal_Report"
+    //    var ReportType  = "inline"
+    //    var ReportPath  = ""
+    //    var sp          = ""
+    //    var p_date_fr   = par_date_from
+    //    var p_date_to   = par_date_to
+    //    var p_rep_mode  = par_rep_mode
         
-        sp = "sp_leaveledger_report,p_empl_id," + empl_id + ",p_date_fr," + p_date_fr + ",p_date_to," + p_date_to + ",p_rep_mode," + p_rep_mode;
+    //    sp = "sp_leaveledger_report,p_empl_id," + empl_id + ",p_date_fr," + p_date_fr + ",p_date_to," + p_date_to + ",p_rep_mode," + p_rep_mode;
 
-        if (print_mode == 'CTO')
-        {
-            ReportPath = "~/Reports/cryCOC/cryCOC.rpt";
-        }
-        else
-        {
-            ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
-        }
-        // *******************************************************
-        // *** VJA : 2021-07-14 - Validation and Loading hide ****
-        // *******************************************************
-        var iframe = document.getElementById('iframe_print_preview_carding');
-        var iframe_page = $("#iframe_print_preview_carding")[0];
-        iframe.style.visibility = "hidden";
+    //    if (print_mode == 'CTO')
+    //    {
+    //        ReportPath = "~/Reports/cryCOC/cryCOC.rpt";
+    //    }
+    //    else
+    //    {
+    //        ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
+    //    }
+    //    // *******************************************************
+    //    // *** VJA : 2021-07-14 - Validation and Loading hide ****
+    //    // *******************************************************
+    //    var iframe = document.getElementById('iframe_print_preview_carding');
+    //    var iframe_page = $("#iframe_print_preview_carding")[0];
+    //    iframe.style.visibility = "hidden";
 
-        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
-            + "&ReportName=" + ReportName
-            + "&SaveName=" + SaveName
-            + "&ReportType=" + ReportType
-            + "&ReportPath=" + ReportPath
-            + "&id=" + sp // + "," + parameters
+    //    s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+    //        + "&ReportName=" + ReportName
+    //        + "&SaveName=" + SaveName
+    //        + "&ReportType=" + ReportType
+    //        + "&ReportPath=" + ReportPath
+    //        + "&id=" + sp // + "," + parameters
 
-        if (!/*@cc_on!@*/0) { //if not IE
-            iframe.onload = function () {
-                iframe.style.visibility = "visible";
-            };
-        }
-        else if (iframe_page.innerHTML()) {
-            // get and check the Title (and H tags if you want)
-            var ifTitle = iframe_page.contentDocument.title;
-            if (ifTitle.indexOf("404") >= 0) {
-                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
-                iframe.src = "";
-            }
-            else if (ifTitle != "") {
-                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
-                iframe.src = "";
-            }
-        }
-        else {
-            iframe.onreadystatechange = function ()
-            {
-                if (iframe.readyState == "complete")
-                {
-                    iframe.style.visibility = "visible";
-                }
-            };
-        }
-        iframe.src = s.embed_link;
-        // *******************************************************
-        // *******************************************************
+    //    if (!/*@cc_on!@*/0) { //if not IE
+    //        iframe.onload = function () {
+    //            iframe.style.visibility = "visible";
+    //        };
+    //    }
+    //    else if (iframe_page.innerHTML()) {
+    //        // get and check the Title (and H tags if you want)
+    //        var ifTitle = iframe_page.contentDocument.title;
+    //        if (ifTitle.indexOf("404") >= 0) {
+    //            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+    //            iframe.src = "";
+    //        }
+    //        else if (ifTitle != "") {
+    //            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+    //            iframe.src = "";
+    //        }
+    //    }
+    //    else {
+    //        iframe.onreadystatechange = function ()
+    //        {
+    //            if (iframe.readyState == "complete")
+    //            {
+    //                iframe.style.visibility = "visible";
+    //            }
+    //        };
+    //    }
+    //    iframe.src = s.embed_link;
+    //    // *******************************************************
+    //    // *******************************************************
 
-    }
+    //}
 
 
     //$('#datalist_grid tbody').on('click', 'span.details-control', function ()

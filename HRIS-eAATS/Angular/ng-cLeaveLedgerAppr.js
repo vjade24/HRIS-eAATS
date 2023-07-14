@@ -20,7 +20,43 @@
 
     function init() {
 
+        // var date_now = new Date();
+        // s.txtb_date_fr = date_now.getFullYear() + "-01-01";
+        // s.txtb_date_to = date_now.getFullYear() + "-12-31";
 
+        $("#txtb_date_fr").on('change', function (e)
+        {
+            var par_rep_mode = ""
+            var print_mode   = ""
+            if (s.ddl_leave_type != "CTO")
+            {
+                par_rep_mode = "2"
+                print_mode   = "LEAVE"
+
+            } else
+            {
+                par_rep_mode = "3"
+                print_mode = "CTO"
+            }
+            s.RetrieveCardingReport(s.txtb_empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), par_rep_mode, print_mode)
+        });
+
+        $("#txtb_date_to").on('change', function (e)
+        {
+            var par_rep_mode = ""
+            var print_mode   = ""
+            if (s.ddl_leave_type != "CTO")
+            {
+                par_rep_mode = "2"
+                print_mode   = "LEAVE"
+
+            } else
+            {
+                par_rep_mode = "3"
+                print_mode = "CTO"
+            }
+            s.RetrieveCardingReport(s.txtb_empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), par_rep_mode, print_mode)
+        });
         //**********************************************
         // Initialize data during page loads
         //**********************************************
@@ -382,6 +418,10 @@
             }
         }
 
+        var date_now = new Date();
+        s.txtb_date_fr = s.datalistgrid[row_id].date_applied;
+        s.txtb_date_to = date_now.getFullYear() + "-12-31";
+
         s.next_status       = s.datalistgrid[row_id].next_status
         s.temp_approval_id  = s.datalistgrid[row_id].approval_id
 
@@ -434,16 +474,16 @@
                 ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
                 sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
 
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, "2023-01-01", "2023-12-31", "3", "CTO")
+                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), "3", "CTO")
             }
             else
             {
                 ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
                 sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
 
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, "2023-01-01", "2023-12-31", "2", "LEAVE")
+                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), "2", "LEAVE")
             }
-            console.log(sp)
+            //console.log(sp)
             
             // *******************************************************
             // *** VJA : 2021-07-14 - Validation and Loading hide ****
@@ -514,7 +554,9 @@
         s.txtb_sigpos3_ovrd     = s.datalistgrid[row_id].sig_pos3_ovrd;
         s.txtb_ledger_date      = s.datalistgrid[row_id].leaveledger_date;
         s.txtb_date_applied     = s.datalistgrid[row_id].date_applied;
-            
+
+
+
          h.post("../cLeaveLedgerAppr/GetSumofLeaveDetails",
              {
                  par_ledger_ctrl_no  : s.datalistgrid[row_id].ledger_ctrl_no   
