@@ -291,6 +291,12 @@ namespace HRIS_eAATS.Reports
                 //END
                 crvPrint.ReportSource = cryRpt;
                 crvPrint.DataBind();
+
+                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report")
+                {
+                    crvPrint.ShowLastPage();
+                }
+
                 PrinterSettings settings = new PrinterSettings();               
             }
             catch (Exception)
