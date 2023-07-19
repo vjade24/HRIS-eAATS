@@ -419,7 +419,8 @@
         }
 
         var date_now = new Date();
-        s.txtb_date_fr = s.datalistgrid[row_id].date_applied;
+        var date_now_to = new Date(s.datalistgrid[row_id].date_applied);
+        s.txtb_date_fr = moment(date_now_to).format('YYYY-MM-01');
         s.txtb_date_to = date_now.getFullYear() + "-12-31";
 
         s.next_status       = s.datalistgrid[row_id].next_status
@@ -474,14 +475,13 @@
                 ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
                 sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
 
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), "3", "CTO")
+                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "3", "CTO")
             }
             else
             {
                 ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
                 sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
-
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), "2", "LEAVE")
+                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
             }
             //console.log(sp)
             
