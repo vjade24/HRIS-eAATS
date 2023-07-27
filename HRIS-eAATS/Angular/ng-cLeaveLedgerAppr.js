@@ -421,7 +421,7 @@
         var date_now = new Date();
         //var date_now_to = new Date(s.datalistgrid[row_id].date_applied);
         //s.txtb_date_fr = moment(date_now_to).format('YYYY-MM-01');
-        s.txtb_date_fr = date_now.getFullYear() + "-01-01";
+        s.txtb_date_fr = "2021-01-01";
         s.txtb_date_to = date_now.getFullYear() + "-12-31";
 
         s.next_status       = s.datalistgrid[row_id].next_status

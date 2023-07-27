@@ -196,7 +196,7 @@
 
         if (p_rep_mode == "1" ||
             p_rep_mode == "2" ) {
-            ReportPath = "~/Reports/cryLeaveLedger2/cryLeaveLedger.rpt";
+            ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
         }
         else if (p_rep_mode == "3") {
             ReportPath = "~/Reports/cryCOC/cryCOC.rpt";
