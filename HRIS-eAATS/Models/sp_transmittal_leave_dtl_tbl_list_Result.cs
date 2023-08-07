@@ -29,5 +29,7 @@ namespace HRIS_eAATS.Models
         public string employment_type { get; set; }
         public string doc_remarks { get; set; }
         public decimal lv_nodays { get; set; }
+        public Nullable<int> leave_class { get; set; }
+        public string leave_descr { get; set; }
     }
 }

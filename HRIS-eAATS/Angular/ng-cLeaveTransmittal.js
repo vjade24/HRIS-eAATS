@@ -18,7 +18,7 @@
     //s.var_daily_monthly = "";
 
     s.ddl_transmittal_class = "daily"
-
+    s.doc_status_descr = "New"
     function init() {
 
 
@@ -54,22 +54,22 @@
                     s.oTable5.fnAddData(d.data.data);
                 }
 
-                $('#datalist_grid_transmit tbody').on('click', 'span.details-control', function () {
-                    var tr = $(this).closest('tr');
-                    var row = $('#datalist_grid_transmit').DataTable().row(tr);
+                //$('#datalist_grid_transmit tbody').on('click', 'span.details-control', function () {
+                //    var tr = $(this).closest('tr');
+                //    var row = $('#datalist_grid_transmit').DataTable().row(tr);
 
-                    if (row.child.isShown()) {
-                        // This row is already open - close it
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    }
-                    else {
-                        // Open this row
-                        row.child(format(row.data())).show();
-                        tr.addClass('shown');
-                    }
+                //    if (row.child.isShown()) {
+                //        // This row is already open - close it
+                //        row.child.hide();
+                //        tr.removeClass('shown');
+                //    }
+                //    else {
+                //        // Open this row
+                //        row.child(format(row.data())).show();
+                //        tr.addClass('shown');
+                //    }
 
-                });
+                //});
 
 
                 $("#modal_generating_remittance").modal("hide");
@@ -181,12 +181,12 @@
                     bAutoWidth: false,
                     sDom: 'rt<"bottom"ip>',
                     columns: [
-                        {
-                            "mData": null,
-                            "mRender": function (data, type, full, row) {
-                                return "<center><span class='details-control' style='display:block;' ></center>"
-                            }
-                        },
+                        //{
+                        //    "mData": null,
+                        //    "mRender": function (data, type, full, row) {
+                        //        return "<center><span class='details-control' style='display:block;' ></center>"
+                        //    }
+                        //},
                         {
                             "mData": "doc_ctrl_nbr",
                             "mRender": function (data, type, full, row) {
@@ -201,8 +201,12 @@
                         },
                         {
                             "mData": "department_descr",
-                            "mRender": function (data, type, full, row) {
-                                return "<span class='small'>&nbsp;&nbsp;" + data + "</span>"
+                            "mRender": function (data, type, full, row)
+                            {
+                                
+                                return "<span class='small'>&nbsp;&nbsp;" + (full["department_code"].toString().trim() == "" ? "" : data) + "</span>"
+                                
+                                
                             }
                         },
                         {
@@ -406,21 +410,21 @@
 
     //NEW UPDATE BY: JORGE RUSTOM VILLANUEVA 2020-09-18
     /* Formatting function for row details - modify as you need */
-    function format(d)
-    {
-        return '<table class="no-border" style="padding:0px !important;min-height:10px !important" > ' +
-            '<tr>' +
-            '<td style="width:24% !important;padding:0px 0px 0px 10px">Department/s:</td>' +
-            '<td style="padding:0px">' + d.department_descr + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td style="width:24% !important;padding:0px 0px 0px 10px">Employment Type:</td>' +
-            '<td style="padding:0px">' + d.employment_type_desr + '</td>' +
-            '</tr>' +
-            '</table>';
-    }
+    //function format(d)
+    //{
+    //    return '<table class="no-border" style="padding:0px !important;min-height:10px !important" > ' +
+    //        '<tr>' +
+    //        '<td style="width:24% !important;padding:0px 0px 0px 10px">Department/s:</td>' +
+    //        '<td style="padding:0px">' + d.department_descr + '</td>' +
+    //        '</tr>' +
+    //        '<tr>' +
+    //        '<td style="width:24% !important;padding:0px 0px 0px 10px">Employment Type:</td>' +
+    //        '<td style="padding:0px">' + d.employment_type_desr + '</td>' +
+    //        '</tr>' +
+    //        '</table>';
+    //}
 
-    s.RetrieveTransmittal_HDR = function (daily_monthly)
+    s.RetrieveTransmittal_HDR = function (daily_monthly, doc_status_descr)
     {
         //daySelect = document.getElementById('ddl_route_nbr');
         //$("#ddl_route_nbr option[value='01']").remove();
@@ -450,12 +454,14 @@
         //    $("#ddl_route_nbr option[value='06']").remove();
         //    $('#ddl_route_nbr').val('01')
         //}
-
+        s.show_department = true;
         if (s.ddl_transmittal_class == "monthly") {
             $('#ddl_route_nbr').val('06')
+            s.show_department = true;
         }
         else {
             $('#ddl_route_nbr').val('01')
+            s.show_department = false;
         }
 
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
@@ -465,6 +471,7 @@
              created_year    : s.ddl_year
             ,created_month   : s.ddl_month
             , daily_monthly  : daily_monthly
+            , doc_status_descr: doc_status_descr
 
         }).then(function (d)
         {
@@ -477,24 +484,24 @@
                     s.oTable5.fnAddData(d.data.data);
                 }
 
-                $('#datalist_grid_transmit tbody').on('click', 'span.details-control', function ()
-                {
-                    var tr = $(this).closest('tr');
-                    var row = $('#datalist_grid_transmit').DataTable().row(tr);
+                //$('#datalist_grid_transmit tbody').on('click', 'span.details-control', function ()
+                //{
+                //    var tr = $(this).closest('tr');
+                //    var row = $('#datalist_grid_transmit').DataTable().row(tr);
 
-                    if (row.child.isShown()) {
-                        // This row is already open - close it
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    }
-                    else
-                    {
-                        // Open this row
-                        row.child(format(row.data())).show();
-                        tr.addClass('shown');
-                    }
+                //    if (row.child.isShown()) {
+                //        // This row is already open - close it
+                //        row.child.hide();
+                //        tr.removeClass('shown');
+                //    }
+                //    else
+                //    {
+                //        // Open this row
+                //        row.child(format(row.data())).show();
+                //        tr.addClass('shown');
+                //    }
 
-                });
+                //});
                 //if (d.data.data.length > 0)
                 //{
                 //}
@@ -565,14 +572,16 @@
         //    $("#ddl_route_nbr option[value='06']").remove();
         //    $('#ddl_route_nbr').val('01')
         //}
-
+        s.show_department = true;
         if (s.ddl_transmittal_class == "monthly")
         {
             $('#ddl_route_nbr').val('06')
+            s.show_department = true;
         }
         else
         {
             $('#ddl_route_nbr').val('01')
+            s.show_department = false;
         }
 
         h.post("../cLeaveTransmittal/RetrieveNextNbr").then(function (d)
@@ -712,12 +721,13 @@
                     {
                         $('#modal_openCreateTransmittal_dtl').modal("hide");
                         swal("Successfully Saved!", "Your record has been saved!", { icon: "success" });
-                        s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
+                        s.RetrieveTransmittal_HDR(s.ddl_transmittal_class, s.doc_status_descr);
                         $('#modal_generating_remittance').modal('hide');
                     }
                     else
                     {
                         swal({ icon: "warning", title: d.data.message });
+                        $('#modal_generating_remittance').modal('hide');
                     }
                 })
             }
@@ -730,12 +740,13 @@
                     {
                         $('#modal_openCreateTransmittal_dtl').modal("hide");
                         swal("Successfully Updated!", "Your record has been updated!", { icon: "success" });
-                        s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
+                        s.RetrieveTransmittal_HDR(s.ddl_transmittal_class, s.doc_status_descr);
                         $('#modal_generating_remittance').modal('hide');
                     }
                     else
                     {
                         swal({ icon: "warning", title: d.data.message });
+                        $('#modal_generating_remittance').modal('hide');
                     }
                 })
             }
@@ -830,7 +841,17 @@
         s.ddl_route_nbr             = s.datalistgrid5[row_id].route_nbr
         s.ddl_dept                  = s.datalistgrid5[row_id].department_code
         s.ddl_employment_type       = s.datalistgrid5[row_id].employment_tyep
-        
+
+        s.show_department = true;
+        if (s.ddl_transmittal_class == "monthly") {
+
+            s.show_department = true;
+        }
+        else {
+
+            s.show_department = false;
+        }
+
         $('#modal_openCreateTransmittal_dtl').modal({ backdrop: 'static', keyboard: false }); 
     }
 
@@ -853,13 +874,23 @@
 
         s.txtb_doc_ctrl_nbr         = s.datalistgrid5[row_id].doc_ctrl_nbr
         s.txtb_transmittal_descr    = s.datalistgrid5[row_id].transmittal_descr  
-        s.txtb_approved_period_from = moment(s.datalistgrid5[row_id].approved_period_from).format('YYYY-MM-DD')  
-        s.txtb_approved_period_to   = moment(s.datalistgrid5[row_id].approved_period_to).format('YYYY-MM-DD')  
+        $('#txtb_approved_period_from').val(moment(s.datalistgrid5[row_id].approved_period_from).format('YYYY-MM-DD'))
+        $('#txtb_approved_period_to').val(moment(s.datalistgrid5[row_id].approved_period_to).format('YYYY-MM-DD'))
         s.txtb_created_by           = s.datalistgrid5[row_id].created_by
         s.txtb_created_dttm         = moment(s.datalistgrid5[row_id].doc_dttm).format('YYYY-MM-DD HH:mm:ss')
         s.ddl_route_nbr             = s.datalistgrid5[row_id].route_nbr
         s.ddl_dept                  = s.datalistgrid5[row_id].department_code
-        s.ddl_employment_type       = s.datalistgrid5[row_id].employment_tyep
+        s.ddl_employment_type = s.datalistgrid5[row_id].employment_tyep
+
+        s.show_department = true;
+        if (s.ddl_transmittal_class == "monthly") {
+
+            s.show_department = true;
+        }
+        else {
+
+            s.show_department = false;
+        }
 
         $('#btn_show_dtl_id' + s.datalistgrid5[row_id].doc_ctrl_nbr).addClass('disabled');
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
@@ -945,7 +976,7 @@
                 if (d.data.message == "success")
                 {
                     // swal("Successfully Added!","Your record has been saved!",{ icon: "success"});
-                    s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
+                    s.RetrieveTransmittal_HDR(s.ddl_transmittal_class, s.doc_status_descr);
                 }
                 else
                 {
@@ -1096,7 +1127,7 @@
             {
 
                 $('#itcd_doc_info').modal("hide");
-                s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
+                s.RetrieveTransmittal_HDR(s.ddl_transmittal_class, s.doc_status_descr);
                 swal(d.data.message_descr1,d.data.message_descr,{ icon: "success" });
                 
             }

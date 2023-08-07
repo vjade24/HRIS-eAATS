@@ -142,6 +142,8 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
+                data.created_by_user    = Session["user_id"].ToString();
+                data.created_dttm       = DateTime.Now;
                 db_ats.timeschedule_tbl.Add(data);
                 db_ats.SaveChangesAsync();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
@@ -161,8 +163,7 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var od = db_ats.timeschedule_tbl.Where(a =>
-                   a.ts_code == data.ts_code).FirstOrDefault();
+                var od = db_ats.timeschedule_tbl.Where(a => a.ts_code == data.ts_code).FirstOrDefault();
                 od.ts_descr             = data.ts_descr;
                 od.ts_am_in             = data.ts_am_in;
                 od.ts_am_out            = data.ts_am_out;
@@ -173,7 +174,8 @@ namespace HRIS_eAATS.Controllers
                 od.ts_day_equivalent    = data.ts_day_equivalent;
                 od.pre_time_in_hrs      = data.pre_time_in_hrs;
                 od.post_time_out_hrs    = data.post_time_out_hrs;
-
+                od.updated_by_user      = Session["user_id"].ToString();
+                od.updated_dttm         = DateTime.Now;
                 db_ats.SaveChanges();
 
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);

@@ -75,43 +75,27 @@
                     <div class="modal-body with-background" style="padding-bottom:5px;">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div style="width:43.5%; float:left;">
-                                    <span class="pull-left" style="margin-top:9px;"><b>Code:</b></span>
-                                </div>
-                                <div style="width:30%; float:left;">
-                                    <b><input class="form-control text-center" id="txtb_code" ng-model="txtb_code" disabled /></b>
-                                </div>
+                                <span class="pull-left" style="margin-top:9px;"><b>Code:</b></span>
+                                <b><input class="form-control text-center" id="txtb_code" ng-model="txtb_code"  /></b>
                             </div>
                         </div>
                         <div class="row" style="padding-top:5px">
                             <div class="col-sm-12">
-                                <div style="width:20.5%; float:left;">
-                                    <b><label class="pull-left" style="margin-top:9px;">Description:</label></b><label style="color:red;margin-top:5px;">*</label>
-                                </div>
-                                <div style="width:79.5%; float:left;">
-                                    <textarea class="form-control" maxlength="150" ng-model="txtb_description" id="txtb_description"></textarea>
-                                    <label id="lbl_txtb_description_req" class="lbl_required"></label>
-                                </div>
+                                <b><label class="pull-left" style="margin-top:9px;">Description:</label></b><label style="color:red;margin-top:5px;">*</label>
+                                <textarea class="form-control" maxlength="150" ng-model="txtb_description" id="txtb_description"></textarea>
+                                <label id="lbl_txtb_description_req" class="lbl_required"></label>
                             </div>
                         </div>
                         <div class="row" style="padding-top:5px;">
                             <div class="col-sm-4" style="padding-right:5px;">
-                                <div style="width:65%; float:left;">
-                                    <span class="pull-left" style="margin-top:0px;"><b>Shift Day Count:<label style="color:red;margin-top:5px;">*</label></b></span>
-                                </div>
-                                <div style="width:35%; float:left;">
-                                    <input class="form-control" maxlength="4" id="txtb_add_days" ng-model="txtb_add_days" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
-                                    <label id="lbl_txtb_add_days_req" class="lbl_required"></label>
-                                </div>
+                                <span class="pull-left" style="margin-top:0px;"><b>Shift Day Count:<label style="color:red;margin-top:5px;">*</label></b></span>
+                                <input class="form-control" maxlength="4" id="txtb_add_days" ng-model="txtb_add_days" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                                <label id="lbl_txtb_add_days_req" class="lbl_required"></label>
                             </div>
                             <div class="col-sm-5" style="padding-left:0px;">
-                                <div style="width:50%; float:left;">
-                                    <span class="pull-left" style="margin-top:5px;"><b>Equivalent Days:</b></span><label style="color:red;margin-top:5px;">*</label>
-                                </div>
-                                <div style="width:50%; float:left;">
-                                    <input class="form-control" maxlength="8" id="txtb_day_equiv" ng-model="txtb_day_equiv" onkeypress='return event.charCode >= 8 && event.charCode <= 57' />
-                                    <label id="lbl_txtb_day_equiv_req" class="lbl_required"></label>
-                                </div>
+                                <span class="pull-left" style="margin-top:5px;"><b>Equivalent Days:</b></span><label style="color:red;margin-top:5px;">*</label>
+                                <input class="form-control" maxlength="8" id="txtb_day_equiv" ng-model="txtb_day_equiv" onkeypress='return event.charCode >= 8 && event.charCode <= 57' />
+                                <label id="lbl_txtb_day_equiv_req" class="lbl_required"></label>
                             </div>
                             <div class="col-sm-3" style="padding-left:0px;margin-left:0px;">
                                 <div>
@@ -263,7 +247,7 @@
                                             <th width="32%">DESCRIPTION</th>
                                             <th width="20%">AM SCHEDULE</th>
                                             <th width="20%">PM SCHEDULE</th>
-                                            <th width="10%">SHIFT DAYS COUNT</th>
+                                            <th width="10%">SHIFT COUNT</th>
                                             <th width="10%">ACTION</th>
                                         </tr>
                                     </thead>

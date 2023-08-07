@@ -328,7 +328,7 @@
                 , ts_mid_break          : lunch_break
                 , ts_day_equivalent     : s.txtb_day_equiv
                 , pre_time_in_hrs       : $("#pre_timein_tt option:selected").val()     == "PM" ? convert_time_to_24hr($("#txtb_pre_timein").val()) : $("#txtb_pre_timein").val()
-                , post_time_out_hrs     : $("#post_timeout_tt option:selected").val()   == "PM" ? convert_time_to_24hr($("#txtb_post_timeout").val()) : $("#txtb_post_timeout").val()
+                , post_time_out_hrs: $("#post_timeout_tt option:selected").val() == "PM" ? convert_time_to_24hr($("#txtb_post_timeout").val()) : $("#txtb_post_timeout").val()
             }
             //console.log(data)
             h.post("../cTimeSchedule/Save", { data: data }).then(function (d) {

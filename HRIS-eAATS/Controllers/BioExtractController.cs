@@ -149,7 +149,7 @@ namespace HRIS_eAATS.Controllers
                 success = true;
                 bio_connect_info = "IP Address successfully connected";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 success = false;
@@ -189,7 +189,7 @@ namespace HRIS_eAATS.Controllers
         {
 
             db_dtr.Database.CommandTimeout = int.MaxValue;
-            var message = "";
+            //var message = "";
             var mn = 0;
             var bl = "";
             var date = DateTime.Now;

@@ -119,7 +119,11 @@
         line-height: 1.5;
         border-radius: 3px;
     }
-
+    th {
+        font-size: 13px !important;
+        padding: 6px 5px !important;
+        font-weight: bolder !important;
+    }
 </style>
 <section ng-app="ng_selfService_App" ng-controller="cLeaveTransmittal_ctrlr">
 
@@ -160,16 +164,27 @@
                                 </select>
                             </div>
                             <div class="col-lg-2">
+                                <strong><span>Filter</span></strong>
+                                <select class="form-control field-select-sm" id="doc_status_descr" ng-model="doc_status_descr" ng-change="RetrieveTransmittal_HDR(ddl_transmittal_class,doc_status_descr)">
+                                    <option value="All">All</option>
+                                    <option value="For Receive from Outside">For Receive from Outside</option>
+                                    @*<option value="Approved">Approved</option>*@
+                                    <option value="Released">Released</option>
+                                    <option value="Received">Received</option>
+                                    <option selected value="New">New</option>
+                                    <option value="Uploaded">Uploaded</option>
+                                    <option value="Transmitted to Payroll">Transmitted to Payroll</option>
+                                </select>
                             </div>
                             <div class="col-lg-2">
                                 <strong><span>Created Year</span></strong>
-                                <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="RetrieveTransmittal_HDR('{{var_daily_monthly}}')">
+                                <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="RetrieveTransmittal_HDR(ddl_transmittal_class,doc_status_descr)">
                                     <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
                                 </select>
                             </div>
                             <div class="col-lg-2">
                                 <strong><span>Created Month</span></strong>
-                                <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="RetrieveTransmittal_HDR(ddl_transmittal_class)">
+                                <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="RetrieveTransmittal_HDR(ddl_transmittal_class,doc_status_descr)">
                                     <option value="01">January</option>
                                     <option value="02">February</option>
                                     <option value="03">March</option>
@@ -186,7 +201,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <strong><span>Transmittal Class</span></strong>
-                                <select class="form-control" id="ddl_transmittal_class" ng-model="ddl_transmittal_class" ng-change="RetrieveTransmittal_HDR(ddl_transmittal_class)">
+                                <select class="form-control" id="ddl_transmittal_class" ng-model="ddl_transmittal_class" ng-change="RetrieveTransmittal_HDR(ddl_transmittal_class,doc_status_descr)">
                                     <option value="daily">Daily Transmittal</option>
                                     <option value="monthly">Monthly Transmittal</option>
                                 </select>
@@ -198,7 +213,7 @@
                                 <table id="datalist_grid_transmit" ng-model="datalist_grid_transmit" class="table table-striped table-bordered " style="width:100% !important;">
                                     <thead>
                                         <tr>
-                                            <th></th>
+                                            @*<th></th>*@
                                             <th width="10%">TRANSMITTAL #</th>
                                             <th width="20%">EMPLOYMENT TYPE</th>
                                             <th width="20%">DEPARTMENT</th>
@@ -255,9 +270,9 @@
                                     </div>
                                     <label id="lbl_txtb_approved_period_to_req" class="lbl_required"></label>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" ng-show="show_department">
                                     <label>Department<span class="text-danger"></span></label>
-                                    <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;">
+                                    <select class="form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" ng-disabled="dis_title">
                                         <option value="">-- Select Here -- </option>
                                         <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
                                     </select>
@@ -273,12 +288,24 @@
                                         <option value="05"> All VGO Employees</option>
                                         <option value="06"> Release to Payroll </option>
                                         <option value="07"> All SPO Employees</option>
+                                        <option value="08"> Terminal Leave</option>
+                                        <option value="09"> Study leave</option>
+                                        <option value="10"> Maternity Leave</option>
+                                        <option value="11"> Monetization Leave</option>
+                                        <option value="12"> Travel Abroad</option>
+                                        <option value="13"> Adoption Leave</option>
+                                        <option value="14"> Rehabilitation Privilege</option>
+                                        <option value="15"> Magna Carta for Women</option>
+                                        <option value="16"> 10-Day VAWC Leave</option>
+                                        <option value="17"> Governor to DILG/PGO</option>
+                                        <option value="18"> Vice-Governor to Governor</option>
+                                        <option value="19"> Other (Special Case)</option>
                                     </select>
                                     <label id="lbl_ddl_route_nbr_req" class="lbl_required"></label>
                                 </div>
                                 <div class="col-lg-4">
                                     <label>Employment Type<span class="text-danger"></span></label>
-                                    <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type" style="width:100%;">
+                                    <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type" style="width:100%;" ng-disabled="dis_title">
                                         <option value="">-- All Employment Type -- </option>
                                         <option value="RE">Regular Employees</option>
                                         <option value="CE">Casual Employees</option>
@@ -286,7 +313,7 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label>View Mode<span class="text-danger"><small>*required</small></span></label>
-                                    <select class="form-control" id="ddl_rep_mode_add_edit" ng-model="ddl_rep_mode_add_edit">
+                                    <select class="form-control" id="ddl_rep_mode_add_edit" ng-model="ddl_rep_mode_add_edit" ng-disabled="dis_title">
                                         <option value="2">Leave Card</option>
                                         <option value="3">CTO Card</option>
                                     </select>
@@ -327,13 +354,13 @@
                                         <th             style="background-color:#1c84c6 !important;">
                                         @*<div style="cursor: pointer;" class="checkbox-primary text-center"><input style="width:20px;" id="checkbox_all" ng-click="btn_check_action_all()" type="checkbox" ><label for="checkbox"></label></div>*@
                                         </th>
-                                        <th width="5%"  style="width:5%  !important;background-color:#1c84c6 !important;">ID #</th>
-                                        <th width="45%" style="width:45% !important;background-color:#1c84c6 !important;">EMPLOYEE NAME</th>
-                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">TYPE</th>
-                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">INCLUSIVE DATE</th>
-                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">LEAVE CTRL NO</th>
-                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">LEDGER CTRL NO</th>
-                                        <th width="10%" style="width:10% !important;background-color:#1c84c6 !important;">APPROVED DTTM</th>
+                                        <th style="width:5%  !important;background-color:#1c84c6 !important;">ID #</th>
+                                        <th style="width:45% !important;background-color:#1c84c6 !important;">EMPLOYEE NAME</th>
+                                        <th style="width:10% !important;background-color:#1c84c6 !important;">TYPE</th>
+                                        <th style="width:10% !important;background-color:#1c84c6 !important;">INCLUSIVE DATE</th>
+                                        <th style="width:10% !important;background-color:#1c84c6 !important;">LEAVE CTRL NO</th>
+                                        <th style="width:10% !important;background-color:#1c84c6 !important;">LEDGER CTRL NO</th>
+                                        <th style="width:10% !important;background-color:#1c84c6 !important;">APPROVED DTTM</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -431,7 +458,7 @@
                                                             <div class="form-group">
                                                                 <span class="col-lg-3 font-bold ">Document Route : </span>
                                                                 <div class="col-lg-9" style="margin-bottom:3px">
-                                                                    <select class="form-control" id="ddl_route_nbr_trk" ng-model="ddl_route_nbr_trk">
+                                                                    <select class="form-control" id="ddl_route_nbr_trk" ng-model="ddl_route_nbr_trk" disabled>
                                                                         <option value="01" selected> 1-10  days</option>
                                                                         <option value="02"> 11-30 days</option>
                                                                         <option value="03"> 31-60 days</option>
@@ -439,6 +466,18 @@
                                                                         <option value="05"> All VGO Employees</option>
                                                                         <option value="06"> Release to Payroll </option>
                                                                         <option value="07"> All SPO Employees</option>
+                                                                        <option value="08"> Terminal Leave</option>
+                                                                        <option value="09"> Study leave</option>
+                                                                        <option value="10"> Maternity Leave</option>
+                                                                        <option value="11"> Monetization Leave</option>
+                                                                        <option value="12"> Travel Abroad</option>
+                                                                        <option value="13"> Adoption Leave</option>
+                                                                        <option value="14"> Rehabilitation Privilege</option>
+                                                                        <option value="15"> Magna Carta for Women</option>
+                                                                        <option value="16"> 10-Day VAWC Leave</option>
+                                                                        <option value="17"> Governor to DILG/PGO</option>
+                                                                        <option value="18"> Vice-Governor to Governor</option>
+                                                                        <option value="19"> Other (Special Case)</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-12">
@@ -448,7 +487,7 @@
                                                                     Transmittal Description:
                                                                 </span>
                                                                 <div class="col-lg-9" style="margin-bottom:3px">
-                                                                    <textarea class="form-control " id="txtb_trans_descr" ng-model="txtb_trans_descr"></textarea>
+                                                                    <textarea class="form-control " id="txtb_trans_descr" ng-model="txtb_trans_descr" disabled></textarea>
                                                                 </div>
                                                                 <div class="col-lg-3">
                                                                     Department/s  :

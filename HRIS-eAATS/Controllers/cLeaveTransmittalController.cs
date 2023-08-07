@@ -76,7 +76,7 @@ namespace HRIS_eAATS.Controllers
 
                 //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList();
 
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06").ToList();
+                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").ToList();
                 return JSON(new { message = "success", um
                     //, leaveType, leaveSubType
                     // , ledgerposting_for_approval_list
@@ -95,7 +95,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2022-05-24
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult RetrieveTransmittal_HDR(int created_year, int created_month, string daily_monthly)
+        public ActionResult RetrieveTransmittal_HDR(int created_year, int created_month, string daily_monthly, string doc_status_descr)
         {
             try
             {
@@ -103,11 +103,16 @@ namespace HRIS_eAATS.Controllers
 
                 if (daily_monthly == "daily")
                 {
-                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a => a.route_nbr != "06").ToList();
+                    data = data.Where(a => a.route_nbr != "06").ToList();
                 }
                 else if (daily_monthly == "monthly")
                 {
-                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a => a.route_nbr == "06").ToList();
+                    data = data.Where(a => a.route_nbr == "06").ToList();
+                }
+
+                if (doc_status_descr.ToString().Trim() != "All")
+                {
+                    data = data.Where(a=> a.doc_status_descr == doc_status_descr.ToString().Trim()).ToList();
                 }
 
                 return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
@@ -190,6 +195,7 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
+                var message = "";
                 List<transmittal_leave_dtl_tbl> data_dtl = new List<transmittal_leave_dtl_tbl>();
 
                 var nxt_ctrl_nbr            = db_ats.sp_generate_key("transmittal_leave_hdr_tbl", "doc_ctrl_nbr", 12).ToList().FirstOrDefault();
@@ -216,13 +222,25 @@ namespace HRIS_eAATS.Controllers
                         // 05 =  All VGO Employees
                         // 06 =  Release to Payroll 
                         // 07 =  All SPO Employees
+                        // 08 =  Terminal Leave
+                        // 09 =  Study leave
+                        // 10 =  Maternity Leave
+                        // 11 =  Monetization Leave
+                        // 12 =  Travel Abroad
+                        // 13 =  Adoption Leave
+                        // 14 =  Rehabilitation Privilege
+                        // 15 =  Magna Carta for Women
+                        // 16 =  10-Day VAWC Leave
+                        // 17 =  Governor to DILG/PGO
+                        // 18 =  Vice-Governor to Governor
+                        // 19 =  Other (Special Case)
 
                         // ------ VIEW MODE
                         // 1 = Both Leave and CTO
                         // 2 = Leave Only
                         // 3 = CTO Only
                         
-                        if (data.view_mode == "2" && (data.department_code != "18" && data.department_code != "19"))
+                        if (data.view_mode == "2")
                         {
                             if (data.route_nbr == "01")
                             {
@@ -240,31 +258,103 @@ namespace HRIS_eAATS.Controllers
                             {
                                 data_dtl_insert =  data_dtl_insert.Where(a => a.lv_nodays >= 61).ToList();
                             }
+                            else if (data.route_nbr == "05")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.department_code == "18").ToList();
+                            }
+                            else if (data.route_nbr == "07")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.department_code == "19").ToList();
+                            }
+                            else if (data.route_nbr == "08")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "TL").ToList();
+                            }
+                            else if (data.route_nbr == "09")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "STL").ToList();
+                            }
+                            else if (data.route_nbr == "10")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "ML").ToList();
+                            }
+                            else if (data.route_nbr == "11")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MZ").ToList();
+                            }
+                            else if (data.route_nbr == "12")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leave_class == 1).ToList();
+                            }
+                            else if (data.route_nbr == "13")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "AL").ToList();
+                            }
+                            else if (data.route_nbr == "14")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "RH").ToList();
+                            }
+                            else if (data.route_nbr == "15")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MC").ToList();
+                            }
+                            else if (data.route_nbr == "16")
+                            {
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "VWC").ToList();
+                            }
+                            else if (data.route_nbr == "17")
+                            {
+                                var gov_empl_id = db.departments_tbl.Where(a=> a.department_code == "01").OrderByDescending(a=> a.effective_date).FirstOrDefault().empl_id;
+                                data_dtl_insert = data_dtl_insert.Where(a => a.empl_id == gov_empl_id).ToList();
+                            }
+                            else if (data.route_nbr == "18")
+                            {
+                                var vice_gov_empl_id = db.departments_tbl.Where(a => a.department_code == "18").OrderByDescending(a => a.effective_date).FirstOrDefault().empl_id;
+                                data_dtl_insert = data_dtl_insert.Where(a => a.empl_id == vice_gov_empl_id).ToList();
+                            }
+                            else if (data.route_nbr == "19")
+                            {
+                                data_dtl_insert = data_dtl_insert.ToList();
+                            }
                         }
 
-
-                        for (int i = 0; i < data_dtl_insert.Count; i++)
+                        if (data_dtl_insert.Count > 0)
                         {
-                            transmittal_leave_dtl_tbl dta1 = new transmittal_leave_dtl_tbl();
+                            for (int i = 0; i < data_dtl_insert.Count; i++)
+                            {
+                                transmittal_leave_dtl_tbl dta1 = new transmittal_leave_dtl_tbl();
 
-                            dta1.doc_ctrl_nbr       = "LV-" + nxt_ctrl_nbr.key_value.ToString();
-                            dta1.ledger_ctrl_no     = data_dtl_insert[i].ledger_ctrl_no.ToString().Trim();
-                            dta1.created_by         = Session["user_id"].ToString();
-                            dta1.created_dttm       = DateTime.Now;
-                            dta1.route_nbr          = data.route_nbr;
-                            dta1.leave_ctrlno       = data_dtl_insert[i].leave_ctrlno.ToString().Trim();
-                            data_dtl.Add(dta1);
+                                dta1.doc_ctrl_nbr       = "LV-" + nxt_ctrl_nbr.key_value.ToString();
+                                dta1.ledger_ctrl_no     = data_dtl_insert[i].ledger_ctrl_no.ToString().Trim();
+                                dta1.created_by         = Session["user_id"].ToString();
+                                dta1.created_dttm       = DateTime.Now;
+                                dta1.route_nbr          = data.route_nbr;
+                                dta1.leave_ctrlno       = data_dtl_insert[i].leave_ctrlno.ToString().Trim();
+                                data_dtl.Add(dta1);
 
-                            // *************************************************************
-                            // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
-                            // *************************************************************
-                            var appl_status = "Create Transmittal for Signature";
-                            db_ats.sp_lv_ledger_history_insert(data_dtl_insert[i].ledger_ctrl_no.ToString().Trim(), data_dtl_insert[i].leave_ctrlno.ToString().Trim(), data_dtl_insert[i].empl_id.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
-                            // *************************************************************
-                            // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
-                            // *************************************************************
+                                // *************************************************************
+                                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                                // *************************************************************
+                                var appl_status = "Create Transmittal for Signature";
+                                db_ats.sp_lv_ledger_history_insert(data_dtl_insert[i].ledger_ctrl_no.ToString().Trim(), data_dtl_insert[i].leave_ctrlno.ToString().Trim(), data_dtl_insert[i].empl_id.ToString().Trim(), appl_status, "", Session["user_id"].ToString());
+                                // *************************************************************
+                                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                                // *************************************************************
 
+                            }
+                            db_ats.transmittal_leave_hdr_tbl.Add(data);
+                            db_ats.transmittal_leave_dtl_tbl.AddRange(data_dtl);
+                            db_ats.SaveChangesAsync();
+                            message = "success";
                         }
+                        else
+                        {
+                            message = "no data found";
+                        }
+                    }
+                    else
+                    {
+                        message = "no data found";
                     }
                 }
                 else
@@ -294,15 +384,17 @@ namespace HRIS_eAATS.Controllers
                             // *************************************************************
 
                         }
+                        db_ats.transmittal_leave_hdr_tbl.Add(data);
+                        db_ats.transmittal_leave_dtl_tbl.AddRange(data_dtl);
+                        db_ats.SaveChangesAsync();
+                        message = "success";
+                    }
+                    else
+                    {
+                        message = "no data found";
                     }
                 }
-
-                db_ats.transmittal_leave_hdr_tbl.Add(data);
-                db_ats.transmittal_leave_dtl_tbl.AddRange(data_dtl);
-                db_ats.SaveChangesAsync();
-
-
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

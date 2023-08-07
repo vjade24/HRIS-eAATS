@@ -12,7 +12,7 @@
     s.ddl_dept          = "";
     function init()
     {
-        s.ddl_filter = 'TFU';
+        s.ddl_filter = 'N';
         $("#ddl_filter").select2().on('change', function (e) {
             s.FilterPageGrid();
         });
@@ -159,7 +159,8 @@
             {
                 evaluated_date_from : $('#txtb_date_fr').val(),
                 evaluated_date_to   : $('#txtb_date_to').val(),
-                par_department_code : $("#ddl_dept option:selected").val()
+                par_department_code : $("#ddl_dept option:selected").val(),
+                par_show_printed    : $("#ddl_filter option:selected").val()
             }).then(function (d) {
                 if (d.data.message == "success") {
                     s.oTable.fnClearTable();

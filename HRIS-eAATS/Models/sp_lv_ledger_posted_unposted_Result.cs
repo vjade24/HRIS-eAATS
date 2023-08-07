@@ -30,5 +30,7 @@ namespace HRIS_eAATS.Models
         public Nullable<decimal> number_of_days { get; set; }
         public string leaveledger_entry_type { get; set; }
         public Nullable<bool> justification_flag { get; set; }
+        public bool leave_class { get; set; }
+        public string leave_descr { get; set; }
     }
 }

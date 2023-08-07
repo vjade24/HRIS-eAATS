@@ -13,6 +13,7 @@
         <EntityTypeShape EntityType="HRIS_PAYModel.transactionsref_tbl" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.vw_approvalworkflow_tbl" Width="1.5" PointX="7.375" PointY="4.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.payrollemployeemaster_hdr_tbl" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_PAYModel.departments_tbl" Width="1.5" PointX="9.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

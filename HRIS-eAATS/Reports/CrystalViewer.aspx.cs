@@ -84,6 +84,7 @@ namespace HRIS_eAATS.Reports
             crvPrint.HasExportButton = true;
             crvPrint.HasPrintButton = true;
             lnkbtn_export.Visible = false;
+            //crvPrint.SeparatePages = false;
 
             if (ls_splitvalue.Length == 3)
             {

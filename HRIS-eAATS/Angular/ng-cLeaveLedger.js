@@ -1155,6 +1155,20 @@
         s.txtb_lwop_body_1      = s.datalistgrid2[row_id].lwop_body_1
         s.txtb_lwop_body_2      = s.datalistgrid2[row_id].lwop_body_2
 
+        s.txtb_specify          = s.datalistgrid2[row_id].leave_descr
+        s.datalistgrid2[row_id].leave_class == true ? $("#x1").prop("checked", true) : $("#x0").prop("checked", true);
+        if ($("#x1").prop("checked"))
+        {
+            $("#x0").closest('div').removeClass('checked');
+            $("#x1").closest('div').removeClass('checked');
+            $("#x1").closest('div').addClass('checked');
+        }
+        if ($("#x0").prop("checked"))
+        {
+            $("#x0").closest('div').removeClass('checked');
+            $("#x1").closest('div').removeClass('checked');
+            $("#x0").closest('div').addClass('checked');
+        }
         // s.GetLedgerDetails();
         s.SelectEntryType();
         s.SelectLeaveType();
@@ -1191,6 +1205,43 @@
         //**********************************************
 
         //s.openJustification()
+
+        // **************************************************************************
+        // *** Display the Radio button, checkboxes for Sick leave and Vacatio Leave
+        // **************************************************************************
+        if (s.datalistgrid2[row_id].leave_type_code == "SL") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Out Patient');
+            $('#slvl_radio1_text').html('In Hospital');
+        }
+        else if (s.datalistgrid2[row_id].leave_type_code == "VL") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Within Philippines');
+            $('#slvl_radio1_text').html('Abroad');
+            console.log($('#slvl_radio1_text'))
+        }
+        // ************************************************************** 
+        else if (s.datalistgrid2[row_id].leave_type_code == "FL" || s.datalistgrid2[row_id].leave_type_code == "SP") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Within Philippines');
+            $('#slvl_radio1_text').html('Abroad');
+        }
+        // ************************************************************** 
+        else {
+            $('#slvl_radio0').addClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').addClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').addClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('');
+            $('#slvl_radio1_text').html('');
+        }
+        // **************************************************************************
+        // **************************************************************************
         
         $('#main_modal').modal({ backdrop: 'static', keyboard: false })
     }
@@ -1922,7 +1973,7 @@
                 data: data
             }).then(function (d) {
                 if (d.data.message_descr != "") {
-                    swal($("#ddl_leave_type option:selected").text() + " Application Date Applied is beyond date of Filing!", d.data.message_descr, {
+                    swal($("#ddl_leave_type option:selected").text() + d.data.message_descr_1, d.data.message_descr, {
                         icon: "warning",
                         buttons: {
                             continue_anyway: {

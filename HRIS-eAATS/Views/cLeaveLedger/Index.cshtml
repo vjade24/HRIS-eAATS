@@ -7,9 +7,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=10"></script>
-<script src="~/Angular/ng-Reports.js?v=10"></script>
-<script src="~/Angular/ng-cLeaveLedger.js?v=10"></script>
+<script src="~/crystalreportviewers13/js/crviewer/crv.js?v=11"></script>
+<script src="~/Angular/ng-Reports.js?v=11"></script>
+<script src="~/Angular/ng-cLeaveLedger.js?v=11"></script>
 <style type="text/css">
     
     .select2-container .select2-selection--single {
@@ -34,7 +34,9 @@
         margin: 0 auto;
         padding: 20px;
     }
-
+    .sl-vl-radio-display-none {
+        display: none;
+    }
     /*.print_preview_iframe_css {
         border: 1px solid;
         overflow: hidden;
@@ -248,6 +250,26 @@
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <input class="form-control text-left" id="txtb_details_remarks" ng-model="txtb_details_remarks" />
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="padding-top:6px;" >
+                                                    <div class="col-lg-4">
+                                                        <div class="i-checks" id="slvl_radio0">
+                                                            <label>
+                                                                <input type="radio" value="0" name="sl_vl" id="x0">
+                                                                <label id="slvl_radio0_text" style="font-size:10px !important"> Select Here 0 </label>
+                                                            </label>
+                                                        </div>
+                                                        <div class="i-checks" id="slvl_radio1">
+                                                            <label>
+                                                                <input type="radio" value="1" name="sl_vl" id="x1">
+                                                                <label id="slvl_radio1_text" style="font-size:10px !important"> Select Here 1</label>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-8" id="txtb_specify_div">
+                                                        <input class="form-control text-left" placeholder="Specify" id="txtb_specify" ng-model="txtb_specify" disabled />
+                                                        <label id="lbl_txtb_specify_req" class="lbl_required"></label>
                                                     </div>
                                                 </div>
 
@@ -781,7 +803,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="print_preview_iframe_css">
-                                    <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview2" scrolling="no" src=""></iframe>
+                                    <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview2" scrolling="no" src=""></iframe>
                                 </div>
                             </div>
                         </div>

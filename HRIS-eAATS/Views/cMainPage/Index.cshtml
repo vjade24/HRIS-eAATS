@@ -88,7 +88,7 @@
                         @*<hr style="margin-top:5px;margin-bottom:2px;border:0.1px solid cadetblue;" />*@
 
                         <div class="row" style="padding-top:5px;">
-                            <div class="col-sm-4 b-r">
+                            <div class="col-lg-4 b-r">
                                 <h2>Welcome, @Session["first_name"].ToString()</h2>
                                 <small>You have {{total_notif}} notifications as of @DateTime.Now.ToLongDateString() @DateTime.Now.ToShortTimeString().</small>
                                 <ul class="list-group clear-list m-t">
@@ -99,25 +99,25 @@
                                             CTO : {{total_leave_review_cto}}
 
                                         </span>
-                                        <span class="label label-warning-light" >{{total_leave_review}}</span> &nbsp; Total number of for Review & Post to Ledger
+                                        <span class="label label-warning-light" style="font-size:20px !important" >{{total_leave_review}}</span> &nbsp; Total number of for Review & Post to Ledger
                                     </li>
                                     <li class="list-group-item ">
                                         @*<span class="pull-right">
                                             09:00 pm
                                         </span>*@
-                                        <span class="label label-primary" >{{total_leave_cancellation}}</span> &nbsp; Total number of Leave Cancellation
+                                        <span class="label label-primary" style="font-size:20px !important">{{total_leave_cancellation}}</span> &nbsp; Total number of Leave Cancellation
                                     </li>
                                     <li class="list-group-item">
                                         @*<span class="pull-right">
                                             10:16 am
                                         </span>*@
-                                        <span class="label label-info" >{{total_leave_printing}}</span> &nbsp; Total number of Leave Printing
+                                        <span class="label label-info" style="font-size:20px !important">{{total_leave_printing}}</span> &nbsp; Total number of Leave Printing
                                     </li>
                                     <li class="list-group-item">
                                         @*<span class="pull-right">
                                             <small class="text-muted">@DateTime.Now.ToLongDateString() @DateTime.Now.ToShortTimeString()</small>
                                         </span>*@
-                                        <span class="label label-danger">{{total_leave_transmittal}}</span> &nbsp; Total number of Not released Leave Transmittal
+                                        <span class="label label-danger" style="font-size:20px !important">{{total_leave_transmittal}}</span> &nbsp; Total number of Not released Leave Transmittal
                                     </li>
                                 </ul>
                             </div>

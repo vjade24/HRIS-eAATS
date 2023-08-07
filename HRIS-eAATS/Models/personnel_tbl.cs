@@ -51,5 +51,9 @@ namespace HRIS_eAATS.Models
         public Nullable<bool> citizenship_type { get; set; }
         public Nullable<bool> citizenship_nature { get; set; }
         public string citizenship_country { get; set; }
+        public Nullable<int> ethnicity_id { get; set; }
+        public Nullable<int> religion_id { get; set; }
+        public Nullable<int> pwd_type_id { get; set; }
+        public string gender2 { get; set; }
     }
 }

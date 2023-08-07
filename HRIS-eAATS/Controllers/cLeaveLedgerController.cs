@@ -1210,8 +1210,28 @@ namespace HRIS_eAATS.Controllers
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var message_descr = "";
-                var leave_appl_dtl = db_ats.leave_application_dtl_tbl.Where(a=> a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).ToList();
+                var date_applied_year   = DateTime.Parse(data.date_applied.ToString()).Year;
+                var message_descr       = "";
+                var message_descr_1     = "";
+                var leave_appl_dtl      = db_ats.leave_application_dtl_tbl.Where(a=> a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).ToList();
+
+                var chk_travel = from a in db_ats.travelorder_hdr_tbl
+                                 join b in db_ats.travelorder_empl_dtl_tbl
+                                 on a.travel_order_no equals b.travel_order_no
+                                 join c in db_ats.travelorder_dates_dtl_tbl
+                                 on a.travel_order_no equals c.travel_order_no
+                                 where b.empl_id == data.empl_id
+                                 && a.approval_status   == "F"
+                                 && (c.travel_date.Year    == date_applied_year
+                                     )
+
+                                select new
+                             {
+                                 b.empl_id,
+                                 c.travel_date,
+                                 c.travel_date_to,
+                                 a.travel_purpose
+                             };
 
                 if (data.leavetype_code == "SL")   // Sick Leave
                 {
@@ -1222,12 +1242,36 @@ namespace HRIS_eAATS.Controllers
                             if (leave_appl_dtl[i].leave_date_from > data.date_applied ||
                                 leave_appl_dtl[i].leave_date_to > data.date_applied)
                             {
-                                message_descr = "Date Applied: " + data.date_applied.ToString() + "\n Application Nbr.: " + leave_appl_dtl[i].leave_ctrlno + "\n Date Application from :" + leave_appl_dtl[i].leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_appl_dtl[i].leave_date_to.ToString("yyyy-MM-dd");
+                                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("MMMM d, yyyy") + "\n Application Nbr.: " + leave_appl_dtl[i].leave_ctrlno + "\n Date Application from :" + leave_appl_dtl[i].leave_date_from.ToString("MMMM d, yyyy") + "\n Date Application to: " + leave_appl_dtl[i].leave_date_to.ToString("MMMM d, yyyy");
+                                message_descr_1 = " Application Date Applied is beyond date of Filing!";
                             }
                         }
                     }
                 }
-                return JSON(new {leave_appl_dtl, message_descr }, JsonRequestBehavior.AllowGet);
+                // *************************************************
+                // ** 2023-08-01 - Check if Travel Order Approved **
+                // *************************************************
+                if (chk_travel != null)
+                {
+                    foreach (var item in leave_appl_dtl)
+                    {
+                        for (int i = 0; i < (item.leave_date_to.AddDays(1) - item.leave_date_from).TotalDays; i++)
+                        {
+                            DateTime leave_date_to_loop = item.leave_date_from.AddDays(i);
+                            for (int x = 0; x < chk_travel.ToList().Count; x++)
+                            {
+                                if (leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())    && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())
+                                 || leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()) && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()))
+                                {
+                                    message_descr += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
+                                    message_descr_1 = " - There is Travel Order Approved!";
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return JSON(new {leave_appl_dtl, message_descr, message_descr_1 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
