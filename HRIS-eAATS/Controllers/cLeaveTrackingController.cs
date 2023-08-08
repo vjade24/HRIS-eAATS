@@ -165,7 +165,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/31/20231
         // Description  : Get Uploading Details
         //*********************************************************************//
-        public ActionResult SubmitOverride(string par_doc_ctrl_nbr, string par_ledger_ctrl_no, string par_remarks,string par_leave_ctrlno)
+        public ActionResult SubmitOverride(string par_doc_ctrl_nbr, string par_ledger_ctrl_no, string par_remarks,string par_leave_ctrlno, string par_empl_id)
         {
             try
             {
@@ -181,6 +181,7 @@ namespace HRIS_eAATS.Controllers
                 table.created_dttm          = DateTime.Now;
                 table.leave_ctrlno          = par_leave_ctrlno;
                 table.ledger_ctrl_no        = par_ledger_ctrl_no;
+                table.empl_id               = par_empl_id;
                 db_ats.lv_ledger_history_tbl.Add(table);
                 db_ats.SaveChangesAsync();
 
