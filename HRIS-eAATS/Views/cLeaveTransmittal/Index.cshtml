@@ -281,25 +281,7 @@
                                 <div class="col-lg-4">
                                     <label>Document Route<span class="text-danger"><small>*required</small></span></label>
                                     <select class="form-control" id="ddl_route_nbr" ng-model="ddl_route_nbr" ng-disabled="dis_title">
-                                        <option value="01" selected> 1-10  days</option>
-                                        <option value="02"> 11-30 days</option>
-                                        <option value="03"> 31-60 days</option>
-                                        <option value="04"> 61 up and Other Types of Leave</option>
-                                        <option value="05"> All VGO Employees</option>
-                                        <option value="06"> Release to Payroll </option>
-                                        <option value="07"> All SPO Employees</option>
-                                        <option value="08"> Terminal Leave</option>
-                                        <option value="09"> Study leave</option>
-                                        <option value="10"> Maternity Leave</option>
-                                        <option value="11"> Monetization Leave</option>
-                                        <option value="12"> Travel Abroad</option>
-                                        <option value="13"> Adoption Leave</option>
-                                        <option value="14"> Rehabilitation Privilege</option>
-                                        <option value="15"> Magna Carta for Women</option>
-                                        <option value="16"> 10-Day VAWC Leave</option>
-                                        <option value="17"> Governor to DILG/PGO</option>
-                                        <option value="18"> Vice-Governor to Governor</option>
-                                        <option value="19"> Other (Special Case)</option>
+                                        <option ng-repeat="lst in leave_transmittal_type_tbl" value="{{lst.route_nbr}}">{{lst.transmittal_type_descr}}</option>
                                     </select>
                                     <label id="lbl_ddl_route_nbr_req" class="lbl_required"></label>
                                 </div>
@@ -459,25 +441,7 @@
                                                                 <span class="col-lg-3 font-bold ">Document Route : </span>
                                                                 <div class="col-lg-9" style="margin-bottom:3px">
                                                                     <select class="form-control" id="ddl_route_nbr_trk" ng-model="ddl_route_nbr_trk" disabled>
-                                                                        <option value="01" selected> 1-10  days</option>
-                                                                        <option value="02"> 11-30 days</option>
-                                                                        <option value="03"> 31-60 days</option>
-                                                                        <option value="04"> 61 up and Other Types of Leave</option>
-                                                                        <option value="05"> All VGO Employees</option>
-                                                                        <option value="06"> Release to Payroll </option>
-                                                                        <option value="07"> All SPO Employees</option>
-                                                                        <option value="08"> Terminal Leave</option>
-                                                                        <option value="09"> Study leave</option>
-                                                                        <option value="10"> Maternity Leave</option>
-                                                                        <option value="11"> Monetization Leave</option>
-                                                                        <option value="12"> Travel Abroad</option>
-                                                                        <option value="13"> Adoption Leave</option>
-                                                                        <option value="14"> Rehabilitation Privilege</option>
-                                                                        <option value="15"> Magna Carta for Women</option>
-                                                                        <option value="16"> 10-Day VAWC Leave</option>
-                                                                        <option value="17"> Governor to DILG/PGO</option>
-                                                                        <option value="18"> Vice-Governor to Governor</option>
-                                                                        <option value="19"> Other (Special Case)</option>
+                                                                        <option ng-repeat="lst in leave_transmittal_type_tbl" value="{{lst.route_nbr}}">{{lst.transmittal_type_descr}}</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-12">

@@ -598,6 +598,17 @@
           <Property Name="updated_dttm" Type="datetime" />
           <Property Name="updated_by_user" Type="varchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="leave_transmittal_type_tbl">
+          <Key>
+            <PropertyRef Name="route_nbr" />
+          </Key>
+          <Property Name="route_nbr" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="transmittal_type_descr" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="created_by" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="updated_by" Type="varchar" MaxLength="15" />
+          <Property Name="updated_dttm" Type="datetime" />
+        </EntityType>
         <EntityType Name="leaveadmin_tbl">
           <Key>
             <PropertyRef Name="empl_id" />
@@ -4349,6 +4360,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="leave_application_hdr_justi_tbl" EntityType="Self.leave_application_hdr_justi_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_hdr_tbl" EntityType="Self.leave_application_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_signatories_tbl" EntityType="Self.leave_application_signatories_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leave_transmittal_type_tbl" EntityType="Self.leave_transmittal_type_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leaveadmin_tbl" EntityType="Self.leaveadmin_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leaveappl_dtl_tbl" EntityType="Self.leaveappl_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leaveappl_hdr_tbl" EntityType="Self.leaveappl_hdr_tbl" Schema="dbo" store:Type="Tables" />
@@ -9131,6 +9143,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
             <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="leave_transmittal_type_tbl" EntityType="HRIS_ATSModel.leave_transmittal_type_tbl" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -12752,6 +12765,17 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="Int32" Name="leave_class" Nullable="true" />
           <Property Type="String" Name="leave_descr" Nullable="false" MaxLength="255" />
         </ComplexType>
+        <EntityType Name="leave_transmittal_type_tbl">
+          <Key>
+            <PropertyRef Name="route_nbr" />
+          </Key>
+          <Property Name="route_nbr" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="transmittal_type_descr" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -19708,6 +19732,18 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="leave_transmittal_type_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_transmittal_type_tbl">
+              <MappingFragment StoreEntitySet="leave_transmittal_type_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="transmittal_type_descr" ColumnName="transmittal_type_descr" />
+                <ScalarProperty Name="route_nbr" ColumnName="route_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

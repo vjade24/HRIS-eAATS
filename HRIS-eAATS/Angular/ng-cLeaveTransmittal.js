@@ -19,6 +19,7 @@
 
     s.ddl_transmittal_class = "daily"
     s.doc_status_descr = "New"
+    s.leave_transmittal_type_tbl = []
     function init() {
 
 
@@ -53,7 +54,7 @@
                 if (d.data.data.length > 0) {
                     s.oTable5.fnAddData(d.data.data);
                 }
-
+                s.leave_transmittal_type_tbl = d.data.leave_transmittal_type_tbl
                 //$('#datalist_grid_transmit tbody').on('click', 'span.details-control', function () {
                 //    var tr = $(this).closest('tr');
                 //    var row = $('#datalist_grid_transmit').DataTable().row(tr);
