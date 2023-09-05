@@ -27,7 +27,6 @@ namespace HRIS_eAATS.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
         public virtual DbSet<vw_departments_tbl_list> vw_departments_tbl_list { get; set; }
         public virtual DbSet<vw_personnelnames_tbl> vw_personnelnames_tbl { get; set; }
         public virtual DbSet<vw_personnelnames2_tbl> vw_personnelnames2_tbl { get; set; }
@@ -37,6 +36,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<payrollemployeemaster_hdr_tbl> payrollemployeemaster_hdr_tbl { get; set; }
         public virtual DbSet<departments_tbl> departments_tbl { get; set; }
         public virtual DbSet<usersprofile_tbl> usersprofile_tbl { get; set; }
+        public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {
