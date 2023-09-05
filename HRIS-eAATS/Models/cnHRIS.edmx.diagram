@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8c47ad5c7d4c4d5e8858d8a89fde8b9d" Name="Diagram1" ZoomLevel="16">
+      <Diagram DiagramId="8c47ad5c7d4c4d5e8858d8a89fde8b9d" Name="Diagram1" ZoomLevel="63">
         <EntityTypeShape EntityType="HRIS_PAYModel.personnel_tbl" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_PAYModel.vw_departments_tbl_list" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.vw_personnelnames_tbl" Width="1.5" PointX="3.375" PointY="3.75" />
@@ -14,6 +14,7 @@
         <EntityTypeShape EntityType="HRIS_PAYModel.vw_approvalworkflow_tbl" Width="1.5" PointX="7.375" PointY="4.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.payrollemployeemaster_hdr_tbl" Width="1.5" PointX="9.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.departments_tbl" Width="1.5" PointX="9.375" PointY="6.75" />
+        <EntityTypeShape EntityType="HRIS_PAYModel.usersprofile_tbl" Width="1.5" PointX="0.75" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -290,8 +290,7 @@
         btn.innerHTML   = '<i class = "fa fa-spinner fa-spin"></i> Add';
         h.post("../cTimeSchedule/GetLasCode").then(function (d) {
             if (d.data.message == "success") {
-                //s.txtb_code = d.data.ids;
-                s.txtb_code = "96";
+                s.txtb_code = d.data.ids;
                 setTimeout(function () {
 
                     btn.innerHTML = '<i class="fa fa-plus-circle"> </i> Add';
