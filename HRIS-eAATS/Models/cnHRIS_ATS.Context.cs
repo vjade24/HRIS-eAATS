@@ -141,6 +141,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<transmittal_leave_dtl_tbl> transmittal_leave_dtl_tbl { get; set; }
         public virtual DbSet<dtr_overrides_tickets_tbl> dtr_overrides_tickets_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_reprint_tbl> lv_ledger_hdr_reprint_tbl { get; set; }
+        public virtual DbSet<leave_transmittal_type_tbl> leave_transmittal_type_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)

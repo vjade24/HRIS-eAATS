@@ -95,10 +95,6 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="citizenship_type" Type="bit" />
           <Property Name="citizenship_nature" Type="bit" />
           <Property Name="citizenship_country" Type="varchar" MaxLength="25" />
-          <Property Name="ethnicity_id" Type="int" />
-          <Property Name="religion_id" Type="int" />
-          <Property Name="pwd_type_id" Type="int" />
-          <Property Name="gender2" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="transactionsref_tbl">
           <Key>
@@ -113,6 +109,23 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="module_id" Type="int" />
           <Property Name="with_self_service" Type="bit" />
           <Property Name="with_self_service_approval" Type="bit" />
+        </EntityType>
+        <EntityType Name="usersprofile_tbl">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="user_password" Type="varchar" MaxLength="255" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="allow_edit_history" Type="bit" />
+          <Property Name="status" Type="bit" />
+          <Property Name="locked_account" Type="bit" />
+          <Property Name="change_password" Type="bit" />
+          <Property Name="created_date" Type="date" />
+          <Property Name="created_by" Type="varchar" MaxLength="30" />
+          <Property Name="last_updated_date" Type="date" />
+          <Property Name="last_updated_by" Type="varchar" MaxLength="30" />
+          <Property Name="user_accesslevel" Type="varchar" MaxLength="1" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_PAY.dbo.vw_approvalworkflow_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -303,6 +316,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usersprofile_tbl" EntityType="Self.usersprofile_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="Self.payrollemployeemaster_hdr_tbl" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [payrollemployeemaster_hdr_tbl].[empl_id] AS [empl_id], 
@@ -436,54 +450,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HRIS_PAYModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="personnel_tbl">
-          <Key>
-            <PropertyRef Name="empl_id" />
-          </Key>
-          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="bir_tin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="empl_photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="umid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="birth_date" Type="DateTime" Precision="0" />
-          <Property Name="csc_eligibility" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="emp_status" Type="Boolean" />
-          <Property Name="civil_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="status_details" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="date_original_appointment" Type="DateTime" Precision="0" />
-          <Property Name="emp_height" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="emp_weight" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="citizenship" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="maiden_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="mother_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="spouse_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_occupation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_employer_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_business_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="spouse_tel_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="father_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="father_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="mother_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="mother_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="mother_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="citizenship_type" Type="Boolean" />
-          <Property Name="citizenship_nature" Type="Boolean" />
-          <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="ethnicity_id" Type="Int32" />
-          <Property Name="religion_id" Type="Int32" />
-          <Property Name="pwd_type_id" Type="Int32" />
-          <Property Name="gender2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityContainer Name="HRIS_DEVEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" />
           <FunctionImport Name="sp_user_login_ATS" ReturnType="Collection(HRIS_PAYModel.sp_user_login_ATS_Result)">
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_user_password" Mode="In" Type="String" />
@@ -513,6 +480,8 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           </FunctionImport>
           <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="HRIS_PAYModel.payrollemployeemaster_hdr_tbl" />
           <EntitySet Name="departments_tbl" EntityType="HRIS_PAYModel.departments_tbl" />
+          <EntitySet Name="usersprofile_tbl" EntityType="HRIS_PAYModel.usersprofile_tbl" />
+          <EntitySet Name="personnel_tbl" EntityType="HRIS_PAYModel.personnel_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -771,59 +740,71 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="department_proper_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="usersprofile_tbl">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="allow_edit_history" Type="Boolean" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="locked_account" Type="Boolean" />
+          <Property Name="change_password" Type="Boolean" />
+          <Property Name="created_date" Type="DateTime" Precision="0" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="last_updated_date" Type="DateTime" Precision="0" />
+          <Property Name="last_updated_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="user_accesslevel" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="personnel_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="bir_tin" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="umid" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="birth_date" Type="DateTime" Precision="0" />
+          <Property Name="csc_eligibility" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="emp_status" Type="Boolean" />
+          <Property Name="civil_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="status_details" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="date_original_appointment" Type="DateTime" Precision="0" />
+          <Property Name="emp_height" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="emp_weight" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="maiden_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="mother_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="spouse_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_occupation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_employer_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_business_address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="spouse_tel_no" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="father_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="father_suffix_name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="mother_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mother_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="citizenship_type" Type="Boolean" />
+          <Property Name="citizenship_nature" Type="Boolean" />
+          <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="HRIS_PAYModelStoreContainer" CdmEntityContainer="HRIS_DEVEntities">
-          <EntitySetMapping Name="personnel_tbl">
-            <EntityTypeMapping TypeName="HRIS_PAYModel.personnel_tbl">
-              <MappingFragment StoreEntitySet="personnel_tbl">
-                <ScalarProperty Name="gender2" ColumnName="gender2" />
-                <ScalarProperty Name="pwd_type_id" ColumnName="pwd_type_id" />
-                <ScalarProperty Name="religion_id" ColumnName="religion_id" />
-                <ScalarProperty Name="ethnicity_id" ColumnName="ethnicity_id" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
-                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
-                <ScalarProperty Name="umid" ColumnName="umid" />
-                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
-                <ScalarProperty Name="csc_eligibility" ColumnName="csc_eligibility" />
-                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
-                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
-                <ScalarProperty Name="status_details" ColumnName="status_details" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="date_original_appointment" ColumnName="date_original_appointment" />
-                <ScalarProperty Name="emp_height" ColumnName="emp_height" />
-                <ScalarProperty Name="emp_weight" ColumnName="emp_weight" />
-                <ScalarProperty Name="citizenship" ColumnName="citizenship" />
-                <ScalarProperty Name="birth_place" ColumnName="birth_place" />
-                <ScalarProperty Name="maiden_name" ColumnName="maiden_name" />
-                <ScalarProperty Name="father_birth_place" ColumnName="father_birth_place" />
-                <ScalarProperty Name="mother_birth_place" ColumnName="mother_birth_place" />
-                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
-                <ScalarProperty Name="spouse_last_name" ColumnName="spouse_last_name" />
-                <ScalarProperty Name="spouse_first_name" ColumnName="spouse_first_name" />
-                <ScalarProperty Name="spouse_middle_name" ColumnName="spouse_middle_name" />
-                <ScalarProperty Name="spouse_suffix_name" ColumnName="spouse_suffix_name" />
-                <ScalarProperty Name="spouse_occupation" ColumnName="spouse_occupation" />
-                <ScalarProperty Name="spouse_employer_name" ColumnName="spouse_employer_name" />
-                <ScalarProperty Name="spouse_business_address" ColumnName="spouse_business_address" />
-                <ScalarProperty Name="spouse_tel_no" ColumnName="spouse_tel_no" />
-                <ScalarProperty Name="father_last_name" ColumnName="father_last_name" />
-                <ScalarProperty Name="father_middle_name" ColumnName="father_middle_name" />
-                <ScalarProperty Name="father_first_name" ColumnName="father_first_name" />
-                <ScalarProperty Name="father_suffix_name" ColumnName="father_suffix_name" />
-                <ScalarProperty Name="mother_last_name" ColumnName="mother_last_name" />
-                <ScalarProperty Name="mother_middle_name" ColumnName="mother_middle_name" />
-                <ScalarProperty Name="mother_first_name" ColumnName="mother_first_name" />
-                <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
-                <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
-                <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_user_login_ATS" FunctionName="HRIS_PAYModel.Store.sp_user_login_ATS">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_user_login_ATS_Result">
@@ -1050,6 +1031,67 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
                 <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
                 <ScalarProperty Name="department_code" ColumnName="department_code" />
                 <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usersprofile_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.usersprofile_tbl">
+              <MappingFragment StoreEntitySet="usersprofile_tbl">
+                <ScalarProperty Name="user_accesslevel" ColumnName="user_accesslevel" />
+                <ScalarProperty Name="last_updated_by" ColumnName="last_updated_by" />
+                <ScalarProperty Name="last_updated_date" ColumnName="last_updated_date" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_date" ColumnName="created_date" />
+                <ScalarProperty Name="change_password" ColumnName="change_password" />
+                <ScalarProperty Name="locked_account" ColumnName="locked_account" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="allow_edit_history" ColumnName="allow_edit_history" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnel_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.personnel_tbl">
+              <MappingFragment StoreEntitySet="personnel_tbl">
+                <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
+                <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
+                <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
+                <ScalarProperty Name="mother_first_name" ColumnName="mother_first_name" />
+                <ScalarProperty Name="mother_middle_name" ColumnName="mother_middle_name" />
+                <ScalarProperty Name="mother_last_name" ColumnName="mother_last_name" />
+                <ScalarProperty Name="father_suffix_name" ColumnName="father_suffix_name" />
+                <ScalarProperty Name="father_first_name" ColumnName="father_first_name" />
+                <ScalarProperty Name="father_middle_name" ColumnName="father_middle_name" />
+                <ScalarProperty Name="father_last_name" ColumnName="father_last_name" />
+                <ScalarProperty Name="spouse_tel_no" ColumnName="spouse_tel_no" />
+                <ScalarProperty Name="spouse_business_address" ColumnName="spouse_business_address" />
+                <ScalarProperty Name="spouse_employer_name" ColumnName="spouse_employer_name" />
+                <ScalarProperty Name="spouse_occupation" ColumnName="spouse_occupation" />
+                <ScalarProperty Name="spouse_suffix_name" ColumnName="spouse_suffix_name" />
+                <ScalarProperty Name="spouse_middle_name" ColumnName="spouse_middle_name" />
+                <ScalarProperty Name="spouse_first_name" ColumnName="spouse_first_name" />
+                <ScalarProperty Name="spouse_last_name" ColumnName="spouse_last_name" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="mother_birth_place" ColumnName="mother_birth_place" />
+                <ScalarProperty Name="father_birth_place" ColumnName="father_birth_place" />
+                <ScalarProperty Name="maiden_name" ColumnName="maiden_name" />
+                <ScalarProperty Name="birth_place" ColumnName="birth_place" />
+                <ScalarProperty Name="citizenship" ColumnName="citizenship" />
+                <ScalarProperty Name="emp_weight" ColumnName="emp_weight" />
+                <ScalarProperty Name="emp_height" ColumnName="emp_height" />
+                <ScalarProperty Name="date_original_appointment" ColumnName="date_original_appointment" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="status_details" ColumnName="status_details" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="emp_status" ColumnName="emp_status" />
+                <ScalarProperty Name="csc_eligibility" ColumnName="csc_eligibility" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="umid" ColumnName="umid" />
+                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
+                <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

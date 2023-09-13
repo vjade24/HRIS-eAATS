@@ -73,6 +73,7 @@ namespace HRIS_eAATS.Controllers
                 //var leaveType           = db_ats.sp_leavetype_tbl_list().ToList();
                 //var leaveSubType        = db_ats.sp_leavesubtype_tbl_list("").ToList();
                 var lv_admin_dept_list  = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
+                var leave_transmittal_type_tbl = db_ats.leave_transmittal_type_tbl.ToList();
 
                 //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList();
 
@@ -82,6 +83,7 @@ namespace HRIS_eAATS.Controllers
                     // , ledgerposting_for_approval_list
                     , lv_admin_dept_list
                     ,data
+                    ,leave_transmittal_type_tbl
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
