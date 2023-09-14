@@ -23,5 +23,6 @@ namespace HRIS_eAATS.Models
         public string TO_travel_endtime { get; set; }
         public string TO_travel_endtime_ampm { get; set; }
         public string TO_travel_type_abbrv { get; set; }
+        public string travel_order_no { get; set; }
     }
 }
