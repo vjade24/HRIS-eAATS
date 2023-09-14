@@ -66,7 +66,7 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Interop.zkemkeeper">
-      <HintPath>..\..\Archive\HRIS-eSelfService (GitHub) 2023-01-18\HRIS-eSelfService\bin\Interop.zkemkeeper.dll</HintPath>
+      <HintPath>..\..\RSP Archieve\HRIS-eSelfService (GitHub)\HRIS-eSelfService\bin\Interop.zkemkeeper.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp" />

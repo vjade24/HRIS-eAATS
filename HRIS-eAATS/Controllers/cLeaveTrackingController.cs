@@ -85,7 +85,8 @@ namespace HRIS_eAATS.Controllers
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
-                var data = db_ats.sp_get_leave_transmittal_for_uploading_list(par_year,par_month,par_filter, par_department_code).ToList();
+                string user_id = Session["user_id"].ToString();
+                var data = db_ats.sp_get_leave_transmittal_for_uploading_list(par_year,par_month,par_filter, par_department_code).Where(a=> a.created_by == user_id).ToList();
                 return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
