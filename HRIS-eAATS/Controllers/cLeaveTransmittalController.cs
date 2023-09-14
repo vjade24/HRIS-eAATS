@@ -77,7 +77,7 @@ namespace HRIS_eAATS.Controllers
 
                 //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList();
 
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").ToList();
+                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
                 return JSON(new { message = "success", um
                     //, leaveType, leaveSubType
                     // , ledgerposting_for_approval_list
@@ -101,7 +101,8 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).ToList();
+                var log_empl_id = Session["empl_id"].ToString().Trim();
+                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a=> a.created_by_empl_id.Replace("U","") == log_empl_id).ToList();
 
                 if (daily_monthly == "daily")
                 {
@@ -632,7 +633,8 @@ namespace HRIS_eAATS.Controllers
                     data.department_code    = "00";
                     data.vlt_dept_code      = (data_hdr.route_nbr.ToString().Trim() == "06" ? "06" :"01");
                     data.doc_dttm           = DateTime.Now;
-                    data.doc_remarks        = data.doc_remarks;
+                    //data.doc_remarks        = data.doc_remarks;
+                    data.doc_remarks        = (data_hdr.route_nbr.ToString().Trim() == "06" ? "Transmitted for Payroll" : "Transmitted for Signature (Released)");
                     data.document_status    = data.document_status;
                     data.doc_user_id        = Session["user_id"].ToString();
 
