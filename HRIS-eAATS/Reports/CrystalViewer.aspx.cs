@@ -146,6 +146,13 @@ namespace HRIS_eAATS.Reports
                 dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4], ls_splitvalue[5], ls_splitvalue[6], ls_splitvalue[7], ls_splitvalue[8], ls_splitvalue[9], ls_splitvalue[10], ls_splitvalue[11], ls_splitvalue[12], ls_splitvalue[13], ls_splitvalue[14]);
             }
 
+            if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report" ||
+                ls_splitvalue[0].ToString().Trim() == "sp_leave_application_hdr_tbl_report_cto")
+            {
+                crvPrint.HasExportButton = false;
+                crvPrint.HasPrintButton = false;
+                lnkbtn_export.Visible = true;
+            }
             if (dt == null)
             {
                 return;
@@ -450,10 +457,18 @@ namespace HRIS_eAATS.Reports
             loadreport(ls_splitvalue, reportPath);
 
             lbl_cannot_print.Visible = false;
-            if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report")
+            if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report" ||
+                ls_splitvalue[0].ToString().Trim() == "sp_leave_application_hdr_tbl_report_cto")
             {
                 DataTable dt = null;
-                dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2]);
+                if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report")
+                {
+                    dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2]);
+                }
+                else
+                {
+                    dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4], ls_splitvalue[5], ls_splitvalue[6]);
+                }
 
                 DataTable chk_reprinting = new DataTable();
                 string query_chk_reprinting = "SELECT TOP 1 * FROM lv_ledger_hdr_reprint_tbl WHERE ledger_ctrl_no = '"+ dt.Rows[0]["ledger_ctrl_no"].ToString().Trim() + "' AND empl_id = '"+ dt.Rows[0]["empl_id"].ToString().Trim() + "' AND reprint_status = 'REQUEST-APPROVED' ORDER BY created_dttm DESC";
