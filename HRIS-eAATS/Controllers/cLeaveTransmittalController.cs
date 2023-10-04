@@ -352,12 +352,12 @@ namespace HRIS_eAATS.Controllers
                         }
                         else
                         {
-                            message = "no data found";
+                            message = "No Data Found!";
                         }
                     }
                     else
                     {
-                        message = "no data found";
+                        message = "No Data Found!";
                     }
                 }
                 else
@@ -394,7 +394,7 @@ namespace HRIS_eAATS.Controllers
                     }
                     else
                     {
-                        message = "no data found";
+                        message = "No Data Found!";
                     }
                 }
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
