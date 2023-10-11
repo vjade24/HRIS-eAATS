@@ -1027,6 +1027,7 @@
         s.show_save_edit_btn = true;
         s.no_action_posted   = true;
         s.data_history = [];
+         $("#history").html("");
         if (s.datalistgrid[row_id].ledger_ctrl_no == '' || s.datalistgrid[row_id].ledger_ctrl_no == null)
         {
             swal("No Data Found","No Header and Details save on table", { icon: "warning", });
@@ -3758,13 +3759,33 @@
             if (d.data.message == "success")
             {
                 s.data_history = d.data.data
-                for (var i = 0; i < d.data.data.length; i++)
+                var to_append  = "";
+                $("#history").html("");
+                for (var i = 0; i < s.data_history.length; i++)
                 {
-                    d.data.data[i].create_dttm_descr = moment(d.data.data[i].created_dttm).format("LLLL")
-                    d.data.data[i].create_dttm_ago   = moment(d.data.data[i].created_dttm).fromNow()
+                    s.data_history[i].create_dttm_descr  = moment(s.data_history[i].created_dttm).format("LLLL")
+                    s.data_history[i].create_dttm_ago    = moment(s.data_history[i].created_dttm).fromNow()
+                    var temp_append = "";
+                    temp_append = '<div class="feed-element">'+
+                                       '<div class="pull-left">'+
+                                         '<div class="img-circle">' +
+                                         '<img class="img-circle"  alt="image" width="30" height="30" src="'+'http://192.168.5.218/storage/images/'+s.data_history[i].created_by.replace("U","") +'.png'+'" />'+
+                                        '</div>'+
+                                       '</div>'+
+                                        '<div class="media-body ">'+
+                                            '<small class="pull-right" style="padding-left:10px !important">' + s.data_history[i].create_dttm_ago+'</small>'+
+                                            s.data_history[i].appl_status+' by <strong>'+ s.data_history[i].employee_name_format_2+'</strong>'+
+                                            '<small class="text-muted">on '+ s.data_history[i].create_dttm_descr+'</small>'+
+                                        '</div>'+
+                                    '</div>';
+
+                    to_append = to_append + temp_append;
                 }
+                $("#history").append($compile(to_append)($scope));
+
                 $('#view_details_history').removeClass()
                 $('#view_details_history').addClass('fa fa-arrow-down')
+                
             }
             else
             {

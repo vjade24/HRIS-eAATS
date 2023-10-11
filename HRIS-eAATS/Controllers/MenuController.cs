@@ -37,20 +37,20 @@ namespace HRIS_eAATS.Controllers
             {
                 var empl_id = Session["empl_id"].ToString();
 
-                var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
+                ///var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
 
-                string imreBase64Data = "";
-                string imgDataURL = "";
+               // string imreBase64Data = "";
+                string imgDataURL = "http://192.168.5.218/storage/images/photo/"+ empl_id + ".png";
                 //***************convert byte array to image***********************************
-                if (emp_photo_byte_arr != null)
-                {
-                    imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
-                    imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                }
-                else
-                {
-                    imgDataURL = "../ResourcesImages/upload_profile.png";
-                }
+                //if (emp_photo_byte_arr != null)
+                //{
+                //    imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
+                //    imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                //}
+                //else
+                //{
+                //    imgDataURL = "../ResourcesImages/upload_profile.png";
+                //}
                 //*****************************************************************************
 
                 var data = db.sp_user_menu_access_role_list_ATS(Session["user_id"].ToString()).ToList();

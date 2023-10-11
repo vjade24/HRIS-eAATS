@@ -562,21 +562,23 @@
                                             <div class="row">
                                                 <div class="col-lg-3"></div>
                                                 <div class="col-lg-6">
-                                                    <div class="feed-activity-list">
-                                                        <div class="feed-element" ng-repeat="lst in data_history">
+                                                    <div class="feed-element" ng-repeat="(key,lst) in data_history">
+                                                        <div class="pull-left">
+                                                            <div id="div_img{{key}}">
 
-                                                            <div class="pull-left">
-                                                                <div class="img-circle">
-                                                                    <span class="fa fa-user fa-3x"></span>
-                                                                </div>
                                                             </div>
-                                                            <div class="media-body ">
-                                                                <small class="pull-right" style="padding-left:10px !important">{{lst.create_dttm_ago}}</small>
-                                                                {{lst.appl_status}} by <strong>{{lst.employee_name_format_2}}</strong>
-                                                                <small class="text-muted">on {{lst.create_dttm_descr}}</small>
+                                                            <div class="img-circle">
+                                                                <span class="fa fa-user fa-3x"></span>
+                                                                <img class="img-circle" id="{{key}}" alt="image" width="30" height="30" src="{{lst.img_src}}" />
                                                             </div>
                                                         </div>
-
+                                                        <div class="media-body ">
+                                                            <small class="pull-right" style="padding-left:10px !important">{{lst.create_dttm_ago}}</small>
+                                                            {{lst.appl_status}} by <strong>{{lst.employee_name_format_2}}</strong>
+                                                            <small class="text-muted">on {{lst.create_dttm_descr}}</small>
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="feed-activity-list" id="history">
                                                     </div>
 
                                                     <button class="btn btn-primary btn-block m-t" ng-click="Retrieve_LeaveHistory()"><i class="fa fa-arrow-down" id="view_details_history"></i> View Details</button>
