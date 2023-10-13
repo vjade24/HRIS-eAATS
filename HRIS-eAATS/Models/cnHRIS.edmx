@@ -76,7 +76,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="maiden_name" Type="varchar" MaxLength="100" />
           <Property Name="father_birth_place" Type="varchar" MaxLength="255" />
           <Property Name="mother_birth_place" Type="varchar" MaxLength="255" />
-          <Property Name="empl_photo_img" Type="image" />
+          <Property Name="empl_photo_img" Type="varchar(max)" />
           <Property Name="spouse_last_name" Type="varchar" MaxLength="100" />
           <Property Name="spouse_first_name" Type="varchar" MaxLength="100" />
           <Property Name="spouse_middle_name" Type="varchar" MaxLength="100" />
@@ -779,7 +779,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="maiden_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="father_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="mother_birth_place" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="empl_photo_img" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="spouse_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="spouse_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="spouse_middle_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />

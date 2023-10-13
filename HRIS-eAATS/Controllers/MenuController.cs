@@ -37,10 +37,10 @@ namespace HRIS_eAATS.Controllers
             {
                 var empl_id = Session["empl_id"].ToString();
 
-                ///var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
+                var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
 
                // string imreBase64Data = "";
-                string imgDataURL = "http://192.168.5.218/storage/images/photo/"+ empl_id + ".png";
+                string imgDataURL = "http://192.168.5.218/storage/images"+ emp_photo_byte_arr;
                 //***************convert byte array to image***********************************
                 //if (emp_photo_byte_arr != null)
                 //{
@@ -171,41 +171,41 @@ namespace HRIS_eAATS.Controllers
 
         }
 
-        public ActionResult ConvertImage(string empl_id)
-        {
-            try
-            {
-                var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
+        //public ActionResult ConvertImage(string empl_id)
+        //{
+        //    try
+        //    {
+        //        var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
 
-                string imreBase64Data = "";
-                string imgDataURL = "";
-                //***************convert byte array to image***********************************
-                if (emp_photo_byte_arr != null)
-                {
-                    imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
-                    imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                }
-                else
-                {
-                    imgDataURL = "../ResourcesImages/upload_profile.png";
-                }
+        //        string imreBase64Data = "";
+        //        string imgDataURL = "";
+        //        //***************convert byte array to image***********************************
+        //        if (emp_photo_byte_arr != null)
+        //        {
+        //            imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
+        //            imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+        //        }
+        //        else
+        //        {
+        //            imgDataURL = "../ResourcesImages/upload_profile.png";
+        //        }
 
-                return JSON(new { photo = imgDataURL }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return JSON(new { photo = imgDataURL }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message;
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
-        public ActionResult getUserImageId()
-        {
-            var empl_id = Session["empl_id"].ToString();
-            var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
+        //public ActionResult getUserImageId()
+        //{
+        //    var empl_id = Session["empl_id"].ToString();
+        //    var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
 
-            return Json(emp_photo_byte_arr, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(emp_photo_byte_arr, JsonRequestBehavior.AllowGet);
+        //}
         public ActionResult expandedAdd(string id, int menulevel)
         {
             List<String> ls = new List<string>();

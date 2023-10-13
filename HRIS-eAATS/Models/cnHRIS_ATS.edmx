@@ -2775,13 +2775,14 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <CollectionType>
               <RowType>
                 <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" Nullable="false" />
-                <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" Nullable="false" />
+                <Property Name="leave_ctrlno" Type="varchar" MaxLength="10" Nullable="false" />
                 <Property Name="appl_status" Type="varchar" MaxLength="255" Nullable="false" />
                 <Property Name="appl_remarks" Type="varchar" MaxLength="255" Nullable="false" />
                 <Property Name="created_dttm" Type="datetime" Nullable="false" />
                 <Property Name="created_by" Type="varchar" MaxLength="30" Nullable="false" />
                 <Property Name="employee_name_format_2" Type="varchar" MaxLength="249" Nullable="false" />
                 <Property Name="trace_code" Type="varchar" MaxLength="1" Nullable="false" />
+                <Property Name="empl_photo_img" Type="varchar(max)" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -9075,10 +9076,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <FunctionImport Name="sp_vlslearned_dailybasis_tbl_List" ReturnType="Collection(HRIS_ATSModel.sp_vlslearned_dailybasis_tbl_List_Result)" />
           <EntitySet Name="lv_ledger_history_tbl" EntityType="HRIS_ATSModel.lv_ledger_history_tbl" />
           <EntitySet Name="transmittal_leave_dtl_tbl" EntityType="HRIS_ATSModel.transmittal_leave_dtl_tbl" />
-          <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
-            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_lv_ledger_history_insert">
             <Parameter Name="p_ledger_ctrl_no" Mode="In" Type="String" />
             <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
@@ -9149,6 +9146,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <FunctionImport Name="sp_transmittal_leave_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result)">
             <Parameter Name="par_created_year" Mode="In" Type="String" />
             <Parameter Name="par_created_month" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
+            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -12523,16 +12524,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="payroll_rcvd_dttm" Type="DateTime" Precision="3" />
           <Property Name="leave_ctrlno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="func_lv_ledger_history_notif_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
-          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
-          <Property Type="String" Name="trace_code" Nullable="false" MaxLength="2" />
-        </ComplexType>
         <ComplexType Name="sp_leave_application_coc_earn_report_Result">
           <Property Type="Int32" Name="row_cnt" Nullable="false" />
           <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
@@ -12782,6 +12773,17 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="employment_tyep" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="view_mode" Nullable="false" MaxLength="4" />
           <Property Type="String" Name="created_by_empl_id" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="func_lv_ledger_history_notif_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
+          <Property Type="String" Name="trace_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="empl_photo_img" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -19447,20 +19449,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="func_lv_ledger_history_notif" FunctionName="HRIS_ATSModel.Store.func_lv_ledger_history_notif">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.func_lv_ledger_history_notif_Result">
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
-                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
-                <ScalarProperty Name="trace_code" ColumnName="trace_code" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_lv_ledger_history_insert" FunctionName="HRIS_ATSModel.Store.sp_lv_ledger_history_insert" />
           <FunctionImportMapping FunctionImportName="sp_leave_application_coc_earn_report" FunctionName="HRIS_ATSModel.Store.sp_leave_application_coc_earn_report">
             <ResultMapping>
@@ -19750,6 +19738,21 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="employment_tyep" ColumnName="employment_tyep" />
                 <ScalarProperty Name="view_mode" ColumnName="view_mode" />
                 <ScalarProperty Name="created_by_empl_id" ColumnName="created_by_empl_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="func_lv_ledger_history_notif" FunctionName="HRIS_ATSModel.Store.func_lv_ledger_history_notif">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.func_lv_ledger_history_notif_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
+                <ScalarProperty Name="trace_code" ColumnName="trace_code" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

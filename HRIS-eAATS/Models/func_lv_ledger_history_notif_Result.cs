@@ -21,5 +21,6 @@ namespace HRIS_eAATS.Models
         public string created_by { get; set; }
         public string employee_name_format_2 { get; set; }
         public string trace_code { get; set; }
+        public string empl_photo_img { get; set; }
     }
 }

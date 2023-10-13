@@ -188,6 +188,7 @@ ng_HRD_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
                         }
 
                         $('#imgprofile').attr('src', s.imgprofile)
+                        $('#imgprofile2').attr('src', s.imgprofile)
 
 
                         // **************************

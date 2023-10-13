@@ -32,7 +32,7 @@ namespace HRIS_eAATS.Models
         public string maiden_name { get; set; }
         public string father_birth_place { get; set; }
         public string mother_birth_place { get; set; }
-        public byte[] empl_photo_img { get; set; }
+        public string empl_photo_img { get; set; }
         public string spouse_last_name { get; set; }
         public string spouse_first_name { get; set; }
         public string spouse_middle_name { get; set; }

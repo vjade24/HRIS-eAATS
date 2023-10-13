@@ -3766,10 +3766,11 @@
                     s.data_history[i].create_dttm_descr  = moment(s.data_history[i].created_dttm).format("LLLL")
                     s.data_history[i].create_dttm_ago    = moment(s.data_history[i].created_dttm).fromNow()
                     var temp_append = "";
+                    var temp = moment();
                     temp_append = '<div class="feed-element">'+
                                        '<div class="pull-left">'+
                                          '<div class="img-circle">' +
-                                         '<img class="img-circle"  alt="image" width="30" height="30" src="'+'http://192.168.5.218/storage/images/'+s.data_history[i].created_by.replace("U","") +'.png'+'" />'+
+                                            '<img class="img-circle"  alt="image" width="30" height="30" src="' + 'http://192.168.5.218/storage/images' + s.data_history[i].empl_photo_img + '?v=' + temp+'" />'+
                                         '</div>'+
                                        '</div>'+
                                         '<div class="media-body ">'+
