@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HRIS_eSelfService.Reports.cryCTO {
+namespace HRIS_eAATS.Reports.cryCTO {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -41,7 +41,7 @@ namespace HRIS_eSelfService.Reports.cryCTO {
         
         public override string FullResourceName {
             get {
-                return "HRIS_eSelfService.Reports.cryCTO.cryCTO.rpt";
+                return "HRIS_eAATS.Reports.cryCTO.cryCTO.rpt";
             }
             set {
                 // Do nothing

@@ -760,7 +760,15 @@ namespace HRIS_eAATS.Controllers
                             db_ats.lv_ledger_dtl_tbl.Add(data_auto_vl);
                             db_ats.SaveChanges();
                         }
-                        
+                        // *************************************************************
+                        // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                        // *************************************************************
+                        var appl_status_mz = "Evaluated";
+                        var appl_remarks   = "Evaluate the Status for Printing";
+                        db_ats.sp_lv_ledger_history_insert(new_appl_nbr[0], "", data.empl_id, appl_status_mz, appl_remarks, Session["user_id"].ToString());
+                        // *************************************************************
+                        // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                        // *************************************************************
                     }
                 }
 

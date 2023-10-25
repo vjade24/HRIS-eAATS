@@ -60,11 +60,12 @@ namespace HRIS_eAATS.Controllers
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
+                string  user_id         = Session["user_id"].ToString();
                 var um                  = GetAllowAccess();
                 var log_empl_id         = Session["empl_id"].ToString();
                 string current_year     = DateTime.Now.Year.ToString();
                 string current_month    = DateTime.Now.Month.ToString();
-                var data = db_ats.sp_get_leave_transmittal_for_uploading_list(current_year, current_month, "TFU","").ToList();
+                var data = db_ats.sp_get_leave_transmittal_for_uploading_list(current_year, current_month, "TFU","").Where(a => a.created_by == user_id).ToList();
                 var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
               
                 return JSON(new { message = "success", um, data , lv_admin_dept_list }, JsonRequestBehavior.AllowGet);
