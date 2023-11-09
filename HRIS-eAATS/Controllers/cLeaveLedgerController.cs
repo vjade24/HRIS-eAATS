@@ -1473,13 +1473,13 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2022-04-12
         // Description  : Retrieve Time Schedule List
         //*********************************************************************//
-        public ActionResult TimeSked_HDR(string par_empl_id)
+        public ActionResult TimeSked_HDR(string par_empl_id, string par_tse_year)
         {
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var data = db_ats.sp_time_schedule_empl_hdr_tbl(par_empl_id).ToList();
+                var data = db_ats.sp_time_schedule_empl_hdr_tbl1(par_empl_id, par_tse_year).ToList();
                 return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

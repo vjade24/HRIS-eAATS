@@ -2714,6 +2714,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="leavetype_descr" Type="varchar" MaxLength="150" />
                 <Property Name="leavesubtype_code" Type="varchar" MaxLength="4" />
                 <Property Name="leavesubtype_descr" Type="varchar" MaxLength="150" />
+                <Property Name="date_num_day" Type="money" />
+                <Property Name="date_num_day_total" Type="money" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -4052,6 +4054,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         </Function>
         <Function Name="sp_time_schedule_empl_hdr_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_time_schedule_empl_hdr_tbl1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_tse_year" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_time_schedule_empl_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
@@ -9151,6 +9157,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_time_schedule_empl_hdr_tbl1" ReturnType="Collection(HRIS_ATSModel.sp_time_schedule_empl_hdr_tbl1_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_tse_year" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -12784,6 +12794,19 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
           <Property Type="String" Name="trace_code" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="empl_photo_img" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_time_schedule_empl_hdr_tbl1_Result">
+          <Property Type="String" Name="tse_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="tse_effective_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="tse_month" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="tse_year" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="shift_flag" Nullable="true" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -19753,6 +19776,23 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
                 <ScalarProperty Name="trace_code" ColumnName="trace_code" />
                 <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_time_schedule_empl_hdr_tbl1" FunctionName="HRIS_ATSModel.Store.sp_time_schedule_empl_hdr_tbl1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_time_schedule_empl_hdr_tbl1_Result">
+                <ScalarProperty Name="tse_ctrl_no" ColumnName="tse_ctrl_no" />
+                <ScalarProperty Name="tse_effective_date" ColumnName="tse_effective_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="tse_month" ColumnName="tse_month" />
+                <ScalarProperty Name="tse_year" ColumnName="tse_year" />
+                <ScalarProperty Name="shift_flag" ColumnName="shift_flag" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

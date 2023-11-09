@@ -39,8 +39,9 @@ namespace HRIS_eAATS.Controllers
 
                 var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
 
-               // string imreBase64Data = "";
-                string imgDataURL = "http://192.168.5.218/storage/images"+ emp_photo_byte_arr;
+                // string imreBase64Data = "";
+                var url = Request.Url.Host;
+                string imgDataURL = (url == "hris.dvodeoro.ph" ? "http://122.53.120.18:8050/storage/images" + emp_photo_byte_arr : "http://192.168.5.218/storage/images" + emp_photo_byte_arr);
                 //***************convert byte array to image***********************************
                 //if (emp_photo_byte_arr != null)
                 //{

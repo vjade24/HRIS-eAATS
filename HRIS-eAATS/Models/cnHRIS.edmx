@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="HRIS_PAYModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="approvalstatus_tbl">
+          <Key>
+            <PropertyRef Name="approval_status" />
+          </Key>
+          <Property Name="approval_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="approval_status_descr" Type="varchar" MaxLength="30" />
+        </EntityType>
         <EntityType Name="departments_tbl">
           <Key>
             <PropertyRef Name="effective_date" />
@@ -313,6 +320,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_user_id" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="HRIS_PAYModelStoreContainer">
+          <EntitySet Name="approvalstatus_tbl" EntityType="Self.approvalstatus_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
@@ -482,6 +490,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="departments_tbl" EntityType="HRIS_PAYModel.departments_tbl" />
           <EntitySet Name="usersprofile_tbl" EntityType="HRIS_PAYModel.usersprofile_tbl" />
           <EntitySet Name="personnel_tbl" EntityType="HRIS_PAYModel.personnel_tbl" />
+          <EntitySet Name="approvalstatus_tbl" EntityType="HRIS_PAYModel.approvalstatus_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -799,6 +808,13 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="citizenship_nature" Type="Boolean" />
           <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="approvalstatus_tbl">
+          <Key>
+            <PropertyRef Name="approval_status" />
+          </Key>
+          <Property Name="approval_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="approval_status_descr" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1092,6 +1108,14 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
                 <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
                 <ScalarProperty Name="bir_tin" ColumnName="bir_tin" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="approvalstatus_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.approvalstatus_tbl">
+              <MappingFragment StoreEntitySet="approvalstatus_tbl">
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

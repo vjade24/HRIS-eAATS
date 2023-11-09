@@ -14,9 +14,13 @@
     s.txtb_lates_und_min = 0 + ' min' ;
     s.time_sked_hdr_title = "";
     $('.collapse').collapse()
-
+    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
     function init()
     {
+        if (window.location.host == "hris.dvodeoro.ph")
+        {
+            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
+        }
         RetrieveYear();
         
         $("#ddl_name").select2().on('change', function (e) {
@@ -105,8 +109,9 @@
                     s.redirect_data = d.data.redirect_data;
                     s.ddl_rep_mode = d.data.redirect_data[7];
                     $('#click_tab2').click()
-                    s.TimeSked_HDR(d.data.redirect_data[1]);
+                    s.TimeSked_HDR(d.data.redirect_data[1], str_to_year($("#txtb_dtr_mon_year").val()));
                    // s.TimeSked_DTL("","","","");
+                    s.txtb_info_empl_id = d.data.redirect_data[1]
                 }
                 if (d.data.cLV_Ledger_employee_name != null)
                 {
@@ -779,7 +784,7 @@
                         d.data.data_all_bal[i].balance_color = "btn btn-primary btn-rounded pull-right";
                     }
                 }
-                s.TimeSked_HDR($("#ddl_name option:selected").val() == "" ? "" : $("#ddl_name option:selected").val());
+                s.TimeSked_HDR($("#ddl_name option:selected").val() == "" ? "" : $("#ddl_name option:selected").val(), str_to_year($("#txtb_dtr_mon_year").val()));
                 $('#modal_initializing').modal("hide");
                 //**********************************************
                 //**********************************************
@@ -3447,11 +3452,12 @@
     //*************************************************//
     //***  VJA : Populate Particulars ****************//
     //***********************************************//
-    s.TimeSked_HDR = function (empl_id)
+    s.TimeSked_HDR = function (empl_id,tse_year)
     {
         h.post("../cLeaveLedger/TimeSked_HDR",
             {
-                par_empl_id: empl_id
+                par_empl_id    : empl_id
+                ,par_tse_year  : tse_year
             }
         ).then(function (d)
         {
@@ -3770,7 +3776,7 @@
                     temp_append = '<div class="feed-element">'+
                                        '<div class="pull-left">'+
                                          '<div class="img-circle">' +
-                                            '<img class="img-circle"  alt="image" width="30" height="30" src="' + 'http://192.168.5.218/storage/images' + s.data_history[i].empl_photo_img + '?v=' + temp+'" />'+
+                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U","") + '?v=' + temp)+' " />'+
                                         '</div>'+
                                        '</div>'+
                                         '<div class="media-body ">'+

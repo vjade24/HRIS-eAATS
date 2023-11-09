@@ -166,40 +166,32 @@ ng_HRD_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
         //else
         //{
 
-            h.post("../Login/CheckSessionLogin").then(function (d) {
-                if (d.data == "expire") {
-                    location.href = "../Login/Index"
-                }
-                else if (d.data == "active") {
-                    s.session_var = d.data;
-                    h.post("../Menu/GetMenuList").then(function (d) {
-                    
+            //h.post("../Login/CheckSessionLogin").then(function (d) {
+            //    if (d.data == "expire") {
+            //        location.href = "../Login/Index"
+            //    }
+            //    else if (d.data == "active")
+            //    {
+            //        s.session_var = d.data;
+
+                    if (localStorage.getItem("GetMenuList") != null)
+                    {
+                        var d = eval('(' + localStorage.getItem('GetMenuList') + ')');
                         s.MenuList = d.data.data
-                    
                         s.username = d.data.username
-                        var photo = d.data.photo
+                        var photo  = d.data.photo
                     
                         if (d.data.photo != "data:image/png;base64,")
                         {
                             s.imgprofile = photo;
                         }
-                        else {
+                        else
+                        {
                             s.imgprofile = "/ResourcesImages/upload_profile.png";
                         }
-
                         $('#imgprofile').attr('src', s.imgprofile)
                         $('#imgprofile2').attr('src', s.imgprofile)
-
-
-                        // **************************
-                        //localStorage.clear();
-                        //var menu_lst = JSON.stringify(s.MenuList)
-                        //JSON.stringify(localStorage.setItem("MenuList", menu_lst))
-                        //localStorage.setItem("username", s.username);
-                        //localStorage.setItem("imgprofile", s.imgprofile);
-                        // **************************
-
-                    
+                        
                         if (d.data.expanded != 0) {
                             angular.forEach(s.MenuList, function (value) {
                                 if (value.url_name == null || value.url_name == "") value.hasUrl = 0
@@ -214,30 +206,63 @@ ng_HRD_App.controller("SharedLayoutCtrlr", function ($scope, $http, $filter) {
                             })
 
                         }
-                        else {
+                        else
+                        {
                             angular.forEach(s.MenuList, function (value) {
                                 if (value.url_name == null || value.url_name == "") value.hasUrl = 0
                                 else value.hasUrl = 1
                                 value.isOpen = 0;
                             })
                         }
-                    })
+                    }
+                    else
+                    {
+                        h.post("../Menu/GetMenuList").then(function (d)
+                        {
+                            s.MenuList = d.data.data
+                            s.username = d.data.username
+                            var photo  = d.data.photo
+                    
+                            if (d.data.photo != "data:image/png;base64,")
+                            {
+                                s.imgprofile = photo;
+                            }
+                            else
+                            {
+                                s.imgprofile = "/ResourcesImages/upload_profile.png";
+                            }
+                            $('#imgprofile').attr('src', s.imgprofile)
+                            $('#imgprofile2').attr('src', s.imgprofile)
+                        
+                            if (d.data.expanded != 0) {
+                                angular.forEach(s.MenuList, function (value) {
+                                    if (value.url_name == null || value.url_name == "") value.hasUrl = 0
+                                    else value.hasUrl = 1
+                                    var exp = d.data.expanded.filter(function (d) {
+                                        return d == value.id.toString()
+                                    })
+                                    if (exp == value.id.toString()) {
+                                        value.isOpen = 1
+                                        group.push(value.id);
+                                    }
+                                })
 
-                    //h.post("../Login/Current_Value").then(function (d) {
-                    //    //console.log(d.data.session_time)
-                    //    $('#hideMsg1 span').text(d.data.session_time);
-                    //    var sec = d.data.session_time * 60000;
-                    //    var timer = setInterval(function () {
-                    //        $('#hideMsg span').text(sec--);
-                    //        if (sec == -1) {
-                    //            $('#hideMsg').fadeOut('fast');
-                    //            clearInterval(timer);
-                    //        }
-                    //    }, 1000);
-                    //});
-                
-                }
-            })
+                            }
+                            else
+                            {
+                                angular.forEach(s.MenuList, function (value) {
+                                    if (value.url_name == null || value.url_name == "") value.hasUrl = 0
+                                    else value.hasUrl = 1
+                                    value.isOpen = 0;
+                                })
+                            }
+                            localStorage.clear();
+                            var GetMenuList = JSON.stringify(d)
+                            JSON.stringify(localStorage.setItem("GetMenuList", GetMenuList))
+                        })
+                    }
+            //    }
+            //})
         //}
 
     }

@@ -5389,5 +5389,18 @@ namespace HRIS_eAATS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_lv_ledger_history_notif_Result>("[HRIS_ATSEntities].[func_lv_ledger_history_notif](@p_leave_ctrlno, @p_empl_id)", p_leave_ctrlnoParameter, p_empl_idParameter);
         }
+    
+        public virtual ObjectResult<sp_time_schedule_empl_hdr_tbl1_Result> sp_time_schedule_empl_hdr_tbl1(string par_empl_id, string par_tse_year)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_tse_yearParameter = par_tse_year != null ?
+                new ObjectParameter("par_tse_year", par_tse_year) :
+                new ObjectParameter("par_tse_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_hdr_tbl1_Result>("sp_time_schedule_empl_hdr_tbl1", par_empl_idParameter, par_tse_yearParameter);
+        }
     }
 }

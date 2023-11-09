@@ -37,6 +37,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<departments_tbl> departments_tbl { get; set; }
         public virtual DbSet<usersprofile_tbl> usersprofile_tbl { get; set; }
         public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
+        public virtual DbSet<approvalstatus_tbl> approvalstatus_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {

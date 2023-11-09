@@ -16,6 +16,7 @@
     init()
     s.btn_Login_Submit = function()
     {
+        localStorage.clear();
         $('#login_icon').removeClass();
         $('#login_icon').addClass('fa fa-refresh fa-spin');
         

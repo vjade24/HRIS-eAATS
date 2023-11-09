@@ -205,6 +205,9 @@
     <Compile Include="Models\aats_installation_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\approvalstatus_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\astype_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1117,6 +1120,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_timeschedule_tbl_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_time_schedule_empl_hdr_tbl1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_time_schedule_empl_hdr_tbl_Result.cs">
