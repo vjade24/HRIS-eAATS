@@ -1126,11 +1126,46 @@
             }).then(function (d) {
             if (d.data.message == "success")
             {
+                if (action == "V")
+                {
+                    // VJA - 2023-11-14 - Receive and Upload
+                    swal(
+                    {
+                        title: "Transmittal Successfully Received!, Are You Sure To Upload This Application?",
+                        text: "We would like to confirm this action from you!",
+                        icon: "warning",
+                        buttons: [
+                            'No, cancel it!',
+                            'Yes, I am sure!'
+                        ],
+                        dangerMode: true,
+                    }
+                    ).then(function (isConfirm) {
+                        if (isConfirm)
+                        {
+                            h.post("../cLeaveTracking/UploadAll",
+                            {
+                                par_doc_ctrl_nbr: doc_ctrl_nbr
+                            }).then(function (d)
+                            {
+                                if (d.data.message == "success")
+                                {
+                                    $('#itcd_doc_info').modal("hide");
+                                    s.RetrieveTransmittal_HDR(s.ddl_transmittal_class, s.doc_status_descr);
+                                    swal(d.data.message_descr1,d.data.message_descr,{ icon: "success" });
+                                }
+                            });
+                        }
+                    });
+                    // VJA - 2023-11-14 - Receive and Upload
+                }
+                else
+                {
+                    $('#itcd_doc_info').modal("hide");
+                    s.RetrieveTransmittal_HDR(s.ddl_transmittal_class, s.doc_status_descr);
+                    swal(d.data.message_descr1,d.data.message_descr,{ icon: "success" });
+                }
 
-                $('#itcd_doc_info').modal("hide");
-                s.RetrieveTransmittal_HDR(s.ddl_transmittal_class, s.doc_status_descr);
-                swal(d.data.message_descr1,d.data.message_descr,{ icon: "success" });
-                
             }
             else {
                 swal({ icon: "warning", title: d.data.message });

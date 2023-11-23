@@ -280,8 +280,8 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <label>Document Route<span class="text-danger"><small>*required</small></span></label>
-                                    <select class="form-control" id="ddl_route_nbr" ng-model="ddl_route_nbr" ng-disabled="dis_title">
-                                        <option ng-repeat="lst in leave_transmittal_type_tbl" value="{{lst.route_nbr}}">{{lst.transmittal_type_descr}}</option>
+                                    <select class="form-control" id="ddl_route_nbr" ng-model="ddl_route_nbr" ng-disabled="ddl_transmittal_class == 'monthly'">
+                                        <option ng-repeat="lst in leave_transmittal_type_tbl" value="{{lst.route_nbr}}" ng-hide="lst.route_nbr == '06'">{{lst.transmittal_type_descr}}</option>
                                     </select>
                                     <label id="lbl_ddl_route_nbr_req" class="lbl_required"></label>
                                 </div>
@@ -557,7 +557,7 @@
                                                         </button>*@
 
                                                         <button id="btn_transmittal_btn" ng-show="show_rcvd" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 pull-right btn btn-success dim text-right" ng-click="ReleaseReceive('V',transmittal_ctrl_nbr)">
-                                                            <i id="btn_transmittal" class="trnreceive fa fa-backward"></i> Receive
+                                                            <i id="btn_transmittal" class="trnreceive fa fa-backward"></i> Receive and Upload
                                                         </button>
                                                         <button id="btn_transmittal_btn" ng-show="show_rlsd" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 pull-right btn btn-primary dim text-right" ng-click="ReleaseReceive('L',transmittal_ctrl_nbr)">
                                                             <i id="btn_transmittal" class="trnreceive fa fa-forward"></i> Release

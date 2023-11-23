@@ -72,7 +72,7 @@ namespace HRIS_eAATS.Controllers
                 var um                  = GetAllowAccess();
                 var log_empl_id         = Session["empl_id"].ToString();
                 var log_user_id         = Session["user_id"].ToString();
-                var data                = db_ats.sp_leave_printing_list(DateTime.Now, DateTime.Now, "", log_user_id,"N").ToList();
+                var data                = db_ats.sp_leave_printing_list(null, null, "", log_user_id,"N").ToList();
                 var lv_admin_dept_list  = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
               
                 return JSON(new { message = "success", um, data , lv_admin_dept_list }, JsonRequestBehavior.AllowGet);
@@ -88,14 +88,22 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/31/20231
         // Description  : Filter Page Grid
         //*********************************************************************//
-        public ActionResult FilterPageGrid(DateTime evaluated_date_from, DateTime evaluated_date_to, string par_department_code, string par_show_printed)
+        public ActionResult FilterPageGrid(DateTime? evaluated_date_from, DateTime? evaluated_date_to, string par_department_code, string par_show_printed)
         {
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
                 var log_user_id = Session["user_id"].ToString();
-                var data = db_ats.sp_leave_printing_list(evaluated_date_from, evaluated_date_to, par_department_code, log_user_id, par_show_printed).ToList();
-                return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                if (evaluated_date_from != null && evaluated_date_to != null)
+                {
+                    var data = db_ats.sp_leave_printing_list(evaluated_date_from, evaluated_date_to, par_department_code, log_user_id, par_show_printed).ToList();
+                    return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var data = db_ats.sp_leave_printing_list(null, null, par_department_code, log_user_id, par_show_printed).ToList();
+                    return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {

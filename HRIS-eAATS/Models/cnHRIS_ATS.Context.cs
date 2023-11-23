@@ -5402,5 +5402,14 @@ namespace HRIS_eAATS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_hdr_tbl1_Result>("sp_time_schedule_empl_hdr_tbl1", par_empl_idParameter, par_tse_yearParameter);
         }
+    
+        public virtual ObjectResult<sp_leave_history_Result> sp_leave_history(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_history_Result>("sp_leave_history", par_empl_idParameter);
+        }
     }
 }

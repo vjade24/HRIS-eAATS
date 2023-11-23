@@ -1,8 +1,4 @@
-﻿@*
-    ****Page Created by     :   Lorraine I. Ale
-    ****Page Started date   :   05/05/2021
-    ****Page Description    :   Leave Ledger Posting
-*@
+﻿
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -37,21 +33,6 @@
     .sl-vl-radio-display-none {
         display: none;
     }
-    /*.print_preview_iframe_css {
-        border: 1px solid;
-        overflow: hidden;
-        margin: 0px auto;
-        max-width: 800px;
-    }
-
-    .print_preview_iframe_css2 {
-        border: 0px none;
-        margin-left: -270px;
-        margin-top: -165px;
-        height: 895px;
-        width: 1075px;
-    }*/
-
     .my-custom-scrollbar {
         position: relative;
         height: 150px;
@@ -97,571 +78,449 @@
 
     <!-- Add/Edit Modal -->
     <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" style="overflow:scroll !important">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content animated bounceInDown modal-content-add-edit">
-                <div class="modal-header ">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content animated bounceInDown ">
+                <div class="modal-header yellow-bg">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modalLabelSmall">{{ add_modal_descr }}</h4>
                 </div>
-                <div class="modal-body with-background" style="padding-bottom:5px;">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="col-lg-7">
-                                <div class="row">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Ledger Ctrl. Nbr.:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control text-left" id="txtb_ledger_ctrl_no" ng-model="txtb_ledger_ctrl_no" disabled style="font-weight:bolder" />
-                                    </div>
-                                </div>
-                                <div class="row" style="padding-top:6px;">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Employee Name:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled style="font-weight:bolder" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <div class="row">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Date Applied:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <div class="input-group date" data-provide="datepicker">
-                                            <input type="text" id="txtb_date_applied" ng-model="txtb_date_applied" class="form-control form-control-sm text-center font-bold" maxlength="10" ng-disabled="isdisable" style="font-weight:bolder" />
-                                            <span class="input-group-addon">
-                                                <span class="fa fa-calendar"></span>
-                                            </span>
+                <div class="modal-body " style="padding-bottom:5px;">
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-7">
+                                        <div class="row">
+                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                <label class="font-bold"><b> Ledger Ctrl. Nbr.:</b></label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <input class="form-control text-left" id="txtb_ledger_ctrl_no" ng-model="txtb_ledger_ctrl_no" disabled style="font-weight:bolder" />
+                                            </div>
                                         </div>
-                                        <label id="lbl_txtb_date_applied_req" class="lbl_required"></label>
+                                        <div class="row" style="padding-top:6px;">
+                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                <label class="font-bold"><b> Employee Name:</b></label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled style="font-weight:bolder" />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row" style="padding-top:6px;">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Employee ID:</b></label>
+                                    <div class="col-lg-5">
+                                        <div class="row">
+                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                <label class="font-bold"><b> Date Applied:</b></label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="input-group date" data-provide="datepicker">
+                                                    <input type="text" id="txtb_date_applied" ng-model="txtb_date_applied" class="form-control form-control-sm text-center font-bold" maxlength="10" ng-disabled="isdisable" style="font-weight:bolder" />
+                                                    <span class="input-group-addon">
+                                                        <span class="fa fa-calendar"></span>
+                                                    </span>
+                                                </div>
+                                                <label id="lbl_txtb_date_applied_req" class="lbl_required"></label>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:6px;">
+                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                <label class="font-bold"><b> Employee ID:</b></label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <input class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled style="font-weight:bolder;width:50%" />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled style="font-weight:bolder;width:50%" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-7">
-                                <div class="row" style="padding-top:6px;">
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Leave Appl. Ctrl.:</b></label>
-                                    </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" id="txtb_leave_ctrlno" ng-model="txtb_leave_ctrlno" style="font-weight:bolder" ng-change="GetApproval_ID_Appl()" ng-disabled="dis_leave_ctrlno" />
-                                    </div>
-                                </div>
+                                    <div class="col-lg-7">
+                                        <div class="row" style="padding-top:6px;">
+                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                <label class="font-bold"><b> Leave Appl. Ctrl.:</b></label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <input class="form-control" id="txtb_leave_ctrlno" ng-model="txtb_leave_ctrlno" style="font-weight:bolder" ng-change="GetApproval_ID_Appl()" disabled />
+                                            </div>
+                                        </div>
 
-                            </div>
-                            <div class="col-lg-5">
-                                <div class="row" style="padding-top:6px;">
-
-                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                        <label class="font-bold"><b> Approval ID:</b></label>
                                     </div>
-                                    <div class="col-lg-8">
-                                        <input class="form-control text-left" id="txtb_approval_id" ng-model="txtb_approval_id" disabled style="font-weight:bolder" />
+                                    <div class="col-lg-5">
+                                        <div class="row" style="padding-top:6px;">
+
+                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                <label class="font-bold"><b> Approval ID:</b></label>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <input class="form-control text-left" id="txtb_approval_id" ng-model="txtb_approval_id" disabled style="font-weight:bolder" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 m-b-md" style="padding-top:20px;">
+                                    <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
+                                        <ul class="nav nav-tabs" id="tab_lv_ledger_dtl">
+                                            <li id="tab5" class="active">   <a data-toggle="tab" id="tab_1_click" href="#tab-5"><div class="font_tab_ovrd"><b>Leave Header  </b></div></a></li>
+                                            <li id="tab4" class="" ng-show="id_leave_dtl_show">         <a data-toggle="tab" href="#tab-lwop"><div><b>LWOP Details </b></div></a></li>
+                                            <li id="tab6" class="" ng-show="id_leave_dtl_show">         <a data-toggle="tab" href="#tab-6"><div class="font_tab_ovrd"><b>Leave Details </b></div></a></li>
+                                            <li id="tab7" class="">        <a data-toggle="tab" href="#tab-7"><div><b>Approval History </b></div></a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="tab-5" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
+                                                <div class="panel-body">
+                                                    <div class="col-lg-7 b-r">
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Period:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <input class="form-control text-left" id="txtb_period" ng-model="txtb_period" />
+                                                                <label id="lbl_txtb_period_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Particulars:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <input class="form-control text-left" id="txtb_particulars" ng-model="txtb_particulars" />
+                                                                <label id="lbl_txtb_particulars_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Entry Type:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <select class="form-control field-select-sm" id="ddl_entry_type" ng-model="ddl_entry_type" ng-change="SelectEntryType()" ng-disabled="dis_entry_type">
+                                                                    <option value="1">Automated VL and SL Leave Earn</option>
+                                                                    <option value="2">Leave Application</option>
+                                                                    <option value="3">Leave Adjustment</option>
+                                                                    <option value="4">Suspension</option>
+                                                                </select>
+                                                                <label id="lbl_ddl_entry_type_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Leave Type:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <select class="form-control field-select-sm" id="ddl_leave_type" ng-model="ddl_leave_type" ng-disabled="dis_leave_type" ng-change="SelectLeaveType()">
+                                                                    <option value="" selected>Select Here</option>
+                                                                    <option ng-repeat="lst in leave_type" value="{{lst.leavetype_code}}">{{lst.leavetype_descr}}</option>
+                                                                </select>
+                                                                <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Leave Sub-Type:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <select class="form-control field-select-sm" id="ddl_leave_sub_type" ng-model="ddl_leave_sub_type">
+                                                                    <option value="" selected>Select Here</option>
+                                                                    <option ng-repeat="lst in leave_sub_type" value="{{lst.leavesubtype_code}}">{{lst.leavesubtype_descr}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Details Remarks:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <input class="form-control text-left" id="txtb_details_remarks" ng-model="txtb_details_remarks" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;" >
+                                                            <div class="col-lg-4">
+                                                                <div class="i-checks" id="slvl_radio0">
+                                                                    <label>
+                                                                        <input type="radio" value="0" name="sl_vl" id="x0">
+                                                                        <label id="slvl_radio0_text" style="font-size:10px !important"> Select Here 0 </label>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="i-checks" id="slvl_radio1">
+                                                                    <label>
+                                                                        <input type="radio" value="1" name="sl_vl" id="x1">
+                                                                        <label id="slvl_radio1_text" style="font-size:10px !important"> Select Here 1</label>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-8" id="txtb_specify_div">
+                                                                <input class="form-control text-left" placeholder="Specify" id="txtb_specify" ng-model="txtb_specify" disabled />
+                                                                <label id="lbl_txtb_specify_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-12">
+                                                                <h3 class="ledger_fields" style="font-weight:bold;font-size:13px !important">
+                                                                    Override for "By the Authority of the Governor" Signatory in "Application for Leave"
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b>Signatory Name:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <input class="form-control text-left" id="txtb_signame3_ovrd" ng-model="txtb_signame3_ovrd" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Signatory Position:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-8">
+                                                                <input class="form-control text-left" id="txtb_sigpos3_ovrd" ng-model="txtb_sigpos3_ovrd" />
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <div class="row" style="padding-top:6px;">
+                                                            <div class="col-lg-5" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b> Ledger Date:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <div class="input-group date" data-provide="datepicker">
+                                                                    <input type="text" id="txtb_ledger_date" ng-model="txtb_ledger_date" class="form-control form-control-sm text-center font-bold" maxlength="10" ng-disabled="isdisable" />
+                                                                    <span class="input-group-addon">
+                                                                        <span class="fa fa-calendar"></span>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbl_txtb_ledger_date_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_no_of_days">
+                                                            <div class="col-lg-5" style="padding-right:0px;padding-top:9px;">
+                                                                <label class="font-bold"><b>{{lbl_nbr_days_hrs}} </b></label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <input class="form-control text-right" id="txtb_no_of_days" ng-model="txtb_no_of_days" ng-disabled="dis_txtb_no_of_days" />
+                                                                <label id="lbl_txtb_no_of_days_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_balance_as_of_hdr">
+                                                            <div class="col-lg-5">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>Bal. as of:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <input class="form-control text-right" id="txtb_balance_as_of_hdr" ng-model="txtb_balance_as_of_hdr" ng-disabled="dis_txtb_balance_as_of_hdr" />
+                                                                <label id="lbl_txtb_balance_as_of_hdr_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_restore_deduct_hdr">
+
+                                                            <div class="col-lg-5">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>Lv. Earned:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <input class="form-control text-right" id="txtb_restore_deduct_hdr" ng-model="txtb_restore_deduct_hdr" />
+                                                                <label id="lbl_txtb_restore_deduct_hdr_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_abs_und_wp_hdr">
+
+                                                            <div class="col-lg-5">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>Abs/Und.WP:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <input class="form-control text-right" id="txtb_abs_und_wp_hdr" ng-model="txtb_abs_und_wp_hdr" ng-keyup="SetNumberofDays()" />
+                                                                <label id="lbl_txtb_abs_und_wp_hdr_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_abs_und_wop_hdr">
+
+                                                            <div class="col-lg-5">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>Abs/Und.WOP:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7">
+                                                                <input class="form-control text-right" id="txtb_abs_und_wop_hdr" ng-model="txtb_abs_und_wop_hdr" ng-keyup="SetNumberofDays()" />
+                                                                <label id="lbl_txtb_abs_und_wop_hdr_req" class="lbl_required"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" ng-hide="show_Automated">
+                                                            <div class="col-lg-12">
+                                                                <h3 class="text-success"><b>Vacation Leave</b></h3>
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>-- Bal as of:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;">
+                                                                <input class="form-control text-right" id="txtb_balance_as_of_vl" ng-model="txtb_balance_as_of_vl" />
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_vl">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>-- Earned:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_vl">
+                                                                <input class="form-control text-right" id="txtb_restore_deduct_vl" ng-model="txtb_restore_deduct_vl" />
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;">
+                                                                <label class="font-bold" style="padding-top:9px;font-weight:bolder" id="lbl_abs_und_wp_vl"><b>-- Abs/Und.WP:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;">
+                                                                <input class="form-control text-right" id="txtb_abs_und_wp_vl" ng-model="txtb_abs_und_wp_vl" ng-keyup="LeaveType_MZ_TL_Toogle()" />
+                                                                <label id="lbl_txtb_abs_und_wp_vl_req" class="lbl_required"></label>
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_vl">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>-- Abs/Und.WOP:</b></label>
+
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_vl">
+                                                                <input class="form-control text-right" id="txtb_abs_und_wop_vl" ng-model="txtb_abs_und_wop_vl" />
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <h3 class="text-danger"><b>Sick Leave</b></h3>
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>-- Bal. as of:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;">
+                                                                <input class="form-control text-right" id="txtb_balance_as_of_sl" ng-model="txtb_balance_as_of_sl" />
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_sl">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>-- Earned:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_sl">
+                                                                <input class="form-control text-right" id="txtb_restore_deduct_sl" ng-model="txtb_restore_deduct_sl" />
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;">
+                                                                <label class="font-bold" style="padding-top:9px;font-weight:bolder" id="lbl_abs_und_wp_sl"><b>-- Abs/Und.WP:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;">
+                                                                <input class="form-control text-right" id="txtb_abs_und_wp_sl" ng-model="txtb_abs_und_wp_sl" ng-keyup="LeaveType_MZ_TL_Toogle()" />
+                                                                <label id="lbl_txtb_abs_und_wp_sl_req" class="lbl_required"></label>
+                                                            </div>
+                                                            <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_sl">
+                                                                <label class="font-bold" style="padding-top:9px;"><b>-- Abs/Und.WOP:</b></label>
+                                                            </div>
+                                                            <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_sl">
+                                                                <input class="form-control text-right" id="txtb_abs_und_wop_sl" ng-model="txtb_abs_und_wop_sl" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="tab-lwop" class="tab-pane">
+                                                <div class="panel-body">
+                                                    <div class="row" style="padding-top:6px;">
+                                                        <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
+                                                            <label class="font-bold"><b> LWOP Dates:</b></label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <input class="form-control text-left" id="txtb_lwop_date" ng-model="txtb_lwop_date" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding-top:6px;">
+                                                        <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
+                                                            <label class="font-bold"><b> LWOP Body 1:</b></label>
+                                                        </div>
+                                                        <div class="col-lg-10">
+                                                            <textarea class="form-control text-left" id="txtb_lwop_body_1" ng-model="txtb_lwop_body_1"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" style="padding-top:6px;">
+                                                        <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
+                                                            <label class="font-bold"><b> LWOP Body 2:</b></label>
+                                                        </div>
+                                                        <div class="col-lg-10">
+                                                            <textarea class="form-control text-left" id="txtb_lwop_body_2" ng-model="txtb_lwop_body_2"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="tab-6" class="tab-pane">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <h3 class="ledger_fields" style="font-weight:bold;">{{ leavetype_description}}</h3>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" style="padding-top:15px;">
+                                                        <div class="col-lg-12 text-right" style="padding-top:5px ;padding-bottom:5px" ng-show="show_btn_add_dtl">
+                                                            <button class="btn btn-success btn-sm" id="btn_add_dtl" ng-model="btn_add_dtl" ng-click="btn_add_dtl_click()"><i class="fa fa-plus-square"></i> Add</button>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="table-wrapper-scroll-y">
+                                                                <table id="datalist_grid4" ng-model="datalist_grid4" class="table table-hover table-responsive" style="width:100% !important;">
+                                                                    <thead style="position:sticky !important; top: 0; z-index: 1;">
+                                                                        <tr>
+                                                                            <th width="15%" style="vertical-align: middle;">
+                                                                                <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
+                                                                                    LEAVE TYPE
+                                                                                </h3>
+                                                                            </th>
+                                                                            <th width="10%" style="vertical-align: middle;">
+                                                                                <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
+                                                                                    LEAVE SUB-TYPE
+                                                                                </h3>
+                                                                            </th>
+                                                                            <th width="15%" style="vertical-align: middle;">
+                                                                                <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
+                                                                                    BAL. AS OF
+                                                                                </h3>
+                                                                            </th>
+                                                                            <th width="15%" style="vertical-align: middle;">
+                                                                                <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
+                                                                                    EARNED
+                                                                                </h3>
+                                                                            </th>
+                                                                            <th width="15%" style="vertical-align: middle;">
+                                                                                <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
+                                                                                    ABS./UND. WP
+                                                                                </h3>
+                                                                            </th>
+                                                                            <th width="15%" style="vertical-align: middle;">
+                                                                                <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
+                                                                                    ABS./UND. WOP
+                                                                                </h3>
+                                                                            </th>
+                                                                            <th width="15%" style="vertical-align: middle;">
+                                                                                <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
+                                                                                    ACTION
+                                                                                </h3>
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="tab-7" class="tab-pane">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-3"></div>
+                                                        <div class="col-lg-6">
+                                                            <div class="feed-activity-list" id="history">
+                                                            </div>
+                                                            <button class="btn btn-primary btn-block m-t" ng-click="Retrieve_LeaveHistory()"><i class="fa fa-arrow-down" id="view_details_history"></i> View Details</button>
+                                                        </div>
+                                                        <div class="col-lg-3"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @*<div class="col-lg-12" style="padding-top:20px;">
-                                <div class="alert alert-danger" role="alert">
-                                    {{posting_status_descr}}
-                                </div>
-                            </div>*@
-                        <div class="col-lg-12 m-b-md" style="padding-top:20px;">
-                            <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
-                                <ul class="nav nav-tabs" id="tab_lv_ledger_dtl">
-                                    <li id="tab5" class="active">   <a data-toggle="tab" id="tab_1_click" href="#tab-5"><div class="font_tab_ovrd"><b>Leave Header  </b></div></a></li>
-                                    <li id="tab4" class="" ng-show="id_leave_dtl_show">         <a data-toggle="tab" href="#tab-lwop"><div><b>LWOP Details </b></div></a></li>
-                                    <li id="tab6" class="" ng-show="id_leave_dtl_show">         <a data-toggle="tab" href="#tab-6"><div class="font_tab_ovrd"><b>Leave Details </b></div></a></li>
-                                    <li id="tab7" class="">        <a data-toggle="tab" href="#tab-7"><div><b>Approval History </b></div></a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div id="tab-5" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
-                                        <div class="panel-body">
-                                            <div class="col-lg-7 b-r">
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Period:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <input class="form-control text-left" id="txtb_period" ng-model="txtb_period" />
-                                                        <label id="lbl_txtb_period_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Particulars:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <input class="form-control text-left" id="txtb_particulars" ng-model="txtb_particulars" />
-                                                        <label id="lbl_txtb_particulars_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Entry Type:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <select class="form-control field-select-sm" id="ddl_entry_type" ng-model="ddl_entry_type" ng-change="SelectEntryType()" ng-disabled="dis_entry_type">
-                                                            <option value="1">Automated VL and SL Leave Earn</option>
-                                                            <option value="2">Leave Application</option>
-                                                            <option value="3">Leave Adjustment</option>
-                                                            <option value="4">Suspension</option>
-                                                        </select>
-                                                        <label id="lbl_ddl_entry_type_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Leave Type:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <select class="form-control field-select-sm" id="ddl_leave_type" ng-model="ddl_leave_type" ng-disabled="dis_leave_type" ng-change="SelectLeaveType()">
-                                                            <option value="" selected>Select Here</option>
-                                                            <option ng-repeat="lst in leave_type" value="{{lst.leavetype_code}}">{{lst.leavetype_descr}}</option>
-                                                        </select>
-                                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Leave Sub-Type:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <select class="form-control field-select-sm" id="ddl_leave_sub_type" ng-model="ddl_leave_sub_type">
-                                                            <option value="" selected>Select Here</option>
-                                                            <option ng-repeat="lst in leave_sub_type" value="{{lst.leavesubtype_code}}">{{lst.leavesubtype_descr}}</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Details Remarks:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <input class="form-control text-left" id="txtb_details_remarks" ng-model="txtb_details_remarks" />
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;" >
-                                                    <div class="col-lg-4">
-                                                        <div class="i-checks" id="slvl_radio0">
-                                                            <label>
-                                                                <input type="radio" value="0" name="sl_vl" id="x0">
-                                                                <label id="slvl_radio0_text" style="font-size:10px !important"> Select Here 0 </label>
-                                                            </label>
-                                                        </div>
-                                                        <div class="i-checks" id="slvl_radio1">
-                                                            <label>
-                                                                <input type="radio" value="1" name="sl_vl" id="x1">
-                                                                <label id="slvl_radio1_text" style="font-size:10px !important"> Select Here 1</label>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-8" id="txtb_specify_div">
-                                                        <input class="form-control text-left" placeholder="Specify" id="txtb_specify" ng-model="txtb_specify" disabled />
-                                                        <label id="lbl_txtb_specify_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-
-                                                <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-12">
-                                                        <h3 class="ledger_fields" style="font-weight:bold;font-size:13px !important">
-                                                            Override for "By the Authority of the Governor" Signatory in "Application for Leave"
-                                                        </h3>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b>Signatory Name:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <input class="form-control text-left" id="txtb_signame3_ovrd" ng-model="txtb_signame3_ovrd" />
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Signatory Position:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-8">
-                                                        <input class="form-control text-left" id="txtb_sigpos3_ovrd" ng-model="txtb_sigpos3_ovrd" />
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                            <div class="col-lg-5">
-                                                <div class="row" style="padding-top:6px;">
-                                                    <div class="col-lg-5" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b> Ledger Date:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <div class="input-group date" data-provide="datepicker">
-                                                            <input type="text" id="txtb_ledger_date" ng-model="txtb_ledger_date" class="form-control form-control-sm text-center font-bold" maxlength="10" ng-disabled="isdisable" />
-                                                            <span class="input-group-addon">
-                                                                <span class="fa fa-calendar"></span>
-                                                            </span>
-                                                        </div>
-                                                        <label id="lbl_txtb_ledger_date_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_no_of_days">
-                                                    <div class="col-lg-5" style="padding-right:0px;padding-top:9px;">
-                                                        <label class="font-bold"><b>{{lbl_nbr_days_hrs}} </b></label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <input class="form-control text-right" id="txtb_no_of_days" ng-model="txtb_no_of_days" ng-disabled="dis_txtb_no_of_days" />
-                                                        <label id="lbl_txtb_no_of_days_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-
-
-
-                                                <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_balance_as_of_hdr">
-                                                    <div class="col-lg-5">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>Bal. as of:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <input class="form-control text-right" id="txtb_balance_as_of_hdr" ng-model="txtb_balance_as_of_hdr" ng-disabled="dis_txtb_balance_as_of_hdr" />
-                                                        <label id="lbl_txtb_balance_as_of_hdr_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_restore_deduct_hdr">
-
-                                                    <div class="col-lg-5">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>Lv. Earned:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <input class="form-control text-right" id="txtb_restore_deduct_hdr" ng-model="txtb_restore_deduct_hdr" />
-                                                        <label id="lbl_txtb_restore_deduct_hdr_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_abs_und_wp_hdr">
-
-                                                    <div class="col-lg-5">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>Abs/Und.WP:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <input class="form-control text-right" id="txtb_abs_und_wp_hdr" ng-model="txtb_abs_und_wp_hdr" ng-keyup="SetNumberofDays()" />
-                                                        <label id="lbl_txtb_abs_und_wp_hdr_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-                                                <div class="row" style="padding-top:6px;" ng-hide="hide_txtb_abs_und_wop_hdr">
-
-                                                    <div class="col-lg-5">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>Abs/Und.WOP:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <input class="form-control text-right" id="txtb_abs_und_wop_hdr" ng-model="txtb_abs_und_wop_hdr" ng-keyup="SetNumberofDays()" />
-                                                        <label id="lbl_txtb_abs_und_wop_hdr_req" class="lbl_required"></label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row" ng-hide="show_Automated">
-                                                    <div class="col-lg-12">
-                                                        <h3 class="text-success"><b>Vacation Leave</b></h3>
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>-- Bal as of:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;">
-                                                        <input class="form-control text-right" id="txtb_balance_as_of_vl" ng-model="txtb_balance_as_of_vl" />
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_vl">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>-- Earned:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_vl">
-                                                        <input class="form-control text-right" id="txtb_restore_deduct_vl" ng-model="txtb_restore_deduct_vl" />
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;">
-                                                        <label class="font-bold" style="padding-top:9px;font-weight:bolder" id="lbl_abs_und_wp_vl"><b>-- Abs/Und.WP:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;">
-                                                        <input class="form-control text-right" id="txtb_abs_und_wp_vl" ng-model="txtb_abs_und_wp_vl" ng-keyup="LeaveType_MZ_TL_Toogle()" />
-                                                        <label id="lbl_txtb_abs_und_wp_vl_req" class="lbl_required"></label>
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_vl">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>-- Abs/Und.WOP:</b></label>
-
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_vl">
-                                                        <input class="form-control text-right" id="txtb_abs_und_wop_vl" ng-model="txtb_abs_und_wop_vl" />
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <h3 class="text-danger"><b>Sick Leave</b></h3>
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>-- Bal. as of:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;">
-                                                        <input class="form-control text-right" id="txtb_balance_as_of_sl" ng-model="txtb_balance_as_of_sl" />
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_sl">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>-- Earned:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_restore_deduct_sl">
-                                                        <input class="form-control text-right" id="txtb_restore_deduct_sl" ng-model="txtb_restore_deduct_sl" />
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;">
-                                                        <label class="font-bold" style="padding-top:9px;font-weight:bolder" id="lbl_abs_und_wp_sl"><b>-- Abs/Und.WP:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;">
-                                                        <input class="form-control text-right" id="txtb_abs_und_wp_sl" ng-model="txtb_abs_und_wp_sl" ng-keyup="LeaveType_MZ_TL_Toogle()" />
-                                                        <label id="lbl_txtb_abs_und_wp_sl_req" class="lbl_required"></label>
-                                                    </div>
-                                                    <div class="col-lg-5" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_sl">
-                                                        <label class="font-bold" style="padding-top:9px;"><b>-- Abs/Und.WOP:</b></label>
-                                                    </div>
-                                                    <div class="col-lg-7" style="padding-top:6px;" ng-show="show_txtb_abs_und_wop_sl">
-                                                        <input class="form-control text-right" id="txtb_abs_und_wop_sl" ng-model="txtb_abs_und_wop_sl" />
-                                                    </div>
-
-                                                </div>
-                                                @*<div class="row" ng-hide="show_CTO">
-                                                        <div class="col-lg-12">
-                                                            <h3 class="text-success"><b>Compensatory Time Off</b></h3>
-                                                        </div>
-                                                        <div class="col-lg-5" style="padding-top:6px;">
-                                                            <label class="font-bold" style="padding-top:9px;"><b>-- Bal as of:</b></label>
-                                                        </div>
-                                                        <div class="col-lg-7" style="padding-top:6px;">
-                                                            <input class="form-control text-right" id="txtb_balance_as_of_cto" ng-model="txtb_balance_as_of_cto" />
-                                                        </div>
-                                                        <div class="col-lg-5" style="padding-top:6px;">
-                                                            <label class="font-bold" style="padding-top:9px;"><b>-- Earned:</b></label>
-                                                        </div>
-                                                        <div class="col-lg-7" style="padding-top:6px;">
-                                                            <input class="form-control text-right" id="txtb_restore_deduct_cto" ng-model="txtb_restore_deduct_cto" />
-                                                        </div>
-                                                        <div class="col-lg-5" style="padding-top:6px;">
-                                                            <label class="font-bold" style="padding-top:9px;font-weight:bolder" id="lbl_abs_und_wp_vl"><b>-- Abs/Und.WP:</b></label>
-                                                        </div>
-                                                        <div class="col-lg-7" style="padding-top:6px;">
-                                                            <input class="form-control text-right" id="txtb_abs_und_wp_cto" ng-model="txtb_abs_und_wp_cto" />
-                                                            <label id="lbl_txtb_abs_und_wp_vl_req" class="lbl_required"></label>
-                                                        </div>
-                                                        <div class="col-lg-5" style="padding-top:6px;" >
-                                                            <label class="font-bold" style="padding-top:9px;"><b>-- Abs/Und.WOP:</b></label>
-                                                        </div>
-                                                        <div class="col-lg-7" style="padding-top:6px;" >
-                                                            <input class="form-control text-right" id="txtb_abs_und_wop_cto" ng-model="txtb_abs_und_wop_cto" />
-                                                        </div>
-                                                    </div>*@
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <div id="tab-lwop" class="tab-pane">
-                                        <div class="panel-body">
-                                            <div class="row" style="padding-top:6px;">
-                                                <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
-                                                    <label class="font-bold"><b> LWOP Dates:</b></label>
-                                                </div>
-                                                <div class="col-lg-7">
-                                                    <input class="form-control text-left" id="txtb_lwop_date" ng-model="txtb_lwop_date" />
-                                                </div>
-                                                @*<div class="col-lg-3 pull-right">
-                                                        <button class="btn btn-primary btn-block" ng-click="btn_print_ledger('LWOP')"><i class="fa fa-print"> </i> Print Notice of LWOP </button>
-                                                    </div>*@
-                                            </div>
-                                            <div class="row" style="padding-top:6px;">
-                                                <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
-                                                    <label class="font-bold"><b> LWOP Body 1:</b></label>
-                                                </div>
-                                                <div class="col-lg-10">
-                                                    <textarea class="form-control text-left" id="txtb_lwop_body_1" ng-model="txtb_lwop_body_1"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row" style="padding-top:6px;">
-                                                <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
-                                                    <label class="font-bold"><b> LWOP Body 2:</b></label>
-                                                </div>
-                                                <div class="col-lg-10">
-                                                    <textarea class="form-control text-left" id="txtb_lwop_body_2" ng-model="txtb_lwop_body_2"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="tab-6" class="tab-pane">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <h3 class="ledger_fields" style="font-weight:bold;">{{ leavetype_description}}</h3>
-                                                </div>
-                                            </div>
-
-                                            <div class="row" style="padding-top:15px;">
-                                                <div class="col-lg-12 text-right" style="padding-top:5px ;padding-bottom:5px" ng-show="show_btn_add_dtl">
-                                                    <button class="btn btn-success btn-sm" id="btn_add_dtl" ng-model="btn_add_dtl" ng-click="btn_add_dtl_click()"><i class="fa fa-plus-square"></i> Add</button>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                                                        <table id="datalist_grid4" ng-model="datalist_grid4" class="table table-hover table-responsive" style="width:100% !important;">
-                                                            <thead style="position:sticky !important; top: 0; z-index: 1;">
-                                                                <tr>
-                                                                    <th width="15%" style="vertical-align: middle;">
-                                                                        <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                            LEAVE TYPE
-                                                                        </h3>
-                                                                    </th>
-                                                                    <th width="10%" style="vertical-align: middle;">
-                                                                        <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                            LEAVE SUB-TYPE
-                                                                        </h3>
-                                                                    </th>
-                                                                    <th width="15%" style="vertical-align: middle;">
-                                                                        <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                            BAL. AS OF
-                                                                        </h3>
-                                                                    </th>
-                                                                    <th width="15%" style="vertical-align: middle;">
-                                                                        <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                            EARNED
-                                                                        </h3>
-                                                                    </th>
-                                                                    <th width="15%" style="vertical-align: middle;">
-                                                                        <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                            ABS./UND. WP
-                                                                        </h3>
-                                                                    </th>
-                                                                    <th width="15%" style="vertical-align: middle;">
-                                                                        <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                            ABS./UND. WOP
-                                                                        </h3>
-                                                                    </th>
-                                                                    <th width="15%" style="vertical-align: middle;">
-                                                                        <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                            ACTION
-                                                                        </h3>
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody></tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div id="tab-7" class="tab-pane">
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <div class="col-lg-3"></div>
-                                                <div class="col-lg-6">
-                                                    @*<div class="feed-element" ng-repeat="(key,lst) in data_history">
-                                                        <div class="pull-left">
-                                                            <div id="div_img{{key}}">
-
-                                                            </div>
-                                                            <div class="img-circle">
-                                                                <span class="fa fa-user fa-3x"></span>
-                                                                <img class="img-circle" id="{{key}}" alt="image" width="30" height="30" src="{{lst.img_src}}" />
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body ">
-                                                            <small class="pull-right" style="padding-left:10px !important">{{lst.create_dttm_ago}}</small>
-                                                            {{lst.appl_status}} by <strong>{{lst.employee_name_format_2}}</strong>
-                                                            <small class="text-muted">on {{lst.create_dttm_descr}}</small>
-                                                        </div>
-                                                    </div>*@
-                                                    <div class="feed-activity-list" id="history">
-                                                    </div>
-
-                                                    <button class="btn btn-primary btn-block m-t" ng-click="Retrieve_LeaveHistory()"><i class="fa fa-arrow-down" id="view_details_history"></i> View Details</button>
-
-                                                </div>
-                                                <div class="col-lg-3"></div>
-                                            </div>
-                                        </div>
-                                        @*<div class="ibox float-e-margins">
-                                                <div class="ibox-title">
-                                                    <h3> <span class="fa fa-history"></span> APPROVAL HISTORY</h3>
-                                                </div>
-                                                <div class="ibox-content">
-                                                    <div class="row">
-                                                        <div class="col-lg-12 ">
-                                                            <h5> <span class="fa fa-history"></span> LEAVE APPLICATION HISTORY</h5>
-                                                            <h4 class="text-danger"> <i class="fa fa-user"></i> Creator</h4>
-                                                            <p>{{employee_name_creator}}</p>
-                                                            <p>Created Date and Time: {{created_dttm}}</p>
-                                                        </div>
-                                                        <div class="col-lg-12" ng-show="employee_name_reviewer">
-
-                                                            <h4 class="text-warning"><i class="fa fa-user"></i> Reviewer</h4>
-                                                            <p>{{employee_name_reviewer}}</p>
-                                                            <p>Date and Time: {{reviewed_date}}</p>
-                                                            <p ng-show="reviewed_comment">Comment: {{reviewed_comment}}</p>
-                                                        </div>
-
-                                                        <div class="col-lg-12" ng-show="employee_name_final_approver">
-                                                            <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
-                                                            <p>{{employee_name_final_approver}}</p>
-                                                            <p>Date and Time: {{final_approval_date}}</p>
-                                                            <p ng-show="final_approval_comment">Comment: {{final_approval_comment}}</p>
-                                                        </div>
-                                                        <div class="col-lg-12" ng-show="employee_name_disapprover">
-                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
-                                                            <p>{{employee_name_disapprover}}</p>
-                                                            <p>Date and Time: {{disapproval_date}}</p>
-                                                            <p ng-show="disapproval_comment">Comment: {{disapproval_comment}}</p>
-                                                        </div>
-                                                        <div class="col-lg-12" ng-show="employee_name_cancel_pending">
-                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
-                                                            <p>{{employee_name_cancel_pending}}</p>
-                                                            <p>Date and Time: {{cancel_pending_date}}</p>
-                                                            <p ng-show="cancel_pending_comment">Comment: {{cancel_pending_comment}}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row" ng-show="employee_name_creator_posting">
-                                                        <div class="col-lg-12 ">
-                                                            <hr />
-                                                            <h5> <span class="fa fa-history"></span> POSTING HISTORY</h5>
-                                                            <h4 class="text-danger"> <i class="fa fa-user"></i> Carded By</h4>
-                                                            <p>{{employee_name_creator_posting}}</p>
-                                                            <p ng-show="created_dttm_posting">Created Date and Time: {{created_dttm_posting}}</p>
-                                                        </div>
-                                                        <div class="col-lg-12" ng-show="employee_name_disapprover_posting">
-                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Disapproved by</h4>
-                                                            <p>{{employee_name_disapprover_posting}}</p>
-                                                            <p>Date and Time: {{disapproval_date_posting}}</p>
-                                                            <p ng-show="disapproval_comment_posting">Comment: {{disapproval_comment_posting}}</p>
-                                                        </div>
-                                                        <div class="col-lg-12" ng-show="employee_name_cancel_pending_posting">
-                                                            <h4 class="text-danger"><i class="fa fa-user"></i> Cancel Pending by</h4>
-                                                            <p>{{employee_name_cancel_pending_posting}}</p>
-                                                            <p>Date and Time: {{cancel_pending_date_posting}}</p>
-                                                            <p ng-show="cancel_pending_comment_posting">Comment: {{cancel_pending_comment_posting}}</p>
-                                                        </div>
-                                                        <div class="col-lg-12" ng-show="employee_name_final_approver_posting">
-                                                            <h4 class="text-success"><i class="fa fa-user"></i> Final Approver</h4>
-                                                            <p>{{employee_name_final_approver_posting}}</p>
-                                                            <p>Date and Time: {{final_approval_date_posting}}</p>
-                                                            <p ng-show="final_approval_comment_posting">Comment: {{final_approval_comment_posting}}</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>*@
-                                    </div>
-                                </div>
-
+                        <div class="col-lg-6">
+                            <div class="print_preview_iframe_css">
+                                <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview_carding_review" scrolling="no" src=""></iframe>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -704,7 +563,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modalLabelSmall">Leave Ledger Details </h4>
                 </div>
-                <div class="modal-body with-background" style="padding-bottom:5px;">
+                <div class="modal-body" style="padding-bottom:5px;">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
@@ -784,22 +643,18 @@
                                     <select class="form-control field-select-sm" id="ddl_report_lv_card" ng-model="ddl_report_lv_card" ng-change="btn_print_ledger(ddl_report_lv_card,0)">
                                         <option value="OLD" selected>Leave Card - Old</option>
                                         <option value="NEW">Leave Card - New</option>
-                                        @*<option value="CTO" selected>Compensatory Overtime Credit (CTO)</option>*@
                                     </select>
                                 </div>
                             </div>
-
-                            @*<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btn_print_ledger_close()"><span aria-hidden="true">&times;</span></button>*@
                         </div>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-1">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btn_print_ledger_close()"><span aria-hidden="true">&times;</span></button>
-                            @*<button type="button" class="btn-danger btn btn-block" data-dismiss="modal" aria-label="Close" ng-click="btn_print_ledger_close()"><span><i class="fa fa-times"></i></span></button>*@
                         </div>
                     </div>
 
                 </div>
-                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px !important">
+                <div class="modal-body" style="padding-bottom:5px;padding-top:5px !important">
 
                     <div class="panel-body">
                         <div class="row">
@@ -1105,86 +960,6 @@
                                                                 <h3 class="ledger_fields" style="font-weight:bold;">Posted Leave/CTO Balance <label id="todays_date" ng-model="todays_date"></label></h3>
                                                             </div>
                                                         </div>
-                                                        @*<div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <div class="ibox float-e-margins" style="height:400px !important;overflow-y:scroll">
-                                                                        <div class="ibox-title">
-                                                                            <h5> <span class="fa fa-paperclip"></span> Posted Leave Balance</h5>
-                                                                        </div>
-                                                                        <div class="ibox-content" ng-repeat="lst in lst_all_bal">
-                                                                            <div class="row">
-                                                                                <div class="col-xs-7">
-                                                                                    <small class="stats-label"><b><i class="fa fa-circle {{lst.balance_color}}"></i>  {{lst.leavetype_descr}}</b></small>
-                                                                                </div>
-                                                                                <div class="col-xs-5">
-                                                                                    <small class="stats-label">Balance</small>
-                                                                                    <h4>{{lst.leaveledger_balance_current}}</h4>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>*@
-                                                        @*<div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <table id="datalist_grid_leave_bal" ng-model="datalist_grid_leave_bal" class="table table-responsive" style="width:100% !important;">
-                                                                        <thead>
-                                                                            <tr></tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                                        Vacation Leave
-                                                                                    </h3>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <a class="btn btn-primary btn-rounded pull-right">
-                                                                                        <label id="info_vl_balance" ng-model="info_vl_balance"></label>
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                                        Sick Leave
-                                                                                    </h3>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <a class="btn btn-primary btn-rounded pull-right">
-                                                                                        <label id="info_sl_balance" ng-model="info_sl_balance"></label>
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                                        Special Privilege Leave
-                                                                                    </h3>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <a class="btn btn-primary btn-rounded pull-right">
-                                                                                        <label id="info_sp_balance" ng-model="info_sp_balance"></label>
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <h3 class="ledger_fields" style="margin-top:10px;margin-bottom:10px;">
-                                                                                        Force Leave
-                                                                                    </h3>
-                                                                                </td>
-                                                                                <td>
-                                                                                    <a class="btn btn-primary btn-rounded pull-right">
-                                                                                        <label id="info_fl_balance" ng-model="info_fl_balance"></label>
-                                                                                    </a>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                            </div>*@
-
                                                         <div class="row" style="height:200px !important;overflow-y:scroll">
                                                             <div class="col-lg-12">
                                                                 <table id="datalist_grid_leave_bal" ng-model="datalist_grid_leave_bal" class="table table-responsive" style="width:100% !important;">
@@ -1313,15 +1088,6 @@
                                                         <div class="pull-right">
                                                             <button id="add" class="btn btn-success" ng-click="btn_add_modal()"><i class="fa fa-plus-circle"> </i> Add </button>
                                                             <button id="add" class="btn btn-primary" ng-click="btn_print_ledger('OLD',0)"><i class="fa fa-print"> </i> Print Card </button>
-                                                            @*<div class="btn-group">
-                                                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Print Ledger <span class="caret"></span></button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <li><a ng-click="btn_print_ledger('OLD')">Leave Card - Old </a></li>
-                                                                        <li><a ng-click="btn_print_ledger('NEW')">Leave Card - New </a></li>
-                                                                    </ul>
-                                                                </div>*@
-
-                                                            @*<button id="add" class="btn btn-warning" ng-click="btn_generate_lv_earn()"><i class="fa fa-cogs"> </i> Generate Leave Earn </button>*@
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1413,8 +1179,6 @@
                                                 <button id="generate" class="btn btn-warning " ng-click="RefreshDTR('Generate')"><i class="fa fa-cogs"> </i> Generate and Print </button>
                                                 <button id="add" class="btn btn-primary " ng-click="RefreshDTR_PrintOnly()"><i class="fa fa-print"> </i> Print Only</button>
                                             </div>
-                                            @*<div class="col-lg-4">
-                                                </div>*@
                                         </div>
                                         <div class="row" style="min-height:100% !important;padding-top:5px;">
                                             <div class="col-lg-12">

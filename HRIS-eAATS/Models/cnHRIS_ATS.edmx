@@ -3801,6 +3801,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_leave_ctrlno" Type="varchar" Mode="In" />
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_leave_history" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_leave_printing_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_approved_period_from" Type="date" Mode="In" />
           <Parameter Name="par_approved_period_to" Type="date" Mode="In" />
@@ -9161,6 +9164,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_tse_year" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_leave_history" ReturnType="Collection(HRIS_ATSModel.sp_leave_history_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -12807,6 +12813,22 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="tse_month" Nullable="true" MaxLength="2" />
           <Property Type="String" Name="tse_year" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="shift_flag" Nullable="true" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="sp_leave_history_Result">
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="247" />
+          <Property Type="DateTime" Name="date_applied" Nullable="false" Precision="23" />
+          <Property Type="String" Name="leave_dates" Nullable="true" />
+          <Property Type="String" Name="leave_type_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leave_subtype_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leavetype_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="leavesubtype_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="30" />
+          <Property Type="Boolean" Name="posting_status" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -19793,6 +19815,26 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="tse_month" ColumnName="tse_month" />
                 <ScalarProperty Name="tse_year" ColumnName="tse_year" />
                 <ScalarProperty Name="shift_flag" ColumnName="shift_flag" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_leave_history" FunctionName="HRIS_ATSModel.Store.sp_leave_history">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_history_Result">
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="leave_dates" ColumnName="leave_dates" />
+                <ScalarProperty Name="leave_type_code" ColumnName="leave_type_code" />
+                <ScalarProperty Name="leave_subtype_code" ColumnName="leave_subtype_code" />
+                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
+                <ScalarProperty Name="leavesubtype_descr" ColumnName="leavesubtype_descr" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

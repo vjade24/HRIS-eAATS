@@ -566,7 +566,26 @@ namespace HRIS_eAATS.Controllers
         {
             if (!string.IsNullOrEmpty(term))
             {
-                var data = db.vw_personnelnames_tbl.Where(a => a.employee_name.Contains(term) || a.empl_id.Contains(term)).ToList();
+                //var data = db.vw_personnelnames_tbl.Where(a => a.employee_name.Contains(term) || a.empl_id.Contains(term)).ToList();
+                var data = from a in db.vw_personnelnames_tbl
+                           join b in db.personnel_tbl 
+                           on a.empl_id equals b.empl_id
+                           where a.employee_name.Contains(term) || a.empl_id.Contains(term)
+                           select new
+                           {
+                                 a.empl_id
+                                ,a.employee_name
+                                ,a.last_name
+                                ,a.first_name
+                                ,a.middle_name
+                                ,a.suffix_name
+                                ,a.courtisy_title
+                                ,a.postfix_name
+                                ,a.employee_name_format2
+                                ,b.empl_photo
+                                ,b.empl_photo_img
+                           };
+
                 return Json(new { data }, JsonRequestBehavior.AllowGet);
             }
             else

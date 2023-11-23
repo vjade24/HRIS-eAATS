@@ -40,7 +40,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.process_number = ""
     s.extract_selected = {}
     s.biometrics_location = []
-
+    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
     var biotype = [
           { bio_type:"0",bio_type_descr: "AM IN" }
         , { bio_type: "2", bio_type_descr: "AM OUT" }
@@ -289,6 +289,9 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
     function init()
     {
+        if (window.location.host == "hris.dvodeoro.ph") {
+            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
+        }
         $("#ddl_name").select2().on('change', function (e) {
             s.FilterPageGrid();
         });
@@ -1069,10 +1072,20 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
         return name_mons;
     }
-        
+     function formatState(state) {
+
+        if (!state.id) {
+            return state.text;
+        }
+        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.id) ;
+        var $state = $(
+            '<span><img alt="image" class="img-circle" width="50" height="50" src="' + baseUrl + '" class="img-flag" /> ' + state.text + '</span>'
+        );
+        return $state;
+    };   
     $(document).ready(function () {
         $("#ddl_name").select2({
-            
+            templateResult: formatState,
             minimumInputLength: 3,
             placeholder: "Select Employee",
             allowClear: true,
@@ -1090,7 +1103,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                     {
                         return {
                             id: item.empl_id,
-                            text: item.empl_id + " - " + item.employee_name ,
+                            text: item.empl_id + " - " + item.employee_name,
+                            empl_photo: item.empl_photo,
                         };
                     });
                     return {

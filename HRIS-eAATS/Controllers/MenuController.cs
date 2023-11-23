@@ -149,7 +149,7 @@ namespace HRIS_eAATS.Controllers
                 var total_leave_review_leave  = info_list2_no_filter.Where(a => a.url_name == "../cLeaveLedger" && a.leave_type_code != "CTO").ToList().Count;
                 var total_leave_review_cto    = info_list2_no_filter.Where(a => a.url_name == "../cLeaveLedger" && a.leave_type_code == "CTO").ToList().Count;
                 var total_leave_cancellation  = info_list2_no_filter.Where(a => a.url_name != "../cLeaveLedger").ToList().Count;
-                var total_leave_printing      = db_ats.sp_leave_printing_list(DateTime.Now, DateTime.Now, "", user_id,"N").ToList().Count;
+                var total_leave_printing      = db_ats.sp_leave_printing_list(null, null, "", user_id,"N").ToList().Count;
                 var total_leave_transmittal   = db_ats.transmittal_leave_hdr_tbl.Where(a => a.created_by.Replace("U", "") == user_id.Replace("U","") && a.doc_status == "N" ).ToList().Count ;
                 var total_leave_posted_cancellation  = info_list2_no_filter.Where(a => a.url_name == "").ToList().Count;
 

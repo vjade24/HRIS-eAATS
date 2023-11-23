@@ -3,23 +3,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cMainPage.js?v=6"></script>
+<script src="~/Angular/ng-cMainPage.js?v=@DateTime.Now.ToString()"></script>
 <script language="javascript" type="text/javascript">
-    manual_alert();
-    function manual_alert()
-    {
-        setTimeout(function () {
-            toastr.options = {
-                closeOnHover: true,
-                closeButton: false,
-                progressBar: true,
-                showMethod: 'slideDown',
-                timeOut: 7000
-            };
-            toastr.success('For now some page has no available manual. Thank You.', 'Download Manual for Reference');
-
-        }, 1300);
-    }
     function display_c() {
         var refresh = 1000; // Refresh rate in milli seconds
         mytime = setTimeout('display_ct()', refresh)
@@ -93,10 +78,10 @@
                                 <small>You have {{total_notif}} notifications as of @DateTime.Now.ToLongDateString() @DateTime.Now.ToShortTimeString().</small>
                                 <ul class="list-group clear-list m-t">
                                     <li class="list-group-item ">
-                                        <span class="pull-right" style="font-size:9px;">
-                                            Leave : {{total_leave_review_leave}}
-                                            <br />
-                                            CTO : {{total_leave_review_cto}}
+                                        <span class="pull-right" style="font-size:12px;">
+                                            Leave : <span style="font-size:large;font-weight:bold"><u>{{total_leave_review_leave}}</u></span>
+                                            &nbsp;&nbsp;
+                                            CTO : <span style="font-size:large;font-weight:bold"><u>{{total_leave_review_cto}}</u></span>
 
                                         </span>
                                         <span class="label label-warning-light" style="font-size:20px !important" >{{total_leave_review}}</span> &nbsp; Total number of for Review & Post to Ledger

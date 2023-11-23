@@ -3,8 +3,8 @@
     var h       = $http;
     s.rowLen    = "10";
     var date_now        = new Date();
-    s.txtb_date_fr      = moment(date_now).format('YYYY-MM-DD');
-    s.txtb_date_to      = moment(date_now).format('YYYY-MM-DD');
+    s.txtb_date_fr      = "" ;//moment(date_now).format('YYYY-MM-DD');
+    s.txtb_date_to      = "" ;//moment(date_now).format('YYYY-MM-DD');
     s.datalistgrid_dtl  = [];
     s.rowIndex          = "";
     s.rowDetails        = [];
@@ -157,8 +157,8 @@
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeavePrinting/FilterPageGrid",
             {
-                evaluated_date_from : $('#txtb_date_fr').val(),
-                evaluated_date_to   : $('#txtb_date_to').val(),
+                evaluated_date_from : $('#txtb_date_fr').val() == "" ? null : $('#txtb_date_fr').val(),
+                evaluated_date_to   : $('#txtb_date_to').val() == "" ? null : $('#txtb_date_to').val(),
                 par_department_code : $("#ddl_dept option:selected").val(),
                 par_show_printed    : $("#ddl_filter option:selected").val()
             }).then(function (d) {

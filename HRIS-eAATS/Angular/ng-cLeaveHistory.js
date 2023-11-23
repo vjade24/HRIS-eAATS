@@ -9,8 +9,12 @@
     s.txtb_date_fr = "2021" + "-01-01";
     s.txtb_date_to = ddate_from_to.getFullYear() + "-12-31";
     s.ddl_rep_mode = "2"
+    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
     function init()
     {
+        if (window.location.host == "hris.dvodeoro.ph") {
+            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
+        }
         $("#ddl_name").select2().on('change', function (e) {
             s.FilterPageGrid();
         });
@@ -34,7 +38,7 @@
         h.post("../cLeaveHistory/InitializeData").then(function (d) {
             if (d.data.message == "success")
             {
-                s.empl_names = d.data.empl_names
+                //s.empl_names = d.data.empl_names
                 
                 if (d.data.data.length > 0) {
                     init_table_data(d.data.data);
@@ -82,7 +86,7 @@
                     {
                         "mData": "leavetype_descr",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left   btn-block'>&nbsp;&nbsp;" + full["leavetype_descr"] + " " + full["leavesubtype_descr"] + " </span>"
+                            return "<span class='text-left   btn-block'>&nbsp;&nbsp;" + full["leavetype_descr"] + " " + (full["leavesubtype_descr"] == "" ? "" : "(" + full["leavesubtype_descr"]+ ")") + " </span>"
                         }
                     },
                     {
@@ -92,19 +96,11 @@
                         }
                     },
                     {
-                        "mData": "action_remarks",
-                        "mRender": function (data, type, full, row)
-                        {
-                            var badge_color = "badge-danger";
-                            if (full["Grouped"][parseInt(full["Grouped"].length) - 1]["action_remarks"].toString().trim() == "Carded" ||
-                                full["Grouped"][parseInt(full["Grouped"].length) - 1]["action_remarks"].toString().trim() == "Final Approved (Posted)")
-                            {
-                                badge_color = "badge-primary";
-                            }
-
-                            return "&nbsp;&nbsp;<span class='badge " + badge_color + "'>" + full["Grouped"][parseInt(full["Grouped"].length) - 1]["action_remarks"].toString().trim() + "</span>";
+                        "mData": "appl_status",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-left   btn-block'>&nbsp;&nbsp;" + data + " </span>"
                         }
-                    }
+                    },
                 ],
                 "createdRow": function (row, data, index) {
                     $compile(row)($scope);  //add this to compile the DOM
@@ -151,28 +147,67 @@
         })
     }
     $('#datalist_grid tbody').on('click', 'span.details-control', function () {
+        //var tr = $(this).closest('tr');
+        //var row = $('#datalist_grid').DataTable().row(tr);
+        //if (row.child.isShown()) {
+        //    row.child.hide();
+        //    tr.removeClass('shown');
+        //}
+        //else {
+        //    row.child(format(row.data())).show();
+        //    tr.addClass('shown');
+        //}
         var tr = $(this).closest('tr');
         var row = $('#datalist_grid').DataTable().row(tr);
+        s.rowIndex
         if (row.child.isShown()) {
             row.child.hide();
             tr.removeClass('shown');
+            return;
         }
-        else {
-            row.child(format(row.data())).show();
-            tr.addClass('shown');
-        }
-        
+        h.post("../cLeaveLedger/Retrieve_LeaveHistory",
+        {
+            leave_ctrlno: row.data().leave_ctrlno
+            , empl_id: row.data().empl_id
+        }).then(function (d) {
+            if (d.data.message == "success")
+            {
+                row.child(format(d.data.data)).show();
+                tr.addClass('shown');
+            }
+        });
+
     });
     //NEW UPDATE BY: JORGE RUSTOM VILLANUEVA 2020-09-18
     /* Formatting function for row details - modify as you need */
     function format(d)
     {
-        var table = "";
-        for (var i = 0; i < d.Grouped.length; i++)
+        s.data_history = [];
+        var to_append = "";
+        s.data_history = d
+        for (var i = 0; i < s.data_history.length; i++)
         {
-            table += '<div class="row"><div class="col-lg-3">'  + (i + 1) + '. ' + d.Grouped[i].action_employee_name + '</div><div class="col-lg-3">' + moment(d.Grouped[i].action_dttm).format('MMMM Do YYYY, h:mm:ss A') + '</div><div class="col-lg-6">' + d.Grouped[i].action_remarks + '</div></div>';
+            s.data_history[i].create_dttm_descr = moment(s.data_history[i].created_dttm).format("LLLL")
+            s.data_history[i].create_dttm_ago   = moment(s.data_history[i].created_dttm).fromNow()
+            var temp_append = "";
+            var temp = moment();
+            temp_append = '<div class="feed-element">' +
+                                '<div class="pull-left">' +
+                                        '<div class="img-circle">' +
+                                        '<img class="img-circle"  alt="image" width="30" height="30" src="' + (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U", "") + '?v=' + temp) + ' " />' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="media-body ">' +
+                                    '<small class="pull-right" style="padding-left:10px !important">' + s.data_history[i].create_dttm_ago + '</small>' +
+                                    s.data_history[i].appl_status + ' by <strong>' + s.data_history[i].employee_name_format_2 + '</strong>' +
+                                    '<small class="text-muted">on ' + s.data_history[i].create_dttm_descr + '</small>' +
+                                '</div>' +
+                            '</div><hr style="margin-top: 0px;margin-bottom: 0px;"/>';
+
+            to_append = to_append + temp_append;
         }
-        return '<div style="padding:5px 10px 5px 10px !important"><div class="row"><div class="col-lg-3"><h2>Action By</h2></div><div class="col-lg-3"><h2>Action DateTime</h2></div><div class="col-lg-6"><h2>Remarks</h2></div></div>' + table + '</div>';
+        to_append = "<div class='col-lg-3'></div><div class='col-lg-6 m-t-sm'>" + to_append + "</div><div class='col-lg-3'></div>"
+        return $compile(to_append)($scope);
     }
 
     //***********************************************************//
@@ -250,6 +285,46 @@
     // *******************************************************
 
 
-           
     }
+    function formatState(state) {
+
+        if (!state.id) {
+            return state.text;
+        }
+        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.id) ;
+        var $state = $(
+            '<span><img alt="image" class="img-circle" width="50" height="50" src="' + baseUrl + '" class="img-flag" /> ' + state.text + '</span>'
+        );
+        return $state;
+    };
+    $(document).ready(function ()
+    {
+        $("#ddl_name").select2({
+            templateResult: formatState,
+            minimumInputLength: 3,
+            placeholder: "Select Employee",
+            allowClear: true,
+            ajax: {
+                url: "../cASTDTRSupport/Search",
+                dataType: 'json',
+                data: (params) => {
+                    return {
+                        term: params.term,
+                    }
+                },
+                processResults: (data, params) => {
+                    const results = data.data.map(item => {
+                        return {
+                            id: item.empl_id,
+                            text: item.empl_id + " - " + item.employee_name,
+                            empl_photo: item.empl_photo,
+                        };
+                    });
+                    return {
+                        results: results,
+                    }
+                },
+            },
+        });
+    })   
 })

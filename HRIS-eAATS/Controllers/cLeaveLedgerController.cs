@@ -1259,26 +1259,28 @@ namespace HRIS_eAATS.Controllers
                 // *************************************************
                 // ** 2023-08-01 - Check if Travel Order Approved **
                 // *************************************************
-                if (chk_travel != null)
+                if (data.leavetype_code != "ML")
                 {
-                    foreach (var item in leave_appl_dtl)
+                    if (chk_travel != null)
                     {
-                        for (int i = 0; i < (item.leave_date_to.AddDays(1) - item.leave_date_from).TotalDays; i++)
+                        foreach (var item in leave_appl_dtl)
                         {
-                            DateTime leave_date_to_loop = item.leave_date_from.AddDays(i);
-                            for (int x = 0; x < chk_travel.ToList().Count; x++)
+                            for (int i = 0; i < (item.leave_date_to.AddDays(1) - item.leave_date_from).TotalDays; i++)
                             {
-                                if (leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())    && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())
-                                 || leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()) && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()))
+                                DateTime leave_date_to_loop = item.leave_date_from.AddDays(i);
+                                for (int x = 0; x < chk_travel.ToList().Count; x++)
                                 {
-                                    message_descr += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
-                                    message_descr_1 = " - There is Travel Order Approved!";
+                                    if (leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())    && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())
+                                     || leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()) && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()))
+                                    {
+                                        message_descr += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
+                                        message_descr_1 = " - There is Travel Order Approved!";
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
                 return JSON(new {leave_appl_dtl, message_descr, message_descr_1 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

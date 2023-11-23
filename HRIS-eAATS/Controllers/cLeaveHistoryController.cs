@@ -62,33 +62,8 @@ namespace HRIS_eAATS.Controllers
                 db_ats.Database.CommandTimeout = int.MaxValue;
                 var um                  = GetAllowAccess();
                 var log_empl_id         = Session["empl_id"].ToString();
-                var data = db_ats.vw_leave_appl_posting_indv_history.Where(a=> a.empl_id == "").GroupBy(
-                                                                            p => p.leave_ctrlno,
-                                                                            p => p,
-                                                                            (key, g) => new { leave_ctrlno = key, Grouped = g.ToList() });
-                var empl_names = from s in db.vw_personnelnames_tbl
-                                 join r in db.personnel_tbl
-                                 on s.empl_id equals r.empl_id
-                                 join t in db.vw_payrollemployeemaster_hdr_tbl
-                                 on s.empl_id equals t.empl_id
-                                 where r.emp_status == true
-                                 orderby s.last_name
-
-                                 select new
-                                 {
-                                     s.empl_id,
-                                     s.employee_name,
-                                     s.last_name,
-                                     s.first_name,
-                                     s.middle_name,
-                                     s.suffix_name,
-                                     s.courtisy_title,
-                                     s.postfix_name,
-                                     s.employee_name_format2,
-                                     t.department_code,
-                                     t.employment_type,
-                                 };
-                return JSON(new { message = "success", um, data , empl_names }, JsonRequestBehavior.AllowGet);
+                var data = db_ats.sp_leave_history("").ToList();
+                return JSON(new { message = "success", um, data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -106,19 +81,7 @@ namespace HRIS_eAATS.Controllers
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
-                var data = db_ats.vw_leave_appl_posting_indv_history.Where(a => a.empl_id == par_empl_id).GroupBy(
-                                                                            p => p.leave_ctrlno,
-                                                                            p => p,
-                                                                            (key, g) => new
-                                                                            {leave_ctrlno        = g.FirstOrDefault().leave_ctrlno         
-                                                                            ,ledger_ctrl_no      = g.FirstOrDefault().ledger_ctrl_no       
-                                                                            ,empl_id             = g.FirstOrDefault().empl_id              
-                                                                            ,employee_name       = g.FirstOrDefault().employee_name        
-                                                                            ,leavetype_descr     = g.FirstOrDefault().leavetype_descr      
-                                                                            ,leavesubtype_descr  = g.FirstOrDefault().leavesubtype_descr   
-                                                                            ,leave_dates         = g.FirstOrDefault().leave_dates
-                                                                            ,action_remarks      = g.FirstOrDefault().action_remarks
-                                                                            ,Grouped                                 = g.ToList() }).OrderByDescending(a=> a.leave_ctrlno);
+                var data = db_ats.sp_leave_history(par_empl_id).ToList();
                 return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

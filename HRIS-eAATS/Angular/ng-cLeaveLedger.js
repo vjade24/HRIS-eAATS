@@ -978,7 +978,7 @@
     s.btn_add_modal = function ()
     {
         $('#tab_1_click').click();
-
+        $("#history").html("");
         s.show_save_edit_btn = true;
         s.no_action_posted   = true;
         ValidationResultColor("ALL", false);
@@ -1121,6 +1121,19 @@
             //**********************************************
             //**********************************************
 
+            var p_empl_id = s.datalistgrid[row_id].empl_id
+            var p_date_fr = $("#txtb_date_fr").val()
+            var p_date_to = $("#txtb_date_to").val()
+            var p_report_type = "LEAVE";
+            var par_rep_mode = "2";
+            if (s.datalistgrid[row_id].leavetype_code == "CTO")
+            {
+                p_report_type = "CTO";
+                par_rep_mode = "3";
+            }
+            var par_iframe_id = "iframe_print_preview_carding_review"
+            s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type, par_iframe_id)
+
             $('#main_modal').modal({ backdrop: 'static', keyboard: false })
             
         }
@@ -1131,6 +1144,7 @@
     //***********************************************************//
     s.btn_post = function (row_id) 
     {
+        $("#history").html("");
         //$('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
         s.ADDEDITMODE           = "POST"
         s.show_save_edit_btn = false;
@@ -1248,7 +1262,19 @@
         }
         // **************************************************************************
         // **************************************************************************
-        
+
+        var p_empl_id = s.datalistgrid2[row_id].empl_id
+        var p_date_fr = $("#txtb_date_fr").val()
+        var p_date_to = $("#txtb_date_to").val()
+        var p_report_type = "LEAVE";
+        var par_rep_mode = "2";
+        if (s.datalistgrid2[row_id].leave_type_code == "CTO") {
+            p_report_type = "CTO";
+            par_rep_mode = "3";
+        }
+        var par_iframe_id = "iframe_print_preview_carding_review"
+        s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type,par_iframe_id)
+
         $('#main_modal').modal({ backdrop: 'static', keyboard: false })
     }
 
@@ -1425,7 +1451,7 @@
 
         var p_date_fr = $("#txtb_date_fr").val()
         var p_date_to = $("#txtb_date_to").val()
-
+        var par_iframe_id = "iframe_print_preview_carding"
         if (s.datalistgrid[row_id].approval_status == 'D' ||
             s.datalistgrid[row_id].approval_status == 'L' ||
             s.datalistgrid[row_id].leaveledger_entry_type == 'T' 
@@ -1450,6 +1476,7 @@
                 var p_date_issued       = s.datalistgrid[row_id].leaveledger_date;
                 var p_date_valid        = s.datalistgrid[row_id].leaveledger_date;
                 var p_signatory_name    = "LARA ZAPHIRE KRISTY N. BERMEJO";
+                var p_footer_remarks    = s.datalistgrid[row_id].details_remarks;
 
                 var controller  = "Reports"
                 var action      = "Index"
@@ -1467,9 +1494,9 @@
                         if (s.datalistgrid[row_id].leaveledger_entry_type == '1')
                         {
                             ReportPath = "~/Reports/cryCOC_Earn/cryCOC_Earn.rpt";
-                            sp = "sp_leave_application_coc_earn_report,p_empl_id," + empl_id + ",p_month_year," + p_month_year + ",p_number_of_hours," + p_number_of_hours + ",p_date_issued," + p_date_issued + ",p_date_valid," + p_date_valid + ",p_signatory_name," + p_signatory_name;
+                            sp = "sp_leave_application_coc_earn_report,p_empl_id," + empl_id + ",p_month_year," + p_month_year + ",p_number_of_hours," + p_number_of_hours + ",p_date_issued," + p_date_issued + ",p_date_valid," + p_date_valid + ",p_signatory_name," + p_signatory_name + ",p_footer_remarks," + p_footer_remarks;
 
-                            s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO")
+                            s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO", par_iframe_id)
                         }
                         else
                         {
@@ -1482,7 +1509,7 @@
                         ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
                         sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
 
-                        s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO")
+                        s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "3", "CTO", par_iframe_id)
                     }
                 }
                 else
@@ -1491,7 +1518,7 @@
                     ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
                     sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
 
-                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "2", "LEAVE")
+                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, p_date_fr, p_date_to, "2", "LEAVE", par_iframe_id)
                 }
 
                 // *******************************************************
@@ -1755,6 +1782,20 @@
                 }
 
                 iframe.src = s.embed_link;
+
+
+                var p_empl_id = s.datalistgrid3[row_id].empl_id
+                var p_date_fr = $("#txtb_date_fr").val()
+                var p_date_to = $("#txtb_date_to").val()
+                var p_report_type = "LEAVE";
+                var par_rep_mode = "2";
+                if (s.datalistgrid3[row_id].leave_type_code == "CTO") {
+                    p_report_type = "CTO";
+                    par_rep_mode = "3";
+                }
+                var par_iframe_id = "iframe_print_preview_carding"
+                s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type, par_iframe_id)
+
                 $('#leave_app_print_modal').modal({ backdrop: 'static', keyboard: false });
             // *******************************************************
             // *******************************************************
@@ -3685,7 +3726,7 @@
     }
 
 
-    s.RetrieveCardingReport = function (par_empl_id, par_date_from, par_date_to, par_rep_mode, print_mode)
+    s.RetrieveCardingReport = function (par_empl_id, par_date_from, par_date_to, par_rep_mode, print_mode,iframe_id)
     {
         // *******************************************************
         // *******************************************************
@@ -3712,8 +3753,8 @@
         // *******************************************************
         // *** VJA : 2021-07-14 - Validation and Loading hide ****
         // *******************************************************
-        var iframe = document.getElementById('iframe_print_preview_carding');
-        var iframe_page = $("#iframe_print_preview_carding")[0];
+        var iframe = document.getElementById(iframe_id);
+        var iframe_page = $("#" + iframe_id)[0];
         iframe.style.visibility = "hidden";
 
         s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
