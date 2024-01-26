@@ -3764,19 +3764,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledger_info_Result>("sp_ledger_info", par_user_idParameter);
         }
     
-        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_show_historyParameter = par_show_history != null ?
-                new ObjectParameter("par_show_history", par_show_history) :
-                new ObjectParameter("par_show_history", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter);
-        }
-    
         public virtual ObjectResult<sp_ledgerposting_notification_Result> sp_ledgerposting_notification(string par_user_id, Nullable<System.DateTime> par_date)
         {
             var par_user_idParameter = par_user_id != null ?
@@ -5166,7 +5153,7 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_lv_ledger_history_insert", p_ledger_ctrl_noParameter, p_leave_ctrlnoParameter, p_empl_idParameter, p_appl_statusParameter, p_appl_remarksParameter, p_created_byParameter);
         }
     
-        public virtual ObjectResult<sp_leave_application_coc_earn_report_Result> sp_leave_application_coc_earn_report(string p_empl_id, Nullable<System.DateTime> p_month_year, Nullable<decimal> p_number_of_hours, Nullable<System.DateTime> p_date_issued, Nullable<System.DateTime> p_date_valid, string p_signatory_name)
+        public virtual ObjectResult<sp_leave_application_coc_earn_report_Result> sp_leave_application_coc_earn_report(string p_empl_id, Nullable<System.DateTime> p_month_year, Nullable<decimal> p_number_of_hours, Nullable<System.DateTime> p_date_issued, Nullable<System.DateTime> p_date_valid, string p_signatory_name, string p_footer_remarks)
         {
             var p_empl_idParameter = p_empl_id != null ?
                 new ObjectParameter("p_empl_id", p_empl_id) :
@@ -5192,7 +5179,11 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_signatory_name", p_signatory_name) :
                 new ObjectParameter("p_signatory_name", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_coc_earn_report_Result>("sp_leave_application_coc_earn_report", p_empl_idParameter, p_month_yearParameter, p_number_of_hoursParameter, p_date_issuedParameter, p_date_validParameter, p_signatory_nameParameter);
+            var p_footer_remarksParameter = p_footer_remarks != null ?
+                new ObjectParameter("p_footer_remarks", p_footer_remarks) :
+                new ObjectParameter("p_footer_remarks", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_coc_earn_report_Result>("sp_leave_application_coc_earn_report", p_empl_idParameter, p_month_yearParameter, p_number_of_hoursParameter, p_date_issuedParameter, p_date_validParameter, p_signatory_nameParameter, p_footer_remarksParameter);
         }
     
         public virtual ObjectResult<sp_get_leave_transmittal_for_uploading_dtl_list_Result> sp_get_leave_transmittal_for_uploading_dtl_list(string par_doc_ctrl_nbr)
@@ -5410,6 +5401,19 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_empl_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_history_Result>("sp_leave_history", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter);
         }
     }
 }

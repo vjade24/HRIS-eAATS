@@ -16,7 +16,7 @@
     s.ddl_rep_mode_add_edit = "2"
     var row_id_printing = "";
     s.var_daily_monthly = "";
-
+    s.div_show_date_grid = false;
 
     function init() {
 
@@ -40,7 +40,7 @@
             }
             s.RetrieveCardingReport(s.txtb_empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), par_rep_mode, print_mode)
         });
-
+        
         $("#txtb_date_to").on('change', function (e)
         {
             var par_rep_mode = ""
@@ -56,6 +56,14 @@
                 print_mode = "CTO"
             }
             s.RetrieveCardingReport(s.txtb_empl_id, $("#txtb_date_fr").val(), $("#txtb_date_to").val(), par_rep_mode, print_mode)
+        });
+
+        $("#txtb_date_fr_grid").on('change', function (e) {
+            s.FilterPageGrid();
+        });
+
+        $("#txtb_date_to_grid").on('change', function (e) {
+            s.FilterPageGrid();
         });
         //**********************************************
         // Initialize data during page loads
@@ -139,7 +147,8 @@
                             
                             if (full["approval_status"].toString() == "1" || full["approval_status"].toString() == "2" || full["approval_status"].toString() == "F")
                             {
-                                temp = "<b><span class='text-center btn-block approved-bg'>" + "Evaluated" + "</span></b>"
+                                temp = "<b><span class='text-center btn-block approved-bg'>" + "Evaluated" + "</span></b> " +
+                                        "<small class='text-center '> " + moment(full["evaluated_dttm"]).format('LLL') + "</small>"
                             }
                             else if (full["approval_status"].toString() == "D")
                             {
@@ -165,7 +174,7 @@
                             {
                                 temp = "<b><span class='text-center btn-block new-bg '>" + "REQUEST RE-PRINT" + "</span></b>"
                             }
-                            return temp;
+                            return '<center>' + temp + '</center>';
                         }
                     },
                     {
@@ -364,10 +373,13 @@
     //********************************************// 
     s.FilterPageGrid = function ()
     {
+        $('#chk_show_approved').prop("checked") == true ? s.div_show_date_grid = true : s.div_show_date_grid = false;
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveLedgerAppr/FilterPageGrid", {
-            par_show_history: $('#chk_show_approved').prop("checked") == true ? "Y" : "N",
-            par_rep_mode: s.ddl_rep_mode
+            par_show_history    : $('#chk_show_approved').prop("checked") == true ? "Y" : "N",
+            par_rep_mode        : s.ddl_rep_mode,
+            date_fr_grid        : $('#txtb_date_fr_grid').val() == "" ? null : $('#txtb_date_fr_grid').val(),
+            date_to_grid        : $('#txtb_date_to_grid').val() == "" ? null : $('#txtb_date_to_grid').val()
         }).then(function (d)
         {
             if (d.data.message == "success")

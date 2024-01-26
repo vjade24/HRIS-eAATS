@@ -3741,6 +3741,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="p_date_issued" Type="date" Mode="In" />
           <Parameter Name="p_date_valid" Type="date" Mode="In" />
           <Parameter Name="p_signatory_name" Type="varchar" Mode="In" />
+          <Parameter Name="p_footer_remarks" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_leave_application_curr_bal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
@@ -8689,10 +8690,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <FunctionImport Name="sp_ledger_info" ReturnType="Collection(HRIS_ATSModel.sp_ledger_info_Result)">
           <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_ledgerposting_for_approval_list" ReturnType="Collection(HRIS_ATSModel.sp_ledgerposting_for_approval_list_Result)">
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
-            <Parameter Name="par_show_history" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_ledgerposting_notification" ReturnType="Collection(HRIS_ATSModel.sp_ledgerposting_notification_Result)">
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_date" Mode="In" Type="DateTime" />
@@ -9100,6 +9097,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_date_issued" Mode="In" Type="DateTime" />
             <Parameter Name="p_date_valid" Mode="In" Type="DateTime" />
             <Parameter Name="p_signatory_name" Mode="In" Type="String" />
+            <Parameter Name="p_footer_remarks" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_get_leave_transmittal_for_uploading_dtl_list" ReturnType="Collection(HRIS_ATSModel.sp_get_leave_transmittal_for_uploading_dtl_list_Result)">
           <Parameter Name="par_doc_ctrl_nbr" Mode="In" Type="String" />
@@ -9165,7 +9163,11 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_tse_year" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_leave_history" ReturnType="Collection(HRIS_ATSModel.sp_leave_history_Result)">
-            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_ledgerposting_for_approval_list" ReturnType="Collection(HRIS_ATSModel.sp_ledgerposting_for_approval_list_Result)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_show_history" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -11222,38 +11224,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="Int32" Name="leave_administrator" Nullable="true" />
           <Property Type="Int32" Name="canceled_disapproved" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_ledgerposting_for_approval_list_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
-          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="leavetype_descr" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leaveledger_period" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="leaveledger_particulars" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="leaveledger_entry_type" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="leaveledger_entry_type_desc" Nullable="true" />
-          <Property Type="String" Name="details_remarks" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="cancel_pending_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="cancelled_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="disapproval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="reviewed_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="level1_approval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="level2_approval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="final_approval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="empl_id_creator" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="creator_name" Nullable="false" MaxLength="211" />
-          <Property Type="String" Name="user_id_creator" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="worklist_status" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="worklist_action" Nullable="false" MaxLength="22" />
-          <Property Type="String" Name="next_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="leavesubtype_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="true" MaxLength="8" />
-        </ComplexType>
         <ComplexType Name="sp_ledgerposting_notification_Result">
           <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
@@ -12829,6 +12799,39 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="30" />
           <Property Type="Boolean" Name="posting_status" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_ledgerposting_for_approval_list_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="leavetype_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="leaveledger_period" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="leaveledger_particulars" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="leaveledger_entry_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="leaveledger_entry_type_desc" Nullable="true" />
+          <Property Type="String" Name="details_remarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="cancel_pending_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="cancelled_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="disapproval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="reviewed_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="level1_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="level2_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="final_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="empl_id_creator" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="creator_name" Nullable="false" MaxLength="211" />
+          <Property Type="String" Name="user_id_creator" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="worklist_status" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="worklist_action" Nullable="false" MaxLength="22" />
+          <Property Type="String" Name="next_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="leavesubtype_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="true" MaxLength="8" />
+          <Property Type="DateTime" Name="evaluated_dttm" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -17875,42 +17878,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_ledgerposting_for_approval_list" FunctionName="HRIS_ATSModel.Store.sp_ledgerposting_for_approval_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_ledgerposting_for_approval_list_Result">
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
-                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
-                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
-                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
-                <ScalarProperty Name="leaveledger_particulars" ColumnName="leaveledger_particulars" />
-                <ScalarProperty Name="leaveledger_entry_type" ColumnName="leaveledger_entry_type" />
-                <ScalarProperty Name="leaveledger_entry_type_desc" ColumnName="leaveledger_entry_type_desc" />
-                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
-                <ScalarProperty Name="cancelled_comment" ColumnName="cancelled_comment" />
-                <ScalarProperty Name="disapproval_comment" ColumnName="disapproval_comment" />
-                <ScalarProperty Name="reviewed_comment" ColumnName="reviewed_comment" />
-                <ScalarProperty Name="level1_approval_comment" ColumnName="level1_approval_comment" />
-                <ScalarProperty Name="level2_approval_comment" ColumnName="level2_approval_comment" />
-                <ScalarProperty Name="final_approval_comment" ColumnName="final_approval_comment" />
-                <ScalarProperty Name="empl_id_creator" ColumnName="empl_id_creator" />
-                <ScalarProperty Name="creator_name" ColumnName="creator_name" />
-                <ScalarProperty Name="user_id_creator" ColumnName="user_id_creator" />
-                <ScalarProperty Name="worklist_status" ColumnName="worklist_status" />
-                <ScalarProperty Name="worklist_action" ColumnName="worklist_action" />
-                <ScalarProperty Name="next_status" ColumnName="next_status" />
-                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
-                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_ledgerposting_notification" FunctionName="HRIS_ATSModel.Store.sp_ledgerposting_notification">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_ledgerposting_notification_Result">
@@ -19835,6 +19802,43 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="approval_status" ColumnName="approval_status" />
                 <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
                 <ScalarProperty Name="posting_status" ColumnName="posting_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_ledgerposting_for_approval_list" FunctionName="HRIS_ATSModel.Store.sp_ledgerposting_for_approval_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_ledgerposting_for_approval_list_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
+                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
+                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
+                <ScalarProperty Name="leaveledger_particulars" ColumnName="leaveledger_particulars" />
+                <ScalarProperty Name="leaveledger_entry_type" ColumnName="leaveledger_entry_type" />
+                <ScalarProperty Name="leaveledger_entry_type_desc" ColumnName="leaveledger_entry_type_desc" />
+                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
+                <ScalarProperty Name="cancelled_comment" ColumnName="cancelled_comment" />
+                <ScalarProperty Name="disapproval_comment" ColumnName="disapproval_comment" />
+                <ScalarProperty Name="reviewed_comment" ColumnName="reviewed_comment" />
+                <ScalarProperty Name="level1_approval_comment" ColumnName="level1_approval_comment" />
+                <ScalarProperty Name="level2_approval_comment" ColumnName="level2_approval_comment" />
+                <ScalarProperty Name="final_approval_comment" ColumnName="final_approval_comment" />
+                <ScalarProperty Name="empl_id_creator" ColumnName="empl_id_creator" />
+                <ScalarProperty Name="creator_name" ColumnName="creator_name" />
+                <ScalarProperty Name="user_id_creator" ColumnName="user_id_creator" />
+                <ScalarProperty Name="worklist_status" ColumnName="worklist_status" />
+                <ScalarProperty Name="worklist_action" ColumnName="worklist_action" />
+                <ScalarProperty Name="next_status" ColumnName="next_status" />
+                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="evaluated_dttm" ColumnName="evaluated_dttm" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

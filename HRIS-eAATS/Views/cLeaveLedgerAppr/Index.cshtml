@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=10"></script>
+<script src="~/Angular/ng-cLeaveLedgerAppr.js?v=@DateTime.Now.ToString()"></script>
 <style type="text/css">
     .field {
         border-radius: 3px;
@@ -605,7 +605,30 @@
                                 </label>
                             </div>
                             <div class="col-lg-5">
-
+                                <div class="form-group row" ng-show="div_show_date_grid">
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Date From:</b></label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="input-group date" data-provide="datepicker">
+                                            <input type="text" id="txtb_date_fr_grid" ng-model="txtb_date_fr_grid" class="form-control form-control-sm text-center font-bold" maxlength="10"  />
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Date To:</b></label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="input-group date" data-provide="datepicker">
+                                            <input type="text" id="txtb_date_to_grid" ng-model="txtb_date_to_grid" class="form-control form-control-sm text-center font-bold" maxlength="10"  />
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-grop row">

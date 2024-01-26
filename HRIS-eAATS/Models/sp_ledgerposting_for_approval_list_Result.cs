@@ -43,5 +43,6 @@ namespace HRIS_eAATS.Models
         public string leavesubtype_code { get; set; }
         public string date_applied { get; set; }
         public string leave_ctrlno { get; set; }
+        public System.DateTime evaluated_dttm { get; set; }
     }
 }

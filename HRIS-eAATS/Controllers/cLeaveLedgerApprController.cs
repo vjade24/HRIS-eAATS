@@ -84,7 +84,9 @@ namespace HRIS_eAATS.Controllers
         //*********************************************************************//
         public ActionResult FilterPageGrid(
             string par_show_history,
-            string par_rep_mode
+            string par_rep_mode,
+            DateTime? date_fr_grid,
+            DateTime? date_to_grid
         )
         {
             try
@@ -102,6 +104,10 @@ namespace HRIS_eAATS.Controllers
                 else if (par_rep_mode == "3") // CTO 
                 {
                     filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).Where(a => a.leavetype_code == "CTO").ToList();
+                }
+                if (par_show_history == "Y" && date_fr_grid != null & date_to_grid != null)
+                {
+                    filteredGrid = filteredGrid.Where(a=> a.evaluated_dttm.Date >= date_fr_grid.Value.Date && a.evaluated_dttm.Date <= date_to_grid.Value.Date).ToList();
                 }
                 return JSON(new { message = "success", filteredGrid }, JsonRequestBehavior.AllowGet);
             }
