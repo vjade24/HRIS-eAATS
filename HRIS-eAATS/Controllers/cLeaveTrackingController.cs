@@ -144,6 +144,17 @@ namespace HRIS_eAATS.Controllers
                         table.ledger_ctrl_no    = data[i].ledger_ctrl_no;
                         table.empl_id           = data[i].empl_id;
                         ledger_history.Add(table);
+
+                        // VJA - For Disapproved Leave
+                        var dis_lv = db_ats.leave_application_disapproved_tbl.Where(a => a.empl_id == data[i].empl_id && a.leave_ctrlno == data[i].leave_ctrlno && a.disapproved_reason != "").ToList();
+                        if (dis_lv != null)
+                        {
+                            for (int x = 0; x < dis_lv.Count; x++)
+                            {
+                                db_ats.sp_dtr_overrides_tbl_insert_disapproved_leave(dis_lv[x].empl_id, dis_lv[x].disapproved_date, Session["user_id"].ToString());
+                            }
+                        }
+                        // VJA - For Disapproved Leave
                     }
 
                     db_ats.lv_ledger_history_tbl.AddRange(ledger_history);
@@ -187,6 +198,17 @@ namespace HRIS_eAATS.Controllers
                 db_ats.lv_ledger_history_tbl.Add(table);
                 db_ats.SaveChangesAsync();
 
+                // VJA - For Disapproved Leave
+                var dis_lv = db_ats.leave_application_disapproved_tbl.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno && a.disapproved_reason != "").ToList();
+                if (dis_lv != null)
+                {
+                    for (int x = 0; x < dis_lv.Count; x++)
+                    {
+                        db_ats.sp_dtr_overrides_tbl_insert_disapproved_leave(dis_lv[x].empl_id, dis_lv[x].disapproved_date, Session["user_id"].ToString());
+                    }
+                }
+                // VJA - For Disapproved Leave
+
                 return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -219,6 +241,17 @@ namespace HRIS_eAATS.Controllers
                 table.empl_id                = par_empl_id;
                 db_ats.lv_ledger_history_tbl.Add(table);
                 db_ats.SaveChangesAsync();
+
+                // VJA - For Disapproved Leave
+                var dis_lv = db_ats.leave_application_disapproved_tbl.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno && a.disapproved_reason != "").ToList();
+                if (dis_lv != null)
+                {
+                    for (int x = 0; x < dis_lv.Count; x++)
+                    {
+                        db_ats.sp_dtr_overrides_tbl_insert_disapproved_leave(dis_lv[x].empl_id, dis_lv[x].disapproved_date, Session["user_id"].ToString());
+                    }
+                }
+                // VJA - For Disapproved Leave
 
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }

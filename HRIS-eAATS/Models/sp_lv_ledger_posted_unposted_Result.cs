@@ -32,5 +32,6 @@ namespace HRIS_eAATS.Models
         public Nullable<bool> justification_flag { get; set; }
         public bool leave_class { get; set; }
         public string leave_descr { get; set; }
+        public string disapproved_remakrs { get; set; }
     }
 }

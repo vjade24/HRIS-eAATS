@@ -26,5 +26,6 @@ namespace HRIS_eAATS.Models
         public string created_date_only { get; set; }
         public string url_name { get; set; }
         public string ledger_status { get; set; }
+        public string disapproved_remakrs { get; set; }
     }
 }

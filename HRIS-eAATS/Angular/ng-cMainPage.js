@@ -77,10 +77,15 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                         "mRender": function (data, type, full, row)
                         
                         {
+                            var disapproved = '';
+                            if (full["disapproved_remakrs"].toString().trim() != "")
+                            {
+                                disapproved = '<span class="badge badge-danger">' + full["disapproved_remakrs"] + '</span>';
+                            }
                             if (full["url_name"] == "")
                             {
                                 return '<div style="display:none;">' + full["url_name"] +'</div>' + '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-danger btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Re-Post to Ledger"><i class="fa fa-send"></i> Review & Re-Post to Ledger</button >' +
+                                    '<button type="button" class="btn btn-danger btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Re-Post to Ledger"><i class="fa fa-send"></i> Review & Re-Post to Ledger ' + disapproved +'</button >' +
                                     '</div></center>';
                             }
                             else if (full["url_name"] == "../cCancellation")
@@ -92,7 +97,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                             else
                             {
                                 return '<div style="display:none;">' + full["url_name"] + '</div>' + '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger"><i class="fa fa-send"></i> Review & Post to Ledger</button >' +
+                                    '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_redirect_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger"><i class="fa fa-send"></i> Review & Post to Ledger ' + disapproved+'</button >' +
                                     '</div></center>';
                             }
                             

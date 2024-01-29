@@ -494,6 +494,11 @@
                             "mData": null,
                             "mRender": function (data, type, full, row)
                             {
+                                var disapproved = '';
+                                if (full["disapproved_remakrs"].toString().trim() != "") {
+                                    disapproved = '<span class="badge badge-danger">' + full["disapproved_remakrs"] + '</span>';
+                                }
+
                                 var with_justi = false
                                 if (full["justification_flag"] == true)
                                 {
@@ -505,7 +510,7 @@
                                 }
 
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_post(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger">  Review & Post to Ledger </button >' +
+                                    '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_post(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Review & Post to Ledger">  Review & Post to Ledger ' + disapproved+'</button >' +
                                     '<button type="button" ng-show="' + with_justi + '" class="btn btn-primary btn-xs" ng-click=\'btn_print_ledger("justification",' + row["row"] + ')\' data-toggle="tooltip" data-placement="top" title="View Justification">  View Justification </button >' +
                                     '</div></center>';
                             }
