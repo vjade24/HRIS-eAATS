@@ -146,7 +146,8 @@ namespace HRIS_eAATS.Controllers
                         ledger_history.Add(table);
 
                         // VJA - For Disapproved Leave
-                        var dis_lv = db_ats.leave_application_disapproved_tbl.Where(a => a.empl_id == data[i].empl_id && a.leave_ctrlno == data[i].leave_ctrlno && a.disapproved_reason != "").ToList();
+                        List<leave_application_disapproved_tbl> dis = new List<leave_application_disapproved_tbl>();
+                        var dis_lv = dis.Where(a => a.empl_id == data[i].empl_id && a.leave_ctrlno == data[i].leave_ctrlno && a.disapproved_reason != "").ToList();
                         if (dis_lv != null)
                         {
                             for (int x = 0; x < dis_lv.Count; x++)
@@ -199,7 +200,8 @@ namespace HRIS_eAATS.Controllers
                 db_ats.SaveChangesAsync();
 
                 // VJA - For Disapproved Leave
-                var dis_lv = db_ats.leave_application_disapproved_tbl.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno && a.disapproved_reason != "").ToList();
+                List<leave_application_disapproved_tbl> dis = new List<leave_application_disapproved_tbl>();
+                var dis_lv = dis.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno && a.disapproved_reason != "").ToList();
                 if (dis_lv != null)
                 {
                     for (int x = 0; x < dis_lv.Count; x++)
@@ -243,7 +245,8 @@ namespace HRIS_eAATS.Controllers
                 db_ats.SaveChangesAsync();
 
                 // VJA - For Disapproved Leave
-                var dis_lv = db_ats.leave_application_disapproved_tbl.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno && a.disapproved_reason != "").ToList();
+                List<leave_application_disapproved_tbl> dis = new List<leave_application_disapproved_tbl>();
+                var dis_lv = dis.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno && a.disapproved_reason != "").ToList();
                 if (dis_lv != null)
                 {
                     for (int x = 0; x < dis_lv.Count; x++)
