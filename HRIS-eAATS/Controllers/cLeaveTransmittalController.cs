@@ -251,7 +251,7 @@ namespace HRIS_eAATS.Controllers
                             }
                             else if (data.route_nbr == "02")
                             {
-                                data_dtl_insert = data_dtl_insert.Where(a => a.lv_nodays >= 11 && a.lv_nodays <=30).ToList();
+                                data_dtl_insert = data_dtl_insert.Where(a => a.lv_nodays > 10 && a.lv_nodays <=30).ToList();
                             }
                             else if (data.route_nbr == "03")
                             {
