@@ -44,5 +44,8 @@ namespace HRIS_eAATS.Models
         public string date_applied { get; set; }
         public string leave_ctrlno { get; set; }
         public System.DateTime evaluated_dttm { get; set; }
+        public string inclusive_dates { get; set; }
+        public Nullable<bool> justification_flag { get; set; }
+        public string cancellation_flag { get; set; }
     }
 }

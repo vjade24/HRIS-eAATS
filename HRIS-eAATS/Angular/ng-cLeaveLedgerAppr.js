@@ -1,7 +1,7 @@
 ﻿ng_HRD_App.controller("cLeaveLedgerAppr_ctrlr", function ($scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
-
+    let morisBar;
     var userid      = "";
     s.year          = [];
     s.rowLen        = "10";
@@ -17,9 +17,11 @@
     var row_id_printing = "";
     s.var_daily_monthly = "";
     s.div_show_date_grid = false;
-
+    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
     function init() {
-
+        if (window.location.host == "hris.dvodeoro.ph") {
+            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
+        }
         // var date_now = new Date();
         // s.txtb_date_fr = date_now.getFullYear() + "-01-01";
         // s.txtb_date_to = date_now.getFullYear() + "-12-31";
@@ -117,9 +119,13 @@
                 pageLength: 10,
                 columns: [
                     {
-                        "mData": "ledger_ctrl_no",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>" + data + "</span>"
+                            var temp = moment();
+                            return '<div class="text-center">' +
+                                        '<div class="img-circle">' +
+                                            '<img class="img-circle" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
+                                        '</div>' +
+                                    '</div>'
                         }
                     },
                     {
@@ -135,7 +141,19 @@
                         }
                     },
                     {
+                        "mData": "ledger_ctrl_no",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
                         "mData": "leavetype_descr",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='btn-block'>&nbsp;" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "inclusive_dates",
                         "mRender": function (data, type, full, row) {
                             return "<span class='btn-block'>&nbsp;" + data + "</span>"
                         }
@@ -147,7 +165,9 @@
                             
                             if (full["approval_status"].toString() == "1" || full["approval_status"].toString() == "2" || full["approval_status"].toString() == "F")
                             {
-                                temp = "<b><span class='text-center btn-block approved-bg'>" + "Evaluated" + "</span></b> " +
+                                temp = "<b><span class='text-center btn-block approved-bg'>" + "Evaluated"      + "</span></b>" +
+                                        (full["justification_flag"] == true ? "<b><span class='text-center btn-block new-bg'>" + " With Justification" + "</span></b> ": "") +
+                                        (full["cancellation_flag"]  != ""   ? "<b><span class='text-center btn-block cancel-bg'>" + "With Cancellation" + "</span></b> ": "") +
                                         "<small class='text-center '> " + moment(full["evaluated_dttm"]).format('LLL') + "</small>"
                             }
                             else if (full["approval_status"].toString() == "D")
@@ -187,21 +207,21 @@
                             {
                                 btn_approve = "For Evaluation"
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
                                     '</div></center>';
                             }
                             else if (full["worklist_action"].toString() == "REQUEST RE-PRINT")
                             {
                                 btn_approve = "REQUEST RE-PRINT"
                                 return '<center><div class="btn-group">' +
-                                        '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-sm" ng-click="btn_request_reprint(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                        '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click="btn_request_reprint(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
                                         '</div></center>';
                             }
                             else
                             {
                                 btn_approve = data
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
                                     '</div></center>';
                             }
 
@@ -373,6 +393,7 @@
     //********************************************// 
     s.FilterPageGrid = function ()
     {
+
         $('#chk_show_approved').prop("checked") == true ? s.div_show_date_grid = true : s.div_show_date_grid = false;
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveLedgerAppr/FilterPageGrid", {
@@ -388,6 +409,102 @@
                 s.datalistgrid = d.data.filteredGrid;
                 if (d.data.filteredGrid.length > 0) {
                     s.oTable.fnAddData(d.data.filteredGrid);
+                }
+
+                s.info_list2_chart = [];
+                s.info_list2_chart = d.data.info_list2_chart;
+
+                s.donut             = [];
+                s.donut             = d.data.donut_chart;
+                var overall_total   = 0;
+
+                s.line_chart        = [];
+                s.line_chart        = d.data.line_chart;
+
+                s.for_evaluated     = 0;
+                s.for_justi         = 0;
+                s.for_cancelled     = 0;
+
+                $('#chart-leave-list').empty();
+                $('#line-example').empty();
+                $('#chart-leave-approval-list').empty();
+
+                if (s.info_list2_chart.length > 0 && s.div_show_date_grid == true)
+                {
+                    $("#chart-leave-list").empty();
+                    new Morris.Bar({
+                        // ID of the element in which to draw the chart.
+                        element: 'chart-leave-list',
+                        // Chart data records -- each entry in this array corresponds to a point on
+                        // the chart.
+                        data: s.info_list2_chart,
+                        // The name of the data record attribute that contains x-values.
+                        // xkey: 'year',
+                        xkey: 'Label',
+                        // A list of names of data record attributes that contain y-values.
+                        // ykeys: ['value'],
+                        ykeys: ['Count'],
+                        // Labels for the ykeys -- will be displayed when you hover over the
+                        // chart.
+                        labels: ['# of Pending'],
+                        //barColors: ['#f7a54a'],
+                        //xLabelAngle: 25,
+                        gridTextSize: 8,
+                        resize: true,
+                        xLabelMargin: 20,
+                        lineWidth: '3px',
+                        redraw: true,
+                        stacked: true,
+
+                    });
+                   
+                    for (var i = 0; i < d.data.donut_chart.length; i++)
+                    {
+                        s.donut[i].label            = d.data.donut_chart[i].Label.toString().replace(['[',']'],'')
+                        s.donut[i].value            = d.data.donut_chart[i].Count
+                        overall_total               = overall_total + d.data.donut_chart[i].Count
+                    }
+                    for (var i = 0; i < d.data.donut_chart.length; i++)
+                    {
+                        s.donut[i].width            = Math.round((d.data.donut_chart[i].Count / overall_total) * 100)
+                    }
+                    
+                    donut = new Morris.Donut({
+                        element: 'chart-leave-approval-list',
+                        data: s.donut,
+                        resize: true,
+                    });
+                    
+                    
+                    for (var i = 0; i < d.data.line_chart.length; i++)
+                    {
+                        s.line_chart[i].y = d.data.line_chart[i].y.toString().replace(['[', ']'], '').replace(" ","")
+                    }
+                    
+                    new Morris.Area({
+                        element: 'line-example',
+                        data: s.line_chart,
+                        xkey: 'y',
+                        ykeys: ['a', 'b','c'],
+                        labels: ['Evaluated', 'Justification', 'Cancellation'],
+                        lineColors: ['#1c84c6', '#1ab394', '#ed5565'],
+                        pointFillColors: true,
+                        xLabels: 'month'
+                    });
+                    
+                    for (var i = 0; i < d.data.filteredGrid.length; i++)
+                    {
+                        s.for_evaluated = s.for_evaluated + 1;
+
+                        if (d.data.filteredGrid[i].justification_flag == true)
+                        {
+                            s.for_justi = s.for_justi + 1
+                        }
+                        else if (d.data.filteredGrid[i].cancellation_flag != "")
+                        {
+                            s.for_cancelled = s.for_cancelled + 1
+                        }
+                    }
                 }
 
                 $('#modal_generating_remittance').modal("hide")

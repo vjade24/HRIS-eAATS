@@ -5382,19 +5382,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_history_Result>("sp_leave_history", par_empl_idParameter);
         }
     
-        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_show_historyParameter = par_show_history != null ?
-                new ObjectParameter("par_show_history", par_show_history) :
-                new ObjectParameter("par_show_history", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter);
-        }
-    
         public virtual ObjectResult<sp_lv_info2_Result> sp_lv_info2(string par_user_id)
         {
             var par_user_idParameter = par_user_id != null ?
@@ -5432,6 +5419,19 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_created_by_user", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dtr_overrides_tbl_insert_disapproved_leave", par_empl_idParameter, par_dtr_dateParameter, par_created_by_userParameter);
+        }
+    
+        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter);
         }
     }
 }

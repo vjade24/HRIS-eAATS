@@ -247,7 +247,15 @@ namespace HRIS_eAATS.Controllers
                         {
                             if (data.route_nbr == "01")
                             {
-                                data_dtl_insert = data_dtl_insert.Where(a=> a.lv_nodays <= 10).ToList();
+                                data_dtl_insert = data_dtl_insert.Where(a=> a.lv_nodays <= 10 &&  (a.leavetype_code != "TL"
+                                                                                                || a.leavetype_code != "STL"
+                                                                                                || a.leavetype_code != "ML"
+                                                                                                || a.leavetype_code != "MZ"
+                                                                                                || a.leavetype_code != "AL"
+                                                                                                || a.leavetype_code != "RH"
+                                                                                                || a.leavetype_code != "MC"
+                                                                                                || a.leavetype_code != "VWC"
+                                                                                                  )).ToList();
                             }
                             else if (data.route_nbr == "02")
                             {

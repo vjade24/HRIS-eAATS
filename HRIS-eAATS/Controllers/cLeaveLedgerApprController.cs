@@ -68,8 +68,15 @@ namespace HRIS_eAATS.Controllers
                 var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
 
                 var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(),"N").ToList();
-
-                return JSON(new { message = "success", um , leaveType, leaveSubType, ledgerposting_for_approval_list, lv_admin_dept_list }, JsonRequestBehavior.AllowGet);
+                var info_list2_chart = from s in ledgerposting_for_approval_list.ToList()
+                                       orderby s.evaluated_dttm
+                                       group s by s.evaluated_dttm.Date into g
+                                       select new
+                                       {
+                                           Label = (from l in g select l.evaluated_dttm).Distinct(),
+                                           Count = (from l in g select l.evaluated_dttm).Count()
+                                       };
+                return JSON(new { message = "success", um , leaveType, leaveSubType, ledgerposting_for_approval_list, lv_admin_dept_list, info_list2_chart }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -109,7 +116,37 @@ namespace HRIS_eAATS.Controllers
                 {
                     filteredGrid = filteredGrid.Where(a=> a.evaluated_dttm.Date >= date_fr_grid.Value.Date && a.evaluated_dttm.Date <= date_to_grid.Value.Date).ToList();
                 }
-                return JSON(new { message = "success", filteredGrid }, JsonRequestBehavior.AllowGet);
+                var info_list2_chart = from s in filteredGrid.ToList()
+                                       orderby s.evaluated_dttm
+                                       group s by s.evaluated_dttm.ToString("MMM dd, yyyy") into g
+                                       select new
+                                       {
+                                           Label = (from l in g select l.evaluated_dttm.ToString("MMM dd, yyyy")).Distinct(),
+                                           Count = (from l in g select l.evaluated_dttm).Count()
+                                       };
+
+                var donut_chart     = from s in filteredGrid.ToList()
+                                       orderby s.leavetype_descr
+                                       group s by s.leavetype_descr into g
+                                       select new
+                                       {
+                                           Label = (from l in g select l.leavetype_descr).Distinct(),
+                                           Count = (from l in g select l.leavetype_descr).Count()
+                                       };
+
+                var line_chart = from s in filteredGrid.ToList()
+                                 orderby s.evaluated_dttm
+                                 group s by s.evaluated_dttm.ToString("yyyy-MM") into g
+                                 select new
+                                 {
+                                      data      = g.ToList(),
+                                      y         = (from l in g select l.evaluated_dttm.ToString("yyyy-MM")).Distinct(),
+                                      a         = (from l in g select l.evaluated_dttm).Count(),
+                                      b         = g.ToList().Where(a => a.justification_flag == true).Count(),
+                                      c         = g.ToList().Where(a => a.cancellation_flag  != "").Count(),
+                                 };
+
+                return JSON(new { message = "success", filteredGrid, info_list2_chart, donut_chart , line_chart }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
