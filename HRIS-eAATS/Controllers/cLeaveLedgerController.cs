@@ -165,7 +165,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -190,7 +190,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -211,7 +211,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch(Exception e)
             {
-                return JSON(new { message = e.Message }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -300,7 +300,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -326,7 +326,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -805,7 +805,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult GetSumofLeaveDetails(string par_ledger_ctrl_no, string par_leavetype_code, string par_empl_id, string par_year)
+        public ActionResult GetSumofLeaveDetails(string par_ledger_ctrl_no, string par_leavetype_code, string par_empl_id, string par_year, string par_leave_ctrlno)
         {
             try
             {
@@ -825,19 +825,22 @@ namespace HRIS_eAATS.Controllers
                 }
 
                 var data               = db_ats.sp_leaveledger_curr_bal(par_empl_id, par_year, par_leavetype_code).FirstOrDefault();
+                var data_waiver         = db.sp_leave_application_mone_waiver_rep(par_leave_ctrlno, par_empl_id, "").Where(a => a.approval_status_waiver != "APPROVED").ToList();
                 return JSON(new
                 {
                     message = "success"
                     ,dtl_value
                     ,sum_wp_and_wop,
-                    data
+                    data,
+                    data_waiver
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 var data = db_ats.sp_leaveledger_curr_bal(par_empl_id, par_year, par_leavetype_code).FirstOrDefault();
-                string message = e.Message;
-                return Json(new { message = message, data }, JsonRequestBehavior.AllowGet);
+                var data_waiver = db.sp_leave_application_mone_waiver_rep(par_leave_ctrlno, par_empl_id, "").Where(a => a.approval_status_waiver != "APPROVED").ToList();
+                string message = e.Message.ToString();
+                return Json(new { message = message, data, data_waiver }, JsonRequestBehavior.AllowGet);
             }
         }
         //*********************************************************************//
@@ -845,23 +848,19 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult GetLedgerConrtolNumber()
+        public ActionResult GetLedgerConrtolNumber(string par_empl_id, string par_month, string par_year)
         {
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
 
                 var new_appl_nbr = db_ats.sp_generate_appl_nbr("lv_ledger_hdr_tbl", 10, "ledger_ctrl_no").ToList();
-
-                return JSON(new
-                {
-                    message = "success",
-                    new_appl_nbr
-                }, JsonRequestBehavior.AllowGet);
+                var total_undertime = db_ats.sp_leaveledger_empl_undertime(par_empl_id, par_month, par_year).ToList();
+                return JSON(new{ message = "success",new_appl_nbr, total_undertime }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -924,7 +923,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -944,7 +943,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -1036,7 +1035,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult LedgerInfoCurr(string par_empl_id, string par_leavetype_code, string par_month, string par_year)
+        public ActionResult LedgerInfoCurr(string par_empl_id, string par_leavetype_code, string par_month, string par_year, string par_leave_ctrlno)
         {
             db_ats.Database.CommandTimeout = int.MaxValue;
 
@@ -1101,11 +1100,14 @@ namespace HRIS_eAATS.Controllers
                 {
                     bal_as_of_vl = Convert.ToDecimal(data_vl.leaveledger_balance_current);
                 }
-                return JSON(new { message = "success",  bal_as_of ,bal_as_of_sl ,bal_as_of_vl, total_undertime }, JsonRequestBehavior.AllowGet);
+
+                var mone = db_ats.leave_application_mone_tbl.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault(); 
+                
+                return JSON(new { message = "success",  bal_as_of ,bal_as_of_sl ,bal_as_of_vl, total_undertime, mone }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                return JSON(new { message = e.Message, bal_as_of, bal_as_of_sl, bal_as_of_vl }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = e.Message.ToString(), bal_as_of, bal_as_of_sl, bal_as_of_vl }, JsonRequestBehavior.AllowGet);
             }
         }
     
@@ -1172,41 +1174,41 @@ namespace HRIS_eAATS.Controllers
         // Description  : Get the Approval ID on Applicaiton using Leave 
         //                Application Ctrl Number, purpose for saving
         //*********************************************************************//
-        public ActionResult GetApproval_ID_Appl(string par_leave_ctrlno)
-        {
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
+        //public ActionResult GetApproval_ID_Appl(string par_leave_ctrlno)
+        //{
+        //    try
+        //    {
+        //        db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var approval_id = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault().approval_id;
-                return JSON(new { message = "success", approval_id }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        var approval_id = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault().approval_id;
+        //        return JSON(new { message = "success", approval_id }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message.ToString();
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         //*********************************************************************//
         // Created By   : Vincent Jade H. Alivio
         // Created Date : 2021-08-17
         // Description  : Particulars
         //*********************************************************************//
-        public ActionResult RetrieveEmployeeUnderTime(string par_empl_id, string par_month, string par_year)
-        {
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
+        //public ActionResult RetrieveEmployeeUnderTime(string par_empl_id, string par_month, string par_year)
+        //{
+        //    try
+        //    {
+        //        db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var total_undertime = db_ats.sp_leaveledger_empl_undertime(par_empl_id, par_month, par_year).ToList();
-                return JSON(new { message = "success", total_undertime }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        var total_undertime = db_ats.sp_leaveledger_empl_undertime(par_empl_id, par_month, par_year).ToList();
+        //        return JSON(new { message = "success", total_undertime }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message;
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         //*********************************************************************//
         // Created By   : Vincent Jade H. Alivio
         // Created Date : 2021-08-17
@@ -1285,7 +1287,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -1342,7 +1344,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -1387,7 +1389,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message_descr = message }, JsonRequestBehavior.AllowGet);
             }
         }

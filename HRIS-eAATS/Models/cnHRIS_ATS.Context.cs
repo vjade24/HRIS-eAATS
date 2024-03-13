@@ -143,6 +143,8 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<lv_ledger_hdr_reprint_tbl> lv_ledger_hdr_reprint_tbl { get; set; }
         public virtual DbSet<leave_transmittal_type_tbl> leave_transmittal_type_tbl { get; set; }
         public virtual DbSet<leave_application_disapproved_tbl> leave_application_disapproved_tbl { get; set; }
+        public virtual DbSet<leave_application_mone_tbl> leave_application_mone_tbl { get; set; }
+        public virtual DbSet<leave_application_mone_waiver_tbl> leave_application_mone_waiver_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)

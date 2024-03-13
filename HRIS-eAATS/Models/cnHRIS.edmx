@@ -102,6 +102,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="citizenship_type" Type="bit" />
           <Property Name="citizenship_nature" Type="bit" />
           <Property Name="citizenship_country" Type="varchar" MaxLength="25" />
+          <Property Name="ethnicity_id" Type="int" />
+          <Property Name="religion_id" Type="int" />
+          <Property Name="pwd_type_id" Type="int" />
+          <Property Name="gender2" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="transactionsref_tbl">
           <Key>
@@ -306,6 +310,11 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_transaction_code" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_leave_application_mone_waiver_rep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_leave_ctrlno" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id_waiver" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_update_transaction_in_approvalworkflow_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_approval_id" Type="varchar" Mode="In" />
           <Parameter Name="par_user_id" Type="varchar" Mode="In" />
@@ -491,6 +500,11 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="usersprofile_tbl" EntityType="HRIS_PAYModel.usersprofile_tbl" />
           <EntitySet Name="personnel_tbl" EntityType="HRIS_PAYModel.personnel_tbl" />
           <EntitySet Name="approvalstatus_tbl" EntityType="HRIS_PAYModel.approvalstatus_tbl" />
+          <FunctionImport Name="sp_leave_application_mone_waiver_rep" ReturnType="Collection(HRIS_PAYModel.sp_leave_application_mone_waiver_rep_Result)">
+            <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id_waiver" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -807,6 +821,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="citizenship_type" Type="Boolean" />
           <Property Name="citizenship_nature" Type="Boolean" />
           <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ethnicity_id" Type="Int32" />
+          <Property Name="religion_id" Type="Int32" />
+          <Property Name="pwd_type_id" Type="Int32" />
+          <Property Name="gender2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="approvalstatus_tbl">
           <Key>
@@ -815,6 +833,39 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="approval_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="approval_status_descr" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="sp_leave_application_mone_waiver_rep_Result">
+          <Property Type="String" Name="leave_ctrlno" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="255" />
+          <Property Type="Double" Name="nbr_vl_remain" Nullable="true" />
+          <Property Type="Double" Name="nbr_fl_remain" Nullable="true" />
+          <Property Type="Double" Name="nbr_sl_remain" Nullable="true" />
+          <Property Type="Double" Name="nbr_min_mone" Nullable="true" />
+          <Property Type="Double" Name="nbr_max_mone" Nullable="true" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="monthly_rate" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="allocated_mone" Nullable="true" Precision="19" />
+          <Property Type="String" Name="mone_type" Nullable="true" MaxLength="20" />
+          <Property Type="Double" Name="nbr_mone" Nullable="true" />
+          <Property Type="Decimal" Name="total_mone" Nullable="true" Precision="19" />
+          <Property Type="String" Name="remarks" Nullable="true" MaxLength="255" />
+          <Property Type="Double" Name="deduct_nbr_vl" Nullable="true" />
+          <Property Type="Double" Name="deduct_nbr_fl" Nullable="true" />
+          <Property Type="Double" Name="deduct_nbr_sl" Nullable="true" />
+          <Property Type="String" Name="empl_id_waiver" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name_waiver" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="department_code_waiver" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="department_short_name_waiver" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="monthly_rate_waiver" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="allocated_mone_waiver" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="total_waive_amount_waiver" Nullable="true" Precision="19" />
+          <Property Type="String" Name="approval_status_waiver" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="created_at" Nullable="true" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="8" />
+          <Property Type="DateTime" Name="updated_at" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="8" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1071,6 +1122,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySetMapping Name="personnel_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.personnel_tbl">
               <MappingFragment StoreEntitySet="personnel_tbl">
+                <ScalarProperty Name="gender2" ColumnName="gender2" />
+                <ScalarProperty Name="pwd_type_id" ColumnName="pwd_type_id" />
+                <ScalarProperty Name="religion_id" ColumnName="religion_id" />
+                <ScalarProperty Name="ethnicity_id" ColumnName="ethnicity_id" />
                 <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
                 <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
                 <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
@@ -1119,6 +1174,43 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_leave_application_mone_waiver_rep" FunctionName="HRIS_PAYModel.Store.sp_leave_application_mone_waiver_rep">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_leave_application_mone_waiver_rep_Result">
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="nbr_vl_remain" ColumnName="nbr_vl_remain" />
+                <ScalarProperty Name="nbr_fl_remain" ColumnName="nbr_fl_remain" />
+                <ScalarProperty Name="nbr_sl_remain" ColumnName="nbr_sl_remain" />
+                <ScalarProperty Name="nbr_min_mone" ColumnName="nbr_min_mone" />
+                <ScalarProperty Name="nbr_max_mone" ColumnName="nbr_max_mone" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="allocated_mone" ColumnName="allocated_mone" />
+                <ScalarProperty Name="mone_type" ColumnName="mone_type" />
+                <ScalarProperty Name="nbr_mone" ColumnName="nbr_mone" />
+                <ScalarProperty Name="total_mone" ColumnName="total_mone" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="deduct_nbr_vl" ColumnName="deduct_nbr_vl" />
+                <ScalarProperty Name="deduct_nbr_fl" ColumnName="deduct_nbr_fl" />
+                <ScalarProperty Name="deduct_nbr_sl" ColumnName="deduct_nbr_sl" />
+                <ScalarProperty Name="empl_id_waiver" ColumnName="empl_id_waiver" />
+                <ScalarProperty Name="employee_name_waiver" ColumnName="employee_name_waiver" />
+                <ScalarProperty Name="department_code_waiver" ColumnName="department_code_waiver" />
+                <ScalarProperty Name="department_short_name_waiver" ColumnName="department_short_name_waiver" />
+                <ScalarProperty Name="monthly_rate_waiver" ColumnName="monthly_rate_waiver" />
+                <ScalarProperty Name="allocated_mone_waiver" ColumnName="allocated_mone_waiver" />
+                <ScalarProperty Name="total_waive_amount_waiver" ColumnName="total_waive_amount_waiver" />
+                <ScalarProperty Name="approval_status_waiver" ColumnName="approval_status_waiver" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

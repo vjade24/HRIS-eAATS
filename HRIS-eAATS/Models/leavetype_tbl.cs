@@ -25,5 +25,8 @@ namespace HRIS_eAATS.Models
         public Nullable<bool> leavetype_monetized_flag { get; set; }
         public string leave_earn_daycover { get; set; }
         public Nullable<double> leave_earn { get; set; }
+        public Nullable<double> leavetype_minperyear { get; set; }
+        public Nullable<System.DateTime> period_from { get; set; }
+        public Nullable<System.DateTime> period_to { get; set; }
     }
 }

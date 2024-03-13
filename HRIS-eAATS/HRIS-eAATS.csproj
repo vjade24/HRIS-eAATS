@@ -499,6 +499,12 @@
     <Compile Include="Models\leave_application_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leave_application_mone_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\leave_application_mone_waiver_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leave_application_signatories_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -962,6 +968,9 @@
     </Compile>
     <Compile Include="Models\sp_leave_application_hdr_tbl_report_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leave_application_mone_waiver_rep_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_application_rep2_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1489,6 +1498,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\cryApplicationForLeaveRep2\cryApplicationForLeaveRep1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryApplicationForLeaveRep.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryApplicationForLeaveRep\cryApplicationForLeaveRep.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryApplicationForLeaveRep.rpt</DependentUpon>

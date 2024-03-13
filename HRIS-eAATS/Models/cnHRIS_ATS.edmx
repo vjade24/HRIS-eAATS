@@ -595,6 +595,55 @@
           <Property Name="sp_restore_deduct" Type="money" />
           <Property Name="fl_restore_deduct" Type="money" />
         </EntityType>
+        <EntityType Name="leave_application_mone_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="employee_name" Type="varchar" MaxLength="255" />
+          <Property Name="nbr_vl_remain" Type="float" />
+          <Property Name="nbr_fl_remain" Type="float" />
+          <Property Name="nbr_sl_remain" Type="float" />
+          <Property Name="nbr_min_mone" Type="float" />
+          <Property Name="nbr_max_mone" Type="float" />
+          <Property Name="department_code" Type="varchar" MaxLength="4" />
+          <Property Name="department_short_name" Type="varchar" MaxLength="150" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="allocated_mone" Type="money" />
+          <Property Name="mone_type" Type="varchar" MaxLength="20" />
+          <Property Name="nbr_mone" Type="float" />
+          <Property Name="total_mone" Type="money" />
+          <Property Name="remarks" Type="varchar" MaxLength="255" />
+          <Property Name="deduct_nbr_vl" Type="float" />
+          <Property Name="deduct_nbr_fl" Type="float" />
+          <Property Name="deduct_nbr_sl" Type="float" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_at" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="leave_application_mone_waiver_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="empl_id_waiver" Type="varchar" MaxLength="8" />
+          <Property Name="employee_name" Type="varchar" MaxLength="255" />
+          <Property Name="department_code" Type="varchar" MaxLength="4" />
+          <Property Name="department_short_name" Type="varchar" MaxLength="150" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="allocated_mone" Type="money" />
+          <Property Name="total_waive_amount" Type="money" />
+          <Property Name="approval_status" Type="varchar" MaxLength="20" />
+          <Property Name="created_at" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_at" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
+        </EntityType>
         <EntityType Name="leave_application_signatories_tbl">
           <Key>
             <PropertyRef Name="sig_ctrlno" />
@@ -753,6 +802,9 @@
           <Property Name="leavetype_monetized_flag" Type="bit" />
           <Property Name="leave_earn_daycover" Type="varchar" MaxLength="1" />
           <Property Name="leave_earn" Type="float" />
+          <Property Name="leavetype_minperyear" Type="float" />
+          <Property Name="period_from" Type="date" />
+          <Property Name="period_to" Type="date" />
         </EntityType>
         <EntityType Name="lv_days_frac_tbl">
           <Key>
@@ -4396,6 +4448,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="leave_application_dtl_tbl" EntityType="Self.leave_application_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_hdr_justi_tbl" EntityType="Self.leave_application_hdr_justi_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_hdr_tbl" EntityType="Self.leave_application_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leave_application_mone_tbl" EntityType="Self.leave_application_mone_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leave_application_mone_waiver_tbl" EntityType="Self.leave_application_mone_waiver_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_signatories_tbl" EntityType="Self.leave_application_signatories_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_transmittal_type_tbl" EntityType="Self.leave_transmittal_type_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leaveadmin_tbl" EntityType="Self.leaveadmin_tbl" Schema="dbo" store:Type="Tables" />
@@ -6162,6 +6216,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="leavetype_monetized_flag" Type="Boolean" />
           <Property Name="leave_earn_daycover" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="leave_earn" Type="Double" />
+          <Property Name="leavetype_minperyear" Type="Double" />
+          <Property Name="period_from" Type="DateTime" Precision="0" />
+          <Property Name="period_to" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="lv_days_frac_tbl">
           <Key>
@@ -9200,6 +9257,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_show_history" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="leave_application_mone_tbl" EntityType="HRIS_ATSModel.leave_application_mone_tbl" />
+          <EntitySet Name="leave_application_mone_waiver_tbl" EntityType="HRIS_ATSModel.leave_application_mone_waiver_tbl" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -12885,6 +12944,55 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="Boolean" Name="justification_flag" Nullable="true" />
           <Property Type="String" Name="cancellation_flag" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="leave_application_mone_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="leave_ctrlno" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="nbr_vl_remain" Type="Double" />
+          <Property Name="nbr_fl_remain" Type="Double" />
+          <Property Name="nbr_sl_remain" Type="Double" />
+          <Property Name="nbr_min_mone" Type="Double" />
+          <Property Name="nbr_max_mone" Type="Double" />
+          <Property Name="department_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="department_short_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="allocated_mone" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="mone_type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nbr_mone" Type="Double" />
+          <Property Name="total_mone" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="deduct_nbr_vl" Type="Double" />
+          <Property Name="deduct_nbr_fl" Type="Double" />
+          <Property Name="deduct_nbr_sl" Type="Double" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="leave_application_mone_waiver_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="leave_ctrlno" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id_waiver" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="department_short_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="allocated_mone" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="total_waive_amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="approval_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="created_at" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_at" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13597,6 +13705,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="leavetype_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.leavetype_tbl">
               <MappingFragment StoreEntitySet="leavetype_tbl">
+                <ScalarProperty Name="period_to" ColumnName="period_to" />
+                <ScalarProperty Name="period_from" ColumnName="period_from" />
+                <ScalarProperty Name="leavetype_minperyear" ColumnName="leavetype_minperyear" />
                 <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
                 <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
                 <ScalarProperty Name="leavetype_maxperyear" ColumnName="leavetype_maxperyear" />
@@ -19918,6 +20029,57 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="leave_application_mone_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_mone_tbl">
+              <MappingFragment StoreEntitySet="leave_application_mone_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="deduct_nbr_sl" ColumnName="deduct_nbr_sl" />
+                <ScalarProperty Name="deduct_nbr_fl" ColumnName="deduct_nbr_fl" />
+                <ScalarProperty Name="deduct_nbr_vl" ColumnName="deduct_nbr_vl" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="total_mone" ColumnName="total_mone" />
+                <ScalarProperty Name="nbr_mone" ColumnName="nbr_mone" />
+                <ScalarProperty Name="mone_type" ColumnName="mone_type" />
+                <ScalarProperty Name="allocated_mone" ColumnName="allocated_mone" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="nbr_max_mone" ColumnName="nbr_max_mone" />
+                <ScalarProperty Name="nbr_min_mone" ColumnName="nbr_min_mone" />
+                <ScalarProperty Name="nbr_sl_remain" ColumnName="nbr_sl_remain" />
+                <ScalarProperty Name="nbr_fl_remain" ColumnName="nbr_fl_remain" />
+                <ScalarProperty Name="nbr_vl_remain" ColumnName="nbr_vl_remain" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leave_application_mone_waiver_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_mone_waiver_tbl">
+              <MappingFragment StoreEntitySet="leave_application_mone_waiver_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="total_waive_amount" ColumnName="total_waive_amount" />
+                <ScalarProperty Name="allocated_mone" ColumnName="allocated_mone" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id_waiver" ColumnName="empl_id_waiver" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

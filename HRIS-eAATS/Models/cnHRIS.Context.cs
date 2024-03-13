@@ -107,5 +107,22 @@ namespace HRIS_eAATS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_Result>("sp_employee_list_dept", p_empl_idParameter);
         }
+    
+        public virtual ObjectResult<sp_leave_application_mone_waiver_rep_Result> sp_leave_application_mone_waiver_rep(string par_leave_ctrlno, string par_empl_id, string par_empl_id_waiver)
+        {
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_empl_id_waiverParameter = par_empl_id_waiver != null ?
+                new ObjectParameter("par_empl_id_waiver", par_empl_id_waiver) :
+                new ObjectParameter("par_empl_id_waiver", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_mone_waiver_rep_Result>("sp_leave_application_mone_waiver_rep", par_leave_ctrlnoParameter, par_empl_idParameter, par_empl_id_waiverParameter);
+        }
     }
 }

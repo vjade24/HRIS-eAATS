@@ -61,11 +61,15 @@
         });
 
         $("#txtb_date_fr_grid").on('change', function (e) {
-            s.FilterPageGrid();
+            if ($("#txtb_date_fr_grid").val() != "" && $("#txtb_date_to_grid").val() != "") {
+                s.FilterPageGrid();
+            }
         });
 
         $("#txtb_date_to_grid").on('change', function (e) {
-            s.FilterPageGrid();
+            if ($("#txtb_date_fr_grid").val() != "" && $("#txtb_date_to_grid").val() != "") {
+                s.FilterPageGrid();
+            }
         });
         //**********************************************
         // Initialize data during page loads
@@ -121,9 +125,10 @@
                     {
                         "mRender": function (data, type, full, row) {
                             var temp = moment();
+                            var def_images = '../../ResourcesImages/upload_profile.png';
                             return '<div class="text-center">' +
                                         '<div class="img-circle">' +
-                                            '<img class="img-circle" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
+                                            '<img class="img-circle" onerror="this.onerror=null;this.src=\''+ def_images+'\';" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
                                         '</div>' +
                                     '</div>'
                         }

@@ -137,7 +137,7 @@
                                                 <label class="font-bold"><b> Leave Appl. Ctrl.:</b></label>
                                             </div>
                                             <div class="col-lg-8">
-                                                <input class="form-control" id="txtb_leave_ctrlno" ng-model="txtb_leave_ctrlno" style="font-weight:bolder" ng-change="GetApproval_ID_Appl()" disabled />
+                                                <input class="form-control" id="txtb_leave_ctrlno" ng-model="txtb_leave_ctrlno" style="font-weight:bolder" disabled />
                                             </div>
                                         </div>
 
@@ -1265,6 +1265,41 @@
         </div>
     </div>
 
+    <div class="modal inmodal" id="mone_waiver_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content animated tada" style="background-color: #273A4A;border-radius:20px !important;" id="modal_content">
+                <div class="modal-header">
+                    <h2 class="text-white">YOU NEED TO APPROVE <br />MONETIZATION WAIVER TO CONTINUE</h2>
+                    <small style="color: #369AFD;font-size:11pt;font-weight:bold;">Human Resource</small><small style="color: #FE6500;font-size:11pt;font-weight:bold;"> Information System</small>
+                </div>
+                <div class="modal-body">
+                    <div class="row" ng-repeat="lst in data_mone">
+                        <div class="col-lg-9">
+                            <div class="feed-element">
+                                <div class="media-body ">
+                                    <h3>
+                                        <strong>
+                                            {{lst.employee_name_waiver}}
+                                        </strong>
+                                        &nbsp;&nbsp;
+                                        
+                                        <br />
+                                        <small class="text-muted">{{lst.department_short_name_waiver}}</small>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <small class="badge badge-{{lst.approval_status_waiver == 'APPROVED' ? 'success' : 'danger'}}">{{lst.approval_status_waiver}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-rounded center-block" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Inialiazing Modal -->
     <div class="modal fade" id="modal_initializing">

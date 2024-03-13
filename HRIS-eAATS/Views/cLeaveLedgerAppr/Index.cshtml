@@ -127,6 +127,9 @@
         overflow: hidden;
         white-space: nowrap;
     }
+    .d-inline{
+        display:inline !important;
+    }
 </style>
 <section ng-app="ng_selfService_App" ng-controller="cLeaveLedgerAppr_ctrlr">
 
@@ -616,23 +619,25 @@
                                         <label class="font-bold" style="margin-top:9px;"><b>Date From:</b></label>
                                     </div>
                                     <div class="col-lg-4">
-                                        <div class="input-group date" data-provide="datepicker">
+                                        <input type="date" id="txtb_date_fr_grid" ng-model="txtb_date_fr_grid" class="form-control d-inline" maxlength="10"/>
+                                        @*<div class="input-group date" data-provide="datepicker">
                                             <input type="text" id="txtb_date_fr_grid" ng-model="txtb_date_fr_grid" class="form-control form-control-sm text-center font-bold" maxlength="10" />
                                             <span class="input-group-addon">
                                                 <span class="fa fa-calendar"></span>
                                             </span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                     <div class="col-lg-2">
                                         <label class="font-bold" style="margin-top:9px;"><b>Date To:</b></label>
                                     </div>
                                     <div class="col-lg-4">
-                                        <div class="input-group date" data-provide="datepicker">
+                                        <input type="date" id="txtb_date_to_grid" ng-model="txtb_date_to_grid" class="form-control d-inline" maxlength="10" />
+                                        @*<div class="input-group date" data-provide="datepicker">
                                             <input type="text" id="txtb_date_to_grid" ng-model="txtb_date_to_grid" class="form-control form-control-sm text-center font-bold" maxlength="10" />
                                             <span class="input-group-addon">
                                                 <span class="fa fa-calendar"></span>
                                             </span>
-                                        </div>
+                                        </div>*@
                                     </div>
                                     
                                 </div>
