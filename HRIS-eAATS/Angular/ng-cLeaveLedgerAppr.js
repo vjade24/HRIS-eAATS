@@ -18,6 +18,7 @@
     s.var_daily_monthly = "";
     s.div_show_date_grid = false;
     s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.lv_admin_dept_filter = ""
     function init() {
         if (window.location.host == "hris.dvodeoro.ph") {
             s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
@@ -78,33 +79,61 @@
         h.post("../cLeaveLedgerAppr/InitializeData").then(function (d) {
             if (d.data.message == "success")
             {
-                var curr_year = new Date().getFullYear().toString();
-                s.ddl_year = curr_year;
-                s.currentMonth = new Date().getMonth() + 1
-                s.ddl_month = datestring(s.currentMonth.toString())
-                RetrieveYear();
+                if (d.data.lv_admin_dept_list.length <= 0)
+                {
+                    swal("YOU ARE NOT ALLOWED TO ENTER THIS PAGE", "You redirecting to main page!", {
+                        icon: "warning",
+                        buttons: {
 
-                s.leave_type = d.data.leaveType;
-                s.leave_sub_type = d.data.leaveSubType;
-                s.lv_admin_dept_list = d.data.lv_admin_dept_list
-                
-                if (d.data.ledgerposting_for_approval_list.length > 0) {
-                    init_table_data(d.data.ledgerposting_for_approval_list);
+                            defeat: {
+                                value: "defeat",
+                                text: "Back to Main Page"
+                            }
+                        },
+                    }).then((value) => {
+                        switch (value) {
+                            default:
+                                location.href = "../cMainPage/Index"
+
+                        }
+                    });
+                    return;
+                } else
+                {
+                    var curr_year = new Date().getFullYear().toString();
+                    s.ddl_year = curr_year;
+                    s.currentMonth = new Date().getMonth() + 1
+                    s.ddl_month = datestring(s.currentMonth.toString())
+                    RetrieveYear();
+
+                    s.leave_type = d.data.leaveType;
+                    s.leave_sub_type = d.data.leaveSubType;
+                    s.lv_admin_dept_list = d.data.lv_admin_dept_list
+                    var dm = [];
+                    d.data.admin_names.map(function (d)
+                    {
+                        dm.push(d.b)
+                    })
+                    s.lv_employee_admin = dm
+                    s.empl_id_admin = d.data.log_empl_id
+                    if (d.data.ledgerposting_for_approval_list.length > 0) {
+                        init_table_data(d.data.ledgerposting_for_approval_list);
+                    }
+                    else {
+                        init_table_data([]);
+                    }
+                    init_table_data4([]);
+                    init_table_data5([]);
+                    init_table_data6([]);
+                    //**********************************************
+                    //  Show/Hide ADD, EDIT, DELETE button 
+                    //**********************************************
+                    d.data.um.allow_add     == "1" ? s.ShowAdd    = true : s.ShowAdd = false;
+                    d.data.um.allow_delete  == "1" ? s.ShowDelete = true : s.ShowDelete = false;
+                    d.data.um.allow_edit    == "1" ? s.ShowEdit   = true : s.ShowEdit = false;
+                    //d.data.um.allow_view    == "1" ? s.ShowView     = true : s.ShowView     = false;
+                    //d.data.um.allow_print == "1" ? s.ShowAdd = true : s.ShowAdd = false;
                 }
-                else {
-                    init_table_data([]);
-                }
-                init_table_data4([]);
-                init_table_data5([]);
-                init_table_data6([]);
-                //**********************************************
-                //  Show/Hide ADD, EDIT, DELETE button 
-                //**********************************************
-                d.data.um.allow_add     == "1" ? s.ShowAdd    = true : s.ShowAdd = false;
-                d.data.um.allow_delete  == "1" ? s.ShowDelete = true : s.ShowDelete = false;
-                d.data.um.allow_edit    == "1" ? s.ShowEdit   = true : s.ShowEdit = false;
-                //d.data.um.allow_view    == "1" ? s.ShowView     = true : s.ShowView     = false;
-                //d.data.um.allow_print == "1" ? s.ShowAdd = true : s.ShowAdd = false;
                 $("#modal_generating_remittance").modal("hide");
             }
             else {
@@ -126,7 +155,7 @@
                         "mRender": function (data, type, full, row) {
                             var temp = moment();
                             var def_images = '../../ResourcesImages/upload_profile.png';
-                            return '<div class="text-center">' +
+                            return '<div class="text-center" >' +
                                         '<div class="img-circle">' +
                                             '<img class="img-circle" onerror="this.onerror=null;this.src=\''+ def_images+'\';" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
                                         '</div>' +
@@ -142,7 +171,7 @@
                     {
                         "mData": "employee_name",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left   btn-block'>" + data + "</span>"
+                            return "<span class='text-left   btn-block'>&nbsp;" + data + " <small class='badge'>" + full["department_short_name"] + "</small> </span> "  
                         }
                     },
                     {
@@ -398,14 +427,15 @@
     //********************************************// 
     s.FilterPageGrid = function ()
     {
-
         $('#chk_show_approved').prop("checked") == true ? s.div_show_date_grid = true : s.div_show_date_grid = false;
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveLedgerAppr/FilterPageGrid", {
             par_show_history    : $('#chk_show_approved').prop("checked") == true ? "Y" : "N",
             par_rep_mode        : s.ddl_rep_mode,
             date_fr_grid        : $('#txtb_date_fr_grid').val() == "" ? null : $('#txtb_date_fr_grid').val(),
-            date_to_grid        : $('#txtb_date_to_grid').val() == "" ? null : $('#txtb_date_to_grid').val()
+            date_to_grid        : $('#txtb_date_to_grid').val() == "" ? null : $('#txtb_date_to_grid').val(),
+            empl_id             : s.empl_id_admin,
+            department_code     : s.lv_admin_dept_filter == null ? "" : s.lv_admin_dept_filter
         }).then(function (d)
         {
             if (d.data.message == "success")
@@ -429,7 +459,6 @@
                 s.for_evaluated     = 0;
                 s.for_justi         = 0;
                 s.for_cancelled     = 0;
-
                 $('#chart-leave-list').empty();
                 $('#line-example').empty();
                 $('#chart-leave-approval-list').empty();
@@ -512,7 +541,10 @@
                     }
                 }
 
+                s.lv_admin_dept_list = d.data.lv_admin_dept_list
+
                 $('#modal_generating_remittance').modal("hide")
+                $('.modal-backdrop').remove()
             }
         })
     }

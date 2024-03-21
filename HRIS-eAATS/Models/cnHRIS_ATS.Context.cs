@@ -60,7 +60,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<leave_application_hdr_justi_tbl> leave_application_hdr_justi_tbl { get; set; }
         public virtual DbSet<leave_application_hdr_tbl> leave_application_hdr_tbl { get; set; }
         public virtual DbSet<leave_application_signatories_tbl> leave_application_signatories_tbl { get; set; }
-        public virtual DbSet<leaveadmin_tbl> leaveadmin_tbl { get; set; }
         public virtual DbSet<leaveappl_dtl_tbl> leaveappl_dtl_tbl { get; set; }
         public virtual DbSet<leaveappl_hdr_tbl> leaveappl_hdr_tbl { get; set; }
         public virtual DbSet<leaveledger_convert_toDAys> leaveledger_convert_toDAys { get; set; }
@@ -117,7 +116,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_leave_application_hdr_tbl_list_curr_bal> vw_leave_application_hdr_tbl_list_curr_bal { get; set; }
         public virtual DbSet<vw_leave_application_signatories_tbl_list> vw_leave_application_signatories_tbl_list { get; set; }
         public virtual DbSet<vw_leaveadmin_dept_list> vw_leaveadmin_dept_list { get; set; }
-        public virtual DbSet<vw_leaveadmin_tbl_list> vw_leaveadmin_tbl_list { get; set; }
         public virtual DbSet<vw_leaveadmin_user_list> vw_leaveadmin_user_list { get; set; }
         public virtual DbSet<vw_lv_earn_compute> vw_lv_earn_compute { get; set; }
         public virtual DbSet<vw_lv_info> vw_lv_info { get; set; }
@@ -145,6 +143,8 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<leave_application_disapproved_tbl> leave_application_disapproved_tbl { get; set; }
         public virtual DbSet<leave_application_mone_tbl> leave_application_mone_tbl { get; set; }
         public virtual DbSet<leave_application_mone_waiver_tbl> leave_application_mone_waiver_tbl { get; set; }
+        public virtual DbSet<leaveadmin_tbl> leaveadmin_tbl { get; set; }
+        public virtual DbSet<vw_leaveadmin_tbl_list> vw_leaveadmin_tbl_list { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)

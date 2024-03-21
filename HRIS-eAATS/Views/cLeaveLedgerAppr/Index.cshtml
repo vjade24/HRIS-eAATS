@@ -547,10 +547,10 @@
                 <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
 
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <h2 class="text-white">@Model.menu_name</h2>
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-9">
                             <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
                         </div>
                     </div>
@@ -567,10 +567,10 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <div class="form-group row">
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <strong><span class="pull-left m-t-xs">Show</span></strong>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
                                             <option value="5">5</option>
                                             <option value="10" selected>10</option>
@@ -579,13 +579,22 @@
                                             <option value="50">50</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-2">
                                         <strong><span class="pull-left m-t-xs">entries</span></strong>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-5">
-                                
+                                <div class="form-group row">
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Approver:</b></label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" style="width:100%;" ng-model="empl_id_admin" ng-change="FilterPageGrid()">
+                                            <option ng-repeat="lst in lv_employee_admin" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-4" style="margin-top:5px">
                                 <div class="form-group row">
@@ -614,6 +623,17 @@
                                 </label>
                             </div>
                             <div class="col-lg-5">
+                                <div class="form-group row">
+                                    <div class="col-lg-2">
+                                        <label class="font-bold" style="margin-top:9px;"><b>Department:</b></label>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" style="width:100%;" ng-model="lv_admin_dept_filter" ng-change="FilterPageGrid()">
+                                            <option value="">-- All Department -- </option>
+                                            <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="form-group row" ng-show="div_show_date_grid">
                                     <div class="col-lg-2">
                                         <label class="font-bold" style="margin-top:9px;"><b>Date From:</b></label>

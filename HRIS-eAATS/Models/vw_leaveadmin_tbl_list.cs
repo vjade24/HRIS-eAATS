@@ -22,5 +22,6 @@ namespace HRIS_eAATS.Models
         public string rcrd_status { get; set; }
         public string rcrd_status_descr { get; set; }
         public string department_short_name { get; set; }
+        public bool approver { get; set; }
     }
 }

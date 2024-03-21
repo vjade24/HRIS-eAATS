@@ -19,11 +19,18 @@ namespace HRIS_eAATS.Controllers
         // GET: cLeaveLedgerAppr
         public ActionResult Index()
         {
-            if (um != null || um.ToString() != "")
+            try
             {
-                GetAllowAccess();
+                if (um != null || um.ToString() != "")
+                {
+                    GetAllowAccess();
+                }
+                return View(um);
             }
-            return View(um);
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
         private User_Menu GetAllowAccess()
         {
@@ -65,9 +72,23 @@ namespace HRIS_eAATS.Controllers
                 var log_empl_id = Session["empl_id"].ToString();
                 var leaveType                       = db_ats.sp_leavetype_tbl_list().ToList();
                 var leaveSubType                    = db_ats.sp_leavesubtype_tbl_list("").ToList();
-                var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
+                var lv_admin_dept_list              = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id && a.approver == true).OrderBy(a => a.department_code);
 
-                var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(),"N").ToList();
+                var admin_names                     = from a in db_ats.vw_leaveadmin_tbl_list.Where(a=>a.approver == true).ToList()
+                                                      join b in db_ats.vw_personnelnames_tbl_HRIS_ATS
+                                                      on a.empl_id equals b.empl_id
+                                                      select new
+                                                      {
+                                                          b
+                                                      };
+                admin_names = admin_names.Distinct();
+                //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(),"N").ToList();
+                var ledgerposting_for_approval_list = from t1 in db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList()
+                                   where (from t2 in lv_admin_dept_list.ToList()
+                                          where t2.empl_id == log_empl_id
+                                          select t2.department_code).Contains(t1.department_code)
+                                   select t1;
+
                 var info_list2_chart = from s in ledgerposting_for_approval_list.ToList()
                                        orderby s.evaluated_dttm
                                        group s by s.evaluated_dttm.Date into g
@@ -76,7 +97,7 @@ namespace HRIS_eAATS.Controllers
                                            Label = (from l in g select l.evaluated_dttm).Distinct(),
                                            Count = (from l in g select l.evaluated_dttm).Count()
                                        };
-                return JSON(new { message = "success", um , leaveType, leaveSubType, ledgerposting_for_approval_list, lv_admin_dept_list, info_list2_chart }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", um , leaveType, leaveSubType, ledgerposting_for_approval_list, lv_admin_dept_list, info_list2_chart, admin_names, log_empl_id }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -93,24 +114,39 @@ namespace HRIS_eAATS.Controllers
             string par_show_history,
             string par_rep_mode,
             DateTime? date_fr_grid,
-            DateTime? date_to_grid
+            DateTime? date_to_grid,
+            string empl_id,
+            string department_code
         )
         {
             try
             {
-                //var filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).ToList();
-                List<sp_ledgerposting_for_approval_list_Result> filteredGrid = new List<sp_ledgerposting_for_approval_list_Result>();
+                var log_empl_id = Session["empl_id"].ToString();
+                var log_user_id = "U" + empl_id;
+                var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == empl_id && a.approver == true).OrderBy(a => a.department_code);
+                //List<sp_ledgerposting_for_approval_list_Result> filteredGrid = new List<sp_ledgerposting_for_approval_list_Result>();
+                //filteredGrid = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history).ToList();
 
-                filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).ToList();
+                var filteredGrid = from t1 in db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history).ToList()
+                                   where (from t2 in lv_admin_dept_list.ToList()
+                                   where t2.empl_id  == empl_id
+                                   select t2.department_code).Contains(t1.department_code)
+                            select t1;
+
+                if (department_code.ToString() != "")
+                {
+                    filteredGrid = filteredGrid.Where(a => a.department_code == department_code).ToList();
+                }
+                
 
                 if (par_rep_mode == "2") // Leave 
                 {
-                    filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).Where(a => a.leavetype_code != "CTO").ToList();
+                    filteredGrid = filteredGrid.Where(a => a.leavetype_code != "CTO").ToList();
 
                 }
                 else if (par_rep_mode == "3") // CTO 
                 {
-                    filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).Where(a => a.leavetype_code == "CTO").ToList();
+                    filteredGrid = filteredGrid.Where(a => a.leavetype_code == "CTO").ToList();
                 }
                 if (par_show_history == "Y" && date_fr_grid != null & date_to_grid != null)
                 {
@@ -146,7 +182,7 @@ namespace HRIS_eAATS.Controllers
                                       c         = g.ToList().Where(a => a.cancellation_flag  != "").Count(),
                                  };
 
-                return JSON(new { message = "success", filteredGrid, info_list2_chart, donut_chart , line_chart }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", filteredGrid, info_list2_chart, donut_chart , line_chart ,lv_admin_dept_list , log_empl_id }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
