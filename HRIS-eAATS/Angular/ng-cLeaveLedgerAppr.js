@@ -527,7 +527,7 @@
                         labels: ['Evaluated', 'Justification', 'Cancellation'],
                         lineColors: ['#1c84c6', '#1ab394', '#ed5565'],
                         pointFillColors: true,
-                        xLabels: 'month'
+                        xLabels: d.data.is_same == true ? 'day' : 'month'
                     });
                     
                     for (var i = 0; i < d.data.filteredGrid.length; i++)

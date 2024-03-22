@@ -126,7 +126,7 @@ namespace HRIS_eAATS.Controllers
                 var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == empl_id && a.approver == true).OrderBy(a => a.department_code);
                 //List<sp_ledgerposting_for_approval_list_Result> filteredGrid = new List<sp_ledgerposting_for_approval_list_Result>();
                 //filteredGrid = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history).ToList();
-
+                bool is_same = false;
                 var filteredGrid = from t1 in db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList()
                                    where (from t2 in lv_admin_dept_list.ToList()
                                    where t2.empl_id  == empl_id
@@ -181,8 +181,23 @@ namespace HRIS_eAATS.Controllers
                                       b         = g.ToList().Where(a => a.justification_flag == true).Count(),
                                       c         = g.ToList().Where(a => a.cancellation_flag  != "").Count(),
                                  };
+                if(date_fr_grid.Value.ToString("yyyy-MM") == date_to_grid.Value.ToString("yyyy-MM"))
+                {
+                    is_same    = true;
+                    line_chart = from s in filteredGrid.ToList()
+                                 orderby s.evaluated_dttm
+                                 group s by s.evaluated_dttm.ToString("yyyy-MM-dd") into g
+                                 select new
+                                 {
+                                      data      = g.ToList(),
+                                      y         = (from l in g select l.evaluated_dttm.ToString("yyyy-MM-dd")).Distinct(),
+                                      a         = (from l in g select l.evaluated_dttm).Count(),
+                                      b         = g.ToList().Where(a => a.justification_flag == true).Count(),
+                                      c         = g.ToList().Where(a => a.cancellation_flag  != "").Count(),
+                                 };
+                }
 
-                return JSON(new { message = "success", filteredGrid, info_list2_chart, donut_chart , line_chart ,lv_admin_dept_list , log_empl_id }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", filteredGrid, info_list2_chart, donut_chart , line_chart ,lv_admin_dept_list , log_empl_id , is_same }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
