@@ -83,7 +83,7 @@ namespace HRIS_eAATS.Controllers
                                                       };
                 admin_names = admin_names.Distinct();
                 //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(),"N").ToList();
-                var ledgerposting_for_approval_list = from t1 in db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList()
+                var ledgerposting_for_approval_list = from t1 in db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N", DateTime.Now, DateTime.Now).ToList()
                                    where (from t2 in lv_admin_dept_list.ToList()
                                           where t2.empl_id == log_empl_id
                                           select t2.department_code).Contains(t1.department_code)
@@ -127,7 +127,7 @@ namespace HRIS_eAATS.Controllers
                 //List<sp_ledgerposting_for_approval_list_Result> filteredGrid = new List<sp_ledgerposting_for_approval_list_Result>();
                 //filteredGrid = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history).ToList();
 
-                var filteredGrid = from t1 in db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history).ToList()
+                var filteredGrid = from t1 in db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList()
                                    where (from t2 in lv_admin_dept_list.ToList()
                                    where t2.empl_id  == empl_id
                                    select t2.department_code).Contains(t1.department_code)

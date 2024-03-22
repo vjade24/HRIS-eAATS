@@ -5423,7 +5423,7 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dtr_overrides_tbl_insert_disapproved_leave", par_empl_idParameter, par_dtr_dateParameter, par_created_by_userParameter);
         }
     
-        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history)
+        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
         {
             var par_user_idParameter = par_user_id != null ?
                 new ObjectParameter("par_user_id", par_user_id) :
@@ -5433,7 +5433,15 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_show_history", par_show_history) :
                 new ObjectParameter("par_show_history", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter);
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter, par_period_fromParameter, par_period_toParameter);
         }
     }
 }

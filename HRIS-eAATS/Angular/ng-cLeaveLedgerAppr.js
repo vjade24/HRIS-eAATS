@@ -19,6 +19,10 @@
     s.div_show_date_grid = false;
     s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
     s.lv_admin_dept_filter = ""
+
+    var date_cvrd = new Date();
+    s.txtb_date_fr_grid = new Date(date_cvrd.getFullYear(), 0, 1);
+    s.txtb_date_to_grid = date_cvrd;
     function init() {
         if (window.location.host == "hris.dvodeoro.ph") {
             s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"

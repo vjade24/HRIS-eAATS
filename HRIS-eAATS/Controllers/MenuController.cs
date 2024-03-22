@@ -110,7 +110,7 @@ namespace HRIS_eAATS.Controllers
                                            department_short_name = (from l in g select l.department_short_name).Distinct(),
                                          Count = (from l in g select l.department_short_name).Count()
                                        };
-                var info_list2_donut_chart = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList();
+                var info_list2_donut_chart = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N",DateTime.Now, DateTime.Now).ToList();
 
 
                 if (par_department_code == "" && par_view_mode == "1")
