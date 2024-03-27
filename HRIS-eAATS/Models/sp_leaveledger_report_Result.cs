@@ -53,5 +53,6 @@ namespace HRIS_eAATS.Models
         public string lwop_body_2 { get; set; }
         public string appl_status { get; set; }
         public string appl_remarks { get; set; }
+        public Nullable<decimal> lv_nodays { get; set; }
     }
 }

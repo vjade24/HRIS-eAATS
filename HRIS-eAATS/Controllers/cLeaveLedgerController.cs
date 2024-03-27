@@ -819,10 +819,10 @@ namespace HRIS_eAATS.Controllers
                 // **** 2021-06-29 : Special Case for Maternity Casual ***************
                 // **** Dapat ddtu kwaon sa Header ang Number of days  - Grace *******
                 // *******************************************************************
-                if (par_leavetype_code == "ML")
-                {
-                    sum_wp_and_wop = Convert.ToDecimal(db_ats.lv_ledger_hdr_tbl.Where(a=> a.ledger_ctrl_no == par_ledger_ctrl_no && a.leavetype_code == par_leavetype_code).FirstOrDefault().lv_nodays);
-                }
+                //if (par_leavetype_code == "ML")
+                //{
+                //    sum_wp_and_wop = Convert.ToDecimal(db_ats.lv_ledger_hdr_tbl.Where(a=> a.ledger_ctrl_no == par_ledger_ctrl_no && a.leavetype_code == par_leavetype_code).FirstOrDefault().lv_nodays);
+                //}
 
                 var data               = db_ats.sp_leaveledger_curr_bal(par_empl_id, par_year, par_leavetype_code).FirstOrDefault();
                 var data_waiver         = db.sp_leave_application_mone_waiver_rep(par_leave_ctrlno, par_empl_id, "").Where(a => a.approval_status_waiver != "APPROVED").ToList();

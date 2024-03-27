@@ -1116,6 +1116,7 @@
             s.txtb_lwop_date        = s.datalistgrid[row_id].lwop_date
             s.txtb_lwop_body_1      = s.datalistgrid[row_id].lwop_body_1
             s.txtb_lwop_body_2      = s.datalistgrid[row_id].lwop_body_2
+            s.txtb_no_of_days       = s.datalistgrid[row_id].lv_nodays;
 
             s.GetLedgerDetails();
             s.SelectEntryType();
@@ -1136,7 +1137,7 @@
                 {
                     if (d.data.message == "success")
                     {
-                        s.txtb_no_of_days           = d.data.sum_wp_and_wop;
+                        //s.txtb_no_of_days           = d.data.sum_wp_and_wop;
                         s.txtb_balance_as_of_hdr    = d.data.dtl_value.leaveledger_balance_as_of
                         s.txtb_restore_deduct_hdr   = d.data.dtl_value.leaveledger_restore_deduct
                         s.txtb_abs_und_wp_hdr       = d.data.dtl_value.leaveledger_abs_und_wp
@@ -1619,7 +1620,7 @@
     //***********************************************************//
     //*** VJA -  2021-06-03 - Button for Print Leave Application
     //***********************************************************//
-    s.SelectReport_Appl = function ()
+    s.SelectReport_Appl = function (report_type)
     {
         var ledger_ctrl_no  = s.print_ledger_ctrl_no;
         var controller      = "Reports"
@@ -1630,42 +1631,22 @@
         var ReportPath      = ""
         var sp              = ""
         
-        if (s.ddl_report_appl == "01") {
+        if (report_type == "01") {
             ReportPath = "~/Reports/cryApplicationForLeaveRep/cryApplicationForLeaveRep.rpt";
             sp = "sp_leave_application_rep3,par_ledger_ctrl_no," + ledger_ctrl_no;
-
-            //s.embed_link3 = "../" + controller + "/" + action + "?ReportName=" + ReportName
-            //    + "&SaveName=" + SaveName
-            //    + "&ReportType=" + ReportType
-            //    + "&ReportPath=" + ReportPath
-            //    + "&Sp=" + sp;
-            //
-            //$('#iframe_print_preview3').attr('src', s.embed_link3);
         }
-        else if (s.ddl_report_appl == "02")
+        else if (report_type == "02")
         {
              ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
             sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
-             
-             //s.embed_link3 = "../" + controller + "/" + action + "?ReportName=" + ReportName
-             //    + "&SaveName=" + SaveName
-             //    + "&ReportType=" + ReportType
-             //    + "&ReportPath=" + ReportPath
-             //    + "&Sp=" + sp;
-             //
-             //$('#iframe_print_preview3').attr('src', s.embed_link3);
         }
-        else if (s.ddl_report_appl == "03") {
+        else if (report_type == "03") {
             ReportPath = "~/Reports/cryLWOP/cryLWOP.rpt";
             sp = "sp_leave_application_rep3,par_ledger_ctrl_no," + ledger_ctrl_no;
-            
-            //s.embed_link3 = "../" + controller + "/" + action + "?ReportName=" + ReportName
-            //    + "&SaveName=" + SaveName
-            //    + "&ReportType=" + ReportType
-            //    + "&ReportPath=" + ReportPath
-            //    + "&Sp=" + sp;
-            //
-            //$('#iframe_print_preview3').attr('src', s.embed_link3);
+        }
+        else if (report_type == "04") {
+            ReportPath  = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
+            sp          = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val();
         }
         else
         {
@@ -1723,7 +1704,7 @@
     //***********************************************************//
     //*** VJA -  2021-06-03 - Button for Print Leave Application
     //***********************************************************//
-    s.btn_print_leave_app_posted = function (row_id)
+    s.btn_print_leave_app_posted = function (row_id,type)
     {
         s.ddl_report_appl       = "02";
         s.print_ledger_ctrl_no  = "";
@@ -1754,30 +1735,26 @@
                 var ReportType  = "inline"
                 var ReportPath  = ""
                 var sp = ""
-
-                if (s.datalistgrid3[row_id].leave_type_code == "CTO")
+                
+                if (type == "leave_certification")
                 {
-                    ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
-                    sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
+                    s.ddl_report_appl   = "04";
+                    ReportPath          = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
+                    sp                  = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val();
                 }
                 else
                 {
-                    // ReportPath = "~/Reports/cryApplicationForLeaveRep/cryApplicationForLeaveRep.rpt";
-                    // sp = "sp_leave_application_rep3,par_ledger_ctrl_no," + ledger_ctrl_no;
-
-                    ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
-                    sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
+                    if (s.datalistgrid3[row_id].leave_type_code == "CTO")
+                    {
+                        ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
+                        sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
+                    }
+                    else
+                    {
+                        ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
+                        sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
+                    }
                 }
-                
-                // s.embed_link3 = "../" + controller + "/" + action + "?ReportName=" + ReportName
-                //     + "&SaveName=" + SaveName
-                //     + "&ReportType=" + ReportType
-                //     + "&ReportPath=" + ReportPath
-                //     + "&Sp=" + sp;
-                // 
-                // $('#iframe_print_preview3').attr('src', s.embed_link3);
-                // 
-                // $('#leave_app_print_modal').modal({ backdrop: 'static', keyboard: false });
 
                 // *******************************************************
                 // *** VJA : 2021-07-14 - Validation and Loading hide ****

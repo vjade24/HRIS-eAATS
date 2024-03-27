@@ -691,10 +691,11 @@
                                             <label class="font-bold"><b>Report Option:</b></label>
                                         </div>
                                         <div class="col-lg-10">
-                                            <select class="form-control field-select-sm" id="ddl_report_appl" ng-model="ddl_report_appl" ng-change="SelectReport_Appl()">
+                                            <select class="form-control field-select-sm" id="ddl_report_appl" ng-model="ddl_report_appl" ng-change="SelectReport_Appl(ddl_report_appl)">
                                                 <option value="01" selected>Application for Leave Form - Old</option>
                                                 <option value="02" selected>Application for Leave Form - New</option>
                                                 <option value="03" selected>Notice of Leave Without Pay </option>
+                                                <option value="04" selected>Leave Certification </option>
                                             </select>
                                         </div>
                                     </div>
@@ -1087,7 +1088,12 @@
                                                     <div class="col-lg-12">
                                                         <div class="pull-right">
                                                             <button id="add" class="btn btn-success" ng-click="btn_add_modal()"><i class="fa fa-plus-circle"> </i> Add </button>
-                                                            <button id="add" class="btn btn-primary" ng-click="btn_print_ledger('OLD',0)"><i class="fa fa-print"> </i> Print Card </button>
+                                                            @*<button id="add" class="btn btn-primary" ng-click="btn_print_ledger('OLD',0)"><i class="fa fa-print"> </i> Print Card </button>*@
+                                                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Print Actions <span class="caret"></span></button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="font-bold" ng-click="btn_print_ledger('OLD',0)">Print Card</a></li>
+                                                                <li><a class="font-bold" ng-click="btn_print_leave_app_posted(0,'leave_certification')">Print Certification</a></li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>

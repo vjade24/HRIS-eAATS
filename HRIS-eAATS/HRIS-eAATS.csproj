@@ -1554,6 +1554,12 @@
       <DependentUpon>cryForgotPunchList.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryLeaveCertification\cryLeaveCertification.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveCertification.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -2761,6 +2767,12 @@
     <Content Include="Reports\cryTransmittal_Leave\cryTransmittal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTransmittal.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\cryLeaveCertification\cryLeaveCertification.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveCertification.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>
