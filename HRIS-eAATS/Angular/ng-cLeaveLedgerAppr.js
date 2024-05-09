@@ -246,6 +246,8 @@
                                 btn_approve = "For Evaluation"
                                 return '<center><div class="btn-group">' +
                                     '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="Justification"> Justification</button >' : "") +
+                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="Cancellation">   Cancellation</button >' : "") +
                                     '</div></center>';
                             }
                             else if (full["worklist_action"].toString() == "REQUEST RE-PRINT")
@@ -260,6 +262,8 @@
                                 btn_approve = data
                                 return '<center><div class="btn-group">' +
                                     '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="Justification"> Justification</button >' : "") +
+                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="Cancellation">   Cancellation</button >' : "") +
                                     '</div></center>';
                             }
 
@@ -555,7 +559,7 @@
     //************************************// 
     //*** Open Edit Modal         
     //**********************************// 
-    s.btn_edit_action = function (row_id)
+    s.btn_edit_action = function (row_id,report_type)
     {
         clearentry();
         s.isEdit = true;
@@ -640,19 +644,37 @@
             var ledger_ctrl_no  = s.datalistgrid[row_id].ledger_ctrl_no;
             var leave_ctrlno    = s.datalistgrid[row_id].leave_ctrlno;
             var empl_id         = s.datalistgrid[row_id].empl_id;
-        
-            if (s.datalistgrid[row_id].leavetype_code == "CTO")
-            {
-                ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
-                sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
 
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "3", "CTO")
+            if (report_type == "justification")
+            {
+                ReportPath = "~/Reports/cryLeaveJustification/cryLeaveJustification.rpt";
+                sp = "sp_leave_application_hdr_justi_rep,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id;
+                s.RetrieveCardingReport(empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
+            }
+            else if (report_type == "cancellation")
+            {
+                ReportPath = "~/Reports/cryLeavePermission/cryLeaveCancellation.rpt";
+                sp = "sp_leave_application_cancel_tbl_rep,par_empl_id," + empl_id + ",par_leave_ctrlno," + leave_ctrlno;
+
+                var type = "LEAVE";
+                type = (s.datalistgrid[row_id].leavetype_code == "CTO" ? "CTO": "LEAVE")
+                s.RetrieveCardingReport(empl_id, s.txtb_date_fr, s.txtb_date_to, "2", type)
             }
             else
             {
-                ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
-                sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
+                if (s.datalistgrid[row_id].leavetype_code == "CTO")
+                {
+                    ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
+                    sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
+
+                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "3", "CTO")
+                }
+                else
+                {
+                    ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
+                    sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
+                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
+                }
             }
             //console.log(sp)
             
