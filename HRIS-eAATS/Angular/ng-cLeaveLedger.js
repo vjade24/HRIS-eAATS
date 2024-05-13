@@ -1646,7 +1646,11 @@
         }
         else if (report_type == "04") {
             ReportPath  = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
-            sp          = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val();
+            sp = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val()+ ",par_report_type,"+ "";
+        }
+        else if (report_type == "05") {
+            ReportPath = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
+            sp = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val()+ ",par_report_type,"+ "TRANSFER";
         }
         else
         {
@@ -1740,7 +1744,13 @@
                 {
                     s.ddl_report_appl   = "04";
                     ReportPath          = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
-                    sp                  = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val();
+                    sp                  = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val() + ",par_report_type,"+"";
+                }
+                else if (type == "leave_certification_transfer")
+                {
+                    s.ddl_report_appl = "05";
+                    ReportPath = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
+                    sp = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val() + ",par_report_type," + "TRANSFER";
                 }
                 else
                 {

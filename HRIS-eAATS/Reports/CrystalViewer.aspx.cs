@@ -147,7 +147,9 @@ namespace HRIS_eAATS.Reports
             }
 
             if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report" ||
-                ls_splitvalue[0].ToString().Trim() == "sp_leave_application_hdr_tbl_report_cto")
+                ls_splitvalue[0].ToString().Trim() == "sp_leave_application_hdr_tbl_report_cto" ||
+                ls_splitvalue[0].ToString().Trim() == "sp_leave_certification_rep" 
+                )
             {
                 crvPrint.HasExportButton = false;
                 crvPrint.HasPrintButton = false;
@@ -457,8 +459,16 @@ namespace HRIS_eAATS.Reports
             loadreport(ls_splitvalue, reportPath);
 
             lbl_cannot_print.Visible = false;
-            if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report" ||
-                ls_splitvalue[0].ToString().Trim() == "sp_leave_application_hdr_tbl_report_cto")
+            if (ls_splitvalue[0].ToString().Trim() == "sp_leave_certification_rep")
+            {
+                var filename = "";
+                filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");
+                filename = filename + "_" + Session["user_id"].ToString() + "_" + DateTime.Now.ToString("yyyy_MM_dd_hhmmsstt");
+                cryRpt.ExportToHttpResponse
+                (CrystalDecisions.Shared.ExportFormatType.WordForWindows, Response, true, filename);
+            }
+            else if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report" ||
+                     ls_splitvalue[0].ToString().Trim() == "sp_leave_application_hdr_tbl_report_cto")
             {
                 DataTable dt = null;
                 if (ls_splitvalue[0].ToString().Trim() == "sp_leave_application_report")
