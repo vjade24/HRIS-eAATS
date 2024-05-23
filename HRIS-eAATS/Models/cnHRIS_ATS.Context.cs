@@ -5402,27 +5402,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_dtr_overrides_tbl_insert_disapproved_leave", par_empl_idParameter, par_dtr_dateParameter, par_created_by_userParameter);
         }
     
-        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_show_historyParameter = par_show_history != null ?
-                new ObjectParameter("par_show_history", par_show_history) :
-                new ObjectParameter("par_show_history", typeof(string));
-    
-            var par_period_fromParameter = par_period_from.HasValue ?
-                new ObjectParameter("par_period_from", par_period_from) :
-                new ObjectParameter("par_period_from", typeof(System.DateTime));
-    
-            var par_period_toParameter = par_period_to.HasValue ?
-                new ObjectParameter("par_period_to", par_period_to) :
-                new ObjectParameter("par_period_to", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter, par_period_fromParameter, par_period_toParameter);
-        }
-    
         public virtual ObjectResult<sp_leaveledger_report_Result> sp_leaveledger_report(string p_empl_id, string p_date_fr, string p_date_to, Nullable<int> p_rep_mode)
         {
             var p_empl_idParameter = p_empl_id != null ?
@@ -5442,6 +5421,27 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_rep_mode", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_report_Result>("sp_leaveledger_report", p_empl_idParameter, p_date_frParameter, p_date_toParameter, p_rep_modeParameter);
+        }
+    
+        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter, par_period_fromParameter, par_period_toParameter);
         }
     }
 }

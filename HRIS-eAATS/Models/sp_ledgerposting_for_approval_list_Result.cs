@@ -49,5 +49,6 @@ namespace HRIS_eAATS.Models
         public string cancellation_flag { get; set; }
         public string department_code { get; set; }
         public string department_short_name { get; set; }
+        public string evaluated_by { get; set; }
     }
 }

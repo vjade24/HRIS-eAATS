@@ -127,11 +127,22 @@ namespace HRIS_eAATS.Controllers
                 //List<sp_ledgerposting_for_approval_list_Result> filteredGrid = new List<sp_ledgerposting_for_approval_list_Result>();
                 //filteredGrid = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history).ToList();
                 bool is_same = false;
-                var filteredGrid = from t1 in db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList()
-                                   where (from t2 in lv_admin_dept_list.ToList()
-                                   where t2.empl_id  == empl_id
-                                   select t2.department_code).Contains(t1.department_code)
-                            select t1;
+                var filteredGrid = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList();
+
+                if (log_empl_id != empl_id && par_show_history == "Y")
+                {
+                    filteredGrid = filteredGrid.Where(a => a.evaluated_by == "U"+ empl_id).ToList();
+                }
+                else
+                {
+                    var filteredGrid_v2 = from t1 in db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList()
+                    where (from t2 in lv_admin_dept_list.ToList()
+                           where t2.empl_id == empl_id
+                           select t2.department_code).Contains(t1.department_code)
+                    select t1;
+
+                    filteredGrid = filteredGrid_v2.ToList();
+                }
 
                 if (department_code.ToString() != "")
                 {
