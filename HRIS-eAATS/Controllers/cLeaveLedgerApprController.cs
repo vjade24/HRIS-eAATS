@@ -129,7 +129,7 @@ namespace HRIS_eAATS.Controllers
                 bool is_same = false;
                 var filteredGrid = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList();
 
-                if (log_empl_id != empl_id && par_show_history == "Y")
+                if (par_show_history == "Y")
                 {
                     filteredGrid = filteredGrid.Where(a => a.evaluated_by == "U"+ empl_id).ToList();
                 }
