@@ -26,5 +26,6 @@ namespace HRIS_eAATS.Models
         public System.DateTime birth_date { get; set; }
         public bool emp_status { get; set; }
         public string gender { get; set; }
+        public string employe_name_formal { get; set; }
     }
 }

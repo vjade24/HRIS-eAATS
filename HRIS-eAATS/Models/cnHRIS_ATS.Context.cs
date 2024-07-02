@@ -87,7 +87,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<to_disapprove_comment> to_disapprove_comment { get; set; }
         public virtual DbSet<to_disapprove_reason_tbl> to_disapprove_reason_tbl { get; set; }
         public virtual DbSet<to_final_approver_tbl> to_final_approver_tbl { get; set; }
-        public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
         public virtual DbSet<transmittal_leave_trk_setup_tbl> transmittal_leave_trk_setup_tbl { get; set; }
         public virtual DbSet<travel_order_check_tbl> travel_order_check_tbl { get; set; }
         public virtual DbSet<travel_order_ldnf_tbl> travel_order_ldnf_tbl { get; set; }
@@ -129,7 +128,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_ot_request_dtr_info> vw_ot_request_dtr_info { get; set; }
         public virtual DbSet<vw_payrollemployeemaster_asg_tbl> vw_payrollemployeemaster_asg_tbl { get; set; }
         public virtual DbSet<vw_payrollemployeemaster_ATS> vw_payrollemployeemaster_ATS { get; set; }
-        public virtual DbSet<vw_personnelnames_tbl_HRIS_ATS> vw_personnelnames_tbl_HRIS_ATS { get; set; }
         public virtual DbSet<vw_timeentries_dtr_info> vw_timeentries_dtr_info { get; set; }
         public virtual DbSet<vw_to_info> vw_to_info { get; set; }
         public virtual DbSet<vw_to_info_daily_rep> vw_to_info_daily_rep { get; set; }
@@ -145,6 +143,8 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<leave_application_mone_waiver_tbl> leave_application_mone_waiver_tbl { get; set; }
         public virtual DbSet<leaveadmin_tbl> leaveadmin_tbl { get; set; }
         public virtual DbSet<vw_leaveadmin_tbl_list> vw_leaveadmin_tbl_list { get; set; }
+        public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
+        public virtual DbSet<vw_personnelnames_tbl_HRIS_ATS> vw_personnelnames_tbl_HRIS_ATS { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -5314,19 +5314,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter, par_user_idParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list(string par_created_year, string par_created_month)
-        {
-            var par_created_yearParameter = par_created_year != null ?
-                new ObjectParameter("par_created_year", par_created_year) :
-                new ObjectParameter("par_created_year", typeof(string));
-    
-            var par_created_monthParameter = par_created_month != null ?
-                new ObjectParameter("par_created_month", par_created_month) :
-                new ObjectParameter("par_created_month", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list", par_created_yearParameter, par_created_monthParameter);
-        }
-    
         [DbFunction("HRIS_ATSEntities", "func_lv_ledger_history_notif")]
         public virtual IQueryable<func_lv_ledger_history_notif_Result> func_lv_ledger_history_notif(string p_leave_ctrlno, string p_empl_id)
         {
@@ -5442,6 +5429,32 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_period_to", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter, par_period_fromParameter, par_period_toParameter);
+        }
+    
+        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list(string par_created_year, string par_created_month)
+        {
+            var par_created_yearParameter = par_created_year != null ?
+                new ObjectParameter("par_created_year", par_created_year) :
+                new ObjectParameter("par_created_year", typeof(string));
+    
+            var par_created_monthParameter = par_created_month != null ?
+                new ObjectParameter("par_created_month", par_created_month) :
+                new ObjectParameter("par_created_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list", par_created_yearParameter, par_created_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_balances_rep_Result> sp_leave_balances_rep(string par_year, string par_department_code)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_balances_rep_Result>("sp_leave_balances_rep", par_yearParameter, par_department_codeParameter);
         }
     }
 }

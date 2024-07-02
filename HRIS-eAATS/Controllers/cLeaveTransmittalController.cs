@@ -34,19 +34,17 @@ namespace HRIS_eAATS.Controllers
         }
         private User_Menu GetAllowAccess()
         {
-            um.allow_add = 1;
-            um.allow_delete = 1;
-            um.allow_edit = 1;
-            um.allow_edit_history = 1;
-            um.allow_print = 1;
-            um.allow_view = 1;
-            um.id = 0;
-            um.menu_name = Session["menu_name"].ToString();
-            um.page_title = Session["page_title"].ToString();
-            um.url_name = Session["url_name"].ToString();
-
+            um.allow_add            = 1;
+            um.allow_delete         = 1;
+            um.allow_edit           = 1;
+            um.allow_edit_history   = 1;
+            um.allow_print          = 1;
+            um.allow_view           = 1;
+            um.id                   = 0;
+            um.menu_name            = Session["menu_name"].ToString();
+            um.page_title           = Session["page_title"].ToString();
+            um.url_name             = Session["url_name"].ToString();
             return um;
-            
         }
         protected JsonResult JSON(object data, JsonRequestBehavior behavior)
         {
@@ -69,22 +67,11 @@ namespace HRIS_eAATS.Controllers
             try
             {
                 var um = GetAllowAccess();
-                var log_empl_id         = Session["empl_id"].ToString();
-                //var leaveType           = db_ats.sp_leavetype_tbl_list().ToList();
-                //var leaveSubType        = db_ats.sp_leavesubtype_tbl_list("").ToList();
-                var lv_admin_dept_list  = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
-                var leave_transmittal_type_tbl = db_ats.leave_transmittal_type_tbl.ToList();
-
-                //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList();
-
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
-                return JSON(new { message = "success", um
-                    //, leaveType, leaveSubType
-                    // , ledgerposting_for_approval_list
-                    , lv_admin_dept_list
-                    ,data
-                    ,leave_transmittal_type_tbl
-                }, JsonRequestBehavior.AllowGet);
+                var log_empl_id                 = Session["empl_id"].ToString();
+                var lv_admin_dept_list          = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
+                var leave_transmittal_type_tbl  = db_ats.leave_transmittal_type_tbl.ToList();
+                var data                        = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
+                return JSON(new { message = "success", um,lv_admin_dept_list,data,leave_transmittal_type_tbl}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -211,6 +198,8 @@ namespace HRIS_eAATS.Controllers
                 data.employment_tyep        = data.employment_tyep;
                 data.view_mode              = data.view_mode;
                 data.route_nbr              = data.route_nbr;
+                data.is_legis               = data.is_legis;
+                data.route_to_legis         = data.route_to_legis;
 
                 if (data.route_nbr.ToString().Trim() != "06")
                 {
@@ -424,16 +413,18 @@ namespace HRIS_eAATS.Controllers
             {
                 var od = db_ats.transmittal_leave_hdr_tbl.Where(a => a.doc_ctrl_nbr == data.doc_ctrl_nbr).FirstOrDefault();
 
-                od.transmittal_descr = data.transmittal_descr;
-                od.approved_period_from = data.approved_period_from;
-                od.approved_period_to = data.approved_period_to;
-                od.updated_by = Session["user_id"].ToString();
-                od.updated_dttm = DateTime.Now;
-                od.doc_status = data.doc_status;
-                od.route_nbr = data.route_nbr;
-                od.department_code = data.department_code;
-                od.employment_tyep = data.employment_tyep;
-                od.view_mode = data.view_mode;
+                od.transmittal_descr        = data.transmittal_descr;
+                od.approved_period_from     = data.approved_period_from;
+                od.approved_period_to       = data.approved_period_to;
+                od.updated_by               = Session["user_id"].ToString();
+                od.updated_dttm             = DateTime.Now;
+                od.doc_status               = data.doc_status;
+                od.route_nbr                = data.route_nbr;
+                od.department_code          = data.department_code;
+                od.employment_tyep          = data.employment_tyep;
+                od.view_mode                = data.view_mode;
+                od.is_legis                 = data.is_legis;
+                od.route_to_legis           = data.route_to_legis;
 
                 var od_dtl = db_ats.transmittal_leave_dtl_tbl.Where(a => a.doc_ctrl_nbr == data.doc_ctrl_nbr).ToList();
                 od_dtl.ForEach(a => a.route_nbr = data.route_nbr);
@@ -496,10 +487,10 @@ namespace HRIS_eAATS.Controllers
                 if (par_transmitted_flag == "N")
                 {
                     db_ats.transmittal_leave_dtl_tbl.Add(data);
-                    data.created_by = Session["user_id"].ToString();
-                    data.created_dttm = DateTime.Now;
-                    data.route_nbr = data.route_nbr;
-                    data.leave_ctrlno = data.leave_ctrlno;
+                    data.created_by         = Session["user_id"].ToString();
+                    data.created_dttm       = DateTime.Now;
+                    data.route_nbr          = data.route_nbr;
+                    data.leave_ctrlno       =  data.leave_ctrlno;
                     db_ats.SaveChangesAsync();
                 }
                 else if (par_transmitted_flag == "Y")
@@ -520,8 +511,6 @@ namespace HRIS_eAATS.Controllers
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
-
-
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -664,11 +653,6 @@ namespace HRIS_eAATS.Controllers
                     message_descr = "Successfully Released!";
                     message_descr1 = "This Record is Successfully Released!";
                 }
-                //else if (data.document_status == "T")
-                //{
-                //    message_descr = "Successfully Receive Return!";
-                //    message_descr1 = "This Record is Successfully Return!";
-                //}
 
                 db_ats.SaveChangesAsync();
                 message = "success";
@@ -681,54 +665,6 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        //*********************************************************************//
-        // Created By   : Vincent Jade H. Alivio 
-        // Created Date : 01/13/2020
-        // Description  : Add new record to leave sub-type table
-        //*********************************************************************//
-        //public ActionResult CheckAll(transmittal_leave_dtl_tbl data)
-        //{
-        //    try
-        //    {
-        //        db_ats.transmittal_leave_dtl_tbl.Add(data);
-        //        data.created_by     = Session["user_id"].ToString();
-        //        data.created_dttm   = DateTime.Now;
-        //        data.route_nbr      = data.route_nbr;
-        //        data.leave_ctrlno      = data.leave_ctrlno;
-        //        db_ats.SaveChangesAsync();
-
-        //        return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        string message = e.Message.ToString();
-        //        return Json(new { message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //*********************************************************************//
-        // Created By   : Vincent Jade H. Alivio 
-        // Created Date : 01/13/2020
-        // Description  : Add new record to leave sub-type table
-        //*********************************************************************//
-        //public ActionResult DeleteAll(string par_doc_ctrl_nbr)
-        //{
-        //    try
-        //    {
-        //        var od2 = db_ats.transmittal_leave_dtl_tbl.Where(a => a.doc_ctrl_nbr == par_doc_ctrl_nbr).ToList();
-        //        if (od2 != null)
-        //        {
-        //            db_ats.transmittal_leave_dtl_tbl.RemoveRange(od2);
-        //        }
-        //        db_ats.SaveChanges();
-        //        return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        string message = e.Message.ToString();
-        //        return Json(new { message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
         //*********************************************************************//
         // Created By   : Vincent Jade H. Alivio 
         // Created Date : 01/13/2020

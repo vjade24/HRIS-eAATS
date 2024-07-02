@@ -27,5 +27,7 @@ namespace HRIS_eAATS.Models
         public string department_code { get; set; }
         public string employment_tyep { get; set; }
         public string view_mode { get; set; }
+        public Nullable<bool> is_legis { get; set; }
+        public string route_to_legis { get; set; }
     }
 }

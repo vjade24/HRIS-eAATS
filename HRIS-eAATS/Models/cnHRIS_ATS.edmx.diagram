@@ -65,7 +65,6 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.to_disapprove_comment" Width="1.5" PointX="0.75" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.to_disapprove_reason_tbl" Width="1.5" PointX="6.75" PointY="23.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.to_final_approver_tbl" Width="1.5" PointX="12.75" PointY="23.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" Width="1.5" PointX="24.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_trk_setup_tbl" Width="1.5" PointX="24.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.travel_order_check_tbl" Width="1.5" PointX="24.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.travel_order_ldnf_tbl" Width="1.5" PointX="24.75" PointY="11.75" IsExpanded="true" />
@@ -107,7 +106,6 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_ot_request_dtr_info" Width="1.5" PointX="32.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_payrollemployeemaster_asg_tbl" Width="1.5" PointX="32.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_payrollemployeemaster_ATS" Width="1.5" PointX="6.75" PointY="32.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.vw_personnelnames_tbl_HRIS_ATS" Width="1.5" PointX="8.75" PointY="32.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_timeentries_dtr_info" Width="1.5" PointX="32.75" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_to_info" Width="1.5" PointX="32.75" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_to_info_daily_rep" Width="1.5" PointX="32.75" PointY="20.75" IsExpanded="true" />
@@ -123,6 +121,8 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_mone_waiver_tbl" Width="1.5" PointX="35.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.leaveadmin_tbl" Width="1.5" PointX="35.375" PointY="5.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_leaveadmin_tbl_list" Width="1.5" PointX="35.375" PointY="8.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" Width="1.5" PointX="35.375" PointY="12.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.vw_personnelnames_tbl_HRIS_ATS" Width="1.5" PointX="35.375" PointY="17.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

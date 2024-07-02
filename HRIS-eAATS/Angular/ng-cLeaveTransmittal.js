@@ -1,28 +1,26 @@
 ﻿ng_HRD_App.controller("cLeaveTransmittal_ctrlr", function ($scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
-
-    var userid      = "";
-    s.year          = [];
-    s.rowLen        = "10";
-    s.rowLen_trans        = "10";
-    s.btn_name      = "";
-    s.next_status = "";
-    s.ddl_rep_mode = "1"
-    s.ddl_route_nbr  = "01"
-    s.ddl_dept = "";
-    s.ddl_employment_type = "";
-    s.ddl_rep_mode_printing = "2"
-    s.ddl_rep_mode_add_edit = "2"
-    //var row_id_printing = "";
-    //s.var_daily_monthly = "";
-
-    s.ddl_transmittal_class = "daily"
-    s.doc_status_descr = "New"
+    
+    s.year                       = [];
+    s.rowLen                     = "10";
+    s.rowLen_trans               = "10";
+    s.btn_name                   = "";
+    s.next_status                = "";
+    s.ddl_rep_mode               = "1"
+    s.ddl_route_nbr              = "01"
+    s.ddl_dept                   = "";
+    s.ddl_employment_type        = "";
+    s.ddl_rep_mode_printing      = "2"
+    s.ddl_rep_mode_add_edit      = "2"
+    s.route_to_legis             = 'VGO'
+    s.ddl_transmittal_class      = "daily"
+    s.doc_status_descr           = "New"
     s.leave_transmittal_type_tbl = []
-    function init() {
 
-
+    init()
+    function init()
+    {
         //**********************************************
         // Initialize data during page loads
         //**********************************************
@@ -30,14 +28,11 @@
         h.post("../cLeaveTransmittal/InitializeData").then(function (d) {
             if (d.data.message == "success")
             {
-                var curr_year = new Date().getFullYear().toString();
-                s.ddl_year = curr_year;
-                s.currentMonth = new Date().getMonth() + 1
-                s.ddl_month = datestring(s.currentMonth.toString())
+                var curr_year       = new Date().getFullYear().toString();
+                s.ddl_year          = curr_year;
+                s.currentMonth      = new Date().getMonth() + 1
+                s.ddl_month         = datestring(s.currentMonth.toString())
                 RetrieveYear();
-
-                //s.leave_type = d.data.leaveType;
-                //s.leave_sub_type = d.data.leaveSubType;
                 s.lv_admin_dept_list = d.data.lv_admin_dept_list
                 
                 init_table_data5([]);
@@ -51,28 +46,12 @@
                 
                 s.oTable5.fnClearTable();
                 s.datalistgrid5 = d.data.data;
-                if (d.data.data.length > 0) {
+                if (d.data.data.length > 0)
+                {
                     s.oTable5.fnAddData(d.data.data);
                 }
                 s.leave_transmittal_type_tbl = d.data.leave_transmittal_type_tbl
-                //$('#datalist_grid_transmit tbody').on('click', 'span.details-control', function () {
-                //    var tr = $(this).closest('tr');
-                //    var row = $('#datalist_grid_transmit').DataTable().row(tr);
-
-                //    if (row.child.isShown()) {
-                //        // This row is already open - close it
-                //        row.child.hide();
-                //        tr.removeClass('shown');
-                //    }
-                //    else {
-                //        // Open this row
-                //        row.child(format(row.data())).show();
-                //        tr.addClass('shown');
-                //    }
-
-                //});
-
-
+                
                 $("#modal_generating_remittance").modal("hide");
             }
             else
@@ -81,7 +60,6 @@
             }
         });
     }
-    init()
     
     s.search_in_list = function (value, table) {
         try {
@@ -91,6 +69,7 @@
             alert(err.message)
         }
     }
+
     s.setNumOfRow = function (value, table) {
         try {
             $("#" + table).DataTable().page.len(value).draw();
@@ -169,9 +148,7 @@
         // *******************************************************
 
     }
-    //***********************************************************//
-    //*** VJA - 2021-06-03 - Toogle Textboxes and Modal
-    //***********************************************************// 
+
     var init_table_data5 = function (par_data) {
         try {
             s.datalistgrid5 = par_data;
@@ -408,53 +385,9 @@
             swal({ icon: "warning", title: err.message });
         }
     }
-
-    //NEW UPDATE BY: JORGE RUSTOM VILLANUEVA 2020-09-18
-    /* Formatting function for row details - modify as you need */
-    //function format(d)
-    //{
-    //    return '<table class="no-border" style="padding:0px !important;min-height:10px !important" > ' +
-    //        '<tr>' +
-    //        '<td style="width:24% !important;padding:0px 0px 0px 10px">Department/s:</td>' +
-    //        '<td style="padding:0px">' + d.department_descr + '</td>' +
-    //        '</tr>' +
-    //        '<tr>' +
-    //        '<td style="width:24% !important;padding:0px 0px 0px 10px">Employment Type:</td>' +
-    //        '<td style="padding:0px">' + d.employment_type_desr + '</td>' +
-    //        '</tr>' +
-    //        '</table>';
-    //}
-
+    
     s.RetrieveTransmittal_HDR = function (daily_monthly, doc_status_descr)
     {
-        //daySelect = document.getElementById('ddl_route_nbr');
-        //$("#ddl_route_nbr option[value='01']").remove();
-        //$("#ddl_route_nbr option[value='02']").remove();
-        //$("#ddl_route_nbr option[value='03']").remove();
-        //$("#ddl_route_nbr option[value='04']").remove();
-        //$("#ddl_route_nbr option[value='05']").remove();
-        //$("#ddl_route_nbr option[value='06']").remove();
-        //daySelect.options[daySelect.options.length] = new Option('1-10  days', '01')
-        //daySelect.options[daySelect.options.length] = new Option('11-30 days', '02')
-        //daySelect.options[daySelect.options.length] = new Option('31-60 days', '03')
-        //daySelect.options[daySelect.options.length] = new Option('61 up and Other Types of Leave', '04')
-        //daySelect.options[daySelect.options.length] = new Option('All VGO and SPO Employees', '05')
-        //daySelect.options[daySelect.options.length] = new Option('Release to Payroll', '06')
-
-        //if (s.ddl_transmittal_class == "monthly")
-        //{
-        //    $("#ddl_route_nbr option[value='01']").remove();
-        //    $("#ddl_route_nbr option[value='02']").remove();
-        //    $("#ddl_route_nbr option[value='03']").remove();
-        //    $("#ddl_route_nbr option[value='04']").remove();
-        //    $("#ddl_route_nbr option[value='05']").remove();
-        //    $('#ddl_route_nbr').val('06')
-        //}
-        //else
-        //{
-        //    $("#ddl_route_nbr option[value='06']").remove();
-        //    $('#ddl_route_nbr').val('01')
-        //}
         s.show_department = true;
         if (s.ddl_transmittal_class == "monthly") {
             $('#ddl_route_nbr').val('06')
@@ -484,40 +417,12 @@
                 {
                     s.oTable5.fnAddData(d.data.data);
                 }
-
-                //$('#datalist_grid_transmit tbody').on('click', 'span.details-control', function ()
-                //{
-                //    var tr = $(this).closest('tr');
-                //    var row = $('#datalist_grid_transmit').DataTable().row(tr);
-
-                //    if (row.child.isShown()) {
-                //        // This row is already open - close it
-                //        row.child.hide();
-                //        tr.removeClass('shown');
-                //    }
-                //    else
-                //    {
-                //        // Open this row
-                //        row.child(format(row.data())).show();
-                //        tr.addClass('shown');
-                //    }
-
-                //});
-                //if (d.data.data.length > 0)
-                //{
-                //}
-                //else
-                //{
-                //    // init_table_data5([]);
-                //}
             }
             else
             {
                 swal({ icon: "warning", title: d.data.message  });
             }
             $('#modal_generating_remittance').modal("hide");
-            //$('#modal_openCreateTransmittal').modal({ backdrop: 'static', keyboard: false });
-
         })
 
     }
@@ -525,55 +430,27 @@
     s.openModal_Add = function ()
     {
         ValidationResultColor("ALL", false);
-        s.show_dtl                  = false;
-        s.dis_title                 = false;
-        s.show_footer               = true;
-        s.txtb_doc_ctrl_nbr         = "";
-        s.txtb_transmittal_descr = "";
-        var date_now = new Date();
+        s.show_dtl                      = false;
+        s.dis_title                     = false;
+        s.show_footer                   = true;
+        s.txtb_doc_ctrl_nbr             = "";
+        s.txtb_transmittal_descr        = "";
+        var date_now                    = new Date();
         $('#txtb_approved_period_from').val(moment(date_now).format('YYYY-MM-DD'))
         $('#txtb_approved_period_to').val(moment(date_now).format('YYYY-MM-DD'))
-        s.txtb_created_by           = "";
-        s.txtb_created_dttm         = "";
-        s.ddl_route_nbr             = "01"
-        s.ddl_dept                  = "";
-        s.ddl_employment_type       = "";
+        s.txtb_created_by               = "";
+        s.txtb_created_dttm             = "";
+        s.ddl_route_nbr                 = "01"
+        s.ddl_dept                      = "";
+        s.ddl_employment_type           = "";
+        s.is_legis                      = false;
+        s.route_to_legis                = "VGO";
         
-        s.show_dtl                  = false;
-        s.show_save                 = true
-        s.action                    = "ADD";
-
-        //daySelect = document.getElementById('ddl_route_nbr');
-        //$("#ddl_route_nbr option[value='01']").remove();
-        //$("#ddl_route_nbr option[value='02']").remove();
-        //$("#ddl_route_nbr option[value='03']").remove();
-        //$("#ddl_route_nbr option[value='04']").remove();
-        //$("#ddl_route_nbr option[value='05']").remove();
-        //$("#ddl_route_nbr option[value='06']").remove();
-        //daySelect.options[daySelect.options.length] = new Option('1-10  days', '01')
-        //daySelect.options[daySelect.options.length] = new Option('11-30 days', '02')
-        //daySelect.options[daySelect.options.length] = new Option('31-60 days', '03')
-        //daySelect.options[daySelect.options.length] = new Option('61 up and Other Types of Leave', '04')
-        //daySelect.options[daySelect.options.length] = new Option('All VGO and SPO Employees', '05')
-        //daySelect.options[daySelect.options.length] = new Option('Release to Payroll', '06')
-
-        //if (s.ddl_transmittal_class == "monthly")
-        //{
-        //    $("#ddl_route_nbr option[value='']").remove();
-        //    $("#ddl_route_nbr option[value='01']").remove();
-        //    $("#ddl_route_nbr option[value='02']").remove();
-        //    $("#ddl_route_nbr option[value='03']").remove();
-        //    $("#ddl_route_nbr option[value='04']").remove();
-        //    $("#ddl_route_nbr option[value='05']").remove();
-        //    $('#ddl_route_nbr').val('06')
-        //}
-        //else
-        //{
-        //    $("#ddl_route_nbr option[value='']").remove();
-        //    $("#ddl_route_nbr option[value='06']").remove();
-        //    $('#ddl_route_nbr').val('01')
-        //}
-        s.show_department = true;
+        s.show_dtl                      = false;
+        s.show_save                     = true
+        s.action                        = "ADD";
+        
+        s.show_department               = true;
         if (s.ddl_transmittal_class == "monthly")
         {
             $('#ddl_route_nbr').val('06')
@@ -599,10 +476,7 @@
         })
         
     }
-
-    //***********************************************************//
-    //***Field validation for remittance type before opening add modal
-    //***********************************************************// 
+    
     function ValidationResultColor(par_object_id, par_v_result)
     {
         if (par_v_result)
@@ -628,10 +502,7 @@
             $("#lbl_ddl_route_nbr_req").text("");
         }
     }
-
-    //***********************************************************//
-    //***Field validation everytime generation button is click***//
-    //***********************************************************// 
+    
     function ValidateFields()
     {
         var return_val = true;
@@ -671,9 +542,7 @@
         
         return return_val;
     }
-    //***********************************************************//
-    //*** VJA - 02/27/2020 - Reject or Check if Date
-    //***********************************************************// 
+
     function checkisdate(d)
     {
         // Regex 1 - This will match yyyy-mm-dd and also yyyy-m-d:
@@ -711,6 +580,8 @@
                 ,department_code       : s.ddl_dept
                 ,employment_tyep       : s.ddl_employment_type
                 ,view_mode             : s.ddl_rep_mode_add_edit
+                ,is_legis              : s.is_legis
+                ,route_to_legis        : s.route_to_legis
             }
 
             if (s.action == "ADD")
@@ -755,9 +626,7 @@
         }
         
     }
-    //************************************// 
-    //*** Delete Record              
-    //**********************************// 
+
     s.btn_del_row_trans = function (row_index)
     {
 
@@ -806,10 +675,7 @@
             return k != code
         })
     }
-
-    //************************************// 
-    //*** Open Edit Modal         
-    //**********************************// 
+    
     s.btn_edit_action_trans = function (row_id)
     {
         ValidationResultColor("ALL", false);
@@ -827,9 +693,11 @@
         $('#txtb_approved_period_to').val("")
         s.txtb_created_by               = "";
         s.txtb_created_dttm             = "";
-        s.ddl_route_nbr = "01"
-        s.ddl_dept = "";
+        s.ddl_route_nbr                 = "01"
+        s.ddl_dept                      = "";
         s.ddl_employment_type = "";
+        s.is_legis                      = false;
+        s.route_to_legis                = "VGO";
 
         s.txtb_doc_ctrl_nbr         = s.datalistgrid5[row_id].doc_ctrl_nbr
         s.txtb_transmittal_descr    = s.datalistgrid5[row_id].transmittal_descr  
@@ -842,6 +710,8 @@
         s.ddl_route_nbr             = s.datalistgrid5[row_id].route_nbr
         s.ddl_dept                  = s.datalistgrid5[row_id].department_code
         s.ddl_employment_type       = s.datalistgrid5[row_id].employment_tyep
+        s.is_legis                  = s.datalistgrid5[row_id].is_legis;
+        s.route_to_legis            = s.datalistgrid5[row_id].route_to_legis;
 
         s.show_department = true;
         if (s.ddl_transmittal_class == "monthly") {
@@ -869,9 +739,11 @@
         $('#txtb_approved_period_to').val('')
         s.txtb_created_by               = "";
         s.txtb_created_dttm             = "";
-        s.ddl_route_nbr = "01"
-        s.ddl_dept = "";
-        s.ddl_employment_type = "";
+        s.ddl_route_nbr                 = "01"
+        s.ddl_dept                      = "";
+        s.ddl_employment_type           = "";
+        s.is_legis                      = false;
+        s.route_to_legis                = "VGO";
 
         s.txtb_doc_ctrl_nbr         = s.datalistgrid5[row_id].doc_ctrl_nbr
         s.txtb_transmittal_descr    = s.datalistgrid5[row_id].transmittal_descr  
@@ -881,7 +753,9 @@
         s.txtb_created_dttm         = moment(s.datalistgrid5[row_id].doc_dttm).format('YYYY-MM-DD HH:mm:ss')
         s.ddl_route_nbr             = s.datalistgrid5[row_id].route_nbr
         s.ddl_dept                  = s.datalistgrid5[row_id].department_code
-        s.ddl_employment_type = s.datalistgrid5[row_id].employment_tyep
+        s.ddl_employment_type       = s.datalistgrid5[row_id].employment_tyep
+        s.is_legis                  = s.datalistgrid5[row_id].is_legis;
+        s.route_to_legis            = s.datalistgrid5[row_id].route_to_legis;
 
         s.show_department = true;
         if (s.ddl_transmittal_class == "monthly") {
@@ -985,8 +859,7 @@
                 }
             })
     }
-
-
+    
     s.btn_print_row = function (row_id, rep_mode) {
         s.row_id_printing = row_id
         rep_mode = s.datalistgrid5[row_id].view_mode
@@ -1067,15 +940,13 @@
         // *******************************************************
 
     }
-
-
+    
     s.openTrackTransmital = function ()
     {
     
         $('#itcd_doc_info').modal({ backdrop: 'static', keyboard: false });
     }
-
-
+    
     s.scan_transmittal_ctrl_nbr = function (doc_ctrl_nbr, route_nbr)
     {
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
@@ -1173,8 +1044,7 @@
         })
 
     }
-
-
+    
     s.btn_release = function (row_id)
     {
         s.show_rcvd = false;
@@ -1268,135 +1138,7 @@
 
 
     }
-
-
-    //s.btn_check_action_all = function ()
-    //{
-    //    const otherText = document.querySelector('#checkbox_all');
-        
-    //    if (otherText.checked)
-    //    {
-    //        h.post("../cLeaveTransmittal/DeleteAll", {
-    //            par_doc_ctrl_nbr: s.txtb_doc_ctrl_nbr
-    //        }).then(function (d)
-    //        {
-    //            if (d.data.message == "success")
-    //            {
-    //                for (var i = 0; i < s.datalistgrid6.length; i++)
-    //                {
-    //                    $('#checkbox' + i).prop("checked", true)
-    //                    var data =
-    //                    {
-    //                         doc_ctrl_nbr    : s.txtb_doc_ctrl_nbr
-    //                        ,ledger_ctrl_no  : s.datalistgrid6[i].ledger_ctrl_no  
-    //                        ,doc_remarks     : ''  
-    //                        , route_nbr     : s.ddl_route_nbr
-    //                    }
-    //                    h.post("../cLeaveTransmittal/CheckAll", {
-    //                        data: data
-    //                    }).then(function (d)
-    //                    {
-    //                        if (d.data.message == "success")
-    //                        {
-    //                            s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
-    //                        }
-    //                        else
-    //                        {
-    //                            swal({ icon: "warning", title: d.data.message });
-    //                        }
-    //                    })
-    //                }
-                    
-    //            }
-    //            else
-    //            {
-    //                swal({ icon: "warning", title: d.data.message });
-    //            }
-    //        })
-    //    }
-    //    else
-    //    {
-            
-    //        swal({
-    //            title: "Are you sure to delete this record?",
-    //            text: "Once deleted, you will not be able to recover this record!",
-    //            icon: "warning",
-    //            buttons: true,
-    //            dangerMode: true
-
-    //        })
-    //            .then(function (willDelete)
-    //            {
-    //                if (willDelete)
-    //                {
-    //                    h.post("../cLeaveTransmittal/DeleteAll", {
-    //                        par_doc_ctrl_nbr: s.txtb_doc_ctrl_nbr
-    //                    }).then(function (d)
-    //                    {
-    //                        if (d.data.message == "success")
-    //                        {
-    //                            for (var i = 0; i < s.datalistgrid6.length; i++)
-    //                            {
-    //                                $('#checkbox' + i).prop("checked", false)
-    //                                swal("Successfully Unchecked All", "Record successfully removed/unchecked", { icon: "success" });
-    //                                s.RetrieveTransmittal_HDR(s.ddl_transmittal_class);
-    //                            }
-    //                        }
-    //                        else
-    //                        {
-    //                            swal({ icon: "warning", title: d.data.message });
-    //                        }
-    //                    })
-
-    //                }
-    //            });
-    //    }
-
-
-        
-    //}
-
-
-    //s.RetrieveTransmittal_DTL = function (doc_ctrl_nbr, approved_period_from, approved_period_to, department_code, employment_type, view_mode, transmittal_class)
-    //{
-    //    ValidationResultColor("ALL", false);
-    //    h.post("../cLeaveTransmittal/RetrieveTransmittal_DTL", {
-    //        par_doc_ctrl_nbr            : doc_ctrl_nbr
-    //        , par_approved_period_from  : approved_period_from
-    //        , par_approved_period_to    : approved_period_to
-    //        , par_department_code       : department_code
-    //        , par_employment_type       : employment_type
-    //        , par_view_mode             : view_mode
-    //        , transmittal_class         : transmittal_class
-    //    }).then(function (d)
-    //    {
-    //        if (d.data.message == "success")
-    //        {
-    //            s.oTable6.fnClearTable();
-    //            if (d.data.data.length > 0)
-    //            {
-    //                s.datalistgrid6 = d.data.data;
-    //                if (d.data.data.length > 0)
-    //                {
-    //                    s.oTable6.fnAddData(d.data.data);
-    //                }
-    //                $('#modal_generating_remittance').modal("hide");
-    //            }
-    //            else
-    //            {
-    //                $('#modal_generating_remittance').modal("hide");
-    //            }
-    //            $('#modal_openCreateTransmittal_dtl').modal({ backdrop: 'static', keyboard: false });
-                
-    //        }
-    //        else
-    //        {
-    //            swal({ icon: "warning", title: d.data.message });
-    //        }
-    //    })
-    //}
-
-
+    
     s.convertdateX = function (val)
     {
         return moment(val).format('YYYY-MM-DD HH:mm:ss');
@@ -1460,9 +1202,7 @@
             prev_year++;
         }
     }
-    //***********************************************************//
-    //*** VJA - 02/29/2020 - Convert date to String from 1 to 01 if less than 10
-    //***********************************************************// 
+
     function datestring(d)
     {
         var date_val = ""
@@ -1473,7 +1213,6 @@
         }
         return date_val
     }
-
 
     s.save_trk = function (e, row)
     {
