@@ -1,36 +1,33 @@
 ﻿ng_HRD_App.controller("cLeaveLedgerAppr_ctrlr", function ($scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
-    let morisBar;
-    var userid      = "";
-    s.year          = [];
-    s.rowLen        = "10";
-    s.rowLen_trans        = "10";
-    s.btn_name      = "";
-    s.next_status = "";
-    s.ddl_rep_mode = "1"
-    s.ddl_route_nbr  = "01"
-    s.ddl_dept = "";
-    s.ddl_employment_type = "";
+    s.year                  = [];
+    s.rowLen                = "10";
+    s.rowLen_trans          = "10";
+    s.btn_name              = "";
+    s.next_status           = "";
+    s.ddl_rep_mode          = "1"
+    s.ddl_route_nbr         = "01"
+    s.ddl_dept              = "";
+    s.ddl_employment_type   = "";
     s.ddl_rep_mode_printing = "2"
     s.ddl_rep_mode_add_edit = "2"
-    var row_id_printing = "";
-    s.var_daily_monthly = "";
-    s.div_show_date_grid = false;
-    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
-    s.lv_admin_dept_filter = ""
+    var row_id_printing     = "";
+    s.var_daily_monthly     = "";
+    s.div_show_date_grid    = false;
+    s.image_link            = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.lv_admin_dept_filter  = ""
 
-    var date_cvrd = new Date();
-    s.txtb_date_fr_grid = new Date(date_cvrd.getFullYear(), 0, 1);
-    s.txtb_date_to_grid = date_cvrd;
-    function init() {
-        if (window.location.host == "hris.dvodeoro.ph") {
+    var date_cvrd           = new Date();
+    s.txtb_date_fr_grid     = new Date(date_cvrd.getFullYear(), date_cvrd.getMonth(), 1);
+    s.txtb_date_to_grid     = date_cvrd;
+
+    function init()
+    {
+        if (window.location.host == "hris.dvodeoro.ph")
+        {
             s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
         }
-        // var date_now = new Date();
-        // s.txtb_date_fr = date_now.getFullYear() + "-01-01";
-        // s.txtb_date_to = date_now.getFullYear() + "-12-31";
-
         $("#txtb_date_fr").on('change', function (e)
         {
             var par_rep_mode = ""
@@ -246,8 +243,8 @@
                                 btn_approve = "For Evaluation"
                                 return '<center><div class="btn-group">' +
                                     '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
-                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="Justification"> Justification</button >' : "") +
-                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="Cancellation">   Cancellation</button >' : "") +
+                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="View Justification"> View Justification</button >' : "") +
+                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="View Cancellation">  View Cancellation</button >' : "") +
                                     '</div></center>';
                             }
                             else if (full["worklist_action"].toString() == "REQUEST RE-PRINT")
@@ -262,8 +259,8 @@
                                 btn_approve = data
                                 return '<center><div class="btn-group">' +
                                     '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
-                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="Justification"> Justification</button >' : "") +
-                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="Cancellation">   Cancellation</button >' : "") +
+                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="View Justification"> View Justification</button >' : "") +
+                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="View Cancellation">  View Cancellation</button >' : "") +
                                     '</div></center>';
                             }
 
@@ -405,31 +402,33 @@
         s.txtb_abs_und_wop_sl       = "0.000";
         s.txtb_abs_und_wp_vl        = "0.000";
         s.txtb_abs_und_wop_vl       = "0.000";
+        s.txtb_leave_ctrlno         = "";
 
         s.next_status               = "";
         s.temp_approval_id          = "";
-
+        s.row_id_for_print          = 0;
+        s.report_type_for_print     = "";
     }
-    function get_page(empl_id) {
-        var nakit_an = false;
-        var rowx = 0;
-        $('#datalist_grid tr').each(function () {
-            $.each(this.cells, function (cells) {
-                if (cells == 0) {
-                    if ($(this).text() == empl_id) {
-                        nakit_an = true;
-                        return false;
-                    }
-                }
-            });
-            if (nakit_an) {
-                $(this).addClass("selected");
-                return false;
-            }
-            rowx++;
-        });
-        return nakit_an;
-    }
+    //function get_page(empl_id) {
+    //    var nakit_an = false;
+    //    var rowx = 0;
+    //    $('#datalist_grid tr').each(function () {
+    //        $.each(this.cells, function (cells) {
+    //            if (cells == 0) {
+    //                if ($(this).text() == empl_id) {
+    //                    nakit_an = true;
+    //                    return false;
+    //                }
+    //            }
+    //        });
+    //        if (nakit_an) {
+    //            $(this).addClass("selected");
+    //            return false;
+    //        }
+    //        rowx++;
+    //    });
+    //    return nakit_an;
+    //}
     //*********************************************//
     //*** Filter Page Grid
     //********************************************// 
@@ -562,6 +561,10 @@
     s.btn_edit_action = function (row_id,report_type)
     {
         clearentry();
+        s.row_id_for_print      = row_id;
+        s.report_type_for_print = report_type;
+        s.data_history = [];
+        $("#history").html("");
         s.isEdit = true;
         s.ModalTitle = "Leave Posting Approval";
 
@@ -593,8 +596,6 @@
         }
 
         var date_now = new Date();
-        //var date_now_to = new Date(s.datalistgrid[row_id].date_applied);
-        //s.txtb_date_fr = moment(date_now_to).format('YYYY-MM-01');
         s.txtb_date_fr = "2021-01-01";
         s.txtb_date_to = date_now.getFullYear() + "-12-31";
 
@@ -603,39 +604,7 @@
 
         try
         {
-            //var ledger_ctrl_no  = s.datalistgrid[row_id].ledger_ctrl_no;
-            //var controller      = "Reports"
-            //var action          = "Index"
-            //var ReportName      = "CrystalReport"
-            //var SaveName        = "Crystal_Report"
-            //var ReportType      = "inline"
-            //var ReportPath      = ""
-            //var sp              = ""
-            //var leave_ctrlno    = s.datalistgrid[row_id].leave_ctrlno;
-            //var empl_id         = s.datalistgrid[row_id].empl_id;
-
-            //if (s.datalistgrid[row_id].leavetype_code == "CTO")
-            //{
-            //    ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
-            //    sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
-            //    console.log(sp)
-            //}
-            //else
-            //{
-            //    ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
-            //    sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
-            //}
-
-            //s.embed_link3 = "../" + controller + "/" + action + "?ReportName=" + ReportName
-            //    + "&SaveName=" + SaveName
-            //    + "&ReportType=" + ReportType
-            //    + "&ReportPath=" + ReportPath
-            //    + "&Sp=" + sp;
-
-            //$('#iframe_print_preview').attr('src', s.embed_link3);
-
-            // *******************************************************
-            // *******************************************************
+            
             var ReportName      = "CrystalReport"
             var SaveName        = "Crystal_Report"
             var ReportType      = "inline"
@@ -676,7 +645,6 @@
                     s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
                 }
             }
-            //console.log(sp)
             
             // *******************************************************
             // *** VJA : 2021-07-14 - Validation and Loading hide ****
@@ -690,7 +658,7 @@
                 + "&SaveName=" + SaveName
                 + "&ReportType=" + ReportType
                 + "&ReportPath=" + ReportPath
-                + "&id=" + sp // + "," + parameters
+                + "&id=" + sp 
 
             if (!/*@cc_on!@*/0) { //if not IE
                 iframe.onload = function () {
@@ -747,6 +715,7 @@
         s.txtb_sigpos3_ovrd     = s.datalistgrid[row_id].sig_pos3_ovrd;
         s.txtb_ledger_date      = s.datalistgrid[row_id].leaveledger_date;
         s.txtb_date_applied     = s.datalistgrid[row_id].date_applied;
+        s.txtb_leave_ctrlno     = s.datalistgrid[row_id].leave_ctrlno;
 
 
 
@@ -2250,6 +2219,52 @@
         })
 
     }
+    s.Retrieve_LeaveHistory = function ()
+    {
+        $('#view_details_history').removeClass()
+        $('#view_details_history').addClass('fa fa-spinner fa-spin')
+        s.data_history = [];
+        h.post("../cLeaveLedger/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_leave_ctrlno, empl_id: s.txtb_empl_id}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                s.data_history = d.data.data
+                var to_append  = "";
+                $("#history").html("");
+                for (var i = 0; i < s.data_history.length; i++)
+                {
+                    s.data_history[i].create_dttm_descr  = moment(s.data_history[i].created_dttm).format("LLLL")
+                    s.data_history[i].create_dttm_ago    = moment(s.data_history[i].created_dttm).fromNow()
+                    var temp_append = "";
+                    var temp = moment();
+                    temp_append = '<div class="feed-element">'+
+                                       '<div class="pull-left">'+
+                                         '<div class="img-circle">' +
+                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U","") + '?v=' + temp)+' " />'+
+                                        '</div>'+
+                                       '</div>'+
+                                        '<div class="media-body ">'+
+                                            '<small class="pull-right" style="padding-left:10px !important">' + s.data_history[i].create_dttm_ago+'</small>'+
+                                            s.data_history[i].appl_status+' by <strong>'+ s.data_history[i].employee_name_format_2+'</strong>'+
+                                            '<small class="text-muted">on '+ s.data_history[i].create_dttm_descr+'</small>'+
+                                        '</div>'+
+                                    '</div>';
 
+                    to_append = to_append + temp_append;
+                }
+                $("#history").append($compile(to_append)($scope));
+
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+                
+            }
+            else
+            {
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
+    }
 
 })

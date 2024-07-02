@@ -142,22 +142,30 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
                 </div>
-                <div class="modal-body with-background" style="padding-bottom:5px;">
+                <div style="padding-bottom:5px;">
                     <div class="row">
-                        <div class="col-lg-12 m-b-md" >
+                        <div class="col-lg-12" >
                             <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
                                 <ul class="nav nav-tabs" id="tab_dtr_up">
                                     <li id="tab1" class="active">   <a data-toggle="tab" href="#tab-1"><b>Print Preview</b></a></li>
                                     <li id="tab5" class="">         <a data-toggle="tab" id="tab_1_click" href="#tab-5"><div class="font_tab_ovrd"><b>Leave Header  </b></div></a></li>
                                     <li id="tab6" class="">         <a data-toggle="tab" href="#tab-6"><div class="font_tab_ovrd"><b>Leave Details </b></div></a></li>
+                                    <li id="tab7" class="">         <a data-toggle="tab" href="#tab-7"><div><b>Approval History </b></div></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
                                         <div class="panel-body" style="min-height:30% !important;">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <div class="print_preview_iframe_css">
-                                                        <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview" scrolling="no" src=""></iframe>
+                                                    <div class="form-group row text-center m-b-sm">
+                                                        <div class="col-lg-12" ng-show="datalistgrid[row_id_for_print].justification_flag == true || datalistgrid[row_id_for_print].cancellation_flag">
+                                                            <button type="button" class="btn btn-success dim btn-xs" ng-click="btn_edit_action(row_id_for_print,'')">                                                                                  &nbsp;<i class="fa fa-eye"></i> View Details        &nbsp;&nbsp;</button>
+                                                            <button type="button" class="btn btn-primary dim btn-xs" ng-click="btn_edit_action(row_id_for_print,'justification')" ng-show="datalistgrid[row_id_for_print].justification_flag == true" >&nbsp;<i class="fa fa-eye"></i> View Justification  &nbsp;&nbsp;</button>
+                                                            <button type="button" class="btn btn-danger dim btn-xs"  ng-click="btn_edit_action(row_id_for_print,'cancellation')"  ng-show="datalistgrid[row_id_for_print].cancellation_flag"          >&nbsp;<i class="fa fa-eye"></i> View Cancellation   &nbsp;&nbsp;</button>
+                                                        </div>
+                                                        <div class="print_preview_iframe_css">
+                                                            <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview" scrolling="no" src=""></iframe>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -201,8 +209,14 @@
                                                     <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
                                                         <label class="font-bold"><b> Ledger Ctrl. Nbr.:</b></label>
                                                     </div>
-                                                    <div class="col-lg-8">
+                                                    <div class="col-lg-2">
                                                         <input class="form-control text-left" id="txtb_ledger_ctrl_no" ng-model="txtb_ledger_ctrl_no" disabled style="font-weight:bolder" />
+                                                    </div>
+                                                    <div class="col-lg-2" style="padding-right:0px;padding-top:9px;">
+                                                        <label class="font-bold"><b> Leave Ctrl. Nbr.:</b></label>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <input class="form-control text-left" id="txtb_leave_ctrlno" ng-model="txtb_leave_ctrlno" disabled style="font-weight:bolder" />
                                                     </div>
                                                 </div>
                                                 <div class="row" style="padding-top:6px;">
@@ -501,6 +515,19 @@
                                                         </table>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-7" class="tab-pane">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-6">
+                                                    <div class="feed-activity-list" id="history">
+                                                    </div>
+                                                    <button class="btn btn-primary btn-block m-t" ng-click="Retrieve_LeaveHistory()"><i class="fa fa-arrow-down" id="view_details_history"></i> View Details</button>
+                                                </div>
+                                                <div class="col-lg-3"></div>
                                             </div>
                                         </div>
                                     </div>
