@@ -177,6 +177,7 @@
     <Compile Include="Controllers\cASTypeController.cs" />
     <Compile Include="Controllers\cExtractToExcelController.cs" />
     <Compile Include="Controllers\cLeaveAdminController.cs" />
+    <Compile Include="Controllers\cLeaveCTOBalanceController.cs" />
     <Compile Include="Controllers\cLeaveEarnedVLSLController.cs" />
     <Compile Include="Controllers\cLeaveLedgerApprController.cs" />
     <Compile Include="Controllers\cLeaveLedgerController.cs" />
@@ -993,6 +994,9 @@
     <Compile Include="Models\sp_leave_application_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leave_balances_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leave_electric_sig_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1656,6 +1660,7 @@
     <Content Include="Angular\ng-cASType.js" />
     <Content Include="Angular\ng-cExtractToExcel.js" />
     <Content Include="Angular\ng-cLeaveAdmin.js" />
+    <Content Include="Angular\ng-cLeaveCTOBalance.js" />
     <Content Include="Angular\ng-cLeaveEarnedVLSL.js" />
     <Content Include="Angular\ng-cLeaveLedger.js" />
     <Content Include="Angular\ng-cLeaveHistory.js" />
@@ -2615,6 +2620,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\sheetJS.js" />
     <Content Include="UploadedFile\test.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -2662,6 +2668,7 @@
     <Content Include="Views\cLeaveTracking\Index.cshtml" />
     <Content Include="Views\cLeaveTransmittal\Index.cshtml" />
     <Content Include="Views\cLeavePrinting\Index.cshtml" />
+    <Content Include="Views\cLeaveCTOBalance\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
