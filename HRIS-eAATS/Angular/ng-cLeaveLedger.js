@@ -1071,11 +1071,15 @@
          $("#history").html("");
         if (s.datalistgrid[row_id].ledger_ctrl_no == '' || s.datalistgrid[row_id].ledger_ctrl_no == null)
         {
-            swal("No Data Found","No Header and Details save on table", { icon: "warning", });
+            swal("No Data Found", "No Header and Details save on table", { icon: "warning", });
+            $('#modal_initializing').modal("hide");
+            return;
         }
         else if (s.datalistgrid[row_id].leaveledger_entry_type == 'T')
         {
             swal("You cannot Edit, Delete, Print and Cancel Posted", "Data already Disapproved or Cancelled", { icon: "warning", });
+            $('#modal_initializing').modal("hide");
+            return;
         }
         else
         {
