@@ -1261,7 +1261,7 @@ namespace HRIS_eAATS.Controllers
                 // *************************************************
                 // ** 2023-08-01 - Check if Travel Order Approved **
                 // *************************************************
-                if (data.leavetype_code != "ML")
+                if (data.leavetype_code != "ML" && data.leavetype_code != "RH")
                 {
                     if (chk_travel != null)
                     {

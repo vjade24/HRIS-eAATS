@@ -12,7 +12,7 @@ namespace HRIS_eAATS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class payrollemployeemaster_hdr_tbl
+    public partial class vw_payrollemployeemaster_hdr_pos_tbl
     {
         public string empl_id { get; set; }
         public string employment_type { get; set; }
@@ -31,16 +31,15 @@ namespace HRIS_eAATS.Models
         public string section_code { get; set; }
         public string function_code { get; set; }
         public string fund_code { get; set; }
-        public Nullable<bool> flag_expt_gsis { get; set; }
-        public Nullable<bool> flag_expt_phic { get; set; }
-        public Nullable<bool> flag_expt_hdmf { get; set; }
-        public Nullable<decimal> hdmf_fix_rate { get; set; }
-        public Nullable<System.DateTime> date_of_assumption { get; set; }
+        public bool flag_expt_gsis { get; set; }
+        public bool flag_expt_hdmf { get; set; }
+        public bool flag_expt_phic { get; set; }
+        public decimal hdmf_fix_rate { get; set; }
+        public System.DateTime date_of_assumption { get; set; }
         public string item_no { get; set; }
         public string salary_grade { get; set; }
-        public Nullable<System.DateTime> created_dttm { get; set; }
-        public string created_by { get; set; }
-        public Nullable<System.DateTime> updated_dttm { get; set; }
-        public string updated_by { get; set; }
+        public string position_code { get; set; }
+        public string position_long_title { get; set; }
+        public string employee_name { get; set; }
     }
 }

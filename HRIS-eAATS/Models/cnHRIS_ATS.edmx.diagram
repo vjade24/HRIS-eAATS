@@ -123,6 +123,8 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_leaveadmin_tbl_list" Width="1.5" PointX="35.375" PointY="8.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" Width="1.5" PointX="35.375" PointY="12.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.vw_personnelnames_tbl_HRIS_ATS" Width="1.5" PointX="35.375" PointY="17.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.best_in_attendance_hdr_tbl" Width="1.5" PointX="21.375" PointY="35.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.best_in_attendance_dtl_tbl" Width="1.5" PointX="35.375" PointY="22.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

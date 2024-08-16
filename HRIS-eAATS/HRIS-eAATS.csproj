@@ -239,6 +239,7 @@
     <Compile Include="Controllers\cAATSInstallationController.cs" />
     <Compile Include="Controllers\cASTDTRSupportController.cs" />
     <Compile Include="Controllers\cASTypeController.cs" />
+    <Compile Include="Controllers\cBestInAttendanceController.cs" />
     <Compile Include="Controllers\cExtractToExcelController.cs" />
     <Compile Include="Controllers\cLeaveAdminController.cs" />
     <Compile Include="Controllers\cLeaveCTOBalanceController.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Controllers\cLeaveTrackingController.cs" />
     <Compile Include="Controllers\cLeaveTransmittalController.cs" />
     <Compile Include="Controllers\cLeaveTypeController.cs" />
+    <Compile Include="Controllers\cLWOPController.cs" />
     <Compile Include="Controllers\cMainPageController.cs" />
     <Compile Include="Controllers\cMonthEarnsController.cs" />
     <Compile Include="Controllers\cLeaveHistoryController.cs" />
@@ -286,6 +288,12 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\authorization_slip_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\best_in_attendance_dtl_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\best_in_attendance_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\biomachine_data.cs" />
@@ -617,7 +625,13 @@
     <Compile Include="Models\payrollemployeemaster_hdr_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payrollemployeemaster_pos_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\personnel_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\positions_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_aats_installation_tbl_list_Result.cs">
@@ -864,7 +878,7 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_dept_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_without_jo1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1112,6 +1126,9 @@
     <Compile Include="Models\sp_lv_ledger_posted_unposted_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_lwop_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_monthly_working_hrs_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1344,7 +1361,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_user_menu_access_role_list_ATS_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1534,6 +1551,9 @@
     <Compile Include="Models\vw_payrollemployeemaster_ATS.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_payrollemployeemaster_hdr_pos_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_payrollemployeemaster_hdr_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -1575,6 +1595,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryApplicationForLeaveRep.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryBestAttendance\BestAttendanceTransmittal.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BestAttendanceTransmittal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryCOC\cryCOC.cs">
@@ -1724,6 +1750,8 @@
     <Content Include="Angular\ng-cASType.js" />
     <Content Include="Angular\ng-cExtractToExcel.js" />
     <Content Include="Angular\ng-cLeaveAdmin.js" />
+    <Content Include="Angular\ng-cBestInAttendance.js" />
+    <Content Include="Angular\ng-cLWOP.js" />
     <Content Include="Angular\ng-cLeaveCTOBalance.js" />
     <Content Include="Angular\ng-cLeaveEarnedVLSL.js" />
     <Content Include="Angular\ng-cLeaveLedger.js" />
@@ -1784,6 +1812,7 @@
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfonte0a5.svg" />
+    <Content Include="Content\loading_div.css" />
     <Content Include="Content\Old\bootstrap-theme.css" />
     <Content Include="Content\Old\bootstrap-theme.min.css" />
     <Content Include="Content\Old\bootstrap.css" />
@@ -2733,6 +2762,8 @@
     <Content Include="Views\cLeaveTransmittal\Index.cshtml" />
     <Content Include="Views\cLeavePrinting\Index.cshtml" />
     <Content Include="Views\cLeaveCTOBalance\Index.cshtml" />
+    <Content Include="Views\cLWOP\Index.cshtml" />
+    <Content Include="Views\cBestInAttendance\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2861,6 +2892,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Reports\cryBestAttendance\BestAttendanceTransmittal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BestAttendanceTransmittal.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="Reports\cryDTR\cryDTR 08-02-2023.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryDTR 08-02-2023.cs</LastGenOutput>

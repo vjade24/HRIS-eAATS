@@ -145,6 +145,8 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_leaveadmin_tbl_list> vw_leaveadmin_tbl_list { get; set; }
         public virtual DbSet<transmittal_leave_hdr_tbl> transmittal_leave_hdr_tbl { get; set; }
         public virtual DbSet<vw_personnelnames_tbl_HRIS_ATS> vw_personnelnames_tbl_HRIS_ATS { get; set; }
+        public virtual DbSet<best_in_attendance_hdr_tbl> best_in_attendance_hdr_tbl { get; set; }
+        public virtual DbSet<best_in_attendance_dtl_tbl> best_in_attendance_dtl_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -2549,31 +2551,6 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_option_type", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_exc_inc_empl_attendance_tbl_list_Result>("sp_exc_inc_empl_attendance_tbl_list", p_option_typeParameter);
-        }
-    
-        public virtual ObjectResult<sp_extract_best_attendance_Result> sp_extract_best_attendance(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_department_code, string p_employment_type, string p_empl_id)
-        {
-            var p_period_fromParameter = p_period_from.HasValue ?
-                new ObjectParameter("p_period_from", p_period_from) :
-                new ObjectParameter("p_period_from", typeof(System.DateTime));
-    
-            var p_period_toParameter = p_period_to.HasValue ?
-                new ObjectParameter("p_period_to", p_period_to) :
-                new ObjectParameter("p_period_to", typeof(System.DateTime));
-    
-            var p_department_codeParameter = p_department_code != null ?
-                new ObjectParameter("p_department_code", p_department_code) :
-                new ObjectParameter("p_department_code", typeof(string));
-    
-            var p_employment_typeParameter = p_employment_type != null ?
-                new ObjectParameter("p_employment_type", p_employment_type) :
-                new ObjectParameter("p_employment_type", typeof(string));
-    
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_Result>("sp_extract_best_attendance", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
         }
     
         public virtual ObjectResult<sp_extract_best_attendance_no_quali_Result> sp_extract_best_attendance_no_quali(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_department_code, string p_employment_type, string p_empl_id)
@@ -5455,6 +5432,44 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_department_code", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_balances_rep_Result>("sp_leave_balances_rep", par_yearParameter, par_department_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_lwop_list_Result> sp_lwop_list(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lwop_list_Result>("sp_lwop_list", par_period_fromParameter, par_period_toParameter);
+        }
+    
+        public virtual ObjectResult<sp_extract_best_attendance_Result> sp_extract_best_attendance(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_department_code, string p_employment_type, string p_empl_id)
+        {
+            var p_period_fromParameter = p_period_from.HasValue ?
+                new ObjectParameter("p_period_from", p_period_from) :
+                new ObjectParameter("p_period_from", typeof(System.DateTime));
+    
+            var p_period_toParameter = p_period_to.HasValue ?
+                new ObjectParameter("p_period_to", p_period_to) :
+                new ObjectParameter("p_period_to", typeof(System.DateTime));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_employment_typeParameter = p_employment_type != null ?
+                new ObjectParameter("p_employment_type", p_employment_type) :
+                new ObjectParameter("p_employment_type", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_Result>("sp_extract_best_attendance", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
         }
     }
 }
