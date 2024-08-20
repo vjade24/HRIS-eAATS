@@ -1078,9 +1078,18 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
             return state.text;
         }
         var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.id) ;
+        //var $state = $(
+        //    '<span><img alt="image" class="img-circle" width="50" height="50" src="' + baseUrl + '" class="img-flag" /> ' + state.text + '</span>'
+        //);
         var $state = $(
-            '<span><img alt="image" class="img-circle" width="50" height="50" src="' + baseUrl + '" class="img-flag" /> ' + state.text + '</span>'
-        );
+                        '<a class="pull-left">'+
+                            '<img alt="image" class="img-circle" width="60" height="60" src="' + baseUrl + '" >'+
+                        '</a>'+
+                        '<div class="media-body p-sm ">'+
+                            '<small > '+ state.pos +' </small><br />'+
+                            '<strong> '+state.text+' </strong> '+state.dep+''+
+                        '</div>'
+                      );
         return $state;
     };   
     $(document).ready(function () {
@@ -1103,8 +1112,10 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                     {
                         return {
                             id: item.empl_id,
-                            text: item.empl_id + " - " + item.employee_name,
+                            text: item.empl_id + " - " + item.employee_name ,
                             empl_photo: item.empl_photo,
+                            pos: item.position_long_title == null ? "--" : item.position_long_title,
+                            dep: (item.department_short_name == null ? "" : " (" + item.department_short_name + ")"),
                         };
                     });
                     return {

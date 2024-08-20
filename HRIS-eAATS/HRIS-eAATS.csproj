@@ -234,6 +234,7 @@
     <Compile Include="Common_Code\HRIS_Common.cs" />
     <Compile Include="Common_Code\UniversalStatic.cs" />
     <Compile Include="Common_Code\ZkemClient.cs" />
+    <Compile Include="Controllers\APIcBestInAttendanceController.cs" />
     <Compile Include="Controllers\APILeaveHistoryController.cs" />
     <Compile Include="Controllers\BioExtractController.cs" />
     <Compile Include="Controllers\cAATSInstallationController.cs" />

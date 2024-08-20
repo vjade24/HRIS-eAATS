@@ -81,12 +81,12 @@
                     bAutoWidth: false,
                     sDom: 'rt<"bottom"ip>',
                     columns: [
-                        {
-                            "mData": null,
-                            "mRender": function (data, type, full, row) {
-                                return "<center><span class='details-control' style='display:block;' ></center>"
-                            }
-                        },
+                        //{
+                        //    "mData": null,
+                        //    "mRender": function (data, type, full, row) {
+                        //        return "<center><span class='details-control' style='display:block;' ></center>"
+                        //    }
+                        //},
                         {
                             "mData": "transmittal_nbr",
                             "mRender": function (data, type, full, row) {
@@ -94,15 +94,70 @@
                             }
                         },
                         {
-                            "mData": "transmittal_nbr",
+                            "mRender": function (data, type, full, row)
+                            {
+                                var def_images  = '../../ResourcesImages/upload_profile.png';
+                                var img         = "";
+                                var limit       = 5;
+                                var div_count   = "";
+                                if (full.dtl[0] != null)
+                                {
+                                    if (full.dtl.length>0)
+                                    {
+                                        var temp        = moment();
+                                        for (var i = 0; i < full.dtl.length && i < limit; i++)
+                                        {
+                                           img += '<img class="img-circle m-r-n-sm" onerror="this.onerror=null;this.src=\'' + def_images + '\';" width="35" height="35" src="' + s.image_link + full.dtl[i]["empl_id"] + '?v=' + temp + ' " />' 
+                                        }
+                                        if (full.dtl.length > limit)
+                                        {
+                                            div_count = '<div class="rounded-box" >' + (full.dtl.length - limit) + '<sup>+</sup></div>';
+                                        }
+                                    }
+                                }
+                                return "&nbsp;&nbsp;&nbsp;&nbsp;" + img + div_count;
+                            }
+                        },
+                        {
+                            "mData": "period_from",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + moment(full.hdr["period_from"]).format("LL") + " - " + moment(full.hdr["period_to"]).format("LL") + "</span>"
+                                return "<span class=' btn-block text-center'>" + moment(full.hdr["period_from"]).format("LL") + " - " + moment(full.hdr["period_to"]).format("LL") + "</span>"
+                            }
+                        },
+                        {
+                            "mData": "submitted_dttm",
+                            "mRender": function (data, type, full, row) {
+                                return "<center>" +(full.hdr["submitted_dttm"] == null ? "--" : "<span class=' btn-block'>" + moment(full.hdr["submitted_dttm"]).format("LLL") + "</span>") + "</center>"
+                            }
+                        },
+                        {
+                            "mData": "received_dttm",
+                            "mRender": function (data, type, full, row) {
+                                return "<center>"+(full.hdr["received_dttm"] == null ? "--" : "<span class=' btn-block'>" + moment(full.hdr["received_dttm"]).format("LLL") + "</span>")+"</center>"
                             }
                         },
                         {
                             "mData": "transmittal_nbr",
-                            "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + moment(full.hdr["created_dttm"]).format("LLL") + "</span>"
+                            "mRender": function (data, type, full, row)
+                            {
+                                var status = "";
+                                var color  = "";
+                                if (full.hdr["submitted_dttm"] == null)
+                                {
+                                    status = "NOT TRANSMITTED";
+                                    color  = "badge-danger";
+                                }
+                                else if (full.hdr["submitted_dttm"] != null && full.hdr["received_dttm"] != null)
+                                {
+                                    status = "RECEIVED";
+                                    color  = "badge-success";
+                                }
+                                else
+                                {
+                                    status = "TRANSMITTED";
+                                    color  = "badge-primary";
+                                }
+                                return "<span class='text-center btn-block'> <small class='badge " + color+" m-t-xs'>" + status + "</small></span>"
                             }
                         },
                         {
@@ -110,9 +165,10 @@
                             "mRender": function (data, type, full, row)
                             {
                                 return  '<center><div class="btn-group">' +
-                                            '<button type="button" class="btn btn-warning" ng-click="btn_view(' + row["row"] + ')"   data-toggle="tooltip" data-placement="top" title="Print Notice of LWOP"><i class="fa fa-eye"></i>   </button >' +
-                                            //'<button type="button" class="btn btn-danger" ng-click="btn_action_header("delete",' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Notice of LWOP"><i class="fa fa-trash"></i> </button >' +
-                                            //'<button type="button" class="btn btn-primary" ng-click="btn_print(' + row["row"]  + ')" data-toggle="tooltip" data-placement="top" title="Print Notice of LWOP"><i class="fa fa-print"></i> </button >' +
+                                            (full.hdr["submitted_dttm"] != null ? '' : '<button type="button" class="btn btn-warning" ng-click="btn_view(' + row["row"] + ')"   data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i>   </button >') +
+                                            (full.hdr["submitted_dttm"] != null ? '' :'<button type="button" class="btn btn-danger"  ng-click="btn_action_header(\'delete\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i> </button >') +
+                                            '<button type="button" class="btn btn-primary" ng-click="btn_print(\''+full.hdr['transmittal_nbr']+'\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i> </button >' +
+                                            (full.hdr["submitted_dttm"] != null ? '' :'<button type="button" class="btn btn-success" ng-click="btn_action_header(\'transmit\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Transmit"><i class="fa fa-truck"></i> </button >') +
                                         '</center>';
                             }
                         }
@@ -234,7 +290,7 @@
             tr.removeClass('shown');
             return;
         }
-        console.log(row.data())
+        //console.log(row.data())
         //h.post("../cLeaveLedger/Retrieve_LeaveHistory",
         //    {
         //        leave_ctrlno: row.data().leave_ctrlno
@@ -250,7 +306,7 @@
     function clearentry()
     {
         var date                 = new Date();
-        s.dtl                    = "";
+        s.dtl                    = [];
         s.form.id                = "";
         s.form.transmittal_nbr   = "";
         s.form.period_from       = new Date(date.getFullYear()-1, 6, 1);
@@ -341,11 +397,24 @@
             {
                 if (d.data.message == "success")
                 {
-                    swal({ icon: "success", title: d.data.message });
-                    $('#modal_generating').modal("hide");
+                    swal({ icon: "success", title: "Successfully Generated!"});
                     s.loading_div = false;
                     s.action_mode = "update";
                     s.dtl         = d.data.dtl
+                    h.post("../cBestInAttendance/FilterGrid").then(function (d) {
+                        if (d.data.message == "success") {
+                            s.oTable.fnClearTable();
+                            s.datalistgrid = d.data.data;
+                            if (d.data.data.length > 0) {
+                                s.oTable.fnAddData(d.data.data);
+                            }
+                            $('#modal_generating').modal("hide");
+                        }
+                        else {
+                            swal(d.data.message, { icon: "error", });
+                            $('#modal_generating').modal("hide");
+                        }
+                    })
                 }
                 else
                 {
@@ -358,9 +427,12 @@
     } 
     s.btn_action_header = function (action, data)
     {
-        $('#modal_generating').modal({ backdrop: 'static', keyboard: false });
-        if (action == "delete")
+        if (action == "delete" || action == "transmit" )
         {
+            var data1 = {
+                     id              : s.datalistgrid[data].hdr.id
+                    ,transmittal_nbr : s.datalistgrid[data].hdr.transmittal_nbr
+                }
             swal({
                 title       : "Are you sure to "+action+" this record?",
                 text        : "Once "+action+", you will not be able to recover this record!",
@@ -370,17 +442,32 @@
             {
                 if (willContinue)
                 {
+                    $('#modal_generating').modal({ backdrop: 'static', keyboard: false });
                     h.post("../cBestInAttendance/HeaderAcion",
                     {
                         action  : action
-                        ,data   : data
+                        ,data   : data1
                     }).then(function (d) 
                     {
                         if (d.data.message == "success")
                         {
                             swal("Your record has been " + action + "!", { icon: "success", });
-                            $('#main_modal').modal("hide");
-                            $('#modal_generating').modal("hide");
+                            h.post("../cBestInAttendance/FilterGrid").then(function (d) {
+                                if (d.data.message == "success") {
+                                    s.oTable.fnClearTable();
+                                    s.datalistgrid = d.data.data;
+                                    if (d.data.data.length > 0) {
+                                        s.oTable.fnAddData(d.data.data);
+                                    }
+                                    $('#main_modal').modal("hide");
+                                    $('#modal_generating').modal("hide");
+                                }
+                                else {
+                                    swal(d.data.message, { icon: "error", });
+                                    $('#main_modal').modal("hide");
+                                    $('#modal_generating').modal("hide");
+                                }
+                            })
                         }
                         else
                         {
@@ -394,6 +481,7 @@
         }
         else
         {
+            $('#modal_generating').modal({ backdrop: 'static', keyboard: false });
             h.post("../cBestInAttendance/HeaderAcion",
             {
                 action  : action
@@ -402,21 +490,18 @@
             {
                 if (d.data.message == "success")
                 {
-                    //swal("Your record has been " + action + "!", { icon: "success", });
-                    //$('#main_modal').modal("hide");
                     s.btn_print(s.form.transmittal_nbr)
                     $('#modal_generating').modal("hide");
                 }
                 else
                 {
                     swal(d.data.message, { icon: "warning", });
-                    $('#main_modal').modal("hide");
                     $('#modal_generating').modal("hide");
                 }
             })
         }
     }
-    s.btn_action_dtl = function (action, data)
+    s.btn_action_dtl = function (action, data,row_id)
     {
         swal({
             title       : "Are you sure to "+action+" this record?" + " \n " + data.employee_name,
@@ -425,6 +510,7 @@
             buttons     : true,
         }).then(function (willContinue)
         {
+            data.transmittal_nbr = s.form.transmittal_nbr
             if (willContinue)
             {
                 h.post("../cBestInAttendance/DetailAction",
@@ -435,6 +521,13 @@
                 {
                     if (d.data.message == "success")
                     {
+                        if (action == "delete")
+                        {
+                            if (row_id != -1)
+                            {
+                                s.dtl.splice(row_id, 1);
+                            }
+                        }
                         swal("Your record has been "+action+"!", { icon: "success", });
                     }
                     else

@@ -55,14 +55,15 @@ namespace HRIS_eAATS.Controllers
             {
                 var data = from a in db_ats.best_in_attendance_hdr_tbl
                            join b in db_ats.best_in_attendance_dtl_tbl
-                           on a.transmittal_nbr equals b.transmittal_nbr
+                           on a.transmittal_nbr equals b.transmittal_nbr into gp
+                           from b in gp.DefaultIfEmpty()
                            group b by new { a, b.transmittal_nbr } into g
                            select new
                            {
                                hdr = g.Key.a,
                                dtl = g.ToList().OrderBy(a => a.department_code)
                            };
-                
+
                 return JSON(new { data, message = "success"}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -77,7 +78,8 @@ namespace HRIS_eAATS.Controllers
             {
                 var data = from a in db_ats.best_in_attendance_hdr_tbl
                            join b in db_ats.best_in_attendance_dtl_tbl
-                           on a.transmittal_nbr equals b.transmittal_nbr
+                           on a.transmittal_nbr equals b.transmittal_nbr into gp
+                           from b in gp.DefaultIfEmpty()
                            group b by new { a, b.transmittal_nbr } into g
                            select new
                            {
@@ -183,9 +185,17 @@ namespace HRIS_eAATS.Controllers
                     db_ats.SaveChanges();
                     message = "success";
                 }
+                else if (action == "transmit")
+                {
+                    var update                  = db_ats.best_in_attendance_hdr_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr).FirstOrDefault();
+                    update.submitted_by         = Session["user_id"].ToString();
+                    update.submitted_dttm       = DateTime.Now;
+                    db_ats.SaveChanges();
+                    message = "success";
+                }
                 else
                 {
-                    var update                  = db_ats.best_in_attendance_hdr_tbl.Where(a => a.id == data.id && a.transmittal_nbr == data.transmittal_nbr).FirstOrDefault();
+                    var update                  = db_ats.best_in_attendance_hdr_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr).FirstOrDefault();
                     update.prepared_by          = data.prepared_by;
                     update.prepared_by_desig    = data.prepared_by_desig    ;
                     update.noted_by             = data.noted_by             ;
@@ -212,14 +222,14 @@ namespace HRIS_eAATS.Controllers
                 var message = "";
                 if (action == "delete")
                 {
-                    var delete = db_ats.best_in_attendance_dtl_tbl.Where(a => a.id == data.id && a.empl_id == data.empl_id).FirstOrDefault();
+                    var delete = db_ats.best_in_attendance_dtl_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr && a.empl_id == data.empl_id).FirstOrDefault();
                     db_ats.best_in_attendance_dtl_tbl.Remove(delete);
                     db_ats.SaveChanges();
                     message = "success";
                 }
                 else
                 {
-                    var update = db_ats.best_in_attendance_dtl_tbl.Where(a => a.id == data.id && a.empl_id == data.empl_id).FirstOrDefault();
+                    var update = db_ats.best_in_attendance_dtl_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr && a.empl_id == data.empl_id).FirstOrDefault();
                     update.remarks          = data.remarks       ;
                     update.remarks_others   = data.remarks_others;
                     update.updated_by       = Session["user_id"].ToString();

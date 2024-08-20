@@ -570,7 +570,13 @@ namespace HRIS_eAATS.Controllers
                 var data = from a in db.vw_personnelnames_tbl
                            join b in db.personnel_tbl 
                            on a.empl_id equals b.empl_id
-                           where a.employee_name.Contains(term) || a.empl_id.Contains(term)
+                           join c in db.vw_payrollemployeemaster_hdr_pos_tbl 
+                           on a.empl_id equals c.empl_id into grp_master
+                           from c in grp_master.DefaultIfEmpty()
+                           join d in db.departments_tbl
+                           on c.department_code equals d.department_code into grp_dep
+                           from d in grp_dep.DefaultIfEmpty()
+                           where a.employee_name.Contains(term) || a.empl_id.Contains(term) || d.department_short_name.Contains(term)
                            select new
                            {
                                  a.empl_id
@@ -584,6 +590,8 @@ namespace HRIS_eAATS.Controllers
                                 ,a.employee_name_format2
                                 ,b.empl_photo
                                 ,b.empl_photo_img
+                                ,c.position_long_title
+                                ,d.department_short_name
                            };
 
                 return Json(new { data }, JsonRequestBehavior.AllowGet);
