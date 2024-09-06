@@ -22,24 +22,6 @@ namespace HRIS_eAATS.Reports {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// hf_nexpage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hf_nexpage;
-        
-        /// <summary>
-        /// hf_printers control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hf_printers;
-        
-        /// <summary>
         /// lnkbtn_export control.
         /// </summary>
         /// <remarks>
@@ -56,6 +38,15 @@ namespace HRIS_eAATS.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbl_cannot_print;
+        
+        /// <summary>
+        /// lnkbtn_preview_pdf control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkbtn_preview_pdf;
         
         /// <summary>
         /// crvPrint control.

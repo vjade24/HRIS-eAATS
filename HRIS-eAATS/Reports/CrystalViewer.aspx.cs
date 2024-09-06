@@ -51,8 +51,8 @@ namespace HRIS_eAATS.Reports
             if (!IsPostBack)
             {
 
-                hf_printers.Value   = "";
-                hf_nexpage.Value    = "0";
+                //hf_printers.Value   = "";
+                //hf_nexpage.Value    = "0";
                 PrinterSettings settings = new PrinterSettings();
                 //firstload = true;
             }
@@ -84,6 +84,7 @@ namespace HRIS_eAATS.Reports
             crvPrint.HasExportButton = true;
             crvPrint.HasPrintButton = true;
             lnkbtn_export.Visible = false;
+            lnkbtn_preview_pdf.Visible = false;
             //crvPrint.SeparatePages = false;
 
             if (ls_splitvalue.Length == 3)
@@ -154,6 +155,12 @@ namespace HRIS_eAATS.Reports
                 crvPrint.HasExportButton = false;
                 crvPrint.HasPrintButton = false;
                 lnkbtn_export.Visible = true;
+
+                bool isMobile = Request.Browser.IsMobileDevice;
+                if (isMobile)
+                {
+                    lnkbtn_preview_pdf.Visible = true;
+                }
             }
             if (dt == null)
             {
@@ -313,134 +320,134 @@ namespace HRIS_eAATS.Reports
             {
             }
         }
-        private void BindReport(ReportDocument ReportPath)
-        {
-            crvPrint.ReportSource = ReportPath;
-            crvPrint.DataBind();
+        //private void BindReport(ReportDocument ReportPath)
+        //{
+        //    crvPrint.ReportSource = ReportPath;
+        //    crvPrint.DataBind();
 
-        }
-        private void shownextpage(int pageno)
-        {
-            crvPrint.ShowNthPage(pageno);
-            hf_nexpage.Value = "0";
+        //}
+        //private void shownextpage(int pageno)
+        //{
+        //    crvPrint.ShowNthPage(pageno);
+        //    hf_nexpage.Value = "0";
 
-        }
-        private void shoprevpage()
-        {
-            crvPrint.ShowPreviousPage();
+        //}
+        //private void shoprevpage()
+        //{
+        //    crvPrint.ShowPreviousPage();
 
-        }
-        protected void btn_print_Click(object sender, EventArgs e)
-        {
-            LinkButton btn = (LinkButton)sender;
+        //}
+        //protected void btn_print_Click(object sender, EventArgs e)
+        //{
+        //    LinkButton btn = (LinkButton)sender;
 
-            try
-            {
-                cryRpt.Refresh();
+        //    try
+        //    {
+        //        cryRpt.Refresh();
 
-                switch (printfile)
-                {
-                    case "~/Reports/cryPlantilla/cryPlantilla.rpt":
-                        cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
-                        cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLegal;
-                        break;
-                    case "~/Reports/cryPlantillaCSC/cryPlantillaCSC.rpt":
-                        cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
-                        cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLegal;
-                        break;
-                    case "~/Reports/cryPlantillaHR/cryPlantillaHR.rpt":
-                        cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
-                        cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLegal;
-                        break;
-                    case "~/Reports/cryPSSalariesWages/cryPSSalariesWages.rpt":
-                        cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
-                        cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLetter;
-                        break;
-                    case "~/Reports/cryVacantItems/cryVacantItems.rpt":
-                        cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
-                        cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLetter;
-                        break;
-                    case "~/Reports/cryListOfEmployees/cryListOfEmployees.rpt":
-                        cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
-                        cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLetter;
-                        break;
-                    default:
+        //        switch (printfile)
+        //        {
+        //            case "~/Reports/cryPlantilla/cryPlantilla.rpt":
+        //                cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
+        //                cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLegal;
+        //                break;
+        //            case "~/Reports/cryPlantillaCSC/cryPlantillaCSC.rpt":
+        //                cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
+        //                cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLegal;
+        //                break;
+        //            case "~/Reports/cryPlantillaHR/cryPlantillaHR.rpt":
+        //                cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
+        //                cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLegal;
+        //                break;
+        //            case "~/Reports/cryPSSalariesWages/cryPSSalariesWages.rpt":
+        //                cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Landscape;
+        //                cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLetter;
+        //                break;
+        //            case "~/Reports/cryVacantItems/cryVacantItems.rpt":
+        //                cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
+        //                cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLetter;
+        //                break;
+        //            case "~/Reports/cryListOfEmployees/cryListOfEmployees.rpt":
+        //                cryRpt.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
+        //                cryRpt.PrintOptions.PaperSize = CrystalDecisions.Shared.PaperSize.PaperLetter;
+        //                break;
+        //            default:
 
-                        break;
-                }
-            }
-            catch (Exception)
-            {
-            }
+        //                break;
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
 
-        }
+        //}
 
-        private string GetDefaultPrinter()
-        {
-            PrinterSettings settings = new PrinterSettings();
-            foreach (string printer in PrinterSettings.InstalledPrinters)
-            {
-                settings.PrinterName = printer;
-                if (settings.IsDefaultPrinter)
-                {
-                    return printer;
-                }
-            }
-            return string.Empty;
-        }
+        //private string GetDefaultPrinter()
+        //{
+        //    PrinterSettings settings = new PrinterSettings();
+        //    foreach (string printer in PrinterSettings.InstalledPrinters)
+        //    {
+        //        settings.PrinterName = printer;
+        //        if (settings.IsDefaultPrinter)
+        //        {
+        //            return printer;
+        //        }
+        //    }
+        //    return string.Empty;
+        //}
 
-        protected void btn_close_Click(object sender, EventArgs e)
-        {
-            closepage();
-        }
-        private void closepage()
-        {
-            ClientScript.RegisterClientScriptBlock(Page.GetType(), "script", "window.close();", true);
-        }
+        //protected void btn_close_Click(object sender, EventArgs e)
+        //{
+        //    closepage();
+        //}
+        //private void closepage()
+        //{
+        //    ClientScript.RegisterClientScriptBlock(Page.GetType(), "script", "window.close();", true);
+        //}
 
-        protected void img_nextpage_Click(object sender, ImageClickEventArgs e)
-        {
-            crvPrint.ShowNextPage();
+        //protected void img_nextpage_Click(object sender, ImageClickEventArgs e)
+        //{
+        //    crvPrint.ShowNextPage();
 
-        }
-        protected void lbtn_pdf_Click(object sender, ImageClickEventArgs e)
-        {
-            converttopdf();
+        //}
+        //protected void lbtn_pdf_Click(object sender, ImageClickEventArgs e)
+        //{
+        //    converttopdf();
 
-        }
-        private void converttopdf()
-        {
-            try
-            {
-                ExportOptions CrExportOptions;
-                DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
-                PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
-                CrDiskFileDestinationOptions.DiskFileName = @"c:\\pdf\Plantilla.pdf";
-                CrExportOptions = cryRpt.ExportOptions;
-                {
-                    CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
-                    CrExportOptions.ExportFormatType = ExportFormatType.PortableDocFormat;
-                    CrExportOptions.DestinationOptions = CrDiskFileDestinationOptions;
-                    CrExportOptions.FormatOptions = CrFormatTypeOptions;
-                }
-                cryRpt.Export();
+        //}
+        //private void converttopdf()
+        //{
+        //    try
+        //    {
+        //        ExportOptions CrExportOptions;
+        //        DiskFileDestinationOptions CrDiskFileDestinationOptions = new DiskFileDestinationOptions();
+        //        PdfRtfWordFormatOptions CrFormatTypeOptions = new PdfRtfWordFormatOptions();
+        //        CrDiskFileDestinationOptions.DiskFileName = @"c:\\pdf\Plantilla.pdf";
+        //        CrExportOptions = cryRpt.ExportOptions;
+        //        {
+        //            CrExportOptions.ExportDestinationType = ExportDestinationType.DiskFile;
+        //            CrExportOptions.ExportFormatType = ExportFormatType.PortableDocFormat;
+        //            CrExportOptions.DestinationOptions = CrDiskFileDestinationOptions;
+        //            CrExportOptions.FormatOptions = CrFormatTypeOptions;
+        //        }
+        //        cryRpt.Export();
 
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.ToString();
+        //    }
+        //}
 
-        protected void lbtn_pdf_Click(object sender, EventArgs e)
-        {
-            converttopdf();
-        }
+        //protected void lbtn_pdf_Click(object sender, EventArgs e)
+        //{
+        //    converttopdf();
+        //}
 
-        protected void btn_save_Click(object sender, EventArgs e)
-        {
-            //ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "Clickprint();", true);
-        }
+        //protected void btn_save_Click(object sender, EventArgs e)
+        //{
+        //    //ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "Clickprint();", true);
+        //}
 
         protected void crvPrint_Load(object sender, EventArgs e)
         {
@@ -544,6 +551,15 @@ namespace HRIS_eAATS.Reports
             }
 
             
+        }
+
+        protected void lnkbtn_preview_pdf_Click(object sender, EventArgs e)
+        {
+            var filename = "";
+            filename = Request["ReportPath"].Trim().Replace('-', '/').Split('/')[(Request["ReportPath"].Trim().Replace('-', '/').Split('/').Length - 1)].Replace(".rpt", "");
+            filename = filename + "_" + Session["user_id"].ToString() + "_" + DateTime.Now.ToString("yyyy_MM_dd_hhmmsstt");
+            cryRpt.ExportToHttpResponse
+            (CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, Response, true, filename);
         }
     }
 }

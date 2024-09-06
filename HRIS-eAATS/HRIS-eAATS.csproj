@@ -1682,10 +1682,22 @@
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveLedgerSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedgerSummary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveLedgerSummary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
@@ -2904,6 +2916,14 @@
     <EmbeddedResource Include="Reports\cryDTR\xcryDTR.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>xcryDTR.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedgerSummary.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryLeaveLedger\cryLeaveLedgerSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedgerSummary.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
