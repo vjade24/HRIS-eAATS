@@ -1225,23 +1225,23 @@ namespace HRIS_eAATS.Controllers
                 var message_descr_1     = "";
                 var leave_appl_dtl      = db_ats.leave_application_dtl_tbl.Where(a=> a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).ToList();
 
-                var chk_travel = from a in db_ats.travelorder_hdr_tbl
-                                 join b in db_ats.travelorder_empl_dtl_tbl
-                                 on a.travel_order_no equals b.travel_order_no
-                                 join c in db_ats.travelorder_dates_dtl_tbl
-                                 on a.travel_order_no equals c.travel_order_no
-                                 where b.empl_id == data.empl_id
-                                 && a.approval_status   == "F"
-                                 && (c.travel_date.Year    == date_applied_year
-                                     )
+                //var chk_travel = from a in db_ats.travelorder_hdr_tbl
+                //                 join b in db_ats.travelorder_empl_dtl_tbl
+                //                 on a.travel_order_no equals b.travel_order_no
+                //                 join c in db_ats.travelorder_dates_dtl_tbl
+                //                 on a.travel_order_no equals c.travel_order_no
+                //                 where b.empl_id == data.empl_id
+                //                 && a.approval_status   == "F"
+                //                 && (c.travel_date.Year    == date_applied_year
+                //                     )
 
-                                select new
-                             {
-                                 b.empl_id,
-                                 c.travel_date,
-                                 c.travel_date_to,
-                                 a.travel_purpose
-                             };
+                //                select new
+                //             {
+                //                 b.empl_id,
+                //                 c.travel_date,
+                //                 c.travel_date_to,
+                //                 a.travel_purpose
+                //             };
 
                 if (data.leavetype_code == "SL")   // Sick Leave
                 {
@@ -1263,25 +1263,64 @@ namespace HRIS_eAATS.Controllers
                 // *************************************************
                 if (data.leavetype_code != "ML" && data.leavetype_code != "RH")
                 {
-                    if (chk_travel != null)
+                    //if (chk_travel != null)
+                    //{
+                    //    foreach (var item in leave_appl_dtl)
+                    //    {
+                    //        for (int i = 0; i < (item.leave_date_to.AddDays(1) - item.leave_date_from).TotalDays; i++)
+                    //        {
+                    //            DateTime leave_date_to_loop = item.leave_date_from.AddDays(i);
+                    //            for (int x = 0; x < chk_travel.ToList().Count; x++)
+                    //            {
+                    //                if (leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())    && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())
+                    //                 || leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()) && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()))
+                    //                {
+                    //                    message_descr += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
+                    //                    message_descr_1 = " - There is Travel Order Approved!";
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
+
+                    // ********************************************************************************
+                    // **** 2024-09-03 - VJA - Query to Check the Existing Travel Order Application ***
+                    // ********************************************************************************
+                    var chk_travel = from a in db_ats.travelorder_hdr_tbl
+                                 join b in db_ats.travelorder_dates_dtl_tbl
+                                 on a.travel_order_no equals b.travel_order_no
+                                 join c in db_ats.travelorder_empl_dtl_tbl
+                                 on a.travel_order_no equals c.travel_order_no
+                                 join d in db_ats.leave_application_dtl_tbl
+                                 on c.empl_id equals d.empl_id
+                                 where a.approval_status == "F"
+                                    && c.empl_id      == data.empl_id
+                                    && d.leave_ctrlno == data.leave_ctrlno
+                                    && (
+                                           (d.leave_date_from >= b.travel_date && d.leave_date_from <= b.travel_date_to)
+                                        || (d.leave_date_to   >= b.travel_date && d.leave_date_to   <= b.travel_date_to)
+                                       )
+                                 select new
+                                 {
+                                     c.empl_id,
+                                     b.travel_date,
+                                     b.travel_date_to,
+                                     a.travel_purpose
+                                 };
+
+                    if (chk_travel.ToList().Count > 0)
                     {
-                        foreach (var item in leave_appl_dtl)
+                        for (int x = 0; x < chk_travel.ToList().Count; x++)
                         {
-                            for (int i = 0; i < (item.leave_date_to.AddDays(1) - item.leave_date_from).TotalDays; i++)
-                            {
-                                DateTime leave_date_to_loop = item.leave_date_from.AddDays(i);
-                                for (int x = 0; x < chk_travel.ToList().Count; x++)
-                                {
-                                    if (leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())    && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())
-                                     || leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()) && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()))
-                                    {
-                                        message_descr += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
-                                        message_descr_1 = " - There is Travel Order Approved!";
-                                    }
-                                }
-                            }
+                            message_descr  += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
+                            message_descr_1 = " - There is Travel Order Approved!";
                         }
                     }
+                    // ********************************************************************************
+                    // **** 2024-09-03 - VJA - Query to Check the Existing Travel Order Application ***
+                    // ********************************************************************************
+
+
                 }
                 return JSON(new {leave_appl_dtl, message_descr, message_descr_1 }, JsonRequestBehavior.AllowGet);
             }
