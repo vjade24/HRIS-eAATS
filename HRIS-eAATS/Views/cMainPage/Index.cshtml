@@ -263,12 +263,11 @@
                                         <table id="datalist_grid" ng-model="datalist_grid" class="table table-hover" style="width:100% !important;">
                                             <thead>
                                                 <tr>
-                                                    <th width="12%">CONTROL NO</th>
-                                                    <th width="10%">ID NO</th>
-                                                    <th width="25%">EMPLOYEE NAME</th>
-                                                    <th width="15%">LEAVE TYPE</th>
-                                                    <th width="15%">INCLUSIVE DATES</th>
-                                                    <th width="13%">DATE CREATED</th>
+                                                    <th width="10%">CONTROL NO</th>
+                                                    <th width="30%">EMPLOYEE NAME</th>
+                                                    <th width="20%">LEAVE TYPE</th>
+                                                    <th width="20%">INCLUSIVE DATES</th>
+                                                    <th width="20%">DATE CREATED</th>
                                                     <th width="10%">ACTION</th>
                                                 </tr>
                                             </thead>
@@ -367,6 +366,41 @@
             </div>
         </div>
 
+        <div class="modal inmodal" id="mone_waiver_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <div class="modal-content animated bounceInDown" style="background-color: #273A4A;border-radius:20px !important;" id="modal_content">
+                    <div class="modal-header">
+                        <h2 class="text-white"><small>MONETIZATION OF</small> <br /><b>{{mone.employee_name}}</b></h2>
+                        <span class="badge badge-danger"> <i class="fa fa-user"></i> {{mone.mone_type == 'input_days' ? '' : mone.mone_type}} ({{mone.nbr_mone}} days)</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" ng-repeat="lst in data_mone">
+                            <div class="col-lg-9">
+                                <div class="feed-element">
+                                    <div class="media-body ">
+                                        <h3>
+                                            <strong>
+                                                {{lst.employee_name_waiver}}
+                                            </strong>
+                                            &nbsp;&nbsp;
+                                        
+                                            <br />
+                                            <small class="text-muted">{{lst.department_short_name_waiver}}</small>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <small class="badge badge-{{lst.approval_status_waiver == 'APPROVED' ? 'success' : 'danger'}}">{{lst.approval_status_waiver}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-rounded center-block" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Inialiazing Modal -->
         <div class="modal fade" id="modal_initializing">

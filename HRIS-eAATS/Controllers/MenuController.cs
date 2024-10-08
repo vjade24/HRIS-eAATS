@@ -96,7 +96,30 @@ namespace HRIS_eAATS.Controllers
 
                 var user_id             = Session["user_id"].ToString();
                 //var info_list           = db_ats.sp_lv_info(user_id).ToList();
-                var info_list2           = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
+                //var info_list2          = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
+                var info_list2           = from a in db_ats.sp_lv_info2(user_id).ToList()
+                                           join b in db_ats.leave_application_mone_tbl 
+                                           on new { a.empl_id,a.leave_ctrlno } equals new { b.empl_id,b.leave_ctrlno} into temp
+                                           from b in temp.DefaultIfEmpty()
+                                           select new
+                                           {
+                                             a.leave_ctrlno 
+                                            ,a.empl_id 
+                                            ,a.employee_name 
+                                            ,a.department_code 
+                                            ,a.leave_type_code 
+                                            ,a.leavetype_descr 
+                                            ,a.inclusive_dates 
+                                            ,a.leave_subtype_code  
+                                            ,a.leavesubtype_descr 
+                                            ,a.date_applied    
+                                            ,a.created_date_only 
+                                            ,a.url_name    
+                                            ,a.ledger_status 
+                                            ,a.disapproved_remakrs
+                                            ,mone = b
+                                           };
+                info_list2 = info_list2.OrderBy(a => a.url_name).ToList();
                 var info_list2_no_filter = info_list2;
                 var lv_admin_dept_list   = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
 
@@ -632,6 +655,19 @@ namespace HRIS_eAATS.Controllers
             {
                 string message = e.Message;
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult Getmonewaiver(string par_leave_ctrlno, string par_empl_id)
+        {
+            try
+            {
+                var data_waiver = db.sp_leave_application_mone_waiver_rep(par_leave_ctrlno, par_empl_id, "").ToList();
+                return Json(new { message= "success", data_waiver }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
 

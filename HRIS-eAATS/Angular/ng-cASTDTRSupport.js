@@ -41,6 +41,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.extract_selected = {}
     s.biometrics_location = []
     s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.lbl_shift_flag = "";
     var biotype = [
           { bio_type:"0",bio_type_descr: "AM IN" }
         , { bio_type: "2", bio_type_descr: "AM OUT" }
@@ -988,7 +989,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     //*************************************************//
     //***  VJA : Populate Particulars ****************//
     //***********************************************//
-    s.TimeSked_DTL = function (par_empl_id, par_month, par_year, par_effective_date)
+    s.TimeSked_DTL = function (par_empl_id, par_month, par_year, par_effective_date, shift_flag)
     {
         $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
         s.time_sked_dtl = [];
@@ -1002,6 +1003,19 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         {
             if (d.data.message == "success")
             {
+                if (shift_flag == "1")
+                {
+                    s.lbl_shift_flag = "Regular"
+                }
+                else if (shift_flag == "2")
+                {
+                    s.lbl_shift_flag = "Shifting"
+                }
+                else
+                {
+                    s.lbl_shift_flag = "--"
+                }
+                
                 s.time_sked_dtl = d.data.data;
                 for (var i = 0; i < d.data.data.length; i++)
                 {

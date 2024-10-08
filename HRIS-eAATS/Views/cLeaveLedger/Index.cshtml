@@ -697,6 +697,7 @@
                                                 <option value="03" selected>Notice of Leave Without Pay </option>
                                                 <option value="04" selected>Leave Certification (Loan)</option>
                                                 <option value="05" selected>Leave Certification (Transfer)</option>
+                                                <option value="06" selected>Leave Summary</option>
                                             </select>
                                         </div>
                                     </div>
@@ -715,7 +716,7 @@
                                 <iframe style="width:100% !important;height:60% !important;border:0px none;" id="iframe_print_preview_carding" scrolling="no" src=""></iframe>
                             </div>
                         </div>
-                        <div class="col-lg-12 m-t-sm">
+                        <div class="col-lg-12 m-t-sm" ng-show="show_reprint">
                             <div class="form-group row" style="border: 1px solid;border-radius: 10px;padding: 10px;">
                                 <div class="col-lg-1">
                                     <label class="font-bold" style="margin-top:9px;"><b>Ledger Ctrl No:</b></label>
@@ -1095,6 +1096,7 @@
                                                                 <li><a class="font-bold" ng-click="btn_print_ledger('OLD',0)">Print Card</a></li>
                                                                 <li><a class="font-bold" ng-click="btn_print_leave_app_posted(0,'leave_certification')">Print Certification (Loan)</a></li>
                                                                 <li><a class="font-bold" ng-click="btn_print_leave_app_posted(0,'leave_certification_transfer')">Print Certification (Transfer)</a></li>
+                                                                <li><a class="font-bold" ng-click="btn_print_leave_app_posted(0,'leave_terminal')">Print Leave Summary</a></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -1275,7 +1277,7 @@
 
     <div class="modal inmodal" id="mone_waiver_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog">
-            <div class="modal-content animated tada" style="background-color: #273A4A;border-radius:20px !important;" id="modal_content">
+            <div class="modal-content animated bounceInDown" style="background-color: #273A4A;border-radius:20px !important;" id="modal_content">
                 <div class="modal-header">
                     <h2 class="text-white">YOU NEED TO APPROVE <br />MONETIZATION WAIVER TO CONTINUE</h2>
                     <small style="color: #369AFD;font-size:11pt;font-weight:bold;">Human Resource</small><small style="color: #FE6500;font-size:11pt;font-weight:bold;"> Information System</small>

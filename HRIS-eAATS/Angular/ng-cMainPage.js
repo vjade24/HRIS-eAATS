@@ -7,7 +7,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
     s.info_list2_donut_chart = [];
     s.datalistgrid_chart = []
     s.row_id_pass = "";
-    
+    s.data_mone     = [];
 
     var init = function ()
     {
@@ -33,7 +33,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                 data: s.datalistgrid,
                 //bAutoWidth: false,
                 //sDom: 'rt<"bottom"ip>',
-                order: [[6, 'asc']],
+                order: [[5, 'asc']],
                 paging: 10,
                 columns: [
                     {
@@ -43,21 +43,21 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                         }
                     },
                     {
-                        "mData": "empl_id",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>" + data + "</span>"
-                        }
-                    },
-                    {
                         "mData": "employee_name",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left btn-block'>" + data + "</span>"
+                            return "<span class='text-left btn-block'>" + full["empl_id"] + " - " +data + "</span>"
                         }
                     },
                     {
                         "mData": "leavetype_descr",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='text-left btn-block'>" + data + "</span>"
+                        "mRender": function (data, type, full, row)
+                        {
+                            var oth = "";
+                            if (full["leave_type_code"]== "MZ")
+                            {
+                                oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] +" days)</button>"
+                            }
+                            return "<span class='text-left btn-block'>" + data + oth+ "</span>"
                         }
                     },
                     {
@@ -667,6 +667,35 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         }
         
 
+    }
+
+    s.btn_mone_waiver = function (row)
+    {
+        h.post("../Menu/Getmonewaiver",
+        {
+          par_leave_ctrlno  : s.datalistgrid[row].leave_ctrlno
+         ,par_empl_id       : s.datalistgrid[row].empl_id    
+        }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                if (d.data.data_waiver.length > 0)
+                {
+                    s.data_mone = [];
+                    s.data_mone = d.data.data_waiver
+                    s.mone = d.data.data_waiver[0]
+                    $('#modal_initializing').modal("hide");
+                    $('#mone_waiver_modal').modal({ backdrop: 'static', keyboard: false });
+                } else
+                {
+                    swal("No waiver for this monetization", { icon: "warning" });
+                }
+            }
+            else
+            {
+                swal("There Something wrong", d.data.message, { icon: "warning" });
+            }
+        })
     }
 
     //$(document).ready(function () {

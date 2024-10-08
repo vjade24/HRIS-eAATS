@@ -21,7 +21,7 @@
     var date_cvrd           = new Date();
     s.txtb_date_fr_grid     = new Date(date_cvrd.getFullYear(), date_cvrd.getMonth(), 1);
     s.txtb_date_to_grid     = date_cvrd;
-
+    s.data_mone             = [];
     function init()
     {
         if (window.location.host == "hris.dvodeoro.ph")
@@ -183,8 +183,13 @@
                     },
                     {
                         "mData": "leavetype_descr",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='btn-block'>&nbsp;" + data + "</span>"
+                        "mRender": function (data, type, full, row)
+                        {
+                            var oth = "";
+                            if (full["leavetype_code"] == "MZ") {
+                                oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
+                            }
+                            return "<span class='text-center btn-block'>" + data + oth + "</span>"
                         }
                     },
                     {
@@ -2266,5 +2271,26 @@
             }
         })
     }
-
+    s.btn_mone_waiver = function (row) {
+        h.post("../Menu/Getmonewaiver",
+            {
+                par_leave_ctrlno: s.datalistgrid[row].leave_ctrlno
+                , par_empl_id: s.datalistgrid[row].empl_id
+            }).then(function (d) {
+                if (d.data.message == "success") {
+                    if (d.data.data_waiver.length > 0) {
+                        s.data_mone = [];
+                        s.data_mone = d.data.data_waiver
+                        s.mone = d.data.data_waiver[0]
+                        $('#modal_initializing').modal("hide");
+                        $('#mone_waiver_modal').modal({ backdrop: 'static', keyboard: false });
+                    } else {
+                        swal("No waiver for this monetization", { icon: "warning" });
+                    }
+                }
+                else {
+                    swal("There Something wrong", d.data.message, { icon: "warning" });
+                }
+            })
+    }
 })

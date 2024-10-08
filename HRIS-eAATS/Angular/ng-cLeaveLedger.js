@@ -16,6 +16,7 @@
     $('.collapse').collapse()
     s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
     s.data_mone = [];
+    s.show_reprint = true;
     function init()
     {
         if (window.location.host == "hris.dvodeoro.ph")
@@ -477,8 +478,13 @@
                             "width": "20%",
                             "targets": 1,
                             "mData": "leave_type_code",
-                            "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
+                            "mRender": function (data, type, full, row)
+                            {
+                                var oth = "";
+                                if (full["leave_type_code"] == "MZ") {
+                                    oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
+                                }
+                                return "<span class='text-center btn-block'>" + data + oth + "</span>"
                             }
                         },
                         {
@@ -552,8 +558,13 @@
                             "width": "20%",
                             "targets": 1,
                             "mData": "leave_type_code",
-                            "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
+                            "mRender": function (data, type, full, row)
+                            {
+                                var oth = "";
+                                if (full["leave_type_code"] == "MZ") {
+                                    oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
+                                }
+                                return "<span class='text-center btn-block'>" + data + oth + "</span>"
                             }
                         },
                         {
@@ -1634,6 +1645,8 @@
         var ReportType      = "inline"
         var ReportPath      = ""
         var sp              = ""
+        var p_date_fr       = $("#txtb_date_fr").val()
+        var p_date_to       = $("#txtb_date_to").val()
         
         if (report_type == "01") {
             ReportPath = "~/Reports/cryApplicationForLeaveRep/cryApplicationForLeaveRep.rpt";
@@ -1655,6 +1668,11 @@
         else if (report_type == "05") {
             ReportPath = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
             sp = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val()+ ",par_report_type,"+ "TRANSFER";
+        }
+        else if (report_type == "06")
+        {
+            ReportPath = "~/Reports/cryLeaveLedgerSummary/cryLeaveLedgerSummaryTerminal.rpt";
+            sp = "sp_lv_ledger_summary,p_empl_id," + $("#ddl_name option:selected").val() + ",p_date_fr," + p_date_fr + ",p_date_to," + p_date_to + ",p_rep_mode," + "2," + "p_prepared_empl_id," + s.user_id;
         }
         else
         {
@@ -1714,6 +1732,7 @@
     //***********************************************************//
     s.btn_print_leave_app_posted = function (row_id,type)
     {
+        s.show_reprint          = true;
         s.ddl_report_appl       = "02";
         s.print_ledger_ctrl_no  = "";
         s.print_ledger_ctrl_no  = s.datalistgrid3[row_id].ledger_ctrl_no;
@@ -1742,25 +1761,37 @@
                 var SaveName    = "Crystal_Report"
                 var ReportType  = "inline"
                 var ReportPath  = ""
-                var sp = ""
-                
+                var sp          = ""
+                var p_date_fr   = $("#txtb_date_fr").val()
+                var p_date_to   = $("#txtb_date_to").val()
+
                 if (type == "leave_certification")
                 {
                     s.ddl_report_appl   = "04";
+                    s.show_reprint      = false;
                     ReportPath          = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
                     sp                  = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val() + ",par_report_type,"+"";
                 }
                 else if (type == "leave_certification_transfer")
                 {
                     s.ddl_report_appl = "05";
+                    s.show_reprint    = false;
                     ReportPath = "~/Reports/cryLeaveCertification/cryLeaveCertification.rpt";
                     sp = "sp_leave_certification_rep,par_empl_id," + $("#ddl_name option:selected").val() + ",par_department_code," + $("#ddl_dept option:selected").val() + ",par_report_type," + "TRANSFER";
+                }
+                else if (type == "leave_terminal")
+                {
+                    s.ddl_report_appl = "06";
+                    s.show_reprint    = false;
+                    ReportPath = "~/Reports/cryLeaveLedgerSummary/cryLeaveLedgerSummaryTerminal.rpt";
+                    sp = "sp_lv_ledger_summary,p_empl_id," + $("#ddl_name option:selected").val() + ",p_date_fr," + p_date_fr + ",p_date_to," + p_date_to + ",p_rep_mode," + "2," + "p_prepared_empl_id," + s.user_id;
                 }
                 else
                 {
                     if (s.datalistgrid3[row_id].leave_type_code == "CTO")
                     {
                         ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
+                        p_empl_id
                         sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
                     }
                     else
@@ -3981,6 +4012,35 @@
             }
         })
     }
+    s.btn_mone_waiver = function (row)
+    {
+        h.post("../Menu/Getmonewaiver",
+        {
+          par_leave_ctrlno  : s.datalistgrid[row].leave_ctrlno
+         ,par_empl_id       : s.datalistgrid[row].empl_id    
+        }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                if (d.data.data_waiver.length > 0)
+                {
+                    s.data_mone = [];
+                    s.data_mone = d.data.data_waiver
+                    s.mone = d.data.data_waiver[0]
+                    $('#modal_initializing').modal("hide");
+                    $('#mone_waiver_modal').modal({ backdrop: 'static', keyboard: false });
+                } else
+                {
+                    swal("No waiver for this monetization", { icon: "warning" });
+                }
+            }
+            else
+            {
+                swal("There Something wrong", d.data.message, { icon: "warning" });
+            }
+        })
+    }
+
     //*********************************************************************************************************
     // ************************ END OF CODE *******************************************************************
     //*********************************************************************************************************

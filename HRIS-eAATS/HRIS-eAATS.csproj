@@ -879,7 +879,7 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_dept_Result.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_without_jo1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1362,7 +1362,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_user_menu_access_role_list_ATS_Result.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1682,22 +1682,10 @@
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeaveLedgerSummary.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedgerSummary.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeaveLedgerSummary.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
@@ -2917,14 +2905,14 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>xcryDTR.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.rpt">
+    <Content Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedgerSummary.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\cryLeaveLedger\cryLeaveLedgerSummary.rpt">
+    </Content>
+    <Content Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummaryTerminal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryLeaveLedgerSummary.cs</LastGenOutput>
-    </EmbeddedResource>
+      <LastGenOutput>cryLeaveLedgerSummaryTerminal.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
