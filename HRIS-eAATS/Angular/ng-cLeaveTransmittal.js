@@ -345,8 +345,11 @@
                             }
                         },
                         {
-                            "mRender": function (data, type, full, row) {
-                                return '<span class="badge badge-success"> &nbsp;&nbsp;' + full["leavetype_descr"] + '  ' + full["leavesubtype_descr"] +'</span>'
+                            "mRender": function (data, type, full, row)
+                            {
+                                return '<span class="badge badge-success"> &nbsp;&nbsp;' + full["leavetype_descr"] + '  ' + full["leavesubtype_descr"] + '</span>'
+                                    + (full["leavetype_code"] == "MZ" ? '&nbsp;<small class="badge badge-danger">' + (full["mone_type"] == 'input_days' ? '' : full["mone_type"]) + ' (' + full["nbr_mone"] + 'days) </small>' : '')
+
                             }
                         },
                         {

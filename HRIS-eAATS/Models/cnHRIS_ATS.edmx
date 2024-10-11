@@ -9259,6 +9259,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_employment_type" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_lv_info2" ReturnType="Collection(HRIS_ATSModel.sp_lv_info2_Result)">
+          <Parameter Name="par_user_id" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_transmittal_leave_dtl_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_dtl_tbl_list_Result)">
             <Parameter Name="par_doc_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="par_approved_period_from" Mode="In" Type="DateTime" />
@@ -9266,9 +9269,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_department_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_lv_info2" ReturnType="Collection(HRIS_ATSModel.sp_lv_info2_Result)">
             <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
@@ -13123,6 +13123,22 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
         </ComplexType>
+        <ComplexType Name="sp_lv_info2_Result">
+          <Property Type="String" Name="leave_ctrlno" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="247" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="leave_type_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="leavetype_descr" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="inclusive_dates" Nullable="true" />
+          <Property Type="String" Name="leave_subtype_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="leavesubtype_descr" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="created_date_only" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="url_name" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="ledger_status" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="disapproved_remakrs" Nullable="false" />
+        </ComplexType>
         <ComplexType Name="sp_transmittal_leave_dtl_tbl_list_Result">
           <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
@@ -13142,22 +13158,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="Decimal" Name="lv_nodays" Nullable="false" Precision="19" />
           <Property Type="Int32" Name="leave_class" Nullable="true" />
           <Property Type="String" Name="leave_descr" Nullable="false" MaxLength="255" />
-        </ComplexType>
-        <ComplexType Name="sp_lv_info2_Result">
-          <Property Type="String" Name="leave_ctrlno" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="247" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="leave_type_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="leavetype_descr" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="inclusive_dates" Nullable="true" />
-          <Property Type="String" Name="leave_subtype_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="leavesubtype_descr" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="created_date_only" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="url_name" Nullable="false" MaxLength="16" />
-          <Property Type="String" Name="ledger_status" Nullable="false" MaxLength="6" />
-          <Property Type="String" Name="disapproved_remakrs" Nullable="false" />
+          <Property Type="String" Name="mone_type" Nullable="true" MaxLength="20" />
+          <Property Type="Double" Name="nbr_mone" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -20300,6 +20302,26 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_lv_info2" FunctionName="HRIS_ATSModel.Store.sp_lv_info2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_lv_info2_Result">
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="leave_type_code" ColumnName="leave_type_code" />
+                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
+                <ScalarProperty Name="inclusive_dates" ColumnName="inclusive_dates" />
+                <ScalarProperty Name="leave_subtype_code" ColumnName="leave_subtype_code" />
+                <ScalarProperty Name="leavesubtype_descr" ColumnName="leavesubtype_descr" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="created_date_only" ColumnName="created_date_only" />
+                <ScalarProperty Name="url_name" ColumnName="url_name" />
+                <ScalarProperty Name="ledger_status" ColumnName="ledger_status" />
+                <ScalarProperty Name="disapproved_remakrs" ColumnName="disapproved_remakrs" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_transmittal_leave_dtl_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_transmittal_leave_dtl_tbl_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_transmittal_leave_dtl_tbl_list_Result">
@@ -20321,26 +20343,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="lv_nodays" ColumnName="lv_nodays" />
                 <ScalarProperty Name="leave_class" ColumnName="leave_class" />
                 <ScalarProperty Name="leave_descr" ColumnName="leave_descr" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_lv_info2" FunctionName="HRIS_ATSModel.Store.sp_lv_info2">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_lv_info2_Result">
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="leave_type_code" ColumnName="leave_type_code" />
-                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
-                <ScalarProperty Name="inclusive_dates" ColumnName="inclusive_dates" />
-                <ScalarProperty Name="leave_subtype_code" ColumnName="leave_subtype_code" />
-                <ScalarProperty Name="leavesubtype_descr" ColumnName="leavesubtype_descr" />
-                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
-                <ScalarProperty Name="created_date_only" ColumnName="created_date_only" />
-                <ScalarProperty Name="url_name" ColumnName="url_name" />
-                <ScalarProperty Name="ledger_status" ColumnName="ledger_status" />
-                <ScalarProperty Name="disapproved_remakrs" ColumnName="disapproved_remakrs" />
+                <ScalarProperty Name="mone_type" ColumnName="mone_type" />
+                <ScalarProperty Name="nbr_mone" ColumnName="nbr_mone" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -5430,6 +5430,15 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_best_attendance_Result>("sp_extract_best_attendance", p_period_fromParameter, p_period_toParameter, p_department_codeParameter, p_employment_typeParameter, p_empl_idParameter);
         }
     
+        public virtual ObjectResult<sp_lv_info2_Result> sp_lv_info2(string par_user_id)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info2_Result>("sp_lv_info2", par_user_idParameter);
+        }
+    
         public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode, string par_user_id)
         {
             var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
@@ -5461,15 +5470,6 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter, par_user_idParameter);
-        }
-    
-        public virtual ObjectResult<sp_lv_info2_Result> sp_lv_info2(string par_user_id)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_info2_Result>("sp_lv_info2", par_user_idParameter);
         }
     }
 }

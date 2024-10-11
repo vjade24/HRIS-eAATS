@@ -31,5 +31,7 @@ namespace HRIS_eAATS.Models
         public decimal lv_nodays { get; set; }
         public Nullable<int> leave_class { get; set; }
         public string leave_descr { get; set; }
+        public string mone_type { get; set; }
+        public Nullable<double> nbr_mone { get; set; }
     }
 }

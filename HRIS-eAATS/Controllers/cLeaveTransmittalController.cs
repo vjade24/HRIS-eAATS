@@ -69,7 +69,7 @@ namespace HRIS_eAATS.Controllers
                 var um = GetAllowAccess();
                 var log_empl_id                 = Session["empl_id"].ToString();
                 var lv_admin_dept_list          = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
-                var leave_transmittal_type_tbl  = db_ats.leave_transmittal_type_tbl.ToList();
+                var leave_transmittal_type_tbl  = db_ats.leave_transmittal_type_tbl.ToList().OrderBy(a=> a.transmittal_type_descr);
                 var data                        = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
                 return JSON(new { message = "success", um,lv_admin_dept_list,data,leave_transmittal_type_tbl}, JsonRequestBehavior.AllowGet);
             }
@@ -280,7 +280,18 @@ namespace HRIS_eAATS.Controllers
                             }
                             else if (data.route_nbr == "11")
                             {
-                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MZ").ToList();
+                                // Monetization (50%)
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MZ" && a.mone_type == "50%").ToList();
+                            }
+                            else if (data.route_nbr == "20")
+                            {
+                                // Monetization (1-10 days)
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MZ" && a.mone_type != "50%" && a.nbr_mone >= 1 && a.nbr_mone <= 10).ToList();
+                            }
+                            else if (data.route_nbr == "21")
+                            {
+                                // Monetization (11-up days)
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MZ" && a.mone_type != "50%" && a.nbr_mone >= 11).ToList();
                             }
                             else if (data.route_nbr == "12")
                             {
