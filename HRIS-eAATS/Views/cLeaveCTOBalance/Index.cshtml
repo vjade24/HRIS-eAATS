@@ -3,8 +3,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/sheetJS.js"></script>
-<script src="~/Angular/ng-cLeaveCTOBalance.js"></script>
+<script src="~/Scripts/sheetJS.js?v=@DateTime.Now.ToString()"></script>
+<script src="~/Angular/ng-cLeaveCTOBalance.js?v=@DateTime.Now.ToString()"></script>
 <section ng-app="ng_selfService_App" ng-controller="cLeaveCTOBalance_ctrlr">
     <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
         <div class="row">

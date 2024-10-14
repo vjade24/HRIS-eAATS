@@ -4016,8 +4016,8 @@
     {
         h.post("../Menu/Getmonewaiver",
         {
-          par_leave_ctrlno  : s.datalistgrid[row].leave_ctrlno
-         ,par_empl_id       : s.datalistgrid[row].empl_id    
+          par_leave_ctrlno  : s.datalistgrid2[row].leave_ctrlno
+         ,par_empl_id       : s.datalistgrid2[row].empl_id    
         }).then(function (d)
         {
             if (d.data.message == "success")

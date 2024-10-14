@@ -152,7 +152,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                 s.total_leave_review_leave  = d.data.total_leave_review_leave 
 
                 s.total_leave_cancellation  = d.data.total_leave_cancellation 
-                s.total_leave_printing      = d.data.total_leave_printing     
+                s.total_leave_printing      = "-" //d.data.total_leave_printing     
                 s.total_leave_transmittal   = d.data.total_leave_transmittal 
                 s.total_notif               = d.data.total_leave_review + d.data.total_leave_cancellation + d.data.total_leave_printing + d.data.total_leave_transmittal 
                 
