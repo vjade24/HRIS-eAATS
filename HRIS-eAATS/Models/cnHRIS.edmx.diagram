@@ -19,6 +19,7 @@
         <EntityTypeShape EntityType="HRIS_PAYModel.payrollemployeemaster_pos_tbl" Width="1.5" PointX="11.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.positions_tbl" Width="1.5" PointX="11.375" PointY="3.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl" Width="1.5" PointX="11.375" PointY="8.75" />
+        <EntityTypeShape EntityType="HRIS_PAYModel.user_prime_token_tbl" Width="1.5" PointX="13.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

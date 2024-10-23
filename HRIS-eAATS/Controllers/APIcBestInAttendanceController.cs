@@ -16,41 +16,67 @@ namespace HRIS_eAATS.Controllers
     public class APIcBestInAttendanceController : ApiController
     {
         private HRIS_ATSEntities db = new HRIS_ATSEntities();
+        private HRIS_DEVEntities db_pay = new HRIS_DEVEntities();
+
+        public partial class api_model
+        {
+            public string transmittal_nbr { get; set; }
+            public string user_token { get; set; }
+            public string received_by { get; set; }
+        }
 
         [Route("api/APIcBestInAttendance")]
-        public HttpResponseMessage Get_BestInAttendance(string transmittal_nbr)
+        public HttpResponseMessage Post_BestInAttendance_List(api_model data1)
         {
-            var data = from a in db.best_in_attendance_hdr_tbl
-                       join b in db.best_in_attendance_dtl_tbl
-                       on a.transmittal_nbr equals b.transmittal_nbr into gp
-                       from b in gp.DefaultIfEmpty()
-                       where a.transmittal_nbr == transmittal_nbr
-                       && a.received_dttm == null
-                       group b by new { a, b.transmittal_nbr } into g
-                       select new
-                       {
-                           hdr = g.Key.a,
-                           dtl = g.ToList().OrderBy(a => a.department_code)
-                       };
-            return Request.CreateResponse(HttpStatusCode.OK, data, Configuration.Formatters.JsonFormatter);
+            var chk_token = db_pay.user_prime_token_tbl.Where(a => a.token == data1.user_token).FirstOrDefault();
+            if (chk_token != null)
+            {
+                var data = from a in db.best_in_attendance_hdr_tbl
+                           join b in db.best_in_attendance_dtl_tbl
+                           on a.transmittal_nbr equals b.transmittal_nbr into gp
+                           from b in gp.DefaultIfEmpty()
+                           where a.transmittal_nbr == data1.transmittal_nbr
+                           && a.received_dttm == null
+                           && a.submitted_dttm != null
+                           group b by new { a, b.transmittal_nbr } into g
+                           select new
+                           {
+                               hdr = g.Key.a,
+                               dtl = g.ToList().OrderBy(a => a.department_code)
+                           };
+                return Request.CreateResponse(HttpStatusCode.OK, data, Configuration.Formatters.JsonFormatter);
+            }
+            else
+            {
+                var data = "Token not Found!";
+                return Request.CreateResponse(HttpStatusCode.OK, data, Configuration.Formatters.JsonFormatter);
+            }
         }
         [Route("api/APIcBestInAttendance_Update")]
-        public HttpResponseMessage Put_BestInAttendance(best_in_attendance_hdr_tbl data)
+        public HttpResponseMessage Post_BestInAttendance(api_model data)
         {
             var message = "";
             try
             {
-                var update = db.best_in_attendance_hdr_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr && a.received_dttm == null).FirstOrDefault();
-                if (update != null)
+                var chk_token = db_pay.user_prime_token_tbl.Where(a => a.token == data.user_token).FirstOrDefault();
+                if (chk_token != null)
                 {
-                    update.received_by      = data.received_by;
-                    update.received_dttm    = DateTime.Now;
-                    db.SaveChangesAsync();
-                    message = "success";
+                    var update = db.best_in_attendance_hdr_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr && a.received_dttm == null).FirstOrDefault();
+                    if (update != null)
+                    {
+                        update.received_by      = data.received_by;
+                        update.received_dttm    = DateTime.Now;
+                        db.SaveChangesAsync();
+                        message = "success";
+                    }
+                    else
+                    {
+                        message = "no data found!";
+                    }
                 }
                 else
                 {
-                    message = "no data found!";
+                    message = "Token not Found!";
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, message, Configuration.Formatters.JsonFormatter);
             }

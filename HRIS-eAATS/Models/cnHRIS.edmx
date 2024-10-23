@@ -156,6 +156,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="with_self_service" Type="bit" />
           <Property Name="with_self_service_approval" Type="bit" />
         </EntityType>
+        <EntityType Name="user_prime_token_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="token" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="token_expiry_date" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="usersprofile_tbl">
           <Key>
             <PropertyRef Name="user_id" />
@@ -421,6 +430,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="positions_tbl" EntityType="Self.positions_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_prime_token_tbl" EntityType="Self.user_prime_token_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usersprofile_tbl" EntityType="Self.usersprofile_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="Self.payrollemployeemaster_hdr_tbl" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -636,6 +646,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="payrollemployeemaster_pos_tbl" EntityType="HRIS_PAYModel.payrollemployeemaster_pos_tbl" />
           <EntitySet Name="positions_tbl" EntityType="HRIS_PAYModel.positions_tbl" />
           <EntitySet Name="vw_payrollemployeemaster_hdr_pos_tbl" EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl" />
+          <EntitySet Name="user_prime_token_tbl" EntityType="HRIS_PAYModel.user_prime_token_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -1081,6 +1092,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="position_long_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="employee_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="user_prime_token_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="token" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="token_expiry_date" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1494,6 +1514,16 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
                 <ScalarProperty Name="effective_date" ColumnName="effective_date" />
                 <ScalarProperty Name="employment_type" ColumnName="employment_type" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_prime_token_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.user_prime_token_tbl">
+              <MappingFragment StoreEntitySet="user_prime_token_tbl">
+                <ScalarProperty Name="token_expiry_date" ColumnName="token_expiry_date" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

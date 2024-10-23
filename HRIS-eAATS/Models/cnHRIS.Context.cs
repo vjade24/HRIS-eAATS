@@ -41,6 +41,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<payrollemployeemaster_pos_tbl> payrollemployeemaster_pos_tbl { get; set; }
         public virtual DbSet<positions_tbl> positions_tbl { get; set; }
         public virtual DbSet<vw_payrollemployeemaster_hdr_pos_tbl> vw_payrollemployeemaster_hdr_pos_tbl { get; set; }
+        public virtual DbSet<user_prime_token_tbl> user_prime_token_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {

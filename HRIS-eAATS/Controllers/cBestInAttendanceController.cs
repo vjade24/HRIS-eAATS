@@ -193,6 +193,14 @@ namespace HRIS_eAATS.Controllers
                     db_ats.SaveChanges();
                     message = "success";
                 }
+                else if (action == "received_null")
+                {
+                    var update                  = db_ats.best_in_attendance_hdr_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr).FirstOrDefault();
+                    update.received_by          = "";
+                    update.received_dttm        = null;
+                    db_ats.SaveChanges();
+                    message = "success";
+                }
                 else
                 {
                     var update                  = db_ats.best_in_attendance_hdr_tbl.Where(a => a.transmittal_nbr == data.transmittal_nbr).FirstOrDefault();
