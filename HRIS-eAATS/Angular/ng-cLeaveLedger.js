@@ -1,6 +1,7 @@
-﻿ng_HRD_App.controller("cLeaveLedger_ctrlr", function ($scope, $compile, $http, $filter) {
+﻿ng_HRD_App.controller("cLeaveLedger_ctrlr", function (commonScript,$scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
+    var cs = commonScript
 
     s.dis_when_s = false;
     s.year = [];
@@ -14,15 +15,12 @@
     s.txtb_lates_und_min = 0 + ' min' ;
     s.time_sked_hdr_title = "";
     $('.collapse').collapse()
-    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
     s.data_mone = [];
     s.show_reprint = true;
     function init()
     {
-        if (window.location.host == "hris.dvodeoro.ph")
-        {
-            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
-        }
+        
         RetrieveYear();
         
         $("#ddl_name").select2().on('change', function (e) {
@@ -1782,6 +1780,13 @@
                 else if (type == "leave_terminal")
                 {
                     s.ddl_report_appl = "06";
+                    s.show_reprint    = false;
+                    ReportPath = "~/Reports/cryLeaveLedgerSummary/cryLeaveLedgerSummary.rpt";
+                    sp = "sp_lv_ledger_summary,p_empl_id," + $("#ddl_name option:selected").val() + ",p_date_fr," + p_date_fr + ",p_date_to," + p_date_to + ",p_rep_mode," + "2," + "p_prepared_empl_id," + s.user_id;
+                }
+                else if (type == "leave_terminal_tentative")
+                {
+                    s.ddl_report_appl = "07";
                     s.show_reprint    = false;
                     ReportPath = "~/Reports/cryLeaveLedgerSummary/cryLeaveLedgerSummaryTerminal.rpt";
                     sp = "sp_lv_ledger_summary,p_empl_id," + $("#ddl_name option:selected").val() + ",p_date_fr," + p_date_fr + ",p_date_to," + p_date_to + ",p_rep_mode," + "2," + "p_prepared_empl_id," + s.user_id;

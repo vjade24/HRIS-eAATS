@@ -9236,10 +9236,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_period_from" Mode="In" Type="DateTime" />
             <Parameter Name="par_period_to" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="sp_transmittal_leave_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result)">
-            <Parameter Name="par_created_year" Mode="In" Type="String" />
-            <Parameter Name="par_created_month" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="transmittal_leave_hdr_tbl" EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" />
           <EntitySet Name="vw_personnelnames_tbl_HRIS_ATS" EntityType="HRIS_ATSModel.vw_personnelnames_tbl_HRIS_ATS" />
           <FunctionImport Name="sp_leave_balances_rep" ReturnType="Collection(HRIS_ATSModel.sp_leave_balances_rep_Result)">
@@ -9270,6 +9266,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
             <Parameter Name="par_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_transmittal_leave_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result)">
+            <Parameter Name="par_created_year" Mode="In" Type="String" />
+            <Parameter Name="par_created_month" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -12969,27 +12969,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="evaluated_by" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="sp_transmittal_leave_hdr_tbl_list_Result">
-          <Property Type="String" Name="doc_ctrl_nbr" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="department_descr" Nullable="false" />
-          <Property Type="String" Name="employment_type_desr" Nullable="false" />
-          <Property Type="DateTime" Name="approved_period_from" Nullable="true" />
-          <Property Type="DateTime" Name="approved_period_to" Nullable="true" />
-          <Property Type="String" Name="period_covered" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="transmittal_descr" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="created_by" Nullable="true" MaxLength="247" />
-          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
-          <Property Type="String" Name="doc_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="doc_status_descr" Nullable="false" MaxLength="24" />
-          <Property Type="Int32" Name="transmittal_cnt" Nullable="false" />
-          <Property Type="String" Name="route_nbr" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="employment_tyep" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="view_mode" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="created_by_empl_id" Nullable="true" MaxLength="30" />
-          <Property Type="Boolean" Name="is_legis" Nullable="false" />
-          <Property Type="String" Name="route_to_legis" Nullable="false" MaxLength="3" />
-        </ComplexType>
         <EntityType Name="transmittal_leave_hdr_tbl">
           <Key>
             <PropertyRef Name="doc_ctrl_nbr" />
@@ -13160,6 +13139,28 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="leave_descr" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="mone_type" Nullable="true" MaxLength="20" />
           <Property Type="Double" Name="nbr_mone" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_transmittal_leave_hdr_tbl_list_Result">
+          <Property Type="String" Name="doc_ctrl_nbr" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="department_descr" Nullable="false" />
+          <Property Type="String" Name="employment_type_desr" Nullable="false" />
+          <Property Type="DateTime" Name="approved_period_from" Nullable="true" />
+          <Property Type="DateTime" Name="approved_period_to" Nullable="true" />
+          <Property Type="String" Name="period_covered" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="transmittal_descr" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="247" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="doc_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="doc_status_descr" Nullable="false" MaxLength="24" />
+          <Property Type="Int32" Name="transmittal_cnt" Nullable="false" />
+          <Property Type="String" Name="route_nbr" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employment_tyep" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="view_mode" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="created_by_empl_id" Nullable="true" MaxLength="30" />
+          <Property Type="Boolean" Name="is_legis" Nullable="false" />
+          <Property Type="String" Name="route_to_legis" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="transmittal_type_descr" Nullable="false" MaxLength="500" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -20135,31 +20136,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_transmittal_leave_hdr_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_transmittal_leave_hdr_tbl_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result">
-                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
-                <ScalarProperty Name="department_descr" ColumnName="department_descr" />
-                <ScalarProperty Name="employment_type_desr" ColumnName="employment_type_desr" />
-                <ScalarProperty Name="approved_period_from" ColumnName="approved_period_from" />
-                <ScalarProperty Name="approved_period_to" ColumnName="approved_period_to" />
-                <ScalarProperty Name="period_covered" ColumnName="period_covered" />
-                <ScalarProperty Name="transmittal_descr" ColumnName="transmittal_descr" />
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="doc_status" ColumnName="doc_status" />
-                <ScalarProperty Name="doc_status_descr" ColumnName="doc_status_descr" />
-                <ScalarProperty Name="transmittal_cnt" ColumnName="transmittal_cnt" />
-                <ScalarProperty Name="route_nbr" ColumnName="route_nbr" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="employment_tyep" ColumnName="employment_tyep" />
-                <ScalarProperty Name="view_mode" ColumnName="view_mode" />
-                <ScalarProperty Name="created_by_empl_id" ColumnName="created_by_empl_id" />
-                <ScalarProperty Name="is_legis" ColumnName="is_legis" />
-                <ScalarProperty Name="route_to_legis" ColumnName="route_to_legis" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="transmittal_leave_hdr_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.transmittal_leave_hdr_tbl">
               <MappingFragment StoreEntitySet="transmittal_leave_hdr_tbl">
@@ -20345,6 +20321,32 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="leave_descr" ColumnName="leave_descr" />
                 <ScalarProperty Name="mone_type" ColumnName="mone_type" />
                 <ScalarProperty Name="nbr_mone" ColumnName="nbr_mone" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_transmittal_leave_hdr_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_transmittal_leave_hdr_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result">
+                <ScalarProperty Name="doc_ctrl_nbr" ColumnName="doc_ctrl_nbr" />
+                <ScalarProperty Name="department_descr" ColumnName="department_descr" />
+                <ScalarProperty Name="employment_type_desr" ColumnName="employment_type_desr" />
+                <ScalarProperty Name="approved_period_from" ColumnName="approved_period_from" />
+                <ScalarProperty Name="approved_period_to" ColumnName="approved_period_to" />
+                <ScalarProperty Name="period_covered" ColumnName="period_covered" />
+                <ScalarProperty Name="transmittal_descr" ColumnName="transmittal_descr" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="doc_status" ColumnName="doc_status" />
+                <ScalarProperty Name="doc_status_descr" ColumnName="doc_status_descr" />
+                <ScalarProperty Name="transmittal_cnt" ColumnName="transmittal_cnt" />
+                <ScalarProperty Name="route_nbr" ColumnName="route_nbr" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="employment_tyep" ColumnName="employment_tyep" />
+                <ScalarProperty Name="view_mode" ColumnName="view_mode" />
+                <ScalarProperty Name="created_by_empl_id" ColumnName="created_by_empl_id" />
+                <ScalarProperty Name="is_legis" ColumnName="is_legis" />
+                <ScalarProperty Name="route_to_legis" ColumnName="route_to_legis" />
+                <ScalarProperty Name="transmittal_type_descr" ColumnName="transmittal_type_descr" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

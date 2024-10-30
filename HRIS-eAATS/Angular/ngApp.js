@@ -423,6 +423,20 @@ ng_HRD_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             $("#common_loading_modal").modal(action)
         },
 
+        img_link: function (site)
+        {
+            var link = "";
+            if (site == 'online')
+            {
+                link = 'https://doctract.dvodeoro.ph'
+            }
+            else
+            {
+                link = 'http://images.dvodeoro.local'
+            }
+            return link
+        },
+
         RetrieveYear: function () {
             var year = []
             var currentYear = new Date().getFullYear();

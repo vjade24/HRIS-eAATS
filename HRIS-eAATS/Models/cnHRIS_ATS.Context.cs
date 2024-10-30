@@ -5366,19 +5366,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter, par_period_fromParameter, par_period_toParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list(string par_created_year, string par_created_month)
-        {
-            var par_created_yearParameter = par_created_year != null ?
-                new ObjectParameter("par_created_year", par_created_year) :
-                new ObjectParameter("par_created_year", typeof(string));
-    
-            var par_created_monthParameter = par_created_month != null ?
-                new ObjectParameter("par_created_month", par_created_month) :
-                new ObjectParameter("par_created_month", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list", par_created_yearParameter, par_created_monthParameter);
-        }
-    
         public virtual ObjectResult<sp_leave_balances_rep_Result> sp_leave_balances_rep(string par_year, string par_department_code)
         {
             var par_yearParameter = par_year != null ?
@@ -5470,6 +5457,19 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list(string par_created_year, string par_created_month)
+        {
+            var par_created_yearParameter = par_created_year != null ?
+                new ObjectParameter("par_created_year", par_created_year) :
+                new ObjectParameter("par_created_year", typeof(string));
+    
+            var par_created_monthParameter = par_created_month != null ?
+                new ObjectParameter("par_created_month", par_created_month) :
+                new ObjectParameter("par_created_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_hdr_tbl_list_Result>("sp_transmittal_leave_hdr_tbl_list", par_created_yearParameter, par_created_monthParameter);
         }
     }
 }

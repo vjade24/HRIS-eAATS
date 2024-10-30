@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HRIS_eAATS.Reports.cryLeaveLedger {
+namespace HRIS_eAATS.Reports.cryLeaveLedgerSummary {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -16,14 +16,14 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class cryLeaveLedger : ReportClass {
+    public class cryLeaveLedgerSummaryTerminal : ReportClass {
         
-        public cryLeaveLedger() {
+        public cryLeaveLedgerSummaryTerminal() {
         }
         
         public override string ResourceName {
             get {
-                return "cryLeaveLedger.rpt";
+                return "cryLeaveLedgerSummaryTerminal.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         public override string FullResourceName {
             get {
-                return "HRIS_eAATS.Reports.cryLeaveLedger.cryLeaveLedger.rpt";
+                return "HRIS_eAATS.Reports.cryLeaveLedgerSummary.cryLeaveLedgerSummaryTerminal.rpt";
             }
             set {
                 // Do nothing
@@ -58,7 +58,7 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section2 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection4 {
             get {
                 return this.ReportDefinition.Sections[1];
             }
@@ -66,7 +66,7 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section2 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection2 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +90,7 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -98,9 +98,17 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section4 {
             get {
                 return this.ReportDefinition.Sections[6];
+            }
+        }
+        
+        [Browsable(false)]
+        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public CrystalDecisions.CrystalReports.Engine.Section Section5 {
+            get {
+                return this.ReportDefinition.Sections[7];
             }
         }
         
@@ -138,49 +146,17 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_cryLeaveLedgerSummaryrpt_p_empl_id {
+        public CrystalDecisions.Shared.IParameterField Parameter_p_prepared_empl_id {
             get {
                 return this.DataDefinition.ParameterFields[4];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_cryLeaveLedgerSummaryrpt_p_date_fr {
-            get {
-                return this.DataDefinition.ParameterFields[5];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_cryLeaveLedgerSummaryrpt_p_date_to {
-            get {
-                return this.DataDefinition.ParameterFields[6];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_cryLeaveLedgerSummaryrpt_p_rep_mode {
-            get {
-                return this.DataDefinition.ParameterFields[7];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_cryLeaveLedgerSummaryrpt_p_prepared_empl_id {
-            get {
-                return this.DataDefinition.ParameterFields[8];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedcryLeaveLedger : Component, ICachedReport {
+    public class CachedcryLeaveLedgerSummaryTerminal : Component, ICachedReport {
         
-        public CachedcryLeaveLedger() {
+        public CachedcryLeaveLedgerSummaryTerminal() {
         }
         
         [Browsable(false)]
@@ -217,7 +193,7 @@ namespace HRIS_eAATS.Reports.cryLeaveLedger {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            cryLeaveLedger rpt = new cryLeaveLedger();
+            cryLeaveLedgerSummaryTerminal rpt = new cryLeaveLedgerSummaryTerminal();
             rpt.Site = this.Site;
             return rpt;
         }

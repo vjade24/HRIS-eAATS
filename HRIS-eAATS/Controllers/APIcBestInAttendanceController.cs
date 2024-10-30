@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -44,6 +44,30 @@ namespace HRIS_eAATS.Controllers
                                hdr = g.Key.a,
                                dtl = g.ToList().OrderBy(a => a.department_code)
                            };
+
+                // Convert to a list and iterate using ForEach
+                data.ToList().ForEach(item =>
+                {
+                    // Access header (hdr)
+                    var header = item.hdr;
+
+                    // Access details (dtl) and iterate through them
+                    item.dtl.ToList().ForEach(detail =>
+                    {
+                        if (detail.employment_type == "REGULAR EMPLOYEES")
+                        {
+                            detail.employment_type = "RE";
+                        }
+                        else if (detail.employment_type == "CASUAL EMPLOYEES")
+                        {
+                            detail.employment_type = "CE";
+                        }
+                        else
+                        {
+                            detail.employment_type = "JO";
+                        }
+                    });
+                });
                 return Request.CreateResponse(HttpStatusCode.OK, data, Configuration.Formatters.JsonFormatter);
             }
             else

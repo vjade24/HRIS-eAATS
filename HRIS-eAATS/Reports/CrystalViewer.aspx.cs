@@ -311,6 +311,13 @@ namespace HRIS_eAATS.Reports
 
                 if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report")
                 {
+                    // VJA - 2024-10-24 - Sub-Report for Summary of Leave
+                    var session_empl_id = Session["empl_id"].ToString();
+                    dtSub = new DataTable();
+                    dtSub = MyCmn.RetrieveDataATS("sp_lv_ledger_summary", ls_splitvalue[1].ToString().Trim(), ls_splitvalue[2].ToString().Trim(), ls_splitvalue[3].ToString().Trim(), ls_splitvalue[4].ToString().Trim(), ls_splitvalue[5].ToString().Trim(), ls_splitvalue[6].ToString().Trim(), ls_splitvalue[7].ToString().Trim(), ls_splitvalue[8].ToString().Trim(), "p_prepared_empl_id", session_empl_id);
+                    cryRpt.Subreports["cryLeaveLedgerSummary.rpt"].SetDataSource(dtSub);
+                    // VJA - 2024-10-24 - Sub-Report for Summary of Leave
+
                     crvPrint.ShowLastPage();
                 }
 

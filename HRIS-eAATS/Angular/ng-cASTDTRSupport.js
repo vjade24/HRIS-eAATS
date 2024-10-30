@@ -40,7 +40,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.process_number = ""
     s.extract_selected = {}
     s.biometrics_location = []
-    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
     s.lbl_shift_flag = "";
     var biotype = [
           { bio_type:"0",bio_type_descr: "AM IN" }
@@ -290,9 +290,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
     function init()
     {
-        if (window.location.host == "hris.dvodeoro.ph") {
-            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
-        }
+        
         $("#ddl_name").select2().on('change', function (e) {
             s.FilterPageGrid();
         });

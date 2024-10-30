@@ -1,6 +1,7 @@
-﻿ng_HRD_App.controller("cLeaveHistory_ctrlr", function ($scope, $compile, $http, $filter) {
+﻿ng_HRD_App.controller("cLeaveHistory_ctrlr", function (commonScript,$scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
+    var cs = commonScript
     s.rowLen = "10";
 
 
@@ -9,12 +10,10 @@
     s.txtb_date_fr = "2021" + "-01-01";
     s.txtb_date_to = ddate_from_to.getFullYear() + "-12-31";
     s.ddl_rep_mode = "2"
-    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
     function init()
     {
-        if (window.location.host == "hris.dvodeoro.ph") {
-            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
-        }
+        
         $("#ddl_name").select2().on('change', function (e) {
             s.FilterPageGrid();
         });

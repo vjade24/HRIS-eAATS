@@ -70,7 +70,16 @@ namespace HRIS_eAATS.Controllers
                 var log_empl_id                 = Session["empl_id"].ToString();
                 var lv_admin_dept_list          = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
                 var leave_transmittal_type_tbl  = db_ats.leave_transmittal_type_tbl.ToList().OrderBy(a=> a.transmittal_type_descr);
-                var data                        = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
+                //var data                        = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
+                List<sp_transmittal_leave_hdr_tbl_list_Result> data = new List<sp_transmittal_leave_hdr_tbl_list_Result>();
+                if (log_empl_id == "8314")
+                {
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").ToList();
+                }
+                else
+                {
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(DateTime.Now.Year.ToString(), DateTime.Now.Month.ToString()).Where(a => a.route_nbr != "06" && a.doc_status_descr == "New").Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
+                }
                 return JSON(new { message = "success", um,lv_admin_dept_list,data,leave_transmittal_type_tbl}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -89,7 +98,16 @@ namespace HRIS_eAATS.Controllers
             try
             {
                 var log_empl_id = Session["empl_id"].ToString().Trim();
-                var data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a=> a.created_by_empl_id.Replace("U","") == log_empl_id).ToList();
+                //var data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a=> a.created_by_empl_id.Replace("U","") == log_empl_id).ToList();
+                List<sp_transmittal_leave_hdr_tbl_list_Result> data = new List<sp_transmittal_leave_hdr_tbl_list_Result>();
+                if (log_empl_id == "8314")
+                {
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).ToList();
+                }
+                else
+                {
+                    data = db_ats.sp_transmittal_leave_hdr_tbl_list(created_year.ToString(), created_month.ToString()).Where(a => a.created_by_empl_id.Replace("U", "") == log_empl_id).ToList();
+                }
 
                 if (daily_monthly == "daily")
                 {

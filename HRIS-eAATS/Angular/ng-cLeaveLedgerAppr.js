@@ -1,6 +1,7 @@
-﻿ng_HRD_App.controller("cLeaveLedgerAppr_ctrlr", function ($scope, $compile, $http, $filter) {
+﻿ng_HRD_App.controller("cLeaveLedgerAppr_ctrlr", function (commonScript,$scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
+    var cs = commonScript
     s.year                  = [];
     s.rowLen                = "10";
     s.rowLen_trans          = "10";
@@ -15,7 +16,7 @@
     var row_id_printing     = "";
     s.var_daily_monthly     = "";
     s.div_show_date_grid    = false;
-    s.image_link            = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.image_link            = cs.img_link('local')+"/storage/images/photo/thumb/";
     s.lv_admin_dept_filter  = ""
 
     var date_cvrd           = new Date();
@@ -24,10 +25,6 @@
     s.data_mone             = [];
     function init()
     {
-        if (window.location.host == "hris.dvodeoro.ph")
-        {
-            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
-        }
         $("#txtb_date_fr").on('change', function (e)
         {
             var par_rep_mode = ""

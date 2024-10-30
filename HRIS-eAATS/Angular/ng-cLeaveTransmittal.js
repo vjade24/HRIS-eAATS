@@ -173,16 +173,18 @@
                         },
                         {
                             "mData": "employment_type_desr",
-                            "mRender": function (data, type, full, row) {
-                                return "<span class='small text-center'>&nbsp;&nbsp;" + data + "</span>"
+                            "mRender": function (data, type, full, row)
+                            {
+                                var route_descr = "<br>&nbsp;&nbsp;<small class='badge badge-success'>" + full["transmittal_type_descr"]+"</small>";
+                                return "<span class='small text-center'>&nbsp;&nbsp;" + data + route_descr + "</span>"
                             }
                         },
                         {
                             "mData": "department_descr",
                             "mRender": function (data, type, full, row)
                             {
-                                
-                                return "<span class='small'>&nbsp;&nbsp;" + (full["department_code"].toString().trim() == "" ? "" : data) + "</span>"
+                                return "<span class='small'>&nbsp;&nbsp;" + data + "</span>"
+                                //return "<span class='small'>&nbsp;&nbsp;" + (full["department_code"].toString().trim() == "" ? "" : data) + "</span>"
                                 
                                 
                             }

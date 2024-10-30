@@ -1,20 +1,17 @@
-﻿ng_HRD_App.controller("cBestInAttendance_ctrlr", function ($scope, $compile, $http, $filter)
+﻿ng_HRD_App.controller("cBestInAttendance_ctrlr", function (commonScript,$scope, $compile, $http, $filter)
 {
     var s       = $scope;
     var h       = $http;
+    var cs      = commonScript
     s.rowLen    = "10";
     
-    s.image_link        = "http://192.168.5.218/storage/images/photo/thumb/";
+    s.image_link        = cs.img_link('local')+"/storage/images/photo/thumb/";
     s.dtl               = []
     s.action_mode       = "";
     s.loading_div       = false;
     init()
     function init()
     {
-        if (window.location.host == "hris.dvodeoro.ph")
-        {
-            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
-        }
         $("#period_from").on('change', function ()
         {
             period_covered()
