@@ -42,7 +42,12 @@ namespace HRIS_eAATS.Controllers
                 // string imreBase64Data = "";
                 var url = Request.Url.Host;
                 //string imgDataURL = (url == "hris.dvodeoro.ph" ? "http://122.53.120.18:8050/storage/images" + emp_photo_byte_arr : "http://192.168.5.218/storage/images" + emp_photo_byte_arr);
-                string imgDataURL = System.Configuration.ConfigurationManager.AppSettings["img_link_local"] + "/storage/images/photo/thumb/"  +empl_id;
+                var img_link = System.Configuration.ConfigurationManager.AppSettings["img_link_local"];
+                if (Request.Url.Host == "hris.dvodeoro.ph")
+                {
+                    img_link = System.Configuration.ConfigurationManager.AppSettings["img_link_online"];
+                }
+                string imgDataURL = img_link + "/storage/images/photo/thumb/"  +empl_id;
                 //***************convert byte array to image***********************************
                 //if (emp_photo_byte_arr != null)
                 //{

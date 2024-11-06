@@ -425,6 +425,10 @@ ng_HRD_App.service("commonScript", ["$compile", "$filter", function (c, f) {
 
         img_link: function (site)
         {
+            if (location.hostname == "hris.dvodeoro.ph")
+            {
+                site = "online"
+            }
             var link = "";
             if (site == 'online')
             {
