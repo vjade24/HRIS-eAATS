@@ -380,6 +380,17 @@ namespace HRIS_eAATS.Controllers
                             data_hdr_insert.leaveledger_balance_as_of_fl  = lv_hdr.leaveledger_balance_as_of_fl  ;
                             data_hdr_insert.sp_restore_deduct             = (lv_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
                             data_hdr_insert.fl_restore_deduct             = (lv_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
+                            data_hdr_insert.first_name                    = lv_hdr.first_name                    ;
+                            data_hdr_insert.last_name                     = lv_hdr.last_name                     ;
+                            data_hdr_insert.middle_name                   = lv_hdr.middle_name                   ;
+                            data_hdr_insert.employment_type               = lv_hdr.employment_type               ;
+                            data_hdr_insert.department_code               = lv_hdr.department_code               ;
+                            data_hdr_insert.department_short_name         = lv_hdr.department_short_name         ;
+                            data_hdr_insert.position_long_title           = lv_hdr.position_long_title           ;
+                            data_hdr_insert.monthly_rate                  = lv_hdr.monthly_rate                  ;
+                            data_hdr_insert.suffix_name                   = lv_hdr.suffix_name                   ;
+                            data_hdr_insert.courtisy_title                = lv_hdr.courtisy_title                ;
+                            data_hdr_insert.postfix_name                  = lv_hdr.postfix_name                  ;
                             
                             data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                             data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
@@ -388,6 +399,7 @@ namespace HRIS_eAATS.Controllers
                             data_dtl_insert.date_num_day_total            = date_num_day_total;
                             data_dtl_insert.empl_id                       = lv_dtl[0].empl_id              ;
                             data_dtl_insert.rcrd_status                   = "N"          ;
+
 
                             if (lv_dtl_cto.Count > 0)
                             {
@@ -577,7 +589,18 @@ namespace HRIS_eAATS.Controllers
                                     data_hdr_insert.leaveledger_balance_as_of_fl  = lv_hdr.leaveledger_balance_as_of_fl  ;
                                     data_hdr_insert.sp_restore_deduct             = (lv_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
                                     data_hdr_insert.fl_restore_deduct             = (lv_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
-                            
+                                    data_hdr_insert.first_name                    = lv_hdr.first_name                    ;
+                                    data_hdr_insert.last_name                     = lv_hdr.last_name                     ;
+                                    data_hdr_insert.middle_name                   = lv_hdr.middle_name                   ;
+                                    data_hdr_insert.employment_type               = lv_hdr.employment_type               ;
+                                    data_hdr_insert.department_code               = lv_hdr.department_code               ;
+                                    data_hdr_insert.department_short_name         = lv_hdr.department_short_name         ;
+                                    data_hdr_insert.position_long_title           = lv_hdr.position_long_title           ;
+                                    data_hdr_insert.monthly_rate                  = lv_hdr.monthly_rate                  ;
+                                    data_hdr_insert.suffix_name                   = lv_hdr.suffix_name                   ;
+                                    data_hdr_insert.courtisy_title                = lv_hdr.courtisy_title                ;
+                                    data_hdr_insert.postfix_name                  = lv_hdr.postfix_name                  ;
+
                                     data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                                     data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
                                     data_dtl_insert.leave_date_to                 = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
