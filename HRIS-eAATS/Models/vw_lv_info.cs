@@ -22,5 +22,7 @@ namespace HRIS_eAATS.Models
         public string leavetype_code { get; set; }
         public string leavetype_descr { get; set; }
         public string leave_comments { get; set; }
+        public string leave_ctrlno { get; set; }
+        public Nullable<System.DateTime> created_dttm { get; set; }
     }
 }

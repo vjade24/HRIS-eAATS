@@ -558,6 +558,12 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         //    $("#lbl_txtb_wtax_perc_req").text("Invalid Number !");
         //    return_val = false;
         //}
+
+        if ($("#ddl_name option:selected").val() == "")
+        {
+            swal("REQUIRED FIELD!","Please Select Employee", { icon: "warning" });
+            return_val = false;
+        }
         
         return return_val;
     }
@@ -733,13 +739,31 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
                     if (d.data.icon == "success")
                     {
-                        ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
-                        sp = "sp_dtr_rep,par_year," + par_year +
-                            ",par_month," + par_mons +
-                            ",par_empl_id," + par_empl_id +
-                            ",par_view_type," + par_viewtype +
-                            ",par_department_code," + d.data.department_code +
-                            ",par_user_id," + d.data.session_user_id;
+                        if (d.data.checkShiftFlag[0].user_hr_rcvd != "")
+                        {
+                            swal("DTR for this Year-Month is already transmitted to PHRMDO", "", {icon:"warning"})
+                        }
+
+                        if (parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10 && d.data.checkShiftFlag[0].shift_flag == 1)
+                        {
+                            ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
+                            sp = "sp_dtr_rep2,par_year," + par_year +
+                                ",par_month," + par_mons +
+                                ",par_empl_id," + par_empl_id +
+                                ",par_view_type," + par_viewtype +
+                                ",par_department_code," + d.data.department_code +
+                                ",par_user_id," + d.data.session_user_id;
+
+                        } else
+                        {
+                            ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
+                            sp = "sp_dtr_rep,par_year," + par_year +
+                                ",par_month," + par_mons +
+                                ",par_empl_id," + par_empl_id +
+                                ",par_view_type," + par_viewtype +
+                                ",par_department_code," + d.data.department_code +
+                                ",par_user_id," + d.data.session_user_id;
+                        }
 
                         // s.embed_link4 = "../" + controller + "/" + action + "?ReportName=" + ReportName
                         //     + "&SaveName=" + SaveName
@@ -763,8 +787,6 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                             + "&ReportType=" + ReportType
                             + "&ReportPath=" + ReportPath
                             + "&id=" + sp // + "," + parameters
-
-                        console.log(s.embed_link)
 
                         if (!/*@cc_on!@*/0) { //if not IE
                             iframe.onload = function () {

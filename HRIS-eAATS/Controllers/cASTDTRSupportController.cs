@@ -330,7 +330,7 @@ namespace HRIS_eAATS.Controllers
                     dtr_gen = db_ats.sp_generate_empl_dtr_shift(dtr_year, dtr_month, empl_id, par_view_type, department_code, employment_type, session_user_id).ToList();
                 }
 
-                return JSON(new { message, icon = icn , dtr_gen , employment_type, department_code, session_user_id }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message, icon = icn , dtr_gen , employment_type, department_code, session_user_id, checkShiftFlag }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

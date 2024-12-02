@@ -37,7 +37,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<coc_earnings_hdr_tbl> coc_earnings_hdr_tbl { get; set; }
         public virtual DbSet<dtr_empl_national_dtl_tbl> dtr_empl_national_dtl_tbl { get; set; }
         public virtual DbSet<dtr_empl_national_hdr_tbl> dtr_empl_national_hdr_tbl { get; set; }
-        public virtual DbSet<dtr_overrides_tbl> dtr_overrides_tbl { get; set; }
         public virtual DbSet<dtr_transmittal_dtl_tbl> dtr_transmittal_dtl_tbl { get; set; }
         public virtual DbSet<dtr_transmittal_hdr_tbl> dtr_transmittal_hdr_tbl { get; set; }
         public virtual DbSet<empl_aoh_render_dtl_tbl> empl_aoh_render_dtl_tbl { get; set; }
@@ -58,7 +57,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<leave_application_dtl_cto_tbl> leave_application_dtl_cto_tbl { get; set; }
         public virtual DbSet<leave_application_dtl_tbl> leave_application_dtl_tbl { get; set; }
         public virtual DbSet<leave_application_hdr_justi_tbl> leave_application_hdr_justi_tbl { get; set; }
-        public virtual DbSet<leave_application_hdr_tbl> leave_application_hdr_tbl { get; set; }
         public virtual DbSet<leave_application_signatories_tbl> leave_application_signatories_tbl { get; set; }
         public virtual DbSet<leaveappl_dtl_tbl> leaveappl_dtl_tbl { get; set; }
         public virtual DbSet<leaveappl_hdr_tbl> leaveappl_hdr_tbl { get; set; }
@@ -147,6 +145,8 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_personnelnames_tbl_HRIS_ATS> vw_personnelnames_tbl_HRIS_ATS { get; set; }
         public virtual DbSet<best_in_attendance_hdr_tbl> best_in_attendance_hdr_tbl { get; set; }
         public virtual DbSet<best_in_attendance_dtl_tbl> best_in_attendance_dtl_tbl { get; set; }
+        public virtual DbSet<leave_application_hdr_tbl> leave_application_hdr_tbl { get; set; }
+        public virtual DbSet<dtr_overrides_tbl> dtr_overrides_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)

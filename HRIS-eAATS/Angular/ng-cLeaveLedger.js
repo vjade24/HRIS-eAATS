@@ -18,6 +18,9 @@
     s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
     s.data_mone = [];
     s.show_reprint = true;
+    s.pre_vl_val = 0;
+    s.red_vl_flag = false;
+    s.vl_bal_start = false;
     function init()
     {
         
@@ -301,16 +304,67 @@
                             "mData": "vl_bal",
                             "mRender": function (data, type, full, row)
                             {
-                                if (full["vl_bal"] == "0.000") {
+                                // console.log("ROW INDEX = "+row["row"] +"\nPREV VL = " + parseFloat(s.pre_vl_val)+"\nVL bal = "+parseFloat(full["vl_bal"]).toString()+"\nWP VL = "+parseFloat(full["vl_wp"]).toString() +"\nEARN VL = "+isNaN(parseFloat(full["vl_earned"])));
+                                //if (isNaN(parseFloat(full["vl_earned"])) == true || full["vl_earned"].toString().trim() == "")
+                                //{
+                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0 )
+                                //    {
+                                //        s.red_vl_flag = true;
+                                //    }
+                                //}
+                                //else if (isNaN(parseFloat(full["vl_wp"])) == true || full["vl_wp"].toString().trim() == "")
+                                //{
+                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
+                                //    {
+                                //        s.red_vl_flag = true;
+                                //    }
+                                //}
+                                //else 
+                                //{
+                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
+                                //    {
+                                //        s.red_vl_flag = true;
+                                //    }
+                                //}
+                                s.pre_vl_val = parseFloat(data) > 0 ? parseFloat(data) : s.pre_vl_val;
+                                
+                                //if (row["row"] == 1)
+                                //{
+                                //    s.pre_vl_val = parseFloat(full["vl_bal"])
+                                //}
+                                //else if (full["vl_earned"] == "0.000" && full["vl_bal"] == "0.000" && full["vl_wp"] == "0.000")
+                                //{
+                                //    s.pre_vl_val = s.pre_vl_val
+                                //}
+                                //else if (full["vl_earned"] == "0.000" && full["vl_wp"] != "0.000")
+                                //{
+                                //    s.pre_vl_val = s.pre_vl_val - parseFloat(full["vl_wp"])
+                                //}
+                                //else if (full["vl_earned"] != "0.000" && full["vl_wp"] == "0.000")
+                                //{
+                                //    s.pre_vl_val = (s.pre_vl_val + parseFloat(full["vl_earned"]))
+                                //}
+                                //else if (full["vl_earned"] == "0.000" && full["vl_wp"] != "0.000")
+                                //{
+
+                                //    s.pre_vl_val = s.pre_vl_val - parseFloat(full["vl_wp"])
+                                //}
+                                //else
+                                //{
+                                //    s.pre_vl_val = s.pre_vl_val + parseFloat(full["vl_earned"]) - parseFloat(full["vl_wp"])
+                                //}
+
+                                if (full["vl_bal"] == "0.000")
+                                {
                                     data = "";
                                 }
-                                if (full["approval_status"] == "C" || full["approval_status"] == "D")
+                                if (full["approval_status"] == "C" || full["approval_status"] == "D" || s.red_vl_flag == true)
                                 {
                                     return "<span class='text-center btn-block text-danger' >" + data + "</span>";
                                 }
                                 else
                                 {
-                                    return "<span class='text-center btn-block' >" + data + "</span>";
+                                    return "<span class='text-center btn-block' >" + data + "<small class='badge'>"+s.pre_vl_val+"</small>" + "</span>";
                                 }
                             }
                         },
@@ -763,7 +817,26 @@
                 s.oTable.fnClearTable();
                 s.datalistgrid = d.data.lv_ledger_report;
                 if (d.data.lv_ledger_report.length > 0) {
-                    s.oTable.fnAddData(d.data.lv_ledger_report);
+
+                    //for (var i = 0; i < s.datalistgrid.length; i++)
+                    //{
+                    //    var prev_val    = s.datalistgrid[i].vl_prev_bal;
+                    //    var current_val = parseFloat(s.datalistgrid[i].vl_bal);
+                        
+                    //    if (current_val != 0 && current_val != null)
+                    //    {
+                    //        s.datalistgrid[i].vl_prev_bal = s.datalistgrid[i].vl_bal; 
+                    //    }
+                    //    else
+                    //    {
+                    //        s.datalistgrid[i].vl_prev_bal = prev_val; 
+                    //    }
+                        
+                    //}
+                    //console.log(s.datalistgrid)
+                    s.red_vl_flag = false;
+                    s.vl_bal_start = false;
+                    s.oTable.fnAddData(s.datalistgrid);
                     $("#txtb_info_day_of_service").val(d.data.lv_ledger_report[0].day_of_service);
                 }
 

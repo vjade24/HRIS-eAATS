@@ -62,7 +62,7 @@
             if (d.data.message == "success")
             {
                 
-                s.empl_names    = d.data.empl_name;
+                //s.empl_names    = d.data.empl_name;
                 s.dept_list     = d.data.dept_list;
                 s.ddl_dept      = d.data.dept_code;
                 s.ddl_name      = d.data.um.user_id.replace("U", "");
@@ -255,7 +255,7 @@
 
                     //s.empl_names = d.data.empl_name;
                     s.txtb_empl_id = $("#ddl_name option:selected").val();
-                    console.log(d.data.filteredGrid[0])
+                    //console.log(d.data.filteredGrid[0])
                     
                     s.oTable.fnClearTable(d.data.filteredGrid);
                     s.datalistgrid = d.data.filteredGrid;
@@ -295,23 +295,23 @@
     //*********************************************//
     //*** Filter Page Grid
     //********************************************// 
-    s.ddl_dept_chane = function () {
-        try {
-            h.post("../rSSDTROverrides/DepartmentFilter",
-                {
-                p_dept_code: $("#ddl_dept option:selected").val()
-            }).then(function (d) {
-                if (d.data.message == "success")
-                {
-                    console.log(d.data.empl_name);
-                    s.empl_names = d.data.empl_name;
-                }
-            });
-        }
-        catch (err) {
-            swal({ icon: "warning", title: err.message });
-        }
-    }
+    //s.ddl_dept_chane = function () {
+    //    try {
+    //        h.post("../rSSDTROverrides/DepartmentFilter",
+    //            {
+    //            p_dept_code: $("#ddl_dept option:selected").val()
+    //        }).then(function (d) {
+    //            if (d.data.message == "success")
+    //            {
+    //                console.log(d.data.empl_name);
+    //                s.empl_names = d.data.empl_name;
+    //            }
+    //        });
+    //    }
+    //    catch (err) {
+    //        swal({ icon: "warning", title: err.message });
+    //    }
+    //}
 
     s.btn_edit_action = function (row)
     {

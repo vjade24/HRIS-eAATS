@@ -128,10 +128,10 @@ namespace HRIS_eAATS.Controllers
                 //var dept_code   = Session["department_code"].ToString();
                 var user_id     = Session["user_id"].ToString();
 
-                var empl_name       = db_dev.sp_employee_list_dept(p_dept_code).ToList();
+                //var empl_name       = db_dev.sp_employee_list_dept(p_dept_code).ToList();
                     var filteredGrid    = db_ats.sp_dtr_override_list(p_year, p_month, p_empl_id, p_view_type, p_dept_code, user_id).ToList();
                 
-                return JSON(new { message = "success", filteredGrid, empl_name }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", filteredGrid }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -145,41 +145,41 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 02/03/2021
         // Description  : Filter Page Grid
         //*********************************************************************//
-        public ActionResult DepartmentFilter(string p_dept_code)
-        {
-            try
-            {
-                 var empl_name = from s in db_dev.vw_personnelnames_tbl
-                         join r in db_dev.personnel_tbl 
-                         on s.empl_id equals r.empl_id
-                         join t in db_dev.vw_payrollemployeemaster_hdr_tbl 
-                         on s.empl_id equals t.empl_id
-                        where r.emp_status == true
-                        orderby s.last_name
+        //public ActionResult DepartmentFilter(string p_dept_code)
+        //{
+        //    try
+        //    {
+        //         var empl_name = from s in db_dev.vw_personnelnames_tbl
+        //                 join r in db_dev.personnel_tbl 
+        //                 on s.empl_id equals r.empl_id
+        //                 join t in db_dev.vw_payrollemployeemaster_hdr_tbl 
+        //                 on s.empl_id equals t.empl_id
+        //                where r.emp_status == true
+        //                orderby s.last_name
                         
-                        select new
-                        {
-                            s.empl_id              ,
-                            s.employee_name        ,
-                            s.last_name            ,
-                            s.first_name           ,
-                            s.middle_name          ,
-                            s.suffix_name          ,
-                            s.courtisy_title       ,
-                            s.postfix_name         ,
-                            s.employee_name_format2,
-                            t.department_code      ,
-                            t.employment_type      ,
-                        };
+        //                select new
+        //                {
+        //                    s.empl_id              ,
+        //                    s.employee_name        ,
+        //                    s.last_name            ,
+        //                    s.first_name           ,
+        //                    s.middle_name          ,
+        //                    s.suffix_name          ,
+        //                    s.courtisy_title       ,
+        //                    s.postfix_name         ,
+        //                    s.employee_name_format2,
+        //                    t.department_code      ,
+        //                    t.employment_type      ,
+        //                };
                
-                return JSON(new { message = "success", empl_name }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message.ToString();
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return JSON(new { message = "success", empl_name }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message.ToString();
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
         //*********************************************************************//
         // Created By   : Lorraine I. Ale 

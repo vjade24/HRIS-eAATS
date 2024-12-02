@@ -555,6 +555,9 @@
                 $('#modal_generating_remittance').modal("hide")
                 $('.modal-backdrop').remove()
             }
+            else {
+                swal(d.data.meesage, {icon:"warning"})
+            }
         })
     }
     //************************************// 
