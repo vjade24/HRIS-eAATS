@@ -1448,57 +1448,57 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2021-08-17
         // Description  : Particulars
         //*********************************************************************//
-        public ActionResult ApprovalHistory(string par_leave_ctlno)
-        {
-            //try
-            //{
-            //    db_ats.Database.CommandTimeout = int.MaxValue;
+        //public ActionResult ApprovalHistory(string par_leave_ctlno)
+        //{
+        //    //try
+        //    //{
+        //    //    db_ats.Database.CommandTimeout = int.MaxValue;
 
-            //    var message_descr = "success";
-            //    var leave_appl      = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
-            //    var par_approval_id = leave_appl.approval_id;
-            //    var data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
+        //    //    var message_descr = "success";
+        //    //    var leave_appl      = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
+        //    //    var par_approval_id = leave_appl.approval_id;
+        //    //    var data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
 
-            //    return JSON(new { data, message_descr, leave_appl }, JsonRequestBehavior.AllowGet);
-            //}
-            //catch (Exception e)
-            //{
-            //    string message = e.Message;
-            //    return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            //}
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
+        //    //    return JSON(new { data, message_descr, leave_appl }, JsonRequestBehavior.AllowGet);
+        //    //}
+        //    //catch (Exception e)
+        //    //{
+        //    //    string message = e.Message;
+        //    //    return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    //}
+        //    try
+        //    {
+        //        db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var message_descr = "success";
+        //        var message_descr = "success";
 
-                leave_application_hdr_tbl leave_appl = new leave_application_hdr_tbl();
-                vw_approvalworkflow_tbl data = new vw_approvalworkflow_tbl();
-                leave_appl = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
-                if (leave_appl != null) 
-                {
-                    var par_approval_id = leave_appl.approval_id;
-                    data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
-                }
+        //        leave_application_hdr_tbl leave_appl = new leave_application_hdr_tbl();
+        //        vw_approvalworkflow_tbl data = new vw_approvalworkflow_tbl();
+        //        leave_appl = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
+        //        if (leave_appl != null) 
+        //        {
+        //            var par_approval_id = leave_appl.approval_id;
+        //            data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
+        //        }
 
-                lv_ledger_hdr_tbl lv_hdr = new lv_ledger_hdr_tbl();
-                vw_approvalworkflow_tbl data_posting = new vw_approvalworkflow_tbl();
+        //        lv_ledger_hdr_tbl lv_hdr = new lv_ledger_hdr_tbl();
+        //        vw_approvalworkflow_tbl data_posting = new vw_approvalworkflow_tbl();
 
-                lv_hdr = db_ats.lv_ledger_hdr_tbl.Where(b => b.leave_ctrlno == par_leave_ctlno).FirstOrDefault();
-                if (lv_hdr != null) 
-                { 
-                    var par_approval_id_posting = lv_hdr.approval_id;
-                    data_posting = db.vw_approvalworkflow_tbl.Where(a => a.approval_id == par_approval_id_posting).FirstOrDefault();
-                }
+        //        lv_hdr = db_ats.lv_ledger_hdr_tbl.Where(b => b.leave_ctrlno == par_leave_ctlno).FirstOrDefault();
+        //        if (lv_hdr != null) 
+        //        { 
+        //            var par_approval_id_posting = lv_hdr.approval_id;
+        //            data_posting = db.vw_approvalworkflow_tbl.Where(a => a.approval_id == par_approval_id_posting).FirstOrDefault();
+        //        }
 
-                return JSON(new { data, message_descr, leave_appl, data_posting, lv_hdr }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message.ToString();
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return JSON(new { data, message_descr, leave_appl, data_posting, lv_hdr }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message.ToString();
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
 
         //*********************************************************************//
@@ -1746,7 +1746,19 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult checkShiftFlag(string dtr_year, string dtr_month, string empl_id)
+        {
+            try
+            {
+                var checkShiftFlag = db_ats.sp_check_shiftsched(dtr_year, dtr_month, empl_id).ToList();
+                return Json(new { message = "success", checkShiftFlag }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 
 }

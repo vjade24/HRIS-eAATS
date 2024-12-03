@@ -739,10 +739,12 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
                     if (d.data.icon == "success")
                     {
-                        if (d.data.checkShiftFlag[0].user_hr_rcvd != "")
-                        {
-                            swal("DTR for this Year-Month is already transmitted to PHRMDO", "", {icon:"warning"})
-                        }
+                        //if (d.data.checkShiftFlag[0].user_hr_rcvd != "")
+                        //{ 
+                        //    var xx = d.data.checkShiftFlag[0]
+                        //    var msg2 = "Submitted By:\n" + xx.user_submitted + "\n" + "HR Received By:\n" + xx.user_hr_rcvd + "\n" + "Payroll Approved By:\n" + xx.user_payroll_appr ;
+                        //    swal("DTR for this Year-Month is already transmitted to PHRMDO", msg2, {icon:"success"})
+                        //}
 
                         if (parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10 && d.data.checkShiftFlag[0].shift_flag == 1)
                         {

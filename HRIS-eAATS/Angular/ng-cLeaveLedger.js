@@ -943,13 +943,26 @@
 
                     if (d.data.icon == "success" )
                     {
-                        ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
-                        sp = "sp_dtr_rep,par_year," + par_year +
-                            ",par_month," + par_mons +
-                            ",par_empl_id," + par_empl_id +
-                            ",par_view_type," + par_viewtype +
-                            ",par_department_code," + par_department_code +
-                            ",par_user_id," + par_user_id;
+                        if (parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10 && d.data.checkShiftFlag[0].shift_flag == 1)
+                        {
+                            ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
+                            sp = "sp_dtr_rep2,par_year," + par_year +
+                                ",par_month," + par_mons +
+                                ",par_empl_id," + par_empl_id +
+                                ",par_view_type," + par_viewtype +
+                                ",par_department_code," + par_department_code +
+                                ",par_user_id," + par_user_id;
+                        }
+                        else
+                        {
+                            ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
+                            sp = "sp_dtr_rep,par_year," + par_year +
+                                ",par_month," + par_mons +
+                                ",par_empl_id," + par_empl_id +
+                                ",par_view_type," + par_viewtype +
+                                ",par_department_code," + par_department_code +
+                                ",par_user_id," + par_user_id;
+                        }
                         
                         if (d.data.dtr_gen.length > 0 || print_generate == "")
                         {
@@ -3870,15 +3883,33 @@
                 var ReportPath          = ""
                 var sp                  = ""
 
+                h.post("../cLeaveLedger/checkShiftFlag",
+                    {
+                     dtr_year       : par_year
+                    , dtr_month     : par_mons
+                    , empl_id       : par_empl_id
+                }).then(function (d)
+                {
+                    if (parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10 && d.data.checkShiftFlag[0].shift_flag == 1)
+                    {
+                        ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
+                        sp = "sp_dtr_rep2,par_year," + par_year +
+                            ",par_month," + par_mons +
+                            ",par_empl_id," + par_empl_id +
+                            ",par_view_type," + par_viewtype +
+                            ",par_department_code," + par_department_code +
+                            ",par_user_id," + par_user_id;
 
-                ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
-                sp = "sp_dtr_rep,par_year," + par_year +
-                    ",par_month," + par_mons +
-                    ",par_empl_id," + par_empl_id +
-                    ",par_view_type," + par_viewtype +
-                    ",par_department_code," + par_department_code +
-                    ",par_user_id," + par_user_id;
-                        
+                    } else
+                    {
+                        ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
+                        sp = "sp_dtr_rep,par_year," + par_year +
+                            ",par_month," + par_mons +
+                            ",par_empl_id," + par_empl_id +
+                            ",par_view_type," + par_viewtype +
+                            ",par_department_code," + par_department_code +
+                            ",par_user_id," + par_user_id;
+                    }
                     // *******************************************************
                     // *** VJA : 2021-07-14 - Validation and Loading hide ****
                     // *******************************************************
@@ -3912,7 +3943,8 @@
                             iframe.src = "";
                         }
                     }
-                    else {
+                    else
+                    {
                         iframe.onreadystatechange = function () {
                             if (iframe.readyState == "complete") {
                                 iframe.style.visibility = "visible";
@@ -3920,10 +3952,11 @@
                             }
                         };
                     }
-
                     iframe.src = s.embed_link;
                     // *******************************************************
                     // *******************************************************
+                })
+
                         
             }
         }
