@@ -24,5 +24,7 @@ namespace HRIS_eAATS.Models
         public string leave_comments { get; set; }
         public string leave_ctrlno { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }
+        public decimal date_num_day_total { get; set; }
+        public string cto_remarks { get; set; }
     }
 }

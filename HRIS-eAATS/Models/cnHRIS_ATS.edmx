@@ -1870,6 +1870,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_info' does not have a primary k
             <PropertyRef Name="leavetype_descr" />
             <PropertyRef Name="leave_comments" />
             <PropertyRef Name="leave_ctrlno" />
+            <PropertyRef Name="date_num_day_total" />
+            <PropertyRef Name="cto_remarks" />
           </Key>
           <Property Name="dtr_date" Type="varchar" MaxLength="10" />
           <Property Name="empl_id" Type="varchar" MaxLength="8" />
@@ -1881,6 +1883,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_info' does not have a primary k
           <Property Name="leave_comments" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" Nullable="false" />
           <Property Name="created_dttm" Type="datetime" />
+          <Property Name="date_num_day_total" Type="money" Nullable="false" />
+          <Property Name="cto_remarks" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_ATS.dbo.vw_lv_ledger_info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2904,6 +2908,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="leavetype_code" Type="varchar" MaxLength="4" Nullable="false" />
                 <Property Name="leavetype_descr" Type="varchar" MaxLength="150" />
                 <Property Name="leave_comments" Type="varchar" MaxLength="255" />
+                <Property Name="date_num_day_total" Type="money" />
+                <Property Name="cto_remarks" Type="varchar" MaxLength="100" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -4900,7 +4906,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
     [vw_lv_info].[leavetype_descr] AS [leavetype_descr], 
     [vw_lv_info].[leave_comments] AS [leave_comments], 
     [vw_lv_info].[leave_ctrlno] AS [leave_ctrlno], 
-    [vw_lv_info].[created_dttm] AS [created_dttm]
+    [vw_lv_info].[created_dttm] AS [created_dttm], 
+    [vw_lv_info].[date_num_day_total] AS [date_num_day_total], 
+    [vw_lv_info].[cto_remarks] AS [cto_remarks]
     FROM [dbo].[vw_lv_info] AS [vw_lv_info]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_lv_ledger_info" EntityType="Self.vw_lv_ledger_info" store:Type="Views" store:Schema="dbo">
@@ -7119,6 +7127,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <PropertyRef Name="leavetype_descr" />
             <PropertyRef Name="leave_comments" />
             <PropertyRef Name="leave_ctrlno" />
+            <PropertyRef Name="date_num_day_total" />
+            <PropertyRef Name="cto_remarks" />
           </Key>
           <Property Name="dtr_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
@@ -7130,6 +7140,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="leave_comments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="leave_ctrlno" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="date_num_day_total" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="cto_remarks" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="vw_lv_ledger_info">
           <Key>
@@ -9156,14 +9168,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_department" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="dtr_overrides_tickets_tbl" EntityType="HRIS_ATSModel.dtr_overrides_tickets_tbl" />
-          <FunctionImport Name="sp_dtr_override_list" ReturnType="Collection(HRIS_ATSModel.sp_dtr_override_list_Result)">
-            <Parameter Name="par_year" Mode="In" Type="String" />
-            <Parameter Name="par_month" Mode="In" Type="String" />
-            <Parameter Name="par_empl_id" Mode="In" Type="String" />
-            <Parameter Name="par_view_type" Mode="In" Type="String" />
-            <Parameter Name="par_department_code" Mode="In" Type="String" />
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_transmittal_leave_dtl_monthly_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_dtl_monthly_tbl_list_Result)">
             <Parameter Name="par_doc_ctrl_nbr" Mode="In" Type="String" />
             <Parameter Name="par_approved_period_from" Mode="In" Type="DateTime" />
@@ -9255,6 +9259,14 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           </FunctionImport>
           <EntitySet Name="leave_application_hdr_tbl" EntityType="HRIS_ATSModel.leave_application_hdr_tbl" />
           <EntitySet Name="dtr_overrides_tbl" EntityType="HRIS_ATSModel.dtr_overrides_tbl" />
+          <FunctionImport Name="sp_dtr_override_list" ReturnType="Collection(HRIS_ATSModel.sp_dtr_override_list_Result)">
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_month" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_view_type" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -12601,59 +12613,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="created_dttm" Type="DateTime" Precision="3" />
         </EntityType>
-        <ComplexType Name="sp_dtr_override_list_Result">
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="Binary" Name="org_logo" Nullable="true" />
-          <Property Type="String" Name="dtr_order_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="dtr_year" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="dtr_month" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="cs_form_descr" Nullable="false" MaxLength="25" />
-          <Property Type="String" Name="for_the_month_descr" Nullable="false" MaxLength="16" />
-          <Property Type="String" Name="period_covered_descr" Nullable="true" MaxLength="35" />
-          <Property Type="String" Name="official_hour_descr" Nullable="false" MaxLength="39" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="210" />
-          <Property Type="String" Name="footer_lbl_descr" Nullable="false" MaxLength="189" />
-          <Property Type="String" Name="ts_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="ts_lbl_wkd_descr" Nullable="false" MaxLength="13" />
-          <Property Type="String" Name="ts_descr" Nullable="false" MaxLength="7" />
-          <Property Type="String" Name="ts_lbl_wke_descr" Nullable="false" MaxLength="9" />
-          <Property Type="String" Name="ts_wk_descr" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
-          <Property Type="DateTime" Name="approved_date" Nullable="true" />
-          <Property Type="String" Name="remarks" Nullable="false" />
-          <Property Type="String" Name="day_of_week" Nullable="true" MaxLength="1" />
-          <Property Type="Int32" Name="dtr_day" Nullable="true" />
-          <Property Type="DateTime" Name="dtr_date" Nullable="false" />
-          <Property Type="String" Name="time_in_am" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="time_out_am" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="time_in_pm" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="time_out_pm" Nullable="false" MaxLength="10" />
-          <Property Type="Int32" Name="under_Time" Nullable="true" />
-          <Property Type="String" Name="under_Time_remarks" Nullable="true" MaxLength="7" />
-          <Property Type="String" Name="remarks_details" Nullable="true" MaxLength="8000" />
-          <Property Type="String" Name="time_ot_hris" Nullable="true" MaxLength="15" />
-          <Property Type="Double" Name="time_days_equi" Nullable="true" />
-          <Property Type="Double" Name="time_hours_equi" Nullable="true" />
-          <Property Type="Double" Name="time_ot_payable" Nullable="true" />
-          <Property Type="String" Name="employee_name_asig" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="assign_asig" Nullable="false" MaxLength="9" />
-          <Property Type="String" Name="total_ot_remarks" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="total_undertime_remarks" Nullable="false" MaxLength="50" />
-          <Property Type="Decimal" Name="no_of_as" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="no_of_lv" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="Decimal" Name="no_of_ob" Nullable="true" Precision="18" Scale="0" />
-          <Property Type="String" Name="employee_name_footer" Nullable="true" MaxLength="210" />
-          <Property Type="String" Name="reason_override" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="override_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="override_status_descr" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="transmitted_flag" Nullable="false" MaxLength="1" />
-          <Property Type="Int32" Name="ticket_number" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_transmittal_leave_dtl_monthly_tbl_list_Result">
           <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
@@ -13235,6 +13194,68 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="tse_out_pm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="leavetype_code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="sp_dtr_override_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="Binary" Name="org_logo" Nullable="true" />
+          <Property Type="String" Name="dtr_order_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="dtr_year" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="dtr_month" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="cs_form_descr" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="for_the_month_descr" Nullable="false" MaxLength="16" />
+          <Property Type="String" Name="period_covered_descr" Nullable="true" MaxLength="35" />
+          <Property Type="String" Name="official_hour_descr" Nullable="false" MaxLength="39" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="210" />
+          <Property Type="String" Name="footer_lbl_descr" Nullable="false" MaxLength="189" />
+          <Property Type="String" Name="ts_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="ts_lbl_wkd_descr" Nullable="false" MaxLength="13" />
+          <Property Type="String" Name="ts_descr" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="ts_lbl_wke_descr" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="ts_wk_descr" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="approved_date" Nullable="true" />
+          <Property Type="String" Name="remarks" Nullable="false" />
+          <Property Type="String" Name="day_of_week" Nullable="true" MaxLength="1" />
+          <Property Type="Int32" Name="dtr_day" Nullable="true" />
+          <Property Type="DateTime" Name="dtr_date" Nullable="false" />
+          <Property Type="String" Name="time_in_am" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_out_am" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_in_pm" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_out_pm" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="under_Time" Nullable="true" />
+          <Property Type="String" Name="under_Time_remarks" Nullable="true" MaxLength="7" />
+          <Property Type="String" Name="remarks_details" Nullable="true" MaxLength="8000" />
+          <Property Type="String" Name="time_ot_hris" Nullable="true" MaxLength="15" />
+          <Property Type="Double" Name="time_days_equi" Nullable="true" />
+          <Property Type="Double" Name="time_hours_equi" Nullable="true" />
+          <Property Type="Double" Name="time_ot_payable" Nullable="true" />
+          <Property Type="String" Name="employee_name_asig" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="assign_asig" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="total_ot_remarks" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="total_undertime_remarks" Nullable="false" MaxLength="50" />
+          <Property Type="Decimal" Name="no_of_as" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="no_of_lv" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="no_of_ob" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="employee_name_footer" Nullable="true" MaxLength="210" />
+          <Property Type="String" Name="reason_override" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="override_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="override_status_descr" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="transmitted_flag" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="ticket_number" Nullable="true" />
+          <Property Type="Int32" Name="late_in_am" Nullable="true" />
+          <Property Type="Int32" Name="undertime_out_am" Nullable="true" />
+          <Property Type="Int32" Name="late_in_pm" Nullable="true" />
+          <Property Type="Int32" Name="undertime_out_pm" Nullable="true" />
+          <Property Type="String" Name="tse_in_am" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="tse_out_am" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="tse_in_pm" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="tse_out_pm" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="100" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14710,6 +14731,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="vw_lv_info">
             <EntityTypeMapping TypeName="HRIS_ATSModel.vw_lv_info">
               <MappingFragment StoreEntitySet="vw_lv_info">
+                <ScalarProperty Name="cto_remarks" ColumnName="cto_remarks" />
+                <ScalarProperty Name="date_num_day_total" ColumnName="date_num_day_total" />
                 <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
                 <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
                 <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
@@ -19761,63 +19784,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_dtr_override_list" FunctionName="HRIS_ATSModel.Store.sp_dtr_override_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_dtr_override_list_Result">
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="org_logo" ColumnName="org_logo" />
-                <ScalarProperty Name="dtr_order_no" ColumnName="dtr_order_no" />
-                <ScalarProperty Name="dtr_year" ColumnName="dtr_year" />
-                <ScalarProperty Name="dtr_month" ColumnName="dtr_month" />
-                <ScalarProperty Name="cs_form_descr" ColumnName="cs_form_descr" />
-                <ScalarProperty Name="for_the_month_descr" ColumnName="for_the_month_descr" />
-                <ScalarProperty Name="period_covered_descr" ColumnName="period_covered_descr" />
-                <ScalarProperty Name="official_hour_descr" ColumnName="official_hour_descr" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="footer_lbl_descr" ColumnName="footer_lbl_descr" />
-                <ScalarProperty Name="ts_code" ColumnName="ts_code" />
-                <ScalarProperty Name="ts_lbl_wkd_descr" ColumnName="ts_lbl_wkd_descr" />
-                <ScalarProperty Name="ts_descr" ColumnName="ts_descr" />
-                <ScalarProperty Name="ts_lbl_wke_descr" ColumnName="ts_lbl_wke_descr" />
-                <ScalarProperty Name="ts_wk_descr" ColumnName="ts_wk_descr" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="approved_date" ColumnName="approved_date" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
-                <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
-                <ScalarProperty Name="dtr_day" ColumnName="dtr_day" />
-                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
-                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
-                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
-                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
-                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
-                <ScalarProperty Name="under_Time" ColumnName="under_Time" />
-                <ScalarProperty Name="under_Time_remarks" ColumnName="under_Time_remarks" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="time_ot_hris" ColumnName="time_ot_hris" />
-                <ScalarProperty Name="time_days_equi" ColumnName="time_days_equi" />
-                <ScalarProperty Name="time_hours_equi" ColumnName="time_hours_equi" />
-                <ScalarProperty Name="time_ot_payable" ColumnName="time_ot_payable" />
-                <ScalarProperty Name="employee_name_asig" ColumnName="employee_name_asig" />
-                <ScalarProperty Name="assign_asig" ColumnName="assign_asig" />
-                <ScalarProperty Name="total_ot_remarks" ColumnName="total_ot_remarks" />
-                <ScalarProperty Name="total_undertime_remarks" ColumnName="total_undertime_remarks" />
-                <ScalarProperty Name="no_of_as" ColumnName="no_of_as" />
-                <ScalarProperty Name="no_of_lv" ColumnName="no_of_lv" />
-                <ScalarProperty Name="no_of_ob" ColumnName="no_of_ob" />
-                <ScalarProperty Name="employee_name_footer" ColumnName="employee_name_footer" />
-                <ScalarProperty Name="reason_override" ColumnName="reason_override" />
-                <ScalarProperty Name="override_status" ColumnName="override_status" />
-                <ScalarProperty Name="override_status_descr" ColumnName="override_status_descr" />
-                <ScalarProperty Name="transmitted_flag" ColumnName="transmitted_flag" />
-                <ScalarProperty Name="ticket_number" ColumnName="ticket_number" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_transmittal_leave_dtl_monthly_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_transmittal_leave_dtl_monthly_tbl_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_transmittal_leave_dtl_monthly_tbl_list_Result">
@@ -20457,6 +20423,72 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_dtr_override_list" FunctionName="HRIS_ATSModel.Store.sp_dtr_override_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_dtr_override_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="org_logo" ColumnName="org_logo" />
+                <ScalarProperty Name="dtr_order_no" ColumnName="dtr_order_no" />
+                <ScalarProperty Name="dtr_year" ColumnName="dtr_year" />
+                <ScalarProperty Name="dtr_month" ColumnName="dtr_month" />
+                <ScalarProperty Name="cs_form_descr" ColumnName="cs_form_descr" />
+                <ScalarProperty Name="for_the_month_descr" ColumnName="for_the_month_descr" />
+                <ScalarProperty Name="period_covered_descr" ColumnName="period_covered_descr" />
+                <ScalarProperty Name="official_hour_descr" ColumnName="official_hour_descr" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="footer_lbl_descr" ColumnName="footer_lbl_descr" />
+                <ScalarProperty Name="ts_code" ColumnName="ts_code" />
+                <ScalarProperty Name="ts_lbl_wkd_descr" ColumnName="ts_lbl_wkd_descr" />
+                <ScalarProperty Name="ts_descr" ColumnName="ts_descr" />
+                <ScalarProperty Name="ts_lbl_wke_descr" ColumnName="ts_lbl_wke_descr" />
+                <ScalarProperty Name="ts_wk_descr" ColumnName="ts_wk_descr" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="approved_date" ColumnName="approved_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
+                <ScalarProperty Name="dtr_day" ColumnName="dtr_day" />
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="under_Time" ColumnName="under_Time" />
+                <ScalarProperty Name="under_Time_remarks" ColumnName="under_Time_remarks" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="time_ot_hris" ColumnName="time_ot_hris" />
+                <ScalarProperty Name="time_days_equi" ColumnName="time_days_equi" />
+                <ScalarProperty Name="time_hours_equi" ColumnName="time_hours_equi" />
+                <ScalarProperty Name="time_ot_payable" ColumnName="time_ot_payable" />
+                <ScalarProperty Name="employee_name_asig" ColumnName="employee_name_asig" />
+                <ScalarProperty Name="assign_asig" ColumnName="assign_asig" />
+                <ScalarProperty Name="total_ot_remarks" ColumnName="total_ot_remarks" />
+                <ScalarProperty Name="total_undertime_remarks" ColumnName="total_undertime_remarks" />
+                <ScalarProperty Name="no_of_as" ColumnName="no_of_as" />
+                <ScalarProperty Name="no_of_lv" ColumnName="no_of_lv" />
+                <ScalarProperty Name="no_of_ob" ColumnName="no_of_ob" />
+                <ScalarProperty Name="employee_name_footer" ColumnName="employee_name_footer" />
+                <ScalarProperty Name="reason_override" ColumnName="reason_override" />
+                <ScalarProperty Name="override_status" ColumnName="override_status" />
+                <ScalarProperty Name="override_status_descr" ColumnName="override_status_descr" />
+                <ScalarProperty Name="transmitted_flag" ColumnName="transmitted_flag" />
+                <ScalarProperty Name="ticket_number" ColumnName="ticket_number" />
+                <ScalarProperty Name="late_in_am" ColumnName="late_in_am" />
+                <ScalarProperty Name="undertime_out_am" ColumnName="undertime_out_am" />
+                <ScalarProperty Name="late_in_pm" ColumnName="late_in_pm" />
+                <ScalarProperty Name="undertime_out_pm" ColumnName="undertime_out_pm" />
+                <ScalarProperty Name="tse_in_am" ColumnName="tse_in_am" />
+                <ScalarProperty Name="tse_out_am" ColumnName="tse_out_am" />
+                <ScalarProperty Name="tse_in_pm" ColumnName="tse_in_pm" />
+                <ScalarProperty Name="tse_out_pm" ColumnName="tse_out_pm" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
