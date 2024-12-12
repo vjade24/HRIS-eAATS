@@ -1,31 +1,30 @@
-﻿ng_HRD_App.controller("cLeaveLedgerAppr_ctrlr", function ($scope, $compile, $http, $filter) {
+﻿ng_HRD_App.controller("cLeaveLedgerAppr_ctrlr", function (commonScript,$scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
-    let morisBar;
-    var userid      = "";
-    s.year          = [];
-    s.rowLen        = "10";
-    s.rowLen_trans        = "10";
-    s.btn_name      = "";
-    s.next_status = "";
-    s.ddl_rep_mode = "1"
-    s.ddl_route_nbr  = "01"
-    s.ddl_dept = "";
-    s.ddl_employment_type = "";
+    var cs = commonScript
+    s.year                  = [];
+    s.rowLen                = "10";
+    s.rowLen_trans          = "10";
+    s.btn_name              = "";
+    s.next_status           = "";
+    s.ddl_rep_mode          = "1"
+    s.ddl_route_nbr         = "01"
+    s.ddl_dept              = "";
+    s.ddl_employment_type   = "";
     s.ddl_rep_mode_printing = "2"
     s.ddl_rep_mode_add_edit = "2"
-    var row_id_printing = "";
-    s.var_daily_monthly = "";
-    s.div_show_date_grid = false;
-    s.image_link = "http://192.168.5.218/storage/images/photo/thumb/";
-    function init() {
-        if (window.location.host == "hris.dvodeoro.ph") {
-            s.image_link = "http://122.53.120.18:8050/storage/images/photo/thumb/"
-        }
-        // var date_now = new Date();
-        // s.txtb_date_fr = date_now.getFullYear() + "-01-01";
-        // s.txtb_date_to = date_now.getFullYear() + "-12-31";
+    var row_id_printing     = "";
+    s.var_daily_monthly     = "";
+    s.div_show_date_grid    = false;
+    s.image_link            = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.lv_admin_dept_filter  = ""
 
+    var date_cvrd           = new Date();
+    s.txtb_date_fr_grid     = new Date(date_cvrd.getFullYear(), date_cvrd.getMonth(), 1);
+    s.txtb_date_to_grid     = date_cvrd;
+    s.data_mone             = [];
+    function init()
+    {
         $("#txtb_date_fr").on('change', function (e)
         {
             var par_rep_mode = ""
@@ -61,11 +60,15 @@
         });
 
         $("#txtb_date_fr_grid").on('change', function (e) {
-            s.FilterPageGrid();
+            if ($("#txtb_date_fr_grid").val() != "" && $("#txtb_date_to_grid").val() != "") {
+                s.FilterPageGrid();
+            }
         });
 
         $("#txtb_date_to_grid").on('change', function (e) {
-            s.FilterPageGrid();
+            if ($("#txtb_date_fr_grid").val() != "" && $("#txtb_date_to_grid").val() != "") {
+                s.FilterPageGrid();
+            }
         });
         //**********************************************
         // Initialize data during page loads
@@ -74,33 +77,61 @@
         h.post("../cLeaveLedgerAppr/InitializeData").then(function (d) {
             if (d.data.message == "success")
             {
-                var curr_year = new Date().getFullYear().toString();
-                s.ddl_year = curr_year;
-                s.currentMonth = new Date().getMonth() + 1
-                s.ddl_month = datestring(s.currentMonth.toString())
-                RetrieveYear();
+                if (d.data.lv_admin_dept_list.length <= 0)
+                {
+                    swal("YOU ARE NOT ALLOWED TO ENTER THIS PAGE", "You redirecting to main page!", {
+                        icon: "warning",
+                        buttons: {
 
-                s.leave_type = d.data.leaveType;
-                s.leave_sub_type = d.data.leaveSubType;
-                s.lv_admin_dept_list = d.data.lv_admin_dept_list
-                
-                if (d.data.ledgerposting_for_approval_list.length > 0) {
-                    init_table_data(d.data.ledgerposting_for_approval_list);
+                            defeat: {
+                                value: "defeat",
+                                text: "Back to Main Page"
+                            }
+                        },
+                    }).then((value) => {
+                        switch (value) {
+                            default:
+                                location.href = "../cMainPage/Index"
+
+                        }
+                    });
+                    return;
+                } else
+                {
+                    var curr_year = new Date().getFullYear().toString();
+                    s.ddl_year = curr_year;
+                    s.currentMonth = new Date().getMonth() + 1
+                    s.ddl_month = datestring(s.currentMonth.toString())
+                    RetrieveYear();
+
+                    s.leave_type = d.data.leaveType;
+                    s.leave_sub_type = d.data.leaveSubType;
+                    s.lv_admin_dept_list = d.data.lv_admin_dept_list
+                    var dm = [];
+                    d.data.admin_names.map(function (d)
+                    {
+                        dm.push(d.b)
+                    })
+                    s.lv_employee_admin = dm
+                    s.empl_id_admin = d.data.log_empl_id
+                    if (d.data.ledgerposting_for_approval_list.length > 0) {
+                        init_table_data(d.data.ledgerposting_for_approval_list);
+                    }
+                    else {
+                        init_table_data([]);
+                    }
+                    init_table_data4([]);
+                    init_table_data5([]);
+                    init_table_data6([]);
+                    //**********************************************
+                    //  Show/Hide ADD, EDIT, DELETE button 
+                    //**********************************************
+                    d.data.um.allow_add     == "1" ? s.ShowAdd    = true : s.ShowAdd = false;
+                    d.data.um.allow_delete  == "1" ? s.ShowDelete = true : s.ShowDelete = false;
+                    d.data.um.allow_edit    == "1" ? s.ShowEdit   = true : s.ShowEdit = false;
+                    //d.data.um.allow_view    == "1" ? s.ShowView     = true : s.ShowView     = false;
+                    //d.data.um.allow_print == "1" ? s.ShowAdd = true : s.ShowAdd = false;
                 }
-                else {
-                    init_table_data([]);
-                }
-                init_table_data4([]);
-                init_table_data5([]);
-                init_table_data6([]);
-                //**********************************************
-                //  Show/Hide ADD, EDIT, DELETE button 
-                //**********************************************
-                d.data.um.allow_add     == "1" ? s.ShowAdd    = true : s.ShowAdd = false;
-                d.data.um.allow_delete  == "1" ? s.ShowDelete = true : s.ShowDelete = false;
-                d.data.um.allow_edit    == "1" ? s.ShowEdit   = true : s.ShowEdit = false;
-                //d.data.um.allow_view    == "1" ? s.ShowView     = true : s.ShowView     = false;
-                //d.data.um.allow_print == "1" ? s.ShowAdd = true : s.ShowAdd = false;
                 $("#modal_generating_remittance").modal("hide");
             }
             else {
@@ -121,9 +152,10 @@
                     {
                         "mRender": function (data, type, full, row) {
                             var temp = moment();
-                            return '<div class="text-center">' +
+                            var def_images = '../../ResourcesImages/upload_profile.png';
+                            return '<div class="text-center" >' +
                                         '<div class="img-circle">' +
-                                            '<img class="img-circle" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
+                                            '<img class="img-circle" onerror="this.onerror=null;this.src=\''+ def_images+'\';" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
                                         '</div>' +
                                     '</div>'
                         }
@@ -137,7 +169,7 @@
                     {
                         "mData": "employee_name",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left   btn-block'>" + data + "</span>"
+                            return "<span class='text-left   btn-block'>&nbsp;" + data + " <small class='badge'>" + full["department_short_name"] + "</small> </span> "  
                         }
                     },
                     {
@@ -148,8 +180,13 @@
                     },
                     {
                         "mData": "leavetype_descr",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='btn-block'>&nbsp;" + data + "</span>"
+                        "mRender": function (data, type, full, row)
+                        {
+                            var oth = "";
+                            if (full["leavetype_code"] == "MZ") {
+                                oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
+                            }
+                            return "<span class='text-center btn-block'>" + data + oth + "</span>"
                         }
                     },
                     {
@@ -208,6 +245,8 @@
                                 btn_approve = "For Evaluation"
                                 return '<center><div class="btn-group">' +
                                     '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="View Justification"> View Justification</button >' : "") +
+                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="View Cancellation">  View Cancellation</button >' : "") +
                                     '</div></center>';
                             }
                             else if (full["worklist_action"].toString() == "REQUEST RE-PRINT")
@@ -222,6 +261,8 @@
                                 btn_approve = data
                                 return '<center><div class="btn-group">' +
                                     '<button type="button" ng-show="ShowEdit" class="btn btn-success btn-xs" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title=' + btn_approve + '> ' + btn_approve + '</button >' +
+                                    (full["justification_flag"] == true ? '<button type="button" ng-show="ShowEdit" class="btn btn-primary btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"justification")\' data-toggle="tooltip" data-placement="top" title="View Justification"> View Justification</button >' : "") +
+                                    (full["cancellation_flag"] != "" ?    '<button type="button" ng-show="ShowEdit" class="btn btn-danger  btn-xs" ng-click=\'btn_edit_action(' + row["row"] + ',"cancellation")\'  data-toggle="tooltip" data-placement="top" title="View Cancellation">  View Cancellation</button >' : "") +
                                     '</div></center>';
                             }
 
@@ -363,44 +404,47 @@
         s.txtb_abs_und_wop_sl       = "0.000";
         s.txtb_abs_und_wp_vl        = "0.000";
         s.txtb_abs_und_wop_vl       = "0.000";
+        s.txtb_leave_ctrlno         = "";
 
         s.next_status               = "";
         s.temp_approval_id          = "";
-
+        s.row_id_for_print          = 0;
+        s.report_type_for_print     = "";
     }
-    function get_page(empl_id) {
-        var nakit_an = false;
-        var rowx = 0;
-        $('#datalist_grid tr').each(function () {
-            $.each(this.cells, function (cells) {
-                if (cells == 0) {
-                    if ($(this).text() == empl_id) {
-                        nakit_an = true;
-                        return false;
-                    }
-                }
-            });
-            if (nakit_an) {
-                $(this).addClass("selected");
-                return false;
-            }
-            rowx++;
-        });
-        return nakit_an;
-    }
+    //function get_page(empl_id) {
+    //    var nakit_an = false;
+    //    var rowx = 0;
+    //    $('#datalist_grid tr').each(function () {
+    //        $.each(this.cells, function (cells) {
+    //            if (cells == 0) {
+    //                if ($(this).text() == empl_id) {
+    //                    nakit_an = true;
+    //                    return false;
+    //                }
+    //            }
+    //        });
+    //        if (nakit_an) {
+    //            $(this).addClass("selected");
+    //            return false;
+    //        }
+    //        rowx++;
+    //    });
+    //    return nakit_an;
+    //}
     //*********************************************//
     //*** Filter Page Grid
     //********************************************// 
     s.FilterPageGrid = function ()
     {
-
         $('#chk_show_approved').prop("checked") == true ? s.div_show_date_grid = true : s.div_show_date_grid = false;
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         h.post("../cLeaveLedgerAppr/FilterPageGrid", {
             par_show_history    : $('#chk_show_approved').prop("checked") == true ? "Y" : "N",
             par_rep_mode        : s.ddl_rep_mode,
             date_fr_grid        : $('#txtb_date_fr_grid').val() == "" ? null : $('#txtb_date_fr_grid').val(),
-            date_to_grid        : $('#txtb_date_to_grid').val() == "" ? null : $('#txtb_date_to_grid').val()
+            date_to_grid        : $('#txtb_date_to_grid').val() == "" ? null : $('#txtb_date_to_grid').val(),
+            empl_id             : s.empl_id_admin,
+            department_code     : s.lv_admin_dept_filter == null ? "" : s.lv_admin_dept_filter
         }).then(function (d)
         {
             if (d.data.message == "success")
@@ -424,7 +468,6 @@
                 s.for_evaluated     = 0;
                 s.for_justi         = 0;
                 s.for_cancelled     = 0;
-
                 $('#chart-leave-list').empty();
                 $('#line-example').empty();
                 $('#chart-leave-approval-list').empty();
@@ -489,7 +532,7 @@
                         labels: ['Evaluated', 'Justification', 'Cancellation'],
                         lineColors: ['#1c84c6', '#1ab394', '#ed5565'],
                         pointFillColors: true,
-                        xLabels: 'month'
+                        xLabels: d.data.is_same == true ? 'day' : 'month'
                     });
                     
                     for (var i = 0; i < d.data.filteredGrid.length; i++)
@@ -507,16 +550,26 @@
                     }
                 }
 
+                s.lv_admin_dept_list = d.data.lv_admin_dept_list
+
                 $('#modal_generating_remittance').modal("hide")
+                $('.modal-backdrop').remove()
+            }
+            else {
+                swal(d.data.meesage, {icon:"warning"})
             }
         })
     }
     //************************************// 
     //*** Open Edit Modal         
     //**********************************// 
-    s.btn_edit_action = function (row_id)
+    s.btn_edit_action = function (row_id,report_type)
     {
         clearentry();
+        s.row_id_for_print      = row_id;
+        s.report_type_for_print = report_type;
+        s.data_history = [];
+        $("#history").html("");
         s.isEdit = true;
         s.ModalTitle = "Leave Posting Approval";
 
@@ -548,8 +601,6 @@
         }
 
         var date_now = new Date();
-        //var date_now_to = new Date(s.datalistgrid[row_id].date_applied);
-        //s.txtb_date_fr = moment(date_now_to).format('YYYY-MM-01');
         s.txtb_date_fr = "2021-01-01";
         s.txtb_date_to = date_now.getFullYear() + "-12-31";
 
@@ -558,39 +609,7 @@
 
         try
         {
-            //var ledger_ctrl_no  = s.datalistgrid[row_id].ledger_ctrl_no;
-            //var controller      = "Reports"
-            //var action          = "Index"
-            //var ReportName      = "CrystalReport"
-            //var SaveName        = "Crystal_Report"
-            //var ReportType      = "inline"
-            //var ReportPath      = ""
-            //var sp              = ""
-            //var leave_ctrlno    = s.datalistgrid[row_id].leave_ctrlno;
-            //var empl_id         = s.datalistgrid[row_id].empl_id;
-
-            //if (s.datalistgrid[row_id].leavetype_code == "CTO")
-            //{
-            //    ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
-            //    sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
-            //    console.log(sp)
-            //}
-            //else
-            //{
-            //    ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
-            //    sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
-            //}
-
-            //s.embed_link3 = "../" + controller + "/" + action + "?ReportName=" + ReportName
-            //    + "&SaveName=" + SaveName
-            //    + "&ReportType=" + ReportType
-            //    + "&ReportPath=" + ReportPath
-            //    + "&Sp=" + sp;
-
-            //$('#iframe_print_preview').attr('src', s.embed_link3);
-
-            // *******************************************************
-            // *******************************************************
+            
             var ReportName      = "CrystalReport"
             var SaveName        = "Crystal_Report"
             var ReportType      = "inline"
@@ -599,21 +618,38 @@
             var ledger_ctrl_no  = s.datalistgrid[row_id].ledger_ctrl_no;
             var leave_ctrlno    = s.datalistgrid[row_id].leave_ctrlno;
             var empl_id         = s.datalistgrid[row_id].empl_id;
-        
-            if (s.datalistgrid[row_id].leavetype_code == "CTO")
-            {
-                ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
-                sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
 
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "3", "CTO")
+            if (report_type == "justification")
+            {
+                ReportPath = "~/Reports/cryLeaveJustification/cryLeaveJustification.rpt";
+                sp = "sp_leave_application_hdr_justi_rep,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id;
+                s.RetrieveCardingReport(empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
+            }
+            else if (report_type == "cancellation")
+            {
+                ReportPath = "~/Reports/cryLeavePermission/cryLeaveCancellation.rpt";
+                sp = "sp_leave_application_cancel_tbl_rep,par_empl_id," + empl_id + ",par_leave_ctrlno," + leave_ctrlno;
+
+                var type = "LEAVE";
+                type = (s.datalistgrid[row_id].leavetype_code == "CTO" ? "CTO": "LEAVE")
+                s.RetrieveCardingReport(empl_id, s.txtb_date_fr, s.txtb_date_to, "2", type)
             }
             else
             {
-                ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
-                sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
-                s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
+                if (s.datalistgrid[row_id].leavetype_code == "CTO")
+                {
+                    ReportPath  = "~/Reports/cryCTO/cryCTO.rpt";
+                    sp          = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
+
+                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "3", "CTO")
+                }
+                else
+                {
+                    ReportPath = "~/Reports/cryApplicationForLeaveRep2/cryApplicationForLeaveRep.rpt";
+                    sp = "sp_leave_application_report,p_ledger_ctrl_no," + ledger_ctrl_no;
+                    s.RetrieveCardingReport(s.datalistgrid[row_id].empl_id, s.txtb_date_fr, s.txtb_date_to, "2", "LEAVE")
+                }
             }
-            //console.log(sp)
             
             // *******************************************************
             // *** VJA : 2021-07-14 - Validation and Loading hide ****
@@ -627,7 +663,7 @@
                 + "&SaveName=" + SaveName
                 + "&ReportType=" + ReportType
                 + "&ReportPath=" + ReportPath
-                + "&id=" + sp // + "," + parameters
+                + "&id=" + sp 
 
             if (!/*@cc_on!@*/0) { //if not IE
                 iframe.onload = function () {
@@ -684,6 +720,7 @@
         s.txtb_sigpos3_ovrd     = s.datalistgrid[row_id].sig_pos3_ovrd;
         s.txtb_ledger_date      = s.datalistgrid[row_id].leaveledger_date;
         s.txtb_date_applied     = s.datalistgrid[row_id].date_applied;
+        s.txtb_leave_ctrlno     = s.datalistgrid[row_id].leave_ctrlno;
 
 
 
@@ -2187,6 +2224,73 @@
         })
 
     }
+    s.Retrieve_LeaveHistory = function ()
+    {
+        $('#view_details_history').removeClass()
+        $('#view_details_history').addClass('fa fa-spinner fa-spin')
+        s.data_history = [];
+        h.post("../cLeaveLedger/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_leave_ctrlno, empl_id: s.txtb_empl_id}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                s.data_history = d.data.data
+                var to_append  = "";
+                $("#history").html("");
+                for (var i = 0; i < s.data_history.length; i++)
+                {
+                    s.data_history[i].create_dttm_descr  = moment(s.data_history[i].created_dttm).format("LLLL")
+                    s.data_history[i].create_dttm_ago    = moment(s.data_history[i].created_dttm).fromNow()
+                    var temp_append = "";
+                    var temp = moment();
+                    temp_append = '<div class="feed-element">'+
+                                       '<div class="pull-left">'+
+                                         '<div class="img-circle">' +
+                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U","") + '?v=' + temp)+' " />'+
+                                        '</div>'+
+                                       '</div>'+
+                                        '<div class="media-body ">'+
+                                            '<small class="pull-right" style="padding-left:10px !important">' + s.data_history[i].create_dttm_ago+'</small>'+
+                                            s.data_history[i].appl_status+' by <strong>'+ s.data_history[i].employee_name_format_2+'</strong>'+
+                                            '<small class="text-muted">on '+ s.data_history[i].create_dttm_descr+'</small>'+
+                                        '</div>'+
+                                    '</div>';
 
+                    to_append = to_append + temp_append;
+                }
+                $("#history").append($compile(to_append)($scope));
 
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+                
+            }
+            else
+            {
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
+    }
+    s.btn_mone_waiver = function (row) {
+        h.post("../Menu/Getmonewaiver",
+            {
+                par_leave_ctrlno: s.datalistgrid[row].leave_ctrlno
+                , par_empl_id: s.datalistgrid[row].empl_id
+            }).then(function (d) {
+                if (d.data.message == "success") {
+                    if (d.data.data_waiver.length > 0) {
+                        s.data_mone = [];
+                        s.data_mone = d.data.data_waiver
+                        s.mone = d.data.data_waiver[0]
+                        $('#modal_initializing').modal("hide");
+                        $('#mone_waiver_modal').modal({ backdrop: 'static', keyboard: false });
+                    } else {
+                        swal("No waiver for this monetization", { icon: "warning" });
+                    }
+                }
+                else {
+                    swal("There Something wrong", d.data.message, { icon: "warning" });
+                }
+            })
+    }
 })

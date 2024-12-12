@@ -3,38 +3,37 @@
     var h = $http
 
     s.dept_list = [];
+    s.leavetype = [];
 
-    s.temp_time_in_am             = ''
-    s.temp_time_out_am            = ''
-    s.temp_under_Time             = ''
-    s.temp_under_Time_remarks     = ''
-    s.temp_time_in_pm             = ''
-    s.temp_time_out_pm            = ''
-    s.temp_remarks_details        = ''
-    s.temp_reason_details         = ''
-    s.temp_time_ot_hris           = ''
-    s.temp_time_days_equi         = ''
-    s.temp_time_hours_equi        = ''
-    s.temp_time_ot_payable        = ''
-    s.temp_remarks                = ''
+    s.temp_time_in_am               = ''
+    s.temp_time_out_am              = ''
+    s.temp_under_Time               = ''
+    s.temp_under_Time_remarks       = ''
+    s.temp_time_in_pm               = ''
+    s.temp_time_out_pm              = ''
+    s.temp_remarks_details          = ''
+    s.temp_reason_details           = ''
+    s.temp_time_ot_hris             = ''
+    s.temp_time_days_equi           = ''
+    s.temp_time_hours_equi          = ''
+    s.temp_time_ot_payable          = ''
+    s.temp_remarks                  = ''
     s.remarks_combination_overrides = ''
 
-    var remarks_am_in = ''
-    var remarks_am_out = ''
-    var remarks_pm_in = ''
-    var remarks_pm_out = ''
-    var remarks_undertime_minute = ''
-    var remarks_undertime_remarks = ''
-    var remarks_remarks = ''
-    var remarks_reason = ''
-    var remarks_ot_remarks = ''
-    var remarks_days_remarks = ''
-    var remarks_ot_payable_remarks = ''
-    s.show_dtr_status = false;
+    var remarks_am_in               = ''
+    var remarks_am_out              = ''
+    var remarks_pm_in               = ''
+    var remarks_pm_out              = ''
+    var remarks_undertime_minute    = ''
+    var remarks_undertime_remarks   = ''
+    var remarks_remarks             = ''
+    var remarks_reason              = ''
+    var remarks_ot_remarks          = ''
+    var remarks_days_remarks        = ''
+    var remarks_ot_payable_remarks  = ''
+    s.show_dtr_status               = false;
     function init()
     {
-
-        //format datepicker to month - year only
         $("#txtb_dtr_mon_year").datepicker({
             format: "MM - yyyy",
             startView: "years",
@@ -51,7 +50,6 @@
         });
 
         s.ddl_viewtype = "0";
-
         var ddate = new Date();
         s.txtb_dtr_mon_year = moment(ddate).format("MMMM - YYYY");
         $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
@@ -61,35 +59,23 @@
         h.post("../rSSDTROverrides/InitializeData").then(function (d) {
             if (d.data.message == "success")
             {
-                
-                s.empl_names    = d.data.empl_name;
                 s.dept_list     = d.data.dept_list;
+                s.leavetype     = d.data.leavetype;
                 s.ddl_dept      = d.data.dept_code;
                 s.ddl_name      = d.data.um.user_id.replace("U", "");
                 s.txtb_empl_id  = d.data.um.user_id.replace("U", "");
                 
-                //Object.keys(d.data.dept_list).forEach(function (key) {
-                //    if (d.data.dept_list[key].department_code == d.data.dept_code) {
-                //        s.txtb_department = Object.values(d.data.dept_list)[key].department_name1;
-                //    }
-                //});
-                
-                if (d.data.dtr_val.length > 0) {
+                if (d.data.dtr_val.length > 0)
+                {
                     init_table_data(d.data.dtr_val);
                 }
-                else {
+                else
+                {
                     init_table_data([]);
                 }
-
-                //**********************************************
-                //  Show/Hide ADD, EDIT, DELETE button 
-                //**********************************************
-                d.data.um.allow_add == "1" ? s.ShowAdd = true : s.ShowAdd = false;
-                d.data.um.allow_delete == "1" ? s.ShowDelete = true : s.ShowDelete = false;
-                d.data.um.allow_edit == "1" ? s.ShowEdit = true : s.ShowEdit = false;
-                //d.data.um.allow_view    == "1" ? s.ShowView     = true : s.ShowView     = false;
-                //d.data.um.allow_print == "1" ? s.ShowAdd = true : s.ShowAdd = false;
-
+                d.data.um.allow_add     == "1" ? s.ShowAdd      = true : s.ShowAdd      = false;
+                d.data.um.allow_delete  == "1" ? s.ShowDelete   = true : s.ShowDelete   = false;
+                d.data.um.allow_edit    == "1" ? s.ShowEdit     = true : s.ShowEdit     = false;
                 $("#modal_initializing").modal("hide");
             }
             else {
@@ -99,7 +85,8 @@
     }
     init()
 
-    var init_table_data = function (par_data) {
+    var init_table_data = function (par_data)
+    {
         s.datalistgrid = par_data;
         s.oTable = $('#datalist_grid').dataTable(
             {
@@ -255,7 +242,7 @@
 
                     //s.empl_names = d.data.empl_name;
                     s.txtb_empl_id = $("#ddl_name option:selected").val();
-                    console.log(d.data.filteredGrid[0])
+                    //console.log(d.data.filteredGrid[0])
                     
                     s.oTable.fnClearTable(d.data.filteredGrid);
                     s.datalistgrid = d.data.filteredGrid;
@@ -277,9 +264,6 @@
                         else {
                             s.show_dtr_status = false;
                         }
-
-
-
                         s.show_dtr_status
                         s.oTable.fnAddData(d.data.filteredGrid);
                     }
@@ -291,32 +275,9 @@
             swal({ icon: "warning", title: err.message });
         }
     }
-
-    //*********************************************//
-    //*** Filter Page Grid
-    //********************************************// 
-    s.ddl_dept_chane = function () {
-        try {
-            h.post("../rSSDTROverrides/DepartmentFilter",
-                {
-                p_dept_code: $("#ddl_dept option:selected").val()
-            }).then(function (d) {
-                if (d.data.message == "success")
-                {
-                    console.log(d.data.empl_name);
-                    s.empl_names = d.data.empl_name;
-                }
-            });
-        }
-        catch (err) {
-            swal({ icon: "warning", title: err.message });
-        }
-    }
-
+    
     s.btn_edit_action = function (row)
     {
-
-     
         ValidationResultColor("ALL", false);
         clearentry()
 
@@ -332,17 +293,14 @@
         s.temp_time_days_equi       = s.datalistgrid[row].time_days_equi;
         s.temp_time_hours_equi      = s.datalistgrid[row].time_hours_equi;
         s.temp_time_ot_payable      = s.datalistgrid[row].time_ot_payable;
-        //var temp_date = s.datalistgrid[row].dtr_month + " " + s.datalistgrid[row].dtr_day + ", " + s.datalistgrid[row].dtr_year
-        
         s.temp_remarks              = s.datalistgrid[row].remarks;
         s.txtb_remarks_override     = s.datalistgrid[row].remarks;
-        //s.remarks_combination_overrides = s.datalistgrid[row].remarks
-
-        var temp_date = s.datalistgrid[row].dtr_year + "-" + s.datalistgrid[row].dtr_month + "-" + s.datalistgrid[row].dtr_day;
+        var temp_date               = s.datalistgrid[row].dtr_year + "-" + s.datalistgrid[row].dtr_month + "-" + s.datalistgrid[row].dtr_day;
 
         s.txtb_empl_name        = s.datalistgrid[row].employee_name;
         s.txtb_department2      = s.datalistgrid[row].department_name1;
         s.txtb_dtr_date         = temp_date;
+        s.selected_date         = new Date(temp_date);
         s.txtb_am_in            = s.datalistgrid[row].time_in_am;
         s.txtb_am_out           = s.datalistgrid[row].time_out_am;
         s.txtb_undertime        = s.datalistgrid[row].under_Time;
@@ -351,17 +309,24 @@
         s.txtb_pm_out           = s.datalistgrid[row].time_out_pm;
         s.txtb_remarks          = s.datalistgrid[row].remarks_details;
         s.txtb_ticket_number    = s.datalistgrid[row].ticket_number;
-
         s.txtb_time_ot_hours    = s.datalistgrid[row].time_ot_hris;
         s.txtb_time_days_equiv  = s.datalistgrid[row].time_days_equi;
         s.txtb_time_hours_equiv = s.datalistgrid[row].time_hours_equi;
         s.txtb_time_ot_payable  = s.datalistgrid[row].time_ot_payable;
         s.txtb_reason_override  = s.datalistgrid[row].reason_override;
-
         s.ts_code               = s.datalistgrid[row].ts_code;
-        //s.under_Time            = s.datalistgrid[row].under_Time;
+        s.dtr_order_no          = s.datalistgrid[row].dtr_order_no;
 
-        s.dtr_order_no  = s.datalistgrid[row].dtr_order_no;
+        s.late_in_am            = s.datalistgrid[row].late_in_am      
+        s.undertime_out_am      = s.datalistgrid[row].undertime_out_am
+        s.late_in_pm            = s.datalistgrid[row].late_in_pm      
+        s.undertime_out_pm      = s.datalistgrid[row].undertime_out_pm
+        s.tse_in_am             = s.datalistgrid[row].tse_in_am       
+        s.tse_out_am            = s.datalistgrid[row].tse_out_am      
+        s.tse_in_pm             = s.datalistgrid[row].tse_in_pm       
+        s.tse_out_pm            = s.datalistgrid[row].tse_out_pm      
+        s.leavetype_code        = s.datalistgrid[row].leavetype_code
+
         if (s.datalistgrid[row].transmitted_flag == "0")
         {
             s.isEditable = false;
@@ -410,21 +375,33 @@
                     , time_days_equi    : s.txtb_time_days_equiv
                     , time_hours_equi   : s.txtb_time_hours_equiv
                     , time_ot_payable   : s.txtb_time_ot_payable
-                    , no_of_as: ""
-                    , no_of_ob: ""
-                    , no_of_lv: ""
+                    , no_of_as          : ""
+                    , no_of_ob          : ""
+                    , no_of_lv          : ""
                     , remarks_override  : s.remarks_combination_overrides
                     , reason_override   : s.txtb_reason_override
                     , approval_status   : action_status
                     , approved_by       : ""
                     , approved_dttm     : ""
                     , ticket_number     : s.txtb_ticket_number
+
+                    , late_in_am        : s.late_in_am      
+                    , undertime_out_am  : s.undertime_out_am
+                    , late_in_pm        : s.late_in_pm      
+                    , undertime_out_pm  : s.undertime_out_pm
+                    , tse_in_am         : s.tse_in_am       
+                    , tse_out_am        : s.tse_out_am      
+                    , tse_in_pm         : s.tse_in_pm       
+                    , tse_out_pm        : s.tse_out_pm      
+                    , leavetype_code    : s.leavetype_code  
                 }
 
 
                 //ENDED BY JORGE
-                h.post("../rSSDTROverrides/Save", { data: data, ticket_number: s.txtb_ticket_number }).then(function (d) {
-                    if (d.data.message == "success") {
+                h.post("../rSSDTROverrides/Save", { data: data, ticket_number: s.txtb_ticket_number }).then(function (d)
+                {
+                    if (d.data.message == "success")
+                    {
                         s.FilterPageGrid();
                         $('#main_modal').modal("hide");
                         swal("New Record has been Successfully Added!", { icon: "success", title: "Successfully Added" });
@@ -441,70 +418,29 @@
         }
     }
 
-    s.btn_print2 = function () {
-        try
-        {
-
-            var controller = "Reports"
-            var action = "Index"
-            var ReportName = "cryDTR"
-            var SaveName = "Crystal_Report"
-            var ReportType = "inline"
-            var ReportPath = ""
-            var sp = ""
-
-            ReportPath = "~/Reports/cryDTR/cryDTR.rpt"
-            sp = "sp_dtr_rep,par_year," + str_to_year($("#txtb_dtr_mon_year").val()) + ",par_month," + month_name_to_int($("#txtb_dtr_mon_year").val()) + ",par_empl_id," + $("#ddl_name option:selected").val() + ",par_view_type," + $("#ddl_viewtype option:selected").val() + ",par_department_code," + s.ddl_dept + ",par_user_id," + d.data.session_user_id
-
-
-            location.href = "../" + controller + "/" + action + "?ReportName=" + ReportName
-                + "&SaveName=" + SaveName
-                + "&ReportType=" + ReportType
-                + "&ReportPath=" + ReportPath
-                + "&Sp=" + sp
-            //h.post("../rSSDTROverrides/PreviousValuesOnPage_rSSDTROverrides").then(function (d)
-            //{
-            //    h.post("../rSSDTRPrinting/RetriveData",
-            //        {
-            //            par_year                : str_to_year(s.txtb_dtr_mon_year)
-            //            , par_month             : month_name_to_int($("#txtb_dtr_mon_year").val())
-            //            , par_empl_id           : $("#ddl_name option:selected").val()
-            //            , par_view_type         : $("#ddl_viewtype option:selected").val()
-            //            , par_department_code   : s.ddl_dept
-
-            //        }).then(function (d) {
-
-            //            if (d.data.sp_report.length == 0) {
-            //                swal("NO DATA FOUND", "No data found in this Year and Month Selected", { icon: "warning" });
-            //            }
-            //            else {
-            //                var controller = "Reports"
-            //                var action = "Index"
-            //                var ReportName = "cryDTR"
-            //                var SaveName = "Crystal_Report"
-            //                var ReportType = "inline"
-            //                var ReportPath = ""
-            //                var sp = ""
-
-            //                ReportPath = "~/Reports/cryDTR/cryDTR.rpt"
-            //                sp = "sp_dtr_rep,par_year," + str_to_year(s.txtb_dtr_mon_year) + ",par_month," + month_name_to_int($("#txtb_dtr_mon_year").val()) + ",par_empl_id," + $("#ddl_name option:selected").val() + ",par_view_type," + $("#ddl_viewtype option:selected").val() + ",par_department_code," + s.ddl_dept + ",par_user_id," + d.data.session_user_id
-
-
-            //                location.href = "../" + controller + "/" + action + "?ReportName=" + ReportName
-            //                    + "&SaveName=" + SaveName
-            //                    + "&ReportType=" + ReportType
-            //                    + "&ReportPath=" + ReportPath
-            //                    + "&Sp=" + sp
-
-            //            }
-            //        });
-            //    });
-            
-        }
-        catch (err) {
-            swal({ icon: "warning", title: err.message });
-        }
-    }
+    //s.btn_print2 = function ()
+    //{
+    //    try
+    //    {
+    //        var controller = "Reports"
+    //        var action = "Index"
+    //        var ReportName = "cryDTR"
+    //        var SaveName = "Crystal_Report"
+    //        var ReportType = "inline"
+    //        var ReportPath = ""
+    //        var sp = ""
+    //        ReportPath = "~/Reports/cryDTR/cryDTR.rpt"
+    //        sp = "sp_dtr_rep,par_year," + str_to_year($("#txtb_dtr_mon_year").val()) + ",par_month," + month_name_to_int($("#txtb_dtr_mon_year").val()) + ",par_empl_id," + $("#ddl_name option:selected").val() + ",par_view_type," + $("#ddl_viewtype option:selected").val() + ",par_department_code," + s.ddl_dept + ",par_user_id," + d.data.session_user_id
+    //        location.href = "../" + controller + "/" + action + "?ReportName=" + ReportName
+    //            + "&SaveName=" + SaveName
+    //            + "&ReportType=" + ReportType
+    //            + "&ReportPath=" + ReportPath
+    //            + "&Sp=" + sp
+    //    }
+    //    catch (err) {
+    //        swal({ icon: "warning", title: err.message });
+    //    }
+    //}
 
     //***********************************************************//
     //***Field validation for remittance type before opening add modal
@@ -532,6 +468,12 @@
             ValidationResultColor("txtb_ticket_number", true);
             return_val = false;
         }
+        if ($('#txtb_remarks').val().toString().toLowerCase().indexOf("leave") >= 0 && $("#leavetype_code option:selected").val() == "")
+        {
+            $('#leavetype_code').focus();
+            ValidationResultColor("leavetype_code", true);
+            return_val = false;
+        }
 
         return return_val;
     }
@@ -540,25 +482,20 @@
     //***********************************************************// 
     function ValidationResultColor(par_object_id, par_v_result)
     {
-        if (par_v_result) {
-            //Add class to the obect that need to focus as a required..
+        if (par_v_result)
+        {
             $("#" + par_object_id).addClass("required");
             $("#lbl_" + par_object_id + "_req").text("Required Field!");
         }
         else {
-            //remove of refresh the object form being required
-
-            //$("#input_file_upload").removeClass("required");
-
             $("#txtb_reason_override").removeClass("required");
             $("#lbl_txtb_reason_override_req").text("");
 
             $("#txtb_ticket_number").removeClass("required");
             $("#lbl_txtb_ticket_number_req").text("");
 
-            //$("#txtb_dtr_mon_year2").removeClass("required");
-            //$("#lbl_txtb_dtr_mon_year2_req").text("");
-
+            $("#leavetype_code").removeClass("required");
+            $("#lbl_leavetype_code_req").text("");
         }
     }
 
@@ -612,65 +549,65 @@
         return int_mons;
     }
 
-    function clearentry() {
-        s.txtb_empl_name        = "";    
-        s.txtb_department2      = "";    
-        s.txtb_dtr_date         = "";        
-        s.txtb_am_in            = "";           
-        s.txtb_am_out           = "";    
-        s.txtb_undertime        = "";        
-        s.txtb_undertime_remarks= "";        
-        s.txtb_pm_in            = "";    
-        s.txtb_pm_out           = "";    
-        s.txtb_remarks          = "";    
-                                
-        s.txtb_time_ot_hours    = "";    
-        s.txtb_time_days_equiv  = "";    
-        s.txtb_time_hours_equiv = "";    
-        s.txtb_time_ot_payable  = "";
-                               
-        s.ts_code               = "";    
-        //s.under_Time            = "";        
-                                
-        s.dtr_order_no          = "";    
+    function clearentry()
+    {
+        s.txtb_empl_name            = "";    
+        s.txtb_department2          = "";    
+        s.txtb_dtr_date             = "";        
+        s.selected_date             = "";        
+        s.txtb_am_in                = "";           
+        s.txtb_am_out               = "";    
+        s.txtb_undertime            = "";        
+        s.txtb_undertime_remarks    = "";        
+        s.txtb_pm_in                = "";    
+        s.txtb_pm_out               = "";    
+        s.txtb_remarks              = "";  
+        s.txtb_time_ot_hours        = "";    
+        s.txtb_time_days_equiv      = "";    
+        s.txtb_time_hours_equiv     = "";    
+        s.txtb_time_ot_payable      = "";
+        s.ts_code                   = "";     
+        s.dtr_order_no              = "";    
+        s.temp_time_in_am           = "";
+        s.temp_time_out_am          = "";
+        s.temp_under_Time           = "";
+        s.temp_under_Time_remarks   = "";
+        s.temp_time_in_pm           = "";
+        s.temp_time_out_pm          = "";
+        s.temp_remarks_details      = "";
+        s.temp_reason_details       = "";
+        s.temp_time_ot_hris         = "";
+        s.temp_time_days_equi       = "";
+        s.temp_time_hours_equi      = "";
+        s.temp_time_ot_payable      = "";
+        s.txtb_remarks_override     = "";
+        s.temp_remarks              = "";
+        remarks_am_in               = "";
+        remarks_am_out              = "";
+        remarks_pm_in               = "";
+        remarks_pm_out              = "";
+        remarks_undertime_minute    = "";
+        remarks_undertime_remarks   = "";
+        remarks_remarks             = "";
+        remarks_reason              = "";
+        remarks_ot_remarks          = "";
+        remarks_days_remarks        = "";
+        remarks_ot_payable_remarks  = "";
 
-        s.temp_time_in_am       = ''
-        s.temp_time_out_am      = ''
-        s.temp_under_Time       = ''
-        s.temp_under_Time_remarks = ''
-        s.temp_time_in_pm       = ''
-        s.temp_time_out_pm      = ''
-        s.temp_remarks_details  = ''
-        s.temp_reason_details  = ''
-        s.temp_time_ot_hris     = ''
-        s.temp_time_days_equi   = ''
-        s.temp_time_hours_equi  = ''
-        s.temp_time_ot_payable = ''
-        s.txtb_remarks_override = ''
-    s.temp_remarks = ''
-        remarks_am_in = ''
-        remarks_am_out = ''
-        remarks_pm_in = ''
-        remarks_pm_out = ''
-        remarks_undertime_minute = ''
-        remarks_undertime_remarks = ''
-        remarks_remarks = ''
-        remarks_reason = ''
-        remarks_ot_remarks = ''
-        remarks_days_remarks = ''
-        remarks_ot_payable_remarks = ''
+        s.late_in_am                = "";
+        s.undertime_out_am          = "";
+        s.late_in_pm                = "";
+        s.undertime_out_pm          = "";
+        s.tse_in_am                 = "";
+        s.tse_out_am                = "";
+        s.tse_in_pm                 = "";
+        s.tse_out_pm                = "";
+        s.leavetype_code            = "";
+
     }
 
     s.UpdateAction = function (values,action)
-    {  //ADDED BY JORGE: 2021-05-21
-
-       
-        //var remarks_status = ""
-      
-        //FOR EDIT TIME IN AND DELETE TIME IN -SINGLE UPDATE
-
-     
-
+    {  
         if (action == 'AM-IN')
         {
             if (s.temp_time_in_am.trim() != values.trim()) {
@@ -961,5 +898,30 @@
         });
     })
 
+    s.compute_late_und = function ()
+    {
+        var total_lates_und = 0
+        total_lates_und = parseInt(s.late_in_am) + parseInt(s.late_in_pm) + parseInt(s.undertime_out_am) + parseInt(s.undertime_out_pm) 
+        s.txtb_undertime = total_lates_und;
+        s.txtb_undertime_remarks = undertime_format(total_lates_und)
+    }
 
+    function undertime_format(minutes)
+    {
+        var formattedTime  = ""
+        if (parseInt(s.late_in_am) >= 0 && parseInt(s.late_in_pm) >= 0 && parseInt(s.undertime_out_am) >= 0 &&  parseInt(s.undertime_out_pm) )
+        {
+            const hours             = Math.floor(minutes / 60);
+            const remainingMinutes  = minutes % 60;
+            if (hours==0)
+            {
+                formattedTime = `${remainingMinutes}m`;
+            }
+            else
+            {
+                formattedTime = remainingMinutes == 0 ? `${hours}h` : `${hours}h ${remainingMinutes}m`;
+            }
+        }
+        return formattedTime
+    }
 })

@@ -161,5 +161,36 @@ namespace HRIS_eAATS.Controllers
         //{
         //    return db.lv_ledger_history_tbl.Count(e => e.id == id) > 0;
         //}
+        [Route("api/ListOfEmployee")]
+        public HttpResponseMessage GetListOfEmployee(string term)
+        {
+            if (!string.IsNullOrEmpty(term))
+            {
+                var data = from a in db_pay.vw_personnelnames_tbl
+                           join b in db_pay.personnel_tbl 
+                           on a.empl_id equals b.empl_id
+                           where a.employee_name.Contains(term) || a.empl_id.Contains(term)
+                           select new
+                           {
+                                 a.empl_id
+                                ,a.employee_name
+                                ,a.last_name
+                                ,a.first_name
+                                ,a.middle_name
+                                ,a.suffix_name
+                                ,a.courtisy_title
+                                ,a.postfix_name
+                                ,a.employee_name_format2
+                                ,b.empl_photo
+                                ,b.empl_photo_img
+                           };
+
+                return Request.CreateResponse(HttpStatusCode.OK, data, Configuration.Formatters.JsonFormatter);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Error", Configuration.Formatters.JsonFormatter);
+            }
+        }
     }
 }

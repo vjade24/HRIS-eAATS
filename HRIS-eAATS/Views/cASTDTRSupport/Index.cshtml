@@ -446,7 +446,7 @@
                                                                     <div class="ibox-content">
                                                                         <ul class="sortable-list connectList agile-list" id="todo">
                                                                             <li class="{{lst.color}}-element" id="task1" ng-repeat="lst in time_sked_hdr">
-                                                                                <span class="label label-warning"> <i class="fa fa-calendar-o"></i> {{month_int_to_name(lst.tse_month)}} - {{lst.tse_year}}</span><br /><br />
+                                                                                <span class="label label-warning"> <i class="fa fa-calendar-o"></i>{{month_int_to_name(lst.tse_month)}} - {{lst.tse_year}}</span><br /><br />
                                                                                 <small><b>{{lst.employee_name}}</b></small><br />
 
                                                                                 <small><b>Effective Date - {{lst.tse_effective_date}}</b></small>
@@ -455,7 +455,7 @@
                                                                                         <span class="badge badge-{{lst.color}}">{{lst.approval_status_descr}}</span>
                                                                                     </div>
                                                                                     <div class="col-lg-6 text-right">
-                                                                                        <button ng-click="TimeSked_DTL(lst.empl_id,lst.tse_month,lst.tse_year,lst.tse_effective_date)" class="float-right btn btn-xs btn-white btn-outline"><i class="fa fa-eye"></i> View</button>
+                                                                                        <button ng-click="TimeSked_DTL(lst.empl_id,lst.tse_month,lst.tse_year,lst.tse_effective_date,lst.shift_flag)" class="float-right btn btn-xs btn-white btn-outline"><i class="fa fa-eye"></i> View</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
@@ -466,7 +466,7 @@
                                                             <div class="col-lg-8" style="border-left:1px solid #dbdbdb !important">
                                                                 <div class="ibox">
                                                                     <div class="ibox-title ">
-                                                                        <h5><b>Time Schedule </b></h5>
+                                                                        <h5><b>Time Schedule </b><small class="badge badge-danger">{{lbl_shift_flag}}</small></h5>
                                                                         <div class="ibox-tools" style="float:right !important">
                                                                             <span class="label label-warning"> <i class="fa fa-calendar-o"></i> {{time_sked_hdr_title}}</span>
                                                                         </div>

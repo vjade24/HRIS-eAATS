@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Angular/ng-cLeaveTransmittal.js?v=4"></script>
+<script src="~/Angular/ng-cLeaveTransmittal.js?v=@DateTime.Now.ToString()"></script>
 <style type="text/css">
     .field {
         border-radius: 3px;
@@ -248,7 +248,7 @@
                             <div class=" form-group row">
                                 <div class="col-lg-12">
                                     <label>Transmittal Ctrl. #</label>
-                                    <input class="form-control font-bold" disabled id="txtb_doc_ctrl_nbr" ng-model="txtb_doc_ctrl_nbr"  />
+                                    <input class="form-control font-bold" disabled id="txtb_doc_ctrl_nbr" ng-model="txtb_doc_ctrl_nbr" />
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Approved Period From<span class="text-danger"><small>*required</small></span></label>
@@ -298,6 +298,18 @@
                                     <select class="form-control" id="ddl_rep_mode_add_edit" ng-model="ddl_rep_mode_add_edit" ng-disabled="dis_title">
                                         <option value="2">Leave Card</option>
                                         <option value="3">CTO Card</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-4" ng-show="!show_department">
+                                    <label>Route To (Legislative)<span class="text-danger"></span></label>
+                                    <br />
+                                    <input type="checkbox" ng-model="is_legis"  style="width:25px ;height:25px"/>
+                                </div>
+                                <div class="col-lg-4" ng-show="is_legis == true">
+                                    <label>Route To<span class="text-danger"><small>*required</small></span></label>
+                                    <select class="form-control" ng-model="route_to_legis">
+                                        <option value="SPO">SPO</option>
+                                        <option value="VGO">VGO</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6" style="display:none">

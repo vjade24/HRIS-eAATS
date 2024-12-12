@@ -36,5 +36,11 @@ namespace HRIS_eAATS.Models
         public Nullable<bool> flag_expt_hdmf { get; set; }
         public Nullable<decimal> hdmf_fix_rate { get; set; }
         public Nullable<System.DateTime> date_of_assumption { get; set; }
+        public string item_no { get; set; }
+        public string salary_grade { get; set; }
+        public Nullable<System.DateTime> created_dttm { get; set; }
+        public string created_by { get; set; }
+        public Nullable<System.DateTime> updated_dttm { get; set; }
+        public string updated_by { get; set; }
     }
 }

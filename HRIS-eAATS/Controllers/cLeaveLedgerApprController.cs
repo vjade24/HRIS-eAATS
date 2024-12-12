@@ -19,11 +19,18 @@ namespace HRIS_eAATS.Controllers
         // GET: cLeaveLedgerAppr
         public ActionResult Index()
         {
-            if (um != null || um.ToString() != "")
+            try
             {
-                GetAllowAccess();
+                if (um != null || um.ToString() != "")
+                {
+                    GetAllowAccess();
+                }
+                return View(um);
             }
-            return View(um);
+            catch (Exception)
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
         private User_Menu GetAllowAccess()
         {
@@ -65,10 +72,24 @@ namespace HRIS_eAATS.Controllers
                 var log_empl_id = Session["empl_id"].ToString();
                 var leaveType                       = db_ats.sp_leavetype_tbl_list().ToList();
                 var leaveSubType                    = db_ats.sp_leavesubtype_tbl_list("").ToList();
-                var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
+                var lv_admin_dept_list              = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id && a.approver == true).OrderBy(a => a.department_code);
 
-                var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(),"N").ToList();
-                var info_list2_chart = from s in ledgerposting_for_approval_list.ToList()
+                var admin_names                     = from a in db_ats.vw_leaveadmin_tbl_list.Where(a=>a.approver == true).ToList()
+                                                      join b in db_ats.vw_personnelnames_tbl_HRIS_ATS
+                                                      on a.empl_id equals b.empl_id
+                                                      select new
+                                                      {
+                                                          b
+                                                      };
+                admin_names = admin_names.Distinct();
+                //var ledgerposting_for_approval_list = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(),"N").ToList();
+                var ledgerposting_for_approval_list1 = from t1 in db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N", DateTime.Now, DateTime.Now).ToList()
+                                   where (from t2 in lv_admin_dept_list.ToList()
+                                          where t2.empl_id == log_empl_id
+                                          select t2.department_code).Contains(t1.department_code)
+                                   select t1;
+
+                var info_list2_chart = from s in ledgerposting_for_approval_list1.ToList()
                                        orderby s.evaluated_dttm
                                        group s by s.evaluated_dttm.Date into g
                                        select new
@@ -76,12 +97,58 @@ namespace HRIS_eAATS.Controllers
                                            Label = (from l in g select l.evaluated_dttm).Distinct(),
                                            Count = (from l in g select l.evaluated_dttm).Count()
                                        };
-                return JSON(new { message = "success", um , leaveType, leaveSubType, ledgerposting_for_approval_list, lv_admin_dept_list, info_list2_chart }, JsonRequestBehavior.AllowGet);
+
+                var ledgerposting_for_approval_list = from a in ledgerposting_for_approval_list1.ToList()
+                                                join b in db_ats.leave_application_mone_tbl
+                                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                                                from b in temp.DefaultIfEmpty()
+                                                select new
+                                                {
+                                                     a.ledger_ctrl_no
+                                                    ,a.empl_id
+                                                    ,a.employee_name
+                                                    ,a.leavetype_code
+                                                    ,a.leavetype_descr
+                                                    ,a.leaveledger_date
+                                                    ,a.leaveledger_period
+                                                    ,a.leaveledger_particulars
+                                                    ,a.leaveledger_entry_type
+                                                    ,a.leaveledger_entry_type_desc
+                                                    ,a.details_remarks
+                                                    ,a.approval_status
+                                                    ,a.approval_status_descr
+                                                    ,a.approval_id
+                                                    ,a.cancel_pending_comment
+                                                    ,a.cancelled_comment
+                                                    ,a.disapproval_comment
+                                                    ,a.reviewed_comment
+                                                    ,a.level1_approval_comment
+                                                    ,a.level2_approval_comment
+                                                    ,a.final_approval_comment
+                                                    ,a.empl_id_creator
+                                                    ,a.creator_name
+                                                    ,a.user_id_creator
+                                                    ,a.worklist_status
+                                                    ,a.worklist_action
+                                                    ,a.next_status
+                                                    ,a.leavesubtype_code
+                                                    ,a.date_applied
+                                                    ,a.leave_ctrlno
+                                                    ,a.evaluated_dttm
+                                                    ,a.inclusive_dates
+                                                    ,a.justification_flag
+                                                    ,a.cancellation_flag
+                                                    ,a.department_code
+                                                    ,a.department_short_name
+                                                    ,a.evaluated_by
+                                                    ,mone = b
+                                                };
+                return JSON(new { message = "success", um , leaveType, leaveSubType, ledgerposting_for_approval_list, lv_admin_dept_list, info_list2_chart, admin_names, log_empl_id }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 string message = e.Message.ToString();
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+                return Json(new {  message }, JsonRequestBehavior.AllowGet);
             }
         }
         //*********************************************************************//
@@ -93,30 +160,56 @@ namespace HRIS_eAATS.Controllers
             string par_show_history,
             string par_rep_mode,
             DateTime? date_fr_grid,
-            DateTime? date_to_grid
+            DateTime? date_to_grid,
+            string empl_id,
+            string department_code
         )
         {
             try
             {
-                //var filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).ToList();
-                List<sp_ledgerposting_for_approval_list_Result> filteredGrid = new List<sp_ledgerposting_for_approval_list_Result>();
+                var log_empl_id = Session["empl_id"].ToString();
+                var log_user_id = "U" + empl_id;
+                var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == empl_id && a.approver == true).OrderBy(a => a.department_code);
+                //List<sp_ledgerposting_for_approval_list_Result> filteredGrid = new List<sp_ledgerposting_for_approval_list_Result>();
+                //filteredGrid = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history).ToList();
+                bool is_same = false;
+                var filteredGrid1 = db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList();
 
-                filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).ToList();
+                if (par_show_history == "Y")
+                {
+                    filteredGrid1 = filteredGrid1.Where(a => a.evaluated_by == "U"+ empl_id).ToList();
+                }
+                else
+                {
+                    var filteredGrid_v2 = from t1 in db_ats.sp_ledgerposting_for_approval_list(log_user_id, par_show_history, date_fr_grid, date_to_grid).ToList()
+                    where (from t2 in lv_admin_dept_list.ToList()
+                           where t2.empl_id == empl_id
+                           select t2.department_code).Contains(t1.department_code)
+                    select t1;
+
+                    filteredGrid1 = filteredGrid_v2.ToList();
+                }
+
+                if (department_code.ToString() != "")
+                {
+                    filteredGrid1 = filteredGrid1.Where(a => a.department_code == department_code).ToList();
+                }
+                
 
                 if (par_rep_mode == "2") // Leave 
                 {
-                    filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).Where(a => a.leavetype_code != "CTO").ToList();
+                    filteredGrid1 = filteredGrid1.Where(a => a.leavetype_code != "CTO").ToList();
 
                 }
                 else if (par_rep_mode == "3") // CTO 
                 {
-                    filteredGrid = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), par_show_history).Where(a => a.leavetype_code == "CTO").ToList();
+                    filteredGrid1 = filteredGrid1.Where(a => a.leavetype_code == "CTO").ToList();
                 }
                 if (par_show_history == "Y" && date_fr_grid != null & date_to_grid != null)
                 {
-                    filteredGrid = filteredGrid.Where(a=> a.evaluated_dttm.Date >= date_fr_grid.Value.Date && a.evaluated_dttm.Date <= date_to_grid.Value.Date).ToList();
+                    filteredGrid1 = filteredGrid1.Where(a=> a.evaluated_dttm.Date >= date_fr_grid.Value.Date && a.evaluated_dttm.Date <= date_to_grid.Value.Date).ToList();
                 }
-                var info_list2_chart = from s in filteredGrid.ToList()
+                var info_list2_chart = from s in filteredGrid1.ToList()
                                        orderby s.evaluated_dttm
                                        group s by s.evaluated_dttm.ToString("MMM dd, yyyy") into g
                                        select new
@@ -125,7 +218,7 @@ namespace HRIS_eAATS.Controllers
                                            Count = (from l in g select l.evaluated_dttm).Count()
                                        };
 
-                var donut_chart     = from s in filteredGrid.ToList()
+                var donut_chart     = from s in filteredGrid1.ToList()
                                        orderby s.leavetype_descr
                                        group s by s.leavetype_descr into g
                                        select new
@@ -134,7 +227,7 @@ namespace HRIS_eAATS.Controllers
                                            Count = (from l in g select l.leavetype_descr).Count()
                                        };
 
-                var line_chart = from s in filteredGrid.ToList()
+                var line_chart = from s in filteredGrid1.ToList()
                                  orderby s.evaluated_dttm
                                  group s by s.evaluated_dttm.ToString("yyyy-MM") into g
                                  select new
@@ -145,8 +238,68 @@ namespace HRIS_eAATS.Controllers
                                       b         = g.ToList().Where(a => a.justification_flag == true).Count(),
                                       c         = g.ToList().Where(a => a.cancellation_flag  != "").Count(),
                                  };
+                if(date_fr_grid.Value.ToString("yyyy-MM") == date_to_grid.Value.ToString("yyyy-MM"))
+                {
+                    is_same    = true;
+                    line_chart = from s in filteredGrid1.ToList()
+                                 orderby s.evaluated_dttm
+                                 group s by s.evaluated_dttm.ToString("yyyy-MM-dd") into g
+                                 select new
+                                 {
+                                      data      = g.ToList(),
+                                      y         = (from l in g select l.evaluated_dttm.ToString("yyyy-MM-dd")).Distinct(),
+                                      a         = (from l in g select l.evaluated_dttm).Count(),
+                                      b         = g.ToList().Where(a => a.justification_flag == true).Count(),
+                                      c         = g.ToList().Where(a => a.cancellation_flag  != "").Count(),
+                                 };
+                }
+                var filteredGrid = from a in filteredGrid1.ToList()
+                                                join b in db_ats.leave_application_mone_tbl
+                                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                                                from b in temp.DefaultIfEmpty()
+                                                select new
+                                                {
+                                                     a.ledger_ctrl_no
+                                                    ,a.empl_id
+                                                    ,a.employee_name
+                                                    ,a.leavetype_code
+                                                    ,a.leavetype_descr
+                                                    ,a.leaveledger_date
+                                                    ,a.leaveledger_period
+                                                    ,a.leaveledger_particulars
+                                                    ,a.leaveledger_entry_type
+                                                    ,a.leaveledger_entry_type_desc
+                                                    ,a.details_remarks
+                                                    ,a.approval_status
+                                                    ,a.approval_status_descr
+                                                    ,a.approval_id
+                                                    ,a.cancel_pending_comment
+                                                    ,a.cancelled_comment
+                                                    ,a.disapproval_comment
+                                                    ,a.reviewed_comment
+                                                    ,a.level1_approval_comment
+                                                    ,a.level2_approval_comment
+                                                    ,a.final_approval_comment
+                                                    ,a.empl_id_creator
+                                                    ,a.creator_name
+                                                    ,a.user_id_creator
+                                                    ,a.worklist_status
+                                                    ,a.worklist_action
+                                                    ,a.next_status
+                                                    ,a.leavesubtype_code
+                                                    ,a.date_applied
+                                                    ,a.leave_ctrlno
+                                                    ,a.evaluated_dttm
+                                                    ,a.inclusive_dates
+                                                    ,a.justification_flag
+                                                    ,a.cancellation_flag
+                                                    ,a.department_code
+                                                    ,a.department_short_name
+                                                    ,a.evaluated_by
+                                                    ,mone = b
+                                                };
 
-                return JSON(new { message = "success", filteredGrid, info_list2_chart, donut_chart , line_chart }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", filteredGrid, info_list2_chart, donut_chart , line_chart ,lv_admin_dept_list , log_empl_id , is_same }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

@@ -38,7 +38,10 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<usersprofile_tbl> usersprofile_tbl { get; set; }
         public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
         public virtual DbSet<approvalstatus_tbl> approvalstatus_tbl { get; set; }
-        public virtual DbSet<step_reckoning_tbl> step_reckoning_tbl { get; set; }
+        public virtual DbSet<payrollemployeemaster_pos_tbl> payrollemployeemaster_pos_tbl { get; set; }
+        public virtual DbSet<positions_tbl> positions_tbl { get; set; }
+        public virtual DbSet<vw_payrollemployeemaster_hdr_pos_tbl> vw_payrollemployeemaster_hdr_pos_tbl { get; set; }
+        public virtual DbSet<user_prime_token_tbl> user_prime_token_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {
@@ -109,25 +112,21 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_Result>("sp_employee_list_dept", p_empl_idParameter);
         }
     
-        public virtual ObjectResult<sp_stepincrement_rekon_list_Result> sp_stepincrement_rekon_list(string par_department_code, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_record_tag)
+        public virtual ObjectResult<sp_leave_application_mone_waiver_rep_Result> sp_leave_application_mone_waiver_rep(string par_leave_ctrlno, string par_empl_id, string par_empl_id_waiver)
         {
-            var par_department_codeParameter = par_department_code != null ?
-                new ObjectParameter("par_department_code", par_department_code) :
-                new ObjectParameter("par_department_code", typeof(string));
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
     
-            var par_period_fromParameter = par_period_from.HasValue ?
-                new ObjectParameter("par_period_from", par_period_from) :
-                new ObjectParameter("par_period_from", typeof(System.DateTime));
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
     
-            var par_period_toParameter = par_period_to.HasValue ?
-                new ObjectParameter("par_period_to", par_period_to) :
-                new ObjectParameter("par_period_to", typeof(System.DateTime));
+            var par_empl_id_waiverParameter = par_empl_id_waiver != null ?
+                new ObjectParameter("par_empl_id_waiver", par_empl_id_waiver) :
+                new ObjectParameter("par_empl_id_waiver", typeof(string));
     
-            var par_record_tagParameter = par_record_tag != null ?
-                new ObjectParameter("par_record_tag", par_record_tag) :
-                new ObjectParameter("par_record_tag", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_stepincrement_rekon_list_Result>("sp_stepincrement_rekon_list", par_department_codeParameter, par_period_fromParameter, par_period_toParameter, par_record_tagParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_mone_waiver_rep_Result>("sp_leave_application_mone_waiver_rep", par_leave_ctrlnoParameter, par_empl_idParameter, par_empl_id_waiverParameter);
         }
     }
 }

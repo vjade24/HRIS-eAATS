@@ -30,5 +30,8 @@ namespace HRIS_eAATS.Models
         public string employment_tyep { get; set; }
         public string view_mode { get; set; }
         public string created_by_empl_id { get; set; }
+        public bool is_legis { get; set; }
+        public string route_to_legis { get; set; }
+        public string transmittal_type_descr { get; set; }
     }
 }

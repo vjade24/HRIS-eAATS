@@ -69,29 +69,96 @@
       <HintPath>..\..\Interop.zkemkeeper.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.AspNetCore.Cors, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Cors.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Extensions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Extensions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Cors, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.3.0\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    <Reference Include="System.Web.Http.Cors, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.3.0\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.3.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
@@ -137,9 +204,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -170,13 +234,16 @@
     <Compile Include="Common_Code\HRIS_Common.cs" />
     <Compile Include="Common_Code\UniversalStatic.cs" />
     <Compile Include="Common_Code\ZkemClient.cs" />
+    <Compile Include="Controllers\APIcBestInAttendanceController.cs" />
     <Compile Include="Controllers\APILeaveHistoryController.cs" />
     <Compile Include="Controllers\BioExtractController.cs" />
     <Compile Include="Controllers\cAATSInstallationController.cs" />
     <Compile Include="Controllers\cASTDTRSupportController.cs" />
     <Compile Include="Controllers\cASTypeController.cs" />
+    <Compile Include="Controllers\cBestInAttendanceController.cs" />
     <Compile Include="Controllers\cExtractToExcelController.cs" />
     <Compile Include="Controllers\cLeaveAdminController.cs" />
+    <Compile Include="Controllers\cLeaveCTOBalanceController.cs" />
     <Compile Include="Controllers\cLeaveEarnedVLSLController.cs" />
     <Compile Include="Controllers\cLeaveLedgerApprController.cs" />
     <Compile Include="Controllers\cLeaveLedgerController.cs" />
@@ -185,12 +252,11 @@
     <Compile Include="Controllers\cLeaveTrackingController.cs" />
     <Compile Include="Controllers\cLeaveTransmittalController.cs" />
     <Compile Include="Controllers\cLeaveTypeController.cs" />
-    <Compile Include="Controllers\cLoyaltyController.cs" />
+    <Compile Include="Controllers\cLWOPController.cs" />
     <Compile Include="Controllers\cMainPageController.cs" />
     <Compile Include="Controllers\cMonthEarnsController.cs" />
     <Compile Include="Controllers\cLeaveHistoryController.cs" />
     <Compile Include="Controllers\cRepForgot2PunchController.cs" />
-    <Compile Include="Controllers\cStepIncrementController.cs" />
     <Compile Include="Controllers\cTimeScheduleController.cs" />
     <Compile Include="Controllers\cTravelTypeController.cs" />
     <Compile Include="Controllers\cVLConversionDetailsController.cs" />
@@ -223,6 +289,12 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\authorization_slip_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\best_in_attendance_dtl_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\best_in_attendance_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\biomachine_data.cs" />
@@ -501,6 +573,12 @@
     <Compile Include="Models\leave_application_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leave_application_mone_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\leave_application_mone_waiver_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leave_application_signatories_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -548,7 +626,13 @@
     <Compile Include="Models\payrollemployeemaster_hdr_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payrollemployeemaster_pos_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\personnel_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\positions_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_aats_installation_tbl_list_Result.cs">
@@ -795,7 +879,7 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_dept_Result.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_without_jo1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -965,6 +1049,9 @@
     <Compile Include="Models\sp_leave_application_hdr_tbl_report_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leave_application_mone_waiver_rep_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leave_application_rep2_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -984,6 +1071,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_application_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leave_balances_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_electric_sig_Result.cs">
@@ -1035,6 +1125,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_lv_ledger_posted_unposted_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lwop_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_monthly_working_hrs_tbl_Result.cs">
@@ -1114,9 +1207,6 @@
     </Compile>
     <Compile Include="Models\sp_ss_auto_approval_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_stepincrement_rekon_list_Result.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_timeentries_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1272,7 +1362,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_user_menu_access_role_list_ATS_Result.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1285,9 +1375,6 @@
     </Compile>
     <Compile Include="Models\sp_vl_wop_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\step_reckoning_tbl.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1364,6 +1451,9 @@
     <Compile Include="Models\UserIDInfo.cs" />
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Models\usersprofile_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\user_prime_token_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vlslearned_dailybasis_tbl.cs">
@@ -1465,6 +1555,9 @@
     <Compile Include="Models\vw_payrollemployeemaster_ATS.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_payrollemployeemaster_hdr_pos_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_payrollemployeemaster_hdr_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -1502,6 +1595,18 @@
       <DependentUpon>cryApplicationForLeaveRep.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryApplicationForLeaveRep\cryApplicationForLeaveRep.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryApplicationForLeaveRep.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryBestAttendance\BestAttendanceTransmittal.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BestAttendanceTransmittal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryCOC\cryCOC.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1529,10 +1634,28 @@
       <DependentUpon>cryCTO.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryDTR\cryDTR 08-02-2023.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryDTR 08-02-2023.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryDTR\cryDTR.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryDTR.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryDTR\cryDTRV2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryDTRV2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryDTR\xcryDTR.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>xcryDTR.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryExtractTrackingHistoryLeaveApplication\cryExtractTrackingHistoryLeaveApplication.cs">
@@ -1545,6 +1668,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryForgotPunchList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveCertification\cryLeaveCertification.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveCertification.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification.cs">
@@ -1562,10 +1691,28 @@
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveLedgerSummary.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummaryTerminal.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveLedgerSummaryTerminal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveLedger\LeaveLedgerCard.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LeaveLedgerCard.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
@@ -1631,6 +1778,9 @@
     <Content Include="Angular\ng-cASType.js" />
     <Content Include="Angular\ng-cExtractToExcel.js" />
     <Content Include="Angular\ng-cLeaveAdmin.js" />
+    <Content Include="Angular\ng-cBestInAttendance.js" />
+    <Content Include="Angular\ng-cLWOP.js" />
+    <Content Include="Angular\ng-cLeaveCTOBalance.js" />
     <Content Include="Angular\ng-cLeaveEarnedVLSL.js" />
     <Content Include="Angular\ng-cLeaveLedger.js" />
     <Content Include="Angular\ng-cLeaveHistory.js" />
@@ -1644,7 +1794,6 @@
     <Content Include="Angular\ng-cMainPage.js" />
     <Content Include="Angular\ng-cRepForgot2Punch.js" />
     <Content Include="Angular\ng-cASTDTRSupport.js" />
-    <Content Include="Angular\ng-cStepIncrement.js" />
     <Content Include="Angular\ng-cTimeSchedule.js" />
     <Content Include="Angular\ng-cTravelType.js" />
     <Content Include="Angular\ng-cVLConversionDetails.js" />
@@ -1691,6 +1840,7 @@
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfonte0a5.svg" />
+    <Content Include="Content\loading_div.css" />
     <Content Include="Content\Old\bootstrap-theme.css" />
     <Content Include="Content\Old\bootstrap-theme.min.css" />
     <Content Include="Content\Old\bootstrap.css" />
@@ -2591,6 +2741,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\sheetJS.js" />
     <Content Include="UploadedFile\test.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -2638,8 +2789,9 @@
     <Content Include="Views\cLeaveTracking\Index.cshtml" />
     <Content Include="Views\cLeaveTransmittal\Index.cshtml" />
     <Content Include="Views\cLeavePrinting\Index.cshtml" />
-    <Content Include="Views\cLoyalty\Index.cshtml" />
-    <Content Include="Views\cStepIncrement\Index.cshtml" />
+    <Content Include="Views\cLeaveCTOBalance\Index.cshtml" />
+    <Content Include="Views\cLWOP\Index.cshtml" />
+    <Content Include="Views\cBestInAttendance\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2651,7 +2803,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -2758,6 +2912,42 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTransmittal.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\cryLeaveCertification\cryLeaveCertification.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveCertification.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reports\cryBestAttendance\BestAttendanceTransmittal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>BestAttendanceTransmittal.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryDTR\cryDTR 08-02-2023.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryDTR 08-02-2023.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="Reports\cryDTR\cryDTRV2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryDTRV2.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryDTR\xcryDTR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>xcryDTR.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedgerSummary.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummaryTerminal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedgerSummaryTerminal.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryLeaveLedger\LeaveLedgerCard.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>LeaveLedgerCard.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

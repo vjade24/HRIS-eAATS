@@ -60,6 +60,24 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="flag_expt_hdmf" Type="bit" />
           <Property Name="hdmf_fix_rate" Type="money" />
           <Property Name="date_of_assumption" Type="date" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="payrollemployeemaster_pos_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" />
+          <Property Name="hazard_pay_override" Type="money" />
         </EntityType>
         <EntityType Name="personnel_tbl">
           <Key>
@@ -107,19 +125,22 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="pwd_type_id" Type="int" />
           <Property Name="gender2" Type="varchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="step_reckoning_tbl">
+        <EntityType Name="positions_tbl">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="position_code" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="record_tag" Type="varchar" MaxLength="5" Nullable="false" />
-          <Property Name="rekoning_date" Type="date" Nullable="false" />
-          <Property Name="remarks" Type="varchar" MaxLength="500" />
-          <Property Name="created_by" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="created_dttm" Type="datetime" Nullable="false" />
-          <Property Name="updated_by" Type="varchar" MaxLength="15" />
-          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_title1" Type="varchar" MaxLength="150" />
+          <Property Name="position_title2" Type="varchar" MaxLength="255" />
+          <Property Name="position_short_title" Type="varchar" MaxLength="30" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" />
+          <Property Name="csc_level" Type="varchar" MaxLength="1" />
+          <Property Name="position_long_title" Type="varchar" MaxLength="255" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" />
+          <Property Name="qs_eduction" Type="varchar(max)" />
+          <Property Name="qs_work_experience" Type="varchar(max)" />
+          <Property Name="qs_training" Type="varchar(max)" />
+          <Property Name="qs_eligibility" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="transactionsref_tbl">
           <Key>
@@ -134,6 +155,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="module_id" Type="int" />
           <Property Name="with_self_service" Type="bit" />
           <Property Name="with_self_service_approval" Type="bit" />
+        </EntityType>
+        <EntityType Name="user_prime_token_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="token" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="token_expiry_date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="usersprofile_tbl">
           <Key>
@@ -241,8 +271,8 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_departments_tbl_list' does not hav
           <Property Name="function_code" Type="varchar" MaxLength="8" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRIS_PAY.dbo.vw_payrollemployeemaster_hdr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vw_payrollemployeemaster_hdr_tbl">
+warning 6002: The table/view 'HRIS_PAY.dbo.vw_payrollemployeemaster_hdr_pos_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_payrollemployeemaster_hdr_pos_tbl">
           <Key>
             <PropertyRef Name="empl_id" />
             <PropertyRef Name="employment_type" />
@@ -252,6 +282,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_payrollemployeemaster_hdr_tbl' doe
             <PropertyRef Name="flag_expt_hdmf" />
             <PropertyRef Name="flag_expt_phic" />
             <PropertyRef Name="hdmf_fix_rate" />
+            <PropertyRef Name="date_of_assumption" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="salary_grade" />
+            <PropertyRef Name="position_code" />
           </Key>
           <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
           <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
@@ -274,6 +308,53 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_payrollemployeemaster_hdr_tbl' doe
           <Property Name="flag_expt_hdmf" Type="bit" Nullable="false" />
           <Property Name="flag_expt_phic" Type="bit" Nullable="false" />
           <Property Name="hdmf_fix_rate" Type="money" Nullable="false" />
+          <Property Name="date_of_assumption" Type="date" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_long_title" Type="varchar" MaxLength="255" />
+          <Property Name="employee_name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_PAY.dbo.vw_payrollemployeemaster_hdr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_payrollemployeemaster_hdr_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="payroll_group_nbr" />
+            <PropertyRef Name="flag_expt_gsis" />
+            <PropertyRef Name="flag_expt_hdmf" />
+            <PropertyRef Name="flag_expt_phic" />
+            <PropertyRef Name="hdmf_fix_rate" />
+            <PropertyRef Name="date_of_assumption" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="salary_grade" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="daily_rate" Type="money" />
+          <Property Name="hourly_rate" Type="money" />
+          <Property Name="rate_basis" Type="varchar" MaxLength="1" />
+          <Property Name="period_from" Type="date" />
+          <Property Name="period_to" Type="date" />
+          <Property Name="payroll_group_nbr" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="emp_rcrd_status" Type="bit" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" />
+          <Property Name="fund_code" Type="varchar" MaxLength="8" />
+          <Property Name="flag_expt_gsis" Type="bit" Nullable="false" />
+          <Property Name="flag_expt_hdmf" Type="bit" Nullable="false" />
+          <Property Name="flag_expt_phic" Type="bit" Nullable="false" />
+          <Property Name="hdmf_fix_rate" Type="money" Nullable="false" />
+          <Property Name="date_of_assumption" Type="date" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -324,11 +405,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_transaction_code" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_stepincrement_rekon_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
-          <Parameter Name="par_period_from" Type="date" Mode="In" />
-          <Parameter Name="par_period_to" Type="date" Mode="In" />
-          <Parameter Name="par_record_tag" Type="varchar" Mode="In" />
+        <Function Name="sp_leave_application_mone_waiver_rep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_leave_ctrlno" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id_waiver" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_update_transaction_in_approvalworkflow_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_approval_id" Type="varchar" Mode="In" />
@@ -346,9 +426,11 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
         <EntityContainer Name="HRIS_PAYModelStoreContainer">
           <EntitySet Name="approvalstatus_tbl" EntityType="Self.approvalstatus_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payrollemployeemaster_pos_tbl" EntityType="Self.payrollemployeemaster_pos_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="step_reckoning_tbl" EntityType="Self.step_reckoning_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="positions_tbl" EntityType="Self.positions_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_prime_token_tbl" EntityType="Self.user_prime_token_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usersprofile_tbl" EntityType="Self.usersprofile_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="Self.payrollemployeemaster_hdr_tbl" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -373,7 +455,13 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
     [payrollemployeemaster_hdr_tbl].[flag_expt_phic] AS [flag_expt_phic], 
     [payrollemployeemaster_hdr_tbl].[flag_expt_hdmf] AS [flag_expt_hdmf], 
     [payrollemployeemaster_hdr_tbl].[hdmf_fix_rate] AS [hdmf_fix_rate], 
-    [payrollemployeemaster_hdr_tbl].[date_of_assumption] AS [date_of_assumption]
+    [payrollemployeemaster_hdr_tbl].[date_of_assumption] AS [date_of_assumption], 
+    [payrollemployeemaster_hdr_tbl].[item_no] AS [item_no], 
+    [payrollemployeemaster_hdr_tbl].[salary_grade] AS [salary_grade], 
+    [payrollemployeemaster_hdr_tbl].[created_dttm] AS [created_dttm], 
+    [payrollemployeemaster_hdr_tbl].[created_by] AS [created_by], 
+    [payrollemployeemaster_hdr_tbl].[updated_dttm] AS [updated_dttm], 
+    [payrollemployeemaster_hdr_tbl].[updated_by] AS [updated_by]
     FROM [dbo].[payrollemployeemaster_hdr_tbl] AS [payrollemployeemaster_hdr_tbl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_approvalworkflow_tbl" EntityType="Self.vw_approvalworkflow_tbl" store:Type="Views" store:Schema="dbo">
@@ -426,6 +514,37 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
     [vw_departments_tbl_list].[function_code] AS [function_code]
     FROM [dbo].[vw_departments_tbl_list] AS [vw_departments_tbl_list]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="vw_payrollemployeemaster_hdr_pos_tbl" EntityType="Self.vw_payrollemployeemaster_hdr_pos_tbl" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[empl_id] AS [empl_id], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[employment_type] AS [employment_type], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[effective_date] AS [effective_date], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[monthly_rate] AS [monthly_rate], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[daily_rate] AS [daily_rate], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[hourly_rate] AS [hourly_rate], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[rate_basis] AS [rate_basis], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[period_from] AS [period_from], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[period_to] AS [period_to], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[payroll_group_nbr] AS [payroll_group_nbr], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[emp_rcrd_status] AS [emp_rcrd_status], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[department_code] AS [department_code], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[subdepartment_code] AS [subdepartment_code], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[division_code] AS [division_code], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[section_code] AS [section_code], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[function_code] AS [function_code], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[fund_code] AS [fund_code], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[flag_expt_gsis] AS [flag_expt_gsis], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[flag_expt_hdmf] AS [flag_expt_hdmf], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[flag_expt_phic] AS [flag_expt_phic], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[hdmf_fix_rate] AS [hdmf_fix_rate], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[date_of_assumption] AS [date_of_assumption], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[item_no] AS [item_no], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[salary_grade] AS [salary_grade], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[position_code] AS [position_code], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[position_long_title] AS [position_long_title], 
+    [vw_payrollemployeemaster_hdr_pos_tbl].[employee_name] AS [employee_name]
+    FROM [dbo].[vw_payrollemployeemaster_hdr_pos_tbl] AS [vw_payrollemployeemaster_hdr_pos_tbl]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="vw_payrollemployeemaster_hdr_tbl" EntityType="Self.vw_payrollemployeemaster_hdr_tbl" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_payrollemployeemaster_hdr_tbl].[empl_id] AS [empl_id], 
@@ -448,7 +567,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
     [vw_payrollemployeemaster_hdr_tbl].[flag_expt_gsis] AS [flag_expt_gsis], 
     [vw_payrollemployeemaster_hdr_tbl].[flag_expt_hdmf] AS [flag_expt_hdmf], 
     [vw_payrollemployeemaster_hdr_tbl].[flag_expt_phic] AS [flag_expt_phic], 
-    [vw_payrollemployeemaster_hdr_tbl].[hdmf_fix_rate] AS [hdmf_fix_rate]
+    [vw_payrollemployeemaster_hdr_tbl].[hdmf_fix_rate] AS [hdmf_fix_rate], 
+    [vw_payrollemployeemaster_hdr_tbl].[date_of_assumption] AS [date_of_assumption], 
+    [vw_payrollemployeemaster_hdr_tbl].[item_no] AS [item_no], 
+    [vw_payrollemployeemaster_hdr_tbl].[salary_grade] AS [salary_grade]
     FROM [dbo].[vw_payrollemployeemaster_hdr_tbl] AS [vw_payrollemployeemaster_hdr_tbl]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_personnelnames_tbl" EntityType="Self.vw_personnelnames_tbl" store:Type="Views" store:Schema="dbo">
@@ -516,13 +638,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="usersprofile_tbl" EntityType="HRIS_PAYModel.usersprofile_tbl" />
           <EntitySet Name="personnel_tbl" EntityType="HRIS_PAYModel.personnel_tbl" />
           <EntitySet Name="approvalstatus_tbl" EntityType="HRIS_PAYModel.approvalstatus_tbl" />
-          <FunctionImport Name="sp_stepincrement_rekon_list" ReturnType="Collection(HRIS_PAYModel.sp_stepincrement_rekon_list_Result)">
-            <Parameter Name="par_department_code" Mode="In" Type="String" />
-            <Parameter Name="par_period_from" Mode="In" Type="DateTime" />
-            <Parameter Name="par_period_to" Mode="In" Type="DateTime" />
-            <Parameter Name="par_record_tag" Mode="In" Type="String" />
+          <FunctionImport Name="sp_leave_application_mone_waiver_rep" ReturnType="Collection(HRIS_PAYModel.sp_leave_application_mone_waiver_rep_Result)">
+            <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id_waiver" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="step_reckoning_tbl" EntityType="HRIS_PAYModel.step_reckoning_tbl" />
+          <EntitySet Name="payrollemployeemaster_pos_tbl" EntityType="HRIS_PAYModel.payrollemployeemaster_pos_tbl" />
+          <EntitySet Name="positions_tbl" EntityType="HRIS_PAYModel.positions_tbl" />
+          <EntitySet Name="vw_payrollemployeemaster_hdr_pos_tbl" EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl" />
+          <EntitySet Name="user_prime_token_tbl" EntityType="HRIS_PAYModel.user_prime_token_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -624,6 +748,9 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
             <PropertyRef Name="flag_expt_hdmf" />
             <PropertyRef Name="flag_expt_phic" />
             <PropertyRef Name="hdmf_fix_rate" />
+            <PropertyRef Name="date_of_assumption" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="salary_grade" />
           </Key>
           <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
@@ -646,6 +773,9 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="flag_expt_hdmf" Type="Boolean" Nullable="false" />
           <Property Name="flag_expt_phic" Type="Boolean" Nullable="false" />
           <Property Name="hdmf_fix_rate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="date_of_assumption" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="transactionsref_tbl">
           <Key>
@@ -762,6 +892,12 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="flag_expt_hdmf" Type="Boolean" />
           <Property Name="hdmf_fix_rate" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="date_of_assumption" Type="DateTime" Precision="0" />
+          <Property Name="item_no" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="departments_tbl">
           <Key>
@@ -851,38 +987,119 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="approval_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="approval_status_descr" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="sp_stepincrement_rekon_list_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="record_tag" Nullable="false" MaxLength="5" />
-          <Property Type="DateTime" Name="rekoning_date" Nullable="false" />
-          <Property Type="String" Name="remarks" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
-          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="created_by" Nullable="false" MaxLength="15" />
-          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
-          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="15" />
-          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+        <ComplexType Name="sp_leave_application_mone_waiver_rep_Result">
+          <Property Type="String" Name="leave_ctrlno" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="255" />
+          <Property Type="Double" Name="nbr_vl_remain" Nullable="true" />
+          <Property Type="Double" Name="nbr_fl_remain" Nullable="true" />
+          <Property Type="Double" Name="nbr_sl_remain" Nullable="true" />
+          <Property Type="Double" Name="nbr_min_mone" Nullable="true" />
+          <Property Type="Double" Name="nbr_max_mone" Nullable="true" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="monthly_rate" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="allocated_mone" Nullable="true" Precision="19" />
+          <Property Type="String" Name="mone_type" Nullable="true" MaxLength="20" />
+          <Property Type="Double" Name="nbr_mone" Nullable="true" />
+          <Property Type="Decimal" Name="total_mone" Nullable="true" Precision="19" />
+          <Property Type="String" Name="remarks" Nullable="true" MaxLength="255" />
+          <Property Type="Double" Name="deduct_nbr_vl" Nullable="true" />
+          <Property Type="Double" Name="deduct_nbr_fl" Nullable="true" />
+          <Property Type="Double" Name="deduct_nbr_sl" Nullable="true" />
+          <Property Type="String" Name="empl_id_waiver" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name_waiver" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="department_code_waiver" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="department_short_name_waiver" Nullable="true" MaxLength="150" />
+          <Property Type="Decimal" Name="monthly_rate_waiver" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="allocated_mone_waiver" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="total_waive_amount_waiver" Nullable="true" Precision="19" />
+          <Property Type="String" Name="approval_status_waiver" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="created_at" Nullable="true" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="8" />
+          <Property Type="DateTime" Name="updated_at" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="8" />
         </ComplexType>
-        <EntityType Name="step_reckoning_tbl">
+        <EntityType Name="payrollemployeemaster_pos_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="hazard_pay_override" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="positions_tbl">
+          <Key>
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="position_code" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_title1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="position_title2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="position_short_title" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="csc_level" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="position_long_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="qs_eduction" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="qs_work_experience" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="qs_training" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="qs_eligibility" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_payrollemployeemaster_hdr_pos_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="payroll_group_nbr" />
+            <PropertyRef Name="flag_expt_gsis" />
+            <PropertyRef Name="flag_expt_hdmf" />
+            <PropertyRef Name="flag_expt_phic" />
+            <PropertyRef Name="hdmf_fix_rate" />
+            <PropertyRef Name="date_of_assumption" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="salary_grade" />
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="rate_basis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="period_from" Type="DateTime" Precision="0" />
+          <Property Name="period_to" Type="DateTime" Precision="0" />
+          <Property Name="payroll_group_nbr" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="emp_rcrd_status" Type="Boolean" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="fund_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="flag_expt_gsis" Type="Boolean" Nullable="false" />
+          <Property Name="flag_expt_hdmf" Type="Boolean" Nullable="false" />
+          <Property Name="flag_expt_phic" Type="Boolean" Nullable="false" />
+          <Property Name="hdmf_fix_rate" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="date_of_assumption" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="position_code" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_long_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="user_prime_token_tbl">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
           <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="record_tag" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="rekoning_date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="created_by" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="updated_by" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="token" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="token_expiry_date" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -984,6 +1201,9 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySetMapping Name="vw_payrollemployeemaster_hdr_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.vw_payrollemployeemaster_hdr_tbl">
               <MappingFragment StoreEntitySet="vw_payrollemployeemaster_hdr_tbl">
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="date_of_assumption" ColumnName="date_of_assumption" />
                 <ScalarProperty Name="hdmf_fix_rate" ColumnName="hdmf_fix_rate" />
                 <ScalarProperty Name="flag_expt_phic" ColumnName="flag_expt_phic" />
                 <ScalarProperty Name="flag_expt_hdmf" ColumnName="flag_expt_hdmf" />
@@ -1076,6 +1296,12 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySetMapping Name="payrollemployeemaster_hdr_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.payrollemployeemaster_hdr_tbl">
               <MappingFragment StoreEntitySet="payrollemployeemaster_hdr_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
                 <ScalarProperty Name="date_of_assumption" ColumnName="date_of_assumption" />
                 <ScalarProperty Name="hdmf_fix_rate" ColumnName="hdmf_fix_rate" />
                 <ScalarProperty Name="flag_expt_hdmf" ColumnName="flag_expt_hdmf" />
@@ -1192,39 +1418,110 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_stepincrement_rekon_list" FunctionName="HRIS_PAYModel.Store.sp_stepincrement_rekon_list">
+          <FunctionImportMapping FunctionImportName="sp_leave_application_mone_waiver_rep" FunctionName="HRIS_PAYModel.Store.sp_leave_application_mone_waiver_rep">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_stepincrement_rekon_list_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_leave_application_mone_waiver_rep_Result">
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="record_tag" ColumnName="record_tag" />
-                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
                 <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
-                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="nbr_vl_remain" ColumnName="nbr_vl_remain" />
+                <ScalarProperty Name="nbr_fl_remain" ColumnName="nbr_fl_remain" />
+                <ScalarProperty Name="nbr_sl_remain" ColumnName="nbr_sl_remain" />
+                <ScalarProperty Name="nbr_min_mone" ColumnName="nbr_min_mone" />
+                <ScalarProperty Name="nbr_max_mone" ColumnName="nbr_max_mone" />
                 <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="allocated_mone" ColumnName="allocated_mone" />
+                <ScalarProperty Name="mone_type" ColumnName="mone_type" />
+                <ScalarProperty Name="nbr_mone" ColumnName="nbr_mone" />
+                <ScalarProperty Name="total_mone" ColumnName="total_mone" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="deduct_nbr_vl" ColumnName="deduct_nbr_vl" />
+                <ScalarProperty Name="deduct_nbr_fl" ColumnName="deduct_nbr_fl" />
+                <ScalarProperty Name="deduct_nbr_sl" ColumnName="deduct_nbr_sl" />
+                <ScalarProperty Name="empl_id_waiver" ColumnName="empl_id_waiver" />
+                <ScalarProperty Name="employee_name_waiver" ColumnName="employee_name_waiver" />
+                <ScalarProperty Name="department_code_waiver" ColumnName="department_code_waiver" />
+                <ScalarProperty Name="department_short_name_waiver" ColumnName="department_short_name_waiver" />
+                <ScalarProperty Name="monthly_rate_waiver" ColumnName="monthly_rate_waiver" />
+                <ScalarProperty Name="allocated_mone_waiver" ColumnName="allocated_mone_waiver" />
+                <ScalarProperty Name="total_waive_amount_waiver" ColumnName="total_waive_amount_waiver" />
+                <ScalarProperty Name="approval_status_waiver" ColumnName="approval_status_waiver" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
                 <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_at" ColumnName="updated_at" />
                 <ScalarProperty Name="updated_by" ColumnName="updated_by" />
-                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="step_reckoning_tbl">
-            <EntityTypeMapping TypeName="HRIS_PAYModel.step_reckoning_tbl">
-              <MappingFragment StoreEntitySet="step_reckoning_tbl">
-                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
-                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="remarks" ColumnName="remarks" />
-                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
-                <ScalarProperty Name="record_tag" ColumnName="record_tag" />
+          <EntitySetMapping Name="payrollemployeemaster_pos_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.payrollemployeemaster_pos_tbl">
+              <MappingFragment StoreEntitySet="payrollemployeemaster_pos_tbl">
+                <ScalarProperty Name="hazard_pay_override" ColumnName="hazard_pay_override" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="positions_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.positions_tbl">
+              <MappingFragment StoreEntitySet="positions_tbl">
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="csc_level" ColumnName="csc_level" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
+                <ScalarProperty Name="position_title2" ColumnName="position_title2" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_payrollemployeemaster_hdr_pos_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl">
+              <MappingFragment StoreEntitySet="vw_payrollemployeemaster_hdr_pos_tbl">
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="date_of_assumption" ColumnName="date_of_assumption" />
+                <ScalarProperty Name="hdmf_fix_rate" ColumnName="hdmf_fix_rate" />
+                <ScalarProperty Name="flag_expt_phic" ColumnName="flag_expt_phic" />
+                <ScalarProperty Name="flag_expt_hdmf" ColumnName="flag_expt_hdmf" />
+                <ScalarProperty Name="flag_expt_gsis" ColumnName="flag_expt_gsis" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="emp_rcrd_status" ColumnName="emp_rcrd_status" />
+                <ScalarProperty Name="payroll_group_nbr" ColumnName="payroll_group_nbr" />
+                <ScalarProperty Name="period_to" ColumnName="period_to" />
+                <ScalarProperty Name="period_from" ColumnName="period_from" />
+                <ScalarProperty Name="rate_basis" ColumnName="rate_basis" />
+                <ScalarProperty Name="hourly_rate" ColumnName="hourly_rate" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_prime_token_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.user_prime_token_tbl">
+              <MappingFragment StoreEntitySet="user_prime_token_tbl">
+                <ScalarProperty Name="token_expiry_date" ColumnName="token_expiry_date" />
+                <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

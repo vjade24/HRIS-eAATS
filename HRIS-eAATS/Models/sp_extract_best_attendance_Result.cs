@@ -23,5 +23,7 @@ namespace HRIS_eAATS.Models
         public string report_title3 { get; set; }
         public string remarks_1 { get; set; }
         public string remarks_2 { get; set; }
+        public string department_short_name { get; set; }
+        public string position_long_title { get; set; }
     }
 }

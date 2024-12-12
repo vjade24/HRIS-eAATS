@@ -138,7 +138,7 @@ namespace HRIS_eAATS.Reports.cryLWOP_HR {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_p_year {
+        public CrystalDecisions.Shared.IParameterField Parameter_par_period_from {
             get {
                 return this.DataDefinition.ParameterFields[0];
             }
@@ -146,7 +146,7 @@ namespace HRIS_eAATS.Reports.cryLWOP_HR {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_p_month {
+        public CrystalDecisions.Shared.IParameterField Parameter_par_period_to {
             get {
                 return this.DataDefinition.ParameterFields[1];
             }

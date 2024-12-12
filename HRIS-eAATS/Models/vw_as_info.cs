@@ -28,5 +28,6 @@ namespace HRIS_eAATS.Models
         public string astype_code { get; set; }
         public string reason_code { get; set; }
         public int seq_order { get; set; }
+        public string remove_entry { get; set; }
     }
 }

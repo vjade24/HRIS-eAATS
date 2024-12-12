@@ -25,5 +25,6 @@ namespace HRIS_eAATS.Models
         public string created_by { get; set; }
         public Nullable<System.DateTime> updated_at { get; set; }
         public string updated_by { get; set; }
+        public string seven_d_disapproved_due_to { get; set; }
     }
 }

@@ -41,12 +41,13 @@
 <body style="overflow-x:hidden;overflow-y:hidden">
   
     <form id="form1" runat="server">
-            <asp:HiddenField ID="hf_nexpage" runat="server" />
-            <asp:HiddenField ID="hf_printers" runat="server" />
+        <%--<asp:HiddenField ID="hf_nexpage" runat="server" />
+        <asp:HiddenField ID="hf_printers" runat="server" />--%>
         <div class="row">
             <div class="col-12 text-center">
-                    <asp:LinkButton runat="server"  ID="lnkbtn_export" CssClass="btn btn-primary btn-sm" OnClick="lnkbtn_export_Click"><i class="fa fa-print"></i> Print to Word</asp:LinkButton>
-                    <asp:Label runat="server" ID="lbl_cannot_print" CssClass="alert alert-danger"> <i class="fa fa-info-circle"></i> </asp:Label>
+                <asp:LinkButton runat="server"  ID="lnkbtn_export" CssClass="btn btn-primary btn-sm" OnClick="lnkbtn_export_Click"><i class="fa fa-print"></i> Print to Word</asp:LinkButton>
+                <asp:Label runat="server" ID="lbl_cannot_print" CssClass="alert alert-danger"> <i class="fa fa-info-circle"></i> </asp:Label>
+                <asp:LinkButton runat="server" ID="lnkbtn_preview_pdf" CssClass="btn btn-success btn-sm" OnClick="lnkbtn_preview_pdf_Click"><i class="fa fa-eye"></i> Mobile Preview</asp:LinkButton>
             </div>
             
             <div class="col-12">

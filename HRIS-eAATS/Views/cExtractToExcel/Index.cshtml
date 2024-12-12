@@ -6,7 +6,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Angular/ng-cExtractToExcel.js?v1"></script>
+<script src="~/Angular/ng-cExtractToExcel.js?v=@DateTime.Now.ToString()"></script>
 
 <style type="text/css">
 
@@ -91,8 +91,8 @@
                                 <option value="CANCEL_LEAVE">All Leave Application Cancel Pending and Disapproved</option>
                                 <option value="CANCEL_POST">All Leave Posting Cancel Pending and Disapproved </option>
                                 <option value="UND_TARD">Report on Attendance Absences, Undertime and Man-hour </option>
-                                <option value="BEST">Employees with NO UT, TARDY, CTO, VL+FL>5, SL AND LWOP (Best Attendance) </option>
-                                <option value="LWOP">Leave Without Pay </option>
+                                @*<option value="BEST">Employees with NO UT, TARDY, CTO, VL+FL>5, SL AND LWOP (Best Attendance) </option>
+                                  <option value="LWOP">Leave Without Pay </option>*@
                                 <option value="HISTORY-SPENT-TIME">History for Level 1 to Posting Approved</option>
                             </select>
                         </div>

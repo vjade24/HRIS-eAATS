@@ -17,5 +17,6 @@ namespace HRIS_eAATS.Models
         public string empl_id { get; set; }
         public string department_code { get; set; }
         public string rcrd_status { get; set; }
+        public Nullable<bool> approver { get; set; }
     }
 }

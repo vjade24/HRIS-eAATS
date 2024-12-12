@@ -74,7 +74,7 @@ namespace HRIS_eAATS.Controllers
             {
                 GetAllowAccess();
 
-                var adminUser_lst = db_ats.vw_leaveadmin_user_list.ToList();
+                var adminUser_lst = db_ats.vw_leaveadmin_user_list.ToList().OrderBy(a=>a.employee_name);
                 var adminDept_lst = db_ats.vw_leaveadmin_dept_list.Where(a => a.empl_id == "").ToList();
                 //var adminUser_lst = "";
                 //var adminDept_lst = "";
@@ -167,6 +167,7 @@ namespace HRIS_eAATS.Controllers
                    a.department_code == data.department_code).FirstOrDefault();
                 od.department_code = data.department_code;
                 od.rcrd_status = data.rcrd_status;
+                od.approver = data.approver;
 
                 db_ats.SaveChanges();
 

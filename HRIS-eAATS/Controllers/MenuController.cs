@@ -37,11 +37,17 @@ namespace HRIS_eAATS.Controllers
             {
                 var empl_id = Session["empl_id"].ToString();
 
-                var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
+                //var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
 
                 // string imreBase64Data = "";
                 var url = Request.Url.Host;
-                string imgDataURL = (url == "hris.dvodeoro.ph" ? "http://122.53.120.18:8050/storage/images" + emp_photo_byte_arr : "http://192.168.5.218/storage/images" + emp_photo_byte_arr);
+                //string imgDataURL = (url == "hris.dvodeoro.ph" ? "http://122.53.120.18:8050/storage/images" + emp_photo_byte_arr : "http://192.168.5.218/storage/images" + emp_photo_byte_arr);
+                var img_link = System.Configuration.ConfigurationManager.AppSettings["img_link_local"];
+                if (Request.Url.Host == "hris.dvodeoro.ph")
+                {
+                    img_link = System.Configuration.ConfigurationManager.AppSettings["img_link_online"];
+                }
+                string imgDataURL = img_link + "/storage/images/photo/thumb/"  +empl_id;
                 //***************convert byte array to image***********************************
                 //if (emp_photo_byte_arr != null)
                 //{
@@ -96,7 +102,30 @@ namespace HRIS_eAATS.Controllers
 
                 var user_id             = Session["user_id"].ToString();
                 //var info_list           = db_ats.sp_lv_info(user_id).ToList();
-                var info_list2           = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
+                //var info_list2          = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
+                var info_list2           = from a in db_ats.sp_lv_info2(user_id).ToList()
+                                           join b in db_ats.leave_application_mone_tbl 
+                                           on new { a.empl_id,a.leave_ctrlno } equals new { b.empl_id,b.leave_ctrlno} into temp
+                                           from b in temp.DefaultIfEmpty()
+                                           select new
+                                           {
+                                             a.leave_ctrlno 
+                                            ,a.empl_id 
+                                            ,a.employee_name 
+                                            ,a.department_code 
+                                            ,a.leave_type_code 
+                                            ,a.leavetype_descr 
+                                            ,a.inclusive_dates 
+                                            ,a.leave_subtype_code  
+                                            ,a.leavesubtype_descr 
+                                            ,a.date_applied    
+                                            ,a.created_date_only 
+                                            ,a.url_name    
+                                            ,a.ledger_status 
+                                            ,a.disapproved_remakrs
+                                            ,mone = b
+                                           };
+                info_list2 = info_list2.OrderBy(a => a.url_name).ToList();
                 var info_list2_no_filter = info_list2;
                 var lv_admin_dept_list   = db_ats.vw_leaveadmin_tbl_list.Where(a => a.empl_id == log_empl_id).OrderBy(a => a.department_code);
 
@@ -110,8 +139,14 @@ namespace HRIS_eAATS.Controllers
                                            department_short_name = (from l in g select l.department_short_name).Distinct(),
                                          Count = (from l in g select l.department_short_name).Count()
                                        };
-                var info_list2_donut_chart = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N").ToList();
-
+                //var info_list2_donut_chart = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N",DateTime.Now, DateTime.Now).ToList();
+                var init_donut             = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N", DateTime.Now, DateTime.Now).ToList();
+                var info_list2_donut_chart = from t1 in init_donut
+                                                      where (from t2 in lv_admin_dept_list.ToList()
+                                                             where t2.empl_id == log_empl_id
+                                                             && t2.approver   == true
+                                                             select t2.department_code).Contains(t1.department_code)
+                                                      select t1;
 
                 if (par_department_code == "" && par_view_mode == "1")
                 {
@@ -149,7 +184,7 @@ namespace HRIS_eAATS.Controllers
                 var total_leave_review_leave  = info_list2_no_filter.Where(a => a.url_name == "../cLeaveLedger" && a.leave_type_code != "CTO").ToList().Count;
                 var total_leave_review_cto    = info_list2_no_filter.Where(a => a.url_name == "../cLeaveLedger" && a.leave_type_code == "CTO").ToList().Count;
                 var total_leave_cancellation  = info_list2_no_filter.Where(a => a.url_name != "../cLeaveLedger").ToList().Count;
-                var total_leave_printing      = db_ats.sp_leave_printing_list(null, null, "", user_id,"N").ToList().Count;
+                var total_leave_printing      = 0; //db_ats.sp_leave_printing_list(null, null, "", user_id,"N").ToList().Count;
                 var total_leave_transmittal   = db_ats.transmittal_leave_hdr_tbl.Where(a => a.created_by.Replace("U", "") == user_id.Replace("U","") && a.doc_status == "N" ).ToList().Count ;
                 var total_leave_posted_cancellation  = info_list2_no_filter.Where(a => a.url_name == "").ToList().Count;
 
@@ -345,6 +380,17 @@ namespace HRIS_eAATS.Controllers
                             data_hdr_insert.leaveledger_balance_as_of_fl  = lv_hdr.leaveledger_balance_as_of_fl  ;
                             data_hdr_insert.sp_restore_deduct             = (lv_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
                             data_hdr_insert.fl_restore_deduct             = (lv_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
+                            data_hdr_insert.first_name                    = lv_hdr.first_name                    ;
+                            data_hdr_insert.last_name                     = lv_hdr.last_name                     ;
+                            data_hdr_insert.middle_name                   = lv_hdr.middle_name                   ;
+                            data_hdr_insert.employment_type               = lv_hdr.employment_type               ;
+                            data_hdr_insert.department_code               = lv_hdr.department_code               ;
+                            data_hdr_insert.department_short_name         = lv_hdr.department_short_name         ;
+                            data_hdr_insert.position_long_title           = lv_hdr.position_long_title           ;
+                            data_hdr_insert.monthly_rate                  = lv_hdr.monthly_rate                  ;
+                            data_hdr_insert.suffix_name                   = lv_hdr.suffix_name                   ;
+                            data_hdr_insert.courtisy_title                = lv_hdr.courtisy_title                ;
+                            data_hdr_insert.postfix_name                  = lv_hdr.postfix_name                  ;
                             
                             data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                             data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
@@ -353,6 +399,7 @@ namespace HRIS_eAATS.Controllers
                             data_dtl_insert.date_num_day_total            = date_num_day_total;
                             data_dtl_insert.empl_id                       = lv_dtl[0].empl_id              ;
                             data_dtl_insert.rcrd_status                   = "N"          ;
+
 
                             if (lv_dtl_cto.Count > 0)
                             {
@@ -542,7 +589,18 @@ namespace HRIS_eAATS.Controllers
                                     data_hdr_insert.leaveledger_balance_as_of_fl  = lv_hdr.leaveledger_balance_as_of_fl  ;
                                     data_hdr_insert.sp_restore_deduct             = (lv_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
                                     data_hdr_insert.fl_restore_deduct             = (lv_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
-                            
+                                    data_hdr_insert.first_name                    = lv_hdr.first_name                    ;
+                                    data_hdr_insert.last_name                     = lv_hdr.last_name                     ;
+                                    data_hdr_insert.middle_name                   = lv_hdr.middle_name                   ;
+                                    data_hdr_insert.employment_type               = lv_hdr.employment_type               ;
+                                    data_hdr_insert.department_code               = lv_hdr.department_code               ;
+                                    data_hdr_insert.department_short_name         = lv_hdr.department_short_name         ;
+                                    data_hdr_insert.position_long_title           = lv_hdr.position_long_title           ;
+                                    data_hdr_insert.monthly_rate                  = lv_hdr.monthly_rate                  ;
+                                    data_hdr_insert.suffix_name                   = lv_hdr.suffix_name                   ;
+                                    data_hdr_insert.courtisy_title                = lv_hdr.courtisy_title                ;
+                                    data_hdr_insert.postfix_name                  = lv_hdr.postfix_name                  ;
+
                                     data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                                     data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
                                     data_dtl_insert.leave_date_to                 = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
@@ -601,7 +659,7 @@ namespace HRIS_eAATS.Controllers
                                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                                 // *************************************************************
                                 var appl_status = "Cancellation Approved & Balance Restored";
-                                db_ats.sp_lv_ledger_history_insert(chk.ledger_ctrl_no, p_empl_id, p_leave_ctrlno, appl_status, "", Session["user_id"].ToString());
+                                db_ats.sp_lv_ledger_history_insert(chk.ledger_ctrl_no, p_leave_ctrlno, p_empl_id, appl_status, "", Session["user_id"].ToString());
                                 // *************************************************************
                                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                                 // *************************************************************
@@ -626,6 +684,19 @@ namespace HRIS_eAATS.Controllers
             {
                 string message = e.Message;
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult Getmonewaiver(string par_leave_ctrlno, string par_empl_id)
+        {
+            try
+            {
+                var data_waiver = db.sp_leave_application_mone_waiver_rep(par_leave_ctrlno, par_empl_id, "").ToList();
+                return Json(new { message= "success", data_waiver }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
 

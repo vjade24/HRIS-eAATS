@@ -1,11 +1,9 @@
 ﻿ng_HRD_App.controller("cLeaveAdmin_ctrlr", function ($scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
-
-    var userid = "";
-    s.rowLen = "10";
-    var timer1 = null;
-
+    
+    s.rowLen    = "10";
+    s.ddl_dept  = "01";
     function init()
     {
         $("#ddl_name").select2().on('change', function (e) {
@@ -81,6 +79,13 @@
                             return "<span class='text-center btn-block'>" + data + "</span>" }
                     },
                     {
+                        "mData": "approver",
+                        "mRender": function (data, type, full, row) {
+
+                            return "<span class='text-center btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
                         "mData": null,
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
@@ -140,41 +145,44 @@
     //************************************//
     //***       Open Add Modal        ****//
     //************************************//
-    s.btn_open_modal = function () {
+    s.btn_open_modal = function ()
+    {
         if (ValidateFields()) {
             clearentry();
             s.isEdit = false;
-            s.ModalTitle = "Add New Record";
-            btn = document.getElementById('add');
-            btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i> Add';
-
-            s.ddl_dept = "01";
-
-            s.txtb_empl_name = $("#ddl_name option:selected").html();
-            s.txtb_empl_nbr = $("#ddl_name option:selected").val();
-            setTimeout(function () {
-                btn.innerHTML = '<i class="fa fa-plus-circle"> </i> Add';
-                $('#main_modal').modal("show");
-            }, 300);
+            s.ModalTitle        = "Add New Record";
+            btn                 = document.getElementById('add');
+            btn.innerHTML       = '<i class = "fa fa-spinner fa-spin"></i> Add';
+            s.txtb_empl_name    = $("#ddl_name option:selected").html();
+            s.txtb_empl_nbr     = $("#ddl_name option:selected").val();
+            
+            $('#main_modal').modal("show");
         }
     }
     //************************************// 
     //*** Save New Record              
     //**********************************// 
-    s.btn_save_click = function () {
-        if (ValidateFields2()) {
-            h.post("../cLeaveAdmin/CheckExist", {
-                empl_id: $("#ddl_name option:selected").val()
-                , department_code: $("#ddl_dept option:selected").val()
-            }).then(function (d) {
-                if (d.data.message == "success") {
+    s.btn_save_click = function ()
+    {
+        if (ValidateFields2())
+        {
+            h.post("../cLeaveAdmin/CheckExist",
+            {
+                 empl_id            : $("#ddl_name option:selected").val()
+                ,department_code    : $("#ddl_dept option:selected").val()
+            }).then(function (d)
+            {
+                if (d.data.message == "success")
+                {
                     swal("Data already exist!", { icon: "warning", });
                 }
                 else {
-                    var data = {
-                        empl_id: $("#ddl_name option:selected").val()
-                        , department_code: $("#ddl_dept option:selected").val()
-                        , rcrd_status: $("#ddl_status option:selected").val()
+                    var data =
+                    {
+                        empl_id             : $("#ddl_name option:selected").val()
+                        ,department_code    : $("#ddl_dept option:selected").val()
+                        ,rcrd_status        : $("#ddl_status option:selected").val()
+                        ,approver           : s.approver
                     }
                     h.post("../cLeaveAdmin/Save", { data: data }).then(function (d) {
                         if (d.data.message == "success") {
@@ -195,55 +203,47 @@
     //************************************// 
     //*** Open Edit Modal         
     //**********************************// 
-    s.btn_edit_action = function (row_id) {
+    s.btn_edit_action = function (row_id)
+    {
         clearentry();
-        s.isEdit = true;
-        s.ModalTitle = "Edit Existing Record";
-        btn = document.getElementById('add');
-        btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i> Add';
-        //s.txtb_empl_name = s.datalistgrid[row_id].employee_name;
-        s.txtb_empl_nbr = s.datalistgrid[row_id].empl_id;
-        s.ddl_dept = "01";//s.datalistgrid[row_id].department_code;
-        s.ddl_status = s.datalistgrid[row_id].rcrd_status;
-        setTimeout(function () {
-            btn.innerHTML = '<i class="fa fa-plus-circle"> </i> Add';
-            $('#main_modal').modal("show");
-        }, 300);
+        s.isEdit            = true;
+        btn                 = document.getElementById('edit');
+        s.ModalTitle        = "Edit Existing Record";
+        s.txtb_empl_name    = $("#ddl_name option:selected").html()
+        s.txtb_empl_nbr     = s.datalistgrid[row_id].empl_id;
+        s.ddl_dept          = s.datalistgrid[row_id].department_code;
+        s.ddl_status        = s.datalistgrid[row_id].rcrd_status;
+        s.approver          = s.datalistgrid[row_id].approver.toString().trim();
+        $('#main_modal').modal("show");
     }
     //***********************************// 
     //*** Update Existing Record         
     //**********************************// 
-    s.SaveEdit = function () {
-        if (ValidateFields2()) {
+    s.SaveEdit = function ()
+    {
+        if (ValidateFields2())
+        {
             btn = document.getElementById('edit');
             btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i> Saving';
-            h.post("../cASType/CheckExist", {
-                empl_id: $("#ddl_name option:selected").val()
-                , department_code: $("#ddl_dept option:selected").val()
-            }).then(function (d) {
+            var data =
+            {
+                empl_id             : $("#ddl_name option:selected").val()
+                ,department_code    : $("#ddl_dept option:selected").val()
+                ,rcrd_status        : $("#ddl_status option:selected").val()
+                ,approver           : s.approver
+            }
+                    
+            h.post("../cLeaveAdmin/SaveEdit", { data: data }).then(function (d) {
                 if (d.data.message == "success") {
-                    swal("Data already exist!", { icon: "warning", });
+                    s.FilterPageGrid();
+                    btn.innerHTML = '<i class="fa fa-save"> </i> Save Edit';
+                    $('#main_modal').modal("hide");
+                    swal("Your record successfully updated!", { icon: "success", });
                 }
                 else {
-                    var data = {
-                        empl_id: $("#ddl_name option:selected").val()
-                        , department_code: $("#ddl_dept option:selected").val()
-                        , rcrd_status: $("#ddl_status option:selected").val()
-                    }
-                    
-                    h.post("../cLeaveAdmin/SaveEdit", { data: data }).then(function (d) {
-                        if (d.data.message == "success") {
-                            s.FilterPageGrid();
-                            btn.innerHTML = '<i class="fa fa-save"> </i> Save Edit';
-                            $('#main_modal').modal("hide");
-                            swal("Your record successfully updated!", { icon: "success", });
-                        }
-                        else {
-                            swal(d.data.message, { icon: "warning", });
-                        }
-                    });
+                    swal(d.data.message, { icon: "warning", });
                 }
-            });
+            }); 
         }
     }
     //************************************// 
@@ -283,11 +283,13 @@
         })
     }
 
-    function clearentry() {
+    function clearentry()
+    {
         s.txtb_code = "";
         s.txtb_abbrv = "";
         s.txtb_description = "";
         s.chckbx_hazard = true;
+        s.approver = "false";
 
         $("#txtb_abbrv").removeClass("required");
         $("#lbl_txtb_abbrv_req").text("");
@@ -349,7 +351,8 @@
     //***********************************************************//
     //***Field validation for remittance type before opening add modal
     //***********************************************************// 
-    function ValidationResultColor2(par_object_id, par_v_result) {
+    function ValidationResultColor2(par_object_id, par_v_result)
+    {
         if (par_v_result) {
             //Add class to the obect that need to focus as a required..
             $("#" + par_object_id).addClass("required");
@@ -366,24 +369,24 @@
         }
     }
 
-    function get_page(empl_id) {
-        var nakit_an = false;
-        var rowx = 0;
-        $('#datalist_grid tr').each(function () {
-            $.each(this.cells, function (cells) {
-                if (cells == 0) {
-                    if ($(this).text() == empl_id) {
-                        nakit_an = true;
-                        return false;
-                    }
-                }
-            });
-            if (nakit_an) {
-                $(this).addClass("selected");
-                return false;
-            }
-            rowx++;
-        });
-        return nakit_an;
-    }
+    //function get_page(empl_id) {
+    //    var nakit_an = false;
+    //    var rowx = 0;
+    //    $('#datalist_grid tr').each(function () {
+    //        $.each(this.cells, function (cells) {
+    //            if (cells == 0) {
+    //                if ($(this).text() == empl_id) {
+    //                    nakit_an = true;
+    //                    return false;
+    //                }
+    //            }
+    //        });
+    //        if (nakit_an) {
+    //            $(this).addClass("selected");
+    //            return false;
+    //        }
+    //        rowx++;
+    //    });
+    //    return nakit_an;
+    //}
 })

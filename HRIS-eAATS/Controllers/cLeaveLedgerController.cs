@@ -90,9 +90,9 @@ namespace HRIS_eAATS.Controllers
                 var lv_admin_dept_list = db_ats.vw_leaveadmin_tbl_list.Where(a=> a.empl_id == log_empl_id).OrderBy(a => a.department_code);
                 var leave_type_lst      = db_ats.sp_leavetype_tbl_list().ToList();
                 var leave_subType_lst   = db_ats.sp_leavesubtype_tbl_list("").ToList();
-
-                List<sp_lv_ledger_posted_unposted_Result> lv_unposted = new List<sp_lv_ledger_posted_unposted_Result>();
-                List<sp_lv_ledger_posted_unposted_Result> lv_posted   = new List<sp_lv_ledger_posted_unposted_Result>();
+                
+                List<sp_lv_ledger_posted_unposted_Result> lv_unposted1 = new List<sp_lv_ledger_posted_unposted_Result>();
+                List<sp_lv_ledger_posted_unposted_Result> lv_posted1   = new List<sp_lv_ledger_posted_unposted_Result>();
                 
                 List<sp_leaveledger_curr_bal2_Result> data_all_bal = new List<sp_leaveledger_curr_bal2_Result>();
 
@@ -107,18 +107,18 @@ namespace HRIS_eAATS.Controllers
                     // ********************************************************************
                     if (redirect_data[7].ToString() == "2")        // Leave 
                     {
-                        lv_unposted = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").Where(a => a.leave_type_code != "CTO").ToList();
-                        lv_posted   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code != "CTO").ToList();
+                        lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").Where(a => a.leave_type_code != "CTO").ToList();
+                        lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code != "CTO").ToList();
                     }
                     else if (redirect_data[7].ToString() == "3")  // CTO
                     {
-                        lv_unposted = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").Where(a => a.leave_type_code == "CTO").ToList();
-                        lv_posted   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code == "CTO").ToList();
+                        lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").Where(a => a.leave_type_code == "CTO").ToList();
+                        lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code == "CTO").ToList();
                     }
                     else                       // Both Leave and CTO
                     {
-                        lv_unposted = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").ToList();
-                        lv_posted   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").ToList();
+                        lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").ToList();
+                        lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").ToList();
                     }
                     // ********************************************************************
                     // ********************************************************************
@@ -146,9 +146,63 @@ namespace HRIS_eAATS.Controllers
                     var rep_mode = redirect_data[7];
                     lv_ledger_report = db_ats.sp_leaveledger_report(redirect_data[1].ToString(), "2021-01-01", DateTime.Now.Year.ToString() + "-12-31", Convert.ToInt16(rep_mode)).ToList();
                 }
+                var lv_unposted  = from a in lv_unposted1.ToList()
+                                join b in db_ats.leave_application_mone_tbl
+                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                                from b in temp.DefaultIfEmpty()
+                                select new
+                                {
+                                    a.ledger_ctrl_no   
+                                    ,a.leave_ctrlno    
+                                    ,a.empl_id 
+                                    ,a.employee_name   
+                                    ,a.department_code 
+                                    ,a.date_applied    
+                                    ,a.inclusive_dates 
+                                    ,a.leave_type_code 
+                                    ,a.leavetype_descr 
+                                    ,a.leave_subtype_code  
+                                    ,a.leavesubtype_descr  
+                                    ,a.posting_status  
+                                    ,a.created_date_only   
+                                    ,a.created_by_user 
+                                    ,a.number_of_days  
+                                    ,a.leaveledger_entry_type  
+                                    ,a.justification_flag  
+                                    ,a.leave_class 
+                                    ,a.leave_descr 
+                                    ,a.disapproved_remakrs
+                                    ,mone = b
+                                };
 
-
-
+                var lv_posted  = from a in lv_posted1.ToList()
+                                join b in db_ats.leave_application_mone_tbl
+                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                                from b in temp.DefaultIfEmpty()
+                                select new
+                                {
+                                    a.ledger_ctrl_no   
+                                    ,a.leave_ctrlno    
+                                    ,a.empl_id 
+                                    ,a.employee_name   
+                                    ,a.department_code 
+                                    ,a.date_applied    
+                                    ,a.inclusive_dates 
+                                    ,a.leave_type_code 
+                                    ,a.leavetype_descr 
+                                    ,a.leave_subtype_code  
+                                    ,a.leavesubtype_descr  
+                                    ,a.posting_status  
+                                    ,a.created_date_only   
+                                    ,a.created_by_user 
+                                    ,a.number_of_days  
+                                    ,a.leaveledger_entry_type  
+                                    ,a.justification_flag  
+                                    ,a.leave_class 
+                                    ,a.leave_descr 
+                                    ,a.disapproved_remakrs
+                                    ,mone = b
+                                };
                 return JSON(new { message = "success"
                     , um
                     , lv_admin_dept_list
@@ -165,7 +219,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -190,7 +244,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -211,7 +265,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch(Exception e)
             {
-                return JSON(new { message = e.Message }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -242,23 +296,25 @@ namespace HRIS_eAATS.Controllers
                 // ********************************************************************
                 // ****** Filter the View mode if Leave, CTO and Both Leave and CTO ***
                 // ********************************************************************
-                var lv_unposted = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").ToList();
-                var lv_posted   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
+                //var lv_unposted = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").ToList();
+                //var lv_posted   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
+                List<sp_lv_ledger_posted_unposted_Result> lv_unposted1 = new List<sp_lv_ledger_posted_unposted_Result>();
+                List<sp_lv_ledger_posted_unposted_Result> lv_posted1   = new List<sp_lv_ledger_posted_unposted_Result>();
 
                 if (p_rep_mode == 2)        // Leave 
                 {
-                    lv_unposted = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").Where(a => a.leave_type_code != "CTO").ToList();
-                    lv_posted   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code != "CTO").ToList();
+                    lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").Where(a => a.leave_type_code != "CTO").ToList();
+                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code != "CTO").ToList();
                 }
                 else if (p_rep_mode == 3)  // CTO
                 {
-                    lv_unposted = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").Where(a => a.leave_type_code == "CTO").ToList();
-                    lv_posted   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code == "CTO").ToList();
+                    lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").Where(a => a.leave_type_code == "CTO").ToList();
+                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code == "CTO").ToList();
                 }
                 else                       // Both Leave and CTO
                 {
-                    lv_unposted = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").ToList();
-                    lv_posted   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
+                    lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").ToList();
+                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
                 }
                 // ********************************************************************
                 // ********************************************************************
@@ -285,7 +341,63 @@ namespace HRIS_eAATS.Controllers
                 }
                 //*********************************************************************//
                 //*********************************************************************//
+                var lv_unposted  = from a in lv_unposted1.ToList()
+                                join b in db_ats.leave_application_mone_tbl
+                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                                from b in temp.DefaultIfEmpty()
+                                select new
+                                {
+                                    a.ledger_ctrl_no   
+                                    ,a.leave_ctrlno    
+                                    ,a.empl_id 
+                                    ,a.employee_name   
+                                    ,a.department_code 
+                                    ,a.date_applied    
+                                    ,a.inclusive_dates 
+                                    ,a.leave_type_code 
+                                    ,a.leavetype_descr 
+                                    ,a.leave_subtype_code  
+                                    ,a.leavesubtype_descr  
+                                    ,a.posting_status  
+                                    ,a.created_date_only   
+                                    ,a.created_by_user 
+                                    ,a.number_of_days  
+                                    ,a.leaveledger_entry_type  
+                                    ,a.justification_flag  
+                                    ,a.leave_class 
+                                    ,a.leave_descr 
+                                    ,a.disapproved_remakrs
+                                    ,mone = b
+                                };
 
+                var lv_posted  = from a in lv_posted1.ToList()
+                                join b in db_ats.leave_application_mone_tbl
+                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                                from b in temp.DefaultIfEmpty()
+                                select new
+                                {
+                                    a.ledger_ctrl_no   
+                                    ,a.leave_ctrlno    
+                                    ,a.empl_id 
+                                    ,a.employee_name   
+                                    ,a.department_code 
+                                    ,a.date_applied    
+                                    ,a.inclusive_dates 
+                                    ,a.leave_type_code 
+                                    ,a.leavetype_descr 
+                                    ,a.leave_subtype_code  
+                                    ,a.leavesubtype_descr  
+                                    ,a.posting_status  
+                                    ,a.created_date_only   
+                                    ,a.created_by_user 
+                                    ,a.number_of_days  
+                                    ,a.leaveledger_entry_type  
+                                    ,a.justification_flag  
+                                    ,a.leave_class 
+                                    ,a.leave_descr 
+                                    ,a.disapproved_remakrs
+                                    ,mone = b
+                                };
                 return JSON(new
                 {
                     message = "success"
@@ -300,7 +412,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -326,7 +438,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -805,7 +917,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult GetSumofLeaveDetails(string par_ledger_ctrl_no, string par_leavetype_code, string par_empl_id, string par_year)
+        public ActionResult GetSumofLeaveDetails(string par_ledger_ctrl_no, string par_leavetype_code, string par_empl_id, string par_year, string par_leave_ctrlno)
         {
             try
             {
@@ -819,25 +931,28 @@ namespace HRIS_eAATS.Controllers
                 // **** 2021-06-29 : Special Case for Maternity Casual ***************
                 // **** Dapat ddtu kwaon sa Header ang Number of days  - Grace *******
                 // *******************************************************************
-                if (par_leavetype_code == "ML")
-                {
-                    sum_wp_and_wop = Convert.ToDecimal(db_ats.lv_ledger_hdr_tbl.Where(a=> a.ledger_ctrl_no == par_ledger_ctrl_no && a.leavetype_code == par_leavetype_code).FirstOrDefault().lv_nodays);
-                }
+                //if (par_leavetype_code == "ML")
+                //{
+                //    sum_wp_and_wop = Convert.ToDecimal(db_ats.lv_ledger_hdr_tbl.Where(a=> a.ledger_ctrl_no == par_ledger_ctrl_no && a.leavetype_code == par_leavetype_code).FirstOrDefault().lv_nodays);
+                //}
 
                 var data               = db_ats.sp_leaveledger_curr_bal(par_empl_id, par_year, par_leavetype_code).FirstOrDefault();
+                var data_waiver         = db.sp_leave_application_mone_waiver_rep(par_leave_ctrlno, par_empl_id, "").Where(a => a.approval_status_waiver != "APPROVED").ToList();
                 return JSON(new
                 {
                     message = "success"
                     ,dtl_value
                     ,sum_wp_and_wop,
-                    data
+                    data,
+                    data_waiver
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 var data = db_ats.sp_leaveledger_curr_bal(par_empl_id, par_year, par_leavetype_code).FirstOrDefault();
-                string message = e.Message;
-                return Json(new { message = message, data }, JsonRequestBehavior.AllowGet);
+                var data_waiver = db.sp_leave_application_mone_waiver_rep(par_leave_ctrlno, par_empl_id, "").Where(a => a.approval_status_waiver != "APPROVED").ToList();
+                string message = e.Message.ToString();
+                return Json(new { message = message, data, data_waiver }, JsonRequestBehavior.AllowGet);
             }
         }
         //*********************************************************************//
@@ -845,23 +960,19 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult GetLedgerConrtolNumber()
+        public ActionResult GetLedgerConrtolNumber(string par_empl_id, string par_month, string par_year)
         {
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
 
                 var new_appl_nbr = db_ats.sp_generate_appl_nbr("lv_ledger_hdr_tbl", 10, "ledger_ctrl_no").ToList();
-
-                return JSON(new
-                {
-                    message = "success",
-                    new_appl_nbr
-                }, JsonRequestBehavior.AllowGet);
+                var total_undertime = db_ats.sp_leaveledger_empl_undertime(par_empl_id, par_month, par_year).ToList();
+                return JSON(new{ message = "success",new_appl_nbr, total_undertime }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -924,7 +1035,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -944,7 +1055,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -1036,7 +1147,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 05/05/2021
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult LedgerInfoCurr(string par_empl_id, string par_leavetype_code, string par_month, string par_year)
+        public ActionResult LedgerInfoCurr(string par_empl_id, string par_leavetype_code, string par_month, string par_year, string par_leave_ctrlno)
         {
             db_ats.Database.CommandTimeout = int.MaxValue;
 
@@ -1101,11 +1212,14 @@ namespace HRIS_eAATS.Controllers
                 {
                     bal_as_of_vl = Convert.ToDecimal(data_vl.leaveledger_balance_current);
                 }
-                return JSON(new { message = "success",  bal_as_of ,bal_as_of_sl ,bal_as_of_vl, total_undertime }, JsonRequestBehavior.AllowGet);
+
+                var mone = db_ats.leave_application_mone_tbl.Where(a => a.empl_id == par_empl_id && a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault(); 
+                
+                return JSON(new { message = "success",  bal_as_of ,bal_as_of_sl ,bal_as_of_vl, total_undertime, mone }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                return JSON(new { message = e.Message, bal_as_of, bal_as_of_sl, bal_as_of_vl }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = e.Message.ToString(), bal_as_of, bal_as_of_sl, bal_as_of_vl }, JsonRequestBehavior.AllowGet);
             }
         }
     
@@ -1172,41 +1286,41 @@ namespace HRIS_eAATS.Controllers
         // Description  : Get the Approval ID on Applicaiton using Leave 
         //                Application Ctrl Number, purpose for saving
         //*********************************************************************//
-        public ActionResult GetApproval_ID_Appl(string par_leave_ctrlno)
-        {
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
+        //public ActionResult GetApproval_ID_Appl(string par_leave_ctrlno)
+        //{
+        //    try
+        //    {
+        //        db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var approval_id = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault().approval_id;
-                return JSON(new { message = "success", approval_id }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        var approval_id = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctrlno).FirstOrDefault().approval_id;
+        //        return JSON(new { message = "success", approval_id }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message.ToString();
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         //*********************************************************************//
         // Created By   : Vincent Jade H. Alivio
         // Created Date : 2021-08-17
         // Description  : Particulars
         //*********************************************************************//
-        public ActionResult RetrieveEmployeeUnderTime(string par_empl_id, string par_month, string par_year)
-        {
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
+        //public ActionResult RetrieveEmployeeUnderTime(string par_empl_id, string par_month, string par_year)
+        //{
+        //    try
+        //    {
+        //        db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var total_undertime = db_ats.sp_leaveledger_empl_undertime(par_empl_id, par_month, par_year).ToList();
-                return JSON(new { message = "success", total_undertime }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        var total_undertime = db_ats.sp_leaveledger_empl_undertime(par_empl_id, par_month, par_year).ToList();
+        //        return JSON(new { message = "success", total_undertime }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message;
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         //*********************************************************************//
         // Created By   : Vincent Jade H. Alivio
         // Created Date : 2021-08-17
@@ -1223,23 +1337,23 @@ namespace HRIS_eAATS.Controllers
                 var message_descr_1     = "";
                 var leave_appl_dtl      = db_ats.leave_application_dtl_tbl.Where(a=> a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).ToList();
 
-                var chk_travel = from a in db_ats.travelorder_hdr_tbl
-                                 join b in db_ats.travelorder_empl_dtl_tbl
-                                 on a.travel_order_no equals b.travel_order_no
-                                 join c in db_ats.travelorder_dates_dtl_tbl
-                                 on a.travel_order_no equals c.travel_order_no
-                                 where b.empl_id == data.empl_id
-                                 && a.approval_status   == "F"
-                                 && (c.travel_date.Year    == date_applied_year
-                                     )
+                //var chk_travel = from a in db_ats.travelorder_hdr_tbl
+                //                 join b in db_ats.travelorder_empl_dtl_tbl
+                //                 on a.travel_order_no equals b.travel_order_no
+                //                 join c in db_ats.travelorder_dates_dtl_tbl
+                //                 on a.travel_order_no equals c.travel_order_no
+                //                 where b.empl_id == data.empl_id
+                //                 && a.approval_status   == "F"
+                //                 && (c.travel_date.Year    == date_applied_year
+                //                     )
 
-                                select new
-                             {
-                                 b.empl_id,
-                                 c.travel_date,
-                                 c.travel_date_to,
-                                 a.travel_purpose
-                             };
+                //                select new
+                //             {
+                //                 b.empl_id,
+                //                 c.travel_date,
+                //                 c.travel_date_to,
+                //                 a.travel_purpose
+                //             };
 
                 if (data.leavetype_code == "SL")   // Sick Leave
                 {
@@ -1259,33 +1373,72 @@ namespace HRIS_eAATS.Controllers
                 // *************************************************
                 // ** 2023-08-01 - Check if Travel Order Approved **
                 // *************************************************
-                if (data.leavetype_code != "ML")
+                if (data.leavetype_code != "ML" && data.leavetype_code != "RH")
                 {
-                    if (chk_travel != null)
+                    //if (chk_travel != null)
+                    //{
+                    //    foreach (var item in leave_appl_dtl)
+                    //    {
+                    //        for (int i = 0; i < (item.leave_date_to.AddDays(1) - item.leave_date_from).TotalDays; i++)
+                    //        {
+                    //            DateTime leave_date_to_loop = item.leave_date_from.AddDays(i);
+                    //            for (int x = 0; x < chk_travel.ToList().Count; x++)
+                    //            {
+                    //                if (leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())    && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())
+                    //                 || leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()) && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()))
+                    //                {
+                    //                    message_descr += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
+                    //                    message_descr_1 = " - There is Travel Order Approved!";
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
+
+                    // ********************************************************************************
+                    // **** 2024-09-03 - VJA - Query to Check the Existing Travel Order Application ***
+                    // ********************************************************************************
+                    var chk_travel = from a in db_ats.travelorder_hdr_tbl
+                                 join b in db_ats.travelorder_dates_dtl_tbl
+                                 on a.travel_order_no equals b.travel_order_no
+                                 join c in db_ats.travelorder_empl_dtl_tbl
+                                 on a.travel_order_no equals c.travel_order_no
+                                 join d in db_ats.leave_application_dtl_tbl
+                                 on c.empl_id equals d.empl_id
+                                 where a.approval_status == "F"
+                                    && c.empl_id      == data.empl_id
+                                    && d.leave_ctrlno == data.leave_ctrlno
+                                    && (
+                                           (d.leave_date_from >= b.travel_date && d.leave_date_from <= b.travel_date_to)
+                                        || (d.leave_date_to   >= b.travel_date && d.leave_date_to   <= b.travel_date_to)
+                                       )
+                                 select new
+                                 {
+                                     c.empl_id,
+                                     b.travel_date,
+                                     b.travel_date_to,
+                                     a.travel_purpose
+                                 };
+
+                    if (chk_travel.ToList().Count > 0)
                     {
-                        foreach (var item in leave_appl_dtl)
+                        for (int x = 0; x < chk_travel.ToList().Count; x++)
                         {
-                            for (int i = 0; i < (item.leave_date_to.AddDays(1) - item.leave_date_from).TotalDays; i++)
-                            {
-                                DateTime leave_date_to_loop = item.leave_date_from.AddDays(i);
-                                for (int x = 0; x < chk_travel.ToList().Count; x++)
-                                {
-                                    if (leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())    && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString())
-                                     || leave_date_to_loop >= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()) && leave_date_to_loop <= DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()))
-                                    {
-                                        message_descr += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
-                                        message_descr_1 = " - There is Travel Order Approved!";
-                                    }
-                                }
-                            }
+                            message_descr  += DateTime.Parse(chk_travel.ToList()[x].travel_date.ToString()).ToString("MMMM d, yyyy") + (chk_travel.ToList()[x].travel_date == chk_travel.ToList()[x].travel_date_to ? "" : " - " + DateTime.Parse(chk_travel.ToList()[x].travel_date_to.ToString()).ToString("MMMM d, yyyy")) + "\n Travel Purpose: " + chk_travel.ToList()[x].travel_purpose + "\n";
+                            message_descr_1 = " - There is Travel Order Approved!";
                         }
                     }
+                    // ********************************************************************************
+                    // **** 2024-09-03 - VJA - Query to Check the Existing Travel Order Application ***
+                    // ********************************************************************************
+
+
                 }
                 return JSON(new {leave_appl_dtl, message_descr, message_descr_1 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -1295,57 +1448,57 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 2021-08-17
         // Description  : Particulars
         //*********************************************************************//
-        public ActionResult ApprovalHistory(string par_leave_ctlno)
-        {
-            //try
-            //{
-            //    db_ats.Database.CommandTimeout = int.MaxValue;
+        //public ActionResult ApprovalHistory(string par_leave_ctlno)
+        //{
+        //    //try
+        //    //{
+        //    //    db_ats.Database.CommandTimeout = int.MaxValue;
 
-            //    var message_descr = "success";
-            //    var leave_appl      = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
-            //    var par_approval_id = leave_appl.approval_id;
-            //    var data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
+        //    //    var message_descr = "success";
+        //    //    var leave_appl      = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
+        //    //    var par_approval_id = leave_appl.approval_id;
+        //    //    var data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
 
-            //    return JSON(new { data, message_descr, leave_appl }, JsonRequestBehavior.AllowGet);
-            //}
-            //catch (Exception e)
-            //{
-            //    string message = e.Message;
-            //    return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            //}
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
+        //    //    return JSON(new { data, message_descr, leave_appl }, JsonRequestBehavior.AllowGet);
+        //    //}
+        //    //catch (Exception e)
+        //    //{
+        //    //    string message = e.Message;
+        //    //    return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    //}
+        //    try
+        //    {
+        //        db_ats.Database.CommandTimeout = int.MaxValue;
 
-                var message_descr = "success";
+        //        var message_descr = "success";
 
-                leave_application_hdr_tbl leave_appl = new leave_application_hdr_tbl();
-                vw_approvalworkflow_tbl data = new vw_approvalworkflow_tbl();
-                leave_appl = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
-                if (leave_appl != null) 
-                {
-                    var par_approval_id = leave_appl.approval_id;
-                    data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
-                }
+        //        leave_application_hdr_tbl leave_appl = new leave_application_hdr_tbl();
+        //        vw_approvalworkflow_tbl data = new vw_approvalworkflow_tbl();
+        //        leave_appl = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
+        //        if (leave_appl != null) 
+        //        {
+        //            var par_approval_id = leave_appl.approval_id;
+        //            data = db.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
+        //        }
 
-                lv_ledger_hdr_tbl lv_hdr = new lv_ledger_hdr_tbl();
-                vw_approvalworkflow_tbl data_posting = new vw_approvalworkflow_tbl();
+        //        lv_ledger_hdr_tbl lv_hdr = new lv_ledger_hdr_tbl();
+        //        vw_approvalworkflow_tbl data_posting = new vw_approvalworkflow_tbl();
 
-                lv_hdr = db_ats.lv_ledger_hdr_tbl.Where(b => b.leave_ctrlno == par_leave_ctlno).FirstOrDefault();
-                if (lv_hdr != null) 
-                { 
-                    var par_approval_id_posting = lv_hdr.approval_id;
-                    data_posting = db.vw_approvalworkflow_tbl.Where(a => a.approval_id == par_approval_id_posting).FirstOrDefault();
-                }
+        //        lv_hdr = db_ats.lv_ledger_hdr_tbl.Where(b => b.leave_ctrlno == par_leave_ctlno).FirstOrDefault();
+        //        if (lv_hdr != null) 
+        //        { 
+        //            var par_approval_id_posting = lv_hdr.approval_id;
+        //            data_posting = db.vw_approvalworkflow_tbl.Where(a => a.approval_id == par_approval_id_posting).FirstOrDefault();
+        //        }
 
-                return JSON(new { data, message_descr, leave_appl, data_posting, lv_hdr }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return JSON(new { data, message_descr, leave_appl, data_posting, lv_hdr }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.Message.ToString();
+        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
 
         //*********************************************************************//
@@ -1387,7 +1540,7 @@ namespace HRIS_eAATS.Controllers
             }
             catch (Exception e)
             {
-                string message = e.Message;
+                string message = e.Message.ToString();
                 return Json(new { message_descr = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -1593,7 +1746,19 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        public ActionResult checkShiftFlag(string dtr_year, string dtr_month, string empl_id)
+        {
+            try
+            {
+                var checkShiftFlag = db_ats.sp_check_shiftsched(dtr_year, dtr_month, empl_id).ToList();
+                return Json(new { message = "success", checkShiftFlag }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 
 }
