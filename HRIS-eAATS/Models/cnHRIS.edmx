@@ -102,6 +102,24 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="citizenship_type" Type="bit" />
           <Property Name="citizenship_nature" Type="bit" />
           <Property Name="citizenship_country" Type="varchar" MaxLength="25" />
+          <Property Name="ethnicity_id" Type="int" />
+          <Property Name="religion_id" Type="int" />
+          <Property Name="pwd_type_id" Type="int" />
+          <Property Name="gender2" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="step_reckoning_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="record_tag" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="rekoning_date" Type="date" Nullable="false" />
+          <Property Name="remarks" Type="varchar" MaxLength="500" />
+          <Property Name="created_by" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="updated_by" Type="varchar" MaxLength="15" />
+          <Property Name="updated_dttm" Type="datetime" />
         </EntityType>
         <EntityType Name="transactionsref_tbl">
           <Key>
@@ -306,6 +324,12 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_transaction_code" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_stepincrement_rekon_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_period_from" Type="date" Mode="In" />
+          <Parameter Name="par_period_to" Type="date" Mode="In" />
+          <Parameter Name="par_record_tag" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_update_transaction_in_approvalworkflow_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_approval_id" Type="varchar" Mode="In" />
           <Parameter Name="par_user_id" Type="varchar" Mode="In" />
@@ -323,6 +347,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="approvalstatus_tbl" EntityType="Self.approvalstatus_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="step_reckoning_tbl" EntityType="Self.step_reckoning_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usersprofile_tbl" EntityType="Self.usersprofile_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="Self.payrollemployeemaster_hdr_tbl" store:Type="Tables" store:Schema="dbo">
@@ -491,6 +516,13 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="usersprofile_tbl" EntityType="HRIS_PAYModel.usersprofile_tbl" />
           <EntitySet Name="personnel_tbl" EntityType="HRIS_PAYModel.personnel_tbl" />
           <EntitySet Name="approvalstatus_tbl" EntityType="HRIS_PAYModel.approvalstatus_tbl" />
+          <FunctionImport Name="sp_stepincrement_rekon_list" ReturnType="Collection(HRIS_PAYModel.sp_stepincrement_rekon_list_Result)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_period_from" Mode="In" Type="DateTime" />
+            <Parameter Name="par_period_to" Mode="In" Type="DateTime" />
+            <Parameter Name="par_record_tag" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="step_reckoning_tbl" EntityType="HRIS_PAYModel.step_reckoning_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -807,6 +839,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="citizenship_type" Type="Boolean" />
           <Property Name="citizenship_nature" Type="Boolean" />
           <Property Name="citizenship_country" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ethnicity_id" Type="Int32" />
+          <Property Name="religion_id" Type="Int32" />
+          <Property Name="pwd_type_id" Type="Int32" />
+          <Property Name="gender2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="approvalstatus_tbl">
           <Key>
@@ -814,6 +850,39 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           </Key>
           <Property Name="approval_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="approval_status_descr" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_stepincrement_rekon_list_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="record_tag" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="rekoning_date" Nullable="false" />
+          <Property Type="String" Name="remarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="step_reckoning_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="record_tag" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="rekoning_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1071,6 +1140,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySetMapping Name="personnel_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.personnel_tbl">
               <MappingFragment StoreEntitySet="personnel_tbl">
+                <ScalarProperty Name="gender2" ColumnName="gender2" />
+                <ScalarProperty Name="pwd_type_id" ColumnName="pwd_type_id" />
+                <ScalarProperty Name="religion_id" ColumnName="religion_id" />
+                <ScalarProperty Name="ethnicity_id" ColumnName="ethnicity_id" />
                 <ScalarProperty Name="citizenship_country" ColumnName="citizenship_country" />
                 <ScalarProperty Name="citizenship_nature" ColumnName="citizenship_nature" />
                 <ScalarProperty Name="citizenship_type" ColumnName="citizenship_type" />
@@ -1116,6 +1189,44 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               <MappingFragment StoreEntitySet="approvalstatus_tbl">
                 <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
                 <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_stepincrement_rekon_list" FunctionName="HRIS_PAYModel.Store.sp_stepincrement_rekon_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_stepincrement_rekon_list_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="record_tag" ColumnName="record_tag" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="step_reckoning_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.step_reckoning_tbl">
+              <MappingFragment StoreEntitySet="step_reckoning_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="record_tag" ColumnName="record_tag" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

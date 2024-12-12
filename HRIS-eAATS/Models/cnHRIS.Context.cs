@@ -38,6 +38,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<usersprofile_tbl> usersprofile_tbl { get; set; }
         public virtual DbSet<personnel_tbl> personnel_tbl { get; set; }
         public virtual DbSet<approvalstatus_tbl> approvalstatus_tbl { get; set; }
+        public virtual DbSet<step_reckoning_tbl> step_reckoning_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {
@@ -106,6 +107,27 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_empl_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_Result>("sp_employee_list_dept", p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_stepincrement_rekon_list_Result> sp_stepincrement_rekon_list(string par_department_code, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_record_tag)
+        {
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_record_tagParameter = par_record_tag != null ?
+                new ObjectParameter("par_record_tag", par_record_tag) :
+                new ObjectParameter("par_record_tag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_stepincrement_rekon_list_Result>("sp_stepincrement_rekon_list", par_department_codeParameter, par_period_fromParameter, par_period_toParameter, par_record_tagParameter);
         }
     }
 }

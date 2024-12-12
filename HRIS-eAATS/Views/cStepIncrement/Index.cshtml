@@ -1,0 +1,370 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .popover.clockpicker-popover {
+        z-index: 2060;
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .ddl-name-font-size {
+        font-size: 14px !important;
+    }
+
+    .modal-md {
+        width: 60% !important;
+    }
+
+    .select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple {
+        border-color: #e7eaec;
+        height: 35px;
+    }
+    .form-control {
+        display: block !important;
+    }
+
+    .table-responsive {
+        max-width:1700px !important;
+        overflow-x: scroll;
+    }
+
+    .table thead th.fixed {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: white;
+    }
+    .container {
+        width: 100% !important; /* Adjust the width of the container as needed */
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        padding-right:5px !important;  
+        margin-bottom:0px !important;
+        /*display:flex;
+        align-content:flex-start;
+        flex-direction:column;*/
+    }
+
+    .box {
+        width: 100px;
+        background-color: #442B02;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        border: 1px solid #442B02;
+    }
+    .box2 {
+        width: 100px;
+        border: 0.2px solid gray;
+        display: inline-flex;
+        cursor: grab;
+    }
+    .text-middle-container {
+        width: 100% !important;
+        text-align: center;
+        vertical-align: middle !important;
+        justify-content: center; /* Horizontal alignment */
+        align-items: center; /* Vertical alignment */
+    }
+
+    .pagination {
+        list-style: none !important;
+        display: flex !important;
+        margin: 5px 0px !important;
+    }
+
+    .pagination li {
+        margin: 0px;
+        cursor: pointer;
+        padding:5px !important;
+        border: 0.5px solid gray !important;
+        min-width:30px;
+        text-align:center;
+    }
+    .pagination li:active {
+        background-color: #dfdfe0;
+        color:black;
+    }
+
+    li.next {
+        border-radius: 3px 0px 0px 3px;
+    }
+    li.prev {
+        border-radius: 0px 3px 3px 0px;
+    }
+
+
+    .my-container {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+    }
+
+    .my-container div.my-flex-header {
+        flex: 0 1 100px;
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+        background-color: #0935bb;
+        font-weight:bold;
+        color:white;
+    }
+    .my-container div.my-flex-details {
+        flex: 0 1 100px;
+        border: 1px solid black;
+        padding: 10px;
+        text-align: center;
+        background-color: #0935bb;
+    }
+    .bg-ddo-brown {
+        background-color:#442B02;
+    }
+    .bg-ddo-gold {
+        background-color: #E5B807;
+    }
+    .bg-ddo-lightgold {
+        background-color: #FCEC65 !important;
+    }
+</style>
+<script src="~/Angular/ng-cStepIncrement.js"></script>
+<section ng-app="ng_HRD_App" ng-controller="cStepIncrement_ctrlr">
+    <div class="modal inmodal fade" id="myAddModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-ddo-brown" style="padding-top:15px !important;padding-bottom:15px !important;">
+                    <small class="modal-title pull-left" style="font-size:16px;font-weight:bold;">ADD NEW RECORD</small>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal ">
+                        <div class="row" style="display:flex;">
+                            <div class="col-lg-8" style="flex:0 0 auto;">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-lg-3 control-label">Select Employee </label>
+                                        <div class="col-lg-9">
+                                            <select id="ddl_name" class="form-control" ng-model="ddl_name" ng-change="updateProfile()" style="width: 100%;">
+                                                <option></option>
+                                            </select>
+                                            <span class="help-block m-b-none text-danger" ng-hide="ddl_name_error =='' ? true:false">{{ddl_name_error}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mt10">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <label class="col-lg-6 control-label">Reckonning Date </label>
+                                                <div class="col-lg-6">
+                                                    <input type="date" class="form-control text-left" id="txtb_reckonning_date" ng-model="txtb_reckonning_date">
+                                                    <span class="help-block m-b-none text-danger" ng-hide="txtb_reckonning_date_error =='' ? true:false">{{txtb_reckonning_date_error}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <label class="col-lg-5 control-label">Record Tag </label>
+                                                <div class="col-lg-7">
+                                                    <select id="ddl_record_tag" class="form-control" ng-model="ddl_record_tag" style="width: 100%;">
+                                                        <option value="">Select Here</option>
+                                                        <option value="A">Appointment</option>
+                                                        <option value="V">Leave Without Pay</option>
+                                                        <option value="I">In-Active</option>
+                                                    </select>
+                                                    <span class="help-block m-b-none text-danger" ng-hide="ddl_record_tag_error =='' ? true:false">{{ddl_record_tag_error}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt10">
+                                        <label class="col-lg-3 control-label">Record Remarks </label>
+                                        <div class="col-lg-9">
+                                            <textarea rows="8"  class="form-control" id="record_remarks" ng-model="record_remarks"></textarea>
+                                            <span class="help-block m-b-none text-danger" ng-hide="record_remarks_error =='' ? true:false">{{record_remarks_error}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4" style="flex:0 0 auto;">
+                                <img id="profile_prev" src="../../ResourcesImages/upload_profile.png"  style="height:265px; width:100%;border: 0.5px solid #442B02;" onerror="this.onerror=null;this.src='../../ResourcesImages/upload_profile.png';" />
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer bg-ddo-gold">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="btn_save_record()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mt10">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <div class="row">
+                        <div class="col-lg-1"><label style="padding-top:5px;">Department</label></div>
+                        <div class="col-lg-5">
+                            <select class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" ng-change="loadEmployee()" style="width:100%;">
+                                <option value="">-- Select Department -- </option>
+                                <option ng-repeat="lst in departments" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-1 text-right">
+                            <label style="padding-top:5px;">From:</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="month"  class="form-control text-left" id="txtb_from" ng-model="txtb_from">
+                        </div>
+                        <div class="col-lg-1 text-right">
+                            <label style="padding-top:5px;">To:</label>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="month" class="form-control text-left" id="txtb_to" ng-model="txtb_to">
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content" style="padding-bottom:0px !important;">
+                    <div class="row">
+                    
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="container" style="padding-left:0px !important;">
+                                <div class="col-lg-12" style="display:flex;">
+                                    <div class="box" style="width:500px !important; position: sticky;left:0;z-index: 1;border-right:0.2px solid gray;flex:0 0 500px;justify-content:flex-start;align-items:center;display:flex;">
+                                        <div class="col-lg-2" style="padding-top:7px;">
+                                            <button class="btn btn-success btn-sm" ng-click="btn_add_click()"><i class="fa fa-plus"></i> Add</button>
+                                        </div>
+                                        <div class="col-lg-10" style="color:white;font-weight:bold;"> Employee Information </div>
+                                    </div>
+                                    <div class="box" ng-repeat="lst in table_header" style="flex:0 0 100px;color:white;font-weight:bold;display:flex;justify-content:center;align-items:center;">
+                                        {{(moment(txtb_from).year() == moment(txtb_to).year() ? getHeaderVal(lst):lst)}}
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="align-content:flex-start !important;display:flex;align-content:flex-start;" ng-repeat="employee_rekon in employee_pagenated_record track by $index">
+                                    <div class="box2" style="box-sizing:border-box; background-color:#E5B807;width:500px !important; position: sticky;left:0;z-index: 1;border:1px solid #FCEC65 !important;flex:0 0 500px;padding-top:2px;padding-bottom:2px;">
+                                        <div class="col-lg-2" style="flex:0 0 10%;display:flex;justify-content:flex-start;align-items:center;">
+                                            <div class="dropup">
+                                                <button class="dropdown-toggle" style="padding:2px;background-color:transparent;border: none;color:white;" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="fa fa-ellipsis-v"></span>
+                                                </button>
+                                                &nbsp;
+                                                <ul class="dropdown-menu" style="color:black;z-index:99999" aria-labelledby="dropdownMenu2">
+                                                    <li><a ng-click="btn_add_click()">View Record</a></li>
+                                                    <li><a ng-click="btn_delete_click($index,employee_rekon.id)">Delete Record</a></li>
+                                                </ul>
+                                            </div>
+                                            <img id="m{{employee_rekon.empl_id}}"  ng-src="http://192.168.5.218/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
+                                                                          
+                                                                             style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
+                                                                             width="50"
+                                                                             height="50"
+                                                                             onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
+                                        </div>
+                                        <div class="col-lg-8" style="color:white;font-weight:bold;display:flex;justify-content:flex-start;align-items:center;flex:0 0 60%;overflow-wrap:break-word;">
+                                            <small>{{employee_rekon.empl_id}} - {{employee_rekon.employee_name}}</small>
+                                        </div>
+                                        <div class="col-lg-2" style="color:white;font-weight:bold;display:flex;justify-content:flex-start;align-items:center;flex:0 0 30%;">
+                                            <small>{{moment(employee_rekon.rekoning_date).format('YYYY-MM-DD')}}</small>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="box2" ng-repeat="lst in table_header" style="font-weight:bold;color:black;height:inherit;flex:0 0 100px;vertical-align:middle;text-align:center;align-content:center;display:flex;justify-content:center;align-items:center;" ng-style="{'background-color': getBackgroundColor(lst, employee_rekon.rekoning_date)}">
+                                        {{(getSteps(lst, employee_rekon.rekoning_date) == "" ? '&nbsp':getSteps(lst, employee_rekon.rekoning_date))}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-footer" style="padding-top:0px !important;padding-bottom:0px !important;">
+                    <div class="row" style="margin-top:0px !important;margin-bottom:0px !important;">
+                        <div class="col-lg-3" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
+                            <ul class="pagination">
+                                <li ng-click="prevPage()" class="next" ng-class="{disabled: currentPage === 0}">Prev</li>
+                                <li>{{ currentPage + 1 }}</li>
+                                <li ng-click="nextPage()" class="prev" ng-class="{disabled: currentPage === totalPages.length - 1}">Next</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-7" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
+
+                        </div>
+                        <div class="col-lg-2" style="text-align:center; vertical-align:middle;padding-top:10px;">
+                            <i style="margin: 5px 0px !important;">Page <b>{{ currentPage + 1}}</b> of <b>{{totalPages.length}}</b></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    //document.addEventListener('DOMContentLoaded', function () {
+    //    var scrollableDiv = document.getElementById('scrollableDiv');
+    //    var isDragging = false;
+    //    var startPosition = 0;
+    //    var startScrollLeft = 0;
+
+    //    scrollableDiv.addEventListener('mousedown', function (event) {
+    //        isDragging = true;
+    //        startPosition = event.clientX;
+    //        startScrollLeft = scrollableDiv.scrollLeft;
+    //        scrollableDiv.style.cursor = 'grabbing'; // Change cursor during dragging
+    //    });
+
+    //    document.addEventListener('mousemove', function (event) {
+    //        if (isDragging) {
+    //            var delta = event.clientX - startPosition;
+    //            scrollableDiv.scrollLeft = startScrollLeft - delta;
+    //        }
+    //    });
+
+    //    document.addEventListener('mouseup', function () {
+    //        isDragging = false;
+    //        scrollableDiv.style.cursor = 'grab'; // Restore default cursor after dragging
+    //    });
+    //});
+
+</script>
+
