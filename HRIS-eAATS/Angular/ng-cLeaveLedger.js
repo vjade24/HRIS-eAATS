@@ -305,50 +305,40 @@
                             "mRender": function (data, type, full, row)
                             {
                                 // console.log("ROW INDEX = "+row["row"] +"\nPREV VL = " + parseFloat(s.pre_vl_val)+"\nVL bal = "+parseFloat(full["vl_bal"]).toString()+"\nWP VL = "+parseFloat(full["vl_wp"]).toString() +"\nEARN VL = "+isNaN(parseFloat(full["vl_earned"])));
-                                if (full["vl_bal"] == "0.000" && full["vl_wp"] == "0.000" && full["vl_earned"] == "0.000" && s.red_vl_flag == false && row["row"] > 0 && s.vl_bal_start == true)
-                                {
-                                    s.red_vl_flag = s.red_vl_flag;
-                                }
-                                else if(isNaN(parseFloat(full["vl_earned"])) == true || full["vl_earned"].toString().trim() == "" && s.vl_bal_start == true)
-                                {
-                                    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0 )
-                                    {
-                                        s.red_vl_flag = true;
-                                    }
-                                }
-                                else if (isNaN(parseFloat(full["vl_wp"])) == true || full["vl_wp"].toString().trim() == "" && s.vl_bal_start == true)
-                                {
-                                    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
-                                    {
-                                        s.red_vl_flag = true;
-                                    }
-                                }
-                                else 
-                                {
-                                    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
-                                    {
-                                        s.red_vl_flag = true;
-                                    }
-                                }
+                                //if (full["vl_bal"] == "0.000" && full["vl_wp"] == "0.000" && full["vl_earned"] == "0.000" && s.red_vl_flag == false && row["row"] > 0 && s.vl_bal_start == true)
+                                //{
+                                //    s.red_vl_flag = s.red_vl_flag;
+                                //}
+                                //else if(isNaN(parseFloat(full["vl_earned"])) == true || full["vl_earned"].toString().trim() == "" && s.vl_bal_start == true)
+                                //{
+                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0 )
+                                //    {
+                                //        s.red_vl_flag = true;
+                                //    }
+                                //}
+                                //else if (isNaN(parseFloat(full["vl_wp"])) == true || full["vl_wp"].toString().trim() == "" && s.vl_bal_start == true)
+                                //{
+                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
+                                //    {
+                                //        s.red_vl_flag = true;
+                                //    }
+                                //}
+                                //else 
+                                //{
+                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
+                                //    {
+                                //        s.red_vl_flag = true;
+                                //    }
+                                //}
 
                                 s.vl_bal_start = parseFloat(full["vl_bal"]) == 0 ? s.vl_bal_start : true
-
-                                //if (parseFloat(full["vl_bal"]) == 0 && row["row"] == 1)
-                                //{
-                                //    s.pre_vl_val = ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3)
-                                //}
-                                //else
-                                //{
-                                //    s.pre_vl_val = parseFloat(full["vl_bal"]) > 0 ? parseFloat(data) : s.pre_vl_val;
-                                //}
-                                
                                 
                                 if (full["vl_bal"] == "0.000")
                                 {
                                     data = "";
                                 }
 
-                                var chk_red_flag = "<br> Prev-" + s.pre_vl_val + "<br> Cur-" + ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3)
+                                var chk_red_flag = "";//"<br> Prev-" + s.pre_vl_val + "<br> Cur-" + ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3)
 
                                 if (full["approval_status"] == "C" || full["approval_status"] == "D" || s.red_vl_flag == true)
                                 {
