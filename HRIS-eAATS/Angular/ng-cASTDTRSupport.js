@@ -746,7 +746,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                         //    swal("DTR for this Year-Month is already transmitted to PHRMDO", msg2, {icon:"success"})
                         //}
 
-                        if (parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10 && d.data.checkShiftFlag[0].shift_flag == 1)
+                        if (((parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10) || parseInt(par_year) > 2024)   && d.data.checkShiftFlag[0].shift_flag == 1)
                         {
                             ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
                             sp = "sp_dtr_rep2,par_year," + par_year +
