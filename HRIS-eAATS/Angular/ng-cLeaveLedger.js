@@ -926,7 +926,7 @@
 
                     if (d.data.icon == "success" )
                     {
-                        if (parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10 && d.data.checkShiftFlag[0].shift_flag == 1)
+                        if (((parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10) || parseInt(par_year) > 2024) && d.data.checkShiftFlag[0].shift_flag == 1)
                         {
                             ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
                             sp = "sp_dtr_rep2,par_year," + par_year +
@@ -3873,7 +3873,7 @@
                     , empl_id       : par_empl_id
                 }).then(function (d)
                 {
-                    if (parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10 && d.data.checkShiftFlag[0].shift_flag == 1)
+                    if (((parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10) || parseInt(par_year) > 2024) && d.data.checkShiftFlag[0].shift_flag == 1)
                     {
                         ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
                         sp = "sp_dtr_rep2,par_year," + par_year +

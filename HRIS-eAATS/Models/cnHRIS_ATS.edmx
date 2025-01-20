@@ -918,6 +918,28 @@
           <Property Name="created_dttm" Type="datetime" />
           <Property Name="created_user_id" Type="varchar" MaxLength="30" />
         </EntityType>
+        <EntityType Name="lv_ledger_forfeitbal_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="forfeited_year" Type="varchar" MaxLength="4" />
+          <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="255" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="department_short_name" Type="varchar" MaxLength="100" />
+          <Property Name="leavetype_code" Type="varchar" MaxLength="3" />
+          <Property Name="fl_used" Type="money" />
+          <Property Name="vl_used" Type="money" />
+          <Property Name="vl_bal" Type="money" />
+          <Property Name="cto_used" Type="money" />
+          <Property Name="cto_bal" Type="money" />
+          <Property Name="forfeited_bal" Type="money" />
+          <Property Name="remarks" Type="varchar" MaxLength="255" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+        </EntityType>
         <EntityType Name="lv_ledger_hdr_oth_tbl">
           <Key>
             <PropertyRef Name="id" />
@@ -4119,6 +4141,11 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_department_code" Type="varchar" Mode="In" />
           <Parameter Name="par_earning_type" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_lv_ledger_forfeitbal_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_leave_year" Type="varchar" Mode="In" />
+          <Parameter Name="p_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="p_leavetype_code" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_lv_ledger_generate_earning" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_year" Type="varchar" Mode="In" />
           <Parameter Name="par_month" Type="varchar" Mode="In" />
@@ -4567,6 +4594,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="lv_days_frac_tbl" EntityType="Self.lv_days_frac_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_dtl_tbl" EntityType="Self.lv_ledger_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_earn_history_tbl" EntityType="Self.lv_ledger_earn_history_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lv_ledger_forfeitbal_tbl" EntityType="Self.lv_ledger_forfeitbal_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_hdr_oth_tbl" EntityType="Self.lv_ledger_hdr_oth_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_hdr_reprint_tbl" EntityType="Self.lv_ledger_hdr_reprint_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_hdr_tbl" EntityType="Self.lv_ledger_hdr_tbl" Schema="dbo" store:Type="Tables" />
@@ -9267,6 +9295,12 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_department_code" Mode="In" Type="String" />
             <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="lv_ledger_forfeitbal_tbl" EntityType="HRIS_ATSModel.lv_ledger_forfeitbal_tbl" />
+          <FunctionImport Name="sp_lv_ledger_forfeitbal_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_lv_ledger_forfeitbal_tbl_list_Result)">
+            <Parameter Name="p_leave_year" Mode="In" Type="String" />
+            <Parameter Name="p_department_code" Mode="In" Type="String" />
+            <Parameter Name="p_leavetype_code" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -13255,6 +13289,46 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="tse_in_pm" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="tse_out_pm" Nullable="true" MaxLength="5" />
           <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="lv_ledger_forfeitbal_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="forfeited_year" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="ledger_ctrl_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="department_short_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="leavetype_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="fl_used" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="vl_used" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="vl_bal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="cto_used" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="cto_bal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="forfeited_bal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_lv_ledger_forfeitbal_tbl_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="forfeited_year" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="3" />
+          <Property Type="Decimal" Name="fl_used" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="vl_used" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="vl_bal" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="cto_used" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="cto_bal" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="forfeited_bal" Nullable="true" Precision="19" />
+          <Property Type="String" Name="remarks" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="8" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -20486,6 +20560,51 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="tse_in_pm" ColumnName="tse_in_pm" />
                 <ScalarProperty Name="tse_out_pm" ColumnName="tse_out_pm" />
                 <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="lv_ledger_forfeitbal_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_forfeitbal_tbl">
+              <MappingFragment StoreEntitySet="lv_ledger_forfeitbal_tbl">
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="forfeited_bal" ColumnName="forfeited_bal" />
+                <ScalarProperty Name="cto_bal" ColumnName="cto_bal" />
+                <ScalarProperty Name="cto_used" ColumnName="cto_used" />
+                <ScalarProperty Name="vl_bal" ColumnName="vl_bal" />
+                <ScalarProperty Name="vl_used" ColumnName="vl_used" />
+                <ScalarProperty Name="fl_used" ColumnName="fl_used" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="forfeited_year" ColumnName="forfeited_year" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_lv_ledger_forfeitbal_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_lv_ledger_forfeitbal_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_lv_ledger_forfeitbal_tbl_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="forfeited_year" ColumnName="forfeited_year" />
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="fl_used" ColumnName="fl_used" />
+                <ScalarProperty Name="vl_used" ColumnName="vl_used" />
+                <ScalarProperty Name="vl_bal" ColumnName="vl_bal" />
+                <ScalarProperty Name="cto_used" ColumnName="cto_used" />
+                <ScalarProperty Name="cto_bal" ColumnName="cto_bal" />
+                <ScalarProperty Name="forfeited_bal" ColumnName="forfeited_bal" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

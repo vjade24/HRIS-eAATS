@@ -242,6 +242,7 @@
     <Compile Include="Controllers\cASTypeController.cs" />
     <Compile Include="Controllers\cBestInAttendanceController.cs" />
     <Compile Include="Controllers\cExtractToExcelController.cs" />
+    <Compile Include="Controllers\cForfeitBalanceController.cs" />
     <Compile Include="Controllers\cLeaveAdminController.cs" />
     <Compile Include="Controllers\cLeaveCTOBalanceController.cs" />
     <Compile Include="Controllers\cLeaveEarnedVLSLController.cs" />
@@ -592,6 +593,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lv_ledger_earn_history_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_forfeitbal_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lv_ledger_hdr_oth_tbl.cs">
@@ -1119,6 +1123,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_lv_ledger_earn_history_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_ledger_forfeitbal_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_lv_ledger_generate_earning_Result.cs">
@@ -1664,6 +1671,12 @@
       <DependentUpon>cryExtractTrackingHistoryLeaveApplication.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryForfeited\cryForfeited.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryForfeited.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryForgotPunchList\cryForgotPunchList.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1787,6 +1800,7 @@
     <Content Include="Angular\ng-cLeavePrinting.js" />
     <Content Include="Angular\ng-cLeaveTracking.js" />
     <Content Include="Angular\ng-cLeaveTransmittal.js" />
+    <Content Include="Angular\ng-cForfeitBalance.js" />
     <Content Include="Angular\ng-cMonthEarns.js" />
     <Content Include="Angular\ng-cLeaveLedgerAppr.js" />
     <Content Include="Angular\ng-cLeaveSubType.js" />
@@ -2792,6 +2806,7 @@
     <Content Include="Views\cLeaveCTOBalance\Index.cshtml" />
     <Content Include="Views\cLWOP\Index.cshtml" />
     <Content Include="Views\cBestInAttendance\Index.cshtml" />
+    <Content Include="Views\cForfeitBalance\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2944,6 +2959,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedgerSummaryTerminal.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Reports\cryForfeited\cryForfeited.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryForfeited.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\cryLeaveLedger\LeaveLedgerCard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>LeaveLedgerCard.cs</LastGenOutput>

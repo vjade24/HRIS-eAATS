@@ -147,6 +147,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<best_in_attendance_dtl_tbl> best_in_attendance_dtl_tbl { get; set; }
         public virtual DbSet<leave_application_hdr_tbl> leave_application_hdr_tbl { get; set; }
         public virtual DbSet<dtr_overrides_tbl> dtr_overrides_tbl { get; set; }
+        public virtual DbSet<lv_ledger_forfeitbal_tbl> lv_ledger_forfeitbal_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -5470,6 +5471,23 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_override_list_Result>("sp_dtr_override_list", par_yearParameter, par_monthParameter, par_empl_idParameter, par_view_typeParameter, par_department_codeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_ledger_forfeitbal_tbl_list_Result> sp_lv_ledger_forfeitbal_tbl_list(string p_leave_year, string p_department_code, string p_leavetype_code)
+        {
+            var p_leave_yearParameter = p_leave_year != null ?
+                new ObjectParameter("p_leave_year", p_leave_year) :
+                new ObjectParameter("p_leave_year", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            var p_leavetype_codeParameter = p_leavetype_code != null ?
+                new ObjectParameter("p_leavetype_code", p_leavetype_code) :
+                new ObjectParameter("p_leavetype_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_forfeitbal_tbl_list_Result>("sp_lv_ledger_forfeitbal_tbl_list", p_leave_yearParameter, p_department_codeParameter, p_leavetype_codeParameter);
         }
     }
 }

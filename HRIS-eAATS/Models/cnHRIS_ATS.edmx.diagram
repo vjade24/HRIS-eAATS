@@ -125,6 +125,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.best_in_attendance_dtl_tbl" Width="1.5" PointX="35.375" PointY="22.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_hdr_tbl" Width="1.5" PointX="27.375" PointY="35.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.dtr_overrides_tbl" Width="1.5" PointX="35.375" PointY="27.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_forfeitbal_tbl" Width="1.5" PointX="29.375" PointY="35.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
