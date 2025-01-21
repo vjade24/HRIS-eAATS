@@ -2959,10 +2959,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedgerSummaryTerminal.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\cryForfeited\cryForfeited.rpt">
+    <Content Include="Reports\cryForfeited\cryForfeited.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryForfeited.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <EmbeddedResource Include="Reports\cryLeaveLedger\LeaveLedgerCard.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>LeaveLedgerCard.cs</LastGenOutput>
