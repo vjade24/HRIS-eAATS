@@ -92,7 +92,7 @@ namespace HRIS_eAATS.Controllers
                 var leave_subType_lst   = db_ats.sp_leavesubtype_tbl_list("").ToList();
                 
                 List<sp_lv_ledger_posted_unposted_Result> lv_unposted1 = new List<sp_lv_ledger_posted_unposted_Result>();
-                List<sp_lv_ledger_posted_unposted_Result> lv_posted1   = new List<sp_lv_ledger_posted_unposted_Result>();
+                List<sp_lv_ledger_posted_unposted_Result> lv_posted   = new List<sp_lv_ledger_posted_unposted_Result>();
                 
                 List<sp_leaveledger_curr_bal2_Result> data_all_bal = new List<sp_leaveledger_curr_bal2_Result>();
 
@@ -108,17 +108,17 @@ namespace HRIS_eAATS.Controllers
                     if (redirect_data[7].ToString() == "2")        // Leave 
                     {
                         lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").Where(a => a.leave_type_code != "CTO").ToList();
-                        lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code != "CTO").ToList();
+                        //lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code != "CTO").ToList();
                     }
                     else if (redirect_data[7].ToString() == "3")  // CTO
                     {
                         lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").Where(a => a.leave_type_code == "CTO").ToList();
-                        lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code == "CTO").ToList();
+                        //lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").Where(a => a.leave_type_code == "CTO").ToList();
                     }
                     else                       // Both Leave and CTO
                     {
                         lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "0").ToList();
-                        lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").ToList();
+                        //lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(redirect_data[1].ToString(), "1").ToList();
                     }
                     // ********************************************************************
                     // ********************************************************************
@@ -175,34 +175,34 @@ namespace HRIS_eAATS.Controllers
                                     ,mone = b
                                 };
 
-                var lv_posted  = from a in lv_posted1.ToList()
-                                join b in db_ats.leave_application_mone_tbl
-                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
-                                from b in temp.DefaultIfEmpty()
-                                select new
-                                {
-                                    a.ledger_ctrl_no   
-                                    ,a.leave_ctrlno    
-                                    ,a.empl_id 
-                                    ,a.employee_name   
-                                    ,a.department_code 
-                                    ,a.date_applied    
-                                    ,a.inclusive_dates 
-                                    ,a.leave_type_code 
-                                    ,a.leavetype_descr 
-                                    ,a.leave_subtype_code  
-                                    ,a.leavesubtype_descr  
-                                    ,a.posting_status  
-                                    ,a.created_date_only   
-                                    ,a.created_by_user 
-                                    ,a.number_of_days  
-                                    ,a.leaveledger_entry_type  
-                                    ,a.justification_flag  
-                                    ,a.leave_class 
-                                    ,a.leave_descr 
-                                    ,a.disapproved_remakrs
-                                    ,mone = b
-                                };
+                //var lv_posted  = from a in lv_posted1.ToList()
+                //                join b in db_ats.leave_application_mone_tbl
+                //                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                //                from b in temp.DefaultIfEmpty()
+                //                select new
+                //                {
+                //                    a.ledger_ctrl_no   
+                //                    ,a.leave_ctrlno    
+                //                    ,a.empl_id 
+                //                    ,a.employee_name   
+                //                    ,a.department_code 
+                //                    ,a.date_applied    
+                //                    ,a.inclusive_dates 
+                //                    ,a.leave_type_code 
+                //                    ,a.leavetype_descr 
+                //                    ,a.leave_subtype_code  
+                //                    ,a.leavesubtype_descr  
+                //                    ,a.posting_status  
+                //                    ,a.created_date_only   
+                //                    ,a.created_by_user 
+                //                    ,a.number_of_days  
+                //                    ,a.leaveledger_entry_type  
+                //                    ,a.justification_flag  
+                //                    ,a.leave_class 
+                //                    ,a.leave_descr 
+                //                    ,a.disapproved_remakrs
+                //                    ,mone = b
+                //                };
                 return JSON(new { message = "success"
                     , um
                     , lv_admin_dept_list
@@ -299,22 +299,22 @@ namespace HRIS_eAATS.Controllers
                 //var lv_unposted = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").ToList();
                 //var lv_posted   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
                 List<sp_lv_ledger_posted_unposted_Result> lv_unposted1 = new List<sp_lv_ledger_posted_unposted_Result>();
-                List<sp_lv_ledger_posted_unposted_Result> lv_posted1   = new List<sp_lv_ledger_posted_unposted_Result>();
+                List<sp_lv_ledger_posted_unposted_Result> lv_posted   = new List<sp_lv_ledger_posted_unposted_Result>();
 
                 if (p_rep_mode == 2)        // Leave 
                 {
                     lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").Where(a => a.leave_type_code != "CTO").ToList();
-                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code != "CTO").ToList();
+                    //lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code != "CTO").ToList();
                 }
                 else if (p_rep_mode == 3)  // CTO
                 {
                     lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").Where(a => a.leave_type_code == "CTO").ToList();
-                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code == "CTO").ToList();
+                    //lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code == "CTO").ToList();
                 }
                 else                       // Both Leave and CTO
                 {
                     lv_unposted1 = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "0").ToList();
-                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
+                    //lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
                 }
                 // ********************************************************************
                 // ********************************************************************
@@ -370,34 +370,34 @@ namespace HRIS_eAATS.Controllers
                                     ,mone = b
                                 };
 
-                var lv_posted  = from a in lv_posted1.ToList()
-                                join b in db_ats.leave_application_mone_tbl
-                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
-                                from b in temp.DefaultIfEmpty()
-                                select new
-                                {
-                                    a.ledger_ctrl_no   
-                                    ,a.leave_ctrlno    
-                                    ,a.empl_id 
-                                    ,a.employee_name   
-                                    ,a.department_code 
-                                    ,a.date_applied    
-                                    ,a.inclusive_dates 
-                                    ,a.leave_type_code 
-                                    ,a.leavetype_descr 
-                                    ,a.leave_subtype_code  
-                                    ,a.leavesubtype_descr  
-                                    ,a.posting_status  
-                                    ,a.created_date_only   
-                                    ,a.created_by_user 
-                                    ,a.number_of_days  
-                                    ,a.leaveledger_entry_type  
-                                    ,a.justification_flag  
-                                    ,a.leave_class 
-                                    ,a.leave_descr 
-                                    ,a.disapproved_remakrs
-                                    ,mone = b
-                                };
+                //var lv_posted  = from a in lv_posted1.ToList()
+                //                join b in db_ats.leave_application_mone_tbl
+                //                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                //                from b in temp.DefaultIfEmpty()
+                //                select new
+                //                {
+                //                    a.ledger_ctrl_no   
+                //                    ,a.leave_ctrlno    
+                //                    ,a.empl_id 
+                //                    ,a.employee_name   
+                //                    ,a.department_code 
+                //                    ,a.date_applied    
+                //                    ,a.inclusive_dates 
+                //                    ,a.leave_type_code 
+                //                    ,a.leavetype_descr 
+                //                    ,a.leave_subtype_code  
+                //                    ,a.leavesubtype_descr  
+                //                    ,a.posting_status  
+                //                    ,a.created_date_only   
+                //                    ,a.created_by_user 
+                //                    ,a.number_of_days  
+                //                    ,a.leaveledger_entry_type  
+                //                    ,a.justification_flag  
+                //                    ,a.leave_class 
+                //                    ,a.leave_descr 
+                //                    ,a.disapproved_remakrs
+                //                    ,mone = b
+                //                };
                 return JSON(new
                 {
                     message = "success"
@@ -1752,6 +1752,61 @@ namespace HRIS_eAATS.Controllers
             {
                 var checkShiftFlag = db_ats.sp_check_shiftsched(dtr_year, dtr_month, empl_id).ToList();
                 return Json(new { message = "success", checkShiftFlag }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult reloadPosted(
+                              string par_empl_id
+                            , int p_rep_mode)
+        {
+            try
+            {
+                List<sp_lv_ledger_posted_unposted_Result> lv_posted1 = new List<sp_lv_ledger_posted_unposted_Result>();
+                if (p_rep_mode == 2)        // Leave 
+                {
+                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code != "CTO").ToList();
+                }
+                else if (p_rep_mode == 3)  // CTO
+                {
+                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").Where(a => a.leave_type_code == "CTO").ToList();
+                }
+                else                       // Both Leave and CTO
+                {
+                    lv_posted1   = db_ats.sp_lv_ledger_posted_unposted(par_empl_id, "1").ToList();
+                }
+                var lv_posted  = from a in lv_posted1.ToList()
+                                join b in db_ats.leave_application_mone_tbl
+                                on new { a.empl_id, a.leave_ctrlno } equals new { b.empl_id, b.leave_ctrlno } into temp
+                                from b in temp.DefaultIfEmpty()
+                                select new
+                                {
+                                    a.ledger_ctrl_no   
+                                    ,a.leave_ctrlno    
+                                    ,a.empl_id 
+                                    ,a.employee_name   
+                                    ,a.department_code 
+                                    ,a.date_applied    
+                                    ,a.inclusive_dates 
+                                    ,a.leave_type_code 
+                                    ,a.leavetype_descr 
+                                    ,a.leave_subtype_code  
+                                    ,a.leavesubtype_descr  
+                                    ,a.posting_status  
+                                    ,a.created_date_only   
+                                    ,a.created_by_user 
+                                    ,a.number_of_days  
+                                    ,a.leaveledger_entry_type  
+                                    ,a.justification_flag  
+                                    ,a.leave_class 
+                                    ,a.leave_descr 
+                                    ,a.disapproved_remakrs
+                                    ,mone = b
+                                };
+                return Json(new { message = "success", lv_posted }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

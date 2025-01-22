@@ -4135,6 +4135,32 @@
         })
     }
 
+    s.btn_reloadPosted = function ()
+    {
+        $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+        h.post("../cLeaveLedger/reloadPosted",
+        {
+          par_empl_id      : $("#ddl_name option:selected").val()
+         ,p_rep_mode       : $("#ddl_rep_mode").val()
+        }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                s.oTable3.fnClearTable();
+                s.datalistgrid3 = d.data.lv_posted;
+                if (d.data.lv_posted.length > 0) {
+                    s.oTable3.fnAddData(d.data.lv_posted);
+                }
+                $('#modal_initializing').modal("hide");
+            }
+            else
+            {
+                swal("There Something wrong", d.data.message, { icon: "warning" });
+                $('#modal_initializing').modal("hide");
+            }
+        })
+    }
+
     //*********************************************************************************************************
     // ************************ END OF CODE *******************************************************************
     //*********************************************************************************************************
