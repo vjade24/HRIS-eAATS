@@ -859,7 +859,9 @@
                 $('#modal_initializing').modal("hide");
                 //**********************************************
                 //**********************************************
-                s.RefreshDTR_PrintOnly();
+                var iframe = document.getElementById('iframe_print_preview4');
+                iframe.src = "";
+                //s.RefreshDTR_PrintOnly();
             }
             else
             {
@@ -1799,28 +1801,28 @@
     //***********************************************************//
     s.btn_print_leave_app_posted = function (row_id,type)
     {
-        s.show_reprint          = true;
-        s.ddl_report_appl       = "02";
-        s.print_ledger_ctrl_no  = "";
-        s.print_ledger_ctrl_no  = s.datalistgrid3[row_id].ledger_ctrl_no;
+        s.show_reprint              = true;
+        s.ddl_report_appl           = "02";
+        s.print_ledger_ctrl_no      = "";
+        s.print_ledger_ctrl_no      = (s.datalistgrid3.length > 0 ? s.datalistgrid3[row_id].ledger_ctrl_no          : "" )
+        var ledger_ctrl_no          = (s.datalistgrid3.length > 0 ? s.datalistgrid3[row_id].ledger_ctrl_no          : "" )
+        var leave_ctrlno            = (s.datalistgrid3.length > 0 ? s.datalistgrid3[row_id].leave_ctrlno            : "" )
+        var empl_id                 = (s.datalistgrid3.length > 0 ? s.datalistgrid3[row_id].empl_id                 : $("#ddl_name option:selected").val())
+        var leavetype               = (s.datalistgrid3.length > 0 ? s.datalistgrid3[row_id].leave_type_code         : ($("#ddl_rep_mode option:selected").val() == "3" ? "CTO" : ""))
+        var approval_status         = (s.datalistgrid3.length > 0 ? s.datalistgrid3[row_id].approval_status         : "" )
+        var leaveledger_entry_type  = (s.datalistgrid3.length > 0 ? s.datalistgrid3[row_id].leaveledger_entry_type  : "" )
 
-        if (s.datalistgrid3[row_id].approval_status == 'D' ||
-            s.datalistgrid3[row_id].approval_status == 'L' ||
-            s.datalistgrid3[row_id].leaveledger_entry_type == 'T' 
-        )
+        if (approval_status == 'D' || approval_status == 'L' || leaveledger_entry_type == 'T')
         {
             swal("You cannot Edit, Delete, Print and Cancel Posted", "Data already Disapproved or Cancelled", { icon: "warning", });
         }
-        else if (s.datalistgrid3[row_id].leaveledger_entry_type != '2')
-        {
-            swal("You cannot Print", "You cannot print if the entry type are Automated and Leave Adjustment!", { icon: "warning", });
-        }
+        //else if (leaveledger_entry_type != '2')
+        //{
+        //    swal("You cannot Print", "You cannot print if the entry type are Automated and Leave Adjustment!", { icon: "warning", });
+        //}
         else
         {
             try {
-                var ledger_ctrl_no  = s.datalistgrid3[row_id].ledger_ctrl_no;
-                var leave_ctrlno    = s.datalistgrid3[row_id].leave_ctrlno;
-                var empl_id         = s.datalistgrid3[row_id].empl_id;
 
                 var controller  = "Reports"
                 var action      = "Index"
@@ -1862,10 +1864,9 @@
                 }
                 else
                 {
-                    if (s.datalistgrid3[row_id].leave_type_code == "CTO")
+                    if (leavetype == "CTO")
                     {
                         ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
-                        p_empl_id
                         sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + leave_ctrlno + ",par_empl_id," + empl_id + ",par_view_mode," + "02";
                     }
                     else
@@ -1920,12 +1921,12 @@
                 iframe.src = s.embed_link;
 
 
-                var p_empl_id = s.datalistgrid3[row_id].empl_id
+                var p_empl_id = empl_id
                 var p_date_fr = $("#txtb_date_fr").val()
                 var p_date_to = $("#txtb_date_to").val()
                 var p_report_type = "LEAVE";
                 var par_rep_mode = "2";
-                if (s.datalistgrid3[row_id].leave_type_code == "CTO") {
+                if (leavetype == "CTO") {
                     p_report_type = "CTO";
                     par_rep_mode = "3";
                 }
