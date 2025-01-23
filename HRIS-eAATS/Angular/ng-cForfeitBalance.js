@@ -246,10 +246,22 @@
             switch (value) {
                 case "generate_earn":
                     //$('#modal_generating').modal({ backdrop: 'static', keyboard: false });
+                    let trimmedData = s.datalistgrid.map(item => ({
+                         empl_id                : item.empl_id              
+                        ,employee_name          : item.employee_name        
+                        ,department_code        : item.department_code      
+                        ,department_short_name  : item.department_short_name   
+                        ,fl_used                : item.fl_used              
+                        ,vl_used                : item.vl_used              
+                        ,vl_bal                 : item.vl_bal               
+                        ,cto_used               : item.cto_used             
+                        ,cto_bal                : item.cto_bal              
+                        ,forfeited_bal          : item.forfeited_bal     
+                    }));
                     h.post("../cForfeitBalance/GeneateForfeit",
                         {
                             //data               : s.data_checked
-                            data               : s.datalistgrid
+                            data               : trimmedData
                            ,forfeited_year     : $('#ddl_year option:selected').text()
                            ,leavetype_code     : s.ddl_leavetype_code
                         }).then(function (d) {
