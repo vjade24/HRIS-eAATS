@@ -323,7 +323,7 @@
         } else
         {
             s.show_card = false
-            sp = "sp_lv_ledger_forfeitbal_tbl_rep,p_leave_year," + s.ddl_year + ",p_leavetype_code," + s.ddl_leavetype_code;
+            sp = "sp_lv_ledger_forfeitbal_tbl_rep,p_leave_year," + s.ddl_year + ",p_leavetype_code," + s.ddl_leavetype_code + ",p_department_code," + s.ddl_dept;
             ReportPath = "~/Reports/cryForfeited/cryForfeited.rpt";
         }
 
