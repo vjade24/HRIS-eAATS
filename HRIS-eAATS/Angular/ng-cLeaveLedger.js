@@ -333,7 +333,7 @@
 
                                 s.vl_bal_start = parseFloat(full["vl_bal"]) == 0 ? s.vl_bal_start : true
                                 
-                                if (full["vl_bal"] == "0.000")
+                                if (full["vl_bal"] == "0.000" && full["vl_earned"] == "0.000" && full["vl_wp"] == "0.000")
                                 {
                                     data = "";
                                 }
@@ -413,7 +413,8 @@
                             "mData": "sl_bal",
                             "mRender": function (data, type, full, row)
                             {
-                                if (full["sl_bal"] == "0.000") {
+                                if (full["sl_bal"] == "0.000" && full["sl_earned"] == "0.000" && full["sl_wp"] == "0.000")
+                                {
                                     data = "";
                                 }
                                 if (full["approval_status"] == "C" || full["approval_status"] == "D")
@@ -476,9 +477,34 @@
                             }
                         }
                     ],
-                    "createdRow": function (row, data, index) {
-                        $compile(row)($scope);  //add this to compile the DOM
-                    },
+                    //"createdRow": function (row, data, index) {
+                    //    $compile(row)($scope);  //add this to compile the DOM
+                    //},
+                    "createdRow": function (row, data)
+                    {
+                        // #F8E71C   (Bright Yellow)
+                        // #50E3C2   (Light Teal)
+                        // #F5A623   (Soft Orange)
+                        // #D8BFD8   (Light Lavender)
+
+                        if (data['nbr_quarter'] == "1")
+                        { 
+                            $(row).css("background-color", "#F8E71C"); 
+                        }
+                        else if (data['nbr_quarter'] == "2")
+                        {
+                            $(row).css("background-color", "#50E3C2"); 
+                        }
+                        else if (data['nbr_quarter'] == "3")
+                        {
+                            $(row).css("background-color", "#F5A623"); 
+                        }
+                        else if (data['nbr_quarter'] == "4")
+                        {
+                            $(row).css("background-color", "#D8BFD8"); 
+                        }
+                        $compile(row)($scope);  
+                    }
 
                 });
         }
@@ -1191,8 +1217,8 @@
             s.ddl_entry_type        = s.datalistgrid[row_id].leaveledger_entry_type;
             s.txtb_signame3_ovrd    = s.datalistgrid[row_id].sig_name3_ovrd;
             s.txtb_sigpos3_ovrd     = s.datalistgrid[row_id].sig_pos3_ovrd;
-            s.txtb_ledger_date      = s.datalistgrid[row_id].leaveledger_date;
-            s.txtb_date_applied     = s.datalistgrid[row_id].date_applied;
+            s.txtb_ledger_date      = moment(s.datalistgrid[row_id].leaveledger_date).format('YYYY-MM-DD');
+            s.txtb_date_applied     = moment(s.datalistgrid[row_id].date_applied).format('YYYY-MM-DD');
             s.txtb_details_remarks  = s.datalistgrid[row_id].details_remarks;
             s.txtb_leave_ctrlno     = s.datalistgrid[row_id].leave_ctrlno
             s.txtb_approval_id      = s.datalistgrid[row_id].approval_id
@@ -1971,8 +1997,8 @@
             ,lwop_body_1               : s.txtb_lwop_body_1
             ,lwop_body_2               : s.txtb_lwop_body_2
         }
-        // Leave Adjustment
-        if ($("#ddl_entry_type option:selected").val() == "3" || s.ddl_leave_type == "CTO")
+        // Leave Adjustment or Errorneous Entry
+        if ($("#ddl_entry_type option:selected").val() == "3" || s.ddl_leave_type == "CTO" || $("#ddl_entry_type option:selected").val() == "5")
         {
             var data2 = {
 
@@ -2560,7 +2586,7 @@
         var return_val = true;
         ValidationResultColor("ALL", false);
         
-        if ($('#ddl_leave_type').val().trim() == "" && ($('#ddl_entry_type').val().trim() == "2" || $('#ddl_entry_type').val().trim() == "3" || $('#ddl_entry_type').val().trim() == "1")) {
+        if ($('#ddl_leave_type').val().trim() == "" && $('#ddl_entry_type').val().trim() != "4") {
             ValidationResultColor("ddl_leave_type", true);
             return_val = false;
         }
@@ -2797,8 +2823,8 @@
                 s.show_txtb_restore_deduct = true;
             }
         }
-        // Leave adjustment 
-        else if (s.ddl_entry_type == '3')
+        // Leave adjustment or Erroneous entry
+        else if (s.ddl_entry_type == '3' || s.ddl_entry_type == '5')
         {
             s.hide_txtb_restore_deduct_hdr  = false;
             s.hide_txtb_abs_und_wp_hdr      = false;
@@ -2879,7 +2905,7 @@
             total_nbr_of_days = 0;
         }
         // Leave adjustment
-        else if (s.ddl_entry_type == '3') 
+        else if (s.ddl_entry_type == '3' || s.ddl_entry_type == '5') 
         {
             // This Changes if for RA 292 - Dapat Dle maapil ang No of Days.
             if (s.ddl_leave_type == 'VL')
@@ -3311,75 +3337,79 @@
     //***********************************************//
     s.LedgerInfoCurr = function ()
     {
-        s.txtb_balance_as_of_hdr = "0.000";
-        s.txtb_balance_as_of_vl  = "0.000";
-        s.txtb_balance_as_of_sl  = "0.000";
-        s.txtb_abs_und_wp_vl     = "0.000";
-        s.txtb_abs_und_wp_sl     = "0.000";
-        s.txtb_restore_deduct_sl = "0.000";
-        s.txtb_restore_deduct_vl = "0.000";
-
-        h.post("../cLeaveLedger/LedgerInfoCurr",
-            {
-                par_empl_id         : s.txtb_empl_id
-                ,par_leavetype_code : s.ddl_leave_type
-                ,par_year           : str_to_year($("#txtb_dtr_mon_year").val())
-                ,par_month          : month_name_to_int($("#txtb_dtr_mon_year").val())
-                ,par_leave_ctrlno   : s.txtb_leave_ctrlno
-
-        }).then(function (d) 
+        
+        if (s.ADDEDITMODE != "EDIT")
         {
-            if (d.data.message = "success")
-            {
-                if (s.ADDEDITMODE == "ADD")
+            s.txtb_balance_as_of_hdr = "0.000";
+            s.txtb_balance_as_of_vl  = "0.000";
+            s.txtb_balance_as_of_sl  = "0.000";
+            s.txtb_abs_und_wp_vl     = "0.000";
+            s.txtb_abs_und_wp_sl     = "0.000";
+            s.txtb_restore_deduct_sl = "0.000";
+            s.txtb_restore_deduct_vl = "0.000";
+
+            h.post("../cLeaveLedger/LedgerInfoCurr",
                 {
-                
-                    s.txtb_balance_as_of_hdr = d.data.bal_as_of;
-                    s.txtb_balance_as_of_vl  = d.data.bal_as_of_vl;
-                    s.txtb_balance_as_of_sl  = d.data.bal_as_of_sl;
-                
-                    s.txtb_abs_und_wp_vl = d.data.total_undertime.equiv_to_day
+                    par_empl_id         : s.txtb_empl_id
+                    ,par_leavetype_code : s.ddl_leave_type
+                    ,par_year           : str_to_year($("#txtb_dtr_mon_year").val())
+                    ,par_month          : month_name_to_int($("#txtb_dtr_mon_year").val())
+                    ,par_leave_ctrlno   : s.txtb_leave_ctrlno
 
-                    if (s.ddl_entry_type == '1')
-                    {
-                        s.txtb_restore_deduct_sl = "1.250";
-                        s.txtb_restore_deduct_vl = "1.250";
-                    }
-                }
-                else if (s.ADDEDITMODE == "POST" && (s.ddl_leave_type == 'MZ' || s.ddl_leave_type == 'TL'))
-                {
-                    s.txtb_balance_as_of_hdr = d.data.bal_as_of;
-                    s.txtb_balance_as_of_vl  = d.data.bal_as_of_vl;
-                    s.txtb_balance_as_of_sl  = d.data.bal_as_of_sl;
-                    s.txtb_abs_und_wp_vl     = d.data.total_undertime.equiv_to_day
-
-                    if (s.ddl_leave_type == 'TL')
-                    {
-                        s.txtb_abs_und_wp_vl    = d.data.bal_as_of_vl;
-                        s.txtb_abs_und_wp_sl    = d.data.bal_as_of_sl;
-                        s.txtb_no_of_days       = parseFloat(d.data.bal_as_of_vl) + parseFloat(d.data.bal_as_of_sl) == "64.96000000000001" ? "64.96" : parseFloat(d.data.bal_as_of_vl + d.data.bal_as_of_sl).toFixed(3)
-                        s.txtb_particulars      = s.txtb_no_of_days + "-0-0";
-                    }
-                    else
-                    {
-                        s.txtb_abs_und_wp_vl    = (d.data.mone == null ? 0 :d.data.mone.deduct_nbr_vl);
-                        s.txtb_abs_und_wp_sl    = (d.data.mone == null ? 0 :d.data.mone.deduct_nbr_sl);
-                    }
-
-                    if (s.ddl_entry_type == '1')
-                    {
-                        s.txtb_restore_deduct_sl = "1.250";
-                        s.txtb_restore_deduct_vl = "1.250";
-                    }
-                }
-
-            } else
+            }).then(function (d) 
             {
-                swal(d.data.message, { icon: "warning", });
-                return;
-            }
+                if (d.data.message = "success")
+                {
+                    if (s.ADDEDITMODE == "ADD")
+                    {
+                    
+                        s.txtb_balance_as_of_hdr = d.data.bal_as_of;
+                        s.txtb_balance_as_of_vl  = d.data.bal_as_of_vl;
+                        s.txtb_balance_as_of_sl  = d.data.bal_as_of_sl;
+                
+                        s.txtb_abs_und_wp_vl = d.data.total_undertime.equiv_to_day
 
-        }); 
+                        if (s.ddl_entry_type == '1')
+                        {
+                            s.txtb_restore_deduct_sl = "1.250";
+                            s.txtb_restore_deduct_vl = "1.250";
+                        }
+                    }
+                    else if (s.ADDEDITMODE == "POST" && (s.ddl_leave_type == 'MZ' || s.ddl_leave_type == 'TL'))
+                    {
+                        s.txtb_balance_as_of_hdr = d.data.bal_as_of;
+                        s.txtb_balance_as_of_vl  = d.data.bal_as_of_vl;
+                        s.txtb_balance_as_of_sl  = d.data.bal_as_of_sl;
+                        s.txtb_abs_und_wp_vl     = d.data.total_undertime.equiv_to_day
+
+                        if (s.ddl_leave_type == 'TL')
+                        {
+                            s.txtb_abs_und_wp_vl    = d.data.bal_as_of_vl;
+                            s.txtb_abs_und_wp_sl    = d.data.bal_as_of_sl;
+                            s.txtb_no_of_days       = parseFloat(d.data.bal_as_of_vl) + parseFloat(d.data.bal_as_of_sl) == "64.96000000000001" ? "64.96" : parseFloat(d.data.bal_as_of_vl + d.data.bal_as_of_sl).toFixed(3)
+                            s.txtb_particulars      = s.txtb_no_of_days + "-0-0";
+                        }
+                        else
+                        {
+                            s.txtb_abs_und_wp_vl    = (d.data.mone == null ? 0 :d.data.mone.deduct_nbr_vl);
+                            s.txtb_abs_und_wp_sl    = (d.data.mone == null ? 0 :d.data.mone.deduct_nbr_sl);
+                        }
+
+                        if (s.ddl_entry_type == '1')
+                        {
+                            s.txtb_restore_deduct_sl = "1.250";
+                            s.txtb_restore_deduct_vl = "1.250";
+                        }
+                    }
+
+                } else
+                {
+                    swal(d.data.message, { icon: "warning", });
+                    return;
+                }
+
+            }); 
+        }
     }
     //*************************************************//
     //*** Toogle Page Mode by Leave Type Code ********//
@@ -3444,13 +3474,13 @@
             case "VL":
                 s.show_btn_add_dtl       = true;
                 s.ddl_leave_type_dtl     = "SP"
-                s.SelectLeaveType_dtl();
+                //s.SelectLeaveType_dtl();
 
             case "FL":
             case "PL":
             case "PS":
                 s.show_btn_add_dtl       = true;
-                s.SelectLeaveType_dtl();
+                //s.SelectLeaveType_dtl();
                 break
             case "CTO":
                 s.show_Automated        = true;

@@ -2913,6 +2913,62 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="func_leaveledger_report" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_date_fr" Type="date" Mode="In" />
+          <Parameter Name="p_date_to" Type="date" Mode="In" />
+          <Parameter Name="p_rep_mode" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" Nullable="false" />
+                <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+                <Property Name="employee_name" Type="varchar" MaxLength="258" />
+                <Property Name="leaveledger_period" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="leavetype_str" Type="nvarchar(max)" Nullable="false" />
+                <Property Name="leavetype_code" Type="varchar" MaxLength="4" />
+                <Property Name="leavesubtype_code" Type="varchar" MaxLength="4" Nullable="false" />
+                <Property Name="leaveledger_particulars" Type="varchar" MaxLength="100" />
+                <Property Name="vl_earned" Type="nvarchar" MaxLength="4000" />
+                <Property Name="vl_wp" Type="nvarchar" MaxLength="4000" />
+                <Property Name="vl_bal" Type="nvarchar" MaxLength="4000" />
+                <Property Name="vl_wop" Type="nvarchar" MaxLength="4000" />
+                <Property Name="sl_earned" Type="nvarchar" MaxLength="4000" />
+                <Property Name="sl_wp" Type="nvarchar" MaxLength="4000" />
+                <Property Name="sl_bal" Type="nvarchar" MaxLength="4000" />
+                <Property Name="sl_wop" Type="nvarchar" MaxLength="4000" />
+                <Property Name="oth_earned" Type="nvarchar" MaxLength="4000" />
+                <Property Name="oth_wp" Type="nvarchar" MaxLength="4000" />
+                <Property Name="oth_bal" Type="nvarchar" MaxLength="4000" />
+                <Property Name="oth_wop" Type="nvarchar" MaxLength="4000" />
+                <Property Name="leaveledger_date" Type="datetime" Nullable="false" />
+                <Property Name="date_applied" Type="date" Nullable="false" />
+                <Property Name="leaveledger_entry_type" Type="varchar" MaxLength="1" Nullable="false" />
+                <Property Name="sig_name3_ovrd" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="sig_pos3_ovrd" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="department_code" Type="varchar" MaxLength="2" Nullable="false" />
+                <Property Name="department_name1" Type="varchar" MaxLength="100" Nullable="false" />
+                <Property Name="department_proper_name" Type="varchar" MaxLength="100" Nullable="false" />
+                <Property Name="department_short_name" Type="varchar" MaxLength="30" Nullable="false" />
+                <Property Name="approval_status" Type="varchar" MaxLength="1" Nullable="false" />
+                <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" Nullable="false" />
+                <Property Name="approval_id" Type="varchar" MaxLength="15" Nullable="false" />
+                <Property Name="details_remarks" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="day_of_service" Type="date" Nullable="false" />
+                <Property Name="leaveledger_date_rep" Type="datetime" />
+                <Property Name="lwop_date" Type="varchar(max)" Nullable="false" />
+                <Property Name="lwop_body_1" Type="varchar(max)" Nullable="false" />
+                <Property Name="lwop_body_2" Type="varchar(max)" Nullable="false" />
+                <Property Name="appl_status" Type="varchar" MaxLength="100" Nullable="false" />
+                <Property Name="appl_remarks" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="lv_nodays" Type="money" Nullable="false" />
+                <Property Name="leaveledger_period_actual" Type="date" />
+                <Property Name="created_dttm" Type="datetime" />
+                <Property Name="nbr_quarter" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="func_LV_info_date" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_year" Type="varchar" Mode="In" />
           <Parameter Name="p_month" Type="varchar" Mode="In" />
@@ -3910,6 +3966,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="p_year" Type="varchar" Mode="In" />
           <Parameter Name="p_month" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_get_undertime_equi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_under_Time" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -4054,8 +4113,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         </Function>
         <Function Name="sp_leaveledger_report" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
-          <Parameter Name="p_date_fr" Type="varchar" Mode="In" />
-          <Parameter Name="p_date_to" Type="varchar" Mode="In" />
+          <Parameter Name="p_date_fr" Type="date" Mode="In" />
+          <Parameter Name="p_date_to" Type="date" Mode="In" />
           <Parameter Name="p_rep_mode" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_leaveledger_seq_no" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -9238,12 +9297,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="leave_application_mone_waiver_tbl" EntityType="HRIS_ATSModel.leave_application_mone_waiver_tbl" />
           <EntitySet Name="leaveadmin_tbl" EntityType="HRIS_ATSModel.leaveadmin_tbl" />
           <EntitySet Name="vw_leaveadmin_tbl_list" EntityType="HRIS_ATSModel.vw_leaveadmin_tbl_list" />
-          <FunctionImport Name="sp_leaveledger_report" ReturnType="Collection(HRIS_ATSModel.sp_leaveledger_report_Result)">
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
-            <Parameter Name="p_date_fr" Mode="In" Type="String" />
-            <Parameter Name="p_date_to" Mode="In" Type="String" />
-            <Parameter Name="p_rep_mode" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="transmittal_leave_hdr_tbl" EntityType="HRIS_ATSModel.transmittal_leave_hdr_tbl" />
           <EntitySet Name="vw_personnelnames_tbl_HRIS_ATS" EntityType="HRIS_ATSModel.vw_personnelnames_tbl_HRIS_ATS" />
           <FunctionImport Name="sp_leave_balances_rep" ReturnType="Collection(HRIS_ATSModel.sp_leave_balances_rep_Result)">
@@ -9300,6 +9353,21 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_show_history" Mode="In" Type="String" />
             <Parameter Name="par_period_from" Mode="In" Type="DateTime" />
             <Parameter Name="par_period_to" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_undertime_equi" ReturnType="Collection(String)">
+          <Parameter Name="par_under_Time" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="func_leaveledger_report" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_leaveledger_report_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_date_fr" Mode="In" Type="DateTime" />
+            <Parameter Name="p_date_to" Mode="In" Type="DateTime" />
+            <Parameter Name="p_rep_mode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_leaveledger_report" ReturnType="Collection(HRIS_ATSModel.sp_leaveledger_report_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_date_fr" Mode="In" Type="DateTime" />
+            <Parameter Name="p_date_to" Mode="In" Type="DateTime" />
+            <Parameter Name="p_rep_mode" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -12864,49 +12932,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="department_short_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="approver" Type="Boolean" Nullable="false" />
         </EntityType>
-        <ComplexType Name="sp_leaveledger_report_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="258" />
-          <Property Type="String" Name="leaveledger_period" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leavetype_str" Nullable="true" MaxLength="8000" />
-          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="leavesubtype_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="leaveledger_particulars" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="vl_earned" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="vl_wp" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="vl_bal" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="vl_wop" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="sl_earned" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="sl_wp" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="sl_bal" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="sl_wop" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="oth_earned" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="oth_wp" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="oth_bal" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="oth_wop" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="leaveledger_date" Nullable="true" />
-          <Property Type="String" Name="date_applied" Nullable="true" />
-          <Property Type="String" Name="leaveledger_entry_type" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="sig_name3_ovrd" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="sig_pos3_ovrd" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="department_proper_name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="day_of_service" Nullable="true" />
-          <Property Type="DateTime" Name="leaveledger_date_rep" Nullable="true" Precision="23" />
-          <Property Type="String" Name="lwop_date" Nullable="true" />
-          <Property Type="String" Name="lwop_body_1" Nullable="true" />
-          <Property Type="String" Name="lwop_body_2" Nullable="true" />
-          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="Decimal" Name="lv_nodays" Nullable="true" Precision="19" />
-        </ComplexType>
         <EntityType Name="transmittal_leave_hdr_tbl">
           <Key>
             <PropertyRef Name="doc_ctrl_nbr" />
@@ -13329,6 +13354,98 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
           <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="evaluated_by" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="func_leaveledger_report_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="258" />
+          <Property Type="String" Name="leaveledger_period" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="leavetype_str" Nullable="false" />
+          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="leavesubtype_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leaveledger_particulars" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="vl_earned" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="vl_wp" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="vl_bal" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="vl_wop" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_earned" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_wp" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_bal" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_wop" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_earned" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_wp" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_bal" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_wop" Nullable="true" MaxLength="4000" />
+          <Property Type="DateTime" Name="leaveledger_date" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="date_applied" Nullable="false" Precision="10" />
+          <Property Type="String" Name="leaveledger_entry_type" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="sig_name3_ovrd" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="sig_pos3_ovrd" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="department_proper_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="day_of_service" Nullable="false" Precision="10" />
+          <Property Type="DateTime" Name="leaveledger_date_rep" Nullable="true" Precision="23" />
+          <Property Type="String" Name="lwop_date" Nullable="false" />
+          <Property Type="String" Name="lwop_body_1" Nullable="false" />
+          <Property Type="String" Name="lwop_body_2" Nullable="false" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="lv_nodays" Nullable="false" Precision="19" Scale="4" />
+          <Property Type="DateTime" Name="leaveledger_period_actual" Nullable="true" Precision="10" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="nbr_quarter" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="sp_leaveledger_report_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="258" />
+          <Property Type="String" Name="leaveledger_period" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="leavetype_str" Nullable="false" />
+          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="leavesubtype_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leaveledger_particulars" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="vl_earned" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="vl_wp" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="vl_bal" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="vl_wop" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_earned" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_wp" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_bal" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="sl_wop" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_earned" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_wp" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_bal" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="oth_wop" Nullable="true" MaxLength="4000" />
+          <Property Type="DateTime" Name="leaveledger_date" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="date_applied" Nullable="false" />
+          <Property Type="String" Name="leaveledger_entry_type" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="sig_name3_ovrd" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="sig_pos3_ovrd" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="department_proper_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="day_of_service" Nullable="false" />
+          <Property Type="DateTime" Name="leaveledger_date_rep" Nullable="true" Precision="23" />
+          <Property Type="String" Name="lwop_date" Nullable="false" />
+          <Property Type="String" Name="lwop_body_1" Nullable="false" />
+          <Property Type="String" Name="lwop_body_2" Nullable="false" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="lv_nodays" Nullable="false" Precision="19" />
+          <Property Type="DateTime" Name="leaveledger_period_actual" Nullable="true" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="nbr_quarter" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -20104,53 +20221,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_leaveledger_report" FunctionName="HRIS_ATSModel.Store.sp_leaveledger_report">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leaveledger_report_Result">
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
-                <ScalarProperty Name="leavetype_str" ColumnName="leavetype_str" />
-                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
-                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
-                <ScalarProperty Name="leaveledger_particulars" ColumnName="leaveledger_particulars" />
-                <ScalarProperty Name="vl_earned" ColumnName="vl_earned" />
-                <ScalarProperty Name="vl_wp" ColumnName="vl_wp" />
-                <ScalarProperty Name="vl_bal" ColumnName="vl_bal" />
-                <ScalarProperty Name="vl_wop" ColumnName="vl_wop" />
-                <ScalarProperty Name="sl_earned" ColumnName="sl_earned" />
-                <ScalarProperty Name="sl_wp" ColumnName="sl_wp" />
-                <ScalarProperty Name="sl_bal" ColumnName="sl_bal" />
-                <ScalarProperty Name="sl_wop" ColumnName="sl_wop" />
-                <ScalarProperty Name="oth_earned" ColumnName="oth_earned" />
-                <ScalarProperty Name="oth_wp" ColumnName="oth_wp" />
-                <ScalarProperty Name="oth_bal" ColumnName="oth_bal" />
-                <ScalarProperty Name="oth_wop" ColumnName="oth_wop" />
-                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
-                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
-                <ScalarProperty Name="leaveledger_entry_type" ColumnName="leaveledger_entry_type" />
-                <ScalarProperty Name="sig_name3_ovrd" ColumnName="sig_name3_ovrd" />
-                <ScalarProperty Name="sig_pos3_ovrd" ColumnName="sig_pos3_ovrd" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
-                <ScalarProperty Name="day_of_service" ColumnName="day_of_service" />
-                <ScalarProperty Name="leaveledger_date_rep" ColumnName="leaveledger_date_rep" />
-                <ScalarProperty Name="lwop_date" ColumnName="lwop_date" />
-                <ScalarProperty Name="lwop_body_1" ColumnName="lwop_body_1" />
-                <ScalarProperty Name="lwop_body_2" ColumnName="lwop_body_2" />
-                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
-                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
-                <ScalarProperty Name="lv_nodays" ColumnName="lv_nodays" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="transmittal_leave_hdr_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.transmittal_leave_hdr_tbl">
               <MappingFragment StoreEntitySet="transmittal_leave_hdr_tbl">
@@ -20605,6 +20675,107 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="department_code" ColumnName="department_code" />
                 <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
                 <ScalarProperty Name="evaluated_by" ColumnName="evaluated_by" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_undertime_equi" FunctionName="HRIS_ATSModel.Store.sp_get_undertime_equi" />
+          <FunctionImportMapping FunctionImportName="func_leaveledger_report" FunctionName="HRIS_ATSModel.Store.func_leaveledger_report">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.func_leaveledger_report_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
+                <ScalarProperty Name="leavetype_str" ColumnName="leavetype_str" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
+                <ScalarProperty Name="leaveledger_particulars" ColumnName="leaveledger_particulars" />
+                <ScalarProperty Name="vl_earned" ColumnName="vl_earned" />
+                <ScalarProperty Name="vl_wp" ColumnName="vl_wp" />
+                <ScalarProperty Name="vl_bal" ColumnName="vl_bal" />
+                <ScalarProperty Name="vl_wop" ColumnName="vl_wop" />
+                <ScalarProperty Name="sl_earned" ColumnName="sl_earned" />
+                <ScalarProperty Name="sl_wp" ColumnName="sl_wp" />
+                <ScalarProperty Name="sl_bal" ColumnName="sl_bal" />
+                <ScalarProperty Name="sl_wop" ColumnName="sl_wop" />
+                <ScalarProperty Name="oth_earned" ColumnName="oth_earned" />
+                <ScalarProperty Name="oth_wp" ColumnName="oth_wp" />
+                <ScalarProperty Name="oth_bal" ColumnName="oth_bal" />
+                <ScalarProperty Name="oth_wop" ColumnName="oth_wop" />
+                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="leaveledger_entry_type" ColumnName="leaveledger_entry_type" />
+                <ScalarProperty Name="sig_name3_ovrd" ColumnName="sig_name3_ovrd" />
+                <ScalarProperty Name="sig_pos3_ovrd" ColumnName="sig_pos3_ovrd" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
+                <ScalarProperty Name="day_of_service" ColumnName="day_of_service" />
+                <ScalarProperty Name="leaveledger_date_rep" ColumnName="leaveledger_date_rep" />
+                <ScalarProperty Name="lwop_date" ColumnName="lwop_date" />
+                <ScalarProperty Name="lwop_body_1" ColumnName="lwop_body_1" />
+                <ScalarProperty Name="lwop_body_2" ColumnName="lwop_body_2" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="lv_nodays" ColumnName="lv_nodays" />
+                <ScalarProperty Name="leaveledger_period_actual" ColumnName="leaveledger_period_actual" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="nbr_quarter" ColumnName="nbr_quarter" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_leaveledger_report" FunctionName="HRIS_ATSModel.Store.sp_leaveledger_report">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leaveledger_report_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
+                <ScalarProperty Name="leavetype_str" ColumnName="leavetype_str" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
+                <ScalarProperty Name="leaveledger_particulars" ColumnName="leaveledger_particulars" />
+                <ScalarProperty Name="vl_earned" ColumnName="vl_earned" />
+                <ScalarProperty Name="vl_wp" ColumnName="vl_wp" />
+                <ScalarProperty Name="vl_bal" ColumnName="vl_bal" />
+                <ScalarProperty Name="vl_wop" ColumnName="vl_wop" />
+                <ScalarProperty Name="sl_earned" ColumnName="sl_earned" />
+                <ScalarProperty Name="sl_wp" ColumnName="sl_wp" />
+                <ScalarProperty Name="sl_bal" ColumnName="sl_bal" />
+                <ScalarProperty Name="sl_wop" ColumnName="sl_wop" />
+                <ScalarProperty Name="oth_earned" ColumnName="oth_earned" />
+                <ScalarProperty Name="oth_wp" ColumnName="oth_wp" />
+                <ScalarProperty Name="oth_bal" ColumnName="oth_bal" />
+                <ScalarProperty Name="oth_wop" ColumnName="oth_wop" />
+                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="leaveledger_entry_type" ColumnName="leaveledger_entry_type" />
+                <ScalarProperty Name="sig_name3_ovrd" ColumnName="sig_name3_ovrd" />
+                <ScalarProperty Name="sig_pos3_ovrd" ColumnName="sig_pos3_ovrd" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
+                <ScalarProperty Name="day_of_service" ColumnName="day_of_service" />
+                <ScalarProperty Name="leaveledger_date_rep" ColumnName="leaveledger_date_rep" />
+                <ScalarProperty Name="lwop_date" ColumnName="lwop_date" />
+                <ScalarProperty Name="lwop_body_1" ColumnName="lwop_body_1" />
+                <ScalarProperty Name="lwop_body_2" ColumnName="lwop_body_2" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="lv_nodays" ColumnName="lv_nodays" />
+                <ScalarProperty Name="leaveledger_period_actual" ColumnName="leaveledger_period_actual" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="nbr_quarter" ColumnName="nbr_quarter" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

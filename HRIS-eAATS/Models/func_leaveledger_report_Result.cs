@@ -11,7 +11,7 @@ namespace HRIS_eAATS.Models
 {
     using System;
     
-    public partial class sp_leaveledger_report_Result
+    public partial class func_leaveledger_report_Result
     {
         public string ledger_ctrl_no { get; set; }
         public string empl_id { get; set; }
