@@ -3,24 +3,29 @@
     var h = $http
     var cs = commonScript
 
-    s.dis_when_s = false;
-    s.year = [];
-    s.user_id = "";
-    s.redirect_data = [];
-    s.cLV_Ledger_employee_name = [];
-    s.temp_leave_ctrlno = "";
-    s.ddl_rep_mode = "2"
-    s.ddl_report_lv_card = "OLD";
+    s.dis_when_s                = false;
+    s.year                      = [];
+    s.user_id                   = "";
+    s.redirect_data             = [];
+    s.cLV_Ledger_employee_name  = [];
+    s.temp_leave_ctrlno         = "";
+    s.ddl_rep_mode              = "2"
+    s.ddl_report_lv_card        = "OLD";
 
-    s.txtb_lates_und_min = 0 + ' min' ;
-    s.time_sked_hdr_title = "";
+    s.txtb_lates_und_min        = 0 + ' min' ;
+    s.time_sked_hdr_title       = "";
     $('.collapse').collapse()
-    s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
-    s.data_mone = [];
-    s.show_reprint = true;
-    s.pre_vl_val = 0;
-    s.red_vl_flag = false;
-    s.vl_bal_start = false;
+    s.image_link                = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.data_mone                 = [];
+    s.show_reprint              = true;
+    s.pre_vl_val                = 0;
+    s.red_vl_flag               = false;
+    s.vl_bal_start              = false;
+
+    s.btn_disable_row           = false;
+    s.nbr_quarter               = 0
+    s.sync_data                 = 0
+    s.sync_leave_type           = ""
     function init()
     {
         
@@ -98,8 +103,6 @@
                 s.lv_admin_dept_list    = d.data.lv_admin_dept_list;
                 s.lv_empl_lst_wout_jo   = [];
                 s.leave_type            = d.data.leave_type_lst;
-                s.leave_sub_type        = d.data.leave_subType_lst;
-                s.leave_sub_type_dtl    = d.data.leave_subType_lst;
                 init_table_data([]);
                 init_table_data2([]);
                 init_table_data3([]);
@@ -113,7 +116,6 @@
                     s.ddl_rep_mode = d.data.redirect_data[7];
                     $('#click_tab2').click()
                     s.TimeSked_HDR(d.data.redirect_data[1], str_to_year($("#txtb_dtr_mon_year").val()));
-                   // s.TimeSked_DTL("","","","");
                     s.txtb_info_empl_id = d.data.redirect_data[1]
                 }
                 if (d.data.cLV_Ledger_employee_name != null)
@@ -129,41 +131,22 @@
 
                 s.oTable.fnClearTable();
                 s.datalistgrid = d.data.lv_ledger_report;
-                if (d.data.lv_ledger_report.length > 0) {
+                if (d.data.lv_ledger_report.length > 0)
+                {
                     s.oTable.fnAddData(d.data.lv_ledger_report);
-                    $("#txtb_info_day_of_service").val(d.data.lv_ledger_report[0].day_of_service);
+                    $("#txtb_info_day_of_service").val(moment(d.data.lv_ledger_report[0].day_of_service).format('M/D/YYYY'));
                 }
 
                 s.oTable2.fnClearTable();
                 s.datalistgrid2 = d.data.lv_unposted;
-                if (d.data.lv_unposted.length > 0) {
+                if (d.data.lv_unposted.length > 0)
+                {
                     s.oTable2.fnAddData(d.data.lv_unposted);
                 }
 
                 s.oTable3.fnClearTable();
-                s.datalistgrid3 = d.data.lv_posted;
-                if (d.data.lv_posted.length > 0) {
-                    s.oTable3.fnAddData(d.data.lv_posted);
-                }
-
-                //**********************************************
-                //  Balance as of - All 
-                //**********************************************
-                s.lst_all_bal = d.data.data_all_bal
-                for (var i = 0; i < d.data.data_all_bal.length; i++)
-                {
-                    if (parseFloat(d.data.data_all_bal[i].leaveledger_balance_current) <= 0)
-                    {
-                        d.data.data_all_bal[i].balance_color = "btn btn-danger btn-rounded pull-right";
-                    }
-                    else
-                    {
-                        d.data.data_all_bal[i].balance_color = "btn btn-primary btn-rounded pull-right";
-                    }
-                }
-
-                //**********************************************
-                //**********************************************
+                s.datalistgrid3 = []
+                s.lst_all_bal   = []
 
                 $("#modal_initializing").modal("hide");
             }
@@ -244,17 +227,6 @@
                                 {
                                     return "<span class='text-center btn-block' >" + data + "</span>";
                                 }
-
-                                //if (full["leavetype_str"] == "Solo Parent Leave" ||
-                                //    full["leavetype_code"] == "PS")
-                                //{
-                                //    return "<small><span class='text-center btn-block' >" + data +"</span></small>";
-                                //}
-                                //else
-                                //{
-                                //    return "<span class='text-center btn-block' >" + data + "</span>";
-                                //}
-
                             }
                         },
                         {
@@ -304,33 +276,6 @@
                             "mData": "vl_bal",
                             "mRender": function (data, type, full, row)
                             {
-                                // console.log("ROW INDEX = "+row["row"] +"\nPREV VL = " + parseFloat(s.pre_vl_val)+"\nVL bal = "+parseFloat(full["vl_bal"]).toString()+"\nWP VL = "+parseFloat(full["vl_wp"]).toString() +"\nEARN VL = "+isNaN(parseFloat(full["vl_earned"])));
-                                //if (full["vl_bal"] == "0.000" && full["vl_wp"] == "0.000" && full["vl_earned"] == "0.000" && s.red_vl_flag == false && row["row"] > 0 && s.vl_bal_start == true)
-                                //{
-                                //    s.red_vl_flag = s.red_vl_flag;
-                                //}
-                                //else if(isNaN(parseFloat(full["vl_earned"])) == true || full["vl_earned"].toString().trim() == "" && s.vl_bal_start == true)
-                                //{
-                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0 )
-                                //    {
-                                //        s.red_vl_flag = true;
-                                //    }
-                                //}
-                                //else if (isNaN(parseFloat(full["vl_wp"])) == true || full["vl_wp"].toString().trim() == "" && s.vl_bal_start == true)
-                                //{
-                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
-                                //    {
-                                //        s.red_vl_flag = true;
-                                //    }
-                                //}
-                                //else 
-                                //{
-                                //    if (parseFloat(s.pre_vl_val).toFixed(3) != ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3) && s.red_vl_flag == false && row["row"] > 0)
-                                //    {
-                                //        s.red_vl_flag = true;
-                                //    }
-                                //}
-
                                 s.vl_bal_start = parseFloat(full["vl_bal"]) == 0 ? s.vl_bal_start : true
                                 
                                 if (full["vl_bal"] == "0.000" && full["vl_earned"] == "0.000" && full["vl_wp"] == "0.000")
@@ -340,13 +285,35 @@
 
                                 var chk_red_flag = "";//"<br> Prev-" + s.pre_vl_val + "<br> Cur-" + ((parseFloat(full["vl_bal"]) + parseFloat(full["vl_wp"]) - parseFloat(full["vl_earned"]))).toFixed(3)
 
+                                var lastIndex = -1; // Start with an invalid index
+                                for (let i = 0; i < s.datalistgrid.length; i++)
+                                {
+                                    if (s.datalistgrid[i].appl_status    == "Transmitted for Payroll"
+                                        || s.datalistgrid[i].appl_status == "Uploaded"
+                                        || s.datalistgrid[i].appl_status == "Create Monthly Transmittal for Payroll"
+                                    )
+                                    {
+                                        lastIndex = i; 
+                                    }
+                                }
+                                if (s.btn_disable_row == false && (row.row == lastIndex + 1) && lastIndex >=0)
+                                {
+                                    s.btn_disable_row = true;
+                                }
+
+                                var btn_sync = ''
+                                if (s.btn_disable_row)
+                                {
+                                    btn_sync = '&nbsp;<button type="button" class="btn btn-xs" ng-click=\'btn_sync(' + row["row"] + ',"VL")\' data-toggle="tooltip" data-placement="top" title="Sync"><i class="fa fa-refresh"></i></button >'
+                                }
+
                                 if (full["approval_status"] == "C" || full["approval_status"] == "D" || s.red_vl_flag == true)
                                 {
                                     return "<span class='text-center btn-block text-danger' >" + data + chk_red_flag + "</span>";
                                 }
                                 else
                                 {
-                                    return "<span class='text-center btn-block' >" + data + chk_red_flag + "</span>";
+                                    return "<span class='text-center btn-block' >" + data + chk_red_flag + btn_sync+ "</span>";
                                 }
                             }
                         },
@@ -413,6 +380,12 @@
                             "mData": "sl_bal",
                             "mRender": function (data, type, full, row)
                             {
+                                var btn_sync = ''
+                                if (s.btn_disable_row)
+                                {
+                                    btn_sync = '&nbsp;<button type="button" class="btn btn-xs" ng-click=\'btn_sync(' + row["row"] + ',"SL")\' data-toggle="tooltip" data-placement="top" title="Sync"><i class="fa fa-refresh"></i></button >'
+                                }
+
                                 if (full["sl_bal"] == "0.000" && full["sl_earned"] == "0.000" && full["sl_wp"] == "0.000")
                                 {
                                     data = "";
@@ -423,7 +396,7 @@
                                 }
                                 else
                                 {
-                                    return "<span class='text-center btn-block' >" + data + "</span>";
+                                    return "<span class='text-center btn-block' >" + data + btn_sync + "</span>";
                                 }
                             }
                         },
@@ -461,51 +434,57 @@
                             "mData": null,
                             "mRender": function (data, type, full, row)
                             {
-                                //var dis_print = true;
-                                //if (full["leaveledger_entry_type"] == "2")
-                                //{
-                                //    dis_print = false;
-                                //}
+                                
+                                var btn_print   = '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_print_leave_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO Form"><i class="fa fa-print"></i></button>'
+                                var btn_delete  = '<button type="button" class="btn btn-danger btn-xs"  disabled data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>'
+                                var btn_edit    = '<button type="button" class="btn btn-success btn-xs" disabled data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >'
 
+                                if ((full["approval_status"] == 'D' || full["approval_status"] == 'L' || full["leaveledger_entry_type"] == 'T') || (full["leaveledger_entry_type"] != '2' && full["leavetype_code"] != "CTO"))
+                                {
+                                    btn_print = '<button type="button" class="btn btn-primary btn-xs" disabled><i class="fa fa-print"></i></button>'
+                                }
+                                
+                                
+                                if (s.btn_disable_row)
+                                {
+                                    s.btn_disable_row = s.btn_disable_row
+                                    btn_delete        = '<button type="button" class="btn btn-danger btn-xs"  ng-click="btn_delete(' + row["row"] + ')"  data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>'
+                                    btn_edit          = '<button type="button" class="btn btn-success btn-xs" ng-click="btn_edit(' + row["row"] + ')"    data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >'
+                                }
+                                
                                 return '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-info btn-xs"     ng-click="btn_edit(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >' +
-                                    '<button type="button" class="btn btn-danger btn-xs"   ng-click="btn_delete(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
-                                    '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_print_leave_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO Form"><i class="fa fa-print"></i></button>' +
-                                    // 2023-06-22 = Getanggal sa nako kay naay case na ma restore nila na walay cancellation
-                                    //'<button type="button" class="btn btn-warning btn-xs"  ng-click="btn_cancel_posting(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Cancel Posted Record"><i class="fa fa-refresh"></i></button>' +
-                                    '</div></center>';
+                                             btn_edit   +
+                                             btn_delete +
+                                             btn_print  +
+                                       '</div></center>';
                             }
                         }
                     ],
-                    //"createdRow": function (row, data, index) {
-                    //    $compile(row)($scope);  //add this to compile the DOM
-                    //},
                     "createdRow": function (row, data)
                     {
-                        // #F8E71C   (Bright Yellow)
-                        // #50E3C2   (Light Teal)
-                        // #F5A623   (Soft Orange)
-                        // #D8BFD8   (Light Lavender)
-
-                        if (data['nbr_quarter'] == "1")
+                        if (data['nbr_quarter'] == "1" && s.nbr_quarter == 1)
                         { 
-                            $(row).css("background-color", "#F8E71C"); 
+                            $(row).css("background-color", "#ccc"); 
                         }
-                        else if (data['nbr_quarter'] == "2")
+                        else if (data['nbr_quarter'] == "2" && s.nbr_quarter == 2)
                         {
-                            $(row).css("background-color", "#50E3C2"); 
+                            $(row).css("background-color", "#ccc"); 
                         }
-                        else if (data['nbr_quarter'] == "3")
+                        else if (data['nbr_quarter'] == "3" && s.nbr_quarter == 3)
                         {
-                            $(row).css("background-color", "#F5A623"); 
+                            $(row).css("background-color", "#ccc"); 
                         }
-                        else if (data['nbr_quarter'] == "4")
+                        else if (data['nbr_quarter'] == "4" && s.nbr_quarter == 4)
                         {
-                            $(row).css("background-color", "#D8BFD8"); 
+                            $(row).css("background-color", "#ccc"); 
                         }
+
+
+                        
+
+
                         $compile(row)($scope);  
                     }
-
                 });
         }
         catch (err) {
@@ -542,7 +521,7 @@
                             {
                                 var oth = "";
                                 if (full["leave_type_code"] == "MZ") {
-                                    oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
+                                    oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ", \"\")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
                                 }
                                 return "<span class='text-center btn-block'>" + data + oth + "</span>"
                             }
@@ -622,7 +601,7 @@
                             {
                                 var oth = "";
                                 if (full["leave_type_code"] == "MZ") {
-                                    oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
+                                    oth = "&nbsp;<button class='btn btn-danger btn-xs' ng-click='btn_mone_waiver(" + row['row'] + ", \"P\")'>  <i class='fa fa-user'></i> " + (full["mone"]["mone_type"] == "input_days" ? "" : full["mone"]["mone_type"]) + " (" + full["mone"]["nbr_mone"] + " days)</button>"
                                 }
                                 return "<span class='text-center btn-block'>" + data + oth + "</span>"
                             }
@@ -731,36 +710,26 @@
     //**********************************************
     s.GetEmployeeList = function ()
     {
-        //$('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
-
-        h.post("../cLeaveLedger/GetEmployeeList", {
-            par_department_code     : $("#ddl_dept option:selected").val() == "" ? s.ddl_dept : $("#ddl_dept option:selected").val()
-            , par_employment_type   : $("#ddl_empl_type option:selected").val()
-            , par_year              : str_to_year($("#txtb_dtr_mon_year").val())
-            , par_month             : month_name_to_int($("#txtb_dtr_mon_year").val())
+        h.post("../cLeaveLedger/GetEmployeeList",
+        {
+             par_department_code   : $("#ddl_dept option:selected").val() == "" ? s.ddl_dept : $("#ddl_dept option:selected").val()
+            ,par_employment_type   : $("#ddl_empl_type option:selected").val()
+            ,par_year              : str_to_year($("#txtb_dtr_mon_year").val())
+            ,par_month             : month_name_to_int($("#txtb_dtr_mon_year").val())
 
         }).then(function (d) {
             if (d.data.message == "success")
             {
                 s.lv_empl_lst_wout_jo = d.data.lv_empl_lst_wout_jo;
-                
                 if (s.redirect_data != null || s.redirect_data.length > 0)
                 {
                     s.ddl_name = s.redirect_data[1];
-                    //s.FilterPageGrid();
                 }
-                if ($("#ddl_dept option:selected").val() != "" &&
-                    $("#ddl_name option:selected").val() != "") {
-                    //s.FilterPageGrid();
-                }
-                //$("#modal_initializing").modal("hide")
             }
             else
             {
                 swal(d.data.message, { icon: "warning", });
-               // $("#modal_initializing").modal("hide")
             }
-
         });
     }
     //**********************************************
@@ -770,16 +739,15 @@
     {
         $("#txtb_info_empl_id").val($("#ddl_name option:selected").val() == "" ? s.redirect_data[1] : $("#ddl_name option:selected").val());
         $("#txtb_info_empl_name").val($("#ddl_name option:selected").val() == ""  ? s.cLV_Ledger_employee_name : $("#ddl_name option:selected").html().split('-')[1]);
-        $("#txtb_info_department").val($("#ddl_dept option:selected").html());
         $("#txtb_info_day_of_service").val("");
-
         if ($("#ddl_name option:selected").val() != "")
         {
             $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
         }
         
-        h.post("../cLeaveLedger/FilterPageGrid", {
-             par_empl_id         : empl_id // $("#ddl_name option:selected").val() == "" ? "" : $("#ddl_name option:selected").val()
+        h.post("../cLeaveLedger/FilterPageGrid",
+        {
+             par_empl_id         : empl_id 
             ,par_year            : str_to_year($("#txtb_dtr_mon_year").val())
             ,par_month           : month_name_to_int($("#txtb_dtr_mon_year").val())
             ,par_department_code : $("#ddl_dept option:selected").val() == "" ? s.ddl_dept : $("#ddl_dept option:selected").val()
@@ -822,31 +790,17 @@
                 // ***********************************************************************************
                 // ***********************************************************************************
 
+
                 s.oTable.fnClearTable();
                 s.datalistgrid = d.data.lv_ledger_report;
-                if (d.data.lv_ledger_report.length > 0) {
-
-                    //for (var i = 0; i < s.datalistgrid.length; i++)
-                    //{
-                    //    var prev_val    = s.datalistgrid[i].vl_prev_bal;
-                    //    var current_val = parseFloat(s.datalistgrid[i].vl_bal);
-                        
-                    //    if (current_val != 0 && current_val != null)
-                    //    {
-                    //        s.datalistgrid[i].vl_prev_bal = s.datalistgrid[i].vl_bal; 
-                    //    }
-                    //    else
-                    //    {
-                    //        s.datalistgrid[i].vl_prev_bal = prev_val; 
-                    //    }
-                        
-                    //}
-                    //console.log(s.datalistgrid)
+                if (d.data.lv_ledger_report.length > 0)
+                {
                     s.red_vl_flag = false;
                     s.vl_bal_start = false;
                     s.pre_vl_val = 0;
+                    s.btn_disable_row = false
                     s.oTable.fnAddData(s.datalistgrid);
-                    $("#txtb_info_day_of_service").val(d.data.lv_ledger_report[0].day_of_service);
+                    $("#txtb_info_day_of_service").val(moment(d.data.lv_ledger_report[0].day_of_service).format('M/D/YYYY'));
                 }
 
                 s.oTable2.fnClearTable();
@@ -856,38 +810,20 @@
                 }
 
                 s.oTable3.fnClearTable();
-                s.datalistgrid3 = d.data.lv_posted;
-                if (d.data.lv_posted.length > 0) {
-                    s.oTable3.fnAddData(d.data.lv_posted);
-                }
+                s.datalistgrid3 = []
+                s.lst_all_bal   = []
 
                 $("#info_vl_balance").text(d.data.leavetype_balances[0].leaveledger_balance_as_of_vl);
                 $("#info_sl_balance").text(d.data.leavetype_balances[0].leaveledger_balance_as_of_sl);
                 $("#info_sp_balance").text(d.data.leavetype_balances[0].leaveledger_balance_as_of_sp);
                 $("#info_fl_balance").text(d.data.leavetype_balances[0].leaveledger_balance_as_of_fl);
 
-                //**********************************************
-                //  Balance as of - All 
-                //**********************************************
-                s.lst_all_bal = d.data.data_all_bal
-                for (var i = 0; i < d.data.data_all_bal.length; i++)
-                {
-                    if (parseFloat(d.data.data_all_bal[i].leaveledger_balance_current) <= 0)
-                    {
-                        d.data.data_all_bal[i].balance_color = "btn btn-danger btn-rounded pull-right";
-                    }
-                    else
-                    {
-                        d.data.data_all_bal[i].balance_color = "btn btn-primary btn-rounded pull-right";
-                    }
-                }
                 s.TimeSked_HDR($("#ddl_name option:selected").val() == "" ? "" : $("#ddl_name option:selected").val(), str_to_year($("#txtb_dtr_mon_year").val()));
                 $('#modal_initializing').modal("hide");
                 //**********************************************
                 //**********************************************
                 var iframe = document.getElementById('iframe_print_preview4');
                 iframe.src = "";
-                //s.RefreshDTR_PrintOnly();
             }
             else
             {
@@ -1312,7 +1248,7 @@
         s.ddl_entry_type        = "2";
         s.txtb_signame3_ovrd    = "";
         s.txtb_sigpos3_ovrd     = "";
-        s.txtb_date_applied     = s.datalistgrid2[row_id].date_applied;
+        s.txtb_date_applied     = moment(s.datalistgrid2[row_id].date_applied).format('YYYY-MM-DD');
         s.txtb_no_of_days       = s.datalistgrid2[row_id].number_of_days;
         s.temp_leave_ctrlno     = s.datalistgrid2[row_id].leave_ctrlno
         s.txtb_leave_ctrlno     = s.datalistgrid2[row_id].leave_ctrlno
@@ -1624,11 +1560,10 @@
 
                 var p_month_year        = s.datalistgrid[row_id].leaveledger_period.split("/")[1] + "-" + s.datalistgrid[row_id].leaveledger_period.split("/")[0] + "-01";
                 var p_number_of_hours   = s.datalistgrid[row_id].vl_earned;
-                var p_date_issued       = s.datalistgrid[row_id].leaveledger_date;
-                var p_date_valid        = s.datalistgrid[row_id].leaveledger_date;
-                var p_signatory_name    = "LARA ZAPHIRE KRISTY N. BERMEJO";
+                var p_date_issued       = moment(s.datalistgrid[row_id].leaveledger_date).format('YYYY-MM-DD');
+                var p_date_valid        = moment(s.datalistgrid[row_id].leaveledger_date).format('YYYY-MM-DD');
+                var p_signatory_name    = s.datalistgrid[row_id].hr_head_name //"LARA ZAPHIRE KRISTY N. BERMEJO";
                 var p_footer_remarks    = s.datalistgrid[row_id].details_remarks;
-
                 var controller  = "Reports"
                 var action      = "Index"
                 var ReportName  = "CrystalReport"
@@ -1842,10 +1777,6 @@
         {
             swal("You cannot Edit, Delete, Print and Cancel Posted", "Data already Disapproved or Cancelled", { icon: "warning", });
         }
-        //else if (leaveledger_entry_type != '2')
-        //{
-        //    swal("You cannot Print", "You cannot print if the entry type are Automated and Leave Adjustment!", { icon: "warning", });
-        //}
         else
         {
             try {
@@ -1998,7 +1929,7 @@
             ,lwop_body_2               : s.txtb_lwop_body_2
         }
         // Leave Adjustment or Errorneous Entry
-        if ($("#ddl_entry_type option:selected").val() == "3" || s.ddl_leave_type == "CTO" || $("#ddl_entry_type option:selected").val() == "5")
+        if ($("#ddl_entry_type option:selected").val() == "3" || s.ddl_leave_type == "CTO" || $("#ddl_entry_type option:selected").val() == "5"  )
         {
             var data2 = {
 
@@ -2016,7 +1947,7 @@
         }
 
         // Automated Leave
-        if ($("#ddl_entry_type option:selected").val() == "1" )
+        if ($("#ddl_entry_type option:selected").val() == "1" || $("#ddl_entry_type option:selected").val() == "6")
         {
             var data_auto_vl = {
 
@@ -2393,11 +2324,10 @@
     //***********************************************************//
     //***Field validation for remittance type before opening add modal
     //***********************************************************// 
-    function ValidationResultColor(par_object_id, par_v_result) {
-        if (par_v_result) {
-            // $("#select2-" + par_object_id + "-container").parent().addClass("required");
-            // $("#lbl_" + par_object_id + "_req").text("Required Field!");
-
+    function ValidationResultColor(par_object_id, par_v_result)
+    {
+        if (par_v_result)
+        {
             $("#" + par_object_id).addClass("required");
             $("#lbl_" + par_object_id + "_req").text("Required Field");
         }
@@ -2440,6 +2370,9 @@
             $("#lbl_txtb_abs_und_wp_vl_req").text("");
             $("#lbl_txtb_abs_und_wp_sl_req").text("");
             $("#lbl_txtb_remarks_req").text("");
+
+            $("#txtb_abs_und_wp_vl").removeClass('required-success');
+            $("#txtb_abs_und_wp_hdr").removeClass('required-success');
         }
     }
     function str_to_year(str) {
@@ -2493,15 +2426,15 @@
     //***********************************************************// 
     function clear_entry()
     {
-        var par_month = month_name_to_int($("#txtb_dtr_mon_year").val());
+        var par_month               = month_name_to_int($("#txtb_dtr_mon_year").val());
 
-        var temp_date = str_to_year($("#txtb_dtr_mon_year").val()) + '-' + (parseInt(par_month) <= 9 ? "0" + par_month : par_month) + '-01';
-        var firstDay = moment(temp_date).startOf('month').format('D');
-        var lastDay     = moment(temp_date).endOf('month').format('D');
+        var temp_date               = str_to_year($("#txtb_dtr_mon_year").val()) + '-' + (parseInt(par_month) <= 9 ? "0" + par_month : par_month) + '-01';
+        var firstDay                = moment(temp_date).startOf('month').format('D');
+        var lastDay                 = moment(temp_date).endOf('month').format('D');
 
-        s.txtb_period = month_name_to_int($("#txtb_dtr_mon_year").val()) + '/' + firstDay + '-' + lastDay + '/' + str_to_year($("#txtb_dtr_mon_year").val()).substring(2, 4);
+        s.txtb_period               = month_name_to_int($("#txtb_dtr_mon_year").val()) + '/' + firstDay + '-' + lastDay + '/' + str_to_year($("#txtb_dtr_mon_year").val()).substring(2, 4);
         s.txtb_date_applied         = moment( new Date()).format("YYYY-MM-DD");
-        s.txtb_ledger_date = moment(new Date()).format("YYYY-MM-DD");
+        s.txtb_ledger_date          = moment(new Date()).format("YYYY-MM-DD");
         s.txtb_ledger_ctrl_no       = "";
         s.ddl_leave_type            = "";
         s.ddl_leave_sub_type        = "";
@@ -2534,17 +2467,13 @@
         s.txtb_abs_und_wp_vl        = "0.000";
         s.txtb_abs_und_wop_vl       = "0.000";
         s.txtb_details_remarks      = "";
-        s.temp_leave_ctrlno = ""
-        s.txtb_leave_ctrlno = ""
-        s.txtb_approval_id = "";
-
-        // s.txtb_lwop_date     = "";
-        // s.txtb_lwop_body_1   = "Please be informed that your leave balance for vacation leave is ___ and sick leave is ___";
-        // s.txtb_lwop_body_2   = "Hence, your application for sick leave dated _____ shall be without pay";
-
-        s.txtb_lwop_date     =  "";
-        s.txtb_lwop_body_1   =  "";
-        s.txtb_lwop_body_2   =  "";
+        s.temp_leave_ctrlno         = ""
+        s.txtb_leave_ctrlno         = ""
+        s.txtb_approval_id          = "";
+        
+        s.txtb_lwop_date            =  "";
+        s.txtb_lwop_body_1          =  "";
+        s.txtb_lwop_body_2          =  "";
 
         s.reviewed_comment              = "";
         s.level1_approval_comment       = "";
@@ -2771,7 +2700,7 @@
         }
 
         // Automated Leave
-        if (s.ddl_entry_type == '1')
+        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6')
         {
             s.hide_txtb_restore_deduct_hdr  = true;
             s.hide_txtb_abs_und_wp_hdr      = true;
@@ -2900,7 +2829,7 @@
     {
         var total_nbr_of_days = 0;
         // Automated Leave
-        if (s.ddl_entry_type == '1') 
+        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6') 
         {
             total_nbr_of_days = 0;
         }
@@ -2960,36 +2889,6 @@
             s.txtb_restore_deduct = restore_deduct;
         }
     }
-    //********************************************************
-    // This Portion is for Monitezation and Terminal Leave
-    //********************************************************
-    //s.LeaveType_MZ_TL = function()
-    //{
-    //    if (s.ddl_entry_type == '2' && (s.ddl_leave_type == 'MZ' || s.ddl_leave_type == 'TL'))
-    //    {
-    //        s.show_Automated                = false;
-    //        s.show_txtb_restore_deduct_vl   = false;
-    //        s.show_txtb_restore_deduct_sl   = false;
-    //        s.show_txtb_abs_und_wop_vl      = false;
-    //        s.show_txtb_abs_und_wop_sl      = false;
-    //        s.dis_txtb_no_of_days           = true;
-    //        s.hide_txtb_balance_as_of_hdr   = true;
-    //        $('#lbl_abs_und_wp_vl').text("-- Ded. - VL:"); 
-    //        $('#lbl_abs_und_wp_sl').text("-- Ded. - SL:"); 
-    //    }
-    //    else
-    //    {
-    //        s.show_Automated                = true;
-    //        s.show_txtb_restore_deduct_vl   = true;
-    //        s.show_txtb_restore_deduct_sl   = true;
-    //        s.show_txtb_abs_und_wop_vl      = true;
-    //        s.show_txtb_abs_und_wop_sl      = true;
-    //        s.dis_txtb_no_of_days           = false;
-    //        s.hide_txtb_balance_as_of_hdr   = false;
-    //        $('#lbl_abs_und_wp_vl').text("-- Abs/Und.WP:");
-    //        $('#lbl_abs_und_wp_sl').text("-- Abs/Und.WP:");
-    //    }
-    //}
     //********************************************************************************
     // This Portion is for Monitezation and Terminal Leave Toogle and Validation
     //********************************************************************************
@@ -3003,142 +2902,38 @@
             s.txtb_no_of_days = no_of_days.toFixed(3);
         }
     }
-    //************************************// 
-    //*** Post Record              
-    //**********************************// 
-    s.btn_cancel_posting = function (row_id)
-    {
-        if (s.datalistgrid[row_id].approval_status == 'D' ||
-            s.datalistgrid[row_id].approval_status == 'L' ||
-            s.datalistgrid[row_id].leaveledger_entry_type == 'T' 
-        )
-        {
-            swal("You cannot Edit, Delete, Print and Cancel Posted", "Data already Disapproved or Cancelled", { icon: "warning", });
-        }
-        
-        else if (s.datalistgrid[row_id].approval_status == 'F' && s.datalistgrid[row_id].leaveledger_entry_type == '1')
-        {
-            swal("You cannot restore this record", "Data already final Approved", { icon: "warning", });
-        }
-        else
-        {
-            swal("Are you sure to Cancel Posted Record and Restore Balance?","You can choose what cancellation in the following;", {
-                icon: "warning",
-                content: "input",
-                buttons: {
-                    //cancel_only: {
-                    //    text : "Data Correction Only",
-                    //    value: "cancel_only",
-                    //},
-                    cancel_with_ss: {
-                        text: "Restore Leave Application Balance",
-                        value: "cancel_with_ss",
-                    },
-                    defeat: {
-                        value: "defeat",
-                        text: "Close"
-                    },
-                },
-            }).then((value) => {
-                    switch (value) {
-
-                        //case "cancel_only":
-                            
-                        //    h.post("../cLeaveLedger/CancelLederPosted",
-                        //        {
-                        //            par_ledger_ctrl_no    : s.datalistgrid[row_id].ledger_ctrl_no
-                        //            ,par_leaveledger_date : s.datalistgrid[row_id].leaveledger_date
-                        //            , par_execute_mode    : "cancel_only"
-                        //            ,par_leave_ctrlno     : s.datalistgrid[row_id].leave_ctrlno
-                        //            , par_approval_id     : s.datalistgrid[row_id].approval_id
-
-                        //        }).then(function (d) {
-                        //         if (d.data.message == "success") {
-                             
-                        //             if (d.data.data.result_flag == "Y") {
-                        //                 swal("Your record has been cancelled!", d.data.data.result_msg, { icon: "success" });
-                        //                 s.FilterPageGrid($("#ddl_name option:selected").val());
-                        //             }
-                        //             else {
-                        //                 swal("There something wrong!", d.data.data.result_msg, { icon: "warning" });
-                        //                 s.FilterPageGrid($("#ddl_name option:selected").val());
-                        //             }
-                             
-                        //         }
-                        //         else {
-                        //             swal("There something wrong!", d.data.message, { icon: "warning" });
-                        //             s.FilterPageGrid($("#ddl_name option:selected").val());
-                        //         }
-                        //     })
-                        //    break;
-
-                        case "cancel_with_ss":
-                            $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
-                            h.post("../cLeaveLedger/CancelLederPosted",
-                                {
-                                    par_ledger_ctrl_no    : s.datalistgrid[row_id].ledger_ctrl_no
-                                    ,par_leaveledger_date : s.datalistgrid[row_id].leaveledger_date
-                                    , par_execute_mode    : "cancel_with_ss"
-                                    ,par_leave_ctrlno     : s.datalistgrid[row_id].leave_ctrlno
-                                    , par_approval_id     : s.datalistgrid[row_id].approval_id
-                                    , empl_id     : s.datalistgrid[row_id].empl_id
-                                    
-                                }).then(function (d) {
-                                 if (d.data.message == "success") {
-                             
-                                     if (d.data.data.result_flag == "Y") {
-                                         swal("Your record has been cancelled!", d.data.data.result_msg, { icon: "success" });
-                                         
-                                         s.FilterPageGrid($("#ddl_name option:selected").val());
-                                     }
-                                     else {
-                                         swal("There something wrong!", d.data.data.result_msg, { icon: "warning" });
-                                         
-                                         s.FilterPageGrid($("#ddl_name option:selected").val());
-                                     }
-                             
-                                 }
-                                 else {
-                                     swal("There something wrong!", d.data.message, { icon: "warning" });
-                                     
-                                     s.FilterPageGrid($("#ddl_name option:selected").val());
-                                 }
-                             })
-                            break;
-
-                        default:
-                            //swal("Cancel Request!");
-                    }
-                });
-        }
-    }
-
     //**********************************************
     // Refresh Employee List in Dropdown
     //**********************************************
-    s.SelectLeaveType_dtl = function () {
-        h.post("../cLeaveLedger/GetLeaveType",
-            {
-                par_leavetype_code: s.ddl_leave_type_dtl
-        }).then(function (d) {
-                
+    s.SelectLeaveType_dtl = function ()
+    {
+        h.post("../cLeaveLedger/GetLeaveType", { par_leavetype_code: s.ddl_leave_type_dtl }).then(function (d)
+        {
             s.leave_sub_type_dtl = d.data.leave_subType_lst;
+            s.txtb_balance_as_of = "0.000"
+
+            if (s.ddl_leave_type_dtl  != "VL" && s.ddl_leave_type_dtl  != "SL"
+              && s.ddl_leave_type_dtl != "CTO" && s.ddl_leave_type_dtl != "VL" 
+              && s.ddl_entry_type     == '6'
+            )
+            {
+                s.txtb_balance_as_of = d.data.leavetype_lst.leavetype_maxperyear
+            }
         });
     }
-
     //************************************// 
     //*** Add for Leave Ledger Details       
     //**********************************//
     s.btn_add_dtl_click = function ()
     {
-        s.txtb_balance_as_of     = "0.000";
-        s.txtb_restore_deduct    = "0.000";
-        s.txtb_abs_und_wp        = "0.000";
-        s.txtb_abs_und_wop       = "0.000";
-        s.ddl_leave_type_dtl     = "";
-        s.ddl_leave_sub_type_dtl = "";
-        s.ADDEDITMODE_DTL        = "ADD"
-        s.dis_ddl_leave_type_dtl = false;
+        s.txtb_balance_as_of        = "0.000";
+        s.txtb_restore_deduct       = "0.000";
+        s.txtb_abs_und_wp           = "0.000";
+        s.txtb_abs_und_wop          = "0.000";
+        s.ddl_leave_type_dtl        = "";
+        s.ddl_leave_sub_type_dtl    = "";
+        s.ADDEDITMODE_DTL           = "ADD"
+        s.dis_ddl_leave_type_dtl    = false;
         s.dis_ddl_leavesub_type_dtl = false;
 
         //s.LeaveType_MZ_TL();
@@ -3148,8 +2943,7 @@
         //  Set Description or Label for Number of ---
         //**********************************************
         s.lbl_nbr_days_hrs = "No. of Days:";
-        if (s.ddl_leave_type == "CTO" ||
-            s.ddl_rep_mode == "3") // CTO Card Viewing
+        if (s.ddl_leave_type == "CTO" || s.ddl_rep_mode == "3") // CTO Card Viewing
         {
             s.lbl_nbr_days_hrs = "No. of Hours:";
         }
@@ -3164,14 +2958,14 @@
     //***********************************************************//
     s.btn_edit_bal = function (row_id)
     {
-        s.txtb_balance_as_of     = "0.000";
-        s.txtb_restore_deduct    = "0.000";
-        s.txtb_abs_und_wp        = "0.000";
-        s.txtb_abs_und_wop       = "0.000";
-        s.ddl_leave_type_dtl     = "";
-        s.ddl_leave_sub_type_dtl = "";
-        s.ADDEDITMODE_DTL        = "EDIT"
-        s.dis_ddl_leave_type_dtl = true;
+        s.txtb_balance_as_of        = "0.000";
+        s.txtb_restore_deduct       = "0.000";
+        s.txtb_abs_und_wp           = "0.000";
+        s.txtb_abs_und_wop          = "0.000";
+        s.ddl_leave_type_dtl        = "";
+        s.ddl_leave_sub_type_dtl    = "";
+        s.ADDEDITMODE_DTL           = "EDIT"
+        s.dis_ddl_leave_type_dtl    = true;
         s.dis_ddl_leavesub_type_dtl = true;
 
         s.txtb_ledger_ctrl_no    = s.datalistgrid4[row_id].ledger_ctrl_no;
@@ -3181,7 +2975,7 @@
         s.txtb_restore_deduct    = s.datalistgrid4[row_id].leaveledger_restore_deduct;
         s.txtb_abs_und_wp        = s.datalistgrid4[row_id].leaveledger_abs_und_wp;
         s.txtb_abs_und_wop       = s.datalistgrid4[row_id].leaveledger_abs_und_wop;
-        s.SelectLeaveType_dtl();
+        //s.SelectLeaveType_dtl();
         //s.LeaveType_MZ_TL();
         
         $('#modal_leave_ledger_dtl').modal({ backdrop: 'static', keyboard: false })
@@ -3473,7 +3267,7 @@
             case "SL":
             case "VL":
                 s.show_btn_add_dtl       = true;
-                s.ddl_leave_type_dtl     = "SP"
+                //s.ddl_leave_type_dtl     = "SP"
                 //s.SelectLeaveType_dtl();
 
             case "FL":
@@ -3499,143 +3293,6 @@
         //*** END Condtion for LEAVE TYPE **************//
         //***********************************************//
     }
-    
-    //*************************************************//
-    //***  VJA : Populate Approval ID ****************//
-    //***********************************************//
-    //s.GetApproval_ID_Appl = function ()
-    //{
-        // s.txtb_approval_id = "";
-        // 
-        // h.post("../cLeaveLedger/GetApproval_ID_Appl", {
-        //     par_leave_ctrlno: s.txtb_leave_ctrlno
-        // }).then(function (d)
-        // {
-        //     if (d.data.message == "success")
-        //     {
-        //         s.txtb_approval_id = d.data.approval_id
-        //     }
-        // }); 
-    //}
-    
-    //*************************************************//
-    //***  VJA : Populate Particulars ****************//
-    //***********************************************//
-    //s.Populate_Particulars = function ()
-    //{
-    //    h.post("../cLeaveLedger/RetrieveEmployeeUnderTime", {
-    //         par_empl_id  : $("#ddl_name option:selected").val() == "" ? "" : $("#ddl_name option:selected").val()
-    //        , par_month   : month_name_to_int($("#txtb_dtr_mon_year").val())
-    //        , par_year    : str_to_year($("#txtb_dtr_mon_year").val())
-    //    }).then(function (d) {
-    //        if (d.data.message == "success")
-    //        {
-    //            // Particular Format will be - Day/s - Hour/s - Min/s
-    //            s.txtb_particulars = "0-0-0";
-
-    //            var str_days = "0";
-    //            var str_hrs  = "0";
-    //            var str_min  = "0";
-
-    //            var undertime        = d.data.total_undertime[0].total_underTime;
-    //            var undertime_hrs    = 0;
-    //            var undertime_min    = 0;
-    //            undertime_hrs        = parseInt(undertime / 60) 
-    //            undertime_min        = undertime - (undertime_hrs * 60)
-
-    //            str_hrs = undertime_hrs;
-    //            str_min = undertime_min;
-                
-    //            s.txtb_particulars = str_days + "-" + str_hrs + "-" + str_min;
-    //        }
-    //    });
-    //}
-
-    //*************************************************//
-    //***  VJA : Populate Particulars ****************//
-    //***********************************************//
-    //s.Populate_ApprovalHistory = function ()
-    //{
-    //    h.post("../cLeaveLedger/ApprovalHistory",
-    //    {
-    //        par_leave_ctlno: s.txtb_leave_ctrlno
-    //    }).then(function (d) {
-    //        if (d.data.message_descr == "success") {
-
-
-    //            s.level1_approval_comment       = d.data.data.level1_approval_comment
-    //            s.level2_approval_comment       = d.data.data.level2_approval_comment
-    //            s.final_approval_comment        = d.data.data.final_approval_comment
-    //            s.disapproval_comment           = d.data.data.disapproval_comment
-    //            s.cancel_pending_comment        = d.data.data.cancel_pending_comment
-    //            s.cancelled_comment             = d.data.data.cancelled_comment
-    //            s.user_id_creator               = d.data.data.user_id_creator
-    //            s.employee_name_creator         = d.data.data.employee_name_creator
-    //            s.user_id_reviewer              = d.data.data.user_id_reviewer
-    //            s.employee_name_reviewer        = d.data.data.employee_name_reviewer
-    //            s.user_id_level1_approver       = d.data.data.user_id_level1_approver
-    //            s.employee_name_level1_approver = d.data.data.employee_name_level1_approver
-    //            s.user_id_level2_approver       = d.data.data.user_id_level2_approver
-    //            s.employee_name_level2_approver = d.data.data.employee_name_level2_approver
-    //            s.user_id_final_approver        = d.data.data.user_id_final_approver
-    //            s.employee_name_final_approver  = d.data.data.employee_name_final_approver
-    //            s.user_id_disapprover           = d.data.data.user_id_disapprover
-    //            s.employee_name_disapprover     = d.data.data.employee_name_disapprover
-    //            s.user_id_cancel_pending        = d.data.data.user_id_cancel_pending
-    //            s.employee_name_cancel_pending = d.data.data.employee_name_cancel_pending
-
-    //            s.reviewed_date                 = d.data.data.reviewed_date          == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.reviewed_date          ;
-    //            s.level1_approval_date          = d.data.data.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level1_approval_date   ;
-    //            s.level2_approval_date          = d.data.data.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level2_approval_date   ;
-    //            s.final_approval_date           = d.data.data.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.final_approval_date    ;
-    //            s.disapproval_date              = d.data.data.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.disapproval_date       ;
-    //            s.cancel_pending_date           = d.data.data.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancel_pending_date    ;
-    //            s.cancelled_date                = d.data.data.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancelled_date         ;
-    //            s.created_dttm                  = moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim()    == "1900-01-01 12:00:00 pm" ? "----" : moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A")    ;
-
-
-    //            // POSTING HISTORY
-
-    //            s.level1_approval_comment_posting       = d.data.data_posting.level1_approval_comment
-    //            s.level2_approval_comment_posting       = d.data.data_posting.level2_approval_comment
-    //            s.final_approval_comment_posting        = d.data.data_posting.final_approval_comment
-    //            s.disapproval_comment_posting           = d.data.data_posting.disapproval_comment
-    //            s.cancel_pending_comment_posting        = d.data.data_posting.cancel_pending_comment
-    //            s.cancelled_comment_posting             = d.data.data_posting.cancelled_comment
-    //            s.user_id_creator_posting               = d.data.data_posting.user_id_creator
-    //            s.employee_name_creator_posting         = d.data.data_posting.employee_name_creator
-    //            s.user_id_reviewer_posting              = d.data.data_posting.user_id_reviewer
-    //            s.employee_name_reviewer_posting        = d.data.data_posting.employee_name_reviewer
-    //            s.user_id_level1_approver_posting       = d.data.data_posting.user_id_level1_approver
-    //            s.employee_name_level1_approver_posting = d.data.data_posting.employee_name_level1_approver
-    //            s.user_id_level2_approver_posting       = d.data.data_posting.user_id_level2_approver
-    //            s.employee_name_level2_approver_posting = d.data.data_posting.employee_name_level2_approver
-    //            s.user_id_final_approver_posting        = d.data.data_posting.user_id_final_approver
-    //            s.employee_name_final_approver_posting  = d.data.data_posting.employee_name_final_approver
-    //            s.user_id_disapprover_posting           = d.data.data_posting.user_id_disapprover
-    //            s.employee_name_disapprover_posting     = d.data.data_posting.employee_name_disapprover
-    //            s.user_id_cancel_pending_posting        = d.data.data_posting.user_id_cancel_pending
-    //            s.employee_name_cancel_pending_posting  = d.data.data_posting.employee_name_cancel_pending
-                
-    //            s.level1_approval_date_posting          = d.data.data_posting.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level1_approval_date   ;
-    //            s.level2_approval_date_posting          = d.data.data_posting.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level2_approval_date   ;
-    //            s.final_approval_date_posting           = d.data.data_posting.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.final_approval_date    ;
-    //            s.disapproval_date_posting              = d.data.data_posting.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.disapproval_date       ;
-    //            s.cancel_pending_date_posting           = d.data.data_posting.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancel_pending_date    ;
-    //            s.cancelled_date_posting                = d.data.data_posting.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancelled_date         ;
-
-    //            if (d.data.lv_hdr != null)
-    //            {
-    //                s.created_dttm_posting = moment(d.data.lv_hdr.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim() == "1900-01-01 12:00:00 AM" ? "----" : moment(d.data.lv_hdr.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim();
-    //            }
-
-    //            s.txtb_approval_id = d.data.data_posting.approval_id
-    //        }
-    //        else {
-    //            swal('Error in Getting Approval History', d.data.message_descr, {icon:"warning"})
-    //        }
-    //    });
-    //}
     //*************************************************//
     //***  VJA : Populate Particulars ****************//
     //***********************************************//
@@ -3645,8 +3302,8 @@
 
         var appr_status     = "";
         var swal_title      = "";
-        var swal_header = "";
-        var text_descr = "";
+        var swal_header     = "";
+        var text_descr      = "";
 
         var data =
         {
@@ -3865,8 +3522,6 @@
         {
             if (ValidateFields())
             {
-                // $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
-
                 var params_month = "";
                 if (parseFloat(month_name_to_int($("#txtb_dtr_mon_year").val())) < 10)
                 {
@@ -3887,7 +3542,6 @@
                 var employementtype = s.lv_empl_lst_wout_jo.filter(function (d) {
                     return d.empl_id == par_empl_id
                 })[0].employment_type;
-
 
                 var controller          = "Reports"
                 var action              = "Index"
@@ -4137,12 +3791,17 @@
             }
         })
     }
-    s.btn_mone_waiver = function (row)
+    s.btn_mone_waiver = function (row,view)
     {
+        var view_row = s.datalistgrid2;
+        if (view == "P")
+        {
+            view_row = s.datalistgrid3
+        }
         h.post("../Menu/Getmonewaiver",
         {
-          par_leave_ctrlno  : s.datalistgrid2[row].leave_ctrlno
-         ,par_empl_id       : s.datalistgrid2[row].empl_id    
+          par_leave_ctrlno  : view_row[row].leave_ctrlno
+         ,par_empl_id       : view_row[row].empl_id    
         }).then(function (d)
         {
             if (d.data.message == "success")
@@ -4168,30 +3827,240 @@
 
     s.btn_reloadPosted = function ()
     {
-        $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
-        h.post("../cLeaveLedger/reloadPosted",
+        if ($("#ddl_name option:selected").val() != "")
         {
-          par_empl_id      : $("#ddl_name option:selected").val()
-         ,p_rep_mode       : $("#ddl_rep_mode").val()
+            $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+            h.post("../cLeaveLedger/reloadPosted",
+            {
+              par_empl_id      : $("#ddl_name option:selected").val()
+             ,p_rep_mode       : $("#ddl_rep_mode").val()
+            }).then(function (d)
+            {
+                if (d.data.message == "success")
+                {
+                    s.oTable3.fnClearTable();
+                    s.datalistgrid3 = d.data.lv_posted;
+                    if (d.data.lv_posted.length > 0) {
+                        s.oTable3.fnAddData(d.data.lv_posted);
+                    }
+                    $('#modal_initializing').modal("hide");
+                }
+                else
+                {
+                    swal("There Something wrong", d.data.message, { icon: "warning" });
+                    $('#modal_initializing').modal("hide");
+                }
+            })
+        }
+    }
+
+    s.btn_reloadBalances = function ()
+    {
+        s.lst_all_bal = []
+        if ($("#ddl_name option:selected").val() != "")
+        {
+            $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+            h.post("../cLeaveLedger/ReloadBalances",
+            {
+              par_empl_id      : $("#ddl_name option:selected").val()
+            }).then(function (d)
+            {
+                if (d.data.message == "success")
+                {
+                    s.lst_all_bal = d.data.data_all_bal
+                    for (var i = 0; i < d.data.data_all_bal.length; i++)
+                    {
+                        if (parseFloat(d.data.data_all_bal[i].leaveledger_balance_current) <= 0)
+                        {
+                            d.data.data_all_bal[i].balance_color = "btn btn-danger btn-rounded pull-right";
+                        }
+                        else
+                        {
+                            d.data.data_all_bal[i].balance_color = "btn btn-primary btn-rounded pull-right";
+                        }
+                    }
+                    $('#modal_initializing').modal("hide");
+                }
+                else
+                {
+                    swal("There Something wrong", d.data.message, { icon: "warning" });
+                    $('#modal_initializing').modal("hide");
+                }
+            })
+        }
+    }
+
+    s.btnComputeParticular = function ()
+    {
+        // day-hour-minute
+        var split_obj = s.txtb_particulars.split("-").map(Number)
+        for (var i = 0; i < split_obj.length; i++)
+        {
+            if (!/^\d+$/.test(split_obj[i]))
+            {  // Check if item is a valid number
+                swal("Invalid number detected", { icon: "warning" });
+                return;
+            } 
+        }
+
+        swal({
+            title       : "Are you sure to Compute Lates/Undertime?",
+            text        : "Once computed, Lates/Undertime will refresh!",
+            icon        : "warning",
+            buttons     : true,
+            dangerMode  : true,
+
+        }).then(function (willContinue)
+        {
+            $("#txtb_abs_und_wp_vl").removeClass('required-success');
+            $("#txtb_abs_und_wp_hdr").removeClass('required-success');
+            if (willContinue)
+            {
+                if (split_obj.length == 3)
+                {
+                    var total_minutes = (split_obj[0] * 8 * 60) + (split_obj[1] * 60) + (split_obj[2])
+                    h.post("../cLeaveLedger/LatesUndertime", { minutes: total_minutes}).then(function (d)
+                    {
+                        if (d.data.message == "success")
+                        {
+                            s.txtb_abs_und_wp_vl    = "0.000";
+                            s.txtb_abs_und_wp_hdr   = "0.000";
+
+                            s.txtb_abs_und_wp_vl    = d.data.lates;
+                            s.txtb_abs_und_wp_hdr   = d.data.lates;
+
+                            $("#txtb_abs_und_wp_vl").addClass('required-success');
+                            $("#txtb_abs_und_wp_hdr").addClass('required-success');
+                        }
+                        else
+                        {
+                            swal("There Something wrong", d.data.message, { icon: "warning" });
+                            return;
+                        }
+                    })
+                }
+                else
+                {
+                    swal("Nothing to Compute", { icon: "warning" });
+                    return;
+                } 
+            }
+        });
+        
+    }
+
+    s.optionChanged = function ()
+    {
+        if ($("#ddl_name option:selected").val() != "")
+        {
+            s.nbr_quarter = 0
+            s.nbr_quarter = s.selectedOption
+            s.FilterPageGrid($("#ddl_name option:selected").val());
+        }
+    };
+
+    s.btn_sync = function (row,leave_type)
+    {
+        s.sync_leave_type   = leave_type;
+        s.sync_header       = leave_type == "VL" ? "Vacation Leave" : "Sick Leave"
+        s.sync_description  = $("#ddl_name option:selected").html()
+        s.starting_bal      = 0;
+        
+        s.sync_data = []
+        h.post("../cLeaveLedger/ShowSyncBalance",
+            {
+                par_empl_id         : s.datalistgrid[row].empl_id,
+                par_leavetype_code  : leave_type,
+                par_ledger_ctrl_no  : s.datalistgrid[row].ledger_ctrl_no
         }).then(function (d)
         {
             if (d.data.message == "success")
-            {
-                s.oTable3.fnClearTable();
-                s.datalistgrid3 = d.data.lv_posted;
-                if (d.data.lv_posted.length > 0) {
-                    s.oTable3.fnAddData(d.data.lv_posted);
+            { 
+                s.sync_data = d.data.data
+                if (s.sync_data.length > 0)
+                {
+                    s.starting_bal = s.sync_data[0].a.leaveledger_balance_as_of
+                    for (var i = 0; i < s.sync_data.length; i++)
+                    {
+                        s.sync_data[i].a.leaveledger_restore_deduct = s.sync_data[i].b.leaveledger_entry_type == "2" ? 0 : s.sync_data[i].a.leaveledger_restore_deduct
+                        s.sync_data[i].a.leaveledger_abs_und_wp     = s.sync_data[i].a.leaveledger_abs_und_wp
+                        s.sync_data[i].a.leaveledger_balance_as_of  = s.formatNumber(s.sync_data[i].a.leaveledger_balance_as_of + s.sync_data[i].a.leaveledger_restore_deduct - s.sync_data[i].a.leaveledger_abs_und_wp)
+                    }
+                    $('#sync_modal').modal({ backdrop: 'static', keyboard: false });
                 }
-                $('#modal_initializing').modal("hide");
+                else
+                {
+                    swal("No Data Found!", { icon: "warning" });
+                }
             }
             else
             {
-                swal("There Something wrong", d.data.message, { icon: "warning" });
-                $('#modal_initializing').modal("hide");
-            }
+                swal("Nothing to Compute", { icon: "warning" });
+                return;
+            } 
         })
     }
+    s.updateBalance = function (index)
+    {
+        for (let i = index; i < s.sync_data.length; i++)
+        {
+            if (i === 0) {
+                // First row retains its initial balance
+                s.sync_data[i].a.leaveledger_balance_as_of = parseFloat(s.starting_bal) + parseFloat(s.sync_data[i].a.leaveledger_restore_deduct) - parseFloat(s.sync_data[i].a.leaveledger_abs_und_wp);
+            } else {
+                // Next rows depend on the previous row's balance
+                s.sync_data[i].a.leaveledger_balance_as_of = parseFloat(s.sync_data[i - 1].a.leaveledger_balance_as_of) + parseFloat(s.sync_data[i].a.leaveledger_restore_deduct) - parseFloat(s.sync_data[i].a.leaveledger_abs_und_wp);
+            }
+            // Ensure formatting
+            s.sync_data[i].a.leaveledger_balance_as_of = s.formatNumber(s.sync_data[i].a.leaveledger_balance_as_of);
+        }
+    };
 
+    s.formatNumber = function (value)
+    {
+        return parseFloat(value || 0).toFixed(3);
+    };
+
+    s.btnSyncSave = function ()
+    {
+        swal({
+            title       : "Are you sure to Synchronize balances?",
+            text        : "Once synced, balances will be saved!",
+            icon        : "warning",
+            buttons     : true,
+            dangerMode  : true,
+
+        }).then(function (willContinue)
+        {
+            var records = []
+            for (var i = 0; i < s.sync_data.length; i++)
+            {
+                records.push(s.sync_data[i].a)
+            }
+            if (willContinue)
+            {
+                $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+                h.post("../cLeaveLedger/SaveSync",
+                {
+                     data           : records
+                    ,leavetype_code : s.sync_leave_type
+                }).then(function (d)
+                {
+                    if (d.data.message == "success")
+                    {
+                        swal("Successfully Syncronized", "Record successfully sync", { icon: "success" });
+                        s.FilterPageGrid($("#ddl_name option:selected").val());
+                        $('#modal_initializing').modal("hide");
+                    }
+                    else
+                    {
+                        swal("There Something wrong", d.data.message, { icon: "warning" });
+                        $('#modal_initializing').modal("hide");
+                    }
+                })
+            }
+        });
+    }
     //*********************************************************************************************************
     // ************************ END OF CODE *******************************************************************
     //*********************************************************************************************************

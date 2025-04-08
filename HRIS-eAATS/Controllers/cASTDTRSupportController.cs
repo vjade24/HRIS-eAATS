@@ -592,6 +592,7 @@ namespace HRIS_eAATS.Controllers
                                 ,b.empl_photo_img
                                 ,c.position_long_title
                                 ,d.department_short_name
+                                ,d.department_code
                            };
 
                 return Json(new { data }, JsonRequestBehavior.AllowGet);

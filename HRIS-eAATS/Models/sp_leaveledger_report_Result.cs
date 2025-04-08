@@ -57,5 +57,7 @@ namespace HRIS_eAATS.Models
         public Nullable<System.DateTime> leaveledger_period_actual { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }
         public int nbr_quarter { get; set; }
+        public string hr_head_name { get; set; }
+        public string hr_head_desig { get; set; }
     }
 }

@@ -2305,7 +2305,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_payrollemployeemaster_ATS' does no
           <Property Name="rate_basis" Type="varchar" MaxLength="1" />
           <Property Name="period_from" Type="date" />
           <Property Name="period_to" Type="date" />
-          <Property Name="payroll_group_nbr" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="payroll_group_nbr" Type="varchar" MaxLength="8" Nullable="false" />
           <Property Name="emp_rcrd_status" Type="bit" />
           <Property Name="department_code" Type="varchar" MaxLength="2" />
           <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
@@ -2965,6 +2965,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="leaveledger_period_actual" Type="date" />
                 <Property Name="created_dttm" Type="datetime" />
                 <Property Name="nbr_quarter" Type="int" Nullable="false" />
+                <Property Name="hr_head_name" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="hr_head_desig" Type="varchar" MaxLength="100" Nullable="false" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -7607,7 +7609,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="rate_basis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
           <Property Name="period_from" Type="DateTime" Precision="0" />
           <Property Name="period_to" Type="DateTime" Precision="0" />
-          <Property Name="payroll_group_nbr" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payroll_group_nbr" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="emp_rcrd_status" Type="Boolean" />
           <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
@@ -13446,6 +13448,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="DateTime" Name="leaveledger_period_actual" Nullable="true" />
           <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
           <Property Type="Int32" Name="nbr_quarter" Nullable="false" />
+          <Property Type="String" Name="hr_head_name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="hr_head_desig" Nullable="false" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -20776,6 +20780,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="leaveledger_period_actual" ColumnName="leaveledger_period_actual" />
                 <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
                 <ScalarProperty Name="nbr_quarter" ColumnName="nbr_quarter" />
+                <ScalarProperty Name="hr_head_name" ColumnName="hr_head_name" />
+                <ScalarProperty Name="hr_head_desig" ColumnName="hr_head_desig" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
