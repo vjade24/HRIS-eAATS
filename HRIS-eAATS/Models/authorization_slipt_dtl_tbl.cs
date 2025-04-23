@@ -28,5 +28,6 @@ namespace HRIS_eAATS.Models
         public string rcrd_status { get; set; }
         public string empl_id { get; set; }
         public string remove_entry { get; set; }
+        public string attachment_path { get; set; }
     }
 }

@@ -614,6 +614,9 @@
     <Compile Include="Models\lv_ledger_history_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\lv_lv_ledger_extract.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MachineInfo.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\monthly_working_hrs_tbl.cs">
@@ -637,11 +640,17 @@
     <Compile Include="Models\payrollemployeemaster_pos_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\personnelstatutory_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\personnel_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\positions_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\solo_parent_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_aats_installation_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>

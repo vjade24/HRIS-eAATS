@@ -26,6 +26,7 @@
     s.nbr_quarter               = 0
     s.sync_data                 = 0
     s.sync_leave_type           = ""
+    s.generated_covered_descr   = ""
     function init()
     {
         
@@ -297,6 +298,11 @@
                                     }
                                 }
                                 if (s.btn_disable_row == false && (row.row == lastIndex + 1) && lastIndex >=0)
+                                {
+                                    s.btn_disable_row = true;
+                                }
+
+                                if (s.datalistgrid.length == 1)
                                 {
                                     s.btn_disable_row = true;
                                 }
@@ -2249,7 +2255,7 @@
     //**********************************// 
     s.btn_delete = function (row_id)
     {
-        
+
         if (s.datalistgrid[row_id].approval_status == 'D' ||
             s.datalistgrid[row_id].approval_status == 'L' ||
             s.datalistgrid[row_id].leaveledger_entry_type == 'T' 
@@ -2257,7 +2263,7 @@
         {
             swal("You cannot Edit, Delete, Print and Cancel Posted", "Data already Disapproved or Cancelled", { icon: "warning", });
         }
-        else if (s.datalistgrid[row_id].approval_status == 'F' && s.datalistgrid[row_id].leaveledger_entry_type == '2')
+        else if (s.datalistgrid[row_id].approval_status == 'F' && s.datalistgrid[row_id].leaveledger_entry_type == '2' && s.datalistgrid[row_id].leavetype_code != "CTO")
         {
             swal("You cannot Delete this Record", "Data already final Approved", { icon: "warning", });
         }
@@ -2732,7 +2738,6 @@
                     s.show_Automated    = true;
                     s.dis_leave_type    = true;
                 }
-                s.show_txtb_restore_deduct = true;
             }
             else
             {
@@ -2749,7 +2754,6 @@
                     s.show_Automated    = true;
                     s.dis_leave_type    = true;
                 }
-                s.show_txtb_restore_deduct = true;
             }
         }
         // Leave adjustment or Erroneous entry
@@ -2765,7 +2769,6 @@
             s.hide_txtb_no_of_days          = false;
             s.show_Automated                = true;
             s.dis_leave_type                = false;
-            s.show_txtb_restore_deduct      = true;
 
             if (s.ddl_rep_mode == '3')
             {
@@ -2800,7 +2803,6 @@
                 s.dis_leave_type = true;
                 s.dis_entry_type = true;
             }
-            s.show_txtb_restore_deduct = false;
 
             if (s.ddl_rep_mode == '3')
             {
@@ -2819,7 +2821,6 @@
             s.dis_txtb_balance_as_of_hdr    = true;
             s.hide_txtb_no_of_days          = false;
             s.show_Automated                = true;
-            s.show_txtb_restore_deduct      = false;
         }
     }
     //***********************************************************//
@@ -3956,6 +3957,23 @@
             s.nbr_quarter = 0
             s.nbr_quarter = s.selectedOption
             s.FilterPageGrid($("#ddl_name option:selected").val());
+            var generated_covered = "";
+            s.generated_covered_descr = ""
+            h.post("../cLeaveLedger/reloadExtract", {
+                empl_id         : $("#ddl_name option:selected").val()
+                ,year           : "2025",
+                nbr_quarter     : s.nbr_quarter
+            }).then(function (d)
+            {
+                if (d.data.message == "success")
+                {
+                    generated_covered = moment(d.data.extract_from).format('LLL') + ' - ' + moment(d.data.extract_to).format('LLL')
+                    s.generated_covered_descr = "Data generated period covered - "+generated_covered
+                } else
+                {
+                    s.generated_covered_descr = "No data generated"
+                }
+            })
         }
     };
 

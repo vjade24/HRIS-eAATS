@@ -578,19 +578,14 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label class="font-bold"><b> Leave Type:</b></label>
-                            </div>
-                            <div class="col-lg-12">
                                 <select class="form-control field-select-sm" id="ddl_leave_type_dtl" ng-model="ddl_leave_type_dtl" ng-disabled="dis_ddl_leave_type_dtl" ng-change="SelectLeaveType_dtl()">
                                     <option value="" selected>Select Here</option>
                                     <option ng-repeat="lst in leave_type" value="{{lst.leavetype_code}}">{{lst.leavetype_descr}}</option>
                                 </select>
                                 <label id="lbl_ddl_leave_type_dtl_req" class="lbl_required"></label>
                             </div>
-
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" ng-show="ddl_entry_type == '6' ? false : true">
                                 <label class="font-bold"><b> Leave Sub-Type:</b></label>
-                            </div>
-                            <div class="col-lg-12">
                                 <select class="form-control field-select-sm" id="ddl_leave_sub_type_dtl" ng-model="ddl_leave_sub_type_dtl" ng-disabled="dis_ddl_leavesub_type_dtl">
                                     <option value="" selected>Select Here</option>
                                     <option ng-repeat="lst in leave_sub_type_dtl" value="{{lst.leavesubtype_code}}">{{lst.leavesubtype_descr}}</option>
@@ -598,29 +593,22 @@
                             </div>
                             <div class="col-lg-12">
                                 <label class="font-bold" style="padding-top:9px;"><b> Balance as of:</b></label>
-                            </div>
-                            <div class="col-lg-12">
-                                <input class="form-control text-right" id="txtb_balance_as_of" ng-model="txtb_balance_as_of" />
+                                <input class="form-control text-right" id="txtb_balance_as_of" ng-model="txtb_balance_as_of" ng-disabled="ddl_entry_type == '6' ? true : false"/>
                                 <label id="lbl_txtb_balance_as_of_req" class="lbl_required"></label>
                             </div>
-                            <div class="col-lg-12" ng-show="show_txtb_restore_deduct">
-                                <label class="font-bold" style="padding-top:9px;"><b> Lv. Earned:</b></label>
-                            </div>
-                            <div class="col-lg-12" ng-show="show_txtb_restore_deduct">
+                            <div class="col-lg-12" ng-show="ddl_entry_type == '6' ? false : true">
+                                <label class="font-bold" style="padding-top:9px;"><b> Lv. Earned:'</b></label>
                                 <input class="form-control text-right" id="txtb_restore_deduct" ng-model="txtb_restore_deduct" />
                                 <label id="lbl_txtb_restore_deduct_req" class="lbl_required"></label>
                             </div>
                             <div class="col-lg-12">
-                                <label class="font-bold" style="padding-top:9px;"><b> Abs. Und. WP:</b></label>
-                            </div>
-                            <div class="col-lg-12">
+                                <label class="font-bold" style="padding-top:9px;"><b> {{ddl_entry_type == '6' ? 'Used Leave:' : 'Abs. Und. WP:'}}</b></label>
                                 <input class="form-control text-right" id="txtb_abs_und_wp" ng-model="txtb_abs_und_wp" ng-keyup="RestoreDeductValue()" />
                                 <label id="lbl_txtb_abs_und_wp_req" class="lbl_required"></label>
+                                <label ng-show="ddl_entry_type == '6' ? true : false" class="lbl_required">Remaining balance: "{{txtb_balance_as_of - txtb_abs_und_wp}}"</label>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" ng-show="ddl_entry_type == '6' ? false : true">
                                 <label class="font-bold" style="padding-top:9px;"><b> Abs. Und. WOP:</b></label>
-                            </div>
-                            <div class="col-lg-12">
                                 <input class="form-control text-right" id="txtb_abs_und_wop" ng-model="txtb_abs_und_wop" />
                                 <label id="lbl_txtb_abs_und_wop_req" class="lbl_required"></label>
                             </div>
@@ -1143,18 +1131,25 @@
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-7" style="padding-top:5px;">
-                                                <label>
-                                                    <input type="radio" ng-model="selectedOption" value="1" ng-change="optionChanged()"> 1st Quarter
-                                                </label>&nbsp;&nbsp;&nbsp;
-                                                <label>
-                                                    <input type="radio" ng-model="selectedOption" value="2" ng-change="optionChanged()"> 2nd Quarter
-                                                </label>&nbsp;&nbsp;&nbsp;
-                                                <label>
-                                                    <input type="radio" ng-model="selectedOption" value="3" ng-change="optionChanged()"> 3rd Quarter
-                                                </label>&nbsp;&nbsp;&nbsp;
-                                                <label>
-                                                    <input type="radio" ng-model="selectedOption" value="4" ng-change="optionChanged()"> 4th Quarter
-                                                </label>
+                                                <div class="form-group row">
+                                                    <div class="col-lg-12">
+                                                        <label>
+                                                            <input type="radio" ng-model="selectedOption" value="1" ng-change="optionChanged()"> 1st Quarter
+                                                        </label>&nbsp;&nbsp;&nbsp;
+                                                        <label>
+                                                            <input type="radio" ng-model="selectedOption" value="2" ng-change="optionChanged()"> 2nd Quarter
+                                                        </label>&nbsp;&nbsp;&nbsp;
+                                                        <label>
+                                                            <input type="radio" ng-model="selectedOption" value="3" ng-change="optionChanged()"> 3rd Quarter
+                                                        </label>&nbsp;&nbsp;&nbsp;
+                                                        <label>
+                                                            <input type="radio" ng-model="selectedOption" value="4" ng-change="optionChanged()"> 4th Quarter
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <span class="badge badge-danger">{{generated_covered_descr}}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-lg-5" style="padding-top:5px;">
                                                 <div class="row">

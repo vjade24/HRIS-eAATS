@@ -88,12 +88,16 @@
                 </div>
                 <div class="modal-body" >
                     <div class="row">
-                        <div class="col-lg-9">
+                        <div class="col-lg-9" ng-show="ModalAction == 'ADD' ? true : false">
                             <label>Employee Name</label>
-                            <select id="employee_name" ng-model="employee_name" style="width: 100%;height:10%">
+                            <select id="ddl_empl_id" ng-model="ddl_empl_id" style="width: 100%;height:10%">
                                 <option></option>
                             </select>
-                            <label id="lbl_employee_name_req" class="lbl_required"></label>
+                            <label id="lbl_ddl_empl_id_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-lg-9" ng-show="ModalAction == 'EDIT' ? true : false">
+                            <label>Employee Name</label>
+                            <input class="form-control" id="employee_name" ng-model="employee_name" disabled />
                         </div>
                         <div class="col-lg-3">
                             <label>ID No</label>
@@ -106,15 +110,32 @@
                         </div>
                         <div class="col-lg-12">
                             <label>Solo Parent ID #</label>
-                            <input type="text" class="form-control" id="solo_parent_id_no" ng-model="solo_parent_id_no" />
-                            <label id="lbl_solo_parent_id_no_req" class="lbl_required"></label>
+                            <input type="text" class="form-control" id="solo_parent_no" ng-model="solo_parent_no" />
+                            <label id="lbl_solo_parent_no_req" class="lbl_required"></label>
                         </div>
                         <div class="col-lg-12">
                             <label>Valid Until</label>
-                            <input type="date" class="form-control" style="line-height:20px" id="valid_until" ng-model="valid_until"/>
+                            <input type="date" class="form-control" style="line-height:20px" id="valid_until" ng-model="valid_until" />
                             <label id="lbl_valid_until_req" class="lbl_required"></label>
                         </div>
-
+                        <div class="col-lg-6">
+                            <label>Solo Parent Category</label>
+                            <input type="text" class="form-control" id="solo_parent_category" ng-model="solo_parent_category" />
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Qualification Code</label>
+                            <input type="text" class="form-control" id="qualification_code" ng-model="qualification_code" />
+                        </div>
+                    </div>
+                    <div class="row text-center" ng-show="leavelist.length > 0 ?true:false">
+                        <div class="col-lg-12 m-t-md">
+                            @*<hr />*@
+                            <h3 class="text-navy">USED SOLO PARENT LEAVE YEAR <u>{{ddl_year}}</u></h3>
+                        </div>
+                        <div class="col-lg-12" ng-repeat="lst in leavelist track by $index">
+                            @*<h4>{{$index + 1}}.)  {{lst.first_name}} {{lst.last_name}}</h4>*@
+                            <h6><b>{{$index + 1}}.) {{lst.leave_dates}}</b></h6>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer" >
@@ -160,7 +181,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8 text-right">
+                <div class="col-lg-4">
+                </div>
+                <div class="col-lg-4 text-right">
                     
                     <button class="btn btn-success" ng-click="btn_open_modal()"> <i class="fa fa-plus-square"></i> Add</button>
                 </div>
@@ -172,12 +195,13 @@
                 <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>DEPARTMENT NAME</th>
-                            <th>SOLO ID #</th>
-                            <th>VALID UNTIL</th>
-                            <th>ACTION</th>
+                            <th width="5%"></th>
+                            <th width="5%">ID</th>
+                            <th width="35%">NAME</th>
+                            <th width="20%">DEPARTMENT NAME</th>
+                            <th width="15%">SOLO ID #</th>
+                            <th width="10%">VALID UNTIL</th>
+                            <th width="10%">ACTION</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

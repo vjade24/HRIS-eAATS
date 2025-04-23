@@ -125,6 +125,41 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="pwd_type_id" Type="int" />
           <Property Name="gender2" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="personnelstatutory_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="stat_ques34a" Type="bit" />
+          <Property Name="stat_ques34b" Type="bit" />
+          <Property Name="stat_ques34_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques35a" Type="bit" />
+          <Property Name="stat_ques35a_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques35b" Type="bit" />
+          <Property Name="stat_ques35b_dtls_date" Type="varchar" MaxLength="20" />
+          <Property Name="stat_ques35b_dtls_status" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques36" Type="bit" />
+          <Property Name="stat_ques36_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques37" Type="bit" />
+          <Property Name="stat_ques37_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques38a" Type="bit" />
+          <Property Name="stat_ques38a_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques38b" Type="bit" />
+          <Property Name="stat_ques38b_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques39" Type="bit" />
+          <Property Name="stat_ques39_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques40a" Type="bit" />
+          <Property Name="stat_ques40a_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="stat_ques40b" Type="bit" />
+          <Property Name="stat_ques40b_dtl" Type="varchar" MaxLength="50" />
+          <Property Name="stat_ques40c" Type="bit" />
+          <Property Name="stat_ques40c_dtl" Type="varchar" MaxLength="150" />
+          <Property Name="govt_issued_id" Type="varchar" MaxLength="100" />
+          <Property Name="govt_issued_id_nbr" Type="varchar" MaxLength="100" />
+          <Property Name="date_place_issuance" Type="varchar" MaxLength="100" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="printing_date" Type="varchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="positions_tbl">
           <Key>
             <PropertyRef Name="position_code" />
@@ -428,6 +463,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_pos_tbl" EntityType="Self.payrollemployeemaster_pos_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="personnelstatutory_tbl" EntityType="Self.personnelstatutory_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="positions_tbl" EntityType="Self.positions_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_prime_token_tbl" EntityType="Self.user_prime_token_tbl" Schema="dbo" store:Type="Tables" />
@@ -647,6 +683,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="positions_tbl" EntityType="HRIS_PAYModel.positions_tbl" />
           <EntitySet Name="vw_payrollemployeemaster_hdr_pos_tbl" EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl" />
           <EntitySet Name="user_prime_token_tbl" EntityType="HRIS_PAYModel.user_prime_token_tbl" />
+          <EntitySet Name="personnelstatutory_tbl" EntityType="HRIS_PAYModel.personnelstatutory_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -1101,6 +1138,41 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="token" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="token_expiry_date" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
+        <EntityType Name="personnelstatutory_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques34a" Type="Boolean" />
+          <Property Name="stat_ques34b" Type="Boolean" />
+          <Property Name="stat_ques34_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques35a" Type="Boolean" />
+          <Property Name="stat_ques35a_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques35b" Type="Boolean" />
+          <Property Name="stat_ques35b_dtls_date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques35b_dtls_status" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques36" Type="Boolean" />
+          <Property Name="stat_ques36_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques37" Type="Boolean" />
+          <Property Name="stat_ques37_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques38a" Type="Boolean" />
+          <Property Name="stat_ques38a_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques38b" Type="Boolean" />
+          <Property Name="stat_ques38b_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques39" Type="Boolean" />
+          <Property Name="stat_ques39_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques40a" Type="Boolean" />
+          <Property Name="stat_ques40a_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques40b" Type="Boolean" />
+          <Property Name="stat_ques40b_dtl" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="stat_ques40c" Type="Boolean" />
+          <Property Name="stat_ques40c_dtl" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="govt_issued_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="govt_issued_id_nbr" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="date_place_issuance" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="printing_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1524,6 +1596,42 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
                 <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personnelstatutory_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.personnelstatutory_tbl">
+              <MappingFragment StoreEntitySet="personnelstatutory_tbl">
+                <ScalarProperty Name="printing_date" ColumnName="printing_date" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="date_place_issuance" ColumnName="date_place_issuance" />
+                <ScalarProperty Name="govt_issued_id_nbr" ColumnName="govt_issued_id_nbr" />
+                <ScalarProperty Name="govt_issued_id" ColumnName="govt_issued_id" />
+                <ScalarProperty Name="stat_ques40c_dtl" ColumnName="stat_ques40c_dtl" />
+                <ScalarProperty Name="stat_ques40c" ColumnName="stat_ques40c" />
+                <ScalarProperty Name="stat_ques40b_dtl" ColumnName="stat_ques40b_dtl" />
+                <ScalarProperty Name="stat_ques40b" ColumnName="stat_ques40b" />
+                <ScalarProperty Name="stat_ques40a_dtl" ColumnName="stat_ques40a_dtl" />
+                <ScalarProperty Name="stat_ques40a" ColumnName="stat_ques40a" />
+                <ScalarProperty Name="stat_ques39_dtl" ColumnName="stat_ques39_dtl" />
+                <ScalarProperty Name="stat_ques39" ColumnName="stat_ques39" />
+                <ScalarProperty Name="stat_ques38b_dtl" ColumnName="stat_ques38b_dtl" />
+                <ScalarProperty Name="stat_ques38b" ColumnName="stat_ques38b" />
+                <ScalarProperty Name="stat_ques38a_dtl" ColumnName="stat_ques38a_dtl" />
+                <ScalarProperty Name="stat_ques38a" ColumnName="stat_ques38a" />
+                <ScalarProperty Name="stat_ques37_dtl" ColumnName="stat_ques37_dtl" />
+                <ScalarProperty Name="stat_ques37" ColumnName="stat_ques37" />
+                <ScalarProperty Name="stat_ques36_dtl" ColumnName="stat_ques36_dtl" />
+                <ScalarProperty Name="stat_ques36" ColumnName="stat_ques36" />
+                <ScalarProperty Name="stat_ques35b_dtls_status" ColumnName="stat_ques35b_dtls_status" />
+                <ScalarProperty Name="stat_ques35b_dtls_date" ColumnName="stat_ques35b_dtls_date" />
+                <ScalarProperty Name="stat_ques35b" ColumnName="stat_ques35b" />
+                <ScalarProperty Name="stat_ques35a_dtl" ColumnName="stat_ques35a_dtl" />
+                <ScalarProperty Name="stat_ques35a" ColumnName="stat_ques35a" />
+                <ScalarProperty Name="stat_ques34_dtl" ColumnName="stat_ques34_dtl" />
+                <ScalarProperty Name="stat_ques34b" ColumnName="stat_ques34b" />
+                <ScalarProperty Name="stat_ques34a" ColumnName="stat_ques34a" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

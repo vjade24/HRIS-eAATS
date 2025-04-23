@@ -273,7 +273,7 @@ namespace HRIS_eAATS.Controllers
                                     ,a.disapproved_remakrs
                                     ,mone = b
                                 };
-                
+
                 return JSON(new
                 {
                     message = "success"
@@ -1469,6 +1469,20 @@ namespace HRIS_eAATS.Controllers
                     db_ats.SaveChanges();
                 }
                 return Json(new { message = "success"}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult reloadExtract(string empl_id,string year, int nbr_quarter)
+        {
+            try
+            {
+                var extract_from = db_ats.lv_lv_ledger_extract.Where(a => a.year_extracted == year && a.nbr_quarter == nbr_quarter && a.empl_id == empl_id).OrderBy(a => a.created_dttm).FirstOrDefault().created_dttm;
+                var extract_to   = db_ats.lv_lv_ledger_extract.Where(a => a.year_extracted == year && a.nbr_quarter == nbr_quarter && a.empl_id == empl_id).OrderByDescending(a => a.created_dttm).FirstOrDefault().created_dttm;
+                return Json(new { message = "success", extract_from, extract_to }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

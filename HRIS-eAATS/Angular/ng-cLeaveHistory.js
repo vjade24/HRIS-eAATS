@@ -3,6 +3,7 @@
     var h = $http
     var cs = commonScript
     s.rowLen = "10";
+    s.log_empl_id = "";
 
 
     var ddate_from_to = new Date();
@@ -46,13 +47,15 @@
                 {
                     init_table_data([]);
                 }
-                
+                init_table_data_leave_card([])
                 //**********************************************
                 //  Show/Hide ADD, EDIT, DELETE button 
                 //**********************************************
                 d.data.um.allow_add     == "1" ? s.ShowAdd    = true : s.ShowAdd = false;
                 d.data.um.allow_delete  == "1" ? s.ShowDelete = true : s.ShowDelete = false;
-                d.data.um.allow_edit    == "1" ? s.ShowEdit   = true : s.ShowEdit = false;
+                d.data.um.allow_edit    == "1" ? s.ShowEdit = true : s.ShowEdit = false;
+                s.log_empl_id = d.data.log_empl_id
+                console.log(d.data.log_empl_id)
                 $("#modal_generating_remittance").modal("hide");
             }
             else {
@@ -106,9 +109,56 @@
                 },
             });
     }
+    var init_table_data_leave_card = function (par_data)
+    {
+        s.datalistgrid_leave_card = par_data;
+        s.oTable_leave_card = $('#datalist_grid_leave_card').dataTable(
+            {
+                data: s.datalistgrid_leave_card,
+                sDom: 'rt<"bottom"ip>',
+                pageLength: 1000,
+                columns: [
+                    
+                    //{
+                    //    "mData": "employee_name",
+                    //    "mRender": function (data, type, full, row) {
+                    //        return "<span class='btn-block'>&nbsp;&nbsp;" + data + "</span>"
+                    //    }
+                    //},
+                    {
+                        "mData": "leaveledger_period",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='btn-block'>&nbsp;&nbsp;" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "vl_bal",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center   btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "sl_bal",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center   btn-block'>" + data + "</span>"
+                        }
+                    },
+                    {
+                        "mData": "created_dttm",
+                        "mRender": function (data, type, full, row) {
+                            return "<span class='text-center   btn-block'>" + moment(data).format('YYYY-MM-DD HH:mm:ss') + "</span>"
+                        }
+                    },
+                ],
+                "createdRow": function (row, data, index) {
+                    $compile(row)($scope);  //add this to compile the DOM
+                },
+            });
+    }
     s.search_in_list = function (value, table) {
         try {
             $("#" + table).DataTable().search(value).draw();
+            $("#datalist_grid_leave_card").DataTable().search(value).draw();
         }
         catch (err) {
             alert(err.message)
@@ -117,6 +167,7 @@
     s.setNumOfRow = function (value, table) {
         try {
             $("#" + table).DataTable().page.len(value).draw();
+            $("#datalist_grid_leave_card").DataTable().page.len(value).draw();
         }
         catch (err) {
             alert(err.message)
@@ -140,6 +191,12 @@
                 if (d.data.data.length > 0)
                 {
                     s.oTable.fnAddData(d.data.data);
+                }
+
+                s.oTable_leave_card.fnClearTable();
+                s.datalistgrid_leave_card = d.data.leave_card;
+                if (d.data.leave_card.length > 0) {
+                    s.oTable_leave_card.fnAddData(d.data.leave_card);
                 }
                 $('#modal_generating_remittance').modal("hide")
             }

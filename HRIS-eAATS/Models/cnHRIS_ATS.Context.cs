@@ -148,6 +148,8 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<leave_application_hdr_tbl> leave_application_hdr_tbl { get; set; }
         public virtual DbSet<dtr_overrides_tbl> dtr_overrides_tbl { get; set; }
         public virtual DbSet<lv_ledger_forfeitbal_tbl> lv_ledger_forfeitbal_tbl { get; set; }
+        public virtual DbSet<solo_parent_tbl> solo_parent_tbl { get; set; }
+        public virtual DbSet<lv_lv_ledger_extract> lv_lv_ledger_extract { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
