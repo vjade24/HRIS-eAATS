@@ -27,6 +27,7 @@
     s.sync_data                 = 0
     s.sync_leave_type           = ""
     s.generated_covered_descr   = ""
+    s.leave_type_data           = []
     function init()
     {
         
@@ -104,6 +105,7 @@
                 s.lv_admin_dept_list    = d.data.lv_admin_dept_list;
                 s.lv_empl_lst_wout_jo   = [];
                 s.leave_type            = d.data.leave_type_lst;
+                s.leave_type_data       = d.data.leave_type_lst;
                 init_table_data([]);
                 init_table_data2([]);
                 init_table_data3([]);
@@ -1953,7 +1955,7 @@
         }
 
         // Automated Leave
-        if ($("#ddl_entry_type option:selected").val() == "1" || $("#ddl_entry_type option:selected").val() == "6")
+        if ($("#ddl_entry_type option:selected").val() == "1")
         {
             var data_auto_vl = {
 
@@ -2046,6 +2048,18 @@
             }
             
         }
+        if ($("#ddl_entry_type option:selected").val() == "6")
+        {
+            for (var i = 0; i < s.leave_type_data.length; i++)
+            {
+                s.leave_type_data[i].leaveledger_balance_as_of   = s.leave_type_data[i].leavetype_code == 'SL' || s.leave_type_data[i].leavetype_code == 'VL' ? s.leave_type_data[i].balance : s.leave_type_data[i].leavetype_maxperyear
+                s.leave_type_data[i].leaveledger_restore_deduct  = 0
+                s.leave_type_data[i].leaveledger_abs_und_wp      = s.leave_type_data[i].leavetype_code == 'SL' || s.leave_type_data[i].leavetype_code == 'VL' ? 0 : s.leave_type_data[i].leavetype_maxperyear - s.leave_type_data[i].balance
+                s.leave_type_data[i].leaveledger_abs_und_wop     = 0
+            }
+        }
+        //console.log(s.leave_type_data)
+        //return;
         // *******************************************************************
         // *********** SAVING FOR HEADER AND DETAILS *************************
         // *******************************************************************
@@ -2067,6 +2081,7 @@
                             , data_auto_vl: data_auto_vl
                             , data_auto_sl: data_auto_sl
                             , data_auto_mz_tl: data_auto_mz_tl
+                            , lv_dtl: s.leave_type_data
                         }).then(function (d) {
                             if (d.data.message == "success") {
                                 $('#main_modal').modal("hide");
@@ -2754,6 +2769,10 @@
                     s.show_Automated    = true;
                     s.dis_leave_type    = true;
                 }
+            }
+            if (s.ddl_entry_type == '6')
+            {
+                s.show_Automated = true;
             }
         }
         // Leave adjustment or Erroneous entry

@@ -459,7 +459,9 @@ namespace HRIS_eAATS.Controllers
             ,lv_ledger_dtl_tbl  data2
             , lv_ledger_dtl_tbl data_auto_vl
             , lv_ledger_dtl_tbl data_auto_sl
-            , lv_ledger_dtl_tbl data_auto_mz_tl)
+            , lv_ledger_dtl_tbl data_auto_mz_tl
+            , List<lv_ledger_dtl_tbl> lv_dtl
+            )
         {
             try
             {
@@ -543,7 +545,7 @@ namespace HRIS_eAATS.Controllers
                         // *************************************************************
                     }
                 }
-                else if (data.leaveledger_entry_type == "1" || data.leaveledger_entry_type == "6") // Automated Leave
+                else if (data.leaveledger_entry_type == "1") // Automated Leave
                 {
                     if (data.leavetype_code == "CTO")
                     {
@@ -606,6 +608,18 @@ namespace HRIS_eAATS.Controllers
 
                         db_ats.lv_ledger_dtl_tbl.Add(data_auto_vl);
                         db_ats.SaveChanges();
+                }
+                else if (data.leaveledger_entry_type == "6")
+                {
+                    foreach (var item in lv_dtl)
+                    {
+                        if (item.leaveledger_abs_und_wp != null)
+                        {
+                            item.ledger_ctrl_no                = new_appl_nbr[0];
+                            db_ats.lv_ledger_dtl_tbl.Add(item);
+                            db_ats.SaveChanges();
+                        }
+                    }
                 }
                 else
                 {

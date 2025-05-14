@@ -240,7 +240,7 @@
                                                                 <input class="form-control text-left" id="txtb_details_remarks" ng-model="txtb_details_remarks" />
                                                             </div>
                                                         </div>
-                                                        <div class="row" style="padding-top:6px;">
+                                                        <div class="row" style="padding-top:6px;" ng-show="ddl_entry_type == '2' ? true : false">
                                                             <div class="col-lg-4">
                                                                 <div class="i-checks" id="slvl_radio0">
                                                                     <label>
@@ -261,23 +261,19 @@
                                                             </div>
                                                         </div>
 
-                                                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
-                                                        <div class="row" style="padding-top:6px;">
+                                                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" ng-show="ddl_entry_type == '2' ? true : false" />
+                                                        <div class="row" style="padding-top:6px;" ng-show="ddl_entry_type == '2' ? true : false">
                                                             <div class="col-lg-12">
                                                                 <h3 class="ledger_fields" style="font-weight:bold;font-size:13px !important">
                                                                     Override for "By the Authority of the Governor" Signatory in "Application for Leave"
                                                                 </h3>
                                                             </div>
-                                                        </div>
-                                                        <div class="row" style="padding-top:6px;">
                                                             <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
                                                                 <label class="font-bold"><b>Signatory Name:</b></label>
                                                             </div>
                                                             <div class="col-lg-8">
                                                                 <input class="form-control text-left" id="txtb_signame3_ovrd" ng-model="txtb_signame3_ovrd" />
                                                             </div>
-                                                        </div>
-                                                        <div class="row" style="padding-top:6px;">
                                                             <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
                                                                 <label class="font-bold"><b> Signatory Position:</b></label>
                                                             </div>
@@ -358,6 +354,26 @@
                                                             </div>
                                                         </div>
 
+                                                        <div class="row m-t-sm m-b-sm" ng-show="ddl_entry_type == '6' && ADDEDITMODE == 'ADD' ? true : false">
+                                                            <div class="col-lg-12">
+                                                                <div class="form-group row" ng-repeat="lst in leave_type_data" ng-if="lst.leavetype_code != 'AL'
+                                                                                                                   && lst.leavetype_code != 'CAL'
+                                                                                                                   && lst.leavetype_code != 'MC'
+                                                                                                                   && lst.leavetype_code != 'MC16'
+                                                                                                                   && lst.leavetype_code != 'ML'
+                                                                                                                   && lst.leavetype_code != 'MZ'
+                                                                                                                   && lst.leavetype_code != 'QT'
+                                                                                                                   && lst.leavetype_code != 'STL'
+                                                                                                                   && lst.leavetype_code != 'VWC'
+                                                                                                                   && lst.leavetype_code != 'TL'
+                                                                                                                   && lst.leavetype_code != 'RH'
+                                                                                                                   && lst.leavetype_code != 'CTO'
+                                                                                                                    ">
+                                                                    <div class="col-lg-8"><span >{{lst.leavetype_descr}} </span></div>
+                                                                    <div class="col-lg-4"><input type="text" ng-model="lst.balance" class="form-control-sm form-control text-right" /></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <div class="row" ng-hide="show_Automated">
                                                             <div class="col-lg-12">
                                                                 <h3 class="text-success"><b>Vacation Leave</b></h3>
