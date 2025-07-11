@@ -2841,6 +2841,19 @@
             s.hide_txtb_no_of_days          = false;
             s.show_Automated                = true;
         }
+        // Transfer (Other Agency)
+        else if (s.ddl_entry_type == '7')
+        {
+            s.show_Automated                = true;
+            s.show_txtb_restore_deduct_vl   = false;
+            s.show_txtb_restore_deduct_sl   = false;
+            s.show_txtb_abs_und_wop_vl      = false;
+            s.show_txtb_abs_und_wop_sl      = false;
+            s.dis_txtb_no_of_days           = true;
+            s.hide_txtb_balance_as_of_hdr   = true;
+            $('#lbl_abs_und_wp_vl').text("-- Ded. - VL:"); 
+            $('#lbl_abs_und_wp_sl').text("-- Ded. - SL:"); 
+        }
     }
     //***********************************************************//
     //*** VJA -  2021-06-03 - Set the number of Days
@@ -4095,6 +4108,26 @@
                         $('#modal_initializing').modal("hide");
                     }
                 })
+            }
+        });
+    }
+    s.btn_export = function ()
+    {
+        h.post("../cLeaveLedger/export_and_merge",
+        {
+             par_department_code   : "25"
+            ,par_employment_type   : "RE"
+            ,par_year              : "2025"
+            ,par_month             : "07"
+
+        }).then(function (d) {
+            if (d.data.message == "success")
+            {
+                swal(d.data.message, { icon: "success", });
+            }
+            else
+            {
+                swal(d.data.message, { icon: "warning", });
             }
         });
     }

@@ -7,6 +7,12 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
+using System.IO;
+using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
+
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 namespace HRIS_eAATS.Controllers
 {
     public class cLeaveLedgerController : Controller
@@ -1501,6 +1507,94 @@ namespace HRIS_eAATS.Controllers
             catch (Exception e)
             {
                 return Json(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult export_and_merge(string par_department_code, string par_employment_type, string par_year, string par_month)
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+                var data = db_ats.sp_lv_empl_lst_wout_jo_yr_mt(par_department_code, par_employment_type, par_year, par_month).ToList().Take(3);
+
+                
+                // Database credentials
+                string dbServer     = "192.168.80.49\\HRIS";
+                string dbName       = "HRIS_ATS";
+                string dbUser       = "sa";
+                string dbPassword   = "SystemAdmin_PRD123";
+
+                string basePath       = AppDomain.CurrentDomain.BaseDirectory;
+                string reportPath     = Path.Combine(basePath, "Reports/cryLeaveLedger/cryLeaveLedgerx.rpt");
+                string exportFolder   = Path.Combine(basePath, "ExportedFiles");
+
+                // Ensure export folder exists
+                if (!Directory.Exists(exportFolder))
+                    Directory.CreateDirectory(exportFolder);
+
+                DateTime dateFrom = new DateTime(2021, 1, 1);
+                DateTime dateTo   = new DateTime(2025, 12, 31);
+
+                // If subreport name is literal, hardcode it here
+                string subReportName = "cryLeaveLedgerSummary";
+
+                foreach (var item in data)
+                {
+                    try
+                    {
+                        ReportDocument report = new ReportDocument();
+                        report.Load(reportPath);
+
+                        // ✅ Set DB login for all tables in main report
+                        report.SetDatabaseLogon(dbUser, dbPassword, dbServer, dbName);
+                        foreach (Table table in report.Database.Tables)
+                        {
+                            TableLogOnInfo logonInfo = table.LogOnInfo;
+                            logonInfo.ConnectionInfo.ServerName = dbServer;
+                            logonInfo.ConnectionInfo.DatabaseName = dbName;
+                            logonInfo.ConnectionInfo.UserID = dbUser;
+                            logonInfo.ConnectionInfo.Password = dbPassword;
+                            table.ApplyLogOnInfo(logonInfo);
+                        }
+
+                        foreach (ReportDocument sub in report.Subreports)
+                        {
+                            Console.WriteLine("Subreport name: " + sub.Name);
+                        }
+
+                        // ✅ Parameters - Main Report
+                        report.SetParameterValue("@p_empl_id", item.empl_id);
+                        report.SetParameterValue("@p_date_fr", dateFrom);
+                        report.SetParameterValue("@p_date_to", dateTo);
+                        report.SetParameterValue("@p_rep_mode", "2");
+
+                        // ✅ Parameters - Subreport
+                        //report.SetParameterValue("@p_empl_id", item.empl_id, subReportName);
+                        //report.SetParameterValue("@p_date_fr", "2021-01-01", subReportName);
+                        //report.SetParameterValue("@p_date_to", "2025-12-31", subReportName);
+                        //report.SetParameterValue("@p_rep_mode", "2", subReportName);
+                        //report.SetParameterValue("@p_prepared_empl_id", "U8314", subReportName);
+
+                        // ✅ Export to PDF
+                        string fileName    = $"LeaveLedger_{item.empl_id}.pdf";
+                        string exportPath  = Path.Combine(exportFolder, fileName);
+
+                        report.ExportToDisk(ExportFormatType.PortableDocFormat, exportPath);
+
+                        report.Close();
+                        report.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        return JSON(new { message = ex.Message, data }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+
+                return JSON(new { message = "success" , data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

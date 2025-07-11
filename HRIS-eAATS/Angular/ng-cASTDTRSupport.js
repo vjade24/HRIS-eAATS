@@ -25,6 +25,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.txtb_template_descr   = "PHIC Share";//Hard coded for now based on the descussion.
     s.template_code         = "996";       //Hard coded for now based on the descussion.
     s.grouplist = [];
+    s.trnsmt = [];
+    s.trnsmt_list = [];
     s.ddl_department  = "21"
     s.employment_type = "";
     s.rate_basis = "";
@@ -40,6 +42,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.process_number = ""
     s.extract_selected = {}
     s.biometrics_location = []
+    s.lst_time_out = []
     s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
     s.lbl_shift_flag = "";
     var biotype = [
@@ -257,6 +260,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                 
             }).then(function (d)
             {
+                s.trnsmt =[]
+                s.trnsmt_list =[]
                 if (d.data.message == "success")
                 {
                     s.TimeSked_HDR($("#ddl_name option:selected").val(), s.ddl_year);
@@ -272,6 +277,20 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                     
                     s.datalistgrid_data = d.data.data;
                     s.datalistgrid_data.refreshTable1('oTable', '');
+
+                    s.trnsmt      = d.data.trnsmt
+                    s.trnsmt_list = d.data.trnsmt_list
+
+                    for (var i = 0; i < d.data.trnsmt.length; i++)
+                    {
+                        s.trnsmt[i].frst_qcna_posted_ddtm = moment(s.trnsmt[i].frst_qcna_posted_ddtm).format('LLLL')
+                        s.trnsmt[i].sec_qcna_posted_ddtm  = moment(s.trnsmt[i].sec_qcna_posted_ddtm).format('LLLL')
+                    }
+
+                    for (var i = 0; i < d.data.trnsmt_list.length; i++)
+                    {
+                        s.trnsmt_list[i].created_dttm = moment(s.trnsmt_list[i].created_dttm).format('LLLL')
+                    }
                     $("#modal_initializing").modal('hide');
                 }
                 else
@@ -410,7 +429,6 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         $("#txtb_time_out_pm").val(moment(time_out_pm, "HH:mm").format("hh:mmA").replace("Invalid date", ""));
         
         s.GetBioExtractDetails();
-
         s.ModalTitle = "Edit Record";
         $('#main_modal').modal({ keyboard: false, backdrop: "static" });
     }
@@ -612,6 +630,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
             if (d.data.message == "success")
             {
                 s.lst_extract = d.data.data;
+                s.lst_time_out = d.data.lst_time_out;
+                console.log(s.lst_time_out)
             }
             else
             {
