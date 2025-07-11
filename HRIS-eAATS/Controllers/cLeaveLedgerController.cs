@@ -11,8 +11,6 @@ using System.IO;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
 
-using PdfSharp.Pdf;
-using PdfSharp.Pdf.IO;
 namespace HRIS_eAATS.Controllers
 {
     public class cLeaveLedgerController : Controller
