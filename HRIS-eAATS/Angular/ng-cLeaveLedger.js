@@ -1570,7 +1570,7 @@
                 var p_number_of_hours   = s.datalistgrid[row_id].vl_earned;
                 var p_date_issued       = moment(s.datalistgrid[row_id].leaveledger_date).format('YYYY-MM-DD');
                 var p_date_valid        = moment(s.datalistgrid[row_id].leaveledger_date).format('YYYY-MM-DD');
-                var p_signatory_name    = s.datalistgrid[row_id].hr_head_name //"LARA ZAPHIRE KRISTY N. BERMEJO";
+                var p_signatory_name    = ""//s.datalistgrid[row_id].hr_head_name //"LARA ZAPHIRE KRISTY N. BERMEJO";
                 var p_footer_remarks    = s.datalistgrid[row_id].details_remarks;
                 var controller  = "Reports"
                 var action      = "Index"
@@ -2055,6 +2055,16 @@
                 s.leave_type_data[i].leaveledger_balance_as_of   = s.leave_type_data[i].leavetype_code == 'SL' || s.leave_type_data[i].leavetype_code == 'VL' ? s.leave_type_data[i].balance : s.leave_type_data[i].leavetype_maxperyear
                 s.leave_type_data[i].leaveledger_restore_deduct  = 0
                 s.leave_type_data[i].leaveledger_abs_und_wp      = s.leave_type_data[i].leavetype_code == 'SL' || s.leave_type_data[i].leavetype_code == 'VL' ? 0 : s.leave_type_data[i].leavetype_maxperyear - s.leave_type_data[i].balance
+                s.leave_type_data[i].leaveledger_abs_und_wop     = 0
+            }
+        }
+        if ($("#ddl_entry_type option:selected").val() == "7")
+        {
+            for (var i = 0; i < s.leave_type_data.length; i++)
+            {
+                s.leave_type_data[i].leaveledger_balance_as_of   = s.leave_type_data[i].balance
+                s.leave_type_data[i].leaveledger_restore_deduct  = 0
+                s.leave_type_data[i].leaveledger_abs_und_wp      = s.leave_type_data[i].balance
                 s.leave_type_data[i].leaveledger_abs_und_wop     = 0
             }
         }
@@ -2626,6 +2636,12 @@
                  return_val = false;
              }
         }
+        if ($('#ddl_entry_type').val().trim() == "7" && $('#txtb_details_remarks').val().trim() == "")
+        {
+            $("#txtb_details_remarks").addClass("required");
+            $("#lbl_details_remarks_req").text("specify the location");
+            return_val = false;
+        }
         
         return return_val;
     }
@@ -2721,7 +2737,7 @@
         }
 
         // Automated Leave
-        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6')
+        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6' || s.ddl_entry_type == '7')
         {
             s.hide_txtb_restore_deduct_hdr  = true;
             s.hide_txtb_abs_und_wp_hdr      = true;
@@ -2770,9 +2786,40 @@
                     s.dis_leave_type    = true;
                 }
             }
-            if (s.ddl_entry_type == '6')
+            if (s.ddl_entry_type == '6' )
             {
                 s.show_Automated = true;
+            }
+            if (s.ddl_entry_type == '7')
+            {
+                s.txtb_period = ""
+                
+                s.show_Automated = true;
+                s.leave_type_data = []
+                if ($("#ddl_name option:selected").val() != "")
+                {
+                    $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+                    h.post("../cLeaveLedger/ReloadBalances",
+                    {
+                        par_empl_id      : $("#ddl_name option:selected").val()
+                    }).then(function (d)
+                    {
+                        if (d.data.message == "success")
+                        {
+                            s.leave_type_data = d.data.data_all_bal
+                            for (var i = 0; i < d.data.data_all_bal.length; i++)
+                            {
+                                s.leave_type_data[i].balance = s.leave_type_data[i].leaveledger_balance_current
+                            }
+                            $('#modal_initializing').modal("hide");
+                        }
+                        else
+                        {
+                            swal("There Something wrong", d.data.message, { icon: "warning" });
+                            $('#modal_initializing').modal("hide");
+                        }
+                    })
+                }
             }
         }
         // Leave adjustment or Erroneous entry
@@ -2862,7 +2909,7 @@
     {
         var total_nbr_of_days = 0;
         // Automated Leave
-        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6') 
+        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6' || s.ddl_entry_type == '7') 
         {
             total_nbr_of_days = 0;
         }

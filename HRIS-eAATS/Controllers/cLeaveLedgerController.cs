@@ -613,11 +613,23 @@ namespace HRIS_eAATS.Controllers
                         db_ats.lv_ledger_dtl_tbl.Add(data_auto_vl);
                         db_ats.SaveChanges();
                 }
-                else if (data.leaveledger_entry_type == "6")
+                else if (data.leaveledger_entry_type == "6" )
                 {
                     foreach (var item in lv_dtl)
                     {
                         if (item.leaveledger_abs_und_wp != null)
+                        {
+                            item.ledger_ctrl_no                = new_appl_nbr[0];
+                            db_ats.lv_ledger_dtl_tbl.Add(item);
+                            db_ats.SaveChanges();
+                        }
+                    }
+                }
+                else if (data.leaveledger_entry_type == "7" )
+                {
+                    foreach (var item in lv_dtl)
+                    {
+                        if (item.leaveledger_balance_as_of != 0)
                         {
                             item.ledger_ctrl_no                = new_appl_nbr[0];
                             db_ats.lv_ledger_dtl_tbl.Add(item);
