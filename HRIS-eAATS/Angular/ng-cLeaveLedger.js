@@ -1954,8 +1954,8 @@
             var data2 = []
         }
 
-        // Automated Leave
-        if ($("#ddl_entry_type option:selected").val() == "1")
+        // Automated Leave & Erroneous entry
+        if ($("#ddl_entry_type option:selected").val() == "1" || $("#ddl_entry_type option:selected").val() == "5")
         {
             var data_auto_vl = {
 
@@ -2737,7 +2737,7 @@
         }
 
         // Automated Leave
-        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6' || s.ddl_entry_type == '7')
+        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6' || s.ddl_entry_type == '7' || s.ddl_entry_type == '5')
         {
             s.hide_txtb_restore_deduct_hdr  = true;
             s.hide_txtb_abs_und_wp_hdr      = true;
@@ -2823,7 +2823,7 @@
             }
         }
         // Leave adjustment or Erroneous entry
-        else if (s.ddl_entry_type == '3' || s.ddl_entry_type == '5')
+        else if (s.ddl_entry_type == '3' )
         {
             s.hide_txtb_restore_deduct_hdr  = false;
             s.hide_txtb_abs_und_wp_hdr      = false;
@@ -2909,12 +2909,12 @@
     {
         var total_nbr_of_days = 0;
         // Automated Leave
-        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6' || s.ddl_entry_type == '7') 
+        if (s.ddl_entry_type == '1' || s.ddl_entry_type == '6' || s.ddl_entry_type == '7' || s.ddl_entry_type == '5') 
         {
             total_nbr_of_days = 0;
         }
         // Leave adjustment
-        else if (s.ddl_entry_type == '3' || s.ddl_entry_type == '5') 
+        else if (s.ddl_entry_type == '3') 
         {
             // This Changes if for RA 292 - Dapat Dle maapil ang No of Days.
             if (s.ddl_leave_type == 'VL')

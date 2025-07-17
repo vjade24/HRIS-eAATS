@@ -549,7 +549,7 @@ namespace HRIS_eAATS.Controllers
                         // *************************************************************
                     }
                 }
-                else if (data.leaveledger_entry_type == "1") // Automated Leave
+                else if (data.leaveledger_entry_type == "1" || data.leaveledger_entry_type == "5") // Automated Leave & Erroneous entry
                 {
                     if (data.leavetype_code == "CTO")
                     {

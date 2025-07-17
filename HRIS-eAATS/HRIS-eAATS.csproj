@@ -1727,6 +1727,12 @@
       <DependentUpon>cryLeaveLedgerSummaryTerminal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger_Summary.cs">
+      <DependentUpon>cryLeaveLedger_Summary.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2975,6 +2981,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryDTRV2.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Reports\cryLeaveLedger\cryLeaveLedger_Summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedger_Summary.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="Reports\cryLeaveLedger\cryLeaveLedgerx.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedgerx.cs</LastGenOutput>
