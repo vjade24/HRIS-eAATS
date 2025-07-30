@@ -40,42 +40,27 @@
 
     <style type="text/css">
         .body-login {
-            padding: 5%;
-            /*background-image: url('../../ResourcesImages/DDO Building Blur.jpg');*/
-            background-image:url('../../ResourcesImages/bg-login-system.jpg');
+            height: 80vh;
+            background-image: radial-gradient(circle,rgba(33, 20, 1, 0.55) 0%, rgba(33, 20, 1, 0.54) 0%), url('../../ResourcesImages/DDO Building Blur.jpg');
             background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
         .screen-login {
-            /*background: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG') no-repeat;
+            background: radial-gradient(circle,rgba(89, 39, 1, 1) 0%, rgba(28, 15, 15, 1) 100%);
             background-size: contain;
-            box-shadow: 5px 10px 20px 0px #606060;
             padding: 15px !important;
-            background-color: #f3f3f3;
+            background-color: #592701;
             border-radius: 10px;
-            border: 1px solid #f5f5f5;*/
-            background: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG') no-repeat;
-            background-size: contain;
-            box-shadow: 5px 10px 20px 0px #606060;
-            padding: 15px !important;
-            background-color: #00419b;
-            background-image:url('../../ResourcesImages/bg-login-system.jpg');
-            border-radius: 10px;
-            border: 1px solid;
+            border: 1px solid #ECC925;
             z-index: 950;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
         }
-
-
-        /*.footer-login 
-        {
-            z-index: -1;
-            color: white;
-            bottom: 0;
-            left: 0;
-            position: absolute;
-            right: 0;
-        }*/
-
     </style>
 
 </head>
@@ -87,13 +72,13 @@
                 <img src="~/ResourcesImages/ddo logo.png" height="200" width="200" />
             </h1>
         </div>
-        <div style="font-size:14px;color:white;margin-top:10px;">
+        <div style="font-size:14px;color:#ECC925;margin-top:10px;">
             <small style="font-size:16px;font-weight:bolder">Welcome to</small>
             <small style="font-size:16px;font-weight:bolder">@Model.DVName  </small>
         </div>
-        <hr style="margin-top:4px;margin-bottom:4px;border-color:white;" />
-        <h2 style="margin-top:3px;color:white"><strong>HRIS - eAATS </strong></h2>
-        <hr style="margin-top:4px;margin-bottom:0px;border-color:white;" />
+        <hr style="margin-top:4px;margin-bottom:4px;border-color:#ECC925;" />
+        <h2 style="margin-top:3px;color:#ECC925"><strong>HRIS - eAATS </strong></h2>
+        <hr style="margin-top:4px;margin-bottom:0px;border-color:#ECC925;" />
         <form class="m-t" role="form" style="margin-top:4px;">
             <div class="form-group">
                 <label id="lbl_txtb_password_req" class="lbl_required text-center" style="width:100%;"></label>
@@ -107,7 +92,11 @@
             <button type="submit" ng-click="btn_Login_Submit()"  class="btn btn-primary block full-width "><i id="login_icon" class="fa fa-sign-in"></i> Login</button>
             <br />
         </form>
-        <p class="m-t-n text-white"> <small>Provincial Government of Davao de Oro &copy; @DateTime.Now.Year</small> </p>
+        <p class="m-t-n text-white">
+            <img src="~/ResourcesImages/capitol_line1.png" width="250" height="50" />
+            @*<img src="~/ResourcesImages/capitol gold.jpeg" width="250" height="40" />*@
+            <small class="small">Provincial Government of Davao de Oro &copy; @DateTime.Now.Year</small>
+        </p>
     </div>
     @*<div class="footer-login">
         <div style="width:50%;background-color:#00419b !important;padding:15px;border-top:10px solid #fd0906;border-radius: 0% 100% 0% 0% !important;">
