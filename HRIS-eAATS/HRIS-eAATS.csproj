@@ -252,11 +252,13 @@
     <Compile Include="Controllers\cLeaveTrackingController.cs" />
     <Compile Include="Controllers\cLeaveTransmittalController.cs" />
     <Compile Include="Controllers\cLeaveTypeController.cs" />
+    <Compile Include="Controllers\cLoyaltyController.cs" />
     <Compile Include="Controllers\cLWOPController.cs" />
     <Compile Include="Controllers\cMainPageController.cs" />
     <Compile Include="Controllers\cMonthEarnsController.cs" />
     <Compile Include="Controllers\cLeaveHistoryController.cs" />
     <Compile Include="Controllers\cRepForgot2PunchController.cs" />
+    <Compile Include="Controllers\cStepIncrementController.cs" />
     <Compile Include="Controllers\cTimeScheduleController.cs" />
     <Compile Include="Controllers\cTravelTypeController.cs" />
     <Compile Include="Controllers\cVLConversionDetailsController.cs" />
@@ -1208,6 +1210,7 @@
     <Compile Include="Models\sp_ss_auto_approval_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_stepincrement_rekon_list_Result.cs" />
     <Compile Include="Models\sp_timeentries_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1376,6 +1379,7 @@
     <Compile Include="Models\sp_vl_wop_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\step_reckoning_tbl.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1794,6 +1798,7 @@
     <Content Include="Angular\ng-cMainPage.js" />
     <Content Include="Angular\ng-cRepForgot2Punch.js" />
     <Content Include="Angular\ng-cASTDTRSupport.js" />
+    <Content Include="Angular\ng-cStepIncrement.js" />
     <Content Include="Angular\ng-cTimeSchedule.js" />
     <Content Include="Angular\ng-cTravelType.js" />
     <Content Include="Angular\ng-cVLConversionDetails.js" />
@@ -2792,6 +2797,8 @@
     <Content Include="Views\cLeaveCTOBalance\Index.cshtml" />
     <Content Include="Views\cLWOP\Index.cshtml" />
     <Content Include="Views\cBestInAttendance\Index.cshtml" />
+    <Content Include="Views\cLoyalty\Index.cshtml" />
+    <Content Include="Views\cStepIncrement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
