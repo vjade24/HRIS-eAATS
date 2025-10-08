@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HRIS_eAATS.Reports.cryCTONew {
+namespace HRIS_eAATS.Reports.cryForfeited {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -16,14 +16,14 @@ namespace HRIS_eAATS.Reports.cryCTONew {
     using CrystalDecisions.CrystalReports.Engine;
     
     
-    public class cryCTONew : ReportClass {
+    public class cryForfeited : ReportClass {
         
-        public cryCTONew() {
+        public cryForfeited() {
         }
         
         public override string ResourceName {
             get {
-                return "cryCTONew.rpt";
+                return "cryForfeited.rpt";
             }
             set {
                 // Do nothing
@@ -41,7 +41,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         public override string FullResourceName {
             get {
-                return "HRIS_eAATS.Reports.cryCTONew.cryCTONew.rpt";
+                return "HRIS_eAATS.Reports.cryForfeited.cryForfeited.rpt";
             }
             set {
                 // Do nothing
@@ -58,7 +58,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section Section2 {
+        public CrystalDecisions.CrystalReports.Engine.Section PageHeaderSection2 {
             get {
                 return this.ReportDefinition.Sections[1];
             }
@@ -66,7 +66,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection3 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section2 {
             get {
                 return this.ReportDefinition.Sections[2];
             }
@@ -74,7 +74,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection1 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupHeaderSection1 {
             get {
                 return this.ReportDefinition.Sections[3];
             }
@@ -82,7 +82,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection2 {
+        public CrystalDecisions.CrystalReports.Engine.Section Section3 {
             get {
                 return this.ReportDefinition.Sections[4];
             }
@@ -90,7 +90,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.CrystalReports.Engine.Section DetailSection4 {
+        public CrystalDecisions.CrystalReports.Engine.Section GroupFooterSection1 {
             get {
                 return this.ReportDefinition.Sections[5];
             }
@@ -114,7 +114,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_par_leave_ctrlno {
+        public CrystalDecisions.Shared.IParameterField Parameter_p_leave_year {
             get {
                 return this.DataDefinition.ParameterFields[0];
             }
@@ -122,25 +122,17 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         
         [Browsable(false)]
         [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_par_empl_id {
+        public CrystalDecisions.Shared.IParameterField Parameter_p_leavetype_code {
             get {
                 return this.DataDefinition.ParameterFields[1];
-            }
-        }
-        
-        [Browsable(false)]
-        [DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
-        public CrystalDecisions.Shared.IParameterField Parameter_par_view_mode {
-            get {
-                return this.DataDefinition.ParameterFields[2];
             }
         }
     }
     
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
-    public class CachedcryCTONew : Component, ICachedReport {
+    public class CachedcryForfeited : Component, ICachedReport {
         
-        public CachedcryCTONew() {
+        public CachedcryForfeited() {
         }
         
         [Browsable(false)]
@@ -177,7 +169,7 @@ namespace HRIS_eAATS.Reports.cryCTONew {
         }
         
         public virtual CrystalDecisions.CrystalReports.Engine.ReportDocument CreateReport() {
-            cryCTONew rpt = new cryCTONew();
+            cryForfeited rpt = new cryForfeited();
             rpt.Site = this.Site;
             return rpt;
         }

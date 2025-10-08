@@ -383,6 +383,10 @@ div.parent_required::before {
     border: 1px solid red;
 }
 
+.form-control.required-success {
+    border: 1px solid #1ab394;
+}
+
 .lbl_required {
     font-size: 10px;
     color: red;

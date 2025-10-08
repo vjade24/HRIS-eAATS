@@ -51,7 +51,7 @@
         background-color: #1AB394 !important;
     }
 </style>
-<section ng-app="ng_HRD_App" ng-controller="cRepForgot2Punch_ctrlr" class="with-background">
+<section ng-app="ng_HRD_App" ng-controller="cRepForgot2Punch_ctrlr" >
     <div class="wrapper wrapper-content animated fadeInRight div_content_override">
         <div class="row">
             <div class="col-lg-12">
@@ -68,43 +68,6 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-
-                        <div class="row hidden">
-                            <div class="col-sm-12">
-                                <hr style="margin-top:10px;margin-bottom:10px" />
-                            </div>
-                            <div class="col-sm-3" style="padding-top:5px">
-                                <label>Year :</label>
-                            </div>
-                            <div class="col-sm-3">
-                                <select class="form-control" id="ddl_payroll_year" ng-model="ddl_payroll_year">
-                                    <option value="">--Select Here--</option>
-                                    <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
-                                </select>
-                                <label id="lbl_year_req" class="lbl_required"></label>
-                            </div>
-                            <div class="col-sm-2" style="padding-top:5px">
-                                <label>Month :</label>
-                            </div>
-                            <div class="col-sm-4">
-                                <select class="form-control" id="ddl_month" ng-model="ddl_month">
-                                    <option value="">--Select Here--</option>
-                                    <option value="01">January</option>
-                                    <option value="02">February</option>
-                                    <option value="03">March</option>
-                                    <option value="04">April</option>
-                                    <option value="05">May</option>
-                                    <option value="06">June</option>
-                                    <option value="07">July</option>
-                                    <option value="08">August</option>
-                                    <option value="09">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                                <label id="lbl_month_req" class="lbl_required"></label>
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="col-sm-12">
@@ -144,7 +107,7 @@
                             <div class="col-sm-10">
                                 <select class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" style="width:100%;">
                                     <option value="">-- Employee Name --</option>
-                                    <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.employee_name}} - {{lst.empl_id}}</option>
+                                    <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}"> {{lst.employee_name}} - {{lst.empl_id}} </option>
                                 </select>
                                 <label id="lbl_period_from_req" class="lbl_required"></label>
                             </div>
@@ -177,23 +140,73 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="exchange_modal_title">{{Modal_title}}</h4>
                 </div>
-                <div class="modal-body with-background text-center" style="padding-bottom:15px;">
-                    <div class="form-horizontal">
-                        <div class="row margin-top">
-                            <div id="iframe_content" class="col-md-12">
-                                <div ng-show="loading_r">
-                                    <div class="spiner-example">
-                                        <div class="sk-spinner sk-spinner-chasing-dots">
-                                            <div class="sk-dot1"></div>
-                                            <div class="sk-dot2"></div>
+                <div class="modal-body" >
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1"> FORGOT TO PUNCH LIST</a></li>
+                            <li class=""><a data-toggle="tab" href="#tab-2" ng-show="empl_id !='' ? true : false">VIEW DTR</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="panel-body">
+                                    <div id="iframe_content" class="col-md-12">
+                                        <div ng-show="loading_r">
+                                            <div class="spiner-example">
+                                                <div class="sk-spinner sk-spinner-chasing-dots">
+                                                    <div class="sk-dot1"></div>
+                                                    <div class="sk-dot2"></div>
+                                                </div>
+                                            </div>
+                                            <h2><b>{{generate_message}}</b></h2>
+                                            <label class="text-right"><i class="fa fa-info-circle"></i><small> If it takes too long, you can refresh the page by Pressing Ctrl +F5 Key at the same Time.</small></label>
+                                        </div>
+                                        <center ng-show="!loading_r">
+                                            <iframe id="iframe_print_preview" name="iframe_print_preview" alt="Please Wait.. Initializing Report Source" src="" height="500vh" width="100%" style="border:0px none;"></iframe>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="tab-2" class="tab-pane">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-1" style="padding-top:5px">
+                                            <label>Year :</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" id="ddl_payroll_year" ng-model="ddl_payroll_year">
+                                                <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                            </select>
+                                            <label id="lbl_year_req" class="lbl_required"></label>
+                                        </div>
+                                        <div class="col-sm-1" style="padding-top:5px">
+                                            <label>Month :</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" id="ddl_month" ng-model="ddl_month">
+                                                <option value="">--Select Here--</option>
+                                                <option value="01">January</option>
+                                                <option value="02">February</option>
+                                                <option value="03">March</option>
+                                                <option value="04">April</option>
+                                                <option value="05">May</option>
+                                                <option value="06">June</option>
+                                                <option value="07">July</option>
+                                                <option value="08">August</option>
+                                                <option value="09">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                            <label id="lbl_month_req" class="lbl_required"></label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button id="add" class="btn btn-primary " ng-click="RefreshDTR_PrintOnly()"><i class="fa fa-print"> </i> Print Only</button>
+                                        </div>
+                                        <div class="col-lg-12 m-t-md">
+                                            <iframe style="border:0px none;" alt="Please Wait.. Initializing Report Source" src="" height="500vh" width="100%"  id="iframe_print_preview4" scrolling="no" src=""></iframe>
                                         </div>
                                     </div>
-                                    <h2><b>{{generate_message}}</b></h2>
-                                    <label class="text-right"><i class="fa fa-info-circle"></i><small> If it takes too long, you can refresh the page by Pressing Ctrl +F5 Key at the same Time.</small></label>
                                 </div>
-                                <center ng-show="!loading_r">
-                                    <iframe id="iframe_print_preview" name="iframe_print_preview" alt="Please Wait.. Initializing Report Source" src="" height="500vh" width="100%" style="border:10px #ffffff"></iframe>
-                                </center>
                             </div>
                         </div>
                     </div>

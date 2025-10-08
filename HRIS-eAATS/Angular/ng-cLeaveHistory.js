@@ -3,6 +3,7 @@
     var h = $http
     var cs = commonScript
     s.rowLen = "10";
+    s.log_empl_id = "";
 
 
     var ddate_from_to = new Date();
@@ -46,13 +47,14 @@
                 {
                     init_table_data([]);
                 }
-                
                 //**********************************************
                 //  Show/Hide ADD, EDIT, DELETE button 
                 //**********************************************
                 d.data.um.allow_add     == "1" ? s.ShowAdd    = true : s.ShowAdd = false;
                 d.data.um.allow_delete  == "1" ? s.ShowDelete = true : s.ShowDelete = false;
-                d.data.um.allow_edit    == "1" ? s.ShowEdit   = true : s.ShowEdit = false;
+                d.data.um.allow_edit    == "1" ? s.ShowEdit = true : s.ShowEdit = false;
+                s.log_empl_id = d.data.log_empl_id
+                console.log(d.data.log_empl_id)
                 $("#modal_generating_remittance").modal("hide");
             }
             else {
@@ -141,6 +143,7 @@
                 {
                     s.oTable.fnAddData(d.data.data);
                 }
+                
                 $('#modal_generating_remittance').modal("hide")
             }
         })

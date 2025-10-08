@@ -33,8 +33,8 @@ namespace HRIS_eAATS.Models
         public string oth_wp { get; set; }
         public string oth_bal { get; set; }
         public string oth_wop { get; set; }
-        public string leaveledger_date { get; set; }
-        public string date_applied { get; set; }
+        public System.DateTime leaveledger_date { get; set; }
+        public System.DateTime date_applied { get; set; }
         public string leaveledger_entry_type { get; set; }
         public string sig_name3_ovrd { get; set; }
         public string sig_pos3_ovrd { get; set; }
@@ -46,13 +46,18 @@ namespace HRIS_eAATS.Models
         public string leave_ctrlno { get; set; }
         public string approval_id { get; set; }
         public string details_remarks { get; set; }
-        public string day_of_service { get; set; }
+        public System.DateTime day_of_service { get; set; }
         public Nullable<System.DateTime> leaveledger_date_rep { get; set; }
         public string lwop_date { get; set; }
         public string lwop_body_1 { get; set; }
         public string lwop_body_2 { get; set; }
         public string appl_status { get; set; }
         public string appl_remarks { get; set; }
-        public Nullable<decimal> lv_nodays { get; set; }
+        public decimal lv_nodays { get; set; }
+        public Nullable<System.DateTime> leaveledger_period_actual { get; set; }
+        public Nullable<System.DateTime> created_dttm { get; set; }
+        public int nbr_quarter { get; set; }
+        public string hr_head_name { get; set; }
+        public string hr_head_desig { get; set; }
     }
 }

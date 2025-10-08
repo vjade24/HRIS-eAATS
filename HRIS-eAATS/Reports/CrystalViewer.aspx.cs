@@ -309,7 +309,7 @@ namespace HRIS_eAATS.Reports
                 crvPrint.ReportSource = cryRpt;
                 crvPrint.DataBind();
 
-                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report")
+                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() != "3")
                 {
                     // VJA - 2024-10-24 - Sub-Report for Summary of Leave
                     var session_empl_id = Session["empl_id"].ToString();
@@ -330,6 +330,10 @@ namespace HRIS_eAATS.Reports
                         // If the report only has one page, just show the first page
                         crvPrint.ShowFirstPage();
                     }
+                }
+                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() == "3")
+                {
+                    crvPrint.ShowLastPage();
                 }
 
                 PrinterSettings settings = new PrinterSettings();               

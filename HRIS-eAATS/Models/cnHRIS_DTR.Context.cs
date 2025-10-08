@@ -34,6 +34,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<bio_machine_info_tbl> bio_machine_info_tbl { get; set; }
         public virtual DbSet<vw_personnelnames_tbl_DTR> vw_personnelnames_tbl_DTR { get; set; }
         public virtual DbSet<dtr_from_bio_tbl> dtr_from_bio_tbl { get; set; }
+        public virtual DbSet<dtr_bio_extract2> dtr_bio_extract2 { get; set; }
     
         public virtual int sp_adjust_biodata_2dtr_stg(Nullable<long> p_process_nbr, string p_user_id)
         {
@@ -750,6 +751,19 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_extract_type", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_extract_process_Result>("sp_extract_process", p_empl_idParameter, p_start_dateParameter, p_last_dateParameter, p_filenameParameter, p_yearParameter, p_monthParameter, p_user_idParameter, p_extract_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_time_out_ot_list_Result> sp_time_out_ot_list(string par_empl_id, Nullable<System.DateTime> par_bio_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_bio_dateParameter = par_bio_date.HasValue ?
+                new ObjectParameter("par_bio_date", par_bio_date) :
+                new ObjectParameter("par_bio_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_out_ot_list_Result>("sp_time_out_ot_list", par_empl_idParameter, par_bio_dateParameter);
         }
     }
 }

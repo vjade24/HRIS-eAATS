@@ -519,7 +519,7 @@ namespace HRIS_eAATS.Controllers
                 var approval_status = "L";
                 var user_id         = Session["user_id"].ToString();
 
-                var chk         = db_ats.lv_ledger_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno && a.approval_status == "F").OrderByDescending(a=> a.created_dttm).FirstOrDefault();
+                var chk         = db_ats.lv_ledger_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno && (a.approval_status == "F" || a.approval_status == "S")).OrderByDescending(a=> a.created_dttm).FirstOrDefault();
                 var lv_appl     = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).FirstOrDefault();
 
                 if (chk != null)

@@ -143,8 +143,89 @@ namespace HRIS_eAATS.Controllers
                 //var all_appl = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).ToList().OrderBy(a => a.transaction_code);
                 //var trans_lst = db_ats.vw_all_applications.Where(a => a.empl_id == p_empl_id).GroupBy(a => a.transaction_code).ToList();
                 var data = db_dtr.sp_dtr_from_bio_tbl_list3(p_empl_id, p_year, p_month).ToList();
+                
+                var trnsmt =  from a in db_ats.empl_dtr_hdr_tbl
+                              join b in db_ats.vw_personnelnames_tbl_HRIS_ATS 
+                                on a.frst_qcna_posted_by.Replace("U", "") equals b.empl_id into frstJoin
+                            from b in frstJoin.DefaultIfEmpty()
+                            join c in db_ats.vw_personnelnames_tbl_HRIS_ATS
+                                on a.sec_qcna_posted_by.Replace("U", "") equals c.empl_id into secJoin
+                            from c in secJoin.DefaultIfEmpty()
+                            where a.empl_id == p_empl_id
+                                && a.dtr_year == p_year
+                                && a.dtr_month == p_month
+                                && (!string.IsNullOrEmpty(a.frst_qcna_posted_by) || !string.IsNullOrEmpty(a.sec_qcna_posted_by))
+                            select new 
+                            {
+                                 a.dtr_order_no
+                                ,a.dtr_year
+                                ,a.dtr_month
+                                ,a.department_code
+                                ,a.approval_status
+                                ,a.approval_id
+                                ,a.approved_date
+                                ,a.remarks
+                                ,a.empl_id
+                                ,a.created_ddtm
+                                ,a.created_by
+                                ,a.updated_ddtm
+                                ,a.updated_by
+
+                                ,frst_employee_name = b.employee_name
+                                ,a.frst_qcna_posted_ddtm
+                                ,a.frst_qcna_posted_by
+
+                                ,sec_employee_name = c.employee_name
+                                ,a.sec_qcna_posted_ddtm
+                                ,a.sec_qcna_posted_by
+                                ,a.post_status
+
+                            };
+
+                var trnsmt_list = from a in db_ats.dtr_transmittal_hdr_tbl
+                                  join d in db_ats.vw_approvalstatus_tbl
+                                    on a.approval_status equals d.approval_status into status_descr
+                                    from d in status_descr.DefaultIfEmpty()
+                                  join b in db_ats.dtr_transmittal_dtl_tbl
+                                      on a.transmittal_nbr equals b.transmittal_nbr
+                                  join c in db_ats.vw_personnelnames_tbl_HRIS_ATS
+                                      on a.created_by.Replace("U", "") equals c.empl_id into createdJoin
+                                  from c in createdJoin.DefaultIfEmpty()
+                                  where a.dtr_year == p_year
+                                      && a.dtr_month == p_month
+                                      && b.empl_id == p_empl_id
+                                  select new
+                                  {
+                                      a.transmittal_nbr,
+                                      a.approval_status,
+                                      d.approval_status_descr,
+                                      view_type_descr = a.view_type == "0" ? "Whole month" :
+                                                        a.view_type == "1" ? "1st Quincena" :
+                                                        a.view_type == "2" ? "2nd Quincena" : "--",
+                                      transmittal_type = a.transmittal_type ?? "",
+                                      transmittal_type_descr = (a.transmittal_type ?? "") == "H" ? "Other Purpose" :
+                                                               (a.transmittal_type ?? "") == "O" ? "For Overtime" :
+                                                               (a.transmittal_type ?? "") == "P" ? "For Payroll" :
+                                                               (a.transmittal_type ?? "") == "R" ? "Salary Requirements" :
+                                                               (a.transmittal_type ?? "") == "F" ? "Request for Refund Form" :
+                                                               (a.transmittal_type ?? "") == "S" ? "For Hazard, Subsistence and Laundry" : "--",
+                                      a.dtr_year,
+                                      a.dtr_month,
+                                      a.created_by,
+                                      a.created_dttm,
+                                      created_name = c.employee_name
+                                  };
+
+                //var peopleWithFullName = db.vw_personnelnames_tbl
+                //                        .Select(p => new
+                //                        {
+                //                            Id = p.empl_id,
+                //                            FullName = db_ats.func_get_date_applied_leave_application(p.empl_id)
+                //                        })
+                //                        .ToList();
+
                 message = "success";
-                return JSON(new { data ,message }, JsonRequestBehavior.AllowGet);
+                return JSON(new { data ,message , trnsmt, trnsmt_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -175,6 +256,8 @@ namespace HRIS_eAATS.Controllers
                     upd.dtr_status         = data.dtr_status  == null ? "" : data.dtr_status  ;     
                     upd.processed_by_user  = Session["user_id"].ToString();
                     upd.processed_dttm     = DateTime.Now;
+                    upd.time_out_ot        = data.time_out_ot == null ? "" : data.time_out_ot;
+                    upd.time_in_ot         = data.time_in_ot == null ? "" : data.time_in_ot;
                     db_dtr.SaveChanges();
                 }
                 else
@@ -190,7 +273,8 @@ namespace HRIS_eAATS.Controllers
                     data.dtr_status         = data.dtr_status  == null ? "" : data.dtr_status; ;
                     data.processed_by_user  = Session["user_id"].ToString();
                     data.processed_dttm     = DateTime.Now;
-
+                    data.time_out_ot        = data.time_out_ot == null ? "" : data.time_out_ot;
+                    data.time_in_ot         = data.time_in_ot == null ? "" : data.time_in_ot;
                     db_dtr.dtr_from_bio_tbl.Add(data);
                     db_dtr.SaveChanges();
                 }
@@ -212,9 +296,10 @@ namespace HRIS_eAATS.Controllers
             var message = "";
             try
             {
-                var data = db_dtr.sp_dtr_bio_extract_list(par_empl_id, par_bio_date).ToList();
+                var data            = db_dtr.sp_dtr_bio_extract_list(par_empl_id, par_bio_date).ToList();
+                var lst_time_out   = db_dtr.sp_time_out_ot_list(par_empl_id, DateTime.Parse(par_bio_date).Date).ToList();
                 message = "success";
-                return JSON(new { data, message }, JsonRequestBehavior.AllowGet);
+                return JSON(new { data, message, lst_time_out }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -592,6 +677,7 @@ namespace HRIS_eAATS.Controllers
                                 ,b.empl_photo_img
                                 ,c.position_long_title
                                 ,d.department_short_name
+                                ,d.department_code
                            };
 
                 return Json(new { data }, JsonRequestBehavior.AllowGet);
@@ -601,7 +687,7 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { data = ""}, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
 
     }
 }
