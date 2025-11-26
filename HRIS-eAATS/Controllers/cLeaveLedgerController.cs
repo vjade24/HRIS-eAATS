@@ -1524,7 +1524,7 @@ namespace HRIS_eAATS.Controllers
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
-                var data = db_ats.sp_lv_empl_lst_wout_jo_yr_mt(par_department_code, par_employment_type, par_year, par_month).ToList().Take(3);
+                var data = db_ats.sp_lv_empl_lst_wout_jo_yr_mt(par_department_code, par_employment_type, par_year, par_month).ToList().Take(1);
 
                 
                 // Database credentials
@@ -1534,7 +1534,7 @@ namespace HRIS_eAATS.Controllers
                 string dbPassword   = "SystemAdmin_PRD123";
 
                 string basePath       = AppDomain.CurrentDomain.BaseDirectory;
-                string reportPath     = Path.Combine(basePath, "Reports/cryLeaveLedger/cryLeaveLedgerx.rpt");
+                string reportPath     = Path.Combine(basePath, "Reports/cryLeaveLedger/cryLeaveLedger_test.rpt");
                 string exportFolder   = Path.Combine(basePath, "ExportedFiles");
 
                 // Ensure export folder exists
@@ -1543,10 +1543,7 @@ namespace HRIS_eAATS.Controllers
 
                 DateTime dateFrom = new DateTime(2021, 1, 1);
                 DateTime dateTo   = new DateTime(2025, 12, 31);
-
-                // If subreport name is literal, hardcode it here
-                string subReportName = "cryLeaveLedgerSummary";
-
+                
                 foreach (var item in data)
                 {
                     try
@@ -1554,7 +1551,7 @@ namespace HRIS_eAATS.Controllers
                         ReportDocument report = new ReportDocument();
                         report.Load(reportPath);
 
-                        // ✅ Set DB login for all tables in main report
+                        // DB login for all tables in main report
                         report.SetDatabaseLogon(dbUser, dbPassword, dbServer, dbName);
                         foreach (Table table in report.Database.Tables)
                         {
@@ -1566,28 +1563,39 @@ namespace HRIS_eAATS.Controllers
                             table.ApplyLogOnInfo(logonInfo);
                         }
 
-                        foreach (ReportDocument sub in report.Subreports)
-                        {
-                            Console.WriteLine("Subreport name: " + sub.Name);
-                        }
-
-                        // ✅ Parameters - Main Report
+                        // Set main report parameters (NO @)
                         report.SetParameterValue("@p_empl_id", item.empl_id);
                         report.SetParameterValue("@p_date_fr", dateFrom);
                         report.SetParameterValue("@p_date_to", dateTo);
                         report.SetParameterValue("@p_rep_mode", "2");
 
-                        // ✅ Parameters - Subreport
-                        //report.SetParameterValue("@p_empl_id", item.empl_id, subReportName);
-                        //report.SetParameterValue("@p_date_fr", "2021-01-01", subReportName);
-                        //report.SetParameterValue("@p_date_to", "2025-12-31", subReportName);
-                        //report.SetParameterValue("@p_rep_mode", "2", subReportName);
-                        //report.SetParameterValue("@p_prepared_empl_id", "U8314", subReportName);
+                        // ✅ Also set DB logon for all subreport tables
+                        foreach (ReportDocument sub in report.Subreports)
+                        {
+                            foreach (Table subTable in sub.Database.Tables)
+                            {
+                                TableLogOnInfo subLogonInfo = subTable.LogOnInfo;
+                                subLogonInfo.ConnectionInfo.ServerName = dbServer;
+                                subLogonInfo.ConnectionInfo.DatabaseName = dbName;
+                                subLogonInfo.ConnectionInfo.UserID = dbUser;
+                                subLogonInfo.ConnectionInfo.Password = dbPassword;
+                                subTable.ApplyLogOnInfo(subLogonInfo);
+                            }
+                        }
 
-                        // ✅ Export to PDF
-                        string fileName    = $"LeaveLedger_{item.empl_id}.pdf";
-                        string exportPath  = Path.Combine(exportFolder, fileName);
+                        // Subreport name (MUST match the one from Subreports collection)
+                        string subReportName = "testsub"; // no .rpt
 
+                        // Set subreport parameters (NO @)
+                        report.SetParameterValue("@p_empl_id",item.empl_id, subReportName);
+                        report.SetParameterValue("@p_date_fr", "2021-01-01", subReportName);
+                        report.SetParameterValue("@p_date_to", "2025-12-31", subReportName);
+                        report.SetParameterValue("@p_rep_mode", "2", subReportName);
+                        report.SetParameterValue("@p_prepared_empl_id", "U8314", subReportName);
+
+                        // Export to PDF
+                        string fileName = $"LeaveLedger_{item.empl_id}.pdf";
+                        string exportPath = Path.Combine(exportFolder, fileName);
                         report.ExportToDisk(ExportFormatType.PortableDocFormat, exportPath);
 
                         report.Close();

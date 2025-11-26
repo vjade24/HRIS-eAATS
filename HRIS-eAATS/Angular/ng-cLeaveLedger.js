@@ -446,10 +446,12 @@
                                 var btn_print   = '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_print_leave_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO Form"><i class="fa fa-print"></i></button>'
                                 var btn_delete  = '<button type="button" class="btn btn-danger btn-xs"  disabled data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>'
                                 var btn_edit    = '<button type="button" class="btn btn-success btn-xs" disabled data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >'
+                                var btn_view    = '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_view(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View History">  <i class="fa fa-eye"></i></button >'
 
                                 if ((full["approval_status"] == 'D' || full["approval_status"] == 'L' || full["leaveledger_entry_type"] == 'T') || (full["leaveledger_entry_type"] != '2' && full["leavetype_code"] != "CTO"))
                                 {
                                     btn_print = '<button type="button" class="btn btn-primary btn-xs" disabled><i class="fa fa-print"></i></button>'
+                                    btn_view  = '<button type="button" class="btn btn-warning btn-xs" disabled><i class="fa fa-eye"></i></button>'
                                 }
                                 
                                 
@@ -461,6 +463,7 @@
                                 }
                                 
                                 return '<center><div class="btn-group">' +
+                                             btn_view   +
                                              btn_edit   +
                                              btn_delete +
                                              btn_print  +
@@ -1085,18 +1088,18 @@
                     s.txtb_empl_name      = $("#ddl_name option:selected").html().substring(6, $("#ddl_name option:selected").html().length);
                     s.SelectEntryType();
 
-                    var p_empl_id       = $("#ddl_name option:selected").val()
-                    var p_date_fr       = $("#txtb_date_fr").val()
-                    var p_date_to       = $("#txtb_date_to").val()
-                    var p_report_type   = "LEAVE";
-                    var par_rep_mode    = "2";
-                    if (s.ddl_leave_type == "CTO" || s.ddl_rep_mode == "3")
-                    {
-                        p_report_type   = "CTO";
-                        par_rep_mode    = "3";
-                    }
-                    var par_iframe_id = "iframe_print_preview_carding_review"
-                    s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type, par_iframe_id)
+                    //var p_empl_id       = $("#ddl_name option:selected").val()
+                    //var p_date_fr       = $("#txtb_date_fr").val()
+                    //var p_date_to       = $("#txtb_date_to").val()
+                    //var p_report_type   = "LEAVE";
+                    //var par_rep_mode    = "2";
+                    //if (s.ddl_leave_type == "CTO" || s.ddl_rep_mode == "3")
+                    //{
+                    //    p_report_type   = "CTO";
+                    //    par_rep_mode    = "3";
+                    //}
+                    //var par_iframe_id = "iframe_print_preview_carding_review"
+                    //s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type, par_iframe_id)
 
                     $('#main_modal').modal({ backdrop: 'static', keyboard: false });
                 }
@@ -1349,17 +1352,17 @@
                     // **************************************************************************
                     // **************************************************************************
 
-                    var p_empl_id = s.datalistgrid2[row_id].empl_id
-                    var p_date_fr = $("#txtb_date_fr").val()
-                    var p_date_to = $("#txtb_date_to").val()
-                    var p_report_type = "LEAVE";
-                    var par_rep_mode = "2";
-                    if (s.datalistgrid2[row_id].leave_type_code == "CTO") {
-                        p_report_type = "CTO";
-                        par_rep_mode = "3";
-                    }
-                    var par_iframe_id = "iframe_print_preview_carding_review"
-                    s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type,par_iframe_id)
+                    //var p_empl_id = s.datalistgrid2[row_id].empl_id
+                    //var p_date_fr = $("#txtb_date_fr").val()
+                    //var p_date_to = $("#txtb_date_to").val()
+                    //var p_report_type = "LEAVE";
+                    //var par_rep_mode = "2";
+                    //if (s.datalistgrid2[row_id].leave_type_code == "CTO") {
+                    //    p_report_type = "CTO";
+                    //    par_rep_mode = "3";
+                    //}
+                    //var par_iframe_id = "iframe_print_preview_carding_review"
+                    //s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type,par_iframe_id)
                     $('#modal_initializing').modal("hide");
                     $('#main_modal').modal({ backdrop: 'static', keyboard: false })
                 }
@@ -3719,6 +3722,7 @@
 
     s.RetrieveCardingReport = function (par_empl_id, par_date_from, par_date_to, par_rep_mode, print_mode,iframe_id)
     {
+        $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
         // *******************************************************
         // *******************************************************
         var empl_id     = par_empl_id;
@@ -3782,6 +3786,38 @@
             };
         }
         iframe.src = s.embed_link;
+
+        // For modern browsers
+        iframe.onload = function ()
+        {
+            try {
+                // Check if iframe contains content
+                var doc = iframe.contentDocument || iframe.contentWindow.document;
+
+                // Checking if the report failed (e.g., 404 or blank)
+                if (!doc || doc.body.innerHTML.trim() === "") {
+                    swal("Error", "The report failed to load.", "warning");
+                    iframe.style.visibility = "hidden";
+                } else {
+                    iframe.style.visibility = "visible";
+                    $("#modal_initializing").modal("hide")
+                }
+            } catch (e) {
+                // Cross-domain safety fallback
+                iframe.style.visibility = "visible";
+                $("#modal_initializing").modal("hide")
+            }
+        };
+
+        // Optional for IE fallback
+        iframe.onreadystatechange = function () {
+            if (iframe.readyState === "complete") {
+                iframe.style.visibility = "visible";
+                $("#modal_initializing").modal("hide")
+            }
+        };
+
+        
         // *******************************************************
         // *******************************************************
 
@@ -4177,6 +4213,50 @@
                 swal(d.data.message, { icon: "warning", });
             }
         });
+    }
+    s.btn_view = function (row)
+    {
+        s.data_history = [];
+        h.post("../cLeaveLedger/Retrieve_LeaveHistory", { leave_ctrlno: s.datalistgrid[row].leave_ctrlno, empl_id: s.datalistgrid[row].empl_id}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                s.data_history = d.data.data
+                console.log(s.data_history)
+                var to_append  = "";
+                $("#history_view").html("");
+                for (var i = 0; i < s.data_history.length; i++)
+                {
+                    s.data_history[i].create_dttm_descr  = moment(s.data_history[i].created_dttm).format("LLLL")
+                    s.data_history[i].create_dttm_ago    = moment(s.data_history[i].created_dttm).fromNow()
+                    var temp_append = "";
+                    var temp = moment();
+                    temp_append = '<div class="feed-element">'+
+                                       '<div class="pull-left">'+
+                                         '<div class="img-circle">' +
+                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U","") + '?v=' + temp)+' " />'+
+                                        '</div>'+
+                                       '</div>'+
+                                        '<div class="media-body ">'+
+                                            '<small class="pull-right" style="padding-left:10px !important">' + s.data_history[i].create_dttm_ago+'</small>'+
+                                            s.data_history[i].appl_status+' by <strong>'+ s.data_history[i].employee_name_format_2+'</strong>'+
+                                            '<small class="text-muted">on '+ s.data_history[i].create_dttm_descr+'</small>'+
+                                        '</div>'+
+                                    '</div>';
+
+                    to_append = to_append + temp_append;
+                }
+                $("#history_view").append($compile(to_append)($scope));
+                
+                $('#view_modal').modal({ backdrop: 'static', keyboard: false });
+            }
+            else
+            {
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
+
+
     }
     //*********************************************************************************************************
     // ************************ END OF CODE *******************************************************************

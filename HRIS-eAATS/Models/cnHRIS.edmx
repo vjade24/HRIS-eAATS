@@ -29,6 +29,27 @@
           <Property Name="designation_head2" Type="varchar" MaxLength="100" />
           <Property Name="function_code" Type="varchar" MaxLength="8" />
           <Property Name="department_proper_name" Type="varchar" MaxLength="100" />
+          <Property Name="office_email" Type="varchar" MaxLength="300" />
+          <Property Name="contact_number" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="payrollemployeemaster_asg_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" />
+          <Property Name="fund_code" Type="varchar" MaxLength="8" />
+          <Property Name="upd_master_flag" Type="bit" />
+          <Property Name="phic_flag" Type="bit" />
+          <Property Name="ss_appl_flag" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -461,6 +482,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
         <EntityContainer Name="HRIS_PAYModelStoreContainer">
           <EntitySet Name="approvalstatus_tbl" EntityType="Self.approvalstatus_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payrollemployeemaster_asg_tbl" EntityType="Self.payrollemployeemaster_asg_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_pos_tbl" EntityType="Self.payrollemployeemaster_pos_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnelstatutory_tbl" EntityType="Self.personnelstatutory_tbl" Schema="dbo" store:Type="Tables" />
@@ -684,6 +706,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="vw_payrollemployeemaster_hdr_pos_tbl" EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl" />
           <EntitySet Name="user_prime_token_tbl" EntityType="HRIS_PAYModel.user_prime_token_tbl" />
           <EntitySet Name="personnelstatutory_tbl" EntityType="HRIS_PAYModel.personnelstatutory_tbl" />
+          <EntitySet Name="payrollemployeemaster_asg_tbl" EntityType="HRIS_PAYModel.payrollemployeemaster_asg_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -953,6 +976,8 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="designation_head2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="department_proper_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="office_email" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="contact_number" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="usersprofile_tbl">
           <Key>
@@ -1172,6 +1197,25 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="date_place_issuance" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="printing_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="payrollemployeemaster_asg_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="effective_date" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="fund_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="upd_master_flag" Type="Boolean" />
+          <Property Name="phic_flag" Type="Boolean" />
+          <Property Name="ss_appl_flag" Type="Boolean" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1402,6 +1446,8 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySetMapping Name="departments_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.departments_tbl">
               <MappingFragment StoreEntitySet="departments_tbl">
+                <ScalarProperty Name="contact_number" ColumnName="contact_number" />
+                <ScalarProperty Name="office_email" ColumnName="office_email" />
                 <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
                 <ScalarProperty Name="function_code" ColumnName="function_code" />
                 <ScalarProperty Name="designation_head2" ColumnName="designation_head2" />
@@ -1631,6 +1677,24 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
                 <ScalarProperty Name="stat_ques34_dtl" ColumnName="stat_ques34_dtl" />
                 <ScalarProperty Name="stat_ques34b" ColumnName="stat_ques34b" />
                 <ScalarProperty Name="stat_ques34a" ColumnName="stat_ques34a" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payrollemployeemaster_asg_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.payrollemployeemaster_asg_tbl">
+              <MappingFragment StoreEntitySet="payrollemployeemaster_asg_tbl">
+                <ScalarProperty Name="ss_appl_flag" ColumnName="ss_appl_flag" />
+                <ScalarProperty Name="phic_flag" ColumnName="phic_flag" />
+                <ScalarProperty Name="upd_master_flag" ColumnName="upd_master_flag" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -12,21 +12,19 @@ namespace HRIS_eAATS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class departments_tbl
+    public partial class payrollemployeemaster_asg_tbl
     {
+        public string empl_id { get; set; }
+        public string employment_type { get; set; }
         public System.DateTime effective_date { get; set; }
         public string department_code { get; set; }
-        public string department_short_name { get; set; }
-        public string department_name1 { get; set; }
-        public string department_name2 { get; set; }
-        public Nullable<int> sort_order_dept { get; set; }
-        public Nullable<int> print_group { get; set; }
-        public string empl_id { get; set; }
-        public string designation_head1 { get; set; }
-        public string designation_head2 { get; set; }
+        public string subdepartment_code { get; set; }
+        public string division_code { get; set; }
+        public string section_code { get; set; }
         public string function_code { get; set; }
-        public string department_proper_name { get; set; }
-        public string office_email { get; set; }
-        public string contact_number { get; set; }
+        public string fund_code { get; set; }
+        public Nullable<bool> upd_master_flag { get; set; }
+        public Nullable<bool> phic_flag { get; set; }
+        public Nullable<bool> ss_appl_flag { get; set; }
     }
 }

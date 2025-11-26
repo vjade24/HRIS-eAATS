@@ -665,6 +665,9 @@
     <Compile Include="Models\ot_request_purpose_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payrollemployeemaster_asg_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\payrollemployeemaster_hdr_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -927,7 +930,7 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_dept_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_without_jo1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1416,7 +1419,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_user_menu_access_role_list_ATS_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1726,6 +1729,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLeaveLedgerSummaryTerminal.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger_test.cs">
+      <DependentUpon>cryLeaveLedger_test.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger_Summary.cs">
       <DependentUpon>cryLeaveLedger_Summary.rpt</DependentUpon>
@@ -2594,6 +2603,8 @@
     <Content Include="Reports\CrystalViewer.aspx" />
     <Content Include="ResourcesImages\add_background.png" />
     <Content Include="ResourcesImages\bg-login-system.jpg" />
+    <Content Include="ResourcesImages\capitol_line.png" />
+    <Content Include="ResourcesImages\capitol_line1.png" />
     <Content Include="ResourcesImages\Davao de Oro Provincial Capitol Building.JPG" />
     <Content Include="ResourcesImages\DDO Building Blur.jpg" />
     <Content Include="ResourcesImages\DDO Building Blury Gold.jpg" />
@@ -2985,6 +2996,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedger_Summary.cs</LastGenOutput>
     </Content>
+    <Content Include="Reports\cryLeaveLedger\cryLeaveLedger_test.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedger_test.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="Reports\cryLeaveLedger\cryLeaveLedgerx.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedgerx.cs</LastGenOutput>
@@ -2993,6 +3008,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>LeaveLedgerCard1.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Reports\cryTravelOrderPerEmployeeReport\cryTravelOrderPerEmployeeReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryTravelOrderPerEmployeeReport1.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -507,44 +507,7 @@
     }
     s.btn_action_dtl = function (action, data,row_id)
     {
-        if (!action == "print_to")
-        {
-            swal({
-                title       : "Are you sure to "+action+" this record?" + " \n " + data.employee_name,
-                text        : "Once "+action+", you will not be able to recover this record!",
-                icon        : "warning",
-                buttons     : true,
-            }).then(function (willContinue)
-            {
-                data.transmittal_nbr = s.form.transmittal_nbr
-                if (willContinue)
-                {
-                    h.post("../cBestInAttendance/DetailAction",
-                    {
-                        action  : action
-                        ,data   : data
-                    }).then(function (d) 
-                    {
-                        if (d.data.message == "success")
-                        {
-                            if (action == "delete")
-                            {
-                                if (row_id != -1)
-                                {
-                                    s.dtl.splice(row_id, 1);
-                                }
-                            }
-                            swal("Your record has been "+action+"!", { icon: "success", });
-                        }
-                        else
-                        {
-                            swal(d.data.message, { icon: "warning", });
-                        }
-                    })
-                }
-            });
-        }
-        else
+        if (action == "print_to")
         {
             swal({
                 title: "Select Year and Month",
@@ -595,6 +558,38 @@
 
                 }
             });
+        }
+        else
+        {
+            swal({
+                title: "Are you sure to " + action + " this record?" + " \n " + data.employee_name,
+                text: "Once " + action + ", you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+            }).then(function (willContinue) {
+                data.transmittal_nbr = s.form.transmittal_nbr
+                if (willContinue) {
+                    h.post("../cBestInAttendance/DetailAction",
+                        {
+                            action: action
+                            , data: data
+                        }).then(function (d) {
+                            if (d.data.message == "success") {
+                                if (action == "delete") {
+                                    if (row_id != -1) {
+                                        s.dtl.splice(row_id, 1);
+                                    }
+                                }
+                                swal("Your record has been " + action + "!", { icon: "success", });
+                            }
+                            else {
+                                swal(d.data.message, { icon: "warning", });
+                            }
+                        })
+                }
+            });
+
+            
         }
     }
     s.FilterGrid = function ()
