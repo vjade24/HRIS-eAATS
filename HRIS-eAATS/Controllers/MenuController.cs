@@ -1,6 +1,7 @@
 ﻿using HRIS_eAATS.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -444,11 +445,12 @@ namespace HRIS_eAATS.Controllers
                         //    lv_hdr.approval_status = "L";
                         //    lv_dtl.ForEach(a => a.rcrd_status = "L");
                         //}
+                        
+                        var cancel_count = 0;
+                        var days_count   = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => DbFunctions.DiffDays(DbFunctions.TruncateTime(x.leave_date_from),DbFunctions.TruncateTime(x.leave_date_to)) + 1);
+                        //days_count     = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => (x.leave_date_to.Date - x.leave_date_from.Date).Days + 1);
 
-                        double days_count   = 0;
-                        double cancel_count = 0;
-                        days_count          = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => (x.leave_date_to.Date - x.leave_date_from.Date).Days + 1);
-                        cancel_count        = db_ats.leave_application_cancel_tbl.Where(x => x.leave_ctrlno == p_leave_ctrlno && x.empl_id == p_empl_id).Count(x => x.empl_id != null);
+                        cancel_count = db_ats.leave_application_cancel_tbl.Where(x => x.leave_ctrlno == p_leave_ctrlno && x.empl_id == p_empl_id).Count(x => x.empl_id != null);
 
                         if (days_count == cancel_count)
                         {
