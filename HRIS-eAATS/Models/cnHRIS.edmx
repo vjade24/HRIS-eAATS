@@ -29,6 +29,28 @@
           <Property Name="designation_head2" Type="varchar" MaxLength="100" />
           <Property Name="function_code" Type="varchar" MaxLength="8" />
           <Property Name="department_proper_name" Type="varchar" MaxLength="100" />
+          <Property Name="office_email" Type="varchar" MaxLength="300" />
+          <Property Name="contact_number" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="newstepincrement_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="date_generated" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="date_generated" Type="date" Nullable="false" />
+          <Property Name="date_of_effectivity" Type="date" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" />
+          <Property Name="step_increment_new" Type="int" />
+          <Property Name="approval_status" Type="varchar" MaxLength="1" />
+          <Property Name="posting_status" Type="bit" />
+          <Property Name="approval_id" Type="varchar" MaxLength="15" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" />
+          <Property Name="created_by_user" Type="varchar" MaxLength="30" />
+          <Property Name="updated_by_user" Type="varchar" MaxLength="30" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="step_type" Type="varchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -160,6 +182,62 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="department_code" Type="varchar" MaxLength="2" />
           <Property Name="printing_date" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="plantilla_tbl">
+          <Key>
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="item_no_old" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" />
+          <Property Name="fund_code" Type="varchar" MaxLength="8" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" />
+          <Property Name="step_increment_cy" Type="tinyint" />
+          <Property Name="annual_salary_cy" Type="money" />
+          <Property Name="step_increment_ny" Type="tinyint" />
+          <Property Name="annual_salary_ny" Type="money" />
+          <Property Name="next_step_increment_eff_date" Type="date" />
+          <Property Name="step_increment_annual_amount" Type="money" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="daily_rate" Type="money" />
+          <Property Name="hourly_rate" Type="money" />
+          <Property Name="flag_bir_tax" Type="bit" />
+          <Property Name="flag_representation_allowance" Type="bit" />
+          <Property Name="flag_transportation_allowance" Type="bit" />
+          <Property Name="flag_13th_14th_month_pay" Type="bit" />
+          <Property Name="flag_cash_gift" Type="bit" />
+          <Property Name="flag_loyalty_bonus" Type="bit" />
+          <Property Name="flag_productivity_ei" Type="bit" />
+          <Property Name="flag_clothing_allowance" Type="bit" />
+          <Property Name="flag_subsistence_allowance" Type="bit" />
+          <Property Name="flag_laundry_allowance" Type="bit" />
+          <Property Name="flag_pera" Type="bit" />
+          <Property Name="flag_gsis" Type="bit" />
+          <Property Name="flag_philhealth" Type="bit" />
+          <Property Name="flag_sif" Type="bit" />
+          <Property Name="flag_hdmf" Type="bit" />
+          <Property Name="flag_hazard_pay" Type="bit" />
+          <Property Name="hazard_pay_override" Type="money" />
+          <Property Name="loyalty_bonus_amount" Type="money" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="employment_status" Type="varchar" MaxLength="1" />
+          <Property Name="date_latest_appointment" Type="date" />
+          <Property Name="effective_date_sg" Type="date" />
+          <Property Name="rate_basis" Type="varchar" MaxLength="1" />
+          <Property Name="effective_date_sg_ny" Type="date" />
+          <Property Name="monthly_rate_ny" Type="money" />
+          <Property Name="daily_rate_ny" Type="money" />
+          <Property Name="hourly_rate_ny" Type="money" />
+          <Property Name="unit_code" Type="varchar" MaxLength="3" />
+        </EntityType>
         <EntityType Name="positions_tbl">
           <Key>
             <PropertyRef Name="position_code" />
@@ -176,6 +254,41 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="qs_work_experience" Type="varchar(max)" />
           <Property Name="qs_training" Type="varchar(max)" />
           <Property Name="qs_eligibility" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="step_reckoning_overrid_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="rekoning_date" Type="date" />
+          <Property Name="rekon_step" Type="int" Nullable="false" />
+          <Property Name="lwop_days" Type="int" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="rekon_type" Type="varchar" MaxLength="1500" Nullable="false" />
+          <Property Name="created_by" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="updated_by" Type="varchar" MaxLength="15" />
+          <Property Name="updated_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="step_reckoning_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="rekoning_date" Type="date" Nullable="false" />
+          <Property Name="rekon_step" Type="int" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" />
+          <Property Name="position_title" Type="varchar" MaxLength="2500" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="rekon_tag" Type="varchar" MaxLength="1500" Nullable="false" />
+          <Property Name="remarks" Type="varchar" MaxLength="500" />
+          <Property Name="created_by" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="updated_by" Type="varchar" MaxLength="15" />
+          <Property Name="updated_dttm" Type="datetime" />
         </EntityType>
         <EntityType Name="transactionsref_tbl">
           <Key>
@@ -434,6 +547,10 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
         </EntityType>
         <Function Name="sp_employee_list_dept" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_emp_status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_employee_steps_dtl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_insert_transaction_to_approvalworkflow_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_user_id" Type="varchar" Mode="In" />
@@ -444,6 +561,21 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_leave_ctrlno" Type="varchar" Mode="In" />
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_empl_id_waiver" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_step_reckoning_overrid_tbl_lwop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_step_record_status_list_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_year" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_step_status_details" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_year" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_stepincrement_rekon_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_period_from" Type="date" Mode="In" />
+          <Parameter Name="par_period_to" Type="date" Mode="In" />
+          <Parameter Name="par_record_tag" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_update_transaction_in_approvalworkflow_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_approval_id" Type="varchar" Mode="In" />
@@ -461,10 +593,14 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
         <EntityContainer Name="HRIS_PAYModelStoreContainer">
           <EntitySet Name="approvalstatus_tbl" EntityType="Self.approvalstatus_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="newstepincrement_tbl" EntityType="Self.newstepincrement_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_pos_tbl" EntityType="Self.payrollemployeemaster_pos_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnelstatutory_tbl" EntityType="Self.personnelstatutory_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="plantilla_tbl" EntityType="Self.plantilla_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="positions_tbl" EntityType="Self.positions_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="step_reckoning_overrid_tbl" EntityType="Self.step_reckoning_overrid_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="step_reckoning_tbl" EntityType="Self.step_reckoning_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_prime_token_tbl" EntityType="Self.user_prime_token_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usersprofile_tbl" EntityType="Self.usersprofile_tbl" Schema="dbo" store:Type="Tables" />
@@ -667,7 +803,8 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="transactionsref_tbl" EntityType="HRIS_PAYModel.transactionsref_tbl" />
           <EntitySet Name="vw_approvalworkflow_tbl" EntityType="HRIS_PAYModel.vw_approvalworkflow_tbl" />
           <FunctionImport Name="sp_employee_list_dept" ReturnType="Collection(HRIS_PAYModel.sp_employee_list_dept_Result)">
-          <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_emp_status" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="HRIS_PAYModel.payrollemployeemaster_hdr_tbl" />
           <EntitySet Name="departments_tbl" EntityType="HRIS_PAYModel.departments_tbl" />
@@ -684,6 +821,28 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="vw_payrollemployeemaster_hdr_pos_tbl" EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl" />
           <EntitySet Name="user_prime_token_tbl" EntityType="HRIS_PAYModel.user_prime_token_tbl" />
           <EntitySet Name="personnelstatutory_tbl" EntityType="HRIS_PAYModel.personnelstatutory_tbl" />
+          <FunctionImport Name="sp_stepincrement_rekon_list" ReturnType="Collection(HRIS_PAYModel.sp_stepincrement_rekon_list_Result)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_period_from" Mode="In" Type="DateTime" />
+            <Parameter Name="par_period_to" Mode="In" Type="DateTime" />
+            <Parameter Name="par_record_tag" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_step_status_details" ReturnType="Collection(HRIS_PAYModel.sp_step_status_details_Result)">
+          <Parameter Name="par_year" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="step_reckoning_tbl" EntityType="HRIS_PAYModel.step_reckoning_tbl" />
+          <EntitySet Name="newstepincrement_tbl" EntityType="HRIS_PAYModel.newstepincrement_tbl" />
+          <EntitySet Name="plantilla_tbl" EntityType="HRIS_PAYModel.plantilla_tbl" />
+          <FunctionImport Name="sp_step_reckoning_overrid_tbl_lwop" ReturnType="Collection(HRIS_PAYModel.sp_step_reckoning_overrid_tbl_lwop_Result)">
+          <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="step_reckoning_overrid_tbl" EntityType="HRIS_PAYModel.step_reckoning_overrid_tbl" />
+          <FunctionImport Name="sp_employee_steps_dtl_list" ReturnType="Collection(HRIS_PAYModel.sp_employee_steps_dtl_list_Result)">
+          <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_step_record_status_list_tbl" ReturnType="Collection(HRIS_PAYModel.sp_step_record_status_list_tbl_Result)">
+            <Parameter Name="par_year" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -953,6 +1112,8 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="designation_head2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="department_proper_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="office_email" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="contact_number" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="usersprofile_tbl">
           <Key>
@@ -1173,6 +1334,192 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="printing_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="sp_stepincrement_rekon_list_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="rekoning_date" Nullable="false" />
+          <Property Type="Int32" Name="rekon_step" Nullable="false" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="position_title" Nullable="false" MaxLength="2500" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="salary_grade" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="rekon_tag" Nullable="false" MaxLength="1500" />
+          <Property Type="String" Name="remarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="empl_photo" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="empl_photo_img" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_step_status_details_Result">
+          <Property Type="Int32" Name="to_step" Nullable="true" />
+          <Property Type="Int32" Name="report_generated" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="step_reckoning_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="rekoning_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="rekon_step" Type="Int32" Nullable="false" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_title" Type="String" Nullable="false" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="rekon_tag" Type="String" Nullable="false" MaxLength="1500" FixedLength="false" Unicode="false" />
+          <Property Name="remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="newstepincrement_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="date_generated" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="date_generated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date_of_effectivity" Type="DateTime" Precision="0" />
+          <Property Name="item_no" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="step_increment_new" Type="Int32" />
+          <Property Name="approval_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="posting_status" Type="Boolean" />
+          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="created_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="step_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="plantilla_tbl">
+          <Key>
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_old" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="fund_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="step_increment_cy" Type="Byte" />
+          <Property Name="annual_salary_cy" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="step_increment_ny" Type="Byte" />
+          <Property Name="annual_salary_ny" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="next_step_increment_eff_date" Type="DateTime" Precision="0" />
+          <Property Name="step_increment_annual_amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="flag_bir_tax" Type="Boolean" />
+          <Property Name="flag_representation_allowance" Type="Boolean" />
+          <Property Name="flag_transportation_allowance" Type="Boolean" />
+          <Property Name="flag_13th_14th_month_pay" Type="Boolean" />
+          <Property Name="flag_cash_gift" Type="Boolean" />
+          <Property Name="flag_loyalty_bonus" Type="Boolean" />
+          <Property Name="flag_productivity_ei" Type="Boolean" />
+          <Property Name="flag_clothing_allowance" Type="Boolean" />
+          <Property Name="flag_subsistence_allowance" Type="Boolean" />
+          <Property Name="flag_laundry_allowance" Type="Boolean" />
+          <Property Name="flag_pera" Type="Boolean" />
+          <Property Name="flag_gsis" Type="Boolean" />
+          <Property Name="flag_philhealth" Type="Boolean" />
+          <Property Name="flag_sif" Type="Boolean" />
+          <Property Name="flag_hdmf" Type="Boolean" />
+          <Property Name="flag_hazard_pay" Type="Boolean" />
+          <Property Name="hazard_pay_override" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="loyalty_bonus_amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="date_latest_appointment" Type="DateTime" Precision="0" />
+          <Property Name="effective_date_sg" Type="DateTime" Precision="0" />
+          <Property Name="rate_basis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="effective_date_sg_ny" Type="DateTime" Precision="0" />
+          <Property Name="monthly_rate_ny" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate_ny" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate_ny" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="unit_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_step_reckoning_overrid_tbl_lwop_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="rekoning_date" Nullable="true" />
+          <Property Type="Int32" Name="rekon_step" Nullable="false" />
+          <Property Type="Int32" Name="lwop_days" Nullable="true" />
+          <Property Type="String" Name="salary_grade" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="rekon_type" Nullable="false" MaxLength="1500" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="step_reckoning_overrid_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="rekoning_date" Type="DateTime" Precision="0" />
+          <Property Name="rekon_step" Type="Int32" Nullable="false" />
+          <Property Name="lwop_days" Type="Int32" />
+          <Property Name="salary_grade" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="rekon_type" Type="String" Nullable="false" MaxLength="1500" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_employee_steps_dtl_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="position_title" Nullable="false" MaxLength="2500" />
+          <Property Type="Int32" Name="rekon_step" Nullable="true" />
+          <Property Type="DateTime" Name="rekoning_date" Nullable="true" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="rec_stats" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="step_type" Nullable="false" MaxLength="17" />
+          <Property Type="DateTime" Name="generated_date" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_step_record_status_list_tbl_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="rekoning_date" Nullable="false" />
+          <Property Type="Int32" Name="rekon_step" Nullable="false" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_title" Nullable="false" MaxLength="2500" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="salary_grade" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="rekon_tag" Nullable="false" MaxLength="1500" />
+          <Property Type="String" Name="remarks" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="already_have_rep" Nullable="false" MaxLength="8" />
+          <Property Type="Int32" Name="dep_step_count" Nullable="false" />
+          <Property Type="Int32" Name="not_generated" Nullable="false" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="date_generated" Nullable="true" />
+          <Property Type="Int32" Name="generated_step" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1402,6 +1749,8 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySetMapping Name="departments_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.departments_tbl">
               <MappingFragment StoreEntitySet="departments_tbl">
+                <ScalarProperty Name="contact_number" ColumnName="contact_number" />
+                <ScalarProperty Name="office_email" ColumnName="office_email" />
                 <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
                 <ScalarProperty Name="function_code" ColumnName="function_code" />
                 <ScalarProperty Name="designation_head2" ColumnName="designation_head2" />
@@ -1635,6 +1984,213 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_stepincrement_rekon_list" FunctionName="HRIS_PAYModel.Store.sp_stepincrement_rekon_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_stepincrement_rekon_list_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="rekon_step" ColumnName="rekon_step" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="rekon_tag" ColumnName="rekon_tag" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_step_status_details" FunctionName="HRIS_PAYModel.Store.sp_step_status_details">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_step_status_details_Result">
+                <ScalarProperty Name="to_step" ColumnName="to_step" />
+                <ScalarProperty Name="report_generated" ColumnName="report_generated" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="step_reckoning_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.step_reckoning_tbl">
+              <MappingFragment StoreEntitySet="step_reckoning_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="rekon_tag" ColumnName="rekon_tag" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="rekon_step" ColumnName="rekon_step" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="newstepincrement_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.newstepincrement_tbl">
+              <MappingFragment StoreEntitySet="newstepincrement_tbl">
+                <ScalarProperty Name="step_type" ColumnName="step_type" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by_user" ColumnName="updated_by_user" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="step_increment_new" ColumnName="step_increment_new" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="date_of_effectivity" ColumnName="date_of_effectivity" />
+                <ScalarProperty Name="date_generated" ColumnName="date_generated" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="plantilla_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.plantilla_tbl">
+              <MappingFragment StoreEntitySet="plantilla_tbl">
+                <ScalarProperty Name="unit_code" ColumnName="unit_code" />
+                <ScalarProperty Name="hourly_rate_ny" ColumnName="hourly_rate_ny" />
+                <ScalarProperty Name="daily_rate_ny" ColumnName="daily_rate_ny" />
+                <ScalarProperty Name="monthly_rate_ny" ColumnName="monthly_rate_ny" />
+                <ScalarProperty Name="effective_date_sg_ny" ColumnName="effective_date_sg_ny" />
+                <ScalarProperty Name="rate_basis" ColumnName="rate_basis" />
+                <ScalarProperty Name="effective_date_sg" ColumnName="effective_date_sg" />
+                <ScalarProperty Name="date_latest_appointment" ColumnName="date_latest_appointment" />
+                <ScalarProperty Name="employment_status" ColumnName="employment_status" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="loyalty_bonus_amount" ColumnName="loyalty_bonus_amount" />
+                <ScalarProperty Name="hazard_pay_override" ColumnName="hazard_pay_override" />
+                <ScalarProperty Name="flag_hazard_pay" ColumnName="flag_hazard_pay" />
+                <ScalarProperty Name="flag_hdmf" ColumnName="flag_hdmf" />
+                <ScalarProperty Name="flag_sif" ColumnName="flag_sif" />
+                <ScalarProperty Name="flag_philhealth" ColumnName="flag_philhealth" />
+                <ScalarProperty Name="flag_gsis" ColumnName="flag_gsis" />
+                <ScalarProperty Name="flag_pera" ColumnName="flag_pera" />
+                <ScalarProperty Name="flag_laundry_allowance" ColumnName="flag_laundry_allowance" />
+                <ScalarProperty Name="flag_subsistence_allowance" ColumnName="flag_subsistence_allowance" />
+                <ScalarProperty Name="flag_clothing_allowance" ColumnName="flag_clothing_allowance" />
+                <ScalarProperty Name="flag_productivity_ei" ColumnName="flag_productivity_ei" />
+                <ScalarProperty Name="flag_loyalty_bonus" ColumnName="flag_loyalty_bonus" />
+                <ScalarProperty Name="flag_cash_gift" ColumnName="flag_cash_gift" />
+                <ScalarProperty Name="flag_13th_14th_month_pay" ColumnName="flag_13th_14th_month_pay" />
+                <ScalarProperty Name="flag_transportation_allowance" ColumnName="flag_transportation_allowance" />
+                <ScalarProperty Name="flag_representation_allowance" ColumnName="flag_representation_allowance" />
+                <ScalarProperty Name="flag_bir_tax" ColumnName="flag_bir_tax" />
+                <ScalarProperty Name="hourly_rate" ColumnName="hourly_rate" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="step_increment_annual_amount" ColumnName="step_increment_annual_amount" />
+                <ScalarProperty Name="next_step_increment_eff_date" ColumnName="next_step_increment_eff_date" />
+                <ScalarProperty Name="annual_salary_ny" ColumnName="annual_salary_ny" />
+                <ScalarProperty Name="step_increment_ny" ColumnName="step_increment_ny" />
+                <ScalarProperty Name="annual_salary_cy" ColumnName="annual_salary_cy" />
+                <ScalarProperty Name="step_increment_cy" ColumnName="step_increment_cy" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="item_no_old" ColumnName="item_no_old" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_step_reckoning_overrid_tbl_lwop" FunctionName="HRIS_PAYModel.Store.sp_step_reckoning_overrid_tbl_lwop">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_step_reckoning_overrid_tbl_lwop_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="rekon_step" ColumnName="rekon_step" />
+                <ScalarProperty Name="lwop_days" ColumnName="lwop_days" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="rekon_type" ColumnName="rekon_type" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="step_reckoning_overrid_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.step_reckoning_overrid_tbl">
+              <MappingFragment StoreEntitySet="step_reckoning_overrid_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="rekon_type" ColumnName="rekon_type" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="lwop_days" ColumnName="lwop_days" />
+                <ScalarProperty Name="rekon_step" ColumnName="rekon_step" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_employee_steps_dtl_list" FunctionName="HRIS_PAYModel.Store.sp_employee_steps_dtl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_employee_steps_dtl_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="rekon_step" ColumnName="rekon_step" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="rec_stats" ColumnName="rec_stats" />
+                <ScalarProperty Name="step_type" ColumnName="step_type" />
+                <ScalarProperty Name="generated_date" ColumnName="generated_date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_step_record_status_list_tbl" FunctionName="HRIS_PAYModel.Store.sp_step_record_status_list_tbl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_step_record_status_list_tbl_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="rekoning_date" ColumnName="rekoning_date" />
+                <ScalarProperty Name="rekon_step" ColumnName="rekon_step" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="rekon_tag" ColumnName="rekon_tag" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="already_have_rep" ColumnName="already_have_rep" />
+                <ScalarProperty Name="dep_step_count" ColumnName="dep_step_count" />
+                <ScalarProperty Name="not_generated" ColumnName="not_generated" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="date_generated" ColumnName="date_generated" />
+                <ScalarProperty Name="generated_step" ColumnName="generated_step" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

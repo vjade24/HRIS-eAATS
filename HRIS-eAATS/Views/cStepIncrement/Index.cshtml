@@ -166,6 +166,40 @@
     .bg-ddo-lightgold {
         background-color: #FCEC65 !important;
     }
+    .top-65 {
+       position:absolute !important;
+       top:10px;
+       bottom:-30px !important;
+       z-index:999999 !important;
+    }
+
+    #datalist_grid tbody tr td{
+        height: 35px !important; /* adjust as needed */
+        max-height: 35px !important; /* adjust as needed */
+        overflow-y:hidden !important;
+    }
+    .dataTables_filter label{
+        font-size:12px;
+    }
+    .dataTables_filter label input {
+       border       :1px solid gray;
+       border-radius:10px;
+       font-size    :12px;
+       width        :300px !important;
+       height       :28px;
+       margin-top   :5px !important;
+    }
+
+    .dropdown-toggle.btn.btn-default {
+        margin-top: -5px !important;
+    }
+    .row.equal-height {
+        display: flex;
+        align-items: stretch; /* children will match height */
+    }
+    #btn_action_option_dropdown button {
+        text-align: left !important;
+    }
 </style>
 <script src="~/Angular/ng-cStepIncrement.js"></script>
 <section ng-app="ng_HRD_App" ng-controller="cStepIncrement_ctrlr">
@@ -176,138 +210,397 @@
                     <small class="modal-title pull-left" style="font-size:16px;font-weight:bold;">ADD NEW RECORD</small>
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 </div>
-                <div class="modal-body">
-                    <form class="form-horizontal ">
-                        <div class="row" style="display:flex;">
-                            <div class="col-lg-8" style="flex:0 0 auto;">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <label class="col-lg-3 control-label">Select Employee </label>
-                                        <div class="col-lg-9">
-                                            <select id="ddl_name" class="form-control" ng-model="ddl_name" ng-change="updateProfile()" style="width: 100%;">
-                                                <option></option>
-                                            </select>
-                                            <span class="help-block m-b-none text-danger" ng-hide="ddl_name_error =='' ? true:false">{{ddl_name_error}}</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mt10">
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <label class="col-lg-6 control-label">Reckonning Date </label>
-                                                <div class="col-lg-6">
-                                                    <input type="date" class="form-control text-left" id="txtb_reckonning_date" ng-model="txtb_reckonning_date">
-                                                    <span class="help-block m-b-none text-danger" ng-hide="txtb_reckonning_date_error =='' ? true:false">{{txtb_reckonning_date_error}}</span>
+                <div class="modal-body" style="padding:0px 15px;">
+                    <div class="row equal-height">
+                        <div class="col-lg-4" style="padding:15px 25px;">
+                            <div class="row" ng-hide="addoverride">
+                                <div class="col-lg-5">
+
+                                    <img id="m{{viewRecord.empl_id}}" ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{viewRecord.empl_id}}"
+                                         style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
+                                         width="100"
+                                         height="100"
+                                         onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
+
+                                </div>
+                                <div class="col-lg-7">
+                                    <button class="btn btn-sm btn-success btn-block text-left" ng-click="btn_show_service_record(viewRecord.empl_id)">Service Record <i class="fa fa-print" style="float:right; margin-top:5px;"></i> </button><br />
+                                    <button class="btn btn-sm btn-warning btn-block text-left" ng-click="btn_addoverride_click(viewRecord)">Add Rekon <i class="fa fa-plus" style="float:right; margin-top:5px;"></i> </button>
+                                </div>
+                                <div class="col-lg-12 mt10">
+                                    <br /><label>{{viewRecord.empl_id}} - {{viewRecord.employee_name}}</label>
+                                    <br /><small>{{viewRecord.position_title}}</small>
+                                    <br /><small>{{viewRecord.department_short_name}}</small>
+                                    <br /><small>Salary Grade {{viewRecord.salary_grade}} Step {{viewRecord.rekon_step}}</small>
+                                   
+                                    <div class="panel-group" id="accordion" ng-show="lwoplist.length > 0">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title m-t-none text-success"><a data-toggle="collapse" data-parent="#accordion" href="#changePasswordPanel" aria-expanded="false" class="collapsed">Leave Without Pay (LWOP)</a></h3>
+                                            </div>
+                                            <div id="changePasswordPanel" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                                <div class="panel-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12" >
+                                                            <table>
+                                                                <tr ng-repeat="lwop in lwoplist" style="font-size:12px;">
+                                                                    <td>{{moment(lwop.rekoning_date).format("YYYY-MM-DD")}}</td>
+                                                                    <td class="text-right">{{lwop.lwop_days}} days</td>
+                                                                    <td >&nbsp;</td>
+                                                                    <td><i class="fa fa-trash text-danger" ng-click="btn_save_override('DELETE',lwop.id)"></i></td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <label class="col-lg-5 control-label">Record Tag </label>
-                                                <div class="col-lg-7">
-                                                    <select id="ddl_record_tag" class="form-control" ng-model="ddl_record_tag" style="width: 100%;">
-                                                        <option value="">Select Here</option>
-                                                        <option value="A">Appointment</option>
-                                                        <option value="V">Leave Without Pay</option>
-                                                        <option value="I">In-Active</option>
-                                                    </select>
-                                                    <span class="help-block m-b-none text-danger" ng-hide="ddl_record_tag_error =='' ? true:false">{{ddl_record_tag_error}}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt10">
-                                        <label class="col-lg-3 control-label">Record Remarks </label>
-                                        <div class="col-lg-9">
-                                            <textarea rows="8"  class="form-control" id="record_remarks" ng-model="record_remarks"></textarea>
-                                            <span class="help-block m-b-none text-danger" ng-hide="record_remarks_error =='' ? true:false">{{record_remarks_error}}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4" style="flex:0 0 auto;">
-                                <img id="profile_prev" src="../../ResourcesImages/upload_profile.png"  style="height:265px; width:100%;border: 0.5px solid #442B02;" onerror="this.onerror=null;this.src='../../ResourcesImages/upload_profile.png';" />
+                            <div class="row" ng-show="addoverride">
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <b>REKON TYPE:</b>
+                                        </div>
+                                        <div class="col-lg-12" style="margin-top:5px;">
+                                            <select class="form-control input-sm" ng-model="rekon_type">
+                                                <option value="LWOP">LWOP</option>
+                                                <option value="SUSPENSION">AFTER SUSPENSION</option>
+                                                <option value="GRADUATE">GRADUATE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt10">
+                                        <div class="col-lg-12" >
+                                            <b>EFFECTIVE DATE:</b>
+                                        </div>
+                                        <div class="col-lg-12" style="margin-top:5px;">
+                                            <input type="date" class="form-control input-sm" ng-model="override_rekon_date" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt10" >
+                                        <div class="col-lg-12" ng-show="rekon_type== 'GRADUATE' || rekon_type== 'SUSPENSION'">
+                                            <b>STEP:</b><br />
+                                            <input type="number" class="form-control input-sm" ng-model="override_rekon_step" />
+                                        </div>
+                                        <div class="col-lg-12" ng-show="rekon_type== 'LWOP'">
+                                            <b>LWOP (DAYS):</b><br />
+                                            <input type="number" class="form-control input-sm" ng-model="override_rekon_lwopdays" />
+                                        </div>
+                                    </div>
+                                    <div class="row mt10">
+                                        <div class="col-lg-6"><button ng-disabled="override_saving" class="btn btn-sm btn-default btn-block text-left" ng-click="addoverride = false">Cancel</button></div>
+                                        <div class="col-lg-6"> <button ng-disabled="override_saving" class="btn btn-sm btn-success btn-block text-left" ng-click="btn_save_override('ADD',null)">Save</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-lg-8 bg-ddo-brown" style="padding:10px;min-height:250px;">
+                            <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+                                <div class="vertical-timeline-block" ng-repeat="lstX in viewRecorddtl">
+                                    <div class="vertical-timeline-icon" style="cursor:pointer;" ng-click="print_report(lstX)"
+                                         ng-class="{
+                                                     'yellow-bg': lstX.rec_stats == 'start',
+                                                     'red-bg': lstX.rec_stats == 'SUSPENSION',
+                                                     'lazur-bg': lstX.rec_stats == 'NOSI' && lstX.step_type == 'Graduated',
+                                                     'blue-bg': lstX.rec_stats == 'NOSI' && lstX.step_type == 'Length of Service'
+                                                 }">
+                                        <i ng-class="{
+                                                    'fa fa-star': lstX.rec_stats == 'start',
+                                                    'fa fa-warning': lstX.rec_stats == 'SUSPENSION',
+                                                    'fa fa-graduation-cap': lstX.rec_stats == 'NOSI' && lstX.step_type == 'Graduated',
+                                                    'fa fa-file-text': lstX.rec_stats == 'NOSI' && lstX.step_type == 'Length of Service'
+                                                }"></i>
+                                    </div>
+
+                                    <div class="vertical-timeline-content">
+                                        <label>{{lstX.department_short_name}} - <small>{{lstX.position_title}}</small></label><br />
+                                        @*<a href="#" class="btn btn-sm btn-success"> Download document </a>*@
+                                        <span class="vertical-date">
+                                            {{lstX.step_type}} - Step {{lstX.rekon_step}} <br>
+                                            <small>{{moment(lstX.rekoning_date).format('YYYY-MM-DD')}}</small>
+                                        </span>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </form>
-
+                    </div>
                 </div>
                 <div class="modal-footer bg-ddo-gold">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" ng-click="btn_save_record()">Save changes</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12 mt10">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
+
+    <div class="modal inmodal fade" id="modalStats" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-ddo-brown" style="padding-top:15px !important;padding-bottom:15px !important;">
+                    <small class="modal-title pull-left" style="font-size:16px;font-weight:bold;">RECORD STATUS</small>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-1"><label style="padding-top:5px;">Department</label></div>
-                        <div class="col-lg-5">
-                            <select class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" ng-change="loadEmployee()" style="width:100%;">
-                                <option value="">-- Select Department -- </option>
-                                <option ng-repeat="lst in departments" value="{{lst.department_code}}">{{lst.department_name1}}</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-1 text-right">
-                            <label style="padding-top:5px;">From:</label>
-                        </div>
-                        <div class="col-lg-2">
-                            <input type="month"  class="form-control text-left" id="txtb_from" ng-model="txtb_from">
-                        </div>
-                        <div class="col-lg-1 text-right">
-                            <label style="padding-top:5px;">To:</label>
-                        </div>
-                        <div class="col-lg-2">
-                            <input type="month" class="form-control text-left" id="txtb_to" ng-model="txtb_to">
+                        <div class="col-lg-12">
+                            <div class="ibox img-shadow" style="margin:0px !important;padding:0px !important;">
+                                <div class="ibox-title">
+                                    <h5>NOSI CHART {{moment(txtb_from).format("YYYY")}}</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div id="morris-bar-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ibox-footer">
+                                    <div class="row">
+                                        <div class="col-lg-9">
+                                            <div class="row">
+                                                <div class="col-lg-12 table-resposive">
+                                                    <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="8%">ID</th>
+                                                                <th width="30%">EMPLOYEE NAME</th>
+                                                                <th width="40%">POSITION</th>
+                                                                <th width="12%">SCHEDULE | STEP</th>
+                                                                <th width="10%">ACTION</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="row">
+                                                <div class="col-lg-7"><label>MONTH</label></div>
+                                                <div class="col-lg-5 text-right"><label>COUNTS</label></div>
+                                            </div>
+                                            <div class="row" ng-repeat="per_month in months">
+                                                <div class="col-lg-7"><label>{{per_month.month_name}}</label></div>
+                                                <div class="col-lg-5 text-right"><b>{{per_month.mo_step}}</b></div>
+                                            </div>
+                                            <hr style="margin-top:5px; margin-bottom:5px;" />
+                                            <div class="row mt10">
+                                                <div class="col-lg-10">
+                                                    <b>ACTIVE PERMANENT EMPLOYEES</b>:
+                                                </div>
+                                                <div class="col-lg-2 text-right">
+                                                    <b>{{viewStatsData.length}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt10">
+                                                <div class="col-lg-10">
+                                                    <b>EMPLOYEE THAT WILL STEP FOR {{moment(txtb_from).format("YYYY")}}</b>:
+                                                </div>
+                                                <div class="col-lg-2 text-right">
+                                                    <b>{{list_to_step.length}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt10">
+                                                <div class="col-lg-10">
+                                                    <b>NOSI REPORT GENERATED FOR {{moment(txtb_from).format("YYYY")}}</b>:
+                                                </div>
+                                                <div class="col-lg-2 text-right">
+                                                    <b>{{list_generated.length}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="row mt10">
+                                                <div class="col-lg-9">
+                                                    <b>REPORT NEEDS TO BE GENERATED</b>:
+                                                </div>
+                                                <div class="col-lg-3 text-right" ng-class="(results_to_generate==0 ?'bg-success':'bg-danger text-danger')">
+                                                    <b>{{results_to_generate==0 ? '0|100%':results_to_generate}}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="ibox-content" style="padding-bottom:0px !important;">
+                <div class="modal-footer bg-ddo-gold">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal inmodal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-ddo-brown" style="padding-top:15px !important;padding-bottom:15px !important;">
+                    <small class="modal-title pull-left" style="font-size:16px;font-weight:bold;">PRINT VIEW</small>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body" style="padding:0px 15px;">
                     <div class="row">
-                    
+                        <div class="col-lg-12 text-center" id="loader" style="position:absolute; z-index:20;top:250px;">
+                            <i class="fa fa-spin fa-spinner fa-5x"></i>
+                            <h5><b>Loading Report...</b></h5>
+                        </div>
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:700px !important;border:0px none;" id="iframe_print_preview2"></iframe>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal inmodal fade" id="modalLoader" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="display: flex;justify-content:center;align-items: center;height: 100%; background-color:#100f0f96 !important;">
+                <div class="modal-body text-center" style=" background-color:transparent !important;color:white;">
+                    <i class="fa fa-spin fa-spinner fa-5x"></i>
+                    <h1><b>Generating NOSI...</b></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 mt10">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title" style="padding-right:30px;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="row">
+                                <div class="col-lg-3"><label style="padding-top:5px;">Department</label></div>
+                                <div class="col-lg-9">
+                                    <select class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" ng-change="loadEmployee()" style="width:100%;">
+                                        <option value="">-- Show All -- </option>
+                                        <option ng-repeat="lst in departments" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row m-t-sm">
+                                <div class="col-lg-3">
+                                    <label style="padding-top:5px;">From:</label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="month" class="form-control text-left" id="txtb_from" ng-model="txtb_from">
+                                </div>
+                                <div class="col-lg-1 text-right">
+                                    <label style="padding-top:5px;">To:</label>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="month" class="form-control text-left" id="txtb_to" ng-model="txtb_to">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="widget style1 navy-bg" style="margin:0px !important;cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-xs-8 text-left">
+                                        <span> Employee's to Step this year.</span>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <h1><b>{{statData.to_step}}</b></h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="widget style1 blue-bg" style="margin:0px !important;cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-xs-8 text-left">
+                                        <span> NOSI report Generated.</span>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <h1><b>{{statData.report_generated}}</b></h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2" ng-click="btn_stats_click()">
+                            <div class="widget style1 lazur-bg" style="margin:0px !important;cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-xs-7 text-left">
+                                        <span>Record Statistics.</span>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <i class="fa fa-line-chart" style="font-size:50px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox-content" style="padding-bottom:0px !important;padding-top:0px !important;">
+                    @*<div class="row">
+                            <div class="col-lg-2" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
+
+                            </div>
+                        </div>*@
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="container" style="padding-left:0px !important;">
-                                <div class="col-lg-12" style="display:flex;">
-                                    <div class="box" style="width:500px !important; position: sticky;left:0;z-index: 1;border-right:0.2px solid gray;flex:0 0 500px;justify-content:flex-start;align-items:center;display:flex;">
-                                        <div class="col-lg-2" style="padding-top:7px;">
-                                            <button class="btn btn-success btn-sm" ng-click="btn_add_click()"><i class="fa fa-plus"></i> Add</button>
+                            <div class="container" style="padding-left:0px !important;max-height:630px;">
+                                <div class="col-lg-12" style="display:flex; position: sticky !important;top:0 !important;z-index:2;">
+                                    <div class="box" style="width:500px !important; position: sticky;left:0;border-right:0.2px solid gray;flex:0 0 500px;justify-content:flex-start;align-items:center;display:flex;">
+                                        <div class="col-lg-3" style="padding-top:10px !important;padding-bottom:10px !important;">
+                                            <div class="row form-group form-group-sm">
+                                                <label class="pull-left" style="padding-top:10px;width:50%;">Show</label>
+                                                <div class="pull-right" style="width:50%;padding-top:3px;">
+                                                    <select class="form-control" style="color:black;" id="pageSize" ng-model="pageSize" ng-change="setPageSize()">
+                                                        <option value=0>All</option>
+                                                        <option value=5>5</option>
+                                                        <option value=10>10</option>
+                                                        <option value=50>50</option>
+                                                        <option value=100>100</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-10" style="color:white;font-weight:bold;"> Employee Information </div>
+                                        <div class="col-lg-9" style="color:white;font-weight:bold;padding-top:10px !important;padding-bottom:10px !important;"> Employee Information </div>
                                     </div>
                                     <div class="box" ng-repeat="lst in table_header" style="flex:0 0 100px;color:white;font-weight:bold;display:flex;justify-content:center;align-items:center;">
                                         {{(moment(txtb_from).year() == moment(txtb_to).year() ? getHeaderVal(lst):lst)}}
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="align-content:flex-start !important;display:flex;align-content:flex-start;" ng-repeat="employee_rekon in employee_pagenated_record track by $index">
-                                    <div class="box2" style="box-sizing:border-box; background-color:#E5B807;width:500px !important; position: sticky;left:0;z-index: 1;border:1px solid #FCEC65 !important;flex:0 0 500px;padding-top:2px;padding-bottom:2px;">
-                                        <div class="col-lg-2" style="flex:0 0 10%;display:flex;justify-content:flex-start;align-items:center;">
-                                            <div class="dropup">
+                                <div class="col-lg-12" style="align-content:flex-start !important;display:flex;z-index:0;" ng-repeat="employee_rekon in employee_pagenated_record track by $index">
+                                    <div class="box2" style="z-index:9999; box-sizing:border-box; background-color:#E5B807;width:500px !important; position: sticky;left:0;border:1px solid #FCEC65 !important;flex:0 0 500px;padding-top:2px;padding-bottom:2px;">
+                                        <div class="col-lg-2" style="z-index:99999;flex:0 0 10%;display:flex;justify-content:flex-start;align-items:center;">
+                                            <div class="dropup" style="z-index:99999;">
                                                 <button class="dropdown-toggle" style="padding:2px;background-color:transparent;border: none;color:white;" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <span class="fa fa-ellipsis-v"></span>
                                                 </button>
                                                 &nbsp;
-                                                <ul class="dropdown-menu" style="color:black;z-index:99999" aria-labelledby="dropdownMenu2">
-                                                    <li><a ng-click="btn_add_click()">View Record</a></li>
+                                                <ul class="dropdown-menu" ng-class="$index==0 ? 'top-65':''" style="color:black;" aria-labelledby="dropdownMenu2">
+                                                    <li><a ng-click="btn_add_click(employee_rekon)">View Record</a></li>
                                                     <li><a ng-click="btn_delete_click($index,employee_rekon.id)">Delete Record</a></li>
                                                 </ul>
                                             </div>
-                                            <img id="m{{employee_rekon.empl_id}}"  ng-src="http://192.168.5.218/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
-                                                                          
-                                                                             style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
-                                                                             width="50"
-                                                                             height="50"
-                                                                             onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
+                                            <img id="m{{employee_rekon.empl_id}}" ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
+                                                 style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
+                                                 width="50"
+                                                 height="50"
+                                                 onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
                                         </div>
-                                        <div class="col-lg-8" style="color:white;font-weight:bold;display:flex;justify-content:flex-start;align-items:center;flex:0 0 60%;overflow-wrap:break-word;">
-                                            <small>{{employee_rekon.empl_id}} - {{employee_rekon.employee_name}}</small>
-                                        </div>
-                                        <div class="col-lg-2" style="color:white;font-weight:bold;display:flex;justify-content:flex-start;align-items:center;flex:0 0 30%;">
-                                            <small>{{moment(employee_rekon.rekoning_date).format('YYYY-MM-DD')}}</small>
-                                           
+                                        <div class="col-lg-10 " style="text-overflow:ellipsis;padding-top:5px;">
+                                            <div class="row">
+                                                <div class="col-lg-8" style="color:black;font-weight:bold;display:flex;justify-content:flex-start;align-items:center;flex:0 0 60%;overflow-wrap:break-word;">
+                                                    <small>{{employee_rekon.empl_id}} - {{employee_rekon.employee_name}}</small>
+                                                </div>
+                                                <div class="col-lg-2" style="color:black;font-weight:bold;display:flex;justify-content:flex-start;align-items:center;flex:0 0 30%;overflow-wrap:break-word;">
+                                                    <small>{{moment(employee_rekon.rekoning_date).format('YYYY-MM-DD')}}</small>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <small style="color:black;display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;overflow: hidden;">
+                                                        {{employee_rekon.position_title}}
+                                                    </small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="box2" ng-repeat="lst in table_header" style="font-weight:bold;color:black;height:inherit;flex:0 0 100px;vertical-align:middle;text-align:center;align-content:center;display:flex;justify-content:center;align-items:center;" ng-style="{'background-color': getBackgroundColor(lst, employee_rekon.rekoning_date)}">
@@ -321,7 +614,7 @@
                 <div class="ibox-footer" style="padding-top:0px !important;padding-bottom:0px !important;">
                     <div class="row" style="margin-top:0px !important;margin-bottom:0px !important;">
                         <div class="col-lg-3" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
-                            <ul class="pagination">
+                            <ul class="pagination" ng-show="totalPages.length == 1 ? false:true">
                                 <li ng-click="prevPage()" class="next" ng-class="{disabled: currentPage === 0}">Prev</li>
                                 <li>{{ currentPage + 1 }}</li>
                                 <li ng-click="nextPage()" class="prev" ng-class="{disabled: currentPage === totalPages.length - 1}">Next</li>
@@ -330,8 +623,9 @@
                         <div class="col-lg-7" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
 
                         </div>
-                        <div class="col-lg-2" style="text-align:center; vertical-align:middle;padding-top:10px;">
-                            <i style="margin: 5px 0px !important;">Page <b>{{ currentPage + 1}}</b> of <b>{{totalPages.length}}</b></i>
+                        <div class="col-lg-2" style="text-align:center; vertical-align:middle;padding-top:7px;">
+                            <i style="margin: 5px 0px !important;">Page <b>{{ currentPage + 1}}</b> of <b>{{totalPages.length}}</b></i>&nbsp;&nbsp;&nbsp;
+                            | &nbsp;&nbsp;&nbsp;<i>{{employee_steps_record.length}}</i>
                         </div>
                     </div>
                 </div>

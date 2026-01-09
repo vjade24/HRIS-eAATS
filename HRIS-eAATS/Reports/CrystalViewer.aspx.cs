@@ -108,7 +108,7 @@ namespace HRIS_eAATS.Reports
             }
             else if (ls_splitvalue.Length == 5)
             {
-                if(ls_splitvalue[0] == "sp_leave_application_hdr_justi_rep")
+                if(ls_splitvalue[0] == "sp_leave_application_hdr_justi_rep" || ls_splitvalue[0] == "sp_servicerecord_report" || ls_splitvalue[0] == "sp_nosi_report" || ls_splitvalue[0] == "sp_NOSI_list_report")
                 {
                     dt = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);
                 }
@@ -172,12 +172,12 @@ namespace HRIS_eAATS.Reports
 
                 cryRpt.SetDataSource(dt);
 
-                if (ls_splitvalue[0].ToString().Trim() == "sp_servicerecord_report")
-                {
-                    dtSub = new DataTable();
-                    dtSub = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);
-                    cryRpt.Subreports["cryServiceRecord.rpt"].SetDataSource(dtSub);
-                }
+                //if (ls_splitvalue[0].ToString().Trim() == "sp_servicerecord_report")
+                //{
+                //    dtSub = new DataTable();
+                //    dtSub = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);
+                //    cryRpt.Subreports["cryServiceRecord.rpt"].SetDataSource(dtSub);
+                //}
                 
                 //FOR SUBREPORT ON CARDING 
                 //ADDED BY JORGE: 11/16/2019
@@ -338,8 +338,9 @@ namespace HRIS_eAATS.Reports
 
                 PrinterSettings settings = new PrinterSettings();               
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                
             }
         }
         //private void BindReport(ReportDocument ReportPath)

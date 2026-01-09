@@ -43,6 +43,10 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_payrollemployeemaster_hdr_pos_tbl> vw_payrollemployeemaster_hdr_pos_tbl { get; set; }
         public virtual DbSet<user_prime_token_tbl> user_prime_token_tbl { get; set; }
         public virtual DbSet<personnelstatutory_tbl> personnelstatutory_tbl { get; set; }
+        public virtual DbSet<step_reckoning_tbl> step_reckoning_tbl { get; set; }
+        public virtual DbSet<newstepincrement_tbl> newstepincrement_tbl { get; set; }
+        public virtual DbSet<plantilla_tbl> plantilla_tbl { get; set; }
+        public virtual DbSet<step_reckoning_overrid_tbl> step_reckoning_overrid_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {
@@ -104,13 +108,17 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_insert_transaction_to_approvalworkflow_tbl", par_user_idParameter, par_empl_idParameter, par_transaction_codeParameter);
         }
     
-        public virtual ObjectResult<sp_employee_list_dept_Result> sp_employee_list_dept(string p_empl_id)
+        public virtual ObjectResult<sp_employee_list_dept_Result> sp_employee_list_dept(string p_empl_id, string p_emp_status)
         {
             var p_empl_idParameter = p_empl_id != null ?
                 new ObjectParameter("p_empl_id", p_empl_id) :
                 new ObjectParameter("p_empl_id", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_Result>("sp_employee_list_dept", p_empl_idParameter);
+            var p_emp_statusParameter = p_emp_status != null ?
+                new ObjectParameter("p_emp_status", p_emp_status) :
+                new ObjectParameter("p_emp_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_Result>("sp_employee_list_dept", p_empl_idParameter, p_emp_statusParameter);
         }
     
         public virtual ObjectResult<sp_leave_application_mone_waiver_rep_Result> sp_leave_application_mone_waiver_rep(string par_leave_ctrlno, string par_empl_id, string par_empl_id_waiver)
@@ -128,6 +136,63 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_empl_id_waiver", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_mone_waiver_rep_Result>("sp_leave_application_mone_waiver_rep", par_leave_ctrlnoParameter, par_empl_idParameter, par_empl_id_waiverParameter);
+        }
+    
+        public virtual ObjectResult<sp_stepincrement_rekon_list_Result> sp_stepincrement_rekon_list(string par_department_code, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_record_tag)
+        {
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_record_tagParameter = par_record_tag != null ?
+                new ObjectParameter("par_record_tag", par_record_tag) :
+                new ObjectParameter("par_record_tag", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_stepincrement_rekon_list_Result>("sp_stepincrement_rekon_list", par_department_codeParameter, par_period_fromParameter, par_period_toParameter, par_record_tagParameter);
+        }
+    
+        public virtual ObjectResult<sp_step_status_details_Result> sp_step_status_details(string par_year)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_step_status_details_Result>("sp_step_status_details", par_yearParameter);
+        }
+    
+        public virtual ObjectResult<sp_step_reckoning_overrid_tbl_lwop_Result> sp_step_reckoning_overrid_tbl_lwop(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_step_reckoning_overrid_tbl_lwop_Result>("sp_step_reckoning_overrid_tbl_lwop", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_steps_dtl_list_Result> sp_employee_steps_dtl_list(string par_empl_id)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_steps_dtl_list_Result>("sp_employee_steps_dtl_list", par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_step_record_status_list_tbl_Result> sp_step_record_status_list_tbl(string par_year)
+        {
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_step_record_status_list_tbl_Result>("sp_step_record_status_list_tbl", par_yearParameter);
         }
     }
 }

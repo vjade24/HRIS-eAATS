@@ -16,8 +16,13 @@ namespace HRIS_eAATS.Models
     {
         public int id { get; set; }
         public string empl_id { get; set; }
-        public string record_tag { get; set; }
         public System.DateTime rekoning_date { get; set; }
+        public int rekon_step { get; set; }
+        public string position_code { get; set; }
+        public string position_title { get; set; }
+        public string department_code { get; set; }
+        public string salary_grade { get; set; }
+        public string rekon_tag { get; set; }
         public string remarks { get; set; }
         public string created_by { get; set; }
         public System.DateTime created_dttm { get; set; }
