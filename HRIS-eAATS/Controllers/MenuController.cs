@@ -1,6 +1,7 @@
 ﻿using HRIS_eAATS.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -430,20 +431,34 @@ namespace HRIS_eAATS.Controllers
                         chk_aprv.ForEach(a => a.final_approved_user = user_id);
                         chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
 
-                        double days_count = 0;
-                        double hours_count = 0;
-                        for (int i = 0; i < lv_dtl.Count; i++)
+                        //double days_count = 0;
+                        //double hours_count = 0;
+                        //for (int i = 0; i < lv_dtl.Count; i++)
+                        //{
+                        //    days_count += (lv_dtl[i].leave_date_to - lv_dtl[i].leave_date_from).TotalDays;
+                        //    hours_count += double.Parse(lv_dtl[i].date_num_day_total.ToString());
+                        //}
+                        //if ((lv_hdr.leave_type_code != "CTO" && days_count <= 0) ||
+                        //    (lv_hdr.leave_type_code == "CTO" && days_count <= 0 && hours_count <= 8))
+                        //{
+                        //    lv_hdr.posting_status = false; ;
+                        //    lv_hdr.approval_status = "L";
+                        //    lv_dtl.ForEach(a => a.rcrd_status = "L");
+                        //}
+                        
+                        var cancel_count = 0;
+                        var days_count   = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => DbFunctions.DiffDays(DbFunctions.TruncateTime(x.leave_date_from),DbFunctions.TruncateTime(x.leave_date_to)) + 1);
+                        //days_count     = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => (x.leave_date_to.Date - x.leave_date_from.Date).Days + 1);
+
+                        cancel_count = db_ats.leave_application_cancel_tbl.Where(x => x.leave_ctrlno == p_leave_ctrlno && x.empl_id == p_empl_id).Count(x => x.empl_id != null);
+
+                        if (days_count == cancel_count)
                         {
-                            days_count += (lv_dtl[i].leave_date_to - lv_dtl[i].leave_date_from).TotalDays;
-                            hours_count += double.Parse(lv_dtl[i].date_num_day_total.ToString());
-                        }
-                        if ((lv_hdr.leave_type_code != "CTO" && days_count <= 0) ||
-                            (lv_hdr.leave_type_code == "CTO" && days_count <= 0 && hours_count <= 8))
-                        {
-                            lv_hdr.posting_status = false; ;
-                            lv_hdr.approval_status = "L";
+                            lv_hdr.posting_status       = false; ;
+                            lv_hdr.approval_status      = "L";
                             lv_dtl.ForEach(a => a.rcrd_status = "L");
                         }
+
 
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
@@ -640,18 +655,31 @@ namespace HRIS_eAATS.Controllers
                                 chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
                                 chk.details_remarks = p_details_remarks;
 
-                                double days_count = 0;
-                                double hours_count =0;
-                                for (int i = 0; i < lv_dtl.Count; i++)
+                                //double days_count = 0;
+                                //double hours_count =0;
+                                //for (int i = 0; i < lv_dtl.Count; i++)
+                                //{
+                                //    days_count  += (lv_dtl[i].leave_date_to - lv_dtl[i].leave_date_from).TotalDays;
+                                //    hours_count += double.Parse(lv_dtl[i].date_num_day_total.ToString());
+                                //}
+                                //if ((lv_hdr.leave_type_code != "CTO" && days_count <= 0) ||
+                                //    (lv_hdr.leave_type_code == "CTO" && days_count <= 0 && hours_count <= 8))
+                                //{
+                                //    lv_hdr.posting_status   = false; ;
+                                //    lv_hdr.approval_status  = "L";
+                                //    lv_dtl.ForEach(a => a.rcrd_status = "L");
+                                //}
+
+                                var cancel_count = 0;
+                                var days_count   = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => DbFunctions.DiffDays(DbFunctions.TruncateTime(x.leave_date_from),DbFunctions.TruncateTime(x.leave_date_to)) + 1);
+                                //days_count     = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => (x.leave_date_to.Date - x.leave_date_from.Date).Days + 1);
+
+                                cancel_count = db_ats.leave_application_cancel_tbl.Where(x => x.leave_ctrlno == p_leave_ctrlno && x.empl_id == p_empl_id).Count(x => x.empl_id != null);
+
+                                if (days_count == cancel_count)
                                 {
-                                    days_count  += (lv_dtl[i].leave_date_to - lv_dtl[i].leave_date_from).TotalDays;
-                                    hours_count += double.Parse(lv_dtl[i].date_num_day_total.ToString());
-                                }
-                                if ((lv_hdr.leave_type_code != "CTO" && days_count <= 0) ||
-                                    (lv_hdr.leave_type_code == "CTO" && days_count <= 0 && hours_count <= 8))
-                                {
-                                    lv_hdr.posting_status   = false; ;
-                                    lv_hdr.approval_status  = "L";
+                                    lv_hdr.posting_status       = false; ;
+                                    lv_hdr.approval_status      = "L";
                                     lv_dtl.ForEach(a => a.rcrd_status = "L");
                                 }
 

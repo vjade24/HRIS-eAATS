@@ -165,7 +165,7 @@
                                             (full.hdr["submitted_dttm"] != null ? '' : '<button type="button" class="btn btn-warning" ng-click="btn_view(' + row["row"] + ')"   data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i>   </button >') +
                                             (full.hdr["submitted_dttm"] != null ? '' :'<button type="button" class="btn btn-danger"  ng-click="btn_action_header(\'delete\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i> </button >') +
                                             '<button type="button" class="btn btn-primary" ng-click="btn_print(\''+full.hdr['transmittal_nbr']+'\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i> </button >' +
-                                            (full.hdr["received_dttm"] == null ? '' :'<button type="button" class="btn btn-primary" ng-click="btn_action_header(\'received_null\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Received"><i class="fa fa-truck"></i> </button >') +
+                                            //(full.hdr["received_dttm"] == null ? '' :'<button type="button" class="btn btn-primary" ng-click="btn_action_header(\'received_null\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Received"><i class="fa fa-truck"></i> </button >') +
                                             (full.hdr["submitted_dttm"] != null ? '' :'<button type="button" class="btn btn-success" ng-click="btn_action_header(\'transmit\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Transmit"><i class="fa fa-truck"></i> </button >') +
                                         '</center>';
                             }
@@ -507,44 +507,7 @@
     }
     s.btn_action_dtl = function (action, data,row_id)
     {
-        if (!action == "print_to")
-        {
-            swal({
-                title       : "Are you sure to "+action+" this record?" + " \n " + data.employee_name,
-                text        : "Once "+action+", you will not be able to recover this record!",
-                icon        : "warning",
-                buttons     : true,
-            }).then(function (willContinue)
-            {
-                data.transmittal_nbr = s.form.transmittal_nbr
-                if (willContinue)
-                {
-                    h.post("../cBestInAttendance/DetailAction",
-                    {
-                        action  : action
-                        ,data   : data
-                    }).then(function (d) 
-                    {
-                        if (d.data.message == "success")
-                        {
-                            if (action == "delete")
-                            {
-                                if (row_id != -1)
-                                {
-                                    s.dtl.splice(row_id, 1);
-                                }
-                            }
-                            swal("Your record has been "+action+"!", { icon: "success", });
-                        }
-                        else
-                        {
-                            swal(d.data.message, { icon: "warning", });
-                        }
-                    })
-                }
-            });
-        }
-        else
+        if (action == "print_to")
         {
             swal({
                 title: "Select Year and Month",
@@ -595,6 +558,38 @@
 
                 }
             });
+        }
+        else
+        {
+            swal({
+                title: "Are you sure to " + action + " this record?" + " \n " + data.employee_name,
+                text: "Once " + action + ", you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+            }).then(function (willContinue) {
+                data.transmittal_nbr = s.form.transmittal_nbr
+                if (willContinue) {
+                    h.post("../cBestInAttendance/DetailAction",
+                        {
+                            action: action
+                            , data: data
+                        }).then(function (d) {
+                            if (d.data.message == "success") {
+                                if (action == "delete") {
+                                    if (row_id != -1) {
+                                        s.dtl.splice(row_id, 1);
+                                    }
+                                }
+                                swal("Your record has been " + action + "!", { icon: "success", });
+                            }
+                            else {
+                                swal(d.data.message, { icon: "warning", });
+                            }
+                        })
+                }
+            });
+
+            
         }
     }
     s.FilterGrid = function ()

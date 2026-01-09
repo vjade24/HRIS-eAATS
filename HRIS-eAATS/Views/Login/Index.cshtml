@@ -40,7 +40,7 @@
 
     <style type="text/css">
         .body-login {
-            height: 80vh;
+            height: 100vh;
             background-image: radial-gradient(circle,rgba(33, 20, 1, 0.55) 0%, rgba(33, 20, 1, 0.54) 0%), url('../../ResourcesImages/DDO Building Blur.jpg');
             background-size: cover;
             background-position: center;
@@ -60,6 +60,10 @@
             border: 1px solid #ECC925;
             z-index: 950;
             box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+        }
+        .large-checkbox {
+            transform: scale(1.5); /* make it bigger */
+            -webkit-transform: scale(1.5); /* for Safari/Chrome */
         }
     </style>
 
@@ -81,7 +85,7 @@
         <hr style="margin-top:4px;margin-bottom:0px;border-color:#ECC925;" />
         <form class="m-t" role="form" style="margin-top:4px;">
             <div class="form-group">
-                <label id="lbl_txtb_password_req" class="lbl_required text-center" style="width:100%;"></label>
+                <label id="lbl_txtb_password_req" class="lbl_required text-center" style="width:100%;margin-bottom:5px !important"></label>
                 <input type="text" id="txtb_username" class="form-control" placeholder="Username" ng-model="txt_username" required="">
                 <label id="lbl_txtb_username_req" class="lbl_required"></label>
             </div>
@@ -89,7 +93,11 @@
                 <input type="password" id="txtb_password" class="form-control" placeholder="Password" style="padding-right:33px !important;" ng-model="txt_password" required="">
                 <span class="fa fa-eye-slash pull-right" id="show_pass_icn" onclick="showpassword()" style="margin-top:-32px;margin-right:2px;z-index:1000;background-color:white;padding:8px;cursor:pointer;"></span>
             </div>
-            <button type="submit" ng-click="btn_Login_Submit()"  class="btn btn-primary block full-width "><i id="login_icon" class="fa fa-sign-in"></i> Login</button>
+            <div class=" m-t-sm m-b-sm">
+                <input type="checkbox" id="chk_terms" class="large-checkbox" />
+                <a onclick="btn_show_terms()" class="small text-primary" style="cursor:pointer;color:#ECC925">&nbsp;&nbsp;Accept our Terms and Conditions</a>
+            </div>
+            <button type="submit" ng-click="btn_Login_Submit()" class="btn btn-primary block full-width "><i id="login_icon" class="fa fa-sign-in"></i> Login</button>
             <br />
         </form>
         <p class="m-t-n text-white">
@@ -98,35 +106,127 @@
             <small class="small">Provincial Government of Davao de Oro &copy; @DateTime.Now.Year</small>
         </p>
     </div>
-    @*<div class="footer-login">
-        <div style="width:50%;background-color:#00419b !important;padding:15px;border-top:10px solid #fd0906;border-radius: 0% 100% 0% 0% !important;">
-            <div class="row" >
-                <div class="col-lg-6">
-                    <div class="form-group row">
-                        <div class="col-lg-3">
-                            <img src="~/ResourcesImages/ddo logo.png" height="50" width="50" />
-                        </div>
-                        <div class="col-lg-6">
-                            <strong><small>PROVINCIAL INFORMATION AND COMMUNICATIONS TECHNOLOGY OFFICE</small></strong>
-                        </div>
+
+    <div class="modal fade" id="modal_term_and_conditions" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content ">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title">Terms and Conditions</h3>
+                </div>
+                <div class="modal-body ">
+                    <div>
+                        <h3>NON-DISCLOSURE AGREEMENT</h3>
+
+                        <p>This Non-Disclosure Agreement ("Agreement") is entered into by and between:</p>
+
+                        <p>
+                            <strong>Provincial Health Office</strong><br>
+                            Address: Provincial Capitol Complex, Nabunturan, Davao de Oro<br>
+                            Email: pho.davaodeoro.gov.ph<br>
+                            (“Disclosing Party”)
+                        </p>
+
+                        <p>
+                            <strong>AND</strong><br>
+                            Authorized System User (“Receiving Party” or “User”)
+                        </p>
+
+                        <h5 class="font-semibold mt-4">1. Purpose</h5>
+                        <p>This Agreement is intended to protect the confidentiality of sensitive data and system information accessed by the User through the Blood Donor Tracking System and Blood Inventory Management System (“Systems”). By using the Systems, the User may gain access to personal, medical, and operational information which must remain strictly confidential.</p>
+
+                        <h5 class="font-semibold mt-4">2. Confidential Information</h5>
+                        <p>“Confidential Information” includes but is not limited to:</p>
+                        <ul class="list-disc pl-5">
+                            <li>Personal details of blood donors and recipients (e.g., names, contact info, blood type, health history).</li>
+                            <li>Donor eligibility and screening information.</li>
+                            <li>Internal reports, statistics, and operational data.</li>
+                            <li>User access credentials and security settings.</li>
+                            <li>System software, interface details, or technical documentation.</li>
+                        </ul>
+
+                        <h5 class="font-semibold mt-4">3. User Obligations</h5>
+                        <p>The User agrees to:</p>
+                        <ul class="list-disc pl-5">
+                            <li>Access the System only with their own authorized credentials.</li>
+                            <li>Use Confidential Information solely for the purposes of their assigned duties.</li>
+                            <li>Not share, transmit, or disclose Confidential Information to unauthorized parties.</li>
+                            <li>Log out of the System when access is no longer required.</li>
+                            <li>Immediately report any suspected data breaches or unauthorized access.</li>
+                        </ul>
+
+                        <h5 class="font-semibold mt-4">4. Prohibited Actions</h5>
+                        <p>The User agrees not to:</p>
+                        <ul class="list-disc pl-5">
+                            <li>Download, copy, or distribute Confidential Information unless explicitly authorized.</li>
+                            <li>Use System data for personal, commercial, or unrelated purposes.</li>
+                            <li>Attempt to gain unauthorized access to other users' information or restricted areas of the System.</li>
+                            <li>Share login credentials or allow others to use their access.</li>
+                        </ul>
+
+                        <h5 class="font-semibold mt-4">5. Term</h5>
+                        <p>This Agreement is effective from the date the credentials were issued to the user and remains until user access is terminated.</p>
+
+                        <h5 class="font-semibold mt-4">6. Termination of Access</h5>
+                        <p>Upon termination of employment, volunteer work, or role requiring access, or upon request by the Disclosing Party:</p>
+                        <ul class="list-disc pl-5">
+                            <li>The User’s access will be revoked.</li>
+                            <li>The User must cease all use of the System and destroy or return any materials containing Confidential Information.</li>
+                        </ul>
+
+                        <h5 class="font-semibold mt-4">7. Breach and Consequences</h5>
+                        <p>A breach of this Agreement may result in:</p>
+                        <ul class="list-disc pl-5">
+                            <li>Disciplinary action (up to termination of employment or contract).</li>
+                            <li>Legal liability for damages.</li>
+                            <li>Civil or criminal penalties, particularly for violations of health privacy laws.</li>
+                        </ul>
+
+                        <h5 class="font-semibold mt-4">8. Governing Law</h5>
+                        <p>This Agreement shall be governed by the laws of Republic Act 10173.</p>
+
+                        <h5 class="font-semibold mt-4">9. Acknowledgment</h5>
+                        <p>By clicking AGREE, the User acknowledges they have read, understood, and agree to abide by the terms stated above and the organization’s confidentiality and data protection policies. Access is denied if the user chooses to disagree. The login and agreement logs are saved in the Systems.</p>
+
                     </div>
                 </div>
-                <div class="col-lg-6" >
-                    <div class="form-group row">
-                        <div class="col-lg-3">
-                            <img src="~/ResourcesImages/ddo logo.png" height="50" width="50" />
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-danger text-left">Close</button>
+                    <button class="btn btn-warning" type="button" onclick="btn_agree()"><i class="fa fa-thumbs-up"></i> I Agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="footer-login">
+            <div style="width:50%;background-color:#00419b !important;padding:15px;border-top:10px solid #fd0906;border-radius: 0% 100% 0% 0% !important;">
+                <div class="row" >
+                    <div class="col-lg-6">
+                        <div class="form-group row">
+                            <div class="col-lg-3">
+                                <img src="~/ResourcesImages/ddo logo.png" height="50" width="50" />
+                            </div>
+                            <div class="col-lg-6">
+                                <strong><small>PROVINCIAL INFORMATION AND COMMUNICATIONS TECHNOLOGY OFFICE</small></strong>
+                            </div>
                         </div>
-                        <div class="col-lg-6">
-                            <a href="http://eservices.davaodeoro.gov.ph/">eservices.davaodeoro.gov.ph</a>
+                    </div>
+                    <div class="col-lg-6" >
+                        <div class="form-group row">
+                            <div class="col-lg-3">
+                                <img src="~/ResourcesImages/ddo logo.png" height="50" width="50" />
+                            </div>
+                            <div class="col-lg-6">
+                                <a href="http://eservices.davaodeoro.gov.ph/">eservices.davaodeoro.gov.ph</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div style="width:50%">
-            
-        </div>
-    </div>*@
+            <div style="width:50%">
+
+            </div>
+        </div>*@
     <!-- Mainly scripts -->
     <script src="~/Scripts/jquery-2.1.1.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
@@ -152,6 +252,16 @@
                 $("#show_pass_icn").addClass('fa-eye-slash');
                 x.type = "password";
             }
+        }
+        function btn_show_terms() {
+            $('#modal_term_and_conditions').modal({ backdrop: 'static', keyboard: false });
+        }
+        function btn_agree() {
+            var chk = document.getElementById('chk_terms');
+            if (!chk.checked) {
+                chk.checked = true;
+            }
+            $('#modal_term_and_conditions').modal("hide");
         }
     </script>
 </body>

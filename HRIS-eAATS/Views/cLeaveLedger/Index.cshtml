@@ -555,6 +555,11 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
+                            <div class="form-group row">
+                                <div class="col-lg-12 text-center">
+                                    <button class="btn btn-primary btn-sm dim" ng-click="RetrieveCardingReport(txtb_empl_id,'','','2',ddl_rep_mode == '3' ?'CTO':'','iframe_print_preview_carding_review')"> View Card</button>
+                                </div>
+                            </div>
                             <div class="print_preview_iframe_css">
                                 <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview_carding_review" scrolling="no" src=""></iframe>
                             </div>
@@ -840,6 +845,24 @@
             </div>
         </div>
     </div>
+
+    <!-- Leave View -->
+    <div class="modal fade" id="view_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header blue-bg">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title font-bold">Leave History</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="feed-activity-list" id="history_view">
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
     <!-- Leave Ledger Page Header-->
     <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
         <div class="row">
@@ -908,9 +931,9 @@
                                 </select>
                                 <label id="lbl_ddl_name_req" class="lbl_required"></label>
                             </div>
-                            @*<div class="col-lg-12">
+                            <div class="col-lg-12" ng-show="false">
                                 <button class="btn btn-default btn-sm" ng-click="btn_export()"> <i class="fa fa-download"></i> EXPORT</button>
-                            </div>*@
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -1415,12 +1438,12 @@
                 <div class="col-lg-12" style="background-color:transparent !important;margin-top:30% !important;">
                     <div class="spiner-example fa-2x">
                         <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
-                            <span style="color:white !important;"> Initializing Data </span>
-                            <div class="sk-bounce1" style="background-color: white !important;"></div>
-                            <div class="sk-bounce2" style="background-color: white !important;"></div>
-                            <div class="sk-bounce3" style="background-color: white !important;"></div>
+                            <span style="color:#f8ac59 !important;"> Initializing Data </span>
+                            <div class="sk-bounce1" style="background-color: #f8ac59 !important;"></div>
+                            <div class="sk-bounce2" style="background-color: #f8ac59 !important;"></div>
+                            <div class="sk-bounce3" style="background-color: #f8ac59 !important;"></div>
                             <br />
-                            <span style="color:white !important;font-size:18px;"> This might take a while </span>
+                            <span style="color:#f8ac59 !important;font-size:18px;"> This might take a while </span>
                         </div>
 
                     </div>
