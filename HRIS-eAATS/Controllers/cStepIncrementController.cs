@@ -226,11 +226,11 @@ namespace HRIS_eAATS.Controllers
                 db.Database.CommandTimeout  = Int32.MaxValue;
                 data.created_by             = Session["user_id"].ToString();
                 data.created_dttm           = DateTime.Now;
-
                 if (action == "ADD")
                 {
                     db.step_reckoning_tbl.Add(data);
                     db.SaveChanges();
+                   
                 }
                 else if (action == "EDIT")
                 {
@@ -240,6 +240,7 @@ namespace HRIS_eAATS.Controllers
                 {
                    
                 }
+                
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

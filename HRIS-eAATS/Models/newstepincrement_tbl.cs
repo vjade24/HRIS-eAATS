@@ -28,5 +28,6 @@ namespace HRIS_eAATS.Models
         public Nullable<System.DateTime> created_dttm { get; set; }
         public Nullable<System.DateTime> updated_dttm { get; set; }
         public string step_type { get; set; }
+        public string salary_grade { get; set; }
     }
 }

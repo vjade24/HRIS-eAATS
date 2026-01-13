@@ -200,6 +200,30 @@
     #btn_action_option_dropdown button {
         text-align: left !important;
     }
+
+
+    .img-badge-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-img {
+        border-radius: 50%;
+        border: 0.5px solid #442B02;
+    }
+
+    .img-badge {
+        position: absolute;
+        bottom: 1px;
+        right: -15px;
+        background-color: #7535dc; /*#dc3545; red */
+        color: white;
+        font-size: 10px;
+        padding: 2px 5px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
 </style>
 <script src="~/Angular/ng-cStepIncrement.js"></script>
 <section ng-app="ng_HRD_App" ng-controller="cStepIncrement_ctrlr">
@@ -579,11 +603,25 @@
                                                     <li><a ng-click="btn_delete_click($index,employee_rekon.id)">Delete Record</a></li>
                                                 </ul>
                                             </div>
-                                            <img id="m{{employee_rekon.empl_id}}" ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
+                                            @*<img id="m{{employee_rekon.empl_id}}" ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
                                                  style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
                                                  width="50"
                                                  height="50"
-                                                 onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
+                                                 onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />*@
+
+                                                <div class="img-badge-wrapper">
+                                                    <img id="m{{employee_rekon.empl_id}}"
+                                                         ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
+                                                         width="50"
+                                                         height="50"
+                                                         class="profile-img"
+                                                         onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
+
+                                                    <!-- Badge -->
+                                                    <span class="img-badge">
+                                                        <small>sg</small> {{employee_rekon.salary_grade}}
+                                                    </span>
+                                                </div>
                                         </div>
                                         <div class="col-lg-10 " style="text-overflow:ellipsis;padding-top:5px;">
                                             <div class="row">
@@ -603,8 +641,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="box2" ng-repeat="lst in table_header" style="font-weight:bold;color:black;height:inherit;flex:0 0 100px;vertical-align:middle;text-align:center;align-content:center;display:flex;justify-content:center;align-items:center;" ng-style="{'background-color': getBackgroundColor(lst, employee_rekon.rekoning_date)}">
-                                        {{(getSteps(lst, employee_rekon.rekoning_date) == "" ? '&nbsp':getSteps(lst, employee_rekon.rekoning_date))}}
+                                    <div class="box2" ng-repeat="lst in table_header" style="font-weight:bold;color:black;height:inherit;flex:0 0 100px;vertical-align:middle;text-align:center;align-content:center;display:flex;justify-content:center;align-items:center;" ng-style="{'background-color': getBackgroundColor(lst,employee_rekon, employee_rekon.rekoning_date)}">
+                                        {{getSteps(lst, employee_rekon)}}
                                     </div>
                                 </div>
                             </div>

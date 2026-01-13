@@ -19,6 +19,7 @@
     // Pagination variables
     $scope.currentPage  = 0;
     s.pageSize          = '10'; // items per page
+    var vPageSize = 0;
     // Sample data
     $scope.data = [];
     s.statData = [];
@@ -27,14 +28,17 @@
     }
 
    
-    s.results_to_generate = 0;
-    s.viewRecord    = [];
-    s.lwoplist      = [];
-    s.viewRecorddtl = [];
-    s.viewStatsData = [];
-    s.months        = {};
-    s.list_to_step = [];
-    s.list_generated = [];
+    s.results_to_generate   = 0;
+    s.viewRecord            = [];
+    s.lwoplist              = [];
+    s.viewRecorddtl         = [];
+    s.viewStatsData         = [];
+    s.months                = {};
+    s.list_to_step          = [];
+    s.list_generated        = [];
+
+    s.filteredList = [];
+
     $.fn.modal.Constructor.prototype.enforceFocus = function () {
 
     }
@@ -62,7 +66,7 @@
                         "mData": null,
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>" + moment(full["rekoning_date"]).format("YYYY-MM-DD") + " | " + (full["generated_step"].toString() == "0" ? s.getSteps(moment(s.txtb_from).format("YYYY"), full["rekoning_date"]).slice(-1).replace('X','8') : full["generated_step"].toString())  +"</span>";
+                            return "<span class='text-center btn-block'>" + moment(full["rekoning_date"]).format("YYYY-MM-DD") + " | " + (full["generated_step"].toString() == "0" ? s.getSteps(moment(s.txtb_from).format("YYYY"), full).slice(-1).replace('X','8') : full["generated_step"].toString())  +"</span>";
                         }
                     },
                     {
@@ -72,7 +76,7 @@
                         {
                             var disable_print = full["already_have_rep"].toString() == "" ? true:false; 
                             return '<center><div class="btn-group">' +
-                                '<button type="button" ng-disabled="!' + disable_print + '" class="btn btn-success btn-sm"       ng-click="btn_generate_NOSI(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-refresh"></i></button >' +
+                                '<button type="button" ng-disabled="!' + disable_print + '" class="btn btn-success btn-sm"       ng-click="btn_generate_NOSI(\'' + full["empl_id"] + '\')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-refresh"></i></button >' +
                                 '<button type="button" ng-disabled="' + disable_print + '" class="btn btn-primary btn-sm"   ng-click="print_report_nosi(\'' + full["empl_id"] + '\',\'' + moment(full["date_generated"]).format("YYYY-MM-DD") +'\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
                                 '</div></center>';
                         }
@@ -150,8 +154,9 @@
             function (d) {
                 s.employee_steps_record = d.data.stepIncrementData;
                 s.totalPages = [];
-                s.pageSize = s.pageSize == 0 ? s.employee_steps_record.length : s.pageSize;
-                for (var i = 0; i < Math.ceil(s.employee_steps_record.length / parseInt(s.pageSize)); i++) {
+                s.pageSize  = s.pageSize == "0" ? s.employee_steps_record.length.toString() : s.pageSize;
+                vPageSize   = s.pageSize == "0" ? s.employee_steps_record.length.toString() : s.pageSize;
+                for (var i = 0; i < Math.ceil(s.employee_steps_record.length / parseInt(vPageSize)); i++) {
                     s.totalPages.push(i);
                 }
                 $scope.currentPage = 0;
@@ -167,8 +172,9 @@
     s.setPageSize = function ()
     {
         s.totalPages = [];
-        var pageSize = parseInt(s.pageSize) == 0 ? s.employee_steps_record.length : parseInt(s.pageSize);
-        for (var i = 0; i < Math.ceil(s.employee_steps_record.length / pageSize); i++) {
+        vPageSize = parseInt(s.pageSize) == 0 ? s.employee_steps_record.length : parseInt(s.pageSize);
+        
+        for (var i = 0; i < Math.ceil(s.employee_steps_record.length / vPageSize); i++) {
             s.totalPages.push(i);
         }
         $scope.currentPage = 0;
@@ -183,8 +189,8 @@
     };
 
     $scope.updatePagination = function () {
-        var start = $scope.currentPage * parseInt(s.pageSize);
-        var end = (start + parseInt(s.pageSize)) > s.employee_steps_record.length ? s.employee_steps_record.length : (start + parseInt(s.pageSize));
+        var start = $scope.currentPage * parseInt(vPageSize);
+        var end = (start + parseInt(vPageSize)) > s.employee_steps_record.length ? s.employee_steps_record.length : (start + parseInt(vPageSize));
         s.employee_pagenated_record = s.employee_steps_record.slice(start, end);
         
     };
@@ -257,10 +263,10 @@
         if (headerVal === "12") return "December"; 
     }
 
-    s.getSteps = function (lst, rekoning_date)
+    s.getSteps = function (lst, employee)
     {
-        var rekon_year = moment(rekoning_date).year();
-        
+        var rekon_year = moment(employee.rekoning_date).year();
+
         if (moment($("#txtb_from").val()).format("YYYY") == moment($("#txtb_to").val()).format("YYYY"))
         {
             
@@ -272,11 +278,12 @@
                 return "";
             }
             else {
-                if (((((moment($("#txtb_from").val()).year() - rekon_year) / 3) + 1) >= 8) && (parseInt(lst) == (moment(rekoning_date).month() + 1)) && ((moment($("#txtb_from").val()).year() - rekon_year) % 3)== 0) {
+                if (((((moment($("#txtb_from").val()).year() - rekon_year) / 3) + 1) >= 8) && (parseInt(lst) == (moment(employee.rekoning_date).month() + 1)) && ((moment($("#txtb_from").val()).year() - rekon_year) % 3)== 0) {
                     return 'MAX';
                 }
-                else if (parseInt(lst) == (moment(rekoning_date).month() + 1)) {
+                else if (parseInt(lst) == (moment(employee.rekoning_date).month() + 1)) {
                     return 'Step ' + (((moment($("#txtb_from").val()).year() - rekon_year) / 3) + 1);
+                    //return 'Step ' + employee.rekon_step;
                 }
                 else {
                     return "";
@@ -293,20 +300,25 @@
                 return "";
             }
             else {
-                if ((((lst - rekon_year) / 3) + 1) >= 8) {
+                var myStep  = 0;
+                myStep      = ((lst - rekon_year) / 3) + employee.rekon_step;
+                if (myStep >= 8) {
                     return 'MAX';
                 }
                 else {
-                    return 'Step ' + (((lst - rekon_year) / 3) + 1);
+                    return 'Step ' + myStep;
                 }
 
             }
         }
     };
 
-    $scope.getBackgroundColor = function (lst, rekoning_date)
+    $scope.getBackgroundColor = function (lst, employee, rekoning_date)
     {
         var rekon_year = moment(rekoning_date).year();
+        var myStep = 0;
+        myStep = ((lst - rekon_year) / 3) + employee.rekon_step;
+
         if (moment($("#txtb_from").val()).format("YYYY") == moment($("#txtb_to").val()).format("YYYY"))
         {
             if ((moment($("#txtb_from").val()).year() - rekon_year) < 3)
@@ -354,25 +366,25 @@
                 return 'none';
             }
             else {
-                if ((((lst - rekon_year) / 3) + 1) == 2) {
+                if (myStep == 2) {
                     return 'yellow';
                 }
-                else if ((((lst - rekon_year) / 3) + 1) == 3) {
+                else if (myStep == 3) {
                     return 'red';
                 }
-                else if ((((lst - rekon_year) / 3) + 1) == 4) {
+                else if (myStep == 4) {
                     return 'blue';
                 }
-                else if ((((lst - rekon_year) / 3) + 1) == 5) {
+                else if (myStep == 5) {
                     return 'green';
                 }
-                else if ((((lst - rekon_year) / 3) + 1) == 6) {
+                else if (myStep == 6) {
                     return 'orange';
                 }
-                else if ((((lst - rekon_year) / 3) + 1) == 7) {
+                else if (myStep == 7) {
                     return 'pink';
                 }
-                else if ((((lst - rekon_year) / 3) + 1) == 8) {
+                else if (myStep == 8) {
                     return '#563d7c';
                 }
                 else {
@@ -827,8 +839,9 @@
         }
         else
         {
-            var data = s.list_to_step.filter(item => item.department_code == dept.department_code);
-            s.filterDept = dept.department_code;
+            var data        = s.list_to_step.filter(item => item.department_code == dept.department_code);
+            s.filterDept    = dept.department_code;
+            s.filteredList  = data;
             if (data.length > 0)
             {
                 $("#datalist_grid_filter .filter-badge").remove();
@@ -946,7 +959,7 @@
         }
     }
 
-    s.btn_generate_NOSI = function (index)
+    s.btn_generate_NOSI = function (empl_id)
     {
         swal({
             title: "Are you sure to generate NOSI for this record?",
@@ -959,8 +972,8 @@
             if (willDelete)
             {
                 $("#modalLoader").modal({ backdrop: 'static', keyboard: false });
-                var lst = s.list_to_step[index];
-                var years = parseInt(moment().format("YYYY")) - parseInt(moment(lst.rekoning_date).format("YYYY"));
+                var lst     = s.list_to_step.filter(item => item.empl_id == empl_id)[0];
+                var years   = parseInt(moment().format("YYYY")) - parseInt(moment(lst.rekoning_date).format("YYYY"));
                 var par_tbl = {
                     empl_id             :lst.empl_id,
                     date_of_effectivity :moment(lst.rekoning_date).add(years, "years").format("YYYY-MM-DD"),
@@ -1035,10 +1048,19 @@
                                         });
 
                                         s.oTable.fnClearTable();
-                                        if (s.list_to_step.length > 0) {
-                                            s.oTable.fnAddData(s.list_to_step);
-                                            s.oTable.fnPageChange(currentPage);
+                                        if (s.list_to_step.length > 0)
+                                        {
+                                            if (s.filterDept != "") {
+                                                var data = s.list_to_step.filter(item => item.department_code == s.filterDept);
+                                                s.oTable.fnAddData(data);
+                                                s.oTable.fnPageChange(currentPage);
+                                            }
+                                            else {
+                                                s.oTable.fnAddData(s.list_to_step);
+                                                s.oTable.fnPageChange(currentPage);
+                                            }
                                         }
+
                                         $compile($("#datalist_grid"))($scope);
                                         drawMorrisChart(finalData);
 
