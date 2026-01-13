@@ -340,7 +340,26 @@ namespace HRIS_eAATS.Reports
             }
             catch (Exception e)
             {
-                
+                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() != "3")
+                {
+                    crvPrint.ShowLastPage();
+                    int totalPages = cryRpt.FormatEngine.GetLastPageNumber(new CrystalDecisions.Shared.ReportPageRequestContext());
+
+                    // Navigate to the second-to-last page
+                    if (totalPages > 1)
+                    {
+                        crvPrint.ShowNthPage(totalPages - 1);
+                    }
+                    else
+                    {
+                        // If the report only has one page, just show the first page
+                        crvPrint.ShowFirstPage();
+                    }
+                }
+                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() == "3")
+                {
+                    crvPrint.ShowLastPage();
+                }
             }
         }
         //private void BindReport(ReportDocument ReportPath)
