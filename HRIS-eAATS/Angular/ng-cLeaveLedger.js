@@ -90,6 +90,9 @@
             s.SelectMonYearEarn();
         });
 
+        $("#ddl_extract_year").on('change', function (e) {
+            s.optionChanged();
+        });
         var ddate = new Date();
         s.txtb_dtr_mon_year = moment(ddate).format("MMMM - YYYY");
         //s.txtb_dtr_mon_year_earn = moment(ddate).format("MMMM - YYYY");
@@ -1409,12 +1412,12 @@
                 if (print_mode == 'OLD')
                 {
                     s.show_lv_card_rep_option = true;
-                    ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
+                    ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedgerx.rpt";
                 }
                 else if (print_mode == 'NEW')
                 {
                     s.show_lv_card_rep_option = true;
-                    ReportPath = "~/Reports/cryLeaveLedger2/cryLeaveLedger.rpt";
+                    ReportPath = "~/Reports/cryLeaveLedger2/cryLeaveLedgerx.rpt";
                 }
                 else if (print_mode == 'CTO')
                 {
@@ -3743,7 +3746,7 @@
         }
         else
         {
-            ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
+            ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedgerx.rpt";
         }
         // *******************************************************
         // *** VJA : 2021-07-14 - Validation and Loading hide ****
@@ -4076,7 +4079,7 @@
             s.generated_covered_descr = ""
             h.post("../cLeaveLedger/reloadExtract", {
                 empl_id         : $("#ddl_name option:selected").val()
-                ,year           : "2025",
+                ,year           : $("#ddl_extract_year option:selected").val(),
                 nbr_quarter     : s.nbr_quarter
             }).then(function (d)
             {
@@ -4196,23 +4199,71 @@
     }
     s.btn_export = function ()
     {
-        h.post("../cLeaveLedger/export_and_merge",
-        {
-             par_department_code   : "25"
-            ,par_employment_type   : "RE"
-            ,par_year              : "2025"
-            ,par_month             : "07"
+        var dep             = $("#ddl_dept option:selected").val();
+        var emp_type        = $("#ddl_empl_type option:selected").val();
+        var year            = str_to_year($("#txtb_dtr_mon_year").val());
+        var month           = month_name_to_int($("#txtb_dtr_mon_year").val());
 
-        }).then(function (d) {
-            if (d.data.message == "success")
-            {
-                swal(d.data.message, { icon: "success", });
-            }
-            else
-            {
-                swal(d.data.message, { icon: "warning", });
+        if (dep == "") {
+            swal("Department is Required", { icon: "error" });
+            return;
+        }
+
+        // SweetAlert confirmation
+        swal({
+            title: "Are you sure?",
+            text: "Do you want to export and merge the leave ledger?",
+            icon: "warning",
+            buttons: ["Cancel", "Proceed"],
+            dangerMode: true,
+        }).then((willExport) => {
+            if (willExport) {
+                // Show loading modal
+                $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+
+                $http({
+                    method: 'POST',
+                    url: '../cLeaveLedger/export_and_merge',
+                    responseType: 'blob',
+                    data: {
+                        par_department_code : dep,
+                        par_employment_type : emp_type,
+                        par_year            : year,
+                        par_month           : month
+                    }
+                }).then(function (response) {
+
+                    // Extract filename from Content-Disposition header
+                    var contentDisposition = response.headers('content-disposition');
+                    var fileName = 'LeaveLedger.pdf'; // default fallback
+                    if (contentDisposition) {
+                        var matches = /filename="?(.+)"?/.exec(contentDisposition);
+                        if (matches && matches.length > 1) fileName = matches[1];
+                    }
+
+                    // Create Blob and trigger download
+                    var blob = new Blob([response.data], { type: 'application/pdf' });
+                    var url = window.URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+
+                    // Cleanup
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    $('#modal_initializing').modal("hide");
+
+                    // Optional success alert
+                    swal("Exported!", "Leave ledger has been exported successfully.", "success");
+                });
+            } else {
+                // User cancelled
+                swal("Cancelled", "Export cancelled", "info");
             }
         });
+
     }
     s.btn_view = function (row)
     {

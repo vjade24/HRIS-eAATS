@@ -900,12 +900,15 @@
                             <div class="col-lg-3">
                                 <b><label class="pull-left" style="margin-top:9px;">Department :</label></b>
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-lg-6">
                                 <select class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;">
                                     <option value="">-- Select Department -- </option>
                                     <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
                                 </select>
                                 <label id="lbl_ddl_dept_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-3">
+                                <button class="btn btn-default btn-block" ng-click="btn_export()"> <i class="fa fa-download"></i> EXPORT LEAVE CARD</button>
                             </div>
                         </div>
                         <div class="form-grop row m-t-xs">
@@ -931,9 +934,7 @@
                                 </select>
                                 <label id="lbl_ddl_name_req" class="lbl_required"></label>
                             </div>
-                            <div class="col-lg-12" ng-show="false">
-                                <button class="btn btn-default btn-sm" ng-click="btn_export()"> <i class="fa fa-download"></i> EXPORT</button>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -1185,7 +1186,14 @@
                                         <div class="row">
                                             <div class="col-lg-7" style="padding-top:5px;">
                                                 <div class="form-group row">
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-2">
+                                                        <select class="form-control" id="ddl_extract_year" >
+                                                            <option value="2025" selected>2025</option>
+                                                            @*<option value="2026" >2026</option>
+                                                            <option value="2027">2027</option>*@
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-10">
                                                         <label>
                                                             <input type="radio" ng-model="selectedOption" value="1" ng-change="optionChanged()"> 1st Quarter
                                                         </label>&nbsp;&nbsp;&nbsp;
@@ -1199,7 +1207,7 @@
                                                             <input type="radio" ng-model="selectedOption" value="4" ng-change="optionChanged()"> 4th Quarter
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-12 m-t-xs">
                                                         <span class="badge badge-danger">{{generated_covered_descr}}</span>
                                                     </div>
                                                 </div>
