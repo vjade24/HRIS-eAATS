@@ -43,10 +43,10 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<vw_payrollemployeemaster_hdr_pos_tbl> vw_payrollemployeemaster_hdr_pos_tbl { get; set; }
         public virtual DbSet<user_prime_token_tbl> user_prime_token_tbl { get; set; }
         public virtual DbSet<personnelstatutory_tbl> personnelstatutory_tbl { get; set; }
-        public virtual DbSet<newstepincrement_tbl> newstepincrement_tbl { get; set; }
         public virtual DbSet<plantilla_tbl> plantilla_tbl { get; set; }
         public virtual DbSet<step_reckoning_overrid_tbl> step_reckoning_overrid_tbl { get; set; }
         public virtual DbSet<step_reckoning_tbl> step_reckoning_tbl { get; set; }
+        public virtual DbSet<newstepincrement_tbl> newstepincrement_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {
@@ -193,6 +193,35 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_year", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_step_record_status_list_tbl_Result>("sp_step_record_status_list_tbl", par_yearParameter);
+        }
+    
+        public virtual int sp_servicerecord_automation(string par_empl_id, Nullable<System.DateTime> par_effective_date, string par_data_from, string par_employment_type, string par_salary_grade, Nullable<int> par_step)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_effective_dateParameter = par_effective_date.HasValue ?
+                new ObjectParameter("par_effective_date", par_effective_date) :
+                new ObjectParameter("par_effective_date", typeof(System.DateTime));
+    
+            var par_data_fromParameter = par_data_from != null ?
+                new ObjectParameter("par_data_from", par_data_from) :
+                new ObjectParameter("par_data_from", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_salary_gradeParameter = par_salary_grade != null ?
+                new ObjectParameter("par_salary_grade", par_salary_grade) :
+                new ObjectParameter("par_salary_grade", typeof(string));
+    
+            var par_stepParameter = par_step.HasValue ?
+                new ObjectParameter("par_step", par_step) :
+                new ObjectParameter("par_step", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_servicerecord_automation", par_empl_idParameter, par_effective_dateParameter, par_data_fromParameter, par_employment_typeParameter, par_salary_gradeParameter, par_stepParameter);
         }
     }
 }

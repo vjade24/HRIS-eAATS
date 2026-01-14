@@ -563,6 +563,14 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_empl_id_waiver" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_servicerecord_automation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_effective_date" Type="date" Mode="In" />
+          <Parameter Name="par_data_from" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+          <Parameter Name="par_salary_grade" Type="varchar" Mode="In" />
+          <Parameter Name="par_step" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_step_reckoning_overrid_tbl_lwop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
         </Function>
@@ -831,7 +839,6 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <FunctionImport Name="sp_step_status_details" ReturnType="Collection(HRIS_PAYModel.sp_step_status_details_Result)">
           <Parameter Name="par_year" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="newstepincrement_tbl" EntityType="HRIS_PAYModel.newstepincrement_tbl" />
           <EntitySet Name="plantilla_tbl" EntityType="HRIS_PAYModel.plantilla_tbl" />
           <FunctionImport Name="sp_step_reckoning_overrid_tbl_lwop" ReturnType="Collection(HRIS_PAYModel.sp_step_reckoning_overrid_tbl_lwop_Result)">
           <Parameter Name="par_empl_id" Mode="In" Type="String" />
@@ -844,6 +851,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_year" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="step_reckoning_tbl" EntityType="HRIS_PAYModel.step_reckoning_tbl" />
+          <EntitySet Name="newstepincrement_tbl" EntityType="HRIS_PAYModel.newstepincrement_tbl" />
+          <FunctionImport Name="sp_servicerecord_automation">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_effective_date" Mode="In" Type="DateTime" />
+            <Parameter Name="par_data_from" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+            <Parameter Name="par_salary_grade" Mode="In" Type="String" />
+            <Parameter Name="par_step" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -1364,27 +1380,6 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Type="Int32" Name="to_step" Nullable="true" />
           <Property Type="Int32" Name="report_generated" Nullable="true" />
         </ComplexType>
-        <EntityType Name="newstepincrement_tbl">
-          <Key>
-            <PropertyRef Name="empl_id" />
-            <PropertyRef Name="date_generated" />
-          </Key>
-          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="date_generated" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="date_of_effectivity" Type="DateTime" Precision="0" />
-          <Property Name="item_no" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="step_increment_new" Type="Int32" />
-          <Property Name="approval_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="posting_status" Type="Boolean" />
-          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="created_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="updated_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Precision="3" />
-          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
-          <Property Name="step_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="salary_grade" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="plantilla_tbl">
           <Key>
             <PropertyRef Name="budget_code" />
@@ -1521,6 +1516,27 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="updated_by" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="newstepincrement_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="date_generated" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="date_generated" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="date_of_effectivity" Type="DateTime" Precision="0" />
+          <Property Name="item_no" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="step_increment_new" Type="Int32" />
+          <Property Name="approval_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="posting_status" Type="Boolean" />
+          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="created_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="step_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2023,27 +2039,6 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="newstepincrement_tbl">
-            <EntityTypeMapping TypeName="HRIS_PAYModel.newstepincrement_tbl">
-              <MappingFragment StoreEntitySet="newstepincrement_tbl">
-                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
-                <ScalarProperty Name="step_type" ColumnName="step_type" />
-                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="updated_by_user" ColumnName="updated_by_user" />
-                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
-                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="step_increment_new" ColumnName="step_increment_new" />
-                <ScalarProperty Name="item_no" ColumnName="item_no" />
-                <ScalarProperty Name="date_of_effectivity" ColumnName="date_of_effectivity" />
-                <ScalarProperty Name="date_generated" ColumnName="date_generated" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="plantilla_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.plantilla_tbl">
               <MappingFragment StoreEntitySet="plantilla_tbl">
@@ -2194,6 +2189,28 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="newstepincrement_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.newstepincrement_tbl">
+              <MappingFragment StoreEntitySet="newstepincrement_tbl">
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="step_type" ColumnName="step_type" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by_user" ColumnName="updated_by_user" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="step_increment_new" ColumnName="step_increment_new" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="date_of_effectivity" ColumnName="date_of_effectivity" />
+                <ScalarProperty Name="date_generated" ColumnName="date_generated" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_servicerecord_automation" FunctionName="HRIS_PAYModel.Store.sp_servicerecord_automation" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

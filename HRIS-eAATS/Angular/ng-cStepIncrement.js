@@ -977,7 +977,9 @@
                 var par_tbl = {
                     empl_id             :lst.empl_id,
                     date_of_effectivity :moment(lst.rekoning_date).add(years, "years").format("YYYY-MM-DD"),
-                    step_increment_new  :lst.rekon_step + (years/3)
+                    step_increment_new: lst.rekon_step + (years / 3),
+                    salary_grade: lst.salary_grade
+
                 };
               
                 h.post("../cStepIncrement/BtnGenerateNOSI",

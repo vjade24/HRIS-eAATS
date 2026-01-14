@@ -21,10 +21,10 @@
         <EntityTypeShape EntityType="HRIS_PAYModel.vw_payrollemployeemaster_hdr_pos_tbl" Width="1.5" PointX="11.375" PointY="8.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.user_prime_token_tbl" Width="1.5" PointX="13.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.personnelstatutory_tbl" Width="1.5" PointX="13.375" PointY="3.75" />
-        <EntityTypeShape EntityType="HRIS_PAYModel.newstepincrement_tbl" Width="1.5" PointX="7.375" PointY="13.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.plantilla_tbl" Width="1.5" PointX="13.375" PointY="11.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.step_reckoning_overrid_tbl" Width="1.5" PointX="15.375" PointY="0.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.step_reckoning_tbl" Width="1.5" PointX="3.375" PointY="13.75" />
+        <EntityTypeShape EntityType="HRIS_PAYModel.newstepincrement_tbl" Width="1.5" PointX="5.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -280,7 +280,9 @@ namespace HRIS_eAATS.Controllers
                         tbl.created_dttm        = DateTime.Now;
                         tbl.updated_dttm        = null;
                         tbl.step_type           = "length";
+                        tbl.salary_grade        = data.salary_grade;
                         db.newstepincrement_tbl.Add(tbl);
+                        db.sp_servicerecord_automation(data.empl_id,data.date_of_effectivity,"NOSI","RE",data.salary_grade,data.step_increment_new);
                     }
                     db.SaveChangesAsync();
                 }
