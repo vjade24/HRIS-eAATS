@@ -1186,7 +1186,14 @@
                                         <div class="row">
                                             <div class="col-lg-7" style="padding-top:5px;">
                                                 <div class="form-group row">
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-2">
+                                                        <select class="form-control" id="ddl_extract_year" >
+                                                            <option value="2025" selected>2025</option>
+                                                            @*<option value="2026" >2026</option>
+                                                            <option value="2027">2027</option>*@
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-10">
                                                         <label>
                                                             <input type="radio" ng-model="selectedOption" value="1" ng-change="optionChanged()"> 1st Quarter
                                                         </label>&nbsp;&nbsp;&nbsp;
@@ -1200,7 +1207,7 @@
                                                             <input type="radio" ng-model="selectedOption" value="4" ng-change="optionChanged()"> 4th Quarter
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-12">
+                                                    <div class="col-lg-12 m-t-xs">
                                                         <span class="badge badge-danger">{{generated_covered_descr}}</span>
                                                     </div>
                                                 </div>

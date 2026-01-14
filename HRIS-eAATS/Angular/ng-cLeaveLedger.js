@@ -90,6 +90,9 @@
             s.SelectMonYearEarn();
         });
 
+        $("#ddl_extract_year").on('change', function (e) {
+            s.optionChanged();
+        });
         var ddate = new Date();
         s.txtb_dtr_mon_year = moment(ddate).format("MMMM - YYYY");
         //s.txtb_dtr_mon_year_earn = moment(ddate).format("MMMM - YYYY");
@@ -4076,7 +4079,7 @@
             s.generated_covered_descr = ""
             h.post("../cLeaveLedger/reloadExtract", {
                 empl_id         : $("#ddl_name option:selected").val()
-                ,year           : "2025",
+                ,year           : $("#ddl_extract_year option:selected").val(),
                 nbr_quarter     : s.nbr_quarter
             }).then(function (d)
             {
