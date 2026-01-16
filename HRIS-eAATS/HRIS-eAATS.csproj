@@ -2773,6 +2773,8 @@
     <Content Include="Reports\CrystalViewer.aspx" />
     <Content Include="ResourcesImages\add_background.png" />
     <Content Include="ResourcesImages\bg-login-system.jpg" />
+    <Content Include="ResourcesImages\capitol_line.png" />
+    <Content Include="ResourcesImages\capitol_line1.png" />
     <Content Include="ResourcesImages\Davao de Oro Provincial Capitol Building.JPG" />
     <Content Include="ResourcesImages\DDO Building Blur.jpg" />
     <Content Include="ResourcesImages\DDO Building Blury Gold.jpg" />
