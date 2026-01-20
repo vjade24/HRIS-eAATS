@@ -309,14 +309,35 @@ namespace HRIS_eAATS.Reports
                 crvPrint.ReportSource = cryRpt;
                 crvPrint.DataBind();
 
+                //if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() != "3")
+                //{
+                //    // VJA - 2024-10-24 - Sub-Report for Summary of Leave
+                //    var session_empl_id = Session["empl_id"].ToString();
+                //    dtSub = new DataTable();
+                //    dtSub = MyCmn.RetrieveDataATS("sp_lv_ledger_summary", ls_splitvalue[1].ToString().Trim(), ls_splitvalue[2].ToString().Trim(), ls_splitvalue[3].ToString().Trim(), ls_splitvalue[4].ToString().Trim(), ls_splitvalue[5].ToString().Trim(), ls_splitvalue[6].ToString().Trim(), ls_splitvalue[7].ToString().Trim(), ls_splitvalue[8].ToString().Trim(), "p_prepared_empl_id", session_empl_id);
+                //    cryRpt.Subreports["cryLeaveLedgerSummary.rpt"].SetDataSource(dtSub);
+                //    // VJA - 2024-10-24 - Sub-Report for Summary of Leave
+                //    crvPrint.ShowLastPage();
+                //    int totalPages = cryRpt.FormatEngine.GetLastPageNumber(new CrystalDecisions.Shared.ReportPageRequestContext());
+
+                //    // Navigate to the second-to-last page
+                //    if (totalPages > 1)
+                //    {
+                //        crvPrint.ShowNthPage(totalPages - 1);
+                //    }
+                //    else
+                //    {
+                //        // If the report only has one page, just show the first page
+                //        crvPrint.ShowFirstPage();
+                //    }
+                //}
+                //if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() == "3")
+                //{
+                //    crvPrint.ShowLastPage();
+                //}
+
                 if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() != "3")
                 {
-                    // VJA - 2024-10-24 - Sub-Report for Summary of Leave
-                    var session_empl_id = Session["empl_id"].ToString();
-                    dtSub = new DataTable();
-                    dtSub = MyCmn.RetrieveDataATS("sp_lv_ledger_summary", ls_splitvalue[1].ToString().Trim(), ls_splitvalue[2].ToString().Trim(), ls_splitvalue[3].ToString().Trim(), ls_splitvalue[4].ToString().Trim(), ls_splitvalue[5].ToString().Trim(), ls_splitvalue[6].ToString().Trim(), ls_splitvalue[7].ToString().Trim(), ls_splitvalue[8].ToString().Trim(), "p_prepared_empl_id", session_empl_id);
-                    cryRpt.Subreports["cryLeaveLedgerSummary.rpt"].SetDataSource(dtSub);
-                    // VJA - 2024-10-24 - Sub-Report for Summary of Leave
                     crvPrint.ShowLastPage();
                     int totalPages = cryRpt.FormatEngine.GetLastPageNumber(new CrystalDecisions.Shared.ReportPageRequestContext());
 
@@ -340,26 +361,7 @@ namespace HRIS_eAATS.Reports
             }
             catch (Exception e)
             {
-                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() != "3")
-                {
-                    crvPrint.ShowLastPage();
-                    int totalPages = cryRpt.FormatEngine.GetLastPageNumber(new CrystalDecisions.Shared.ReportPageRequestContext());
-
-                    // Navigate to the second-to-last page
-                    if (totalPages > 1)
-                    {
-                        crvPrint.ShowNthPage(totalPages - 1);
-                    }
-                    else
-                    {
-                        // If the report only has one page, just show the first page
-                        crvPrint.ShowFirstPage();
-                    }
-                }
-                if (ls_splitvalue[0].ToString().Trim() == "sp_leaveledger_report" && ls_splitvalue[8].ToString().Trim() == "3")
-                {
-                    crvPrint.ShowLastPage();
-                }
+                
             }
         }
         //private void BindReport(ReportDocument ReportPath)

@@ -1547,7 +1547,7 @@ namespace HRIS_eAATS.Controllers
                         .ToList();
 
                     string basePath = AppDomain.CurrentDomain.BaseDirectory;
-                    string reportPath = Path.Combine(basePath, @"Reports\cryLeaveLedger\cryLeaveLedgerx.rpt");
+                    string reportPath = Path.Combine(basePath, @"Reports\cryLeaveLedger\cryLeaveLedger.rpt");
                     string exportFolder = Path.Combine(basePath, "ExportedFiles");
 
                     if (!Directory.Exists(exportFolder))
