@@ -1,11 +1,29 @@
-﻿ng_HRD_App.controller("cMonthEarns_ctrlr", function ($scope, $compile, $http, $filter) {
+﻿ng_HRD_App.controller("cMonthEarns_ctrlr", function ($scope, $compile, $http, $filter, commonScript) {
     var s = $scope
     var h = $http
+    var cs = commonScript
 
     s.year          = [];
-    s.rowLen        = "10";
+    s.rowLen        = "50";
     s.ddl_dept      = "";
     s.ddl_earning_type = "VL"
+    s.datalist_grid = []
+    s.regenerate_selected = [];
+    s.selectAll = false;
+    s.image_link = cs.img_link('local') + "/storage/images/photo/thumb/";
+    s.currentTimestamp = new Date().getTime(); // For cache busting on images
+
+    // Month names mapping for display
+    var monthNames = {
+        '01': 'January', '02': 'February', '03': 'March', '04': 'April',
+        '05': 'May', '06': 'June', '07': 'July', '08': 'August',
+        '09': 'September', '10': 'October', '11': 'November', '12': 'December'
+    };
+
+    // Get month name from month number
+    s.getMonthName = function (monthNum) {
+        return monthNames[monthNum] || monthNum;
+    };
 
     function init()
     {
@@ -23,7 +41,7 @@
                 RetrieveYear();
                 s.lv_admin_dept_list = d.data.lv_admin_dept_list
                 s.ddl_dept = d.data.lv_admin_dept_list[0].department_code
-                
+
                 if (d.data.data.length > 0) {
                     init_table_data(d.data.data);
                 }
@@ -31,7 +49,7 @@
                 {
                     init_table_data([]);
                 }
-                
+
                 //**********************************************
                 //  Show/Hide ADD, EDIT, DELETE button 
                 //**********************************************
@@ -48,65 +66,446 @@
     init()
 
     var init_table_data = function (par_data) {
-        s.datalistgrid = par_data;
+        // Sort data: non-successful records first (remarks_flag blank or EARN EXISTS = successful, shown last)
+        var sortedData = par_data.slice().sort(function(a, b) {
+            var aRemarks = (a.remarks_descr || '').toUpperCase();
+            var bRemarks = (b.remarks_descr || '').toUpperCase();   
+            var aIsLocked = (a.remarks_flag === "" || a.remarks_flag === null || aRemarks.indexOf('EARN EXISTS FOR THIS YEAR-MONTH') !== -1) ? 1 : 0;
+            var bIsLocked = (b.remarks_flag === "" || b.remarks_flag === null || bRemarks.indexOf('EARN EXISTS FOR THIS YEAR-MONTH') !== -1) ? 1 : 0;
+            return aIsLocked - bIsLocked; // Non-locked first
+        });
+
+        s.datalistgrid = sortedData;
+        s.datalist_grid = sortedData;
+        s.regenerate_selected = [];
+        s.selectAll = false;
+
         s.oTable = $('#datalist_grid').dataTable(
             {
                 data: s.datalistgrid,
                 sDom: 'rt<"bottom"ip>',
-                pageLength: 10,
-                columns: [
-                    {
-                        "mData": null,
-                        "mRender": function (data, type, full, row) {
-                            return "<center><span class='details-control' style='display:block;' ></center>"
-                        }
-                    },
-                    {
-                        "mData": "department_short_name",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='text-left btn-block'>&nbsp;&nbsp;" + data + "</span>"
-                        }
-                    },
-                    {
-                        "mData": "empl_id",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>&nbsp;&nbsp;" + data + "</span>"
-                        }
-                    },
-                    {
-                        "mData": "employee_name",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='text-left   btn-block'>" + data + "</span>"
-                        }
-                    },
-                    {
-                        "mData": "remarks_descr",
-                        "mRender": function (data, type, full, row)
-                        {
-                            var color = (full["remarks_flag"] == "" ? "primary" : "danger");
-                            return "&nbsp;&nbsp;&nbsp;<span class='badge badge-" + color +"'>" + data + "</span>"
-                        }
-                    },
-                    {
-                        "mData": "created_dttm",
-                        "mRender": function (data, type, full, row) {
-                            return "<span class='text-left   btn-block'>&nbsp;&nbsp;" + moment(data).format('YYYY-MM-DD HH:mm:ss') + "</span>"
-                        }
-                    },
-                ],
-                "createdRow": function (row, data, index) {
-                    $compile(row)($scope);  //add this to compile the DOM
-                },
-            });
-    }
-    s.search_in_list = function (value, table) {
-        try {
-            $("#" + table).DataTable().search(value).draw();
+                            pageLength: s.rowLen,
+                            scrollY: '400px',
+                            scrollCollapse: true,
+                            paging: true,
+                            columns: [
+                                {
+                                    "mData": null,
+                                    "mRender": function (data, type, full, row) {
+                                        var temp = moment();
+                                        var def_images = '../../ResourcesImages/upload_profile.png';
+                                        return '<div class="text-center">' +
+                                            '<div class="img-circle">' +
+                                            '<img class="img-circle employee-photo" onerror="this.onerror=null;this.src=\'' + def_images + '\';" alt="Employee Photo" width="35" height="35" src="' + s.image_link + full["empl_id"] + '?v=' + temp + '" />' +
+                                            '</div>' +
+                                            '</div>'
+                                    }
+                                },
+                                {
+                                    "mData": "department_short_name",
+                                    "mRender": function (data, type, full, row) {
+                                        return "<span class='office-cell'>" + data + "</span>"
+                                    }
+                                },
+                                {
+                                    "mData": "empl_id",
+                                    "mRender": function (data, type, full, row) {
+                                        return "<span class='id-cell'>" + data + "</span>"
+                                    }
+                                },
+                                {
+                                    "mData": "employee_name",
+                                    "mRender": function (data, type, full, row) {
+                                        return "<span class='name-cell'>" + data + "</span>"
+                                    }
+                                },
+                                {
+                                    "mData": "remarks_descr",
+                                    "mRender": function (data, type, full, row)
+                                    {
+                                        var remarkClass = 'warning';
+                                        var remarkUpper = (data || '').toUpperCase();
+                                        if (remarkUpper.indexOf('SUCCESSFULLY INSERTED TO LEDGER') !== -1) remarkClass = 'success';
+                                        else if (remarkUpper.indexOf('EARN EXISTS FOR THIS YEAR-MONTH') !== -1) remarkClass = 'success';
+                                        return "<span class='remark-badge " + remarkClass + "'>" + data + "</span>"
+                                    }
+                                },
+                                {
+                                    "mData": "created_dttm",
+                                    "mRender": function (data, type, full, row) {
+                                        return "<span class='date-cell'>" + moment(data).format('YYYY-MM-DD HH:mm') + "</span>"
+                                    }
+                                }
+                            ],
+                            "createdRow": function (row, data, index) {
+                                $compile(row)($scope);  //add this to compile the DOM
+                            },
+                        });
+                }
+
+    // Helper function to check if a record is locked (cannot regenerate)
+    s.isRecordLocked = function(record) {
+        if (record.remarks_flag === "" || record.remarks_flag === null) {
+            return true;
         }
-        catch (err) {
-            alert(err.message)
+        var remarkUpper = (record.remarks_descr || '').toUpperCase();
+        return remarkUpper.indexOf('EARN EXISTS FOR THIS YEAR-MONTH') !== -1;
+    };
+
+    s.toggleSelectAll = function() {
+        if (s.selectAll) {
+            // Check all non-locked checkboxes
+            for (var i = 0; i < s.datalist_grid.length; i++) {
+                if (!s.isRecordLocked(s.datalist_grid[i])) {
+                    s.regenerate_selected[i] = true;
+                }
+            }
+        } else {
+            // Uncheck all
+            s.regenerate_selected = [];
         }
-    }
+    };
+
+    s.updateSelectAll = function() {
+        var allChecked = true;
+        var someChecked = false;
+
+        for (var i = 0; i < s.datalist_grid.length; i++) {
+            if (!s.isRecordLocked(s.datalist_grid[i])) {
+                if (s.regenerate_selected[i]) {
+                    someChecked = true;
+                } else {
+                    allChecked = false;
+                }
+            }
+        }
+
+        s.selectAll = allChecked && someChecked;
+    };
+
+    s.getSelectedItems = function () {
+        var selected = [];
+
+        for (var i = 0; i < s.datalist_grid.length; i++) {
+            if (s.regenerate_selected[i] && !s.isRecordLocked(s.datalist_grid[i])) {
+                selected.push(s.datalist_grid[i]);
+            }
+        }
+
+        return selected;
+    };
+
+    // ============================================
+    // SUMMARY DASHBOARD FUNCTIONS
+    // ============================================
+
+    // Define locked categories (cannot regenerate)
+    s.lockedCategories = ['SUCCESSFULLY INSERTED TO LEDGER', 'EARN EXISTS FOR THIS YEAR-MONTH'];
+
+    // Get count of records matching a specific remark (partial match)
+    s.getRemarkCount = function (remarkKeyword) {
+        if (!s.datalist_grid || s.datalist_grid.length === 0) return 0;
+
+        var count = 0;
+        var keyword = remarkKeyword.toUpperCase();
+
+        for (var i = 0; i < s.datalist_grid.length; i++) {
+            var remark = (s.datalist_grid[i].remarks_descr || '').toUpperCase();
+            if (remark.indexOf(keyword) !== -1) {
+                count++;
+            }
+        }
+        return count;
+    };
+
+    // Get count for locked records (Successfully Inserted + Earn Exists)
+    s.getLockedCount = function () {
+        if (!s.datalist_grid || s.datalist_grid.length === 0) return 0;
+
+        var count = 0;
+        for (var i = 0; i < s.datalist_grid.length; i++) {
+            var remark = (s.datalist_grid[i].remarks_descr || '').toUpperCase();
+            for (var j = 0; j < s.lockedCategories.length; j++) {
+                if (remark.indexOf(s.lockedCategories[j].toUpperCase()) !== -1) {
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
+    };
+
+    // Get percentage of locked records
+    s.getLockedPercentage = function () {
+        if (!s.datalist_grid || s.datalist_grid.length === 0) return 0;
+        var count = s.getLockedCount();
+        var percentage = (count / s.datalist_grid.length) * 100;
+        return Math.round(percentage * 10) / 10;
+    };
+
+    // Get count of "other" records (can regenerate)
+    s.getOtherRemarkCount = function () {
+        if (!s.datalist_grid || s.datalist_grid.length === 0) return 0;
+
+        var otherCount = 0;
+
+        for (var i = 0; i < s.datalist_grid.length; i++) {
+            var remark = (s.datalist_grid[i].remarks_descr || '').toUpperCase();
+            var isOther = true;
+
+            for (var j = 0; j < s.lockedCategories.length; j++) {
+                if (remark.indexOf(s.lockedCategories[j].toUpperCase()) !== -1) {
+                    isOther = false;
+                    break;
+                }
+            }
+
+            if (isOther) {
+                otherCount++;
+            }
+        }
+        return otherCount;
+    };
+
+    // Get percentage of "other" records
+    s.getOtherRemarkPercentage = function () {
+        if (!s.datalist_grid || s.datalist_grid.length === 0) return 0;
+
+        var count = s.getOtherRemarkCount();
+        var percentage = (count / s.datalist_grid.length) * 100;
+        return Math.round(percentage * 10) / 10;
+    };
+
+    // Get summary statistics object
+    s.getSummaryStats = function () {
+        return {
+            total: s.datalist_grid ? s.datalist_grid.length : 0,
+            locked: s.getLockedCount(),
+            others: s.getOtherRemarkCount()
+        };
+    };
+
+    // ============================================
+    // SUMMARY MODAL FUNCTIONS
+    // ============================================
+
+    s.summaryModalTitle = '';
+    s.summaryModalType = 'primary';
+    s.filteredSummaryList = [];
+    s.summarySearchText = '';
+
+
+    // Open summary detail modal with filtered data
+    s.openSummaryModal = function (filterKeyword, title, type) {
+        s.summaryModalTitle = title;
+        s.summaryModalType = type;
+        s.summarySearchText = '';
+        s.modalSelectedItems = {};
+        s.modalSelectAll = false;
+
+        // Filter the data based on keyword
+        if (filterKeyword === 'total') {
+            // Show all records
+            s.filteredSummaryList = angular.copy(s.datalist_grid);
+        } else if (filterKeyword === 'locked') {
+            // Show locked records (Successfully Inserted + Earn Exists)
+            s.filteredSummaryList = [];
+            for (var i = 0; i < s.datalist_grid.length; i++) {
+                var remark = (s.datalist_grid[i].remarks_descr || '').toUpperCase();
+                for (var j = 0; j < s.lockedCategories.length; j++) {
+                    if (remark.indexOf(s.lockedCategories[j].toUpperCase()) !== -1) {
+                        s.filteredSummaryList.push(s.datalist_grid[i]);
+                        break;
+                    }
+                }
+            }
+        } else if (filterKeyword === 'other') {
+            // Show records that can be regenerated (not locked)
+            s.filteredSummaryList = [];
+            for (var i = 0; i < s.datalist_grid.length; i++) {
+                var remark = (s.datalist_grid[i].remarks_descr || '').toUpperCase();
+                var isOther = true;
+
+                for (var j = 0; j < s.lockedCategories.length; j++) {
+                    if (remark.indexOf(s.lockedCategories[j].toUpperCase()) !== -1) {
+                        isOther = false;
+                        break;
+                    }
+                }
+
+                if (isOther) {
+                    s.filteredSummaryList.push(s.datalist_grid[i]);
+                }
+            }
+        } else {
+            // Filter by specific keyword (string)
+            s.filteredSummaryList = [];
+            var keyword = filterKeyword.toUpperCase();
+
+            for (var i = 0; i < s.datalist_grid.length; i++) {
+                var remark = (s.datalist_grid[i].remarks_descr || '').toUpperCase();
+                if (remark.indexOf(keyword) !== -1) {
+                    s.filteredSummaryList.push(s.datalist_grid[i]);
+                }
+            }
+        }
+
+        // Open the modal
+        $('#modal_summary_detail').modal('show');
+    };
+
+    // Modal selection functions
+    s.modalSelectedItems = {};
+    s.modalSelectAll = false;
+
+    s.toggleModalSelectAll = function() {
+        if (s.modalSelectAll) {
+            // Select all items in filtered list
+            for (var i = 0; i < s.filteredSummaryList.length; i++) {
+                s.modalSelectedItems[s.filteredSummaryList[i].empl_id] = true;
+            }
+        } else {
+            // Deselect all
+            s.modalSelectedItems = {};
+        }
+    };
+
+    s.updateModalSelectAll = function() {
+        var allChecked = true;
+        var someChecked = false;
+
+        for (var i = 0; i < s.filteredSummaryList.length; i++) {
+            if (s.modalSelectedItems[s.filteredSummaryList[i].empl_id]) {
+                someChecked = true;
+            } else {
+                allChecked = false;
+            }
+        }
+
+        s.modalSelectAll = allChecked && someChecked;
+    };
+
+    s.getModalSelectedCount = function() {
+        var count = 0;
+        for (var key in s.modalSelectedItems) {
+            if (s.modalSelectedItems[key]) {
+                count++;
+            }
+        }
+        return count;
+    };
+
+    s.getSelectedItemsFromModal = function() {
+        var selected = [];
+        for (var i = 0; i < s.filteredSummaryList.length; i++) {
+            if (s.modalSelectedItems[s.filteredSummaryList[i].empl_id]) {
+                selected.push(s.filteredSummaryList[i]);
+            }
+        }
+        return selected;
+    };
+
+    // Format datetime using moment.js (same as datalist_grid)
+    s.formatDateTime = function(dateTime) {
+        if (!dateTime) return '';
+        return moment(dateTime).format('YYYY-MM-DD HH:mm');
+    };
+
+    // Get icon class based on modal type
+    s.getSummaryIcon = function (type) {
+        var icons = {
+            'primary': 'fa-list-alt',
+            'success': 'fa-lock',
+            'warning': 'fa-refresh',
+            'secondary': 'fa-ellipsis-h'
+        };
+        return icons[type] || 'fa-list-alt';
+    };
+
+    // Get initials from employee name
+    s.getInitials = function (name) {
+        if (!name) return '?';
+        var parts = name.split(' ');
+        if (parts.length >= 2) {
+            return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        }
+        return name.substring(0, 2).toUpperCase();
+    };
+
+    // Get badge class based on remark
+    s.getRemarkBadgeClass = function (remark) {
+        if (!remark) return 'warning';
+            var remarkUpper = remark.toUpperCase();
+
+            // Success - Successfully inserted or Earn exists (locked)
+            if (remarkUpper.indexOf('SUCCESSFULLY INSERTED TO LEDGER') !== -1) return 'success';
+            if (remarkUpper.indexOf('EARN EXISTS FOR THIS YEAR-MONTH') !== -1) return 'success';
+
+            // Warning - Others (can regenerate)
+            return 'warning';
+        };
+
+    // Export to Excel function
+    s.exportSummaryToExcel = function () {
+        if (!s.filteredSummaryList || s.filteredSummaryList.length === 0) {
+            swal("No Data", "There are no records to export.", "warning");
+            return;
+        }
+
+        // Create CSV content
+        var csvContent = "No.,Employee ID,Employee Name,Department,Remarks,Date Generated\n";
+
+        for (var i = 0; i < s.filteredSummaryList.length; i++) {
+            var item = s.filteredSummaryList[i];
+            var row = [
+                (i + 1),
+                item.empl_id || '',
+                '"' + (item.employee_name || '').replace(/"/g, '""') + '"',
+                '"' + (item.department_short_name || '').replace(/"/g, '""') + '"',
+                '"' + (item.remarks_descr || '').replace(/"/g, '""') + '"',
+                moment(item.created_dttm).format('YYYY-MM-DD HH:mm:ss')
+            ];
+            csvContent += row.join(',') + "\n";
+        }
+
+        // Create download link
+        var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        var link = document.createElement("a");
+        var url = URL.createObjectURL(blob);
+
+        link.setAttribute("href", url);
+        link.setAttribute("download", "Summary_" + s.summaryModalTitle.replace(/\s+/g, '_') + "_" + s.ddl_year + "_" + s.ddl_month + ".csv");
+        link.style.visibility = 'hidden';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    // Custom filter function for modal search
+    s.filterSummaryList = function (item) {
+        if (!s.summarySearchText || s.summarySearchText.trim() === '') {
+            return true;
+        }
+        var searchText = s.summarySearchText.toLowerCase();
+        var employeeName = (item.employee_name || '').toLowerCase();
+        var emplId = (item.empl_id || '').toString().toLowerCase();
+        var department = (item.department_short_name || '').toLowerCase();
+
+        return employeeName.indexOf(searchText) !== -1 ||
+               emplId.indexOf(searchText) !== -1 ||
+               department.indexOf(searchText) !== -1;
+    };
+
+    // Get filtered count for display
+    s.getFilteredCount = function () {
+        if (!s.filteredSummaryList) return 0;
+        if (!s.summarySearchText || s.summarySearchText.trim() === '') {
+            return s.filteredSummaryList.length;
+        }
+        return s.filteredSummaryList.filter(s.filterSummaryList).length;
+    };
+
     s.setNumOfRow = function (value, table) {
         try {
             $("#" + table).DataTable().page.len(value).draw();
@@ -156,7 +555,7 @@
 
         }
     }
-    
+
     //*********************************************//
     //*** Filter Page Grid
     //********************************************// 
@@ -174,6 +573,7 @@
             {
                 s.oTable.fnClearTable();
                 s.datalistgrid = d.data.data;
+                s.datalist_grid = d.data.data;
                 if (d.data.data.length > 0)
                 {
                     s.oTable.fnAddData(d.data.data);
@@ -252,7 +652,7 @@
                             ,par_department_code : s.ddl_dept
                             ,par_empl_id         : ""
                             ,par_earning_type    : s.ddl_earning_type
-                                
+
                         }).then(function (d) {
                             if (d.data.message == "success")
                             {
@@ -272,13 +672,78 @@
                                 s.FilterPageGrid();
                             }
                         })
-                    
-                    break;
 
-                default:
-                //swal("Cancel Request!");
-            }
-        });
-    }
+                                        break;
 
-})
+                                    default:
+                                    //swal("Cancel Request!");
+                                }
+                            });
+                        }
+
+                        s.btn_regenerate = function ()
+                        {
+                            var selectedItems = s.getSelectedItemsFromModal();
+
+                            if (selectedItems.length === 0) {
+                                swal("No Selection", "Please select at least one employee to regenerate.", "warning");
+                                return;
+                            }
+
+                            var employeeIds = selectedItems.map(function(item) { return item.empl_id; });
+                            var employeeNames = selectedItems.slice(0, 3).map(function(item) { return item.employee_name; });
+                            var displayNames = employeeNames.join(", ") + (selectedItems.length > 3 ? " and " + (selectedItems.length - 3) + " more..." : "");
+
+                            swal({
+                                title: "Confirm Re-Generation",
+                                text: "You are about to re-generate earnings for " + selectedItems.length + " employee(s):\n\n" + displayNames,
+                                icon: "warning",
+                                closeOnClickOutside: false,
+                                closeOnEsc: false,
+                                dangerMode: true,
+                                buttons: {
+                                    regenerate: {
+                                        text: "Re-Generate (" + selectedItems.length + ")",
+                                        value: "regenerate"
+                                    },
+                                    cancel: {
+                                        text: "Cancel",
+                                        value: "cancel",
+                                        className: "red-bg"
+                                    }
+                                }
+                            }).then((value) => {
+                                if (value === "regenerate") {
+                                    // Close the modal
+                                    $('#modal_summary_detail').modal('hide');
+
+                                    // Show loading
+                                    $('#loading_msg').text('RE-GENERATING');
+                                    $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+
+                                    //h.post("../cMonthEarns/RegenerateEarnings", {
+                                    //    par_year: s.ddl_year,
+                                    //    par_month: s.ddl_month,
+                                    //    par_department_code: s.ddl_dept,
+                                    //    par_earning_type: s.ddl_earning_type,
+                                    //    par_employee_ids: employeeIds
+                                    //}).then(function (d) {
+                                    //    $('#modal_generating_remittance').modal("hide");
+
+                                    //    if (d.data.message == "success") {
+                                    //        swal("Success!", "Re-generation completed for " + selectedItems.length + " employee(s).", "success").then(function() {
+                                    //            // Refresh the grid
+                                    //            s.FilterPageGrid();
+                                    //        });
+                                    //    } else {
+                                    //        swal("Error", d.data.message || "An error occurred during re-generation.", "error");
+                                    //    }
+                                    //}).catch(function(error) {
+                                    //    $('#modal_generating_remittance').modal("hide");
+                                    //    swal("Error", "An error occurred during re-generation.", "error");
+                                    //});
+                                }
+                            });
+                        }
+
+                    })

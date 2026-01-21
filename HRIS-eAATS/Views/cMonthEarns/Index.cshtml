@@ -1,238 +1,1841 @@
 ﻿<script src="~/Angular/ng-cMonthEarns.js?v=@DateTime.Now.ToString()"></script>
 <style type="text/css">
-    
-    span.details-control {
-        background: url('../../ResourcesImages/show.jpg') no-repeat center center;
-        background-size: 20px;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
+    /* ============================================
+       COMPACT PROFESSIONAL MONTHLY EARNINGS PAGE
+       ============================================ */
+
+    :root {
+        --primary-color: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #3b82f6;
+        --secondary-color: #64748b;
+        --success-color: #10b981;
+        --success-light: #d1fae5;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --bg-light: #f8fafc;
+        --bg-white: #ffffff;
+        --border-color: #e2e8f0;
+        --text-primary: #1e293b;
+        --text-secondary: #64748b;
+        --text-muted: #94a3b8;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --radius-sm: 4px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        --transition: all 0.2s ease-in-out;
     }
 
-    tr.shown span.details-control {
-        background: url('../../ResourcesImages/unshow.jpg') no-repeat center center;
-        background-size: 20px;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
+    /* Page Container - Compact */
+    .page-wrapper {
+        padding: 16px;
+        background: var(--bg-light);
+        min-height: calc(100vh - 60px);
     }
 
-    .badge {
-        font-family: inherit;
+    /* Header Card - Compact */
+    .header-card {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        border-radius: var(--radius-lg);
+        padding: 16px 20px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+        gap: 16px;
+    }
+
+    .header-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .header-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-icon i {
+        font-size: 18px;
+        color: #fff;
+    }
+
+    .header-title h1 {
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .header-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 12px;
+        margin-top: 2px;
+    }
+
+    .header-search {
+        flex: 0 0 300px;
+    }
+
+    .search-input-wrapper {
+        position: relative;
+    }
+
+    .search-input-wrapper i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        font-size: 14px;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 10px 14px 10px 38px;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-size: 13px;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--text-primary);
+        transition: var(--transition);
+    }
+
+    .search-input:focus {
+        outline: none;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    .search-input::placeholder {
+        color: var(--text-muted);
+    }
+
+    /* Main Content Card */
+    .content-card {
+        background: var(--bg-white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+    }
+
+    /* Filter Section - Compact */
+    .filter-section {
+        padding: 14px 16px;
+        background: var(--bg-light);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .filter-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: flex-end;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1;
+        min-width: 140px;
+    }
+
+    .filter-group.wide {
+        flex: 2;
+        min-width: 200px;
+    }
+
+    .filter-group.action-buttons {
+        flex: 0 0 auto;
+    }
+
+    .filter-label {
         font-size: 10px;
         font-weight: 600;
-        padding: 3px 8px;
-        text-shadow: none;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
     }
+
+    .filter-label i {
+        font-size: 11px;
+        color: var(--primary-color);
+    }
+
+    .filter-select {
+        padding: 8px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-size: 13px;
+        color: var(--text-primary);
+        background: var(--bg-white);
+        cursor: pointer;
+        transition: var(--transition);
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 28px;
+    }
+
+    .filter-select:hover {
+        border-color: var(--primary-light);
+    }
+
+    .filter-select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Action Buttons - Compact */
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-generate {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+
+    .btn-generate.primary {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+    }
+
+    .btn-generate.primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-generate.success {
+        background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-generate.success:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-generate i {
+        font-size: 12px;
+    }
+
+    /* Table Toolbar - Compact */
+    .table-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-white);
+    }
+
+    .entries-selector {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--text-secondary);
+    }
+
+    .entries-select {
+        padding: 6px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        color: var(--text-primary);
+        background: var(--bg-white);
+        cursor: pointer;
+        min-width: 60px;
+    }
+
+    .entries-select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+
+    .table-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .record-count {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        background: var(--bg-light);
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        color: var(--text-secondary);
+    }
+
+    .record-count i {
+        color: var(--primary-color);
+        font-size: 11px;
+    }
+
+    /* Table Container */
+    .table-container {
+        padding: 0;
+        overflow-x: auto;
+    }
+
+    /* Compact Table Styles */
+    #datalist_grid {
+        width: 100% !important;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    #datalist_grid thead th {
+        background: var(--bg-light);
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 10px 12px;
+        border-bottom: 2px solid var(--border-color);
+        white-space: nowrap;
+    }
+
+    #datalist_grid tbody tr {
+        transition: var(--transition);
+    }
+
+    #datalist_grid tbody tr:hover {
+        background: rgba(37, 99, 235, 0.03) !important;
+    }
+
+	#datalist_grid tbody tr:nth-child(even) {
+		background: var(--bg-light);
+	}
+
+	#datalist_grid tbody td {
+		padding: 8px 12px;
+		border-bottom: 1px solid var(--border-color);
+		font-size: 12px;
+		color: var(--text-primary);
+		vertical-align: middle;
+	}
+
+	/* Employee Photo Styles */
+	.employee-photo {
+		border: 2px solid var(--border-color);
+		object-fit: cover;
+		transition: var(--transition);
+	}
+
+	.employee-photo:hover {
+		border-color: var(--primary-color);
+		transform: scale(1.1);
+		box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+	}
+
+	/* Table Cell Styles */
+	.office-cell, .name-cell, .date-cell {
+		display: block;
+	}
+
+	.id-cell {
+		display: block;
+		text-align: center;
+		font-weight: 600;
+		color: var(--primary-color);
+	}
+
+	/* Remark Badge - Compact */
+	.remark-badge {
+		display: inline-block;
+		padding: 4px 8px;
+		border-radius: 4px;
+		font-size: 10px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.3px;
+	}
+
+	.remark-badge.success {
+		background: var(--success-light);
+		color: var(--success-color);
+	}
+
+	.remark-badge.warning {
+		background: #fef3c7;
+		color: var(--warning-color);
+	}
+
+	.remark-badge.danger {
+		background: #fee2e2;
+		color: var(--danger-color);
+	}
+
+	.remark-badge.info {
+		background: #dbeafe;
+		color: #3b82f6;
+	}
+
+	.remark-badge.purple {
+		background: #ede9fe;
+		color: #8b5cf6;
+	}
+
+	.remark-badge.orange {
+		background: #ffedd5;
+		color: #f97316;
+	}
+
+	.remark-badge.secondary {
+		background: #f1f5f9;
+		color: var(--secondary-color);
+	}
+
+	/* ============================================
+	   SCROLLABLE TABLE STYLES
+	   ============================================ */
+	.table-container {
+		padding: 0;
+		overflow: hidden;
+	}
+
+	.dataTables_scrollBody {
+		max-height: 400px !important;
+		overflow-y: auto !important;
+		border-bottom: 1px solid var(--border-color);
+	}
+
+	.dataTables_scrollHead {
+		background: var(--bg-light);
+	}
+
+	/* ============================================
+	   IMPROVED REGENERATE CHECKBOX STYLES
+	   ============================================ */
+	.regenerate-cell {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 4px;
+	}
+
+	/* Custom Checkbox Design */
+	.custom-checkbox {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.custom-checkbox input.checkbox-regenerate {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+
+	.custom-checkbox .checkmark {
+		position: relative;
+		height: 24px;
+		width: 24px;
+		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+		border: 2px solid var(--border-color);
+		border-radius: 6px;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.custom-checkbox .checkmark::after {
+		content: '';
+		position: absolute;
+		display: none;
+		width: 6px;
+		height: 11px;
+		border: solid white;
+		border-width: 0 2.5px 2.5px 0;
+		transform: rotate(45deg);
+		margin-top: -2px;
+	}
+
+	.custom-checkbox:hover .checkmark {
+		border-color: var(--primary-color);
+		background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+		transform: scale(1.05);
+		box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+	}
+
+	.custom-checkbox input:checked ~ .checkmark {
+		background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+		border-color: var(--primary-dark);
+		box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+	}
+
+	.custom-checkbox input:checked ~ .checkmark::after {
+		display: block;
+	}
+
+	.custom-checkbox input:focus ~ .checkmark {
+		box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+	}
+
+	/* Locked/Success Indicator */
+	.regenerate-cell.success-locked {
+		background: var(--success-light);
+		border-radius: 6px;
+		padding: 4px 8px;
+	}
+
+	.regenerate-cell.exists-locked {
+		background: #dbeafe;
+		border-radius: 6px;
+		padding: 4px 8px;
+	}
+
+	.regenerate-cell.success-locked .locked-indicator {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
+		border-radius: 6px;
+		color: white;
+		font-size: 11px;
+		box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+	}
+
+	.regenerate-cell.exists-locked .locked-indicator {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+		border-radius: 6px;
+		color: white;
+		font-size: 11px;
+		box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+	}
+
+	.locked-indicator i {
+		font-size: 10px;
+	}
+
+	/* Master Checkbox Styles */
+	.master-checkbox-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.master-checkbox-label {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.master-checkbox {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+
+	.master-checkmark {
+		position: relative;
+		height: 20px;
+		width: 20px;
+		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+		border: 2px solid var(--border-color);
+		border-radius: 4px;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.master-checkmark::after {
+		content: '';
+		position: absolute;
+		display: none;
+		width: 5px;
+		height: 9px;
+		border: solid white;
+		border-width: 0 2px 2px 0;
+		transform: rotate(45deg);
+		margin-top: -2px;
+	}
+
+	.master-checkbox-label:hover .master-checkmark {
+		border-color: var(--primary-color);
+		background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+	}
+
+	.master-checkbox:checked ~ .master-checkmark {
+		background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+		border-color: var(--primary-dark);
+	}
+
+	.master-checkbox:checked ~ .master-checkmark::after {
+		display: block;
+	}
+
+	/* Row highlighting for regenerate selection */
+	#datalist_grid tbody tr:has(.custom-checkbox input:checked) {
+		background: rgba(37, 99, 235, 0.08) !important;
+	}
+
+	#datalist_grid tbody tr:has(.custom-checkbox input:checked):hover {
+		background: rgba(37, 99, 235, 0.12) !important;
+	}
+
+	/* ============================================
+	   COMPACT SUMMARY DASHBOARD
+	   ============================================ */
+    .summary-dashboard {
+        padding: 12px 16px;
+        background: var(--bg-white);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .summary-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .summary-title h3 {
+        font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .summary-title i {
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        /* Simplified 3-column grid */
+        .summary-grid-simple {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .summary-card {
+            background: var(--bg-light);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .summary-card.total::before { background: var(--primary-color); }
+        .summary-card.success::before { background: var(--success-color); }
+        .summary-card.warning::before { background: var(--warning-color); }
+
+        .summary-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .summary-card.total .summary-icon { background: rgba(37, 99, 235, 0.1); color: var(--primary-color); }
+        .summary-card.success .summary-icon { background: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+    .summary-card.warning .summary-icon { background: rgba(245, 158, 11, 0.1); color: var(--warning-color); }
+
+    .summary-icon i {
+        font-size: 20px;
+    }
+
+    .summary-details {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .summary-count {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1;
+    }
+
+    .summary-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-top: 4px;
+    }
+
+    .summary-subtitle {
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--text-muted);
+        margin-top: 2px;
+        font-style: italic;
+    }
+
+    .summary-card.success .summary-subtitle {
+        color: var(--success-color);
+    }
+
+    .summary-card.warning .summary-subtitle {
+        color: var(--warning-color);
+    }
+
+    /* Summary Toggle Button */
+    .summary-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        background: var(--bg-light);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: var(--transition);
+        margin-left: auto;
+    }
+
+    .summary-toggle:hover {
+        background: var(--primary-color);
+        color: #fff;
+        border-color: var(--primary-color);
+    }
+
+    .summary-toggle i {
+        font-size: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .summary-toggle.collapsed i {
+        transform: rotate(180deg);
+    }
+
+    /* ============================================
+       MODAL STYLES - COMPACT
+       ============================================ */
     .modal {
         overflow-y: auto;
     }
 
-    .swal-footer {
-        background-color: rgb(245, 248, 250);
-        margin-top: 32px;
-        border-top: 1px solid #E9EEF1;
+    .modal-content {
+        border: none;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
         overflow: hidden;
-        text-align:center !important;
     }
-    .swal-text {
+
+    .modal-header-custom {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        padding: 16px 20px;
+        border: none;
+    }
+
+    .modal-header-custom .modal-title {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-header-custom .close {
+        color: #fff;
+        opacity: 0.8;
+        text-shadow: none;
+        font-size: 24px;
+        font-weight: 300;
+    }
+
+    .modal-header-custom .close:hover {
+        opacity: 1;
+    }
+
+    .modal-body-custom {
+        padding: 0;
+    }
+
+    .modal-body-custom iframe {
+        width: 100%;
+        height: 500px;
+        border: none;
+    }
+
+    /* Summary Detail Modal */
+    .modal-summary-detail .modal-dialog {
+        max-width: 850px;
+    }
+
+    .modal-summary-header {
+        padding: 16px 20px;
+        border: none;
+        position: relative;
+    }
+
+    .modal-summary-header.success { background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%); }
+    .modal-summary-header.warning { background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%); }
+    .modal-summary-header.danger { background: linear-gradient(135deg, var(--danger-color) 0%, #dc2626 100%); }
+    .modal-summary-header.info { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+    .modal-summary-header.purple { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+    .modal-summary-header.orange { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
+    .modal-summary-header.secondary { background: linear-gradient(135deg, var(--secondary-color) 0%, #475569 100%); }
+    .modal-summary-header.primary { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); }
+
+    .modal-summary-header .close {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        color: #fff;
+        opacity: 0.8;
+        text-shadow: none;
+        font-size: 24px;
+        font-weight: 300;
+        z-index: 10;
+    }
+
+    .modal-summary-header .close:hover {
+        opacity: 1;
+    }
+
+    .modal-header-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .modal-header-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-header-icon i {
+        font-size: 20px;
+        color: #fff;
+    }
+
+    .modal-header-text h4 {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0 0 2px 0;
+    }
+
+    .modal-header-text p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .modal-header-badge {
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px 16px;
+        border-radius: var(--radius-sm);
+        text-align: center;
+    }
+
+    .modal-header-badge .count {
+        font-size: 22px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1;
+    }
+
+    .modal-header-badge .label {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.85);
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        margin-top: 2px;
+    }
+
+    .modal-summary-body {
+        padding: 0;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .modal-summary-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        background: var(--bg-light);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+    }
+
+    .modal-search-wrapper {
+        position: relative;
+        flex: 0 0 260px;
+    }
+
+    .modal-search-wrapper i {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        font-size: 12px;
+    }
+
+    .modal-search-input {
+        width: 100%;
+        padding: 8px 12px 8px 34px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-size: 12px;
+        transition: var(--transition);
+    }
+
+    .modal-search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+
+    .toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .select-all-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .custom-checkbox-inline {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .custom-checkbox-inline input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark-inline {
+        position: relative;
+        height: 18px;
+        width: 18px;
+        background: var(--bg-white);
+        border: 2px solid var(--border-color);
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .checkmark-inline::after {
+        content: '';
+        position: absolute;
+        display: none;
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    .custom-checkbox-inline:hover .checkmark-inline {
+        border-color: var(--primary-color);
+    }
+
+    .custom-checkbox-inline input:checked ~ .checkmark-inline {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .custom-checkbox-inline input:checked ~ .checkmark-inline::after {
+        display: block;
+    }
+
+    .select-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    /* Small checkbox for table rows */
+    .custom-checkbox-small {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .custom-checkbox-small input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark-small {
+        position: relative;
+        height: 18px;
+        width: 18px;
+        background: var(--bg-white);
+        border: 2px solid var(--border-color);
+        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+
+    .checkmark-small::after {
+        content: '';
+        position: absolute;
+        display: none;
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    .custom-checkbox-small:hover .checkmark-small {
+        border-color: var(--warning-color);
+        background: rgba(245, 158, 11, 0.1);
+    }
+
+    .custom-checkbox-small input:checked ~ .checkmark-small {
+        background: var(--warning-color);
+        border-color: var(--warning-color);
+    }
+
+    .custom-checkbox-small input:checked ~ .checkmark-small::after {
+        display: block;
+    }
+
+    /* Selected row highlight */
+    .summary-detail-table tbody tr.selected-row {
+        background: rgba(245, 158, 11, 0.1) !important;
+    }
+
+    .summary-detail-table tbody tr.selected-row:hover {
+        background: rgba(245, 158, 11, 0.15) !important;
+    }
+
+    .modal-export-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+
+    .modal-export-btn:hover {
+        background: var(--success-color);
+        border-color: var(--success-color);
+        color: #fff;
+    }
+
+    /* Summary Detail Table */
+    .summary-detail-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .summary-detail-table thead th {
+        background: var(--bg-light);
+        color: var(--text-primary);
+        font-weight: 600;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border-color);
+        position: sticky;
+        top: 49px;
+        z-index: 4;
+    }
+
+    .summary-detail-table tbody tr {
+        transition: var(--transition);
+    }
+
+    .summary-detail-table tbody tr:hover {
+        background: rgba(37, 99, 235, 0.03);
+    }
+
+    .summary-detail-table tbody tr:nth-child(even) {
+        background: var(--bg-light);
+    }
+
+    .summary-detail-table tbody tr:nth-child(even):hover {
+        background: rgba(37, 99, 235, 0.05);
+    }
+
+    .summary-detail-table tbody td {
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 12px;
+        color: var(--text-primary);
+        vertical-align: middle;
+	}
+
+	.employee-info {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.employee-avatar {
+		width: 32px;
+		height: 32px;
+		background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 11px;
+		font-weight: 700;
+		color: #fff;
+		flex-shrink: 0;
+	}
+
+	/* Modal Employee Photo Styles */
+	.modal-employee-photo {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.employee-photo-modal {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 2px solid var(--border-color);
+		object-fit: cover;
+		transition: var(--transition);
+		box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	}
+
+	.employee-photo-modal:hover {
+		border-color: var(--primary-color);
+		transform: scale(1.15);
+		box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+	}
+
+	.employee-info-modal {
+		display: flex;
+		align-items: center;
+	}
+
+	.employee-details .name {
+		font-weight: 600;
+		color: var(--text-primary);
+		font-size: 12px;
+	}
+
+	.employee-details .id {
+		font-size: 10px;
+		color: var(--text-muted);
+	}
+
+	.office-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding: 4px 8px;
+		background: var(--bg-light);
+		border-radius: 12px;
+		font-size: 11px;
+		color: var(--text-secondary);
+	}
+
+	.office-badge i {
+		font-size: 9px;
+		color: var(--primary-color);
+	}
+
+	/* Modal Empty State */
+	.modal-empty-state {
+		text-align: center;
+		padding: 40px 20px;
+	}
+
+	.modal-empty-state i {
+		font-size: 36px;
+		color: var(--text-muted);
+		margin-bottom: 12px;
+	}
+
+    .modal-empty-state h5 {
+        color: var(--text-primary);
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .modal-empty-state p {
+        color: var(--text-secondary);
+        font-size: 12px;
+        margin: 0;
+    }
+
+    /* Modal Footer */
+    .modal-summary-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        background: var(--bg-light);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .modal-footer-info {
+        font-size: 12px;
+        color: var(--text-secondary);
+    }
+
+    .modal-footer-info strong {
+            color: var(--text-primary);
+        }
+
+        .selected-info {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+
+        .modal-footer-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .modal-regenerate-btn {
+            padding: 8px 18px;
+            background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .modal-regenerate-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .modal-regenerate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal-close-btn {
+            padding: 8px 18px;
+            background: var(--secondary-color);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .modal-close-btn:hover {
+            background: #475569;
+        }
+
+        /* Loading Modal */
+        .loading-overlay {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @@keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+    .loading-text {
+        margin-top: 16px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    .loading-dots {
+        display: inline-flex;
+        gap: 3px;
+        margin-left: 6px;
+    }
+
+    .loading-dots span {
+        width: 5px;
+        height: 5px;
+        background: #fff;
+        border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0s; }
+
+    @@keyframes bounce {
+        0%, 80%, 100% { transform: scale(0); }
+        40% { transform: scale(1); }
+    }
+
+    /* SweetAlert Overrides */
+    .swal-footer {
+        background: var(--bg-light);
+        margin-top: 16px;
+        border-top: 1px solid var(--border-color);
+        padding: 12px;
         text-align: center !important;
     }
+
+    .swal-text {
+        text-align: center !important;
+        color: var(--text-secondary);
+    }
+
+    /* Responsive */
+    @@media (max-width: 1200px) {
+        .summary-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @@media (max-width: 992px) {
+        .header-content {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .header-search {
+            flex: 1;
+            width: 100%;
+        }
+
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .filter-grid {
+            flex-direction: column;
+        }
+
+        .filter-group, .filter-group.wide {
+            width: 100%;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .table-toolbar {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
 </style>
+
 <section ng-app="ng_selfService_App" ng-controller="cMonthEarns_ctrlr">
+    <div class="page-wrapper animated fadeInRight">
 
-    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
-
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <h2 class="text-white">@Model.menu_name</h2>
-                        </div>
-                        <div class="col-lg-8">
-                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
-                        </div>
+        <!-- Header Card -->
+        <div class="header-card">
+            <div class="header-content">
+                <div class="header-title">
+                    <div class="header-icon">
+                        <i class="fa fa-coins"></i>
                     </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="form-group row">
-                                    <div class="col-lg-3">
-                                        <strong><span class="pull-left m-t-xs">Show</span></strong>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
-                                            <option value="5">5</option>
-                                            <option value="10" selected>10</option>
-                                            <option value="15">15</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <strong><span class="pull-left m-t-xs">entries</span></strong>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-1"></div>
-                            <div class="col-lg-8">
-                                <div class="form-group row">
-                                    <div class="col-lg-2">
-                                        <label class="font-bold" style="margin-top:9px;"><b>Earn Year:</b></label>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
-                                            <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <label class="font-bold" style="margin-top:9px;"><b>Earn Month:</b></label>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
-                                            <option value="01">January</option>
-                                            <option value="02">February</option>
-                                            <option value="03">March</option>
-                                            <option value="04">April</option>
-                                            <option value="05">May</option>
-                                            <option value="06">June</option>
-                                            <option value="07">July</option>
-                                            <option value="08">August</option>
-                                            <option value="09">September</option>
-                                            <option value="10">October</option>
-                                            <option value="11">November</option>
-                                            <option value="12">December</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <button type="button" ng-click="btn_generate()" class="btn btn-success pull-right"><i class="fa fa-qrcode"></i> Generate Earning</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-8">
-                                <div class="form-group row">
-                                    <div class="col-lg-2">
-                                        <label class="font-bold" style="margin-top:9px;"><b>Department:</b></label>
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <select class="form-control" id="ddl_dept" ng-model="ddl_dept" ng-change="FilterPageGrid()">
-                                            <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row m-t-xs" >
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-8">
-                                <div class="form-group row">
-                                    <div class="col-lg-2">
-                                        <label class="font-bold" style="margin-top:9px;"><b>Earning Type:</b></label>
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <select class="form-control" id="ddl_earning_type" ng-model="ddl_earning_type" ng-change="FilterPageGrid()">
-                                            <option value="VL">Basic Monthly Earning</option>
-                                            <option value="CTO">Compensatory Time-Off Earning </option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ibox-content">
-                        <div class="col-12 table-resposive">
-                            <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th width="15%">OFFICE</th>
-                                        <th width="5%">ID #</th>
-                                        <th width="30%">EMPLOYEE NAME</th>
-                                        <th width="35%">REMARKS</th>
-                                        <th width="15%">DATE GENERATED</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+                    <div>
+                        <h1>@Model.menu_name</h1>
+                        <div class="header-subtitle">Manage and generate monthly employee earnings</div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Main Content Card -->
+        <div class="content-card">
+
+			<!-- Filter Section -->
+			<div class="filter-section">
+				<div class="filter-grid">
+					<div class="filter-group">
+						<label class="filter-label">
+							<i class="fa fa-calendar"></i>
+							Earn Year
+						</label>
+						<select class="filter-select" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
+							<option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+						</select>
+					</div>
+
+					<div class="filter-group">
+						<label class="filter-label">
+							<i class="fa fa-calendar-day"></i>
+							Earn Month
+						</label>
+						<select class="filter-select" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
+							<option value="01">January</option>
+							<option value="02">February</option>
+							<option value="03">March</option>
+							<option value="04">April</option>
+							<option value="05">May</option>
+							<option value="06">June</option>
+							<option value="07">July</option>
+							<option value="08">August</option>
+							<option value="09">September</option>
+							<option value="10">October</option>
+							<option value="11">November</option>
+							<option value="12">December</option>
+						</select>
+					</div>
+
+					<div class="filter-group">
+						<label class="filter-label">
+							<i class="fa fa-wallet"></i>
+							Earning Type
+						</label>
+						<select class="filter-select" id="ddl_earning_type" ng-model="ddl_earning_type" ng-change="FilterPageGrid()">
+							<option value="VL">Basic Monthly Earning</option>
+							<option value="CTO">Compensatory Time-Off Earning</option>
+						</select>
+					</div>
+
+					<div class="filter-group wide">
+						<label class="filter-label">
+							<i class="fa fa-building"></i>
+							Department / Office
+						</label>
+						<select class="filter-select" id="ddl_dept" ng-model="ddl_dept" ng-change="FilterPageGrid()">
+							<option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+						</select>
+					</div>
+
+							<div class="filter-group action-buttons">
+								<button type="button" 
+										ng-click="btn_generate()" 
+										ng-show="datalist_grid.length === 0" 
+										class="btn-generate success">
+									<i class="fa fa-bolt"></i>
+									Generate Earning
+								</button>
+							</div>
+						</div>
+					</div>
+
+			<!-- Summary Dashboard -->
+			<div class="summary-dashboard" ng-show="datalist_grid.length > 0">
+				<div class="summary-title">
+					<i class="fa fa-chart-pie"></i>
+					<h3>Generation Summary</h3>
+					<button class="summary-toggle" ng-click="showSummary = !showSummary" ng-class="{'collapsed': !showSummary}">
+						<i class="fa fa-chevron-up"></i>
+						<span ng-show="showSummary">Hide</span>
+						<span ng-hide="showSummary">Show</span>
+					</button>
+				</div>
+				<div class="summary-grid-simple" ng-show="showSummary" ng-init="showSummary = true">
+					<!-- Total Records -->
+					<div class="summary-card total clickable" ng-click="openSummaryModal('total', 'All Records', 'primary')">
+						<div class="summary-icon">
+							<i class="fa fa-list-alt"></i>
+						</div>
+						<div class="summary-details">
+							<div class="summary-count">{{datalist_grid.length || 0}}</div>
+							<div class="summary-label">Total Records</div>
+						</div>
+					</div>
+
+					<!-- Successfully Inserted + Earn Exists (Locked) -->
+					<div class="summary-card success clickable" ng-click="openSummaryModal('locked', 'Successfully Processed (Locked)', 'success')">
+						<div class="summary-icon">
+							<i class="fa fa-lock"></i>
+						</div>
+						<div class="summary-details">
+							<div class="summary-count">{{getLockedCount()}}</div>
+							<div class="summary-label">Inserted / Earn Exists</div>
+							<div class="summary-subtitle">Cannot Regenerate</div>
+						</div>
+					</div>
+
+					<!-- Others (Can Regenerate) -->
+					<div class="summary-card warning clickable" ng-click="openSummaryModal('other', 'Others (Can Regenerate)', 'warning')">
+						<div class="summary-icon">
+							<i class="fa fa-refresh"></i>
+						</div>
+						<div class="summary-details">
+							<div class="summary-count">{{getOtherRemarkCount()}}</div>
+							<div class="summary-label">Others</div>
+							<div class="summary-subtitle">Can Regenerate</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Table Toolbar -->
+			<div class="table-toolbar">
+				<div class="entries-selector">
+					<span>Show</span>
+					<select class="entries-select" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+						<option value="5">5</option>
+						<option value="10" selected>10</option>
+						<option value="15">15</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+                    </select>
+                    <span>entries</span>
+                </div>
+                <div class="table-info">
+                    <div class="record-count">
+                        <i class="fa fa-database"></i>
+                        <span>{{datalist_grid.length || 0}} Records</span>
+                    </div>
+                </div>
+            </div>
+
+			<!-- Table Container -->
+			<div class="table-container">
+				<table id="datalist_grid" ng-model="datalist_grid" class="table table-hover">
+					<thead>
+						<tr>
+							<th width="5%" class="text-center">PHOTO</th>
+							<th width="18%">OFFICE</th>
+							<th width="10%">ID #</th>
+							<th width="22%">EMPLOYEE NAME</th>
+							<th width="30%">REMARKS</th>
+							<th width="15%">DATE GENERATED</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+
+        </div>
     </div>
 
-    <!-- Modal Printing Preview -->
+    <!-- Modal Print Preview -->
     <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content  modal-content-add-edit">
-                <div class="modal-header navy-bg text-white">
+            <div class="modal-content">
+                <div class="modal-header modal-header-custom">
+                    <h4 class="modal-title">
+                        <i class="fa fa-print"></i>
+                        Print Preview — {{employee_name_print}}
+                    </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
                 </div>
-                <div class="modal-body with-background" style="padding:0px !important">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview_trans"></iframe>
-                        </div>
-                    </div>
+                <div class="modal-body modal-body-custom">
+                    <iframe id="iframe_print_preview_trans"></iframe>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Loading -->
-    <div class="modal fade" id="modal_generating_remittance">
-        <div class="modal-dialog modal-force-center modal-md">
-            <div class="modal-dialog text-center">
+		<!-- Modal Loading -->
+		<div class="modal fade" id="modal_generating_remittance" data-backdrop="static" data-keyboard="false">
+			<div class="modal-dialog modal-dialog-centered modal-sm">
+				<div class="modal-content" style="background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%); border: none;">
+					<div class="loading-overlay">
+						<div class="loading-spinner"></div>
+						<div class="loading-text">
+							<span id="loading_msg">PROCESSING</span>
+							<div class="loading-dots">
+								<span></span>
+								<span></span>
+								<span></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="spiner-example">
-                    <div class="sk-spinner sk-spinner-cube-grid" style="width:150px;height:150px;">
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="sk-cube"></div>
-                        <div class="row">
-                            <div class="spiner-example text-white" style="margin-left:20px;">
-                                <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
-                                <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
-                                    <div class="sk-bounce1" style="background-color:white;"></div>
-                                    <div class="sk-bounce2" style="background-color:white;"></div>
-                                    <div class="sk-bounce3" style="background-color:white;"></div>
-                                    <div class="sk-bounce3" style="background-color:white;"></div>
-                                    <div class="sk-bounce3" style="background-color:white;"></div>
-                                    <div class="sk-bounce3" style="background-color:white;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+		<!-- Modal Summary Detail List -->
+		<div class="modal fade modal-summary-detail" id="modal_summary_detail" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-summary-header" ng-class="summaryModalType">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<div class="modal-header-content">
+							<div class="modal-header-icon">
+								<i class="fa" ng-class="getSummaryIcon(summaryModalType)"></i>
+							</div>
+							<div class="modal-header-text">
+								<h4>{{summaryModalTitle}}</h4>
+								<p>Showing filtered records for {{getMonthName(ddl_month)}} {{ddl_year}}</p>
+							</div>
+							<div class="modal-header-badge">
+								<div class="count">{{filteredSummaryList.length}}</div>
+								<div class="badge">Records</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-summary-body">
+						<div class="modal-summary-toolbar">
+							<div class="modal-search-wrapper">
+								<i class="fa fa-search"></i>
+								<input type="text" 
+									   class="modal-search-input" 
+									   ng-model="summarySearchText" 
+									   placeholder="Search employee name or ID...">
+							</div>
+							<div class="toolbar-right">
+								<!-- Select All for Others modal -->
+								<div class="select-all-wrapper" ng-show="summaryModalType === 'warning'">
+									<label class="custom-checkbox-inline">
+										<input type="checkbox" ng-model="modalSelectAll" ng-change="toggleModalSelectAll()">
+										<span class="checkmark-inline"></span>
+										<span class="select-label">Select All</span>
+									</label>
+								</div>
+								<button class="modal-export-btn" ng-click="exportSummaryToExcel()">
+									<i class="fa fa-file-excel"></i>
+									Export
+								</button>
+							</div>
+						</div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+						<!-- Table with Data -->
+						<div ng-show="getFilteredCount() > 0">
+							<table class="summary-detail-table">
+								<thead>
+									<tr>
+										<th width="4%" ng-show="summaryModalType === 'warning'" class="text-center">
+											<i class="fa fa-check-square"></i>
+										</th>
+										<th width="4%">#</th>
+										<th width="5%" class="text-center">PHOTO</th>
+										<th width="22%">EMPLOYEE</th>
+										<th width="15%">OFFICE</th>
+										<th width="30%">REMARKS</th>
+										<th width="15%">DATE</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="item in filteredSummaryList | filter:filterSummaryList track by $index" 
+										ng-class="{'selected-row': modalSelectedItems[item.empl_id]}">
+										<td ng-show="summaryModalType === 'warning'" class="text-center">
+											<label class="custom-checkbox-small">
+												<input type="checkbox" 
+													   ng-model="modalSelectedItems[item.empl_id]" 
+													   ng-change="updateModalSelectAll()">
+												<span class="checkmark-small"></span>
+											</label>
+										</td>
+										<td class="text-center">{{$index + 1}}</td>
+										<td class="text-center">
+											<div class="modal-employee-photo">
+												<img class="img-circle employee-photo-modal" 
+													 ng-src="{{image_link}}{{item.empl_id}}?v={{currentTimestamp}}" 
+													 onerror="this.onerror=null;this.src='../../ResourcesImages/upload_profile.png';"
+													 alt="{{item.employee_name}}" />
+											</div>
+										</td>
+										<td>
+											<div class="employee-info-modal">
+												<div class="employee-details">
+													<div class="name">{{item.employee_name}}</div>
+													<div class="id">ID: {{item.empl_id}}</div>
+												</div>
+											</div>
+										</td>
+										<td>
+											<span class="office-badge">
+												<i class="fa fa-building"></i>
+												{{item.department_short_name}}
+											</span>
+										</td>
+										<td>
+											<span class="remark-badge" ng-class="getRemarkBadgeClass(item.remarks_descr)">
+												{{item.remarks_descr}}
+											</span>
+										</td>
+														<td>
+															<span class="text-muted">
+																{{formatDateTime(item.created_dttm)}}
+															</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
 
-</section>
+										<!-- Empty State -->
+										<div class="modal-empty-state" ng-show="getFilteredCount() === 0">
+																	<i class="fa fa-folder-open-o"></i>
+											<h5>No Records Found</h5>
+							<p ng-show="!summarySearchText">There are no records matching this category.</p>
+							<p ng-show="summarySearchText">No results found for "{{summarySearchText}}"</p>
+						</div>
+					</div>
+					<div class="modal-summary-footer">
+						<div class="modal-footer-info">
+							Showing <strong>{{getFilteredCount()}}</strong> of <strong>{{filteredSummaryList.length}}</strong> records
+							<span ng-show="summaryModalType === 'warning' && getModalSelectedCount() > 0" class="selected-info">
+								| <strong>{{getModalSelectedCount()}}</strong> selected
+							</span>
+						</div>
+						<div class="modal-footer-actions">
+							<button type="button" 
+									class="modal-regenerate-btn" 
+									ng-show="summaryModalType === 'warning'" 
+									ng-disabled="getModalSelectedCount() === 0"
+									ng-click="btn_regenerate()">
+								<i class="fa fa-refresh"></i>
+								Re-Generate Selected ({{getModalSelectedCount()}})
+							</button>
+							<button type="button" class="modal-close-btn" data-dismiss="modal">
+								<i class="fa fa-times"></i> Close
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
 
 
