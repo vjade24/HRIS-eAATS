@@ -557,7 +557,7 @@
                         <div class="col-lg-6">
                             <div class="form-group row">
                                 <div class="col-lg-12 text-center">
-                                    <button class="btn btn-primary btn-sm dim" ng-click="RetrieveCardingReport(txtb_empl_id,'','','2',ddl_rep_mode == '3' ?'CTO':'','iframe_print_preview_carding_review')"> View Card</button>
+                                    <button class="btn btn-primary btn-sm dim" ng-click="RetrieveCardingReport(txtb_empl_id,'','',ddl_rep_mode == '3' ?'3':'2',ddl_rep_mode == '3' ?'CTO':'','iframe_print_preview_carding_review')"> View Card</button>
                                 </div>
                             </div>
                             <div class="print_preview_iframe_css">
@@ -792,7 +792,104 @@
                 </div>
             </div>
         </div>
+     </div>
+
+    <!-- Balance Discrepancy Notification Modal -->
+    <div class="modal fade" id="balance_discrepancy_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated bounceInDown">
+                <div class="modal-header" style="background-color:#E74C3C;color:white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">
+                        <i class="fa fa-exclamation-triangle"></i> 
+                        Leave Balance Discrepancy Alert
+                        <span class="badge badge-light" style="margin-left:10px;color:#E74C3C;">{{disc_count}} Issue(s) Found</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Employee Information -->
+                    <div class="row" style="margin-bottom:15px;">
+                        <div class="col-lg-12">
+                            <div class="alert alert-info" style="margin-bottom:0;">
+                                <strong>Employee:</strong> {{disc_empl_name}} (ID: {{disc_empl_id}}) | 
+                                <strong>Period:</strong> {{disc_period}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Issue Summary -->
+                    <div class="row" style="margin-bottom:15px;">
+                        <div class="col-lg-12">
+                            <h5 style="margin-bottom:10px;"><i class="fa fa-list-ul"></i> <strong>Issues Found:</strong></h5>
+                            <div class="alert alert-danger" style="margin-bottom:0;">
+                                <p ng-repeat="msg in discrepancy_messages" style="margin:5px 0;">
+                                    {{msg}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discrepancies Table -->
+                    <div class="row" style="padding-top:10px;">
+                        <div class="col-lg-12">
+                            <h5 style="margin-bottom:10px;"><i class="fa fa-table"></i> <strong>Discrepancy Details:</strong></h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-sm" style="background-color:#FFF3CD;border:2px solid #E74C3C;">
+                                    <thead style="background-color:#E74C3C;color:white;">
+                                        <tr>
+                                            <th width="12%">Period Covered</th>
+                                            <th width="20%" class="text-center">Leave Type</th>
+                                            <th width="11%" class="text-center">Earned</th>
+                                            <th width="11%" class="text-center">Abs/Und WP</th>
+                                            <th width="14%" class="text-center">Running Balance</th>
+                                            <th width="20%" class="text-center">Issue</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in discrepancy_data" style="background-color:#FFEBEE;">
+                                            <td><strong>{{item.period_covered}}</strong></td>
+                                            <td class="text-center">
+                                                <span class="badge badge-danger">{{item.leave_type}}</span>
+                                            </td>
+                                            <td class="text-center">{{item.earned | number:2}}</td>
+                                            <td class="text-center">{{item.undertime | number:2}}</td>
+                                            <td class="text-center">
+                                                <strong class="text-danger" style="font-size:14px;">{{item.running_balance | number:2}}</strong>
+                                            </td>
+                                            <td class="text-center">
+                                                <span class="badge badge-danger" style="font-size:11px;padding:5px 8px;">
+                                                    <i class="fa fa-exclamation-circle"></i> {{item.discrepancy_reason}}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Required -->
+                    <div class="row" style="padding-top:15px;">
+                        <div class="col-lg-12">
+                            <div class="alert alert-warning" style="margin-bottom:0;">
+                                <i class="fa fa-info-circle"></i> 
+                                <strong>Action Required:</strong> Please review and correct the identified discrepancies in the leave ledger.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i class="fa fa-check"></i> Acknowledge
+                    </button>
+                    <button type="button" class="btn btn-warning" ng-click="btn_view_ledger_details()">
+                        <i class="fa fa-eye"></i> View Ledger Details
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
+
     <!-- Leave Sync Modal-->
     <div class="modal fade" id="sync_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -995,7 +1092,7 @@
                             </div>
                             <div class="col-lg-7">
                                 <select class="form-control" id="ddl_rep_mode" ng-model="ddl_rep_mode">
-                                    <option value="1">Both Leave and CTO</option>
+                                    <option value="1" disabled>Both Leave and CTO</option>
                                     <option value="2">Leave Card</option>
                                     <option value="3">CTO Card</option>
                                 </select>
@@ -1216,6 +1313,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="pull-right">
+                                                            <button class="btn btn-danger" ng-click="btn_show_discre()"><i class="fa fa-plus-circle"> </i> Show Discrepancy </button>
                                                             <button id="add" class="btn btn-success" ng-click="btn_add_modal()"><i class="fa fa-plus-circle"> </i> Add </button>
                                                             @*<button id="add" class="btn btn-primary" ng-click="btn_print_ledger('OLD',0)"><i class="fa fa-print"> </i> Print Card </button>*@
                                                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Print Actions <span class="caret"></span></button>
@@ -1250,43 +1348,43 @@
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        VL EARNED
+                                                                        {{ddl_rep_mode === '3' ? 'COC' : 'VL EARNED'}}
                                                                     </h3>
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        VL ABS. UND. WP
+                                                                        {{ddl_rep_mode === '3' ? 'USED COC' : 'VL ABS. UND. WP'}}
                                                                     </h3>
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        VL BALANCE
+                                                                        {{ddl_rep_mode === '3' ? 'REMAINING COC' : 'VL BALANCE'}}
                                                                     </h3>
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        ABS. UND. WOP
+                                                                        {{ddl_rep_mode === '3' ? '--' : 'ABS. UND. WOP'}}
                                                                     </h3>
                                                                 </th>
 
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        SL EARNED
+                                                                        {{ddl_rep_mode === '3' ? '--' : 'SL EARNED'}}
                                                                     </h3>
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        SL ABS. UND. WP
+                                                                        {{ddl_rep_mode === '3' ? '--' : 'SL ABS. UND. WP'}}
                                                                     </h3>
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        SL BALANCE
+                                                                        {{ddl_rep_mode === '3' ? '--' : 'SL BALANCE'}}
                                                                     </h3>
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
                                                                     <h3 class="ledger_fields" style="margin-top:0px;margin-bottom:0px;">
-                                                                        ABS. UND. WOP
+                                                                        {{ddl_rep_mode === '3' ? '--' : 'ABS. UND. WOP'}}
                                                                     </h3>
                                                                 </th>
                                                                 <th width="8%" style="vertical-align: middle;">
@@ -1439,28 +1537,104 @@
         </div>
     </div>
 
-    <!-- Inialiazing Modal -->
-    <div class="modal fade" id="modal_initializing">
-        <div class="modal-dialog modal-force-center modal-md">
-            <div class="modal-dialog text-center">
-                <div class="col-lg-12" style="background-color:transparent !important;margin-top:30% !important;">
-                    <div class="spiner-example fa-2x">
-                        <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
-                            <span style="color:#f8ac59 !important;"> Initializing Data </span>
-                            <div class="sk-bounce1" style="background-color: #f8ac59 !important;"></div>
-                            <div class="sk-bounce2" style="background-color: #f8ac59 !important;"></div>
-                            <div class="sk-bounce3" style="background-color: #f8ac59 !important;"></div>
-                            <br />
-                            <span style="color:#f8ac59 !important;font-size:18px;"> This might take a while </span>
+        <!-- Balance Discrepancy Notification Modal -->
+        <div class="modal fade" id="balance_discrepancy_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content animated bounceInDown">
+                    <div class="modal-header" style="background-color:#E74C3C;color:white;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabelSmall"><i class="fa fa-exclamation-triangle"></i> Leave Balance Discrepancy Alert</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p><strong>Employee:</strong> {{disc_empl_name}} (ID: {{disc_empl_id}})</p>
+                                <p><strong>Period:</strong> {{disc_period}}</p>
+                            </div>
                         </div>
-
+                        <div class="row" style="padding-top:10px;">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead style="background-color:#F8F9FA;">
+                                            <tr>
+                                                <th width="20%">Period</th>
+                                                <th width="20%">Leave Type</th>
+                                                <th width="15%" class="text-right">Previous Balance</th>
+                                                <th width="15%" class="text-right">Earned</th>
+                                                <th width="15%" class="text-right">Abs/Und WP</th>
+                                                <th width="20%" class="text-right">Running Balance</th>
+                                                <th width="15%" class="text-center">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in discrepancy_data">
+                                                <td><strong>{{item.period_covered}}</strong></td>
+                                                <td><strong>{{item.leave_type}}</strong></td>
+                                                <td class="text-right">{{item.previous_balance | number:2}}</td>
+                                                <td class="text-right">{{item.earned | number:2}}</td>
+                                                <td class="text-right">{{item.abs_und_wp | number:2}}</td>
+                                                <td class="text-right" ng-class="item.is_discrepancy ? 'text-danger font-bold' : 'text-success'">
+                                                    <strong>{{item.running_balance | number:2}}</strong>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span ng-if="item.is_discrepancy" class="badge badge-danger">
+                                                        <i class="fa fa-warning"></i> {{item.discrepancy_reason}}
+                                                    </span>
+                                                    <span ng-if="!item.is_discrepancy" class="badge badge-success">
+                                                        <i class="fa fa-check"></i> OK
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:15px;">
+                            <div class="col-lg-12">
+                                <div class="alert alert-warning">
+                                    <i class="fa fa-info-circle"></i> 
+                                    <strong>Discrepancy Details:</strong>
+                                    <p style="margin-top:10px;" ng-repeat="msg in discrepancy_messages">• {{msg}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            <i class="fa fa-check"></i> Acknowledge
+                        </button>
+                        <button type="button" class="btn btn-warning" ng-click="btn_view_ledger_details()">
+                            <i class="fa fa-eye"></i> View Details
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- Inialiazing Modal -->
+        <div class="modal fade" id="modal_initializing">
+            <div class="modal-dialog modal-force-center modal-md">
+                <div class="modal-dialog text-center">
+                    <div class="col-lg-12" style="background-color:transparent !important;margin-top:30% !important;">
+                        <div class="spiner-example fa-2x">
+                            <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
+                                <span style="color:#f8ac59 !important;"> Initializing Data </span>
+                                <div class="sk-bounce1" style="background-color: #f8ac59 !important;"></div>
+                                <div class="sk-bounce2" style="background-color: #f8ac59 !important;"></div>
+                                <div class="sk-bounce3" style="background-color: #f8ac59 !important;"></div>
+                                <br />
+                                <span style="color:#f8ac59 !important;font-size:18px;"> This might take a while </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-</section>
+    </section>
     
 

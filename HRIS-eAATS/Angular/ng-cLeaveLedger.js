@@ -1412,12 +1412,12 @@
                 if (print_mode == 'OLD')
                 {
                     s.show_lv_card_rep_option = true;
-                    ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedgerx.rpt";
+                    ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
                 }
                 else if (print_mode == 'NEW')
                 {
                     s.show_lv_card_rep_option = true;
-                    ReportPath = "~/Reports/cryLeaveLedger2/cryLeaveLedgerx.rpt";
+                    ReportPath = "~/Reports/cryLeaveLedger2/cryLeaveLedger.rpt";
                 }
                 else if (print_mode == 'CTO')
                 {
@@ -3231,7 +3231,7 @@
             h.post("../cLeaveLedger/LedgerInfoCurr",
                 {
                     par_empl_id         : s.txtb_empl_id
-                    ,par_leavetype_code : s.ddl_leave_type
+                    ,par_leavetype_code : s.ddl_rep_mode == "3" ? "CTO" : s.ddl_leave_type
                     ,par_year           : str_to_year($("#txtb_dtr_mon_year").val())
                     ,par_month          : month_name_to_int($("#txtb_dtr_mon_year").val())
                     ,par_leave_ctrlno   : s.txtb_leave_ctrlno
@@ -3746,7 +3746,7 @@
         }
         else
         {
-            ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedgerx.rpt";
+            ReportPath = "~/Reports/cryLeaveLedger/cryLeaveLedger.rpt";
         }
         // *******************************************************
         // *** VJA : 2021-07-14 - Validation and Loading hide ****
@@ -4308,9 +4308,210 @@
         })
 
 
+        }
+
+        // ===========================================================================================
+        // BALANCE DISCREPANCY CHECK FUNCTIONS
+        // ===========================================================================================
+
+        /**
+         * Check for balance discrepancies in the datalist_grid
+         * Discrepancy occurs when running balance is:
+         * - Greater than 1.25 (excessive balance)
+         * - Less than 0 (negative/over-deducted balance)
+         */
+        s.CheckBalanceDiscrepancies = function() 
+        {
+
+            try {
+                // Initialize discrepancy data - consolidated to one row per leave type
+                s.all_discrepancy_data = [];
+                s.discrepancy_data = [];
+                s.discrepancy_messages = [];
+                var has_discrepancies = false;
+
+                // Get datalist_grid rows (assumes it's populated with data)
+                var grid_rows = $('#datalist_grid tbody tr');
+
+                if (grid_rows.length === 0) {
+                    return; // No data to check
+                }
+
+                // Track previous balances - inherit last balance if current is blank/zero
+                var prev_vl_balance = 0;
+                var prev_sl_balance = 0;
+                var last_vl_data = null;
+                var last_sl_data = null;
+                var last_period_covered = "";
+
+                // Iterate through each row in the grid to get the LAST balance
+                grid_rows.each(function (index) {
+                    try {
+                        var row = $(this);
+
+                        // Get period covered (column 0)
+                        last_period_covered = row.find('td:eq(0)').text().trim() || "--";
+
+                        // VL data (columns 2, 3, 4)
+                        var vl_earned = parseFloat(row.find('td:eq(2)').text().trim()) || 0;
+                        var vl_abs_und_wp = parseFloat(row.find('td:eq(3)').text().trim()) || 0;
+                        var vl_balance_text = row.find('td:eq(4)').text().trim();
+                        var vl_balance = parseFloat(vl_balance_text) || 0;
+
+                        // If balance is blank or zero, use previous balance
+                        if (!vl_balance_text || vl_balance === 0) {
+                            vl_balance = prev_vl_balance;
+                        } else {
+                            prev_vl_balance = vl_balance;
+                        }
+
+                        // SL data (columns 6, 7, 8)
+                        var sl_earned = parseFloat(row.find('td:eq(6)').text().trim()) || 0;
+                        var sl_abs_und_wp = parseFloat(row.find('td:eq(7)').text().trim()) || 0;
+                        var sl_balance_text = row.find('td:eq(8)').text().trim();
+                        var sl_balance = parseFloat(sl_balance_text) || 0;
+
+                        // If balance is blank or zero, use previous balance
+                        if (!sl_balance_text || sl_balance === 0) {
+                            sl_balance = prev_sl_balance;
+                        } else {
+                            prev_sl_balance = sl_balance;
+                        }
+
+                        // Store the last VL data
+                        last_vl_data = {
+                            period_covered: last_period_covered,
+                            earned: vl_earned.toFixed(2),
+                            abs_und_wp: vl_abs_und_wp.toFixed(2),
+                            running_balance: vl_balance.toFixed(2)
+                        };
+
+                        // Store the last SL data
+                        last_sl_data = {
+                            period_covered: last_period_covered,
+                            earned: sl_earned.toFixed(2),
+                            abs_und_wp: sl_abs_und_wp.toFixed(2),
+                            running_balance: sl_balance.toFixed(2)
+                        };
+
+                    } catch (e) {
+                        console.error("Error processing row " + index + ": " + e.message);
+                    }
+                });
+
+                // Check VL Balance Discrepancy (use last balance)
+                if (last_vl_data) {
+                    var vl_balance = parseFloat(last_vl_data.running_balance);
+                    if (vl_balance > 1.25 || vl_balance < 0) {
+                        has_discrepancies = true;
+                        var vl_discrepancy_reason = vl_balance > 1.25 ? "Excessive Balance" : "Negative Balance";
+
+                        var vl_item = {
+                            period_covered: last_vl_data.period_covered,
+                            leave_type: "Vacation Leave (VL)",
+                            earned: last_vl_data.earned,
+                            undertime: last_vl_data.abs_und_wp,
+                            running_balance: last_vl_data.running_balance,
+                            is_discrepancy: true,
+                            discrepancy_reason: vl_discrepancy_reason
+                        };
+
+                        s.all_discrepancy_data.push(vl_item);
+                        s.discrepancy_data.push(vl_item);
+
+                        s.discrepancy_messages.push(
+                            "🔴 VL Balance: " + last_vl_data.running_balance + 
+                            " (" + vl_discrepancy_reason + ") - " +
+                            (vl_balance > 1.25 ? "Balance exceeds 1.25 days" : "Balance is negative")
+                        );
+                    }
+                }
+
+                // Check SL Balance Discrepancy (use last balance)
+                if (last_sl_data) {
+                    var sl_balance = parseFloat(last_sl_data.running_balance);
+                    if (sl_balance > 1.25 || sl_balance < 0) {
+                        has_discrepancies = true;
+                        var sl_discrepancy_reason = sl_balance > 1.25 ? "Excessive Balance" : "Negative Balance";
+
+                        var sl_item = {
+                            period_covered: last_sl_data.period_covered,
+                            leave_type: "Sick Leave (SL)",
+                            earned: last_sl_data.earned,
+                            undertime: last_sl_data.abs_und_wp,
+                            running_balance: last_sl_data.running_balance,
+                            is_discrepancy: true,
+                            discrepancy_reason: sl_discrepancy_reason
+                        };
+
+                        s.all_discrepancy_data.push(sl_item);
+                        s.discrepancy_data.push(sl_item);
+
+                        s.discrepancy_messages.push(
+                            "🔴 SL Balance: " + last_sl_data.running_balance + 
+                            " (" + sl_discrepancy_reason + ") - " +
+                            (sl_balance > 1.25 ? "Balance exceeds 1.25 days" : "Balance is negative")
+                        );
+                    }
+                }
+
+                // If discrepancies found, populate modal and show it
+                if (has_discrepancies) {
+                    s.disc_empl_name = s.txtb_info_empl_name || "N/A";
+                    s.disc_empl_id = s.txtb_info_empl_id || "N/A";
+                    s.disc_period = s.txtb_period || moment().format("YYYY-MM");
+                    s.disc_count = s.discrepancy_data.length;
+
+                    // Safely apply changes only if not already in digest cycle
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
+                    $('#balance_discrepancy_modal').modal({ backdrop: 'static', keyboard: false });
+                }
+            } catch (e) {
+                console.error("Error in CheckBalanceDiscrepancies: " + e.message);
+            }
+        }
+
+        /**
+         * View ledger details for further investigation
+         */
+        s.btn_view_ledger_details = function() {
+            // Close the discrepancy modal
+            $('#balance_discrepancy_modal').modal('hide');
+
+            // Scroll to the Leave Ledger tab
+            $('#click_tab13').click();
+
+            // Optional: Show a toast notification
+            swal({
+                icon: "info",
+                title: "Leave Ledger Tab",
+                text: "Please review the leave ledger details"
+            });
+        }
+
+        /**
+         * Quick validation function - can be called after data load
+         * Usage: Call this after loading datalist_grid data
+         */
+        s.ValidateBalanceOnLoad = function() {
+            setTimeout(function() {
+                s.CheckBalanceDiscrepancies();
+            }, 500);
+        }
+    s.btn_show_discre = function ()
+    {
+        s.ValidateBalanceOnLoad();
     }
-    //*********************************************************************************************************
-    // ************************ END OF CODE *******************************************************************
-    //*********************************************************************************************************
-});
+
+        // ===========================================================================================
+        // END OF BALANCE DISCREPANCY CHECK FUNCTIONS
+        // ===========================================================================================
+
+        
+        //*********************************************************************************************************
+        // ************************ END OF CODE *******************************************************************
+        //*********************************************************************************************************
+    });
 
