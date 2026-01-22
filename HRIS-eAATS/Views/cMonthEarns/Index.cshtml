@@ -1459,20 +1459,80 @@
             flex-direction: column;
         }
 
-        .filter-group, .filter-group.wide {
-            width: 100%;
-        }
+                .filter-group, .filter-group.wide {
+                    width: 100%;
+                }
 
-        .summary-grid {
-            grid-template-columns: 1fr 1fr;
-        }
+                .summary-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
 
-        .table-toolbar {
-            flex-direction: column;
-            gap: 10px;
-        }
-    }
-</style>
+                .table-toolbar {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+            }
+
+            /* Regenerate Report Styles */
+            .success-row {
+                background: rgba(16, 185, 129, 0.05) !important;
+            }
+
+            .success-row:hover {
+                background: rgba(16, 185, 129, 0.1) !important;
+            }
+
+            .failed-row {
+                background: rgba(239, 68, 68, 0.05) !important;
+            }
+
+            .failed-row:hover {
+                background: rgba(239, 68, 68, 0.1) !important;
+            }
+
+            .status-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 4px 10px;
+                border-radius: 20px;
+                font-size: 11px;
+                font-weight: 600;
+            }
+
+            .status-badge.success {
+                background: rgba(16, 185, 129, 0.15);
+                color: #059669;
+            }
+
+            .status-badge.danger {
+                background: rgba(239, 68, 68, 0.15);
+                color: #dc2626;
+            }
+
+            .id-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 4px 10px;
+                background: var(--bg-light);
+                border-radius: var(--radius-sm);
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--text-primary);
+            }
+
+            .id-badge i {
+                color: var(--text-muted);
+                font-size: 10px;
+            }
+
+            .message-text {
+                font-size: 12px;
+                color: var(--text-secondary);
+                word-break: break-word;
+            }
+        </style>
 
 <section ng-app="ng_selfService_App" ng-controller="cMonthEarns_ctrlr">
     <div class="page-wrapper animated fadeInRight">
@@ -1832,10 +1892,129 @@
 							</button>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
+							</div>
+						</div>
+					</div>
 
-	</section>
+					<!-- Modal Regenerate Report -->
+					<div class="modal fade modal-summary-detail" id="modal_regenerate_report" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog modal-lg modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-summary-header" ng-class="{'success': regenerateReport.failed_count === 0, 'warning': regenerateReport.failed_count > 0}">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeRegenerateReport()">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<div class="modal-header-content">
+										<div class="modal-header-icon">
+											<i class="fa fa-file-text"></i>
+										</div>
+										<div class="modal-header-text">
+											<h4>Re-Generation Report</h4>
+											<p>Processing results for {{getMonthName(ddl_month)}} {{ddl_year}}</p>
+										</div>
+										<div class="modal-header-badge">
+											<div class="count">{{regenerateReport.total_processed}}</div>
+											<div class="badge">Processed</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-summary-body">
+									<!-- Report Summary Cards -->
+									<div class="report-summary-cards" style="display: flex; gap: 12px; margin-bottom: 16px; padding: 10px 15px 0px 15px;">
+										<div class="report-card" style="flex: 1; padding: 12px 16px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 8px; color: #fff;">
+											<div style="font-size: 24px; font-weight: 700;">{{regenerateReport.success_count}}</div>
+											<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+												<i class="fa fa-check-circle"></i> Success
+											</div>
+										</div>
+										<div class="report-card" style="flex: 1; padding: 12px 16px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 8px; color: #fff;">
+											<div style="font-size: 24px; font-weight: 700;">{{regenerateReport.failed_count}}</div>
+											<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+												<i class="fa fa-times-circle"></i> Failed
+											</div>
+										</div>
+										<div class="report-card" style="flex: 1; padding: 12px 16px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-radius: 8px; color: #fff;">
+											<div style="font-size: 24px; font-weight: 700;">{{regenerateReport.total_processed}}</div>
+											<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+												<i class="fa fa-list"></i> Total
+											</div>
+										</div>
+									</div>
+
+									<div class="modal-summary-toolbar">
+										<div class="modal-search-wrapper">
+											<i class="fa fa-search"></i>
+											<input type="text" 
+												   class="modal-search-input" 
+												   ng-model="regenerateReportSearchText" 
+												   placeholder="Search employee ID or message...">
+										</div>
+										<div class="toolbar-right">
+											<button class="modal-export-btn" ng-click="exportRegenerateReport()">
+												<i class="fa fa-file-excel"></i>
+												Export Report
+											</button>
+										</div>
+									</div>
+
+									<!-- Report Table -->
+									<div ng-show="regenerateReport.results.length > 0">
+										<table class="summary-detail-table">
+											<thead>
+												<tr>
+													<th width="6%">#</th>
+													<th width="18%">EMPLOYEE ID</th>
+													<th width="12%">STATUS</th>
+													<th width="64%">MESSAGE</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="item in regenerateReport.results | filter:filterReportList track by $index" 
+													ng-class="{'success-row': item.is_success, 'failed-row': !item.is_success}">
+													<td class="text-center">{{$index + 1}}</td>
+													<td>
+														<span class="id-badge">
+															<i class="fa fa-user"></i>
+															{{item.empl_id}}
+														</span>
+													</td>
+													<td class="text-center">
+														<span class="status-badge" ng-class="{'success': item.is_success, 'danger': !item.is_success}">
+															<i class="fa" ng-class="{'fa-check': item.is_success, 'fa-times': !item.is_success}"></i>
+															{{item.is_success ? 'Success' : 'Failed'}}
+														</span>
+													</td>
+													<td>
+														<span class="message-text">{{item.return_msg}}</span>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+									<!-- Empty State -->
+									<div class="modal-empty-state" ng-show="regenerateReport.results.length === 0">
+										<i class="fa fa-folder-open-o"></i>
+										<h5>No Results</h5>
+										<p>No processing results available.</p>
+									</div>
+								</div>
+								<div class="modal-summary-footer">
+									<div class="modal-footer-info">
+										<strong>{{regenerateReport.success_count}}</strong> successful, 
+										<strong>{{regenerateReport.failed_count}}</strong> failed out of 
+										<strong>{{regenerateReport.total_processed}}</strong> total
+									</div>
+									<div class="modal-footer-actions">
+										<button type="button" class="modal-close-btn" ng-click="closeRegenerateReport()">
+											<i class="fa fa-times"></i> Close & Refresh
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</section>
 
 

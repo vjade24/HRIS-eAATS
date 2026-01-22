@@ -96,31 +96,106 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-        //*********************************************************************//
-        // Created By   : Vincent Jade H. Alivio 
-        // Created Date : 04/03/2020
-        // Description  : Filter Page Grid
-        //*********************************************************************//
-        public ActionResult GenerateEarn(
-            string par_year,
-            string par_month,
-            string par_department_code,
-            string par_empl_id,
-            string par_earning_type
-        )
-        {
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
-                var par_user_id = Session["user_id"].ToString();
-                var data = db_ats.sp_lv_ledger_generate_earning(par_year, par_month, par_department_code, par_empl_id, par_user_id, par_earning_type).ToList().FirstOrDefault();
-                return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message.ToString();
-                return Json(new { message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-    }
-}
+                //*********************************************************************//
+                // Created By   : Vincent Jade H. Alivio 
+                // Created Date : 04/03/2020
+                // Description  : Filter Page Grid
+                //*********************************************************************//
+                public ActionResult GenerateEarn(
+                    string par_year,
+                    string par_month,
+                    string par_department_code,
+                    string par_empl_id,
+                    string par_earning_type
+                )
+                {
+                    try
+                    {
+                        db_ats.Database.CommandTimeout = int.MaxValue;
+                        var par_user_id = Session["user_id"].ToString();
+                        var data = db_ats.sp_lv_ledger_generate_earning(par_year, par_month, par_department_code, par_empl_id, par_user_id, par_earning_type).ToList().FirstOrDefault();
+                        return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                    }
+                    catch (Exception e)
+                    {
+                        string message = e.Message.ToString();
+                        return Json(new { message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                        //*********************************************************************//
+                        // Created Date : Auto-generated
+                        // Description  : Regenerate Earnings for selected employees
+                        //*********************************************************************//
+                        public ActionResult RegenerateEarnings(
+                            string par_year,
+                            string par_month,
+                            string par_department_code,
+                            string par_earning_type,
+                            string[] par_employee_ids
+                        )
+                        {
+                            try
+                            {
+                                db_ats.Database.CommandTimeout = int.MaxValue;
+                                var par_user_id = Session["user_id"].ToString();
+                                var results = new List<object>();
+                                int success_count = 0;
+                                int failed_count = 0;
+
+                                if (par_employee_ids != null && par_employee_ids.Length > 0)
+                                {
+                                    foreach (var empl_id in par_employee_ids)
+                                    {
+                                        var data = db_ats.sp_lv_ledger_generate_earning(par_year, par_month, par_department_code, empl_id, par_user_id, par_earning_type).ToList().FirstOrDefault();
+
+                                        bool is_success = false;
+                                        string return_flag = "";
+                                        string return_msg = "";
+
+                                        if (data != null)
+                                        {
+                                            var dataType = data.GetType();
+                                            var flagProp = dataType.GetProperty("return_flag");
+                                            var msgProp = dataType.GetProperty("return_msg");
+
+                                            if (flagProp != null)
+                                                return_flag = flagProp.GetValue(data)?.ToString() ?? "";
+                                            if (msgProp != null)
+                                                return_msg = msgProp.GetValue(data)?.ToString() ?? "";
+
+                                            is_success = return_flag == "Y";
+                                        }
+
+                                        if (is_success)
+                                            success_count++;
+                                        else
+                                            failed_count++;
+
+                                        results.Add(new
+                                        {
+                                            empl_id,
+                                            return_flag,
+                                            return_msg,
+                                            is_success
+                                        });
+                                    }
+                                }
+
+                                var report = new
+                                {
+                                    total_processed = par_employee_ids?.Length ?? 0,
+                                    success_count,
+                                    failed_count,
+                                    results
+                                };
+
+                                return JSON(new { message = "success", report }, JsonRequestBehavior.AllowGet);
+                            }
+                            catch (Exception e)
+                            {
+                                string message = e.Message.ToString();
+                                return Json(new { message }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                    }
+                }

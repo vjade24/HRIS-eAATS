@@ -84,10 +84,10 @@
             {
                 data: s.datalistgrid,
                 sDom: 'rt<"bottom"ip>',
-                            pageLength: s.rowLen,
+                            //pageLength: s.rowLen,
                             scrollY: '400px',
                             scrollCollapse: true,
-                            paging: true,
+                            paging: false,
                             columns: [
                                 {
                                     "mData": null,
@@ -712,38 +712,134 @@
                                         className: "red-bg"
                                     }
                                 }
-                            }).then((value) => {
-                                if (value === "regenerate") {
-                                    // Close the modal
-                                    $('#modal_summary_detail').modal('hide');
+                                                }).then((value) => {
+                                                    if (value === "regenerate") {
+                                                        // Close the modal
+                                                        $('#modal_summary_detail').modal('hide');
 
-                                    // Show loading
-                                    $('#loading_msg').text('RE-GENERATING');
-                                    $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+                                                        // Show loading
+                                                        $('#loading_msg').text('RE-GENERATING');
+                                                        $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
 
-                                    //h.post("../cMonthEarns/RegenerateEarnings", {
-                                    //    par_year: s.ddl_year,
-                                    //    par_month: s.ddl_month,
-                                    //    par_department_code: s.ddl_dept,
-                                    //    par_earning_type: s.ddl_earning_type,
-                                    //    par_employee_ids: employeeIds
-                                    //}).then(function (d) {
-                                    //    $('#modal_generating_remittance').modal("hide");
+                                                        h.post("../cMonthEarns/RegenerateEarnings", {
+                                                            par_year: s.ddl_year,
+                                                            par_month: s.ddl_month,
+                                                            par_department_code: s.ddl_dept,
+                                                            par_earning_type: s.ddl_earning_type,
+                                                            par_employee_ids: employeeIds
+                                                        }).then(function (d) {
+                                                            $('#modal_generating_remittance').modal("hide");
 
-                                    //    if (d.data.message == "success") {
-                                    //        swal("Success!", "Re-generation completed for " + selectedItems.length + " employee(s).", "success").then(function() {
-                                    //            // Refresh the grid
-                                    //            s.FilterPageGrid();
-                                    //        });
-                                    //    } else {
-                                    //        swal("Error", d.data.message || "An error occurred during re-generation.", "error");
-                                    //    }
-                                    //}).catch(function(error) {
-                                    //    $('#modal_generating_remittance').modal("hide");
-                                    //    swal("Error", "An error occurred during re-generation.", "error");
-                                    //});
+                                                            if (d.data.message == "success") {
+                                                                var report = d.data.report;
+                                                                s.regenerateReport = report;
+                                                                s.showRegenerateReport(report);
+                                                            } else {
+                                                                swal("Error", d.data.message || "An error occurred during re-generation.", "error");
+                                                            }
+                                                        }).catch(function(error) {
+                                                            $('#modal_generating_remittance').modal("hide");
+                                                            swal("Error", "An error occurred during re-generation.", "error");
+                                                        });
+                                                    }
+                                                });
+                                            }
+
+                            // ============================================
+                            // REGENERATE REPORT FUNCTIONS
+                            // ============================================
+                            s.regenerateReport = null;
+                            s.regenerateReportSearchText = '';
+
+                            s.showRegenerateReport = function(report) {
+                                s.regenerateReport = report;
+                                s.regenerateReportSearchText = '';
+
+                                // Build summary message
+                                var summaryMsg = "Total Processed: " + report.total_processed + "\n" +
+                                               "Success: " + report.success_count + "\n" +
+                                               "Failed: " + report.failed_count;
+
+                                if (report.failed_count > 0) {
+                                    // Show report modal for details if there are failures
+                                    $('#modal_regenerate_report').modal('show');
+                                } else {
+                                    // All successful - show success message and refresh
+                                    swal({
+                                        title: "Re-Generation Complete!",
+                                        text: summaryMsg,
+                                        icon: "success"
+                                    }).then(function() {
+                                        s.FilterPageGrid();
+                                    });
                                 }
-                            });
-                        }
+                            };
 
-                    })
+                            s.getReportSuccessResults = function() {
+                                if (!s.regenerateReport || !s.regenerateReport.results) return [];
+                                return s.regenerateReport.results.filter(function(r) { return r.is_success; });
+                            };
+
+                            s.getReportFailedResults = function() {
+                                if (!s.regenerateReport || !s.regenerateReport.results) return [];
+                                return s.regenerateReport.results.filter(function(r) { return !r.is_success; });
+                            };
+
+                            s.filterReportList = function(item) {
+                                if (!s.regenerateReportSearchText || s.regenerateReportSearchText.trim() === '') {
+                                    return true;
+                                }
+                                var searchText = s.regenerateReportSearchText.toLowerCase();
+                                var emplId = (item.empl_id || '').toString().toLowerCase();
+                                var returnMsg = (item.return_msg || '').toLowerCase();
+
+                                return emplId.indexOf(searchText) !== -1 || returnMsg.indexOf(searchText) !== -1;
+                            };
+
+                            s.closeRegenerateReport = function() {
+                                $('#modal_regenerate_report').modal('hide');
+                                s.FilterPageGrid();
+                            };
+
+                            s.exportRegenerateReport = function() {
+                                if (!s.regenerateReport || !s.regenerateReport.results || s.regenerateReport.results.length === 0) {
+                                    swal("No Data", "There are no records to export.", "warning");
+                                    return;
+                                }
+
+                                // Create CSV content
+                                var csvContent = "No.,Employee ID,Status,Message\n";
+
+                                for (var i = 0; i < s.regenerateReport.results.length; i++) {
+                                    var item = s.regenerateReport.results[i];
+                                    var row = [
+                                        (i + 1),
+                                        item.empl_id || '',
+                                        item.is_success ? 'Success' : 'Failed',
+                                        '"' + (item.return_msg || '').replace(/"/g, '""') + '"'
+                                    ];
+                                    csvContent += row.join(',') + "\n";
+                                }
+
+                                // Add summary
+                                csvContent += "\n";
+                                csvContent += "Summary\n";
+                                csvContent += "Total Processed," + s.regenerateReport.total_processed + "\n";
+                                csvContent += "Success," + s.regenerateReport.success_count + "\n";
+                                csvContent += "Failed," + s.regenerateReport.failed_count + "\n";
+
+                                // Create download link
+                                var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                                var link = document.createElement("a");
+                                var url = URL.createObjectURL(blob);
+
+                                link.setAttribute("href", url);
+                                link.setAttribute("download", "Regenerate_Report_" + s.ddl_year + "_" + s.ddl_month + "_" + moment().format('YYYYMMDDHHmmss') + ".csv");
+                                link.style.visibility = 'hidden';
+
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            };
+
+                                        })
