@@ -40,7 +40,6 @@
                 s.ddl_month = datestring(s.currentMonth.toString())
                 RetrieveYear();
                 s.lv_admin_dept_list = d.data.lv_admin_dept_list
-                s.ddl_dept = d.data.lv_admin_dept_list[0].department_code
 
                 if (d.data.data.length > 0) {
                     init_table_data(d.data.data);
@@ -625,6 +624,12 @@
 
     s.btn_generate = function ()
     {
+        if (s.ddl_dept === '')
+        {
+            swal("You cannot procceed", "Department / Office is Required", { icon: "warning" });
+            return;
+        }
+
         swal("ARE YOU SURE YOU WANT TO GENERATE EARN FOR DEPARTMENT " + $('#ddl_dept option:selected').text(), "FOR THE MONTH OF " + $('#ddl_month option:selected').text().toUpperCase() + ", " + $('#ddl_year option:selected').text(), {
             icon: "warning",
             closeOnClickOutside: false,
@@ -673,173 +678,173 @@
                             }
                         })
 
-                                        break;
+                        break;
 
-                                    default:
-                                    //swal("Cancel Request!");
-                                }
-                            });
-                        }
+                    default:
+                    //swal("Cancel Request!");
+                }
+            });
+        }
 
-                        s.btn_regenerate = function ()
-                        {
-                            var selectedItems = s.getSelectedItemsFromModal();
+        s.btn_regenerate = function ()
+        {
+            var selectedItems = s.getSelectedItemsFromModal();
 
-                            if (selectedItems.length === 0) {
-                                swal("No Selection", "Please select at least one employee to regenerate.", "warning");
-                                return;
-                            }
+            if (selectedItems.length === 0) {
+                swal("No Selection", "Please select at least one employee to regenerate.", "warning");
+                return;
+            }
 
-                            var employeeIds = selectedItems.map(function(item) { return item.empl_id; });
-                            var employeeNames = selectedItems.slice(0, 3).map(function(item) { return item.employee_name; });
-                            var displayNames = employeeNames.join(", ") + (selectedItems.length > 3 ? " and " + (selectedItems.length - 3) + " more..." : "");
+            var employeeIds = selectedItems.map(function(item) { return item.empl_id; });
+            var employeeNames = selectedItems.slice(0, 3).map(function(item) { return item.employee_name; });
+            var displayNames = employeeNames.join(", ") + (selectedItems.length > 3 ? " and " + (selectedItems.length - 3) + " more..." : "");
 
-                            swal({
-                                title: "Confirm Re-Generation",
-                                text: "You are about to re-generate earnings for " + selectedItems.length + " employee(s):\n\n" + displayNames,
-                                icon: "warning",
-                                closeOnClickOutside: false,
-                                closeOnEsc: false,
-                                dangerMode: true,
-                                buttons: {
-                                    regenerate: {
-                                        text: "Re-Generate (" + selectedItems.length + ")",
-                                        value: "regenerate"
-                                    },
-                                    cancel: {
-                                        text: "Cancel",
-                                        value: "cancel",
-                                        className: "red-bg"
-                                    }
-                                }
-                                                }).then((value) => {
-                                                    if (value === "regenerate") {
-                                                        // Close the modal
-                                                        $('#modal_summary_detail').modal('hide');
+            swal({
+                title: "Confirm Re-Generation",
+                text: "You are about to re-generate earnings for " + selectedItems.length + " employee(s):\n\n" + displayNames,
+                icon: "warning",
+                closeOnClickOutside: false,
+                closeOnEsc: false,
+                dangerMode: true,
+                buttons: {
+                    regenerate: {
+                        text: "Re-Generate (" + selectedItems.length + ")",
+                        value: "regenerate"
+                    },
+                    cancel: {
+                        text: "Cancel",
+                        value: "cancel",
+                        className: "red-bg"
+                    }
+                }
+                }).then((value) => {
+                    if (value === "regenerate") {
+                        // Close the modal
+                        $('#modal_summary_detail').modal('hide');
 
-                                                        // Show loading
-                                                        $('#loading_msg').text('RE-GENERATING');
-                                                        $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+                        // Show loading
+                        $('#loading_msg').text('RE-GENERATING');
+                        $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
 
-                                                        h.post("../cMonthEarns/RegenerateEarnings", {
-                                                            par_year: s.ddl_year,
-                                                            par_month: s.ddl_month,
-                                                            par_department_code: s.ddl_dept,
-                                                            par_earning_type: s.ddl_earning_type,
-                                                            par_employee_ids: employeeIds
-                                                        }).then(function (d) {
-                                                            $('#modal_generating_remittance').modal("hide");
+                        h.post("../cMonthEarns/RegenerateEarnings", {
+                            par_year: s.ddl_year,
+                            par_month: s.ddl_month,
+                            par_department_code: s.ddl_dept,
+                            par_earning_type: s.ddl_earning_type,
+                            par_employee_ids: employeeIds
+                        }).then(function (d) {
+                            $('#modal_generating_remittance').modal("hide");
 
-                                                            if (d.data.message == "success") {
-                                                                var report = d.data.report;
-                                                                s.regenerateReport = report;
-                                                                s.showRegenerateReport(report);
-                                                            } else {
-                                                                swal("Error", d.data.message || "An error occurred during re-generation.", "error");
-                                                            }
-                                                        }).catch(function(error) {
-                                                            $('#modal_generating_remittance').modal("hide");
-                                                            swal("Error", "An error occurred during re-generation.", "error");
-                                                        });
-                                                    }
-                                                });
-                                            }
-
-                            // ============================================
-                            // REGENERATE REPORT FUNCTIONS
-                            // ============================================
-                            s.regenerateReport = null;
-                            s.regenerateReportSearchText = '';
-
-                            s.showRegenerateReport = function(report) {
+                            if (d.data.message == "success") {
+                                var report = d.data.report;
                                 s.regenerateReport = report;
-                                s.regenerateReportSearchText = '';
+                                s.showRegenerateReport(report);
+                            } else {
+                                swal("Error", d.data.message || "An error occurred during re-generation.", "error");
+                            }
+                        }).catch(function(error) {
+                            $('#modal_generating_remittance').modal("hide");
+                            swal("Error", "An error occurred during re-generation.", "error");
+                        });
+                    }
+                });
+            }
 
-                                // Build summary message
-                                var summaryMsg = "Total Processed: " + report.total_processed + "\n" +
-                                               "Success: " + report.success_count + "\n" +
-                                               "Failed: " + report.failed_count;
+            // ============================================
+            // REGENERATE REPORT FUNCTIONS
+            // ============================================
+            s.regenerateReport = null;
+            s.regenerateReportSearchText = '';
 
-                                if (report.failed_count > 0) {
-                                    // Show report modal for details if there are failures
-                                    $('#modal_regenerate_report').modal('show');
-                                } else {
-                                    // All successful - show success message and refresh
-                                    swal({
-                                        title: "Re-Generation Complete!",
-                                        text: summaryMsg,
-                                        icon: "success"
-                                    }).then(function() {
-                                        s.FilterPageGrid();
-                                    });
-                                }
-                            };
+            s.showRegenerateReport = function(report) {
+                s.regenerateReport = report;
+                s.regenerateReportSearchText = '';
 
-                            s.getReportSuccessResults = function() {
-                                if (!s.regenerateReport || !s.regenerateReport.results) return [];
-                                return s.regenerateReport.results.filter(function(r) { return r.is_success; });
-                            };
+                // Build summary message
+                var summaryMsg = "Total Processed: " + report.total_processed + "\n" +
+                                "Success: " + report.success_count + "\n" +
+                                "Failed: " + report.failed_count;
 
-                            s.getReportFailedResults = function() {
-                                if (!s.regenerateReport || !s.regenerateReport.results) return [];
-                                return s.regenerateReport.results.filter(function(r) { return !r.is_success; });
-                            };
+                if (report.failed_count > 0) {
+                    // Show report modal for details if there are failures
+                    $('#modal_regenerate_report').modal('show');
+                } else {
+                    // All successful - show success message and refresh
+                    swal({
+                        title: "Re-Generation Complete!",
+                        text: summaryMsg,
+                        icon: "success"
+                    }).then(function() {
+                        s.FilterPageGrid();
+                    });
+                }
+            };
 
-                            s.filterReportList = function(item) {
-                                if (!s.regenerateReportSearchText || s.regenerateReportSearchText.trim() === '') {
-                                    return true;
-                                }
-                                var searchText = s.regenerateReportSearchText.toLowerCase();
-                                var emplId = (item.empl_id || '').toString().toLowerCase();
-                                var returnMsg = (item.return_msg || '').toLowerCase();
+            s.getReportSuccessResults = function() {
+                if (!s.regenerateReport || !s.regenerateReport.results) return [];
+                return s.regenerateReport.results.filter(function(r) { return r.is_success; });
+            };
 
-                                return emplId.indexOf(searchText) !== -1 || returnMsg.indexOf(searchText) !== -1;
-                            };
+            s.getReportFailedResults = function() {
+                if (!s.regenerateReport || !s.regenerateReport.results) return [];
+                return s.regenerateReport.results.filter(function(r) { return !r.is_success; });
+            };
 
-                            s.closeRegenerateReport = function() {
-                                $('#modal_regenerate_report').modal('hide');
-                                s.FilterPageGrid();
-                            };
+            s.filterReportList = function(item) {
+                if (!s.regenerateReportSearchText || s.regenerateReportSearchText.trim() === '') {
+                    return true;
+                }
+                var searchText = s.regenerateReportSearchText.toLowerCase();
+                var emplId = (item.empl_id || '').toString().toLowerCase();
+                var returnMsg = (item.return_msg || '').toLowerCase();
 
-                            s.exportRegenerateReport = function() {
-                                if (!s.regenerateReport || !s.regenerateReport.results || s.regenerateReport.results.length === 0) {
-                                    swal("No Data", "There are no records to export.", "warning");
-                                    return;
-                                }
+                return emplId.indexOf(searchText) !== -1 || returnMsg.indexOf(searchText) !== -1;
+            };
 
-                                // Create CSV content
-                                var csvContent = "No.,Employee ID,Status,Message\n";
+            s.closeRegenerateReport = function() {
+                $('#modal_regenerate_report').modal('hide');
+                s.FilterPageGrid();
+            };
 
-                                for (var i = 0; i < s.regenerateReport.results.length; i++) {
-                                    var item = s.regenerateReport.results[i];
-                                    var row = [
-                                        (i + 1),
-                                        item.empl_id || '',
-                                        item.is_success ? 'Success' : 'Failed',
-                                        '"' + (item.return_msg || '').replace(/"/g, '""') + '"'
-                                    ];
-                                    csvContent += row.join(',') + "\n";
-                                }
+            s.exportRegenerateReport = function() {
+                if (!s.regenerateReport || !s.regenerateReport.results || s.regenerateReport.results.length === 0) {
+                    swal("No Data", "There are no records to export.", "warning");
+                    return;
+                }
 
-                                // Add summary
-                                csvContent += "\n";
-                                csvContent += "Summary\n";
-                                csvContent += "Total Processed," + s.regenerateReport.total_processed + "\n";
-                                csvContent += "Success," + s.regenerateReport.success_count + "\n";
-                                csvContent += "Failed," + s.regenerateReport.failed_count + "\n";
+                // Create CSV content
+                var csvContent = "No.,Employee ID,Status,Message\n";
 
-                                // Create download link
-                                var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                                var link = document.createElement("a");
-                                var url = URL.createObjectURL(blob);
+                for (var i = 0; i < s.regenerateReport.results.length; i++) {
+                    var item = s.regenerateReport.results[i];
+                    var row = [
+                        (i + 1),
+                        item.empl_id || '',
+                        item.is_success ? 'Success' : 'Failed',
+                        '"' + (item.return_msg || '').replace(/"/g, '""') + '"'
+                    ];
+                    csvContent += row.join(',') + "\n";
+                }
 
-                                link.setAttribute("href", url);
-                                link.setAttribute("download", "Regenerate_Report_" + s.ddl_year + "_" + s.ddl_month + "_" + moment().format('YYYYMMDDHHmmss') + ".csv");
-                                link.style.visibility = 'hidden';
+                // Add summary
+                csvContent += "\n";
+                csvContent += "Summary\n";
+                csvContent += "Total Processed," + s.regenerateReport.total_processed + "\n";
+                csvContent += "Success," + s.regenerateReport.success_count + "\n";
+                csvContent += "Failed," + s.regenerateReport.failed_count + "\n";
 
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                            };
+                // Create download link
+                var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                var link = document.createElement("a");
+                var url = URL.createObjectURL(blob);
 
-                                        })
+                link.setAttribute("href", url);
+                link.setAttribute("download", "Regenerate_Report_" + s.ddl_year + "_" + s.ddl_month + "_" + moment().format('YYYYMMDDHHmmss') + ".csv");
+                link.style.visibility = 'hidden';
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+})

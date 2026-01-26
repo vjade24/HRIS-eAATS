@@ -1605,9 +1605,10 @@
 							<i class="fa fa-building"></i>
 							Department / Office
 						</label>
-						<select class="filter-select" id="ddl_dept" ng-model="ddl_dept" ng-change="FilterPageGrid()">
-							<option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
-						</select>
+                        <select class="filter-select" id="ddl_dept" ng-model="ddl_dept" ng-change="FilterPageGrid()">
+                            <option value="">-- Select Here --</option>
+                            <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                        </select>
 					</div>
 
 							<div class="filter-group action-buttons">
