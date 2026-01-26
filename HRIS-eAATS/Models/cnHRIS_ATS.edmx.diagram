@@ -45,7 +45,6 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.leavetype_tbl" Width="1.5" PointX="18.75" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_days_frac_tbl" Width="1.5" PointX="6.75" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_dtl_tbl" Width="1.5" PointX="8.75" PointY="19.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_earn_history_tbl" Width="1.5" PointX="14.75" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_hdr_oth_tbl" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_hdr_tbl" Width="1.5" PointX="20.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.monthly_working_hrs_tbl" Width="1.5" PointX="20.75" PointY="14.75" IsExpanded="true" />
@@ -128,6 +127,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_forfeitbal_tbl" Width="1.5" PointX="29.375" PointY="35.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.solo_parent_tbl" Width="1.5" PointX="17.375" PointY="36.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_lv_ledger_extract" Width="1.5" PointX="35.375" PointY="36.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_earn_history_tbl" Width="1.5" PointX="37.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

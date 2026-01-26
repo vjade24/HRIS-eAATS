@@ -918,6 +918,15 @@
           <Property Name="department_code" Type="varchar" MaxLength="2" />
           <Property Name="created_dttm" Type="datetime" />
           <Property Name="created_user_id" Type="varchar" MaxLength="30" />
+          <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" />
+          <Property Name="prev_balance_as_of_vl" Type="money" />
+          <Property Name="curr_restore_deduct_vl" Type="money" />
+          <Property Name="curr_abs_und_wp_vl" Type="money" />
+          <Property Name="curr_balance_as_of_vl" Type="money" />
+          <Property Name="prev_balance_as_of_sl" Type="money" />
+          <Property Name="curr_restore_deduct_sl" Type="money" />
+          <Property Name="curr_abs_und_wp_sl" Type="money" />
+          <Property Name="curr_balance_as_of_sl" Type="money" />
         </EntityType>
         <EntityType Name="lv_ledger_forfeitbal_tbl">
           <Key>
@@ -1432,6 +1441,8 @@
           <Property Name="ldnf" Type="bit" />
           <Property Name="to_emergency" Type="bit" />
           <Property Name="late_justification" Type="varchar(max)" />
+          <Property Name="routinary" Type="bit" />
+          <Property Name="hazard" Type="bit" />
         </EntityType>
         <EntityType Name="travelorder_lvl2_tbl">
           <Key>
@@ -2848,7 +2859,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <Function Name="func_get_date_applied_leave_application3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="application_nbr" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="func_get_date_applied_travel_order" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+        <Function Name="func_get_date_applied_travel_order" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar(max)">
           <Parameter Name="application_nbr" Type="varchar" Mode="In" />
         </Function>
         <Function Name="func_get_date_applied_travel_order2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
@@ -2973,6 +2984,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <ReturnType>
             <CollectionType>
               <RowType>
+                <Property Name="RowNum" Type="bigint" />
                 <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" Nullable="false" />
                 <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
                 <Property Name="employee_name" Type="varchar" MaxLength="258" />
@@ -2984,10 +2996,12 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="vl_earned" Type="nvarchar" MaxLength="4000" />
                 <Property Name="vl_wp" Type="nvarchar" MaxLength="4000" />
                 <Property Name="vl_bal" Type="nvarchar" MaxLength="4000" />
+                <Property Name="vl_bal_running" Type="nvarchar" MaxLength="4000" Nullable="false" />
                 <Property Name="vl_wop" Type="nvarchar" MaxLength="4000" />
                 <Property Name="sl_earned" Type="nvarchar" MaxLength="4000" />
                 <Property Name="sl_wp" Type="nvarchar" MaxLength="4000" />
                 <Property Name="sl_bal" Type="nvarchar" MaxLength="4000" />
+                <Property Name="sl_bal_running" Type="nvarchar" MaxLength="4000" Nullable="false" />
                 <Property Name="sl_wop" Type="nvarchar" MaxLength="4000" />
                 <Property Name="oth_earned" Type="nvarchar" MaxLength="4000" />
                 <Property Name="oth_wp" Type="nvarchar" MaxLength="4000" />
@@ -3018,7 +3032,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="created_dttm" Type="datetime" />
                 <Property Name="nbr_quarter" Type="int" Nullable="false" />
                 <Property Name="hr_head_name" Type="varchar" MaxLength="255" Nullable="false" />
-                <Property Name="hr_head_desig" Type="varchar" MaxLength="14" Nullable="false" />
+                <Property Name="hr_head_desig" Type="varchar" MaxLength="100" Nullable="false" />
+                <Property Name="groupby_terminal" Type="int" Nullable="false" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -3769,6 +3784,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="p_dtr_month" Type="varchar" Mode="In" />
           <Parameter Name="p_dtr_view" Type="varchar" Mode="In" />
           <Parameter Name="p_approval_status" Type="varchar" Mode="In" />
+          <Parameter Name="p_department_code" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_dtr_transmittal_rep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_transmittal_nbr" Type="varchar" Mode="In" />
@@ -3815,7 +3831,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <Function Name="sp_employee_list_without_jo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_employee_list_without_jo1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_exc_inc_empl_attendance_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_option_type" Type="varchar" Mode="In" />
         </Function>
@@ -4066,12 +4081,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_leave_ctrlno" Type="varchar" Mode="In" />
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_view_mode" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="sp_leave_application_rep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_ledger_ctrl_no" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="sp_leave_application_rep2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_ledger_ctrl_no" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_leave_application_rep3" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_ledger_ctrl_no" Type="varchar" Mode="In" />
@@ -6428,21 +6437,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="leaveledger_abs_und_wp" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="leaveledger_abs_und_wop" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
-        <EntityType Name="lv_ledger_earn_history_tbl">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="gen_year" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="gen_month" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="earning_type" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Name="remarks_flag" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="remarks_descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Precision="3" />
-          <Property Name="created_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="lv_ledger_hdr_oth_tbl">
           <Key>
             <PropertyRef Name="id" />
@@ -6811,6 +6805,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="ldnf" Type="Boolean" />
           <Property Name="to_emergency" Type="Boolean" />
           <Property Name="late_justification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="routinary" Type="Boolean" />
+          <Property Name="hazard" Type="Boolean" />
         </EntityType>
         <EntityType Name="travelorder_lvl2_tbl">
           <Key>
@@ -7812,7 +7808,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="leavetype_tbl" EntityType="Self.leavetype_tbl" />
           <EntitySet Name="lv_days_frac_tbl" EntityType="Self.lv_days_frac_tbl" />
           <EntitySet Name="lv_ledger_dtl_tbl" EntityType="Self.lv_ledger_dtl_tbl" />
-          <EntitySet Name="lv_ledger_earn_history_tbl" EntityType="Self.lv_ledger_earn_history_tbl" />
           <EntitySet Name="lv_ledger_hdr_oth_tbl" EntityType="Self.lv_ledger_hdr_oth_tbl" />
           <EntitySet Name="lv_ledger_hdr_tbl" EntityType="Self.lv_ledger_hdr_tbl" />
           <EntitySet Name="monthly_working_hrs_tbl" EntityType="Self.monthly_working_hrs_tbl" />
@@ -8500,6 +8495,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_dtr_month" Mode="In" Type="String" />
             <Parameter Name="p_dtr_view" Mode="In" Type="String" />
             <Parameter Name="p_approval_status" Mode="In" Type="String" />
+            <Parameter Name="p_department_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_dtr_transmittal_rep" ReturnType="Collection(HRIS_ATSModel.sp_dtr_transmittal_rep_Result)">
           <Parameter Name="par_transmittal_nbr" Mode="In" Type="String" />
@@ -9428,6 +9424,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           </FunctionImport>
           <EntitySet Name="solo_parent_tbl" EntityType="HRIS_ATSModel.solo_parent_tbl" />
           <EntitySet Name="lv_lv_ledger_extract" EntityType="HRIS_ATSModel.lv_lv_ledger_extract" />
+          <EntitySet Name="lv_ledger_earn_history_tbl" EntityType="HRIS_ATSModel.lv_ledger_earn_history_tbl" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -13559,6 +13556,30 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="created_dttm" Type="DateTime" Precision="3" />
           <Property Name="year_extracted" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="lv_ledger_earn_history_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="gen_year" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="gen_month" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="earning_type" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="remarks_flag" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="remarks_descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_user_id" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ledger_ctrl_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="prev_balance_as_of_vl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="curr_restore_deduct_vl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="curr_abs_und_wp_vl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="curr_balance_as_of_vl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="prev_balance_as_of_sl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="curr_restore_deduct_sl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="curr_abs_und_wp_sl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="curr_balance_as_of_sl" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14243,22 +14264,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="lv_ledger_earn_history_tbl">
-            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_earn_history_tbl">
-              <MappingFragment StoreEntitySet="lv_ledger_earn_history_tbl">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="gen_year" ColumnName="gen_year" />
-                <ScalarProperty Name="gen_month" ColumnName="gen_month" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="earning_type" ColumnName="earning_type" />
-                <ScalarProperty Name="remarks_flag" ColumnName="remarks_flag" />
-                <ScalarProperty Name="remarks_descr" ColumnName="remarks_descr" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="created_user_id" ColumnName="created_user_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="lv_ledger_hdr_oth_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_hdr_oth_tbl">
               <MappingFragment StoreEntitySet="lv_ledger_hdr_oth_tbl">
@@ -14613,6 +14618,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="travelorder_hdr_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.travelorder_hdr_tbl">
               <MappingFragment StoreEntitySet="travelorder_hdr_tbl">
+                <ScalarProperty Name="hazard" ColumnName="hazard" />
+                <ScalarProperty Name="routinary" ColumnName="routinary" />
                 <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
                 <ScalarProperty Name="travel_datefiled" ColumnName="travel_datefiled" />
                 <ScalarProperty Name="travel_datefiled_original" ColumnName="travel_datefiled_original" />
@@ -16956,17 +16963,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_employee_list_without_jo1" FunctionName="HRIS_ATSModel.Store.sp_employee_list_without_jo1">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_employee_list_without_jo1_Result">
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_exc_inc_empl_attendance_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_exc_inc_empl_attendance_tbl_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_exc_inc_empl_attendance_tbl_list_Result">
@@ -17752,91 +17748,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="bal_coc" ColumnName="bal_coc" />
                 <ScalarProperty Name="position_code" ColumnName="position_code" />
                 <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_leave_application_rep" FunctionName="HRIS_ATSModel.Store.sp_leave_application_rep">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_rep_Result">
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
-                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
-                <ScalarProperty Name="date_applied2" ColumnName="date_applied2" />
-                <ScalarProperty Name="number_of_days" ColumnName="number_of_days" />
-                <ScalarProperty Name="inclusive_dates" ColumnName="inclusive_dates" />
-                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
-                <ScalarProperty Name="leave_class" ColumnName="leave_class" />
-                <ScalarProperty Name="leave_specify" ColumnName="leave_specify" />
-                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
-                <ScalarProperty Name="leavetype_descr2" ColumnName="leavetype_descr2" />
-                <ScalarProperty Name="commutation" ColumnName="commutation" />
-                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
-                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
-                <ScalarProperty Name="leaveledger_date2" ColumnName="leaveledger_date2" />
-                <ScalarProperty Name="leaveledger_balance_as_of_vl" ColumnName="leaveledger_balance_as_of_vl" />
-                <ScalarProperty Name="leaveledger_restore_deduct_vl" ColumnName="leaveledger_restore_deduct_vl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_sl" ColumnName="leaveledger_balance_as_of_sl" />
-                <ScalarProperty Name="leaveledger_restore_deduct_sl" ColumnName="leaveledger_restore_deduct_sl" />
-                <ScalarProperty Name="vl_total" ColumnName="vl_total" />
-                <ScalarProperty Name="sl_total" ColumnName="sl_total" />
-                <ScalarProperty Name="slvl_total1" ColumnName="slvl_total1" />
-                <ScalarProperty Name="slvl_total2" ColumnName="slvl_total2" />
-                <ScalarProperty Name="slvl_total3" ColumnName="slvl_total3" />
-                <ScalarProperty Name="abs_und_wp" ColumnName="abs_und_wp" />
-                <ScalarProperty Name="abs_und_wop" ColumnName="abs_und_wop" />
-                <ScalarProperty Name="sig_acct_name1" ColumnName="sig_acct_name1" />
-                <ScalarProperty Name="sig_acct_desg1" ColumnName="sig_acct_desg1" />
-                <ScalarProperty Name="sig_acct_name2" ColumnName="sig_acct_name2" />
-                <ScalarProperty Name="sig_acct_desg2" ColumnName="sig_acct_desg2" />
-                <ScalarProperty Name="sig_acct_name3" ColumnName="sig_acct_name3" />
-                <ScalarProperty Name="sig_acct_desg3" ColumnName="sig_acct_desg3" />
-                <ScalarProperty Name="department_reviewer" ColumnName="department_reviewer" />
-                <ScalarProperty Name="reviewed_date" ColumnName="reviewed_date" />
-                <ScalarProperty Name="reviewed_comment" ColumnName="reviewed_comment" />
-                <ScalarProperty Name="department_disapprover" ColumnName="department_disapprover" />
-                <ScalarProperty Name="department_disapproval_date" ColumnName="department_disapproval_date" />
-                <ScalarProperty Name="department_disapproval_comment" ColumnName="department_disapproval_comment" />
-                <ScalarProperty Name="hr_final_approver" ColumnName="hr_final_approver" />
-                <ScalarProperty Name="hr_approval_date" ColumnName="hr_approval_date" />
-                <ScalarProperty Name="hr_approval_comment" ColumnName="hr_approval_comment" />
-                <ScalarProperty Name="hr_disapprover" ColumnName="hr_disapprover" />
-                <ScalarProperty Name="hr_disapproval_date" ColumnName="hr_disapproval_date" />
-                <ScalarProperty Name="hr_disapproval_comment" ColumnName="hr_disapproval_comment" />
-                <ScalarProperty Name="department_approval_status" ColumnName="department_approval_status" />
-                <ScalarProperty Name="hr_approval_status" ColumnName="hr_approval_status" />
-                <ScalarProperty Name="report_closing" ColumnName="report_closing" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_leave_application_rep2" FunctionName="HRIS_ATSModel.Store.sp_leave_application_rep2">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_rep2_Result">
-                <ScalarProperty Name="header1" ColumnName="header1" />
-                <ScalarProperty Name="header2" ColumnName="header2" />
-                <ScalarProperty Name="header_address" ColumnName="header_address" />
-                <ScalarProperty Name="header_contact_info" ColumnName="header_contact_info" />
-                <ScalarProperty Name="notice_date" ColumnName="notice_date" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
-                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
-                <ScalarProperty Name="letter_salutation" ColumnName="letter_salutation" />
-                <ScalarProperty Name="letter_body1" ColumnName="letter_body1" />
-                <ScalarProperty Name="letter_body2" ColumnName="letter_body2" />
-                <ScalarProperty Name="sig_acct_name1" ColumnName="sig_acct_name1" />
-                <ScalarProperty Name="sig_acct_desg1" ColumnName="sig_acct_desg1" />
-                <ScalarProperty Name="sig_acct_name2" ColumnName="sig_acct_name2" />
-                <ScalarProperty Name="sig_acct_desg2" ColumnName="sig_acct_desg2" />
-                <ScalarProperty Name="sig_acct_name3" ColumnName="sig_acct_name3" />
-                <ScalarProperty Name="sig_acct_desg3" ColumnName="sig_acct_desg3" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -20943,6 +20854,31 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="employee_name" ColumnName="employee_name" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lv_ledger_earn_history_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_earn_history_tbl">
+              <MappingFragment StoreEntitySet="lv_ledger_earn_history_tbl">
+                <ScalarProperty Name="curr_balance_as_of_sl" ColumnName="curr_balance_as_of_sl" />
+                <ScalarProperty Name="curr_abs_und_wp_sl" ColumnName="curr_abs_und_wp_sl" />
+                <ScalarProperty Name="curr_restore_deduct_sl" ColumnName="curr_restore_deduct_sl" />
+                <ScalarProperty Name="prev_balance_as_of_sl" ColumnName="prev_balance_as_of_sl" />
+                <ScalarProperty Name="curr_balance_as_of_vl" ColumnName="curr_balance_as_of_vl" />
+                <ScalarProperty Name="curr_abs_und_wp_vl" ColumnName="curr_abs_und_wp_vl" />
+                <ScalarProperty Name="curr_restore_deduct_vl" ColumnName="curr_restore_deduct_vl" />
+                <ScalarProperty Name="prev_balance_as_of_vl" ColumnName="prev_balance_as_of_vl" />
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="created_user_id" ColumnName="created_user_id" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="remarks_descr" ColumnName="remarks_descr" />
+                <ScalarProperty Name="remarks_flag" ColumnName="remarks_flag" />
+                <ScalarProperty Name="earning_type" ColumnName="earning_type" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="gen_month" ColumnName="gen_month" />
+                <ScalarProperty Name="gen_year" ColumnName="gen_year" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

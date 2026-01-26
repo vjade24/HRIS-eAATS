@@ -67,7 +67,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<leavetype_tbl> leavetype_tbl { get; set; }
         public virtual DbSet<lv_days_frac_tbl> lv_days_frac_tbl { get; set; }
         public virtual DbSet<lv_ledger_dtl_tbl> lv_ledger_dtl_tbl { get; set; }
-        public virtual DbSet<lv_ledger_earn_history_tbl> lv_ledger_earn_history_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_oth_tbl> lv_ledger_hdr_oth_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_tbl> lv_ledger_hdr_tbl { get; set; }
         public virtual DbSet<monthly_working_hrs_tbl> monthly_working_hrs_tbl { get; set; }
@@ -150,6 +149,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<lv_ledger_forfeitbal_tbl> lv_ledger_forfeitbal_tbl { get; set; }
         public virtual DbSet<solo_parent_tbl> solo_parent_tbl { get; set; }
         public virtual DbSet<lv_lv_ledger_extract> lv_lv_ledger_extract { get; set; }
+        public virtual DbSet<lv_ledger_earn_history_tbl> lv_ledger_earn_history_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -2377,7 +2377,7 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_dtl_tbl_list_Result>("sp_dtr_transmittal_dtl_tbl_list", p_department_codeParameter, p_subdepartment_codeParameter, p_division_codeParameter, p_section_codeParameter, p_transmittal_nbrParameter);
         }
     
-        public virtual ObjectResult<sp_dtr_transmittal_hdr_tbl_list_Result> sp_dtr_transmittal_hdr_tbl_list(string p_dtr_year, string p_dtr_month, string p_dtr_view, string p_approval_status)
+        public virtual ObjectResult<sp_dtr_transmittal_hdr_tbl_list_Result> sp_dtr_transmittal_hdr_tbl_list(string p_dtr_year, string p_dtr_month, string p_dtr_view, string p_approval_status, string p_department_code)
         {
             var p_dtr_yearParameter = p_dtr_year != null ?
                 new ObjectParameter("p_dtr_year", p_dtr_year) :
@@ -2395,7 +2395,11 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_approval_status", p_approval_status) :
                 new ObjectParameter("p_approval_status", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_hdr_tbl_list_Result>("sp_dtr_transmittal_hdr_tbl_list", p_dtr_yearParameter, p_dtr_monthParameter, p_dtr_viewParameter, p_approval_statusParameter);
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_dtr_transmittal_hdr_tbl_list_Result>("sp_dtr_transmittal_hdr_tbl_list", p_dtr_yearParameter, p_dtr_monthParameter, p_dtr_viewParameter, p_approval_statusParameter, p_department_codeParameter);
         }
     
         public virtual ObjectResult<sp_dtr_transmittal_rep_Result> sp_dtr_transmittal_rep(string par_transmittal_nbr)
