@@ -577,10 +577,46 @@
                 {
                     s.oTable.fnAddData(d.data.data);
                 }
-                $('#modal_generating_remittance').modal("hide")
+                $('#modal_generating_remittance').modal("hide");
+
+                // Load discrepancy count after filtering (if department is selected)
+                if (s.ddl_dept !== '') {
+                    s.loadDiscrepancyCount();
+                } else {
+                    s.gridDiscrepancyCount = 0;
+                }
             }
         })
     }
+
+    // Variable to store discrepancy count for button badge
+    s.gridDiscrepancyCount = 0;
+
+    // Load discrepancy count from API
+    s.loadDiscrepancyCount = function() {
+        h.post("../cMonthEarns/GetGenerateSummaryReport", {
+            par_year: s.ddl_year,
+            par_month: s.ddl_month,
+            par_department_code: s.ddl_dept,
+            par_earning_type: s.ddl_earning_type
+        }).then(function (d) {
+            if (d.data.message == "success" && d.data.summary) {
+                // Use discrepancy_count from server response
+                s.gridDiscrepancyCount = d.data.summary.discrepancy_count || 0;
+                // No need to call $apply() - $http.then() already triggers digest
+            } else {
+                s.gridDiscrepancyCount = 0;
+            }
+        }).catch(function() {
+            s.gridDiscrepancyCount = 0;
+        });
+    };
+
+    // Get discrepancy count for button badge (use stored value)
+    s.getGridDiscrepancyCount = function() {
+        return s.gridDiscrepancyCount;
+    };
+
     $('#datalist_grid tbody').on('click', 'span.details-control', function () {
         var tr = $(this).closest('tr');
         var row = $('#datalist_grid').DataTable().row(tr);
@@ -623,68 +659,296 @@
     }
 
     s.btn_generate = function ()
-    {
-        if (s.ddl_dept === '')
-        {
-            swal("You cannot procceed", "Department / Office is Required", { icon: "warning" });
-            return;
-        }
-
-        swal("ARE YOU SURE YOU WANT TO GENERATE EARN FOR DEPARTMENT " + $('#ddl_dept option:selected').text(), "FOR THE MONTH OF " + $('#ddl_month option:selected').text().toUpperCase() + ", " + $('#ddl_year option:selected').text(), {
-            icon: "warning",
-            closeOnClickOutside: false,
-            closeOnEsc: false,
-            dangerMode: true,
-            buttons: {
-                generate_earn: {
-                    text : "Generate Earn " + $('#ddl_month option:selected').text() + ", " + $('#ddl_year option:selected').text(),
-                    value: "generate_earn"
-                },
-                defeat: {
-                    value: "defeat",
-                    text: "Close",
-                    className: "red-bg"
+            {
+                if (s.ddl_dept === '')
+                {
+                    swal("You cannot procceed", "Department / Office is Required", { icon: "warning" });
+                    return;
                 }
-            }
-        }).then((value) => {
-            switch (value) {
-                case "generate_earn":
-                    $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
-                    h.post("../cMonthEarns/GenerateEarn",
-                        {
-                             par_year            : s.ddl_year
-                            ,par_month           : s.ddl_month
-                            ,par_department_code : s.ddl_dept
-                            ,par_empl_id         : ""
-                            ,par_earning_type    : s.ddl_earning_type
 
-                        }).then(function (d) {
-                            if (d.data.message == "success")
-                            {
-                                if (d.data.data.return_flag == "Y")
+                swal("ARE YOU SURE YOU WANT TO GENERATE EARN FOR DEPARTMENT " + $('#ddl_dept option:selected').text(), "FOR THE MONTH OF " + $('#ddl_month option:selected').text().toUpperCase() + ", " + $('#ddl_year option:selected').text(), {
+                    icon: "warning",
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                    dangerMode: true,
+                    buttons: {
+                        generate_earn: {
+                            text : "Generate Earn " + $('#ddl_month option:selected').text() + ", " + $('#ddl_year option:selected').text(),
+                            value: "generate_earn"
+                        },
+                        defeat: {
+                            value: "defeat",
+                            text: "Close",
+                            className: "red-bg"
+                        }
+                    }
+                }).then((value) => {
+                    switch (value) {
+                        case "generate_earn":
+                            $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+                            h.post("../cMonthEarns/GenerateEarn",
                                 {
-                                    swal("Successfully Generated", d.data.data.return_msg, { icon: "success" });
-                                }
-                                else
-                                {
-                                    swal("No data Inserted on Monthly earnings", d.data.data.return_msg, { icon: "warning" });
-                                }
-                                s.FilterPageGrid();
-                            }
-                            else
-                            {
-                                swal("There something wrong!", d.data.message, { icon: "warning" });
-                                s.FilterPageGrid();
-                            }
-                        })
+                                     par_year            : s.ddl_year
+                                    ,par_month           : s.ddl_month
+                                    ,par_department_code : s.ddl_dept
+                                    ,par_empl_id         : ""
+                                    ,par_earning_type    : s.ddl_earning_type
 
-                        break;
+                                }).then(function (d) {
+                                    if (d.data.message == "success")
+                                    {
+                                        $('#modal_generating_remittance').modal("hide");
+                                        if (d.data.data.return_flag == "Y")
+                                        {
+                                            swal({
+                                                title: "Successfully Generated",
+                                                text: d.data.data.return_msg,
+                                                icon: "success",
+                                                buttons: {
+                                                    view_summary: {
+                                                        text: "View Summary Report",
+                                                        value: "view_summary",
+                                                        className: "swal-button--info"
+                                                    },
+                                                    close: {
+                                                        text: "Close",
+                                                        value: "close"
+                                                    }
+                                                }
+                                            }).then((val) => {
+                                                s.FilterPageGrid();
+                                                if (val === "view_summary") {
+                                                    s.showGenerateSummaryReport();
+                                                }
+                                            });
+                                        }
+                                        else
+                                        {
+                                            swal({
+                                                title: "No data Inserted on Monthly earnings",
+                                                text: d.data.data.return_msg,
+                                                icon: "warning",
+                                                buttons: {
+                                                    view_summary: {
+                                                        text: "View Summary Report",
+                                                        value: "view_summary",
+                                                        className: "swal-button--info"
+                                                    },
+                                                    close: {
+                                                        text: "Close",
+                                                        value: "close"
+                                                    }
+                                                }
+                                            }).then((val) => {
+                                                s.FilterPageGrid();
+                                                if (val === "view_summary") {
+                                                    s.showGenerateSummaryReport();
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else
+                                    {
+                                        $('#modal_generating_remittance').modal("hide");
+                                        swal("There something wrong!", d.data.message, { icon: "warning" });
+                                        s.FilterPageGrid();
+                                    }
+                                })
 
-                    default:
-                    //swal("Cancel Request!");
+                                break;
+
+                            default:
+                            //swal("Cancel Request!");
+                        }
+                    });
                 }
-            });
-        }
+
+            // ============================================
+            // GENERATE SUMMARY REPORT FUNCTIONS
+            // ============================================
+            s.generateSummaryReport = null;
+            s.generateSummarySearchText = '';
+
+            s.showGenerateSummaryReport = function() {
+                $('#loading_msg').text('LOADING SUMMARY');
+                $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+
+                h.post("../cMonthEarns/GetGenerateSummaryReport", {
+                    par_year: s.ddl_year,
+                    par_month: s.ddl_month,
+                    par_department_code: s.ddl_dept,
+                    par_earning_type: s.ddl_earning_type
+                }).then(function (d) {
+                    $('#modal_generating_remittance').modal("hide");
+
+                    if (d.data.message == "success") {
+                        s.generateSummaryReport = d.data.summary;
+                        s.generateSummarySearchText = '';
+                        $('#modal_generate_summary_report').modal('show');
+                    } else {
+                        swal("Error", d.data.message || "Failed to load summary report.", "error");
+                    }
+                }).catch(function(error) {
+                    $('#modal_generating_remittance').modal("hide");
+                    swal("Error", "An error occurred while loading the summary report.", "error");
+                });
+            };
+
+            s.getGenerateSummarySuccessResults = function() {
+                if (!s.generateSummaryReport || !s.generateSummaryReport.data) return [];
+                return s.generateSummaryReport.data.filter(function(r) { 
+                    var remarkUpper = (r.remarks_descr || '').toUpperCase();
+                    return r.remarks_flag === 'Y' || remarkUpper.indexOf('SUCCESSFULLY') !== -1 || remarkUpper.indexOf('EARN EXISTS') !== -1;
+                });
+            };
+
+            s.getGenerateSummaryFailedResults = function() {
+                if (!s.generateSummaryReport || !s.generateSummaryReport.data) return [];
+                return s.generateSummaryReport.data.filter(function(r) { 
+                    var remarkUpper = (r.remarks_descr || '').toUpperCase();
+                    return r.remarks_flag !== 'Y' && remarkUpper.indexOf('SUCCESSFULLY') === -1 && remarkUpper.indexOf('EARN EXISTS') === -1;
+                });
+            };
+
+            s.filterGenerateSummaryList = function(item) {
+                if (!s.generateSummarySearchText || s.generateSummarySearchText.trim() === '') {
+                    return true;
+                }
+                var searchText = s.generateSummarySearchText.toLowerCase();
+                var emplId = (item.empl_id || '').toString().toLowerCase();
+                var employeeName = (item.employee_name || '').toLowerCase();
+                var remarksDescr = (item.remarks_descr || '').toLowerCase();
+
+                return emplId.indexOf(searchText) !== -1 || 
+                       employeeName.indexOf(searchText) !== -1 ||
+                       remarksDescr.indexOf(searchText) !== -1;
+            };
+
+            s.getGenerateSummaryFilteredCount = function() {
+                if (!s.generateSummaryReport || !s.generateSummaryReport.data) return 0;
+                if (!s.generateSummarySearchText || s.generateSummarySearchText.trim() === '') {
+                    return s.generateSummaryReport.data.length;
+                }
+                return s.generateSummaryReport.data.filter(s.filterGenerateSummaryList).length;
+            };
+
+            s.closeGenerateSummaryReport = function() {
+                $('#modal_generate_summary_report').modal('hide');
+            };
+
+            s.exportGenerateSummaryReport = function() {
+                if (!s.generateSummaryReport || !s.generateSummaryReport.data || s.generateSummaryReport.data.length === 0) {
+                    swal("No Data", "There are no records to export.", "warning");
+                    return;
+                }
+
+                // Create CSV content based on lv_ledger_earn_history_tbl model
+                var csvContent = "No.,Employee ID,Employee Name,Remarks Flag,Remarks Description,Prev Balance VL,Restore/Deduct VL,Abs Under WP VL,Curr Balance VL,Prev Balance SL,Restore/Deduct SL,Abs Under WP SL,Curr Balance SL,Created Date\n";
+
+                for (var i = 0; i < s.generateSummaryReport.data.length; i++) {
+                    var item = s.generateSummaryReport.data[i];
+                    var row = [
+                        (i + 1),
+                        item.empl_id || '',
+                        '"' + (item.employee_name || '').replace(/"/g, '""') + '"',
+                        item.remarks_flag || '',
+                        '"' + (item.remarks_descr || '').replace(/"/g, '""') + '"',
+                        item.prev_balance_as_of_vl || 0,
+                        item.curr_restore_deduct_vl || 0,
+                        item.curr_abs_und_wp_vl || 0,
+                        item.curr_balance_as_of_vl || 0,
+                        item.prev_balance_as_of_sl || 0,
+                        item.curr_restore_deduct_sl || 0,
+                        item.curr_abs_und_wp_sl || 0,
+                        item.curr_balance_as_of_sl || 0,
+                        moment(item.created_dttm).format('YYYY-MM-DD HH:mm:ss')
+                    ];
+                    csvContent += row.join(',') + "\n";
+                }
+
+                // Add summary
+                csvContent += "\n";
+                csvContent += "Summary\n";
+                csvContent += "Total Records," + s.generateSummaryReport.total_count + "\n";
+                csvContent += "Success," + s.generateSummaryReport.success_count + "\n";
+                csvContent += "Failed," + s.generateSummaryReport.failed_count + "\n";
+
+                // Create download link
+                var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                var link = document.createElement("a");
+                var url = URL.createObjectURL(blob);
+
+                link.setAttribute("href", url);
+                link.setAttribute("download", "Generate_Summary_Report_" + s.ddl_year + "_" + s.ddl_month + "_" + moment().format('YYYYMMDDHHmmss') + ".csv");
+                link.style.visibility = 'hidden';
+
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            s.getGenerateSummaryRemarkClass = function(item) {
+                if (!item) return 'warning';
+                var remarkUpper = (item.remarks_descr || '').toUpperCase();
+                if (item.remarks_flag === 'Y' || remarkUpper.indexOf('SUCCESSFULLY') !== -1 || remarkUpper.indexOf('EARN EXISTS') !== -1) {
+                    return 'success';
+                }
+                return 'warning';
+            };
+
+            // ============================================
+            // DISCREPANCY CALCULATION FUNCTIONS
+            // Formula: PREV BAL + RESTORE - ABS/UND - CURR BAL > 1.25
+            // ============================================
+
+            // Calculate VL discrepancy value
+            s.getDiscrepancyVL = function(item) {
+                if (!item) return 0;
+                var prevBal = parseFloat(item.prev_balance_as_of_vl) || 0;
+                var restore = parseFloat(item.curr_restore_deduct_vl) || 0;
+                var absUnd = parseFloat(item.curr_abs_und_wp_vl) || 0;
+                var currBal = parseFloat(item.curr_balance_as_of_vl) || 0;
+                // Formula: PREV BAL + RESTORE - ABS/UND - CURR BAL
+                return Math.abs(prevBal + restore - absUnd - currBal);
+            };
+
+            // Calculate SL discrepancy value
+            s.getDiscrepancySL = function(item) {
+                if (!item) return 0;
+                var prevBal = parseFloat(item.prev_balance_as_of_sl) || 0;
+                var restore = parseFloat(item.curr_restore_deduct_sl) || 0;
+                var absUnd = parseFloat(item.curr_abs_und_wp_sl) || 0;
+                var currBal = parseFloat(item.curr_balance_as_of_sl) || 0;
+                // Formula: PREV BAL + RESTORE - ABS/UND - CURR BAL
+                return Math.abs(prevBal + restore - absUnd - currBal);
+            };
+
+            // Check if VL has discrepancy > 1.25
+            s.hasDiscrepancyVL = function(item) {
+                return s.getDiscrepancyVL(item) > 1.25;
+            };
+
+            // Check if SL has discrepancy > 1.25
+            s.hasDiscrepancySL = function(item) {
+                return s.getDiscrepancySL(item) > 1.25;
+            };
+
+            // Check if item has any discrepancy (VL or SL)
+            s.hasDiscrepancy = function(item) {
+                return s.hasDiscrepancyVL(item) || s.hasDiscrepancySL(item);
+            };
+
+            // Get count of discrepancy records from generateSummaryReport
+            s.getDiscrepancyCount = function() {
+                if (!s.generateSummaryReport || !s.generateSummaryReport.data) return 0;
+                var count = 0;
+                for (var i = 0; i < s.generateSummaryReport.data.length; i++) {
+                    if (s.hasDiscrepancy(s.generateSummaryReport.data[i])) {
+                        count++;
+                    }
+                }
+                return count;
+            };
 
         s.btn_regenerate = function ()
         {

@@ -838,6 +838,9 @@
                 //**********************************************
                 var iframe = document.getElementById('iframe_print_preview4');
                 iframe.src = "";
+
+                // Load discrepancy count for button badge
+                s.loadDiscrepancyCount();
             }
             else
             {
@@ -4491,19 +4494,150 @@
             });
         }
 
+        // ============================================
+        // DISCREPANCY SUMMARY REPORT FUNCTIONS (Similar to Monthly Earning)
+        // ============================================
+        s.discrepancySummary = null;
+        s.discrepancySearchText = '';
+        s.discrepancyCount = 0;
+
         /**
-         * Quick validation function - can be called after data load
-         * Usage: Call this after loading datalist_grid data
+         * Show discrepancy summary report - similar to Monthly Earning page
          */
-        s.ValidateBalanceOnLoad = function() {
-            setTimeout(function() {
-                s.CheckBalanceDiscrepancies();
-            }, 500);
-        }
-    s.btn_show_discre = function ()
-    {
-        s.ValidateBalanceOnLoad();
-    }
+        s.btn_show_discre = function() {
+            // Validate employee is selected
+            if (!$("#ddl_name option:selected").val() || $("#ddl_name option:selected").val() === '') {
+                swal("Please select an employee first", "", { icon: "warning" });
+                return;
+            }
+
+            // Show loading
+            $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+
+            h.post("../cLeaveLedger/GetDiscrepancySummaryReport", {
+                par_empl_id: $("#ddl_name option:selected").val(),
+                par_date_from: $('#txtb_date_fr').val() || '',
+                par_date_to: $('#txtb_date_to').val() || '',
+                par_view_mode: parseInt(s.ddl_rep_mode) || 2
+            }).then(function (d) {
+                $('#modal_initializing').modal("hide");
+
+                if (d.data.message == "success") {
+                    s.discrepancySummary = d.data.summary;
+                    s.discrepancyCount = d.data.summary.discrepancy_count || 0;
+                    s.discrepancySearchText = '';
+                    $('#balance_discrepancy_modal').modal('show');
+                } else {
+                    swal("Error", d.data.message || "Failed to load discrepancy report.", "error");
+                }
+            }).catch(function(error) {
+                $('#modal_initializing').modal("hide");
+                swal("Error", "An error occurred while loading the discrepancy report.", "error");
+            });
+        };
+
+        /**
+         * Load discrepancy count for button badge
+         */
+        s.loadDiscrepancyCount = function() {
+            if (!$("#ddl_name option:selected").val() || $("#ddl_name option:selected").val() === '') {
+                s.discrepancyCount = 0;
+                return;
+            }
+
+            h.post("../cLeaveLedger/GetDiscrepancySummaryReport", {
+                par_empl_id: $("#ddl_name option:selected").val(),
+                par_date_from: $('#txtb_date_fr').val() || '',
+                par_date_to: $('#txtb_date_to').val() || '',
+                par_view_mode: parseInt(s.ddl_rep_mode) || 2
+            }).then(function (d) {
+                if (d.data.message == "success" && d.data.summary) {
+                    s.discrepancyCount = d.data.summary.discrepancy_count || 0;
+                } else {
+                    s.discrepancyCount = 0;
+                }
+            }).catch(function() {
+                s.discrepancyCount = 0;
+            });
+        };
+
+        /**
+         * Filter function for discrepancy list search
+         */
+        s.filterDiscrepancyList = function(item) {
+            if (!s.discrepancySearchText || s.discrepancySearchText.trim() === '') {
+                return true;
+            }
+            var searchText = s.discrepancySearchText.toLowerCase();
+            var period = (item.period || '').toLowerCase();
+            var leaveType = (item.leave_type || '').toLowerCase();
+
+            return period.indexOf(searchText) !== -1 || leaveType.indexOf(searchText) !== -1;
+        };
+
+        /**
+         * Export discrepancy report to CSV - VL and SL only
+         */
+        s.exportDiscrepancyReport = function() {
+            if (!s.discrepancySummary || !s.discrepancySummary.data || s.discrepancySummary.data.length === 0) {
+                swal("No Data", "There are no VL/SL records to export.", "warning");
+                return;
+            }
+
+            var csvContent = "No.,Period,Leave Type,Old Bal VL,Earned VL,Abs/Und VL,Expected Bal VL,Curr Bal VL,Disc VL,Old Bal SL,Earned SL,Abs/Und SL,Expected Bal SL,Curr Bal SL,Disc SL,Has Discrepancy\n";
+
+            for (var i = 0; i < s.discrepancySummary.data.length; i++) {
+                var item = s.discrepancySummary.data[i];
+                var row = [
+                    (i + 1),
+                    '"' + (item.period || '').replace(/"/g, '""') + '"',
+                    '"' + (item.leave_type || '').replace(/"/g, '""') + '"',
+                    item.old_balance_vl || 0,
+                    item.earned_vl || 0,
+                    item.abs_und_wp_vl || 0,
+                    item.expected_balance_vl || 0,
+                    item.curr_balance_vl || 0,
+                    item.discrepancy_vl || 0,
+                    item.old_balance_sl || 0,
+                    item.earned_sl || 0,
+                    item.abs_und_wp_sl || 0,
+                    item.expected_balance_sl || 0,
+                    item.curr_balance_sl || 0,
+                    item.discrepancy_sl || 0,
+                    item.has_discrepancy ? 'Yes' : 'No'
+                ];
+                csvContent += row.join(',') + "\n";
+            }
+
+            csvContent += "\n";
+            csvContent += "Summary (VL and SL Only)\n";
+            csvContent += "Employee," + s.discrepancySummary.employee_name + "\n";
+            csvContent += "Employee ID," + s.discrepancySummary.empl_id + "\n";
+            csvContent += "Total Records," + s.discrepancySummary.total_count + "\n";
+            csvContent += "Discrepancies," + s.discrepancySummary.discrepancy_count + "\n";
+            csvContent += "\n";
+            csvContent += "Running Totals\n";
+            csvContent += "VL Running Total," + (s.discrepancySummary.final_running_total_vl || 0) + "\n";
+            csvContent += "SL Running Total," + (s.discrepancySummary.final_running_total_sl || 0) + "\n";
+            csvContent += "\n";
+            csvContent += "Formula:\n";
+            csvContent += "Old Balance = Previous row's Current Balance\n";
+            csvContent += "Expected Balance = Old Balance + Earned - Abs/Und\n";
+            csvContent += "Discrepancy = |Expected Balance - Current Balance|\n";
+            csvContent += "Flag as Discrepancy when difference > 1.25\n";
+
+            var blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            var link = document.createElement("a");
+            var url = URL.createObjectURL(blob);
+
+            link.setAttribute("href", url);
+            link.setAttribute("download", "VL_SL_Discrepancy_Report_" + s.discrepancySummary.empl_id + "_" + moment().format('YYYYMMDDHHmmss') + ".csv");
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
 
         // ===========================================================================================
         // END OF BALANCE DISCREPANCY CHECK FUNCTIONS

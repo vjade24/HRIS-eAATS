@@ -1508,6 +1508,187 @@ namespace HRIS_eAATS.Controllers
             }
         }
 
+        //*********************************************************************//
+        // Created Date : Auto-generated
+        // Description  : Get Discrepancy Summary Report for Leave Ledger
+        //                Only for VL (Vacation Leave) and SL (Sick Leave)
+        //*********************************************************************//
+        public ActionResult GetDiscrepancySummaryReport(
+            string par_empl_id,
+            string par_date_from,
+            string par_date_to,
+            int par_view_mode
+        )
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+
+                // Parse dates
+                DateTime? dateFrom = null;
+                DateTime? dateTo = null;
+                if (!string.IsNullOrEmpty(par_date_from))
+                    dateFrom = DateTime.Parse(par_date_from);
+                if (!string.IsNullOrEmpty(par_date_to))
+                    dateTo = DateTime.Parse(par_date_to);
+
+                // Get leave ledger data for the employee
+                var lv_ledger_report = db_ats.sp_leaveledger_report(par_empl_id, dateFrom, dateTo, par_view_mode).ToList();
+
+                // Filter for VL and SL only - check if leave type is VL or SL, or if there's VL/SL activity
+                var filteredReport = lv_ledger_report.Where(item =>
+                {
+                    string leaveType = item.leavetype_code?.Trim().ToUpper() ?? "";
+
+                    // Include if leave type is VL or SL
+                    if (leaveType == "VL" || leaveType == "SL")
+                        return true;
+
+                    // Also include if there's any VL or SL balance activity (earned, deducted, or balance)
+                    decimal vl_earned = 0, vl_wp = 0, vl_bal = 0;
+                    decimal sl_earned = 0, sl_wp = 0, sl_bal = 0;
+
+                    decimal.TryParse(item.vl_earned, out vl_earned);
+                    decimal.TryParse(item.vl_wp, out vl_wp);
+                    decimal.TryParse(item.vl_bal, out vl_bal);
+                    decimal.TryParse(item.sl_earned, out sl_earned);
+                    decimal.TryParse(item.sl_wp, out sl_wp);
+                    decimal.TryParse(item.sl_bal, out sl_bal);
+
+                    // Include if there's any VL or SL activity
+                    bool hasVLActivity = vl_earned != 0 || vl_wp != 0 || vl_bal != 0;
+                    bool hasSLActivity = sl_earned != 0 || sl_wp != 0 || sl_bal != 0;
+
+                    return hasVLActivity || hasSLActivity;
+                }).ToList();
+
+                // Get employee info
+                var employeeInfo = db_ats.vw_personnelnames_tbl_HRIS_ATS.FirstOrDefault(e => e.empl_id == par_empl_id);
+                string employee_name = employeeInfo != null ? employeeInfo.employee_name : "";
+
+                // Calculate discrepancies - running totals for VL and SL only
+                // Formula: Running Total = Previous Running Total + Earned - Deducted
+                // Discrepancy = |Running Total - Database Balance| > 1.25
+                var summaryData = new List<object>();
+                int discrepancy_count = 0;
+
+                // Calculated running totals (cumulative, always correct)
+                decimal running_total_vl = 0;
+                decimal running_total_sl = 0;
+                bool isFirstRow = true;
+
+                foreach (var item in filteredReport)
+                {
+                    // VL calculations - parse from string fields
+                    decimal vl_earned = 0;
+                    decimal vl_abs_und_wp = 0;
+                    decimal vl_db_balance = 0;  // Database balance
+                    decimal.TryParse(item.vl_earned, out vl_earned);
+                    decimal.TryParse(item.vl_wp, out vl_abs_und_wp);
+                    decimal.TryParse(item.vl_bal, out vl_db_balance);
+
+                    // SL calculations - parse from string fields
+                    decimal sl_earned = 0;
+                    decimal sl_abs_und_wp = 0;
+                    decimal sl_db_balance = 0;  // Database balance
+                    decimal.TryParse(item.sl_earned, out sl_earned);
+                    decimal.TryParse(item.sl_wp, out sl_abs_und_wp);
+                    decimal.TryParse(item.sl_bal, out sl_db_balance);
+
+                    // Store previous running total for display (OLD column)
+                    decimal old_running_vl = running_total_vl;
+                    decimal old_running_sl = running_total_sl;
+
+                    // Calculate new running total: Previous Running Total + Earned - Deducted
+                    // For first row, use the database balance as the starting point
+                    if (isFirstRow)
+                    {
+                        running_total_vl = vl_db_balance;
+                        running_total_sl = sl_db_balance;
+                    }
+                    else
+                    {
+                        running_total_vl = running_total_vl + vl_earned - vl_abs_und_wp;
+                        running_total_sl = running_total_sl + sl_earned - sl_abs_und_wp;
+                    }
+
+                    // Calculate discrepancy: |Calculated Running Total - Database Balance|
+                    // This shows where the database value diverges from what it SHOULD be
+                    decimal disc_vl = Math.Abs(running_total_vl - vl_db_balance);
+                    decimal disc_sl = Math.Abs(running_total_sl - sl_db_balance);
+
+                    // Check if there's actual VL/SL activity on this row
+                    bool hasVLActivity = vl_earned != 0 || vl_abs_und_wp != 0 || vl_db_balance != 0;
+                    bool hasSLActivity = sl_earned != 0 || sl_abs_und_wp != 0 || sl_db_balance != 0;
+
+                    // Flag as discrepancy ONLY if:
+                    // 1. Not the first row (skip starting point)
+                    // 2. There's actual VL/SL activity on this row
+                    // 3. The difference exceeds threshold (1.25)
+                    bool has_vl_discrepancy = !isFirstRow && hasVLActivity && disc_vl > 1.25m;
+                    bool has_sl_discrepancy = !isFirstRow && hasSLActivity && disc_sl > 1.25m;
+                    bool has_discrepancy = has_vl_discrepancy || has_sl_discrepancy;
+
+                    if (has_discrepancy)
+                    {
+                        discrepancy_count++;
+                    }
+
+                    summaryData.Add(new
+                    {
+                        ledger_ctrl_no = item.ledger_ctrl_no,
+                        period = item.leaveledger_period,
+                        leave_type = item.leavetype_str,
+                        // VL columns
+                        old_balance_vl = old_running_vl,             // Previous running total (before this row)
+                        earned_vl = vl_earned,                       // Earned this period
+                        abs_und_wp_vl = vl_abs_und_wp,              // Deducted this period
+                        expected_balance_vl = running_total_vl,      // Calculated running total (what DB should be)
+                        curr_balance_vl = vl_db_balance,             // Actual database balance
+                        discrepancy_vl = disc_vl,                    // |Running Total - DB Balance|
+                        running_total_vl = running_total_vl,
+                        has_vl_discrepancy,
+                        // SL columns
+                        old_balance_sl = old_running_sl,             // Previous running total (before this row)
+                        earned_sl = sl_earned,
+                        abs_und_wp_sl = sl_abs_und_wp,
+                        expected_balance_sl = running_total_sl,      // Calculated running total (what DB should be)
+                        curr_balance_sl = sl_db_balance,             // Actual database balance
+                        discrepancy_sl = disc_sl,                    // |Running Total - DB Balance|
+                        running_total_sl = running_total_sl,
+                        has_sl_discrepancy,
+                        has_discrepancy,
+                        created_dttm = item.created_dttm
+                    });
+
+                    isFirstRow = false;
+                }
+
+                int total_count = summaryData.Count;
+
+                var summary = new
+                {
+                    total_count,
+                    discrepancy_count,
+                    employee_name,
+                    empl_id = par_empl_id,
+                    date_from = par_date_from,
+                    date_to = par_date_to,
+                    // Final running totals
+                    final_running_total_vl = running_total_vl,
+                    final_running_total_sl = running_total_sl,
+                    data = summaryData
+                };
+
+                return JSON(new { message = "success", summary }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult reloadExtract(string empl_id,string year, int nbr_quarter)
         {
             try

@@ -1490,6 +1490,173 @@
                 background: rgba(239, 68, 68, 0.1) !important;
             }
 
+            /* Discrepancy Row Styles */
+            .discrepancy-row {
+                background: rgba(239, 68, 68, 0.12) !important;
+                border-left: 4px solid #ef4444 !important;
+            }
+
+            .discrepancy-row:hover {
+                background: rgba(239, 68, 68, 0.18) !important;
+            }
+
+            .discrepancy-row td {
+                color: #991b1b !important;
+            }
+
+            .discrepancy-row .discrepancy-value {
+                color: #dc2626 !important;
+                font-weight: 700 !important;
+            }
+
+            .discrepancy-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 2px 6px;
+                background: #fef2f2;
+                border: 1px solid #fecaca;
+                border-radius: 4px;
+                font-size: 9px;
+                font-weight: 700;
+                color: #dc2626;
+                text-transform: uppercase;
+            }
+
+            .discrepancy-badge i {
+                font-size: 8px;
+            }
+
+            .discrepancy-badge-vl {
+                background: #fef2f2;
+                border-color: #fecaca;
+                color: #dc2626;
+            }
+
+            .discrepancy-badge-sl {
+                background: #fef3c7;
+                border-color: #fcd34d;
+                color: #b45309;
+            }
+
+            .discrepancy-badge-both {
+                background: #fce7f3;
+                border-color: #f9a8d4;
+                color: #be185d;
+            }
+
+            .discrepancy-detail {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .discrepancy-detail span {
+                display: inline-flex;
+                align-items: center;
+                gap: 3px;
+                font-size: 8px;
+                font-weight: 600;
+            }
+
+            .discrepancy-detail .vl-disc {
+                color: #dc2626;
+            }
+
+            .discrepancy-detail .sl-disc {
+                color: #b45309;
+            }
+
+            /* Button with Badge */
+            .btn-with-badge {
+                position: relative;
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .btn-badge {
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                min-width: 20px;
+                height: 20px;
+                padding: 0 6px;
+                border-radius: 10px;
+                font-size: 11px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                animation: pulse-badge 2s infinite;
+            }
+
+            .btn-badge.danger {
+                background: #ef4444;
+                color: #fff;
+                border: 2px solid #fff;
+            }
+
+            /* Discrepancy Label in Button */
+            .btn-discrepancy-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                margin-left: 8px;
+                padding: 2px 8px;
+                background: rgba(255, 255, 255, 0.25);
+                border-radius: 12px;
+                font-size: 10px;
+                font-weight: 600;
+                color: #fff;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                animation: blink-warning 1.5s infinite;
+            }
+
+            .btn-discrepancy-label i {
+                font-size: 9px;
+            }
+
+            .btn-generate-warning {
+                background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+                box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4) !important;
+            }
+
+            .btn-generate-warning:hover {
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5) !important;
+            }
+
+            @@keyframes pulse-badge {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+
+            @@keyframes blink-warning {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.7; }
+            }
+
+            /* Large Modal for Summary Report */
+            .modal-summary-report-large .modal-dialog {
+                max-width: 95vw !important;
+                width: 95vw !important;
+                margin: 1.75rem auto;
+            }
+
+            .modal-summary-report-large .modal-summary-body {
+                max-height: 70vh;
+                overflow-y: auto;
+            }
+
+            .modal-summary-report-large .summary-detail-table th,
+            .modal-summary-report-large .summary-detail-table td {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
             .status-badge {
                 display: inline-flex;
                 align-items: center;
@@ -1542,7 +1709,7 @@
             <div class="header-content">
                 <div class="header-title">
                     <div class="header-icon">
-                        <i class="fa fa-coins"></i>
+                        <i class="fa fa-bolt"></i>
                     </div>
                     <div>
                         <h1>@Model.menu_name</h1>
@@ -1570,7 +1737,7 @@
 
 					<div class="filter-group">
 						<label class="filter-label">
-							<i class="fa fa-calendar-day"></i>
+							<i class="fa fa-calendar"></i>
 							Earn Month
 						</label>
 						<select class="filter-select" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
@@ -1591,7 +1758,7 @@
 
 					<div class="filter-group">
 						<label class="filter-label">
-							<i class="fa fa-wallet"></i>
+							<i class="fa fa-book"></i>
 							Earning Type
 						</label>
 						<select class="filter-select" id="ddl_earning_type" ng-model="ddl_earning_type" ng-change="FilterPageGrid()">
@@ -1611,13 +1778,25 @@
                         </select>
 					</div>
 
-							<div class="filter-group action-buttons">
+					<div class="filter-group action-buttons">
 								<button type="button" 
 										ng-click="btn_generate()" 
 										ng-show="datalist_grid.length === 0" 
 										class="btn-generate success">
 									<i class="fa fa-bolt"></i>
 									Generate Earning
+								</button>
+								<button type="button" 
+										ng-click="showGenerateSummaryReport()" 
+										ng-show="datalist_grid.length > 0 && ddl_dept !== ''" 
+										class="btn-generate primary btn-with-badge"
+										ng-class="{'btn-generate-warning': getGridDiscrepancyCount() > 0}">
+									<i class="fa fa-file-text-o"></i>
+									Summary Report
+									<span class="btn-discrepancy-label" ng-show="getGridDiscrepancyCount() > 0">
+										<i class="fa fa-exclamation-triangle"></i> {{getGridDiscrepancyCount()}}  <span ng-show="getGridDiscrepancyCount() === 1">Discrepancy</span> <span ng-show="getGridDiscrepancyCount() > 1">Discrepancies</span>
+									</span>
+									<span class="btn-badge danger" ng-show="getGridDiscrepancyCount() > 0">{{getGridDiscrepancyCount()}}</span>
 								</button>
 							</div>
 						</div>
@@ -2007,15 +2186,198 @@
 										<strong>{{regenerateReport.total_processed}}</strong> total
 									</div>
 									<div class="modal-footer-actions">
-										<button type="button" class="modal-close-btn" ng-click="closeRegenerateReport()">
-											<i class="fa fa-times"></i> Close & Refresh
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+														<button type="button" class="modal-close-btn" ng-click="closeRegenerateReport()">
+																	<i class="fa fa-times"></i> Close & Refresh
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 
-				</section>
+											<!-- Modal Generate Summary Report -->
+											<div class="modal fade modal-summary-detail modal-summary-report-large" id="modal_generate_summary_report" tabindex="-1" role="dialog" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered">
+													<div class="modal-content">
+														<div class="modal-summary-header" ng-class="{'success': generateSummaryReport.failed_count === 0 && getDiscrepancyCount() === 0, 'warning': generateSummaryReport.failed_count > 0 || getDiscrepancyCount() > 0, 'primary': !generateSummaryReport}">
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeGenerateSummaryReport()">
+																<span aria-hidden="true">&times;</span>
+															</button>
+															<div class="modal-header-content">
+																<div class="modal-header-icon">
+																	<i class="fa fa-file-text-o"></i>
+																</div>
+																<div class="modal-header-text">
+																	<h4>Generate Earnings Summary Report</h4>
+																	<p>Earnings history for {{getMonthName(ddl_month)}} {{ddl_year}} - {{ddl_earning_type === 'VL' ? 'Basic Monthly Earning' : 'CTO Earning'}}</p>
+																</div>
+																<div class="modal-header-badge" style="margin-right: 10px;" ng-show="getDiscrepancyCount() > 0">
+																	<div class="count" style="color: #fef2f2;">{{getDiscrepancyCount()}}</div>
+																	<div class="badge badge-danger" style="color: #fecaca;">Discrepancies</div>
+																</div>
+																<div class="modal-header-badge">
+																	<div class="count">{{generateSummaryReport.total_count || 0}}</div>
+																	<div class="badge">Total Records</div>
+																</div>
+															</div>
+														</div>
+														<div class="modal-summary-body">
+															<!-- Report Summary Cards -->
+															<div class="report-summary-cards" style="display: flex; gap: 12px; margin-bottom: 16px; padding: 10px 15px 0px 15px;">
+																<div class="report-card" style="flex: 1; padding: 12px 16px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 8px; color: #fff;">
+																	<div style="font-size: 24px; font-weight: 700;">{{generateSummaryReport.success_count || 0}}</div>
+																	<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+																		<i class="fa fa-check-circle"></i> Success
+																	</div>
+																</div>
+																<div class="report-card" style="flex: 1; padding: 12px 16px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 8px; color: #fff;">
+																	<div style="font-size: 24px; font-weight: 700;">{{generateSummaryReport.failed_count || 0}}</div>
+																	<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+																		<i class="fa fa-times-circle"></i> Failed
+																	</div>
+																</div>
+																<div class="report-card" style="flex: 1; padding: 12px 16px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border-radius: 8px; color: #fff;">
+																	<div style="font-size: 24px; font-weight: 700;">{{getDiscrepancyCount()}}</div>
+																	<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+																		<i class="fa fa-exclamation-triangle"></i> Discrepancies
+																	</div>
+																</div>
+																<div class="report-card" style="flex: 1; padding: 12px 16px; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-radius: 8px; color: #fff;">
+																	<div style="font-size: 24px; font-weight: 700;">{{generateSummaryReport.total_count || 0}}</div>
+																	<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+																		<i class="fa fa-list"></i> Total
+																	</div>
+																</div>
+															</div>
+
+															<div class="modal-summary-toolbar">
+																<div class="modal-search-wrapper">
+																	<i class="fa fa-search"></i>
+																	<input type="text" 
+																		   class="modal-search-input" 
+																		   ng-model="generateSummarySearchText" 
+																		   placeholder="Search employee ID, department or remarks...">
+																</div>
+																<div class="toolbar-right">
+																	<button class="modal-export-btn" ng-click="exportGenerateSummaryReport()">
+																		<i class="fa fa-file-excel"></i>
+																		Export Report
+																	</button>
+																</div>
+															</div>
+
+															<!-- Report Table -->
+															<div ng-show="generateSummaryReport.data.length > 0">
+																<table class="summary-detail-table">
+																	<thead>
+																		<tr>
+																			<th width="3%">#</th>
+																			<th width="5%"><i class="fa fa-exclamation-triangle" title="Discrepancy"></i> DISC</th>
+																			<th width="7%">EMPLOYEE ID</th>
+																			<th width="12%">EMPLOYEE NAME</th>
+																			<th width="13%">REMARKS</th>
+																			<th width="7%">PREV BAL VL</th>
+																			<th width="6%">RESTORE VL</th>
+																			<th width="6%">ABS/UND VL</th>
+																			<th width="7%">CURR BAL VL</th>
+																			<th width="7%">PREV BAL SL</th>
+																			<th width="6%">RESTORE SL</th>
+																			<th width="6%">ABS/UND SL</th>
+																			<th width="7%">CURR BAL SL</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr ng-repeat="item in generateSummaryReport.data | filter:filterGenerateSummaryList track by $index" 
+																			ng-class="{'discrepancy-row': hasDiscrepancy(item), 'success-row': !hasDiscrepancy(item) && getGenerateSummaryRemarkClass(item) === 'success', 'failed-row': !hasDiscrepancy(item) && getGenerateSummaryRemarkClass(item) === 'warning'}">
+																			<td class="text-center">{{$index + 1}}</td>
+																			<td class="text-center">
+																				<!-- No discrepancy -->
+																				<span ng-show="!hasDiscrepancy(item)" class="text-muted">-</span>
+																				<!-- Both VL and SL discrepancy -->
+																				<div ng-show="hasDiscrepancyVL(item) && hasDiscrepancySL(item)" class="discrepancy-detail">
+																					<span class="discrepancy-badge discrepancy-badge-both" title="VL Diff: {{getDiscrepancyVL(item) | number:3}} | SL Diff: {{getDiscrepancySL(item) | number:3}}">
+																						<i class="fa fa-exclamation-triangle"></i> VL & SL
+																					</span>
+																				</div>
+																				<!-- Only VL discrepancy -->
+																				<div ng-show="hasDiscrepancyVL(item) && !hasDiscrepancySL(item)" class="discrepancy-detail">
+																					<span class="discrepancy-badge discrepancy-badge-vl" title="VL Diff: {{getDiscrepancyVL(item) | number:3}}">
+																						<i class="fa fa-exclamation-triangle"></i> VL ({{getDiscrepancyVL(item) | number:2}})
+																					</span>
+																				</div>
+																				<!-- Only SL discrepancy -->
+																				<div ng-show="!hasDiscrepancyVL(item) && hasDiscrepancySL(item)" class="discrepancy-detail">
+																					<span class="discrepancy-badge discrepancy-badge-sl" title="SL Diff: {{getDiscrepancySL(item) | number:3}}">
+																						<i class="fa fa-exclamation-triangle"></i> SL ({{getDiscrepancySL(item) | number:2}})
+																					</span>
+																				</div>
+																			</td>
+																			<td>
+																				<span class="id-badge">
+																					<i class="fa fa-user"></i>
+																					{{item.empl_id}}
+																				</span>
+																			</td>
+																			<td>
+																				<span class="name-cell">{{item.employee_name}}</span>
+																			</td>
+																			<td>
+																				<span class="remark-badge" ng-class="getGenerateSummaryRemarkClass(item)">
+																					{{item.remarks_descr}}
+																				</span>
+																			</td>
+																			<td class="text-right">
+																				<span ng-class="{'discrepancy-value': hasDiscrepancyVL(item)}">{{item.prev_balance_as_of_vl | number:3}}</span>
+																			</td>
+																			<td class="text-right">
+																				<span ng-class="{'discrepancy-value': hasDiscrepancyVL(item)}">{{item.curr_restore_deduct_vl | number:3}}</span>
+																			</td>
+																			<td class="text-right">
+																				<span ng-class="{'discrepancy-value': hasDiscrepancyVL(item)}">{{item.curr_abs_und_wp_vl | number:3}}</span>
+																			</td>
+																			<td class="text-right">
+																				<strong ng-class="{'discrepancy-value': hasDiscrepancyVL(item)}">{{item.curr_balance_as_of_vl | number:3}}</strong>
+																			</td>
+																			<td class="text-right">
+																				<span ng-class="{'discrepancy-value': hasDiscrepancySL(item)}">{{item.prev_balance_as_of_sl | number:3}}</span>
+																			</td>
+																			<td class="text-right">
+																				<span ng-class="{'discrepancy-value': hasDiscrepancySL(item)}">{{item.curr_restore_deduct_sl | number:3}}</span>
+																			</td>
+																			<td class="text-right">
+																				<span ng-class="{'discrepancy-value': hasDiscrepancySL(item)}">{{item.curr_abs_und_wp_sl | number:3}}</span>
+																			</td>
+																			<td class="text-right">
+																				<strong ng-class="{'discrepancy-value': hasDiscrepancySL(item)}">{{item.curr_balance_as_of_sl | number:3}}</strong>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+
+															<!-- Empty State -->
+															<div class="modal-empty-state" ng-show="!generateSummaryReport || generateSummaryReport.data.length === 0">
+																<i class="fa fa-folder-open-o"></i>
+																<h5>No Results</h5>
+																<p>No earning history records available for this period.</p>
+															</div>
+														</div>
+														<div class="modal-summary-footer">
+															<div class="modal-footer-info">
+																Showing <strong>{{getGenerateSummaryFilteredCount()}}</strong> of <strong>{{generateSummaryReport.total_count || 0}}</strong> records |
+																<span style="color: var(--success-color);"><strong>{{generateSummaryReport.success_count || 0}}</strong> successful</span>,
+																<span style="color: var(--warning-color);"><strong>{{generateSummaryReport.failed_count || 0}}</strong> failed</span>
+															</div>
+															<div class="modal-footer-actions">
+																<button type="button" class="modal-close-btn" ng-click="closeGenerateSummaryReport()">
+																	<i class="fa fa-times"></i> Close
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+										</section>
 
 
