@@ -201,7 +201,7 @@ namespace HRIS_eAATS.Controllers
                             success_count,
                             failed_count,
                             discrepancy_count,
-                            data = summaryData
+                            data = summaryData.OrderBy(x => x.employee_name)
                         };
 
                         return JSON(new { message = "success", summary }, JsonRequestBehavior.AllowGet);
