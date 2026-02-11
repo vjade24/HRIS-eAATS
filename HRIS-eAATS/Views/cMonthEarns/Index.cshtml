@@ -2209,7 +2209,7 @@
 																</div>
 																<div class="modal-header-text">
 																	<h4>Generate Earnings Summary Report</h4>
-																	<p>Earnings history for {{getMonthName(ddl_month)}} {{ddl_year}} - {{ddl_earning_type === 'VL' ? 'Basic Monthly Earning' : 'CTO Earning'}}</p>
+																	<p>Earnings history for {{getMonthName(ddl_month)}} {{ddl_year}} - {{ddl_earning_type === 'VL' ? 'Basic Monthly Earning' : 'COC Earning'}}</p>
 																</div>
 																<div class="modal-header-badge" style="margin-right: 10px;" ng-show="getDiscrepancyCount() > 0">
 																	<div class="count" style="color: #fef2f2;">{{getDiscrepancyCount()}}</div>
@@ -2270,21 +2270,21 @@
 															<div ng-show="generateSummaryReport.data.length > 0">
 																<table class="summary-detail-table">
 																	<thead>
-																		<tr>
-																			<th width="3%">#</th>
-																			<th width="5%"><i class="fa fa-exclamation-triangle" title="Discrepancy"></i> DISC</th>
-																			<th width="7%">EMPLOYEE ID</th>
-																			<th width="12%">EMPLOYEE NAME</th>
-																			<th width="13%">REMARKS</th>
-																			<th width="7%">PREV BAL VL</th>
-																			<th width="6%">EARNED VL</th>
-																			<th width="6%">ABS/UND VL</th>
-																			<th width="7%">CURR BAL VL</th>
-																			<th width="7%">PREV BAL SL</th>
-																			<th width="6%">EARNED SL</th>
-																			<th width="6%">ABS/UND SL</th>
-																			<th width="7%">CURR BAL SL</th>
-																		</tr>
+                                                                        <tr>
+                                                                            <th width="3%">#</th>
+                                                                            <th width="5%"><i class="fa fa-exclamation-triangle" title="Discrepancy"></i> DISC</th>
+                                                                            <th width="7%">EMPLOYEE ID</th>
+                                                                            <th width="12%">EMPLOYEE NAME</th>
+                                                                            <th width="13%">REMARKS</th>
+                                                                            <th width="7%">PREV BAL {{ddl_earning_type === 'VL' ? 'VL' : 'COC'}}</th>
+                                                                            <th width="6%">EARNED {{ddl_earning_type === 'VL' ? 'VL' : 'COC'}}</th>
+                                                                            <th width="6%">ABS/UND {{ddl_earning_type === 'VL' ? 'VL' : 'COC'}}</th>
+                                                                            <th width="7%">CURR BAL {{ddl_earning_type === 'VL' ? 'VL' : 'COC'}}</th>
+                                                                            <th width="7%">{{ddl_earning_type === 'VL' ? 'PREV BAL SL' : '--'}}</th>
+                                                                            <th width="6%">{{ddl_earning_type === 'VL' ? 'EARNED SL' : '--'}}</th>
+                                                                            <th width="6%">{{ddl_earning_type === 'VL' ? 'ABS/UND SL' : '--'}}</th>
+                                                                            <th width="7%">{{ddl_earning_type === 'VL' ? 'CURR BAL SL' : '--'}}</th>
+                                                                        </tr>
 																	</thead>
 																	<tbody>
 																		<tr ng-repeat="item in generateSummaryReport.data | filter:filterGenerateSummaryList track by $index" 
