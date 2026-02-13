@@ -264,13 +264,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common_Code\CommonDB.cs" />
-    <Compile Include="Common_Code\DeviceManipulator.cs" />
     <Compile Include="Common_Code\HRIS_Common.cs" />
     <Compile Include="Common_Code\UniversalStatic.cs" />
-    <Compile Include="Common_Code\ZkemClient.cs" />
     <Compile Include="Controllers\APIcBestInAttendanceController.cs" />
     <Compile Include="Controllers\APILeaveHistoryController.cs" />
-    <Compile Include="Controllers\BioExtractController.cs" />
     <Compile Include="Controllers\cAATSInstallationController.cs" />
     <Compile Include="Controllers\cASTDTRSupportController.cs" />
     <Compile Include="Controllers\cASTypeController.cs" />
@@ -3021,7 +3018,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ExportedFiles\" />
-    <Folder Include="Views\BioExtract\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>

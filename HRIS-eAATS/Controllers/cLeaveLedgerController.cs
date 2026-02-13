@@ -1724,7 +1724,6 @@ namespace HRIS_eAATS.Controllers
                             par_employment_type,
                             par_year,
                             par_month)
-                        .Take(5)
                         .ToList();
 
                     string basePath = AppDomain.CurrentDomain.BaseDirectory;
