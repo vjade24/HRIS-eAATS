@@ -295,6 +295,7 @@
     <Compile Include="Controllers\cTravelTypeController.cs" />
     <Compile Include="Controllers\cVLConversionDetailsController.cs" />
     <Compile Include="Controllers\cVLWithOutPayController.cs" />
+    <Compile Include="Controllers\cWellnessMonitoringController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -323,6 +324,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\authorization_slip_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\authorization_wellness_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\best_in_attendance_dtl_tbl.cs">
@@ -742,6 +746,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_authorization_slip_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_authorization_wellness_dayoff_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_auto_apply_force_leave_Result.cs">
@@ -1455,6 +1462,15 @@
     <Compile Include="Models\sp_vl_wop_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_wellness_breakdown_applied_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_wellness_dayoff_for_approval_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_wellness_monitoring_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\step_reckoning_overrid_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -2012,6 +2028,7 @@
     <Content Include="Angular\ng-cTravelType.js" />
     <Content Include="Angular\ng-cVLConversionDetails.js" />
     <Content Include="Angular\ng-cVLWithOutPay.js" />
+    <Content Include="Angular\ng-cWellnessMonitoring.js" />
     <Content Include="Angular\ng-file-upload.min.js" />
     <Content Include="Angular\ng-Login.js" />
     <Content Include="Angular\ng-Reports.js" />
@@ -3014,6 +3031,7 @@
     <Content Include="Views\cSoloParent\Index.cshtml" />
     <Content Include="Views\cLoyalty\Index.cshtml" />
     <Content Include="Views\cStepIncrement\Index.cshtml" />
+    <Content Include="Views\cWellnessMonitoring\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

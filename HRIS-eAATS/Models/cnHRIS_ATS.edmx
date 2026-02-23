@@ -23,6 +23,9 @@
           <Property Name="astype_descr" Type="varchar" MaxLength="50" />
           <Property Name="astype_abbrv" Type="varchar" MaxLength="5" />
           <Property Name="astype_show_dtr" Type="bit" />
+          <Property Name="allow_jo" Type="bit" />
+          <Property Name="allow_casual" Type="bit" />
+          <Property Name="allow_regular" Type="bit" />
         </EntityType>
         <EntityType Name="authorization_slip_tbl">
           <Key>
@@ -83,6 +86,23 @@
           <Property Name="created_by_user" Type="varchar" MaxLength="8" />
           <Property Name="updated_dttm" Type="datetime" />
           <Property Name="updated_by_user" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="authorization_wellness_dtl_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="application_nbr" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="date_breakdown" Type="date" Nullable="false" />
+          <Property Name="parent_date" Type="date" Nullable="false" />
+          <Property Name="parent_val" Type="money" Nullable="false" />
+          <Property Name="val" Type="money" Nullable="false" />
+          <Property Name="approval_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="created_by" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="updated_by" Type="varchar" MaxLength="15" />
+          <Property Name="updated_dttm" Type="datetime" />
         </EntityType>
         <EntityType Name="best_in_attendance_dtl_tbl">
           <Key>
@@ -3028,7 +3048,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="appl_status" Type="varchar" MaxLength="100" Nullable="false" />
                 <Property Name="appl_remarks" Type="varchar" MaxLength="255" Nullable="false" />
                 <Property Name="lv_nodays" Type="money" Nullable="false" />
-                <Property Name="leaveledger_period_actual" Type="date" />
+                <Property Name="leaveledger_period_actual" Type="datetime" />
                 <Property Name="created_dttm" Type="datetime" />
                 <Property Name="nbr_quarter" Type="int" Nullable="false" />
                 <Property Name="hr_head_name" Type="varchar" MaxLength="255" Nullable="false" />
@@ -3387,6 +3407,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         </Function>
         <Function Name="sp_authorization_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_authorization_wellness_dayoff_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_date_applied" Type="date" Mode="In" />
         </Function>
         <Function Name="sp_auto_apply_force_leave" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
@@ -4354,14 +4378,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="owner_id" Type="int" Mode="In" />
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
-        <Function Name="sp_save_lv_ledger_dtl_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="p_ledger_ctrl_no" Type="varchar" Mode="In" />
-          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
-          <Parameter Name="p_leavetype_code" Type="varchar" Mode="In" />
-          <Parameter Name="p_leavesubtype_code" Type="varchar" Mode="In" />
-          <Parameter Name="p_leaveledger_date" Type="date" Mode="In" />
-          <Parameter Name="p_lv_nodays" Type="money" Mode="In" />
-        </Function>
         <Function Name="sp_save_lv_ledger_dtl_tbl2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_ledger_ctrl_no" Type="varchar" Mode="In" />
           <Parameter Name="p_leavetype_code" Type="varchar" Mode="In" />
@@ -4664,12 +4680,27 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <Function Name="sp_vl_fractionconvertion_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_vl_wop_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_vlslearned_dailybasis_tbl_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_wellness_breakdown_applied" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_applied_date" Type="date" Mode="In" />
+          <Parameter Name="par_value" Type="money" Mode="In" />
+        </Function>
+        <Function Name="sp_wellness_dayoff_for_approval_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_user_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_wellness_monitoring_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_payroll_year" Type="int" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+          <Parameter Name="par_active_only" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="HRIS_ATSModelStoreContainer">
           <EntitySet Name="aats_installation_tbl" EntityType="Self.aats_installation_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="astype_tbl" EntityType="Self.astype_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="authorization_slip_tbl" EntityType="Self.authorization_slip_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="authorization_slipt_dtl_tbl" EntityType="Self.authorization_slipt_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="authorization_slipt_hdr_tbl" EntityType="Self.authorization_slipt_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="authorization_wellness_dtl_tbl" EntityType="Self.authorization_wellness_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="best_in_attendance_dtl_tbl" EntityType="Self.best_in_attendance_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="best_in_attendance_hdr_tbl" EntityType="Self.best_in_attendance_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="cancel_application_tbl" EntityType="Self.cancel_application_tbl" Schema="dbo" store:Type="Tables" />
@@ -5789,6 +5820,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="astype_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="astype_abbrv" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="astype_show_dtr" Type="Boolean" />
+          <Property Name="allow_jo" Type="Boolean" />
+          <Property Name="allow_casual" Type="Boolean" />
+          <Property Name="allow_regular" Type="Boolean" />
         </EntityType>
         <EntityType Name="authorization_slip_tbl">
           <Key>
@@ -9425,6 +9459,25 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="solo_parent_tbl" EntityType="HRIS_ATSModel.solo_parent_tbl" />
           <EntitySet Name="lv_lv_ledger_extract" EntityType="HRIS_ATSModel.lv_lv_ledger_extract" />
           <EntitySet Name="lv_ledger_earn_history_tbl" EntityType="HRIS_ATSModel.lv_ledger_earn_history_tbl" />
+          <FunctionImport Name="sp_wellness_breakdown_applied" ReturnType="Collection(HRIS_ATSModel.sp_wellness_breakdown_applied_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_applied_date" Mode="In" Type="DateTime" />
+            <Parameter Name="par_value" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="authorization_wellness_dtl_tbl" EntityType="HRIS_ATSModel.authorization_wellness_dtl_tbl" />
+          <FunctionImport Name="sp_authorization_wellness_dayoff_tbl" ReturnType="Collection(HRIS_ATSModel.sp_authorization_wellness_dayoff_tbl_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_date_applied" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_wellness_dayoff_for_approval_list" ReturnType="Collection(HRIS_ATSModel.sp_wellness_dayoff_for_approval_list_Result)">
+          <Parameter Name="par_user_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_wellness_monitoring_list" ReturnType="Collection(HRIS_ATSModel.sp_wellness_monitoring_list_Result)">
+            <Parameter Name="par_payroll_year" Mode="In" Type="Int32" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+            <Parameter Name="par_active_only" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -13580,6 +13633,86 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="curr_abs_und_wp_sl" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="curr_balance_as_of_sl" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
+        <ComplexType Name="sp_wellness_breakdown_applied_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="DateTime" Name="date_breakdown" Nullable="true" />
+          <Property Type="Decimal" Name="parent_val" Nullable="true" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="val" Nullable="true" Precision="19" Scale="4" />
+          <Property Type="DateTime" Name="parent_date" Nullable="true" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <EntityType Name="authorization_wellness_dtl_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="application_nbr" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="date_breakdown" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="parent_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="parent_val" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="val" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="approval_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_authorization_wellness_dayoff_tbl_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="application_nbr" Nullable="false" MaxLength="12" />
+          <Property Type="DateTime" Name="date_breakdown" Nullable="false" />
+          <Property Type="Decimal" Name="val" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="parent_val" Nullable="false" Precision="19" />
+          <Property Type="DateTime" Name="parent_date" Nullable="false" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="15" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="sp_wellness_dayoff_for_approval_list_Result">
+          <Property Type="String" Name="application_nbr" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="time_ago" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="mydep" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="level1_approval_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="owner_name" Nullable="false" MaxLength="211" />
+          <Property Type="String" Name="creator_name" Nullable="false" MaxLength="211" />
+          <Property Type="String" Name="reviewed_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="level1_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="level2_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="final_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="disapproval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="cancel_pending_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="cancelled_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="created_by_user" Nullable="false" MaxLength="8" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="posting_status" Nullable="false" />
+          <Property Type="String" Name="detail_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="sp_wellness_monitoring_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="position" Nullable="true" MaxLength="513" />
+          <Property Type="String" Name="Wdays_1st" Nullable="false" />
+          <Property Type="Decimal" Name="total_1st" Nullable="false" Precision="19" />
+          <Property Type="String" Name="Wdays_2nd" Nullable="false" />
+          <Property Type="Decimal" Name="total_2nd" Nullable="false" Precision="19" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13600,6 +13733,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="astype_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.astype_tbl">
               <MappingFragment StoreEntitySet="astype_tbl">
+                <ScalarProperty Name="allow_regular" ColumnName="allow_regular" />
+                <ScalarProperty Name="allow_casual" ColumnName="allow_casual" />
+                <ScalarProperty Name="allow_jo" ColumnName="allow_jo" />
                 <ScalarProperty Name="astype_code" ColumnName="astype_code" />
                 <ScalarProperty Name="astype_descr" ColumnName="astype_descr" />
                 <ScalarProperty Name="astype_abbrv" ColumnName="astype_abbrv" />
@@ -18858,7 +18994,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="HRIS_ATSModel.Store.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_save_lv_ledger_dtl_tbl" FunctionName="HRIS_ATSModel.Store.sp_save_lv_ledger_dtl_tbl" />
           <FunctionImportMapping FunctionImportName="sp_save_lv_ledger_dtl_tbl2" FunctionName="HRIS_ATSModel.Store.sp_save_lv_ledger_dtl_tbl2" />
           <FunctionImportMapping FunctionImportName="sp_slvl_current_leave_bal" FunctionName="HRIS_ATSModel.Store.sp_slvl_current_leave_bal">
             <ResultMapping>
@@ -20883,6 +21018,103 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_wellness_breakdown_applied" FunctionName="HRIS_ATSModel.Store.sp_wellness_breakdown_applied">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_breakdown_applied_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date_breakdown" ColumnName="date_breakdown" />
+                <ScalarProperty Name="parent_val" ColumnName="parent_val" />
+                <ScalarProperty Name="val" ColumnName="val" />
+                <ScalarProperty Name="parent_date" ColumnName="parent_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="authorization_wellness_dtl_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.authorization_wellness_dtl_tbl">
+              <MappingFragment StoreEntitySet="authorization_wellness_dtl_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="val" ColumnName="val" />
+                <ScalarProperty Name="parent_val" ColumnName="parent_val" />
+                <ScalarProperty Name="parent_date" ColumnName="parent_date" />
+                <ScalarProperty Name="date_breakdown" ColumnName="date_breakdown" />
+                <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_authorization_wellness_dayoff_tbl" FunctionName="HRIS_ATSModel.Store.sp_authorization_wellness_dayoff_tbl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_authorization_wellness_dayoff_tbl_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
+                <ScalarProperty Name="date_breakdown" ColumnName="date_breakdown" />
+                <ScalarProperty Name="val" ColumnName="val" />
+                <ScalarProperty Name="parent_val" ColumnName="parent_val" />
+                <ScalarProperty Name="parent_date" ColumnName="parent_date" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_wellness_dayoff_for_approval_list" FunctionName="HRIS_ATSModel.Store.sp_wellness_dayoff_for_approval_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_dayoff_for_approval_list_Result">
+                <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="time_ago" ColumnName="time_ago" />
+                <ScalarProperty Name="mydep" ColumnName="mydep" />
+                <ScalarProperty Name="level1_approval_date" ColumnName="level1_approval_date" />
+                <ScalarProperty Name="owner_name" ColumnName="owner_name" />
+                <ScalarProperty Name="creator_name" ColumnName="creator_name" />
+                <ScalarProperty Name="reviewed_comment" ColumnName="reviewed_comment" />
+                <ScalarProperty Name="level1_approval_comment" ColumnName="level1_approval_comment" />
+                <ScalarProperty Name="level2_approval_comment" ColumnName="level2_approval_comment" />
+                <ScalarProperty Name="final_approval_comment" ColumnName="final_approval_comment" />
+                <ScalarProperty Name="disapproval_comment" ColumnName="disapproval_comment" />
+                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
+                <ScalarProperty Name="cancelled_comment" ColumnName="cancelled_comment" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
+                <ScalarProperty Name="detail_remarks" ColumnName="detail_remarks" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_wellness_monitoring_list" FunctionName="HRIS_ATSModel.Store.sp_wellness_monitoring_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_monitoring_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="Wdays_1st" ColumnName="Wdays_1st" />
+                <ScalarProperty Name="total_1st" ColumnName="total_1st" />
+                <ScalarProperty Name="Wdays_2nd" ColumnName="Wdays_2nd" />
+                <ScalarProperty Name="total_2nd" ColumnName="total_2nd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

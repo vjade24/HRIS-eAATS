@@ -10,16 +10,17 @@
 namespace HRIS_eAATS.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class astype_tbl
+    public partial class sp_wellness_monitoring_list_Result
     {
-        public string astype_code { get; set; }
-        public string astype_descr { get; set; }
-        public string astype_abbrv { get; set; }
-        public Nullable<bool> astype_show_dtr { get; set; }
-        public Nullable<bool> allow_jo { get; set; }
-        public Nullable<bool> allow_casual { get; set; }
-        public Nullable<bool> allow_regular { get; set; }
+        public string empl_id { get; set; }
+        public string employee_name { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string position { get; set; }
+        public string Wdays_1st { get; set; }
+        public decimal total_1st { get; set; }
+        public string Wdays_2nd { get; set; }
+        public decimal total_2nd { get; set; }
     }
 }

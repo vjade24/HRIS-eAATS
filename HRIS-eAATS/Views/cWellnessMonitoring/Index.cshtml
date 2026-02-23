@@ -1,0 +1,981 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Angular/ng-cWellnessMonitoring.js?v=@DateTime.Now.ToString()"></script>
+<style type="text/css">
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+    }
+
+    .ledger_fields {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    }
+
+    .atsfield {
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 1.5px solid #1AB394 !important;
+        background-color: white !important;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+        font-weight: bold;
+    }
+
+    .vertical_center_initializing {
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .sl-vl-radio-display-none {
+        display: none;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 150px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .swal-footer {
+        text-align: center !important;
+    }
+
+    .my-custom-scrollbar {
+        height: 50% !important;
+    }
+
+    .label {
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 8px;
+        text-shadow: none;
+    }
+
+    .badge {
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 600;
+        padding: 3px 8px;
+        text-shadow: none;
+    }
+
+    /* Discrepancy Styles */
+    .btn-with-badge {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .btn-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 6px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        animation: pulse-badge 2s infinite;
+        background: #ef4444;
+        color: #fff;
+        border: 2px solid #fff;
+    }
+
+    .btn-discrepancy-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: 8px;
+        padding: 2px 8px;
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 12px;
+        font-size: 10px;
+        font-weight: 600;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        animation: blink-warning 1.5s infinite;
+    }
+
+    .btn-generate-warning {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4) !important;
+        border-color: #dc2626 !important;
+    }
+
+    @@keyframes pulse-badge {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    @@keyframes blink-warning {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    /* Discrepancy Row Styles - Enhanced Highlighting */
+    .discrepancy-row {
+        background: linear-gradient(90deg, rgba(239, 68, 68, 0.25) 0%, rgba(239, 68, 68, 0.15) 50%, rgba(239, 68, 68, 0.25) 100%) !important;
+        border-left: 5px solid #dc2626 !important;
+        animation: discrepancy-pulse 2s ease-in-out infinite;
+        position: relative;
+    }
+
+        .discrepancy-row::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            background: linear-gradient(180deg, #ef4444, #dc2626, #ef4444);
+            animation: border-glow 1.5s ease-in-out infinite;
+        }
+
+        .discrepancy-row:hover {
+            background: rgba(239, 68, 68, 0.35) !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .discrepancy-row td {
+            color: #7f1d1d !important;
+            font-weight: 600 !important;
+        }
+
+    .discrepancy-value {
+        color: #dc2626 !important;
+        font-weight: 800 !important;
+        text-shadow: 0 0 2px rgba(220, 38, 38, 0.3);
+        animation: value-blink 1s ease-in-out infinite;
+    }
+
+    /* Discrepancy cell highlighting - compare expected vs current */
+    .discrepancy-cell-expected {
+        background: #fef2f2 !important;
+        border: 2px dashed #f87171 !important;
+    }
+
+    .discrepancy-cell-current {
+        background: #fee2e2 !important;
+        border: 2px solid #dc2626 !important;
+        box-shadow: inset 0 0 8px rgba(220, 38, 38, 0.3);
+    }
+
+    /* Success row (no discrepancy) */
+    .success-row {
+        background: rgba(34, 197, 94, 0.08) !important;
+        border-left: 3px solid #22c55e !important;
+    }
+
+        .success-row:hover {
+            background: rgba(34, 197, 94, 0.15) !important;
+        }
+
+    @@keyframes discrepancy-pulse {
+        0%, 100% {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.1) 50%, rgba(239, 68, 68, 0.2) 100%);
+        }
+
+        50% {
+            background: linear-gradient(90deg, rgba(239, 68, 68, 0.35) 0%, rgba(239, 68, 68, 0.25) 50%, rgba(239, 68, 68, 0.35) 100%);
+        }
+    }
+
+    @@keyframes border-glow {
+        0%, 100% {
+            box-shadow: 0 0 5px #ef4444, 0 0 10px #dc2626;
+        }
+
+        50% {
+            box-shadow: 0 0 10px #ef4444, 0 0 20px #dc2626, 0 0 30px #b91c1c;
+        }
+    }
+
+    @@keyframes value-blink {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    .discrepancy-badge-vl {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+        border: 2px solid #f87171;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 800;
+        color: #b91c1c;
+        text-transform: uppercase;
+        animation: badge-pulse 1.5s ease-in-out infinite;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+    }
+
+    .discrepancy-badge-sl {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+        border: 2px solid #f59e0b;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 800;
+        color: #92400e;
+        text-transform: uppercase;
+        animation: badge-pulse 1.5s ease-in-out infinite;
+        box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
+    }
+
+    .discrepancy-badge-both {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+        border: 2px solid #ec4899;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 800;
+        color: #9d174d;
+        text-transform: uppercase;
+        animation: badge-pulse-intense 1s ease-in-out infinite;
+        box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4);
+    }
+
+    @@keyframes badge-pulse {
+        0%, 100% {
+            transform: scale(1);
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+        }
+
+        50% {
+            transform: scale(1.02);
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.5);
+        }
+    }
+
+    @@keyframes badge-pulse-intense {
+        0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+    }
+
+    /* Large Modal for Discrepancy Report */
+    .modal-discrepancy-report .modal-dialog {
+        max-width: 95vw !important;
+        width: 95vw !important;
+        margin: 1.75rem auto;
+    }
+
+    .modal-discrepancy-report .modal-body {
+        max-height: 70vh;
+        overflow-y: auto;
+        padding: 15px;
+    }
+
+    /* Sticky Header Table Wrapper */
+    .discrepancy-table-wrapper {
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: auto;
+        position: relative;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+    }
+
+        .discrepancy-table-wrapper table {
+            margin-bottom: 0;
+        }
+
+        .discrepancy-table-wrapper thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+            .discrepancy-table-wrapper thead tr:first-child th {
+                position: sticky;
+                top: 0;
+                z-index: 11;
+                background: #1e293b !important;
+                color: #fff !important;
+                border-bottom: 2px solid #334155;
+            }
+
+            .discrepancy-table-wrapper thead tr:nth-child(2) th {
+                position: sticky;
+                top: 38px; /* Height of first header row */
+                z-index: 10;
+            }
+
+    .modal-discrepancy-report .table th,
+    .modal-discrepancy-report .table td {
+        padding: 6px 8px;
+        font-size: 10px;
+        vertical-align: middle;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+        .modal-discrepancy-report .table td small {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    .modal-discrepancy-report .table th {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .report-card {
+        flex: 1;
+        padding: 12px 16px;
+        border-radius: 8px;
+        color: #fff;
+    }
+
+    /* Fixed column widths for discrepancy table */
+    .disc-col-num {
+        width: 35px;
+        min-width: 35px;
+    }
+
+    .disc-col-disc {
+        width: 90px;
+        min-width: 90px;
+    }
+
+    .disc-col-period {
+        width: 100px;
+        min-width: 100px;
+    }
+
+    .disc-col-type {
+        width: 100px;
+        min-width: 100px;
+    }
+
+    .disc-col-val {
+        width: 70px;
+        min-width: 70px;
+    }
+
+    .disc-col-exp {
+        width: 85px;
+        min-width: 85px;
+    }
+
+    .disc-col-curr {
+        width: 85px;
+        min-width: 85px;
+    }
+
+    .success-row {
+        background: rgba(16, 185, 129, 0.05) !important;
+    }
+
+    .modal-xl {
+        width: 90% !important;
+    }
+
+    #datalistgrid_length select{
+        height: 30px !important;
+        width: 70px !important;
+        border-radius: 5px !important;
+    }
+
+    #datalistgrid_filter > label > input {
+        height: 30px !important;
+        width: 250px !important;
+        border-radius: 5px !important;
+        border:0.5px solid gray !important;
+    }
+
+    .widget-overlay-wrapper {
+        position: relative;
+    }
+    .widget-overlay-wrapper2 {
+        position: relative;
+    }
+
+    .blurred {
+        filter: blur(2px);
+    }
+
+    .widget-overlay-wrapper::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 80, 180, 0.20); /* blue overlay */
+        border-radius: 6px;
+    }
+
+    .widget-overlay-wrapper2::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(180 151 0 / 20%); /* blue overlay */
+        border-radius: 6px;
+    }
+
+    .overlay-text {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #fff;
+        font-size: 18px;
+        letter-spacing: 1px;
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    .overlay-text2 {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: red;
+        font-size: 18px;
+        letter-spacing: 1px;
+        z-index: 2;
+        pointer-events: none;
+        transform: rotate(-5deg);
+    }
+
+    #for_approval {
+            max-height:500px !important;
+            overflow-y:scroll;
+        }
+
+    #datalistgrid tbody td {
+        vertical-align: middle !important;
+    }
+
+    .img-badge-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-img {
+        border-radius: 50%;
+        border: 0.5px solid #442B02;
+    }
+
+    .img-badge {
+        position: absolute;
+        bottom: 1px;
+        right: -15px;
+        background-color: #7535dc; /*#dc3545; red */
+        color: white;
+        font-size: 10px;
+        padding: 2px 5px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+</style>
+
+<section ng-app="ng_HRD_App" ng-controller="cWellnessMonitoring_ctrl">
+    <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="col-lg-12">
+                <div class="modal-content animated modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                    </div>
+                    <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <b>AUTHORIZATION SLIP INFORMATION</b>
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Application Nbr.:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-center" id="txtb_appl_nbr" ng-model="txtb_appl_nbr" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Date Applied:</label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_date_applied" ng-model="txtb_date_applied" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Employee's Name:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">ID Nbr.:</label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled /></b>
+                                <label id="lbl_txtb_empl_id_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Reviewed By:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_reviewer_name" ng-model="txtb_reviewer_name" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Reviewed Date: </label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_reviewed_date" ng-model="txtb_reviewed_date" disabled /></b>
+                                <label id="lbl_txtb_empl_id_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Lvl. 1 Approver:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_level_name" ng-model="txtb_level_name" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Approved Date:</label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_level_date" ng-model="txtb_level_date" disabled /></b>
+                                <label id="lbl_txtb_empl_id_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Created By:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_created_by" ng-model="txtb_created_by" disabled /></b>
+                                <label id="lbl_txtb_creator_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Remarks:</label></b>
+                            </div>
+                            <div class="col-lg-10">
+                                <textarea class="form-control text_area" maxlength="255" rows="1" ng-model="txtb_remarks" id="txtb_remarks" ng-disabled="dis_remarks"></textarea>
+                                <label id="lbl_txtb_remarks_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                        @*WELLNESS CODE HERE*@
+                        <div class="row" ng-show="wellness" style="margin-top:2px;">
+                            <div class="col-lg-12">
+                                <label>Employee Wellness Day-off Records</label>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="widget style1 red-bg">
+                                            <div class="row">
+                                                <div class="col-lg-7">
+                                                    <h3 class="font-bold ng-binding">1st Semester</h3>
+                                                    <span class="small font-bold ng-binding" style="font-size:x-small;font-weight:lighter"> Wellness Day-off </span><br />
+                                                    <small style="font-size:x-small">Balance</small>
+                                                </div>
+                                                <div class="col-lg-5 text-center">
+                                                    <b style="font-size:40px !important;">{{first_sem_val}}</b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="widget-overlay-wrapper">
+                                            <div class="widget style1 navy-bg" ng-class="!is_2ndsem_available ? 'blurred':''">
+                                                <div class="row">
+                                                    <div class="col-lg-7">
+                                                        <h3 class="font-bold">2nd Semester</h3>
+                                                        <span style="font-size:x-small;font-weight:lighter">
+                                                            Wellness Day-off
+                                                        </span><br />
+                                                        <small style="font-size:x-small">Balance</small>
+                                                    </div>
+                                                    <div class="col-lg-5 text-center">
+                                                        <b style="font-size:40px;">{{second_sem_val}}</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div ng-show="!is_2ndsem_available" class="overlay-text">
+                                                NOT AVAILABLE
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding-top:10px;">
+                                        <table id="table_applied_willness" class="table_div table table-striped table-bordered table-hover table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th>Applied Date</th>
+                                                    <th>Date Details</th>
+                                                    <th>Value</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div ng-show="!wellness" class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <label style="padding-top:7px;"><b>DTR DATE ENTRY:</b></label>
+                            </div>
+                            <div class="col-lg-3 mt10">
+                                <div class="form-group" id="div_dtr_date">
+                                    <div class="input-group date">
+                                        <input type="text" id="txtb_dtr_date" maxlength="10" ng-model="txtb_dtr_date" class="form-control text-center" ng-disabled="true">
+                                        <span class="input-group-addon dtr_date" ng-show="false" style="padding-left:7.5px;">
+                                            <i class="fa fa-calendar dtr_date"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label id="lbl_txtb_dtr_date_req" class="lbl_required"></label>
+                            </div>
+
+                            <div class="col-lg-2 mt10">
+                                <label class="pull-left font-bold" style="padding-top:7px;"><b>A.S Description:</b></label>
+                            </div>
+                            <div class="col-lg-3" style="padding-top:7px;">
+                                <select class="form-control field-select-sm" id="ddl_as_type" ng-hide="hr_enable_only" ng-model="ddl_as_type">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in as_type_list" value="{{lst.astype_code}}">{{lst.astype_descr}}</option>
+                                </select>
+
+                                <input type="text" id="txtb_astype_descr" maxlength="10" ng-show="hr_enable_only" ng-model="txtb_astype_descr" class="form-control text-center" ng-disabled="true">
+                                <label id="lbl_ddl_as_type_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-1">
+                                <button id="add1" ng-show="true" class="btn btn-success font-bold" ng-click="btn_update_inputs()" style="padding-left:4px;padding-right:4px;">UPDATE</button>
+                            </div>
+                            <div class="col-lg-1">
+                                <button id="add2" ng-show="true" class="btn btn-danger font-bold" ng-click="btn_clear_inputs()" style="padding-left:4px;padding-right:4px;">CLEAR</button>
+                            </div>
+
+                        </div>
+                        <hr ng-show="!wellness" style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                        <div ng-show="!wellness" class="row">
+                            <div class="col-lg-6">
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-lg-4">
+                                        <label class="pull-left font-bold" style="padding-top:7px;"><b>AS Reason:</b></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <select class="form-control field-select-sm" ng-hide="hr_enable_only" id="ddl_reason" ng-model="ddl_reason">
+                                            <option value="" selected>--Select Here--</option>
+                                            <option ng-repeat="lst in reason_list" value="{{lst.reason_code}}">{{lst.reason_descr}}</option>
+                                        </select>
+
+                                        <input type="text" id="txtb_reason_descr" ng-show="hr_enable_only" maxlength="100" ng-model="txtb_reason_descr" class="form-control text-center" ng-disabled="true">
+                                        <label id="lbl_ddl_reason_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                                <div class="row mt10">
+                                    <div class="col-lg-4">
+                                        <label style="padding-top:7px;">AM TIME<i class="text-danger">(actual)</i></label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="true" class="form-control text-success" maxlength="5" placeholder="TIME IN" id="txtb_am_in_act" ng-model="txtb_am_in_act">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="true" class="form-control text-danger" maxlength="5" placeholder="TIME OUT" id="txtb_am_out_act" ng-model="txtb_am_out_act">
+                                    </div>
+                                </div>
+                                <div class="row mt10">
+                                    <div class="col-lg-4">
+                                        <label style="float:left;padding-top:7px;">AM TIME ENTRY:</label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="{{isEdit}}" class="form-control text-success" maxlength="7" placeholder="TIME IN" id="txtb_am_in" ng-model="txtb_am_in">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="{{isEdit}}" class="form-control text-danger" maxlength="7" placeholder="TIME OUT" id="txtb_am_out" ng-model="txtb_am_out">
+                                    </div>
+                                </div>
+                                <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label style="float:left;padding-top:7px;">PM TIME<i class="text-danger">(actual)</i></label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="true" class="form-control text-success" maxlength="5" placeholder="TIME IN" id="txtb_pm_in_act" ng-model="txtb_pm_in_act">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="true" class="form-control text-danger" maxlength="5" placeholder="TIME OUT" id="txtb_pm_out_act" ng-model="txtb_pm_out_act">
+                                    </div>
+
+                                </div>
+                                <div class="row mt10">
+                                    <div class="col-lg-4">
+                                        <label style="float:left;padding-top:7px;">PM TIME ENTRY:</label>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="{{isEdit}}" class="form-control text-success ng-pristine" maxlength="7" placeholder="TIME IN" id="txtb_pm_in" ng-model="txtb_pm_in">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <input type="text" ng-disabled="{{isEdit}}" class="form-control text-danger ng-pristine" maxlength="7" placeholder="TIME OUT" id="txtb_pm_out" ng-model="txtb_pm_out">
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-lg-4">
+                                        <label class="pull-left font-bold" style="padding-top:7px;"><b>AS Venue:</b></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <b><input ng-disabled="true" class="form-control text-left" id="txtb_as_venue" ng-model="txtb_as_venue" /></b>
+                                        <label id="lbl_txtb_as_venue_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top:5px;">
+                                    <div class="col-lg-4">
+                                        <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">AS Comment:</label></b>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <textarea ng-disabled="dtl_enable" class="form-control text_area" rows="1" maxlength="255" id="txtb_as_comment" ng-model="txtb_as_comment"></textarea>
+                                        <label id="lbl_txtb_as_comment_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" style="padding-right:30px;">
+                                <div class="row" id="attachment_viewer" style="min-height:290px !important;padding-top:5px !important;padding-right:5px;">
+                                    <div class="col-lg-7 text-center">
+                                        <b><label style="margin-top:0px;padding-top:5px;">AS Attachment</label></b>
+                                    </div>
+                                    <div class="col-lg-1 text-center" style="padding:0px;">
+                                        <button class="btn btn-success btn-block" ng-click="attachmentFullView()" style="padding-bottom:10px;"><i class="fa fa-search-plus"></i></button>
+                                    </div>
+                                    <div class="col-lg-4" style="padding-right:0px;padding-left:0px;">
+                                        <input type="file" class="form-chat form-control" ng-disabled="((ddl_reason != '024') && ddl_as_type != '06')" name="my_file" id="input_file_upload" onchange="showImage(this);" accept="image/png,image/gif,image/jpeg,image/jpg" />
+                                        <label id="lbl_input_file_upload_req" class="lbl_required"></label>
+                                        <img id="fullImage" src="your-image.jpg" style="display:none; width: 100%; max-width: none;" />
+                                    </div>
+                                    @*<div class="col-lg-1 text-center" style="padding:0px;">
+                                            <button class="btn btn-danger btn-block" ng-click="resetFileInput()" style="padding-bottom:10px;"><i class="fa fa-trash"></i></button>
+                                        </div>*@
+                                </div>
+                                <script type="text/javascript">
+                                    // Detect when fullscreen is exited
+                                    function onFullScreenChange() {
+                                        if (
+                                            !document.fullscreenElement &&
+                                            !document.webkitFullscreenElement &&
+                                            !document.msFullscreenElement
+                                        ) {
+                                            // Fullscreen is closed
+                                            document.getElementById('fullImage').style.display = 'none';
+                                        }
+                                    }
+
+                                    document.addEventListener('fullscreenchange', onFullScreenChange);
+                                    document.addEventListener('webkitfullscreenchange', onFullScreenChange);
+                                    document.addEventListener('msfullscreenchange', onFullScreenChange);
+                                </script>
+                            </div>
+                        </div>
+                        <hr ng-show="!wellness" style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                        <div ng-show="!wellness" class="row" style="padding-top:5px;">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <div class="col-sm-12 table-resposive">
+                                    <table id="datalist_grid2" ng-model="datalist_grid2" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">DTR DATE</th>
+                                                <th width="30%">AS TYPE</th>
+                                                <th width="13%">AM IN|OUT</th>
+                                                <th width="13%">PM IN|OUT</th>
+                                                <th width="15%">STATUS</th>
+                                                <th width="14%">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:20px;" ng-show="!show_footer" />
+                    <div class="modal-footer" ng-show="show_footer" style="padding: 10px 30px 10px 30px !important">
+                        <button id="btn_cancel" ng-click="btn_cancel_click()" ng-show="btn_show_cancel" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top"><i class="fa fa-ban"></i> Cancel AS</button>
+                        <button id="btn_cancel_pending" ng-click="btn_cancel_pending_click()" ng-show="!btn_show_cancel" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top"><i class="fa fa-ban"></i> Cancel Pending</button>
+                        <button id="btn_disapprove" ng-click="btn_disapprove_click()" ng-show="!btn_show_cancel" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top"><i class="fa fa-thumbs-down"></i> Disapprove</button>
+                        <button id="btn_approve" ng-click="btn_approve_click()" type="button" class="btn btn-success" ng-show="show_btn_approve" ng-disabled="dis_btn_approve" data-toggle="tooltip" data-placement="top"><i class="fa fa-paper-plane-o"></i>Approved</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-sm-4">
+
+                            <h2 class="text-white">@Model.menu_name</h2>
+
+                        </div>
+                        <div class="col-sm-6"></div>
+                        <div class="col-sm-2">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title collapse" id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group row">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:9px;">Employment Status :</label></b>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="select2_demo_3 form-control" id="ddl_empl_type" ng-disabled="true" ng-model="ddl_empl_type" style="width:100%;">
+                                    <option value="JO">JOB ORDER</option>
+                                    <option value="RE">Regular Employees</option>
+                                    <option value="CE">Casual Employees</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:9px;">Month - Year :</label></b>
+                            </div>
+                            <div class="col-lg-3">
+                                <input type="text" class="form-control text-left" data-provide="datepicker" id="txtb_dtr_mon_year" ng-model="txtb_dtr_mon_year">
+                                <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="ibox-tools">
+                                    <a class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                        FOR APPROVAL  <span class="label label-warning">{{for_approval_list.length}}</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-messages" id="for_approval">
+                                        <li ng-repeat-start="lst in for_approval_list track by $index" ng-click="btn_edit_action($index)" ng-class="lst.mydep == 0 ? 'bg-danger':''" style="cursor:pointer;">
+                                            <div class="dropdown-messages-box">
+                                                <a class="pull-left" style="padding-right:5px;">
+                                                    <img class="img-circle" src="~/ResourcesImages/upload_profile.png" />
+                                                </a>
+                                                <strong>{{lst.employee_name}}</strong><br>
+                                                <small>{{lst.department_short_name}}</small><br />
+                                                <small class="text-muted">{{lst.time_ago}}</small>
+                                            </div>
+                                        </li>
+                                        <li class="divider" ng-repeat-end ng-if="!$last"></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:9px;">Department :</label></b>
+                            </div>
+                            <div class="col-lg-10">
+                                <select class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;">
+                                    <option value="">-- Select Department -- </option>
+                                    <option ng-repeat="lst in lv_admin_dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                </select>
+                                <label id="lbl_ddl_dept_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-lg-12 m-b-md" style="padding-bottom:0px;margin-bottom:0px;">
+                        <table id="datalistgrid" class="table table-hover table-responsive" style="width:100% !important;">
+                            <thead>
+                                <tr>
+                                    <th>Profile</th>
+                                    <th>Employee Name</th>
+                                    <th>Position</th>
+                                    <th>1st Semester</th>
+                                    <th>2nd Semester</th>
+                                    @*<th>Actions</th>*@
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -128,6 +128,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.solo_parent_tbl" Width="1.5" PointX="17.375" PointY="36.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_lv_ledger_extract" Width="1.5" PointX="35.375" PointY="36.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_earn_history_tbl" Width="1.5" PointX="37.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.authorization_wellness_dtl_tbl" Width="1.5" PointX="0.75" PointY="37.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
