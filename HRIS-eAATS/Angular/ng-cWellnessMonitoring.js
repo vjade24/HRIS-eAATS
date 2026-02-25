@@ -30,10 +30,13 @@
                 if (
                     str_to_year($("#txtb_dtr_mon_year").val()) < moment().year()
                     ||
-                    (moment().month() + 1) >=7
-                   )
-                {
+                    (str_to_year($("#txtb_dtr_mon_year").val()) >= moment().year() && (moment().month() + 1) >= 7)
+                ) {
                     s.is_2ndsem_available = true;
+                }
+                else
+                {
+                    s.is_2ndsem_available = false;
                 }
                 s.for_monitoring = d.data.monitoring_list;
                
@@ -41,8 +44,7 @@
                     item.Wdays_1st_obj = s.parseWellnessDays(item.Wdays_1st);
                     item.Wdays_2nd_obj = s.parseWellnessDays(item.Wdays_2nd);
                 });
-
-                console.log(s.for_monitoring);
+                
                 if (d.data.monitoring_list.length > 0)
                 {
                     s.oTable.fnClearTable();
