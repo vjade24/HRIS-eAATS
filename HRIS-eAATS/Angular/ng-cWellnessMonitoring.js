@@ -432,6 +432,8 @@
             {
                 if (d.data.message == "success")
                 {
+                    s.get_forapproval_list();
+                    s.get_monitoring_list();
                     s.for_approval_list[row_id].next_status = "";
 
                     if (data.approval_status == "R")
@@ -458,11 +460,13 @@
                         s.for_approval_list[row_id].next_status      = "L";
                     }
 
-                    s.oTable.fnClearTable();
-                    if (s.for_approval_list.length > 0)
-                    {
-                        s.oTable.fnAddData(s.for_approval_list);
-                    }
+                    
+                    
+                    //s.oTable.fnClearTable();
+                    //if (s.for_approval_list.length > 0)
+                    //{
+                    //    s.oTable.fnAddData(s.for_approval_list);
+                    //}
 
                     swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
                     setTimeout(function ()
@@ -510,16 +514,18 @@
                 }).then(function (d) {
                     if (d.data.message == "success")
                     {
-                        s.for_approval_list[row_id].next_status = "";
-                        s.for_approval_list[row_id].worklist_status = "Disapproved";
-                        s.for_approval_list[row_id].worklist_action = "View Details";
-                        s.for_approval_list[row_id].approval_status = "D";
+                        s.get_forapproval_list();
+                        s.get_monitoring_list();
+                        //s.for_approval_list[row_id].next_status = "";
+                        //s.for_approval_list[row_id].worklist_status = "Disapproved";
+                        //s.for_approval_list[row_id].worklist_action = "View Details";
+                        //s.for_approval_list[row_id].approval_status = "D";
                         
 
-                        s.oTable.fnClearTable();
-                        if (s.for_approval_list.length > 0) {
-                            s.oTable.fnAddData(s.for_approval_list);
-                        }
+                        //s.oTable.fnClearTable();
+                        //if (s.for_approval_list.length > 0) {
+                        //    s.oTable.fnAddData(s.for_approval_list);
+                        //}
 
                         swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
                         setTimeout(function () {
@@ -551,17 +557,14 @@
                 }).then(function (d) {
                     if (d.data.message == "success")
                     {
-                        s.for_approval_list[row_id].next_status = "";
-                        s.for_approval_list[row_id].worklist_status = "Cancel Pending";
-                        s.for_approval_list[row_id].worklist_action = "View Details";
-                        s.for_approval_list[row_id].approval_status = "C";
-                        s.for_approval_list[row_id].detail_remarks  = s.txtb_remarks;
+                        
 
-
-                        s.oTable.fnClearTable();
-                        if (s.for_approval_list.length > 0) {
-                            s.oTable.fnAddData(s.for_approval_list);
-                        }
+                        s.get_forapproval_list();
+                        s.get_monitoring_list();
+                        //s.oTable.fnClearTable();
+                        //if (s.for_approval_list.length > 0) {
+                        //    s.oTable.fnAddData(s.for_approval_list);
+                        //}
 
                         swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
                         setTimeout(function ()
@@ -591,15 +594,12 @@
                 }).then(function (d) {
                     if (d.data.message == "success")
                     {
-                        s.for_approval_list[row_id].next_status      = "";
-                        s.for_approval_list[row_id].worklist_status  = "Cancelled";
-                        s.for_approval_list[row_id].worklist_action  = "View Details";
-                        s.for_approval_list[row_id].approval_status = "L";
-                        s.for_approval_list[row_id].detail_remarks = s.txtb_remarks;
-                        s.oTable.fnClearTable();
-                        if (s.for_approval_list.length > 0) {
-                            s.oTable.fnAddData(s.for_approval_list);
-                        }
+                        s.get_forapproval_list();
+                        s.get_monitoring_list();
+                        //s.oTable.fnClearTable();
+                        //if (s.for_approval_list.length > 0) {
+                        //    s.oTable.fnAddData(s.for_approval_list);
+                        //}
 
                         swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
                         setTimeout(function () {
@@ -662,10 +662,10 @@
                         $("#txtb_level_date").val(moment(s.for_approval_list[row_id].level1_approval_date).format("YYYY-MM-DD"));
                         s.txtb_level_date = moment(s.for_approval_list[row_id].level1_approval_date).format("YYYY-MM-DD");
 
-                        s.edit_appr_ctrl = s.for_approval_list[row_id].application_nbr;
-                        s.edit_approval_id = s.for_approval_list[row_id].approval_id;
+                        s.edit_appr_ctrl    = s.for_approval_list[row_id].application_nbr;
+                        s.edit_approval_id  = s.for_approval_list[row_id].approval_id;
                         s.temp_row_id       = row_id;
-                        s.txtb_appl_nbr = s.for_approval_list[row_id].application_nbr;
+                        s.txtb_appl_nbr     = s.for_approval_list[row_id].application_nbr;
                         s.txtb_date_applied = s.for_approval_list[row_id].date_applied;
                         s.txtb_empl_name = s.for_approval_list[row_id].owner_name;
 

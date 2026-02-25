@@ -207,7 +207,7 @@ namespace HRIS_eAATS.Controllers
                                 ).FirstOrDefault();
                 var query2 = db_ats.authorization_slipt_dtl_tbl.Where(a => a.application_nbr == application_nbr).ToList();
                 var query3 = db_ats.authorization_wellness_dtl_tbl.Where(a => a.application_nbr == application_nbr).ToList();
-              
+                string empl_id = Session["empl_id"].ToString();
                 if (query != null)
                 {
                     query.approval_status = data.approval_status;
@@ -220,6 +220,7 @@ namespace HRIS_eAATS.Controllers
                 }
 
                 db_ats.SaveChangesAsync();
+               
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
