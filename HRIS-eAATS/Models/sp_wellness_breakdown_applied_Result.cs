@@ -10,16 +10,14 @@
 namespace HRIS_eAATS.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class astype_tbl
+    public partial class sp_wellness_breakdown_applied_Result
     {
-        public string astype_code { get; set; }
-        public string astype_descr { get; set; }
-        public string astype_abbrv { get; set; }
-        public Nullable<bool> astype_show_dtr { get; set; }
-        public Nullable<bool> allow_jo { get; set; }
-        public Nullable<bool> allow_casual { get; set; }
-        public Nullable<bool> allow_regular { get; set; }
+        public int id { get; set; }
+        public Nullable<System.DateTime> date_breakdown { get; set; }
+        public Nullable<decimal> parent_val { get; set; }
+        public Nullable<decimal> val { get; set; }
+        public Nullable<System.DateTime> parent_date { get; set; }
+        public string empl_id { get; set; }
     }
 }

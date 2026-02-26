@@ -150,6 +150,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<solo_parent_tbl> solo_parent_tbl { get; set; }
         public virtual DbSet<lv_lv_ledger_extract> lv_lv_ledger_extract { get; set; }
         public virtual DbSet<lv_ledger_earn_history_tbl> lv_ledger_earn_history_tbl { get; set; }
+        public virtual DbSet<authorization_wellness_dtl_tbl> authorization_wellness_dtl_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -5525,6 +5526,66 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_rep_mode", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_report_Result>("sp_leaveledger_report", p_empl_idParameter, p_date_frParameter, p_date_toParameter, p_rep_modeParameter);
+        }
+    
+        public virtual ObjectResult<sp_wellness_breakdown_applied_Result> sp_wellness_breakdown_applied(string par_empl_id, Nullable<System.DateTime> par_applied_date, Nullable<decimal> par_value)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_applied_dateParameter = par_applied_date.HasValue ?
+                new ObjectParameter("par_applied_date", par_applied_date) :
+                new ObjectParameter("par_applied_date", typeof(System.DateTime));
+    
+            var par_valueParameter = par_value.HasValue ?
+                new ObjectParameter("par_value", par_value) :
+                new ObjectParameter("par_value", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_breakdown_applied_Result>("sp_wellness_breakdown_applied", par_empl_idParameter, par_applied_dateParameter, par_valueParameter);
+        }
+    
+        public virtual ObjectResult<sp_authorization_wellness_dayoff_tbl_Result> sp_authorization_wellness_dayoff_tbl(string par_empl_id, Nullable<System.DateTime> par_date_applied)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_date_appliedParameter = par_date_applied.HasValue ?
+                new ObjectParameter("par_date_applied", par_date_applied) :
+                new ObjectParameter("par_date_applied", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authorization_wellness_dayoff_tbl_Result>("sp_authorization_wellness_dayoff_tbl", par_empl_idParameter, par_date_appliedParameter);
+        }
+    
+        public virtual ObjectResult<sp_wellness_dayoff_for_approval_list_Result> sp_wellness_dayoff_for_approval_list(string par_user_empl_id)
+        {
+            var par_user_empl_idParameter = par_user_empl_id != null ?
+                new ObjectParameter("par_user_empl_id", par_user_empl_id) :
+                new ObjectParameter("par_user_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_dayoff_for_approval_list_Result>("sp_wellness_dayoff_for_approval_list", par_user_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_wellness_monitoring_list_Result> sp_wellness_monitoring_list(Nullable<int> par_payroll_year, string par_department_code, string par_employment_type, string par_active_only)
+        {
+            var par_payroll_yearParameter = par_payroll_year.HasValue ?
+                new ObjectParameter("par_payroll_year", par_payroll_year) :
+                new ObjectParameter("par_payroll_year", typeof(int));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_employment_typeParameter = par_employment_type != null ?
+                new ObjectParameter("par_employment_type", par_employment_type) :
+                new ObjectParameter("par_employment_type", typeof(string));
+    
+            var par_active_onlyParameter = par_active_only != null ?
+                new ObjectParameter("par_active_only", par_active_only) :
+                new ObjectParameter("par_active_only", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_monitoring_list_Result>("sp_wellness_monitoring_list", par_payroll_yearParameter, par_department_codeParameter, par_employment_typeParameter, par_active_onlyParameter);
         }
     }
 }
