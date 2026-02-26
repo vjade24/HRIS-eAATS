@@ -310,10 +310,143 @@
                         </button>
                         <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
                     </div>
-                    <div class="modal-body with-background" style="padding:0px !important">
+                    <div class="modal-body" >
                         <div class="row">
-                            <div class="col-lg-12">
-                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                            <div class="col-lg-5">
+                                <iframe style="width:100% !important;height:600px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                            </div>
+                            <div class="col-lg-7" >
+                                <div class="row">
+                                    <!-- Cancelled Leave Type Card (Dynamic) -->
+                                    <div class="col-lg-4" ng-show="cancel_leave_type && cancel_leave_type != 'VL' && cancel_leave_type != 'SL'">
+                                        <div class="panel panel-danger" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                            <div class="panel-heading" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 12px; border-radius: 8px 8px 0 0;">
+                                                <h4 class="panel-title" style="margin: 0; font-size: 14px; font-weight: bold;">
+                                                    <i class="fa fa-exclamation-circle"></i> {{cancel_leave_type_name}} ({{cancel_leave_type}})
+                                                </h4>
+                                            </div>
+                                            <div class="panel-body" style="padding: 10px; text-align: center;">
+                                                <div style="font-size: 32px; font-weight: bold; color: #ef4444; margin: 10px 0;">
+                                                    {{employee_cancel_balance | number:3}}
+                                                </div>
+                                                <small style="color: #666; font-size: 12px;">Current Running Balance</small>
+                                                @*<hr style="margin: 10px 0; border-color: #e5e7eb;">
+                                                <div style="font-size: 11px; color: #999;">
+                                                    <span>Status: <strong ng-class="{'text-success': employee_cancel_balance > 0, 'text-danger': employee_cancel_balance <= 0}">
+                                                        {{employee_cancel_balance > 1.25 ? 'Positive' : (employee_cancel_balance > 0 ? 'Low' : 'Depleted')}}
+                                                    </strong></span>
+                                                </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Vacation Leave Card -->
+                                    <div class="col-lg-4">
+                                        <div class="panel panel-success" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                            <div class="panel-heading" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 12px; border-radius: 8px 8px 0 0;">
+                                                <h4 class="panel-title" style="margin: 0; font-size: 14px; font-weight: bold;">
+                                                    <i class="fa fa-calendar"></i> VACATION LEAVE (VL)
+                                                </h4>
+                                            </div>
+                                            <div class="panel-body" style="padding: 10px; text-align: center;">
+                                                <div style="font-size: 32px; font-weight: bold; color: #22c55e; margin: 10px 0;">
+                                                    {{employee_vl_balance | number:3}}
+                                                </div>
+                                                <small style="color: #666; font-size: 12px;">Current Running Balance</small>
+                                                @*<hr style="margin: 10px 0; border-color: #e5e7eb;">
+                                                <div style="font-size: 11px; color: #999;">
+                                                    <span>Status: <strong ng-class="{'text-success': employee_vl_balance > 0, 'text-danger': employee_vl_balance <= 0}">
+                                                        {{employee_vl_balance > 1.25 ? 'Positive' : (employee_vl_balance > 0 ? 'Low' : 'Depleted')}}
+                                                    </strong></span>
+                                                </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sick Leave Card -->
+                                    <div class="col-lg-4" >
+                                        <div class="panel panel-warning" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                            <div class="panel-heading" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 12px; border-radius: 8px 8px 0 0;">
+                                                <h4 class="panel-title" style="margin: 0; font-size: 14px; font-weight: bold;">
+                                                    <i class="fa fa-medkit"></i> SICK LEAVE (SL)
+                                                </h4>
+                                            </div>
+                                            <div class="panel-body" style="padding: 10px; text-align: center;">
+                                                <div style="font-size: 32px; font-weight: bold; color: #f59e0b; margin: 10px 0;">
+                                                    {{employee_sl_balance | number:3}}
+                                                </div>
+                                                <small style="color: #666; font-size: 12px;">Current Running Balance</small>
+                                                @*<hr style="margin: 10px 0; border-color: #e5e7eb;">
+                                                <div style="font-size: 11px; color: #999;">
+                                                    <span>Status: <strong ng-class="{'text-success': employee_sl_balance > 0, 'text-danger': employee_sl_balance <= 0}">
+                                                        {{employee_sl_balance > 1.25 ? 'Positive' : (employee_sl_balance > 0 ? 'Low' : 'Depleted')}}
+                                                    </strong></span>
+                                                </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Info Section -->
+                                <div class="row m-t-sm">
+                                    <div class="col-lg-12">
+                                        <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border-left: 4px solid #3b82f6;">
+                                            <small style="color: #666; font-size: 11px;">
+                                                <strong><i class="fa fa-info-circle"></i> Balance Information:</strong><br>
+                                                Last Updated: <strong ng-show="balance_last_updated">{{balance_last_updated | date:'medium'}}</strong>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Cancellation Details Section -->
+                                <div class="row m-t-sm" ng-show="cancellation_details">
+                                    <div class="col-lg-6" ng-repeat="lst in cancellation_details" style="margin-bottom:5px">
+                                        <div style="background: #fef2f2; padding: 12px; border-radius: 6px; border-left: 4px solid #ef4444;">
+                                            <strong style="color: #991b1b; font-size: 12px;"><i class="fa fa-file-text"></i> CANCELLATION DETAILS</strong>
+                                            <div style="margin-top: 8px; font-size: 11px; color: #666;" >
+                                                <div style="margin: 4px 0;">
+                                                    <strong>Status:</strong> <span ng-class="{'text-danger': lst.cancel_status == 'PENDING', 'text-success': lst.cancel_status == 'APPROVED'}">{{lst.cancel_status}}</span>
+                                                </div>
+                                                <div style="margin: 4px 0;">
+                                                    <strong>Reason:</strong> {{lst.reason}}
+                                                </div>
+                                                <div style="margin: 4px 0;">
+                                                    <strong>Cancelled Date:</strong> {{lst.cancel_date.replace('/Date(','').replace(')/','') | date:'mediumDate'}}
+                                                </div>
+                                                <div ng-show="lst.transfer_date" style="margin: 4px 0;">
+                                                    <strong>Transfer Date:</strong> {{lst.transfer_date.replace('/Date(','').replace(')/','') | date:'mediumDate'}}
+                                                </div>
+                                                <div ng-show="lst.approved_by" style="margin: 4px 0;">
+                                                    <strong>Approved By:</strong> {{lst.approved_by}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Restore Amounts Section -->
+                                <div class="row m-t-sm" ng-show="restore_amounts && (restore_amounts.VL || restore_amounts.SL || restore_amounts[cancel_leave_type])">
+                                    <div class="col-lg-12">
+                                        <div style="background: #f0fdf4; padding: 12px; border-radius: 6px; border-left: 4px solid #22c55e;">
+                                            <strong style="color: #166534; font-size: 12px;"><i class="fa fa-plus-circle"></i> RESTORE AMOUNTS ON APPROVAL</strong>
+                                            <div style="margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap;">
+                                                <div ng-show="restore_amounts.VL" style="flex: 1; min-width: 100px; background: white; padding: 8px; border-radius: 4px; border-left: 3px solid #22c55e;">
+                                                    <div style="font-size: 10px; color: #666;">Vacation Leave (VL)</div>
+                                                    <div style="font-size: 18px; font-weight: bold; color: #22c55e;">+{{restore_amounts.VL | number:3}}</div>
+                                                </div>
+                                                <div ng-show="restore_amounts.SL" style="flex: 1; min-width: 100px; background: white; padding: 8px; border-radius: 4px; border-left: 3px solid #f59e0b;">
+                                                    <div style="font-size: 10px; color: #666;">Sick Leave (SL)</div>
+                                                    <div style="font-size: 18px; font-weight: bold; color: #f59e0b;">+{{restore_amounts.SL | number:3}}</div>
+                                                </div>
+                                                <div ng-show="restore_amounts[cancel_leave_type] && cancel_leave_type != 'VL' && cancel_leave_type != 'SL'" style="flex: 1; min-width: 100px; background: white; padding: 8px; border-radius: 4px; border-left: 3px solid #ef4444;">
+                                                    <div style="font-size: 10px; color: #666;">{{cancel_leave_type_name}} ({{cancel_leave_type}})</div>
+                                                    <div style="font-size: 18px; font-weight: bold; color: #ef4444;">+{{restore_amounts[cancel_leave_type] | number:3}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -322,11 +455,13 @@
                             <div class="col-lg-2">
                                 <button class="btn btn-danger pull-left" ng-click="btn_return_cancellation()">Return Cancellation</button>
                             </div>
-                            <div class="col-lg-4 text-left">
+                            <div class="col-lg-1 text-left">
                                 <label>Return Remarks</label>
+                            </div>
+                            <div class="col-lg-7">
                                 <textarea class="form-control" ng-model="returned_remarks" id="returned_remarks"></textarea>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-2">
                                 <button class="btn btn-primary" ng-click="btn_approve_cancellation()">Approve Cancellation</button>
                             </div>
                         </div>

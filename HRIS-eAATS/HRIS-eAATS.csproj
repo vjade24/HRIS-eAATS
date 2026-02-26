@@ -1770,12 +1770,6 @@
       <DependentUpon>cryLeaveLedger_20260120.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Reports\cryLeaveLedger\LeaveLedgerCard1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
