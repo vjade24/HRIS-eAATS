@@ -14,30 +14,33 @@ namespace HRIS_eAATS.Models
     public partial class sp_wellness_dayoff_for_approval_list_Result
     {
         public string application_nbr { get; set; }
-        public string empl_id { get; set; }
-        public string employee_name { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public string department_short_name { get; set; }
-        public string department_code { get; set; }
-        public string time_ago { get; set; }
-        public string mydep { get; set; }
-        public Nullable<System.DateTime> level1_approval_date { get; set; }
-        public string owner_name { get; set; }
-        public string creator_name { get; set; }
-        public string reviewed_comment { get; set; }
-        public string level1_approval_comment { get; set; }
-        public string level2_approval_comment { get; set; }
-        public string final_approval_comment { get; set; }
-        public string disapproval_comment { get; set; }
+        public string approval_id { get; set; }
+        public string approval_status { get; set; }
         public string cancel_pending_comment { get; set; }
         public string cancelled_comment { get; set; }
         public string created_by_user { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }
-        public bool posting_status { get; set; }
-        public string detail_remarks { get; set; }
+        public string creator_name { get; set; }
         public string date_applied { get; set; }
-        public string approval_status { get; set; }
-        public string approval_id { get; set; }
+        public string department_code { get; set; }
+        public string department_short_name { get; set; }
+        public string detail_remarks { get; set; }
+        public string disapproval_comment { get; set; }
+        public string empl_id { get; set; }
+        public string employee_name { get; set; }
+        public string final_approval_comment { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string level1_approval_comment { get; set; }
+        public Nullable<System.DateTime> level1_approval_date { get; set; }
+        public string level2_approval_comment { get; set; }
+        public string mydep { get; set; }
+        public string owner_name { get; set; }
+        public bool posting_status { get; set; }
+        public string reviewed_comment { get; set; }
+        public string time_ago { get; set; }
+        public string Wdays_1st { get; set; }
+        public decimal total_1st { get; set; }
+        public Nullable<System.DateTime> reviewed_date { get; set; }
     }
 }
