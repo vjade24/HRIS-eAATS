@@ -315,7 +315,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                 if (d.data.data.length > 0)
                 {
                     var status_descr = "";
-                    if (d.data.data[0].approval_status.toString().trim() == "R")
+                    if (d.data.data[0].approval_status.toString().trim()  == "R")
                     {
                         status_descr = "(Reviewed)";
                     }
@@ -351,6 +351,54 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                     // *** VJA : 2021-07-14 - Validation and Loading hide ****
                     // *******************************************************
                     s.employee_name_print = "LEAVE CANCELLATION";
+                    var cancel_leave_type = s.datalistgrid[row_id].leave_type_code || "";
+                    var cancel_leave_ctrlno = s.datalistgrid[row_id].leave_ctrlno || "";
+
+                    // Fetch all employee leave balances
+                    h.post("../cLeaveLedger/ReloadBalances", {
+                        par_empl_id: empl_id
+                    }).then(function(d) {
+                        if (d.data.message == "success" && d.data.data_all_bal) {
+                            // Get all balances
+                            var balances = d.data.data_all_bal;
+
+                            // Get VL balance
+                            var vl_balance = balances.find(b => b.leavetype_code == "VL");
+                            s.employee_vl_balance = vl_balance ? parseFloat(vl_balance.leaveledger_balance_current) || 0 : 0;
+
+                            // Get SL balance
+                            var sl_balance = balances.find(b => b.leavetype_code == "SL");
+                            s.employee_sl_balance = sl_balance ? parseFloat(sl_balance.leaveledger_balance_current) || 0 : 0;
+
+                            // Get the cancelled leave type balance
+                            var cancel_balance = balances.find(b => b.leavetype_code == cancel_leave_type);
+                            s.employee_cancel_balance = cancel_balance ? parseFloat(cancel_balance.leaveledger_balance_current) || 0 : 0;
+                            s.cancel_leave_type = cancel_leave_type;
+                            s.cancel_leave_type_name = cancel_balance ? cancel_balance.leavetype_descr || cancel_leave_type : cancel_leave_type;
+
+                            s.balance_last_updated = new Date();
+
+                            if (!s.$$phase) {
+                                s.$apply();
+                            }
+                        }
+                    });
+
+                    // Fetch cancellation details from leave_application_cancel_tbl
+                    h.post("../Menu/GetCancellationDetails", {
+                        par_leave_ctrlno: cancel_leave_ctrlno,
+                        par_empl_id: empl_id
+                    }).then(function(d) {
+                        if (d.data.message == "success" && d.data.cancellation_data) {
+                            s.cancellation_details = d.data.cancellation_data;
+                            s.restore_amounts = d.data.restore_amounts || {};
+
+                            if (!s.$$phase) {
+                                s.$apply();
+                            }
+                        }
+                    });
+
                     $("#loading_data").modal({ keyboard: false, backdrop: "static" })
                     var iframe = document.getElementById('iframe_print_preview');
                     var iframe_page = $("#iframe_print_preview")[0];
@@ -363,7 +411,6 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                         + "&ReportPath=" + ReportPath
                         + "&id=" + sp //+ parameters
 
-                    console.log(iframe)
                     if (!/*@cc_on!@*/0) { //if not IE
                         iframe.onload = function () {
                             iframe.style.visibility = "visible";
