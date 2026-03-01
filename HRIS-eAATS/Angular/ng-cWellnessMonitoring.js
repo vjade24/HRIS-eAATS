@@ -18,8 +18,10 @@
     s.second_sem_val            = 0;
     s.is_2ndsem_available       = false;
     s.oTable_wellnessrecords    = [];
-    s.list_type = "For_Approval";
-
+    s.list_type         = "For_Approval";
+    s.empl_id = "";
+    s.txtb_approved_from = moment().format('YYYY-MM-DD');
+    s.txtb_approved_to  = moment().format('YYYY-MM-DD');
 
     s.get_monitoring_list = function ()
     {
@@ -70,9 +72,6 @@
                     s.for_approval_list.forEach(function (item) {
                         item.Wdays_1st_obj = s.parseWellnessDays(item.Wdays_1st);
                     });
-
-
-                    console.log(s.for_approval_list);
                     s.oTable_for_approval.fnClearTable();
                     s.oTable_for_approval.fnAddData(s.for_approval_list);
                 }
@@ -114,6 +113,7 @@
         h.post("../cWellnessMonitoring/InitializeData").then(function (d) {
             if (d.data.message == "success") {
                 s.lv_admin_dept_list = d.data.lv_admin_dept_list;
+                s.empl_id = d.data.log_empl_id;
                 if (s.lv_admin_dept_list.length > 0)
                 {
                     s.ddl_dept = s.lv_admin_dept_list[0].department_code;
@@ -388,7 +388,7 @@
                                                     <a ng-click="btn_edit_action(`+ row["row"] +`)" class="btn btn-success btn-facebook btn-outline btn-md btn-block">
                                                         <i class="fa fa-th-large pull-left" style="margin-top:4px;"> </i> VIEW WELLNESS
                                                     </a>
-                                                    <a ng-click="btn_edit_action(`+ full["application_nbr"] +`)" class="btn btn-primary btn-facebook btn-outline btn-md btn-block">
+                                                    <a ng-click="print_wellness('`+ full["application_nbr"].toString() +`')" class="btn btn-primary btn-facebook btn-outline btn-md btn-block">
                                                         <i class="fa fa-print pull-left" style="margin-top:4px;"> </i> PRINT WELLNESS
                                                     </a>
                                                  </div>`;
@@ -931,5 +931,72 @@
             s.year.push({ "year": prev_year })
             prev_year++;
         }
+    }
+
+
+    s.print_wellness = function (application_nbr)
+    {
+       
+        if (application_nbr.trim() == "")
+        {
+            s.txtb_approved_from = moment().format('YYYY-MM-DD');
+            s.txtb_approved_to   = moment().format('YYYY-MM-DD');
+            $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+            $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+        }
+
+        $("#loader").css("display", "block");
+        $("#rep_view").css("display", "none");
+        var ReportName   = "CrystalReport";
+        var SaveName     = "Crystal_Report";
+        var ReportType   = "inline";
+        var ReportPath   = "";
+        var sp           = "";
+        sp = "sp_wellness_pbb_report,par_user_empl_id,2396,par_application_nbr," + application_nbr + ",par_period_from," + $("#txtb_approved_from").val() + ",par_period_to," + $("#txtb_approved_to").val() +"";
+        ReportPath = "~/Reports/cryWellnessReport/cryWellnessReport.rpt";
+        // *******************************************************
+        // *** VJA : 2021-07-14 - Validation and Loading hide ****
+        // *******************************************************
+        var iframe = document.getElementById('iframe_print_preview2');
+        var iframe_page = $("#iframe_print_preview2")[0];
+        iframe.style.visibility = "hidden";
+
+        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+            + "&ReportName=" + ReportName
+            + "&SaveName=" + SaveName
+            + "&ReportType=" + ReportType
+            + "&ReportPath=" + ReportPath
+            + "&id=" + sp // + "," + parameters
+
+        if (!/*@cc_on!@*/0) { //if not IE
+            iframe.onload = function () {
+                iframe.style.visibility = "visible";
+                $("#loader").css("display", "none");
+                $("#rep_view").css("display", "block");
+            };
+        }
+        else if (iframe_page.innerHTML()) {
+            // get and check the Title (and H tags if you want)
+            var ifTitle = iframe_page.contentDocument.title;
+            if (ifTitle.indexOf("404") >= 0) {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+            else if (ifTitle != "") {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+        }
+        else {
+            iframe.onreadystatechange = function () {
+                if (iframe.readyState == "complete") {
+                    iframe.style.visibility = "visible";
+                }
+
+            };
+        }
+
+        iframe.src = s.embed_link;
+        $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
     }
 });

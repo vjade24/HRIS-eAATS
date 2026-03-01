@@ -3288,10 +3288,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryServiceRecordX.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\cryWellnessReport\cryWellnessReport.rpt">
+    <Content Include="Reports\cryWellnessReport\cryWellnessReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryWellnessReport.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
