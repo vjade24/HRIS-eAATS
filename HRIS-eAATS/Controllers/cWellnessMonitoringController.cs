@@ -95,6 +95,7 @@ namespace HRIS_eAATS.Controllers
                     , um
                     , lv_admin_dept_list
                     , log_user_id
+                    , log_empl_id
                     , leave_type_lst
                     , redirect_data
                     , cLV_Ledger_employee_name

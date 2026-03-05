@@ -1997,6 +1997,12 @@
       <DependentUpon>cryWellnessReport.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryWellnessReport\cryWellnessV2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryWellnessV2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Angular\Angular-route.min.js" />
@@ -3291,6 +3297,10 @@
     <Content Include="Reports\cryWellnessReport\cryWellnessReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryWellnessReport.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryWellnessReport\cryWellnessV2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryWellnessV2.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <PropertyGroup>

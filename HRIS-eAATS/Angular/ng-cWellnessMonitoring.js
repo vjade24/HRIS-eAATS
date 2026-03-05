@@ -21,7 +21,8 @@
     s.list_type         = "For_Approval";
     s.empl_id = "";
     s.txtb_approved_from = moment().format('YYYY-MM-DD');
-    s.txtb_approved_to  = moment().format('YYYY-MM-DD');
+    s.txtb_approved_to = moment().format('YYYY-MM-DD');
+    s.log_user_id = "";
 
     s.get_monitoring_list = function ()
     {
@@ -64,6 +65,7 @@
             if (d.data.message == "success")
             {
                 s.for_approval_list = d.data.for_approval_list;
+                s.log_user_id       = d.data.log_user_id;
                 s.oTable_for_approval.fnClearTable();
               
                 if (s.for_approval_list.length > 0)
@@ -112,8 +114,9 @@
         //**********************************************
         h.post("../cWellnessMonitoring/InitializeData").then(function (d) {
             if (d.data.message == "success") {
-                s.lv_admin_dept_list = d.data.lv_admin_dept_list;
-                s.empl_id = d.data.log_empl_id;
+                s.lv_admin_dept_list    = d.data.lv_admin_dept_list;
+                s.empl_id               = d.data.log_empl_id;
+                s.log_user_id           = d.data.log_user_id;
                 if (s.lv_admin_dept_list.length > 0)
                 {
                     s.ddl_dept = s.lv_admin_dept_list[0].department_code;
@@ -937,13 +940,13 @@
     s.print_wellness = function (application_nbr)
     {
        
-        if (application_nbr.trim() == "")
-        {
-            s.txtb_approved_from = moment().format('YYYY-MM-DD');
-            s.txtb_approved_to   = moment().format('YYYY-MM-DD');
-            $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
-            $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
-        }
+        //if (application_nbr.trim() == "")
+        //{
+        //    s.txtb_approved_from = moment().format('YYYY-MM-DD');
+        //    s.txtb_approved_to   = moment().format('YYYY-MM-DD');
+        //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+        //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+        //}
 
         $("#loader").css("display", "block");
         $("#rep_view").css("display", "none");
@@ -952,8 +955,8 @@
         var ReportType   = "inline";
         var ReportPath   = "";
         var sp           = "";
-        sp = "sp_wellness_pbb_report,par_user_empl_id,2396,par_application_nbr," + application_nbr + ",par_period_from," + $("#txtb_approved_from").val() + ",par_period_to," + $("#txtb_approved_to").val() +"";
-        ReportPath = "~/Reports/cryWellnessReport/cryWellnessReport.rpt";
+        sp = "sp_wellness_pbb_reportV2,par_user_empl_id," + s.empl_id +",par_application_nbr," + application_nbr + ",par_period_from," + $("#txtb_approved_from").val() + ",par_period_to," + $("#txtb_approved_to").val() +"";
+        ReportPath = "~/Reports/cryWellnessReport/cryWellnessV2.rpt";
         // *******************************************************
         // *** VJA : 2021-07-14 - Validation and Loading hide ****
         // *******************************************************
@@ -998,5 +1001,37 @@
 
         iframe.src = s.embed_link;
         $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    //***********************************************************//
+    //***Field validation for remittance type before opening add modal
+    //***********************************************************// 
+    function ValidateFields() {
+        var return_val = true;
+        ValidationResultColor("ALL", false);
+
+        if ($('#txtb_remarks').val().trim() == "") {
+            ValidationResultColor("txtb_remarks", true);
+            return_val = false;
+        }
+
+        return return_val;
+    }
+
+
+    //***********************************************************//
+    //***Field validation for remittance type before opening add modal
+    //***********************************************************// 
+    function ValidationResultColor(par_object_id, par_v_result) {
+        if (par_v_result) {
+            //Add class to the obect that need to focus as a required..
+            $("#" + par_object_id).addClass("required");
+            $("#lbl_" + par_object_id + "_req").text("Required Field");
+        }
+        else {
+            //remove of refresh the object form being required
+            $("#txtb_remarks").removeClass("required");
+            $("#lbl_txtb_remarks_req").text("");
+        }
     }
 });
