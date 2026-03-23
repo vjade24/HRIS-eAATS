@@ -66,7 +66,7 @@ namespace HRIS_eAATS.Controllers
                 string allowView    = Session["allow_view"].ToString();
 
 
-                var vlslLst = db_ats.sp_vlslearned_dailybasis_tbl_List().ToList();
+                var vlslLst = ""; //db_ats.sp_vlslearned_dailybasis_tbl_List().ToList();
 
                 return JSON(new { message = "success", vlslLst, allowAdd, allowDelete, allowEdit, allowPrint, allowView }, JsonRequestBehavior.AllowGet);
             }
@@ -85,7 +85,7 @@ namespace HRIS_eAATS.Controllers
         {
             try
             {
-                var ids = db_ats.sp_vlslearned_dailybasis_tbl_List().Select(a => a.no_days);
+                var ids = "";// db_ats.sp_vlslearned_dailybasis_tbl_List().Select(a => a.no_days);
 
                 return JSON(new { message = "success", ids }, JsonRequestBehavior.AllowGet);
             }

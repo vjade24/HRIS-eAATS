@@ -418,17 +418,17 @@
         width: 90% !important;
     }
 
-    #datalistgrid_length select{
+    #datalistgrid_length select, #datalist_grid_for_approval_length select {
         height: 30px !important;
         width: 70px !important;
         border-radius: 5px !important;
     }
 
-    #datalistgrid_filter > label > input {
+    #datalistgrid_filter > label > input, #datalist_grid_for_approval_filter > label > input {
         height: 30px !important;
         width: 250px !important;
         border-radius: 5px !important;
-        border:0.5px solid gray !important;
+        border: 0.5px solid gray !important;
     }
 
     .widget-overlay-wrapper {
@@ -492,7 +492,9 @@
             overflow-y:scroll;
         }
 
-    #datalistgrid tbody td {
+    #datalistgrid tbody td
+    , #datalist_grid_for_approval tbody td 
+    {
         vertical-align: middle !important;
     }
 
@@ -517,6 +519,70 @@
         border-radius: 10px;
         font-weight: bold;
     }
+
+    .btn-active-tab {
+        margin-bottom:-5px !important;
+        background-color: #507cd1 !important;
+        height:42px !important;
+        z-index:0 !important;
+        border:none !important;
+    }
+
+    .icheckbox_square-green,
+    .iradio_square-green {
+        display: inline-block;
+        *display: inline;
+        vertical-align: middle;
+        margin: 0;
+        padding: 0;
+        width: 22px;
+        height: 22px;
+        background: url(green.png) no-repeat;
+        border: none;
+        cursor: pointer;
+    }
+
+    .icheckbox_square-green {
+        background-position: 0 0;
+    }
+
+        .icheckbox_square-green.hover {
+            background-position: -24px 0;
+        }
+
+        .icheckbox_square-green.checked {
+            background-position: -48px 0;
+        }
+
+        .icheckbox_square-green.disabled {
+            background-position: -72px 0;
+            cursor: default;
+        }
+
+        .icheckbox_square-green.checked.disabled {
+            background-position: -96px 0;
+        }
+
+    .iradio_square-green {
+        background-position: -120px 0;
+    }
+
+        .iradio_square-green.hover {
+            background-position: -144px 0;
+        }
+
+        .iradio_square-green.checked {
+            background-position: -168px 0;
+        }
+
+        .iradio_square-green.disabled {
+            background-position: -192px 0;
+            cursor: default;
+        }
+
+        .iradio_square-green.checked.disabled {
+            background-position: -216px 0;
+        }
 </style>
 
 <section ng-app="ng_HRD_App" ng-controller="cWellnessMonitoring_ctrl">
@@ -876,6 +942,47 @@
             </div>
         </div>
     </div>
+
+    <div class="modal inmodal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-ddo-brown" style="padding-top:15px !important;padding-bottom:15px !important;">
+                    <small class="modal-title pull-left" style="font-size:16px;font-weight:bold;">PRINT VIEW</small>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body" style="padding:0px 15px;">
+                    <div class="row">
+                        <div class="col-lg-12 text-center" id="loader" style="position:absolute; z-index:20;top:250px;">
+                            <i class="fa fa-spin fa-spinner fa-5x"></i>
+                            <h5><b>Loading Report...</b></h5>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-2" style="padding-top:15px;padding-bottom:18px;">Approved From :</div>
+                                <div class="col-lg-3" style="padding-top:15px;padding-bottom:15px;">
+                                    <input type="text" class="form-control text-left" data-provide="datepicker" id="txtb_approved_from" ng-model="txtb_approved_from">
+                                    <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                </div>
+                                <div class="col-lg-2" style="padding-top:15px;padding-bottom:18px;">Approved To :</div>
+                                <div class="col-lg-3" style="padding-top:15px;padding-bottom:15px;">
+                                    <input type="text" class="form-control text-left" data-provide="datepicker" id="txtb_approved_to" ng-model="txtb_approved_to">
+                                    <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                </div>
+                                <div class="col-lg-2" style="padding-top:15px;padding-bottom:15px;">
+                                    <a ng-click="print_wellness('')" class="btn btn-primary btn-facebook btn-outline btn-md btn-block">
+                                        <i class="fa fa-print pull-left" style="margin-top:4px;"> </i> PRINT WELLNESS
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:700px !important;border:0px none;" id="iframe_print_preview2"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
         <div class="row">
             <div class="col-lg-12">
@@ -921,21 +1028,13 @@
                             </div>
                             <div class="col-lg-2">
                                 <div class="ibox-tools">
-                                    <a class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                                        FOR APPROVAL  <span class="label label-warning">{{for_approval_list.length}}</span>
+                                    <a class="btn btn-block btn-success dropdown-toggle" data-toggle="dropdown" id="btn_action_option" href="#" aria-expanded="true">
+                                        <i class="fa fa-refresh"></i> GENERATE TRANSMITTAL
                                     </a>
-                                    <ul class="dropdown-menu dropdown-messages" id="for_approval">
-                                        <li ng-repeat-start="lst in for_approval_list track by $index" ng-click="btn_edit_action($index)" ng-class="lst.mydep == 0 ? 'bg-danger':''" style="cursor:pointer;">
-                                            <div class="dropdown-messages-box">
-                                                <a class="pull-left" style="padding-right:5px;">
-                                                    <img class="img-circle" src="~/ResourcesImages/upload_profile.png" />
-                                                </a>
-                                                <strong>{{lst.employee_name}}</strong><br>
-                                                <small>{{lst.department_short_name}}</small><br />
-                                                <small class="text-muted">{{lst.time_ago}}</small>
-                                            </div>
-                                        </li>
-                                        <li class="divider" ng-repeat-end ng-if="!$last"></li>
+                                    <ul class="dropdown-menu dropdown-user " id="btn_action_option_dropdown">
+                                        <li><a>WELLNESS DAY-OFF TRANSMITTAL</a></li>
+                                        <li><a>WELLNESS TRANSMITTAL TO PAYROLL</a></li>
+                                        <li><a ng-click="print_wellness('')">PRINT ALL APPROVED</a></li>
 
                                     </ul>
                                 </div>
@@ -960,19 +1059,50 @@
             <div class="ibox-content">
                 <div class="row">
                     <div class="col-lg-12 m-b-md" style="padding-bottom:0px;margin-bottom:0px;">
-                        <table id="datalistgrid" class="table table-hover table-responsive" style="width:100% !important;">
-                            <thead>
-                                <tr>
-                                    <th>Profile</th>
-                                    <th>Employee Name</th>
-                                    <th>Position</th>
-                                    <th>1st Semester</th>
-                                    <th>2nd Semester</th>
-                                    @*<th>Actions</th>*@
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                        <div class="tabs-container" style="padding-bottom:0px;margin-bottom:0px;">
+                            <ul class="nav nav-tabs" id="tab_dtr_up">
+                                <li id="tab11" class="active">   <a data-toggle="tab" href="#tab-11" id="click_tab11"><div class="font_tab_ovrd"><b> WELLNESS MONITORING MASTERLIST</b></div></a></li>
+                                <li id="tab12" class="">         <a data-toggle="tab" href="#tab-12" id="click_tab12"><span class="label label-warning btn-rounded" style="margin-top:-20px !important;margin-left:-15px;position:absolute;padding:5px 10px;">{{for_approval_list.length}}</span><b>  WELLNESS FOR APPROVAL</b></a></li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-11" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
+                                    <div class="panel-body">
+                                        <table id="datalistgrid" class="table table-hover table-responsive" style="width:100% !important;">
+                                            <thead style="z-index:99999;">
+                                                <tr>
+                                                    <th style="padding:5px;">Profile</th>
+                                                    <th style="padding:5px;">Employee Name</th>
+                                                    <th style="padding:5px;">Position</th>
+                                                    <th style="padding:5px;">1st Semester</th>
+                                                    <th style="padding:5px;">2nd Semester</th>
+                                                    @*<th>Actions</th>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="tab-12" class="tab-pane" style="padding-bottom:0px;margin-bottom:0px;">
+                                    <div class="panel-body">
+                                        <table id="datalist_grid_for_approval" class="table table-hover table-responsive" style="width:100% !important;">
+                                            <thead style="z-index:99999;">
+                                                <tr>
+                                                    <th style="padding:5px;">PROFILE</th>
+                                                    <th class="text-left" style="padding:5px;">EMPLOYEE NAME</th>
+                                                    <th class="text-center" style="padding:5px;">APPLICATION HISTORY</th>
+                                                    <th style="padding:5px;">APPLICATION BREAKDOWN</th>
+                                                    <th style="padding:5px;">ACTION</th>
+                                                    @*<th>Actions</th>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

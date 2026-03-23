@@ -3,24 +3,26 @@
     var h = $http;
     var cs = commonScript;
 
-    s.dis_when_s    = false;
-    s.year          = [];
-    s.user_id       = "";
-    s.ddl_empl_type = "JO";
-
-    s.for_approval_list = [];
-    s.for_monitoring = [];
+    s.dis_when_s                = false;
+    s.year                      = [];
+    s.user_id                   = "";
+    s.ddl_empl_type             = "JO";
+    s.for_approval_list         = [];
+    s.for_monitoring            = [];
     $('.collapse').collapse();
-
-    s.wellness = false;
-    s.wellnesslist = [];
-    s.wellnessbreakdown = [];
-    s.employment_type = "";
-    s.first_sem_val = 0;
-    s.second_sem_val = 0;
-    s.is_2ndsem_available = false;
-    s.oTable_wellnessrecords = [];
-
+    s.wellness                  = false;
+    s.wellnesslist              = [];
+    s.wellnessbreakdown         = [];
+    s.employment_type           = "";
+    s.first_sem_val             = 0;
+    s.second_sem_val            = 0;
+    s.is_2ndsem_available       = false;
+    s.oTable_wellnessrecords    = [];
+    s.list_type         = "For_Approval";
+    s.empl_id = "";
+    s.txtb_approved_from = moment().format('YYYY-MM-DD');
+    s.txtb_approved_to = moment().format('YYYY-MM-DD');
+    s.log_user_id = "";
 
     s.get_monitoring_list = function ()
     {
@@ -56,10 +58,25 @@
     }
 
     s.get_forapproval_list = function () {
-        h.post("../cWellnessMonitoring/GetForApprovalList").then(function (d) {
+        h.post("../cWellnessMonitoring/GetForApprovalList",
+            {
+                list_type:s.list_type
+            }).then(function (d) {
             if (d.data.message == "success")
             {
                 s.for_approval_list = d.data.for_approval_list;
+                s.log_user_id       = d.data.log_user_id;
+                s.oTable_for_approval.fnClearTable();
+              
+                if (s.for_approval_list.length > 0)
+                {
+
+                    s.for_approval_list.forEach(function (item) {
+                        item.Wdays_1st_obj = s.parseWellnessDays(item.Wdays_1st);
+                    });
+                    s.oTable_for_approval.fnClearTable();
+                    s.oTable_for_approval.fnAddData(s.for_approval_list);
+                }
             }
         });
     }
@@ -91,13 +108,15 @@
         //s.txtb_dtr_mon_year_earn = moment(ddate).format("MMMM - YYYY");
 
         $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
-        s.get_forapproval_list();
+      
         //**********************************************
         // Initialize data during page loads
         //**********************************************
         h.post("../cWellnessMonitoring/InitializeData").then(function (d) {
             if (d.data.message == "success") {
-                s.lv_admin_dept_list = d.data.lv_admin_dept_list;
+                s.lv_admin_dept_list    = d.data.lv_admin_dept_list;
+                s.empl_id               = d.data.log_empl_id;
+                s.log_user_id           = d.data.log_user_id;
                 if (s.lv_admin_dept_list.length > 0)
                 {
                     s.ddl_dept = s.lv_admin_dept_list[0].department_code;
@@ -109,6 +128,38 @@
                 init_table_data([]);
                 init_table_data2([]);
                 init_wellness_tbl([]);
+                init_table_forapproval([]);
+                s.get_forapproval_list();
+                $('.ApprovalFilters').html("");
+                var template = `<label style="margin-bottom:0;margin-right:10px;">
+                                        <input type="radio"
+                                                name="approvalFilter"
+                                                value="For_Approval"
+                                                ng-model="list_type"
+                                                ng-change="get_forapproval_list()">
+                                        <i></i> FOR APPROVAL
+                                    </label>
+
+                                    <label style="margin-bottom:0;margin-right:10px;">
+                                        <input type="radio"
+                                                name="approvalFilter"
+                                                value="Approved_only"
+                                                ng-model="list_type"
+                                                ng-change="get_forapproval_list()">
+                                        <i></i> APPROVED ONLY
+                                    </label>
+                                    <label style="margin-top:5px;margin-right:10px;">
+                                        <input type="radio"
+                                                name="approvalFilter"
+                                                value="For_with_cancellation"
+                                                ng-model="list_type"
+                                                ng-change="get_forapproval_list()">
+                                        <i></i> FOR CANCELLATION
+                                    </label>
+                                    `;
+
+                var compiled = $compile(template)($scope);
+                $('.ApprovalFilters').prepend(compiled);
 
                 $("#modal_initializing").modal("hide");
             }
@@ -131,13 +182,19 @@
 
             return {
                 date_breakdown: parts[0],
-                val: parseFloat(parts[1])
+                val: parts[1]
             };
         });
     }
 
+    s.set_active_tag = function (elem_id)
+    {
+        $(".btn-active-tab").removeClass("btn-active-tab");
+        $("#" + elem_id).addClass("btn-active-tab");
+    }
 
-    var init_table_data = function (par_data) {
+
+    var init_table_data         = function (par_data) {
         try {
             s.datalistgrid = par_data;
             s.oTable = $('#datalistgrid').dataTable(
@@ -145,17 +202,17 @@
                     data: s.datalistgrid,
                     bSort: false,
                     bAutoWidth: false,
-                    sDom: '<"top"<"chartFilters">fl>rt<"bottom"ip>',
+                    sDom: '<"top"fl <"chartFilters text-right">>rt<"bottom"ip>',
+                    //sDom: '<"top"<"chartFilters">f>rt<"bottom"ip>',
                     columns: [
                         {
                             "width": "5%",
                             "targets": 0,
                             "mData": "employee_name",
                             "mRender": function (data, type, full, row) {
-                            
                                 return `<span class='btn-block text-center'><div class="img-badge-wrapper text-center">
                                                     <img id="m{{employee_rekon.empl_id}}"
-                                                        src="~/ResourcesImages/upload_profile.png"
+                                                        src="https://img-repo.davaodeoro.gov.ph/api/images/serve/`+ full["empl_photo_img"]+`"
                                                          width="50"
                                                          height="50"
                                                          class="profile-img"
@@ -216,37 +273,6 @@
                                 return html_return;
                             }
                         }
-                        //,{
-                        //    "width": "8%",
-                        //    "targets": 10,
-                        //    "mData": null,
-                        //    "mRender": function (data, type, full, row) {
-
-                        //        var btn_print = '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_print_leave_app(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Print Application for Leave/CTO Form"><i class="fa fa-print"></i></button>'
-                        //        var btn_delete = '<button type="button" class="btn btn-danger btn-xs"  disabled data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>'
-                        //        var btn_edit = '<button type="button" class="btn btn-success btn-xs" disabled data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >'
-                        //        var btn_view = '<button type="button" class="btn btn-warning btn-xs" ng-click="btn_view(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View History">  <i class="fa fa-eye"></i></button >'
-
-                        //        if ((full["approval_status"] == 'D' || full["approval_status"] == 'L' || full["leaveledger_entry_type"] == 'T') || (full["leaveledger_entry_type"] != '2' && full["leavetype_code"] != "CTO")) {
-                        //            btn_print = '<button type="button" class="btn btn-primary btn-xs" disabled><i class="fa fa-print"></i></button>'
-                        //            btn_view = '<button type="button" class="btn btn-warning btn-xs" disabled><i class="fa fa-eye"></i></button>'
-                        //        }
-
-
-                        //        if (s.btn_disable_row) {
-                        //            s.btn_disable_row = s.btn_disable_row
-                        //            btn_delete = '<button type="button" class="btn btn-danger btn-xs"  ng-click="btn_delete(' + row["row"] + ')"  data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>'
-                        //            btn_edit = '<button type="button" class="btn btn-success btn-xs" ng-click="btn_edit(' + row["row"] + ')"    data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-edit"></i></button >'
-                        //        }
-
-                        //        return '<center><div class="btn-group">' +
-                        //            btn_view +
-                        //            btn_edit +
-                        //            btn_delete +
-                        //            btn_print +
-                        //            '</div></center>';
-                        //    }
-                        //}
                     ],
                     "createdRow": function (row, data) {
                         if (data['nbr_quarter'] == "1" && s.nbr_quarter == 1) {
@@ -266,6 +292,118 @@
 
 
 
+                        $compile(row)($scope);
+                    }
+                });
+        }
+        catch (err) {
+            swal({ icon: "warning", title: err.message });
+        }
+    };
+    var init_table_forapproval  = function (par_data)
+    {
+        try {
+            s.oTable_for_approval = $('#datalist_grid_for_approval').dataTable(
+                {
+                    data: par_data,
+                    bSort: false,
+                    bAutoWidth: false,
+                    sDom: '<"top"fl <"ApprovalFilters text-right">>rt<"bottom"ip>',
+                    //sDom: '<"top"<"chartFilters">f>rt<"bottom"ip>',
+                    columns: [
+                        {
+                            "width": "5%",
+                            "targets": 0,
+                            "mData": "employee_name",
+                            "mRender": function (data, type, full, row) {
+
+                                return `<span class='btn-block text-center'><div class="img-badge-wrapper text-center">
+                                                    <img id="m{{employee_rekon.empl_id}}"
+                                                        src="https://img-repo.davaodeoro.gov.ph/api/images/serve/`+ full["empl_photo_img"] +`"
+                                                         width="50"
+                                                         height="50"
+                                                         class="profile-img"
+                                                         onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" /><br/>
+                                                     <span class="label label-info ">` + full["department_short_name"] +`</span>
+                                                </span>`;
+
+                            }
+                        },
+                        {
+                            "width": "20%",
+                            "targets": 0,
+                            "mData": "employee_name",
+                            "mRender": function (data, type, full, row) {
+                                return `<span class='btn-block' style='padding:0px !important;margin:0px !important;'>&nbsp;&nbsp<label>`+ full["empl_id"]+" - "+ data + "</label></span> " +
+                                    "<span class='btn-block' style='padding:0px !important;margin:0px !important;font-size:10px;'>&nbsp;&nbsp<small>Created By: " + full["creator_name"] + `</small></span> ` +
+                                    "<span class='btn-block' style='padding:0px !important;margin:0px !important;font-size:10px;'>&nbsp;&nbsp<small>Application #: " + full["application_nbr"] + `</small></span> `
+                                    ;
+
+                            }
+                        },
+                        {
+                            "width": "22%",
+                            "targets": 1,
+                            "mData": "date_applied",
+                            "mRender": function (data, type, full, row) {
+
+                                return `<div class="row"><div class="col-lg-2">Applied</div><div class="col-lg-1">:</div><div class="col-lg-9">` + data +` - ` + full["time_ago"] + `</div></div>`
+                                    + `<div class="row"><div class="col-lg-2">Reviewed</div><div class="col-lg-1">:</div><div class="col-lg-9">` + moment(full["reviewed_date"]).format("YYYY-MM-DD hh:MM A") + `</div></div>`
+                                    + `<div class="row"><div class="col-lg-2">Level 1</div><div class="col-lg-1">:</div><div class="col-lg-9">` + moment(full["level1_approval_date"]).format("YYYY-MM-DD hh:MM A") + `</div></div>`
+                                    
+                                    + (s.list_type != "For_Approval" ? `<div class="row"><div class="col-lg-2">Final</div><div class="col-lg-1">:</div><div class="col-lg-9">` + moment(full["final_approval_date"]).format("YYYY-MM-DD hh:MM A") + `</div></div>` :"")
+                                    ;
+
+                            }
+                        },
+                        {
+                            "width": "15%",
+                            "targets": 2,
+                            "mRender": function (data, type, full, row)
+                            {
+                                var html_return     = "";
+                                var not_available   = (2.5 - parseFloat(full["total_1st"])) < 1 ? `<div class="overlay-text2">CONSUMED</div>` : '';
+                                var html_breakdown = "";
+                                for (var x = 0; x < full["Wdays_1st_obj"].length;x++)
+                                {
+                                    html_breakdown += 
+                                        `<div class="col-lg-12">`
+                                        + `<div class="pull-left" style="width:70%;">` + full["Wdays_1st_obj"][x]["date_breakdown"]+`</div>`
+                                        + `<div class="pull-right text-right text-success" style="width:30%;"><label>` + full["Wdays_1st_obj"][x]["val"]  + `</label>&nbsp;&nbsp;</div></div>`;
+                                }
+
+
+                                html_return = `<div class="widget-overlay-wrapper2" style="padding:5px 10px 5px 10px;">`
+                                    + `<div class="row" >`
+                                    + html_breakdown
+                                    + `<div class="col-lg-12"><div class="pull-left" style="width:70%;">Total</div><div class="pull-right text-right text-warning" style="width:30%;"><label>` + parseFloat(full["total_1st"]).toFixed(2) + `</label>&nbsp;&nbsp;</div></div></div>`;
+
+                                return html_return;
+
+                            }
+                        },
+                        {
+                            "width": "5%",
+                            "targets": 3,
+                            "mRender": function (data, type, full, row) {
+                                var html_return = `<div class="col-lg-12 text-center">
+                                                    <a ng-click="btn_edit_action(`+ row["row"] +`)" class="btn btn-success btn-facebook btn-outline btn-md btn-block">
+                                                        <i class="fa fa-th-large pull-left" style="margin-top:4px;"> </i> VIEW WELLNESS
+                                                    </a>
+                                                    <a ng-click="print_wellness('`+ full["application_nbr"].toString() +`')" class="btn btn-primary btn-facebook btn-outline btn-md btn-block">
+                                                        <i class="fa fa-print pull-left" style="margin-top:4px;"> </i> PRINT WELLNESS
+                                                    </a>
+                                                 </div>`;
+                                return html_return;
+                            }
+                        }
+                    ],
+                    "createdRow": function (row, data)
+                    {
+                        if (data['mydep'] != "1")
+                        {
+                          // $(row).addClass("blurred");
+                        }
                         $compile(row)($scope);
                     }
                 });
@@ -721,26 +859,17 @@
                         }
                         s.show_btn_approve  = true;
                         s.btn_show_cancel   = false;
-                        if (s.for_approval_list[row_id].next_status == "R")
+                        if (s.for_approval_list[row_id].approval_status == "1")
                         {
-                            $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Review');
-                        }
-                        else if (s.for_approval_list[row_id].next_status == "1") {
-                            $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Level 1 Approve');
-                        }
-                        else if (s.for_approval_list[row_id].next_status == "2") {
-                            $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Level 2 Approve');
-                        }
-                        else if (s.for_approval_list[row_id].next_status == "3" || s.for_approval_list[row_id].next_status == "F") {
                             $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Final Approve');
                         }
-                        else if (s.for_approval_list[row_id].next_status == "L")
+                        else if (s.for_approval_list[row_id].approval_status == "F")
                         {
                             s.show_footer       = true;
                             s.show_btn_approve  = false;
-                            s.btn_show_cancel   = true
+                            s.btn_show_cancel   = false;
                         }
-                        else if (s.for_approval_list[row_id].next_status == "")
+                        else if (s.for_approval_list[row_id].approval_status == "")
                         {
                             s.show_footer       = false;
                             s.show_btn_approve  = false;
@@ -796,12 +925,112 @@
     //************************************//
     // Select Year +-3
     //************************************// 
-    function RetrieveYear() {
+    function RetrieveYear()
+    {
         var currentYear = new Date().getFullYear();
         var prev_year = currentYear - 3;
         for (var i = 1; i <= 7; i++) {
             s.year.push({ "year": prev_year })
             prev_year++;
+        }
+    }
+
+
+    s.print_wellness = function (application_nbr)
+    {
+       
+        //if (application_nbr.trim() == "")
+        //{
+        //    s.txtb_approved_from = moment().format('YYYY-MM-DD');
+        //    s.txtb_approved_to   = moment().format('YYYY-MM-DD');
+        //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+        //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+        //}
+
+        $("#loader").css("display", "block");
+        $("#rep_view").css("display", "none");
+        var ReportName   = "CrystalReport";
+        var SaveName     = "Crystal_Report";
+        var ReportType   = "inline";
+        var ReportPath   = "";
+        var sp           = "";
+        sp = "sp_wellness_pbb_reportV2,par_user_empl_id," + s.empl_id +",par_application_nbr," + application_nbr + ",par_period_from," + $("#txtb_approved_from").val() + ",par_period_to," + $("#txtb_approved_to").val() +"";
+        ReportPath = "~/Reports/cryWellnessReport/cryWellnessV2.rpt";
+        // *******************************************************
+        // *** VJA : 2021-07-14 - Validation and Loading hide ****
+        // *******************************************************
+        var iframe = document.getElementById('iframe_print_preview2');
+        var iframe_page = $("#iframe_print_preview2")[0];
+        iframe.style.visibility = "hidden";
+
+        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+            + "&ReportName=" + ReportName
+            + "&SaveName=" + SaveName
+            + "&ReportType=" + ReportType
+            + "&ReportPath=" + ReportPath
+            + "&id=" + sp // + "," + parameters
+
+        if (!/*@cc_on!@*/0) { //if not IE
+            iframe.onload = function () {
+                iframe.style.visibility = "visible";
+                $("#loader").css("display", "none");
+                $("#rep_view").css("display", "block");
+            };
+        }
+        else if (iframe_page.innerHTML()) {
+            // get and check the Title (and H tags if you want)
+            var ifTitle = iframe_page.contentDocument.title;
+            if (ifTitle.indexOf("404") >= 0) {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+            else if (ifTitle != "") {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+        }
+        else {
+            iframe.onreadystatechange = function () {
+                if (iframe.readyState == "complete") {
+                    iframe.style.visibility = "visible";
+                }
+
+            };
+        }
+
+        iframe.src = s.embed_link;
+        $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    //***********************************************************//
+    //***Field validation for remittance type before opening add modal
+    //***********************************************************// 
+    function ValidateFields() {
+        var return_val = true;
+        ValidationResultColor("ALL", false);
+
+        if ($('#txtb_remarks').val().trim() == "") {
+            ValidationResultColor("txtb_remarks", true);
+            return_val = false;
+        }
+
+        return return_val;
+    }
+
+
+    //***********************************************************//
+    //***Field validation for remittance type before opening add modal
+    //***********************************************************// 
+    function ValidationResultColor(par_object_id, par_v_result) {
+        if (par_v_result) {
+            //Add class to the obect that need to focus as a required..
+            $("#" + par_object_id).addClass("required");
+            $("#lbl_" + par_object_id + "_req").text("Required Field");
+        }
+        else {
+            //remove of refresh the object form being required
+            $("#txtb_remarks").removeClass("required");
+            $("#lbl_txtb_remarks_req").text("");
         }
     }
 });

@@ -95,6 +95,7 @@ namespace HRIS_eAATS.Controllers
                     , um
                     , lv_admin_dept_list
                     , log_user_id
+                    , log_empl_id
                     , leave_type_lst
                     , redirect_data
                     , cLV_Ledger_employee_name
@@ -138,7 +139,7 @@ namespace HRIS_eAATS.Controllers
         // Created Date : 22/02/2026
         // Description  : Initialized during pageload
         //*********************************************************************//
-        public ActionResult GetForApprovalList()
+        public ActionResult GetForApprovalList(string list_type)
         {
             try
             {
@@ -150,7 +151,7 @@ namespace HRIS_eAATS.Controllers
                 }
 
                 var empl_id = Session["empl_id"].ToString();
-                var for_approval_list = db_ats.sp_wellness_dayoff_for_approval_list(empl_id,"").ToList();
+                var for_approval_list = db_ats.sp_wellness_dayoff_for_approval_list(empl_id, list_type).ToList();
 
                 return JSON(new { message = "success", for_approval_list }, JsonRequestBehavior.AllowGet);
             }

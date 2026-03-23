@@ -5086,9 +5086,9 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vl_wop_tbl_list_Result>("sp_vl_wop_tbl_list");
         }
     
-        public virtual ObjectResult<sp_vlslearned_dailybasis_tbl_List_Result> sp_vlslearned_dailybasis_tbl_List()
+        public virtual int sp_vlslearned_dailybasis_tbl_List()
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_vlslearned_dailybasis_tbl_List_Result>("sp_vlslearned_dailybasis_tbl_List");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_vlslearned_dailybasis_tbl_List");
         }
     
         public virtual int sp_lv_ledger_history_insert(string p_ledger_ctrl_no, string p_leave_ctrlno, string p_empl_id, string p_appl_status, string p_appl_remarks, string p_created_by)

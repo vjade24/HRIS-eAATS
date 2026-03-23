@@ -1457,9 +1457,6 @@
     <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_vlslearned_dailybasis_tbl_List_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_vl_fractionconvertion_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1993,6 +1990,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryUndTardAbs.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryWellnessReport\cryWellnessReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryWellnessReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryWellnessReport\cryWellnessV2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryWellnessV2.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -3288,6 +3297,14 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryServiceRecordX.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="Reports\cryWellnessReport\cryWellnessReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryWellnessReport.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryWellnessReport\cryWellnessV2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryWellnessV2.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -22,5 +22,6 @@ namespace HRIS_eAATS.Models
         public decimal total_1st { get; set; }
         public string Wdays_2nd { get; set; }
         public decimal total_2nd { get; set; }
+        public string empl_photo_img { get; set; }
     }
 }

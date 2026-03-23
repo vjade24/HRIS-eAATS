@@ -42,7 +42,7 @@ namespace HRIS_eAATS.Controllers
                 {
                     img_link = System.Configuration.ConfigurationManager.AppSettings["img_link_online"];
                 }
-                string imgDataURL = img_link + "/storage/images/photo/thumb/"  +empl_id;
+                string imgDataURL = img_link + "/images/serve/" + Session["login_uuid"];
                 
                 var data = db.sp_user_menu_access_role_list_ATS(Session["user_id"].ToString()).ToList();
                 
