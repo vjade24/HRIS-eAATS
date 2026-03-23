@@ -150,7 +150,7 @@ namespace HRIS_eAATS.Controllers
                 }
 
                 var empl_id = Session["empl_id"].ToString();
-                var for_approval_list = db_ats.sp_wellness_dayoff_for_approval_list(empl_id).ToList();
+                var for_approval_list = db_ats.sp_wellness_dayoff_for_approval_list(empl_id,"").ToList();
 
                 return JSON(new { message = "success", for_approval_list }, JsonRequestBehavior.AllowGet);
             }

@@ -5558,13 +5558,17 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_authorization_wellness_dayoff_tbl_Result>("sp_authorization_wellness_dayoff_tbl", par_empl_idParameter, par_date_appliedParameter);
         }
     
-        public virtual ObjectResult<sp_wellness_dayoff_for_approval_list_Result> sp_wellness_dayoff_for_approval_list(string par_user_empl_id)
+        public virtual ObjectResult<sp_wellness_dayoff_for_approval_list_Result> sp_wellness_dayoff_for_approval_list(string par_user_empl_id, string par_list_type)
         {
             var par_user_empl_idParameter = par_user_empl_id != null ?
                 new ObjectParameter("par_user_empl_id", par_user_empl_id) :
                 new ObjectParameter("par_user_empl_id", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_dayoff_for_approval_list_Result>("sp_wellness_dayoff_for_approval_list", par_user_empl_idParameter);
+            var par_list_typeParameter = par_list_type != null ?
+                new ObjectParameter("par_list_type", par_list_type) :
+                new ObjectParameter("par_list_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_dayoff_for_approval_list_Result>("sp_wellness_dayoff_for_approval_list", par_user_empl_idParameter, par_list_typeParameter);
         }
     
         public virtual ObjectResult<sp_wellness_monitoring_list_Result> sp_wellness_monitoring_list(Nullable<int> par_payroll_year, string par_department_code, string par_employment_type, string par_active_only)
@@ -5586,6 +5590,19 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_active_only", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_monitoring_list_Result>("sp_wellness_monitoring_list", par_payroll_yearParameter, par_department_codeParameter, par_employment_typeParameter, par_active_onlyParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_restore_Result> sp_leave_restore(string par_empl_id, string par_leave_ctrlno)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_restore_Result>("sp_leave_restore", par_empl_idParameter, par_leave_ctrlnoParameter);
         }
     }
 }
