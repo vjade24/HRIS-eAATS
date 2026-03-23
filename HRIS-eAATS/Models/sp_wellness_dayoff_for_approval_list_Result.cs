@@ -42,5 +42,7 @@ namespace HRIS_eAATS.Models
         public string Wdays_1st { get; set; }
         public decimal total_1st { get; set; }
         public Nullable<System.DateTime> reviewed_date { get; set; }
+        public Nullable<System.DateTime> final_approval_date { get; set; }
+        public string empl_photo_img { get; set; }
     }
 }

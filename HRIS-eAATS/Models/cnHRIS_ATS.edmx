@@ -70,6 +70,7 @@
           <Property Name="empl_id" Type="varchar" MaxLength="8" />
           <Property Name="remove_entry" Type="varchar" MaxLength="10" />
           <Property Name="attachment_path" Type="varchar" MaxLength="500" />
+          <Property Name="as_sub_type" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="authorization_slipt_hdr_tbl">
           <Key>
@@ -1578,6 +1579,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_as_info' does not have a primary k
             <PropertyRef Name="remarks" />
             <PropertyRef Name="astype_code" />
             <PropertyRef Name="seq_order" />
+            <PropertyRef Name="application_nbr" />
           </Key>
           <Property Name="dtr_date" Type="varchar" MaxLength="10" />
           <Property Name="dtr_year" Type="int" />
@@ -1594,6 +1596,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_as_info' does not have a primary k
           <Property Name="reason_code" Type="varchar" MaxLength="3" />
           <Property Name="seq_order" Type="int" Nullable="false" />
           <Property Name="remove_entry" Type="varchar" MaxLength="10" />
+          <Property Name="as_sub_type" Type="varchar" MaxLength="10" />
+          <Property Name="application_nbr" Type="varchar" MaxLength="12" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_ATS.dbo.vw_authorization_slipt_dtr_info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -1607,6 +1611,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_authorization_slipt_dtr_info' does
             <PropertyRef Name="inputtype_sub_descr" />
             <PropertyRef Name="remarks" />
             <PropertyRef Name="appl_type" />
+            <PropertyRef Name="as_sub_type" />
           </Key>
           <Property Name="dtr_date" Type="varchar" MaxLength="36" />
           <Property Name="dtr_year" Type="int" />
@@ -1620,6 +1625,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_authorization_slipt_dtr_info' does
           <Property Name="inputtype_sub_descr" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="remarks" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="appl_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="as_sub_type" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_ATS.dbo.vw_dtr_viewing_all' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2942,6 +2948,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="ot_end_time" Type="varchar" MaxLength="5" />
                 <Property Name="ot_end_ampm" Type="varchar" MaxLength="2" />
                 <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
+                <Property Name="as_sub_type" Type="varchar" MaxLength="10" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -4821,7 +4828,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
     [vw_as_info].[astype_code] AS [astype_code], 
     [vw_as_info].[reason_code] AS [reason_code], 
     [vw_as_info].[seq_order] AS [seq_order], 
-    [vw_as_info].[remove_entry] AS [remove_entry]
+    [vw_as_info].[remove_entry] AS [remove_entry], 
+    [vw_as_info].[as_sub_type] AS [as_sub_type], 
+    [vw_as_info].[application_nbr] AS [application_nbr]
     FROM [dbo].[vw_as_info] AS [vw_as_info]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_authorization_slipt_dtr_info" EntityType="Self.vw_authorization_slipt_dtr_info" store:Type="Views" store:Schema="dbo">
@@ -4837,7 +4846,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
     [vw_authorization_slipt_dtr_info].[inputtype_code] AS [inputtype_code], 
     [vw_authorization_slipt_dtr_info].[inputtype_sub_descr] AS [inputtype_sub_descr], 
     [vw_authorization_slipt_dtr_info].[remarks] AS [remarks], 
-    [vw_authorization_slipt_dtr_info].[appl_type] AS [appl_type]
+    [vw_authorization_slipt_dtr_info].[appl_type] AS [appl_type], 
+    [vw_authorization_slipt_dtr_info].[as_sub_type] AS [as_sub_type]
     FROM [dbo].[vw_authorization_slipt_dtr_info] AS [vw_authorization_slipt_dtr_info]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_dtr_viewing_all" EntityType="Self.vw_dtr_viewing_all" store:Type="Views" store:Schema="dbo">
@@ -5868,6 +5878,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="remove_entry" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="attachment_path" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="as_sub_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="authorization_slipt_hdr_tbl">
           <Key>
@@ -6951,6 +6962,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <PropertyRef Name="remarks" />
             <PropertyRef Name="astype_code" />
             <PropertyRef Name="seq_order" />
+            <PropertyRef Name="application_nbr" />
           </Key>
           <Property Name="dtr_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="dtr_year" Type="Int32" />
@@ -6967,6 +6979,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="reason_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
           <Property Name="seq_order" Type="Int32" Nullable="false" />
           <Property Name="remove_entry" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="as_sub_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="application_nbr" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="vw_authorization_slipt_dtr_info">
           <Key>
@@ -6978,6 +6992,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <PropertyRef Name="inputtype_sub_descr" />
             <PropertyRef Name="remarks" />
             <PropertyRef Name="appl_type" />
+            <PropertyRef Name="as_sub_type" />
           </Key>
           <Property Name="dtr_date" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="dtr_year" Type="Int32" />
@@ -6991,6 +7006,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="inputtype_sub_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="appl_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="as_sub_type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="vw_dtr_viewing_all">
           <Key>
@@ -9313,7 +9329,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           </FunctionImport>
           <FunctionImport Name="sp_vl_fractionconvertion_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_vl_fractionconvertion_tbl_list_Result)" />
           <FunctionImport Name="sp_vl_wop_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_vl_wop_tbl_list_Result)" />
-          <FunctionImport Name="sp_vlslearned_dailybasis_tbl_List" ReturnType="Collection(HRIS_ATSModel.sp_vlslearned_dailybasis_tbl_List_Result)" />
+          <FunctionImport Name="sp_vlslearned_dailybasis_tbl_List" />
           <EntitySet Name="lv_ledger_history_tbl" EntityType="HRIS_ATSModel.lv_ledger_history_tbl" />
           <EntitySet Name="transmittal_leave_dtl_tbl" EntityType="HRIS_ATSModel.transmittal_leave_dtl_tbl" />
           <FunctionImport Name="sp_lv_ledger_history_insert">
@@ -9470,15 +9486,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_date_applied" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="sp_wellness_dayoff_for_approval_list" ReturnType="Collection(HRIS_ATSModel.sp_wellness_dayoff_for_approval_list_Result)">
+            <Parameter Name="par_user_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_list_type" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_wellness_monitoring_list" ReturnType="Collection(HRIS_ATSModel.sp_wellness_monitoring_list_Result)">
             <Parameter Name="par_payroll_year" Mode="In" Type="Int32" />
             <Parameter Name="par_department_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_active_only" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_wellness_dayoff_for_approval_list" ReturnType="Collection(HRIS_ATSModel.sp_wellness_dayoff_for_approval_list_Result)">
-            <Parameter Name="par_user_empl_id" Mode="In" Type="String" />
-            <Parameter Name="par_list_type" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -12722,15 +12738,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="no_days_onleave_wop" Nullable="false" />
           <Property Type="String" Name="leavecredit_earned" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="sp_vlslearned_dailybasis_tbl_List_Result">
-          <Property Type="Double" Name="no_days" Nullable="false" />
-          <Property Type="Double" Name="sl_earned" Nullable="false" />
-          <Property Type="Double" Name="vl_earned" Nullable="false" />
-          <Property Type="Boolean" Name="edit_flag" Nullable="true" />
-          <Property Type="Boolean" Name="new_row" Nullable="true" />
-          <Property Type="Boolean" Name="ALL_EDIT" Nullable="true" />
-          <Property Type="Double" Name="MAX_ROW" Nullable="true" />
-        </ComplexType>
         <EntityType Name="lv_ledger_history_tbl">
           <Key>
             <PropertyRef Name="id" />
@@ -13676,17 +13683,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
         </ComplexType>
-        <ComplexType Name="sp_wellness_monitoring_list_Result">
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
-          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="position" Nullable="true" MaxLength="513" />
-          <Property Type="String" Name="Wdays_1st" Nullable="false" />
-          <Property Type="Decimal" Name="total_1st" Nullable="false" Precision="19" />
-          <Property Type="String" Name="Wdays_2nd" Nullable="false" />
-          <Property Type="Decimal" Name="total_2nd" Nullable="false" Precision="19" />
-        </ComplexType>
         <ComplexType Name="sp_wellness_dayoff_for_approval_list_Result">
           <Property Type="String" Name="application_nbr" Nullable="false" MaxLength="12" />
           <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
@@ -13717,6 +13713,20 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="Wdays_1st" Nullable="false" />
           <Property Type="Decimal" Name="total_1st" Nullable="false" Precision="19" />
           <Property Type="DateTime" Name="reviewed_date" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="final_approval_date" Nullable="true" Precision="23" />
+          <Property Type="String" Name="empl_photo_img" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_wellness_monitoring_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="position" Nullable="true" MaxLength="513" />
+          <Property Type="String" Name="Wdays_1st" Nullable="false" />
+          <Property Type="Decimal" Name="total_1st" Nullable="false" Precision="19" />
+          <Property Type="String" Name="Wdays_2nd" Nullable="false" />
+          <Property Type="Decimal" Name="total_2nd" Nullable="false" Precision="19" />
+          <Property Type="String" Name="empl_photo_img" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -13774,6 +13784,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="authorization_slipt_dtl_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.authorization_slipt_dtl_tbl">
               <MappingFragment StoreEntitySet="authorization_slipt_dtl_tbl">
+                <ScalarProperty Name="as_sub_type" ColumnName="as_sub_type" />
                 <ScalarProperty Name="attachment_path" ColumnName="attachment_path" />
                 <ScalarProperty Name="remove_entry" ColumnName="remove_entry" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
@@ -14894,6 +14905,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="vw_as_info">
             <EntityTypeMapping TypeName="HRIS_ATSModel.vw_as_info">
               <MappingFragment StoreEntitySet="vw_as_info">
+                <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
+                <ScalarProperty Name="as_sub_type" ColumnName="as_sub_type" />
                 <ScalarProperty Name="remove_entry" ColumnName="remove_entry" />
                 <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
                 <ScalarProperty Name="dtr_year" ColumnName="dtr_year" />
@@ -14915,6 +14928,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="vw_authorization_slipt_dtr_info">
             <EntityTypeMapping TypeName="HRIS_ATSModel.vw_authorization_slipt_dtr_info">
               <MappingFragment StoreEntitySet="vw_authorization_slipt_dtr_info">
+                <ScalarProperty Name="as_sub_type" ColumnName="as_sub_type" />
                 <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
                 <ScalarProperty Name="dtr_year" ColumnName="dtr_year" />
                 <ScalarProperty Name="dtr_month" ColumnName="dtr_month" />
@@ -20019,17 +20033,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_vlslearned_dailybasis_tbl_List" FunctionName="HRIS_ATSModel.Store.sp_vlslearned_dailybasis_tbl_List">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_vlslearned_dailybasis_tbl_List_Result">
-                <ScalarProperty Name="no_days" ColumnName="no_days" />
-                <ScalarProperty Name="sl_earned" ColumnName="sl_earned" />
-                <ScalarProperty Name="vl_earned" ColumnName="vl_earned" />
-                <ScalarProperty Name="edit_flag" ColumnName="edit_flag" />
-                <ScalarProperty Name="new_row" ColumnName="new_row" />
-                <ScalarProperty Name="ALL_EDIT" ColumnName="ALL_EDIT" />
-                <ScalarProperty Name="MAX_ROW" ColumnName="MAX_ROW" />
-              </ComplexTypeMapping>
-            </ResultMapping>
           </FunctionImportMapping>
           <EntitySetMapping Name="lv_ledger_history_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_history_tbl">
@@ -21073,21 +21076,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_wellness_monitoring_list" FunctionName="HRIS_ATSModel.Store.sp_wellness_monitoring_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_monitoring_list_Result">
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="position" ColumnName="position" />
-                <ScalarProperty Name="Wdays_1st" ColumnName="Wdays_1st" />
-                <ScalarProperty Name="total_1st" ColumnName="total_1st" />
-                <ScalarProperty Name="Wdays_2nd" ColumnName="Wdays_2nd" />
-                <ScalarProperty Name="total_2nd" ColumnName="total_2nd" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_wellness_dayoff_for_approval_list" FunctionName="HRIS_ATSModel.Store.sp_wellness_dayoff_for_approval_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_dayoff_for_approval_list_Result">
@@ -21120,6 +21108,24 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="Wdays_1st" ColumnName="Wdays_1st" />
                 <ScalarProperty Name="total_1st" ColumnName="total_1st" />
                 <ScalarProperty Name="reviewed_date" ColumnName="reviewed_date" />
+                <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_wellness_monitoring_list" FunctionName="HRIS_ATSModel.Store.sp_wellness_monitoring_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_monitoring_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="Wdays_1st" ColumnName="Wdays_1st" />
+                <ScalarProperty Name="total_1st" ColumnName="total_1st" />
+                <ScalarProperty Name="Wdays_2nd" ColumnName="Wdays_2nd" />
+                <ScalarProperty Name="total_2nd" ColumnName="total_2nd" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

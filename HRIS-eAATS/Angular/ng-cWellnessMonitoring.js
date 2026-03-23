@@ -210,10 +210,9 @@
                             "targets": 0,
                             "mData": "employee_name",
                             "mRender": function (data, type, full, row) {
-                            
                                 return `<span class='btn-block text-center'><div class="img-badge-wrapper text-center">
                                                     <img id="m{{employee_rekon.empl_id}}"
-                                                        src="~/ResourcesImages/upload_profile.png"
+                                                        src="https://img-repo.davaodeoro.gov.ph/api/images/serve/`+ full["empl_photo_img"]+`"
                                                          width="50"
                                                          height="50"
                                                          class="profile-img"
@@ -320,7 +319,7 @@
 
                                 return `<span class='btn-block text-center'><div class="img-badge-wrapper text-center">
                                                     <img id="m{{employee_rekon.empl_id}}"
-                                                        src="~/ResourcesImages/upload_profile.png"
+                                                        src="https://img-repo.davaodeoro.gov.ph/api/images/serve/`+ full["empl_photo_img"] +`"
                                                          width="50"
                                                          height="50"
                                                          class="profile-img"

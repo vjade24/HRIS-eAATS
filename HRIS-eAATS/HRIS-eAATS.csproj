@@ -1453,9 +1453,6 @@
     <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_vlslearned_dailybasis_tbl_List_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_vl_fractionconvertion_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
