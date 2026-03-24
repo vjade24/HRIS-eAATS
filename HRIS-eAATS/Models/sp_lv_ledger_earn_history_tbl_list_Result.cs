@@ -27,5 +27,6 @@ namespace HRIS_eAATS.Models
         public Nullable<System.DateTime> created_dttm { get; set; }
         public string created_user_id { get; set; }
         public string created_employee_name { get; set; }
+        public string empl_photo_img { get; set; }
     }
 }

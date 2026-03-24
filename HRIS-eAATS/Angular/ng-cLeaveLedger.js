@@ -15,7 +15,7 @@
     s.txtb_lates_und_min        = 0 + ' min' ;
     s.time_sked_hdr_title       = "";
     $('.collapse').collapse()
-    s.image_link                = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.image_link                = cs.img_link('local')+"/images/serve/";
     s.data_mone                 = [];
     s.show_reprint              = true;
     s.pre_vl_val                = 0;
@@ -3850,7 +3850,7 @@
                     temp_append = '<div class="feed-element">'+
                                        '<div class="pull-left">'+
                                          '<div class="img-circle">' +
-                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U","") + '?v=' + temp)+' " />'+
+                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" || s.data_history[i].empl_photo_img == null ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].empl_photo_img + "?thumbnail=1" + '?v=' + temp)+' " />'+
                                         '</div>'+
                                        '</div>'+
                                         '<div class="media-body ">'+
@@ -4288,7 +4288,7 @@
                     temp_append = '<div class="feed-element">'+
                                        '<div class="pull-left">'+
                                          '<div class="img-circle">' +
-                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U","") + '?v=' + temp)+' " />'+
+                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" || s.data_history[i].empl_photo_img == null ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].empl_photo_img + "?thumbnail=1" + '?v=' + temp)+' " />'+
                                         '</div>'+
                                        '</div>'+
                                         '<div class="media-body ">'+

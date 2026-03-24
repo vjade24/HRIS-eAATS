@@ -10,7 +10,7 @@
     s.datalist_grid = []
     s.regenerate_selected = [];
     s.selectAll = false;
-    s.image_link = cs.img_link('local') + "/storage/images/photo/thumb/";
+    s.image_link = cs.img_link('local') + "/images/serve/";
     s.currentTimestamp = new Date().getTime(); // For cache busting on images
 
     // Month names mapping for display
@@ -95,7 +95,7 @@
                                         var def_images = '../../ResourcesImages/upload_profile.png';
                                         return '<div class="text-center">' +
                                             '<div class="img-circle">' +
-                                            '<img class="img-circle employee-photo" onerror="this.onerror=null;this.src=\'' + def_images + '\';" alt="Employee Photo" width="35" height="35" src="' + s.image_link + full["empl_id"] + '?v=' + temp + '" />' +
+                                            '<img class="img-circle employee-photo" onerror="this.onerror=null;this.src=\'' + def_images + '\';" alt="Employee Photo" width="35" height="35" src="' + s.image_link + full["empl_photo_img"]+"?thumbnail=1" + '?v=' + temp + '" />' +
                                             '</div>' +
                                             '</div>'
                                     }

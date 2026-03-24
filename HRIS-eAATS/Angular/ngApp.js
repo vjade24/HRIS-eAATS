@@ -438,7 +438,7 @@ ng_HRD_App.service("commonScript", ["$compile", "$filter", function (c, f) {
             {
                 link = 'http://images.dvodeoro.local'
             }
-            return link
+            return "https://img-repo.davaodeoro.gov.ph/api"
         },
 
         RetrieveYear: function () {

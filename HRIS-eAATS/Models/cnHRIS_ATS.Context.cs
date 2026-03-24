@@ -3826,27 +3826,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_dtl_tbl_list_Result>("sp_lv_ledger_dtl_tbl_list", par_ledger_ctrl_noParameter);
         }
     
-        public virtual ObjectResult<sp_lv_ledger_earn_history_tbl_list_Result> sp_lv_ledger_earn_history_tbl_list(string par_gen_year, string par_gen_month, string par_department_code, string par_earning_type)
-        {
-            var par_gen_yearParameter = par_gen_year != null ?
-                new ObjectParameter("par_gen_year", par_gen_year) :
-                new ObjectParameter("par_gen_year", typeof(string));
-    
-            var par_gen_monthParameter = par_gen_month != null ?
-                new ObjectParameter("par_gen_month", par_gen_month) :
-                new ObjectParameter("par_gen_month", typeof(string));
-    
-            var par_department_codeParameter = par_department_code != null ?
-                new ObjectParameter("par_department_code", par_department_code) :
-                new ObjectParameter("par_department_code", typeof(string));
-    
-            var par_earning_typeParameter = par_earning_type != null ?
-                new ObjectParameter("par_earning_type", par_earning_type) :
-                new ObjectParameter("par_earning_type", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_earn_history_tbl_list_Result>("sp_lv_ledger_earn_history_tbl_list", par_gen_yearParameter, par_gen_monthParameter, par_department_codeParameter, par_earning_typeParameter);
-        }
-    
         public virtual ObjectResult<sp_lv_ledger_generate_earning_Result> sp_lv_ledger_generate_earning(string par_year, string par_month, string par_department_code, string par_empl_id, string par_user_id, string par_earning_type)
         {
             var par_yearParameter = par_year != null ?
@@ -5316,19 +5295,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_balances_rep_Result>("sp_leave_balances_rep", par_yearParameter, par_department_codeParameter);
         }
     
-        public virtual ObjectResult<sp_lwop_list_Result> sp_lwop_list(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
-        {
-            var par_period_fromParameter = par_period_from.HasValue ?
-                new ObjectParameter("par_period_from", par_period_from) :
-                new ObjectParameter("par_period_from", typeof(System.DateTime));
-    
-            var par_period_toParameter = par_period_to.HasValue ?
-                new ObjectParameter("par_period_to", par_period_to) :
-                new ObjectParameter("par_period_to", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lwop_list_Result>("sp_lwop_list", par_period_fromParameter, par_period_toParameter);
-        }
-    
         public virtual ObjectResult<sp_extract_best_attendance_Result> sp_extract_best_attendance(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_department_code, string p_employment_type, string p_empl_id)
         {
             var p_period_fromParameter = p_period_from.HasValue ?
@@ -5453,27 +5419,6 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("p_leavetype_code", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_forfeitbal_tbl_list_Result>("sp_lv_ledger_forfeitbal_tbl_list", p_leave_yearParameter, p_department_codeParameter, p_leavetype_codeParameter);
-        }
-    
-        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_show_historyParameter = par_show_history != null ?
-                new ObjectParameter("par_show_history", par_show_history) :
-                new ObjectParameter("par_show_history", typeof(string));
-    
-            var par_period_fromParameter = par_period_from.HasValue ?
-                new ObjectParameter("par_period_from", par_period_from) :
-                new ObjectParameter("par_period_from", typeof(System.DateTime));
-    
-            var par_period_toParameter = par_period_to.HasValue ?
-                new ObjectParameter("par_period_to", par_period_to) :
-                new ObjectParameter("par_period_to", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter, par_period_fromParameter, par_period_toParameter);
         }
     
         public virtual ObjectResult<string> sp_get_undertime_equi(Nullable<int> par_under_Time)
@@ -5603,6 +5548,61 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_leave_ctrlno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_restore_Result>("sp_leave_restore", par_empl_idParameter, par_leave_ctrlnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_ledgerposting_for_approval_list_Result> sp_ledgerposting_for_approval_list(string par_user_id, string par_show_history, Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_show_historyParameter = par_show_history != null ?
+                new ObjectParameter("par_show_history", par_show_history) :
+                new ObjectParameter("par_show_history", typeof(string));
+    
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_ledgerposting_for_approval_list_Result>("sp_ledgerposting_for_approval_list", par_user_idParameter, par_show_historyParameter, par_period_fromParameter, par_period_toParameter);
+        }
+    
+        public virtual ObjectResult<sp_lwop_list_Result> sp_lwop_list(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lwop_list_Result>("sp_lwop_list", par_period_fromParameter, par_period_toParameter);
+        }
+    
+        public virtual ObjectResult<sp_lv_ledger_earn_history_tbl_list_Result> sp_lv_ledger_earn_history_tbl_list(string par_gen_year, string par_gen_month, string par_department_code, string par_earning_type)
+        {
+            var par_gen_yearParameter = par_gen_year != null ?
+                new ObjectParameter("par_gen_year", par_gen_year) :
+                new ObjectParameter("par_gen_year", typeof(string));
+    
+            var par_gen_monthParameter = par_gen_month != null ?
+                new ObjectParameter("par_gen_month", par_gen_month) :
+                new ObjectParameter("par_gen_month", typeof(string));
+    
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_earning_typeParameter = par_earning_type != null ?
+                new ObjectParameter("par_earning_type", par_earning_type) :
+                new ObjectParameter("par_earning_type", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_earn_history_tbl_list_Result>("sp_lv_ledger_earn_history_tbl_list", par_gen_yearParameter, par_gen_monthParameter, par_department_codeParameter, par_earning_typeParameter);
         }
     }
 }
