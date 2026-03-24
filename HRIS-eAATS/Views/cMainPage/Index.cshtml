@@ -84,7 +84,7 @@
                                             CTO : <span style="font-size:large;font-weight:bold"><u>{{total_leave_review_cto}}</u></span>
 
                                         </span>
-                                        <span class="label label-warning-light" style="font-size:20px !important" >{{total_leave_review}}</span> &nbsp; Total number of for Review & Post to Ledger
+                                        <span class="label label-warning-light" style="font-size:20px !important">{{total_leave_review}}</span> &nbsp; Total number of for Review & Post to Ledger
                                     </li>
                                     <li class="list-group-item ">
                                         @*<span class="pull-right">
@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <a href="cLeaveLedgerAppr">
-                                            <div class="widget style1 blue-bg" >
+                                            <div class="widget style1 blue-bg">
                                                 <div class="row">
                                                     <div class="col-xs-4">
                                                         <i class="fa fa-check-circle fa-5x"></i>
@@ -165,25 +165,25 @@
                                     </div>
                                     @*<div class="col-lg-12">
 
-                <div class="progress progress-striped active">
-                    <div style="width: 30%" class="progress-bar progress-bar-success">
-                        <span class="sr-only">30% Complete (success)</span>
-                    </div>
-                    <div style="width: 20%" class="progress-bar progress-bar-warning">
-                        <span class="sr-only">15% Complete (warning)</span>
-                    </div>
-                    <div style="width: 50%" class="progress-bar progress-bar-danger">
-                        <span class="sr-only">40% Complete (danger)</span>
-                    </div>
-                </div>
-            </div>*@
+                                        <div class="progress progress-striped active">
+                                            <div style="width: 30%" class="progress-bar progress-bar-success">
+                                                <span class="sr-only">30% Complete (success)</span>
+                                            </div>
+                                            <div style="width: 20%" class="progress-bar progress-bar-warning">
+                                                <span class="sr-only">15% Complete (warning)</span>
+                                            </div>
+                                            <div style="width: 50%" class="progress-bar progress-bar-danger">
+                                                <span class="sr-only">40% Complete (danger)</span>
+                                            </div>
+                                        </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <div class="row">
 
                                 <div class="col-lg-8">
                                     <div class="ibox" style="margin-bottom:0px !important">
-                                        <div class="ibox-title" >
+                                        <div class="ibox-title">
                                             <h5>Summary for Unposted Leave/CTO <small>Filtered by Department</small></h5>
                                             <div class="ibox-tools">
                                                 <a class="collapse-link">
@@ -310,12 +310,12 @@
                         </button>
                         <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
                     </div>
-                    <div class="modal-body" >
+                    <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-5">
                                 <iframe style="width:100% !important;height:600px !important;border:0px none;" id="iframe_print_preview"></iframe>
                             </div>
-                            <div class="col-lg-7" >
+                            <div class="col-lg-7">
                                 <div class="row">
                                     <!-- Cancelled Leave Type Card (Dynamic) -->
                                     <div class="col-lg-4" ng-show="cancel_leave_type && cancel_leave_type != 'VL' && cancel_leave_type != 'SL'">
@@ -364,7 +364,7 @@
                                     </div>
 
                                     <!-- Sick Leave Card -->
-                                    <div class="col-lg-4" >
+                                    <div class="col-lg-4">
                                         <div class="panel panel-warning" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                                             <div class="panel-heading" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 12px; border-radius: 8px 8px 0 0;">
                                                 <h4 class="panel-title" style="margin: 0; font-size: 14px; font-weight: bold;">
@@ -404,7 +404,7 @@
                                     <div class="col-lg-6" ng-repeat="lst in cancellation_details" style="margin-bottom:5px">
                                         <div style="background: #fef2f2; padding: 12px; border-radius: 6px; border-left: 4px solid #ef4444;">
                                             <strong style="color: #991b1b; font-size: 12px;"><i class="fa fa-file-text"></i> CANCELLATION DETAILS</strong>
-                                            <div style="margin-top: 8px; font-size: 11px; color: #666;" >
+                                            <div style="margin-top: 8px; font-size: 11px; color: #666;">
                                                 <div style="margin: 4px 0;">
                                                     <strong>Status:</strong> <span ng-class="{'text-danger': lst.cancel_status == 'PENDING', 'text-success': lst.cancel_status == 'APPROVED'}">{{lst.cancel_status}}</span>
                                                 </div>
@@ -471,8 +471,230 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modal_cancellation" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header navy-bg text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title"><i class="fa fa-file-text"></i> LEAVE CANCELLATION RECORDS</h4>
+                    </div>
+                    <div class="modal-body" ng-style="{'background': '#f7f8fa', 'max-height': '600px', 'overflow-y': 'auto'}">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <iframe style="width:100% !important;height:600px !important;border:0px none;" id="iframe_print_preview_cancellation"></iframe>
+                            </div>
+                            <div class="col-lg-6">
+
+                                <div class="row">
+                                    <!-- Cancelled Leave Type Card (Dynamic) -->
+                                    <div class="col-lg-4" ng-show="cancel_leave_type && cancel_leave_type != 'VL' && cancel_leave_type != 'SL'">
+                                        <div class="panel panel-danger" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                            <div class="panel-heading" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 12px; border-radius: 8px 8px 0 0;">
+                                                <h4 class="panel-title" style="margin: 0; font-size: 10px; font-weight: bold;">
+                                                    <i class="fa fa-exclamation-circle"></i> {{cancel_leave_type_name}} ({{cancel_leave_type}})
+                                                </h4>
+                                            </div>
+                                            <div class="panel-body" style="padding: 10px; text-align: center;">
+                                                <div style="font-size: 25px; font-weight: bold; color: #ef4444; margin: 10px 0;">
+                                                    {{employee_cancel_balance | number:3}}
+                                                </div>
+                                                <small style="color: #666; font-size: 10px;">Current Running Balance</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Vacation Leave Card -->
+                                    <div class="col-lg-4">
+                                        <div class="panel panel-success" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                            <div class="panel-heading" style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 12px; border-radius: 8px 8px 0 0;">
+                                                <h4 class="panel-title" style="margin: 0; font-size: 10px; font-weight: bold;">
+                                                    <i class="fa fa-calendar"></i> VACATION LEAVE (VL)
+                                                </h4>
+                                            </div>
+                                            <div class="panel-body" style="padding: 10px; text-align: center;">
+                                                <div style="font-size: 25px; font-weight: bold; color: #22c55e; margin: 10px 0;">
+                                                    {{employee_vl_balance | number:3}}
+                                                </div>
+                                                <small style="color: #666; font-size: 10px;">Current Running Balance</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sick Leave Card -->
+                                    <div class="col-lg-4">
+                                        <div class="panel panel-warning" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                                            <div class="panel-heading" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 12px; border-radius: 8px 8px 0 0;">
+                                                <h4 class="panel-title" style="margin: 0; font-size: 10px; font-weight: bold;">
+                                                    <i class="fa fa-medkit"></i> SICK LEAVE (SL)
+                                                </h4>
+                                            </div>
+                                            <div class="panel-body" style="padding: 10px; text-align: center;">
+                                                <div style="font-size: 25px; font-weight: bold; color: #f59e0b; margin: 10px 0;">
+                                                    {{employee_sl_balance | number:3}}
+                                                </div>
+                                                <small style="color: #666; font-size: 10px;">Current Running Balance</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Quick Info Section -->
+                                <div class="row m-t-xs">
+                                    <div class="col-lg-12">
+                                        <div style="background: #f8fafc; padding: 12px; border-radius: 6px; border-left: 4px solid #3b82f6;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1)">
+                                            <small style="color: #666; font-size: 11px;">
+                                                <strong><i class="fa fa-info-circle"></i> Balance Information:</strong><br>
+                                                Last Updated: <strong ng-show="balance_last_updated">{{balance_last_updated | date:'medium'}}</strong>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if="cancellation_list && cancellation_list.length > 0" style="margin-bottom: 15px;">
+                                    <!-- Restore Amounts Section -->
+                                    <div ng-if="total_vl_restored > 0 || total_sl_restore > 0 || total_oth_restored > 0" style="margin-top: 12px; padding: 10px; background: #f0fdf4; border-left: 4px solid #22c55e; border-radius: 4px;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1)">
+                                        <strong style="color: #166534; font-size: 8px; display: block; margin-bottom: 8px;">
+                                            <i class="fa fa-plus-circle"></i> RESTORE AMOUNTS
+                                        </strong>
+                                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                            <div ng-show="total_oth_restored > 0" style="flex: 1; min-width: 80px; background: white; padding: 6px; border-radius: 3px; border-left: 2px solid #ef4444; font-size: 11px;">
+                                                <div style="color: #666;">{{cancellation_list[0].leavetype_code}}</div>
+                                                <div style="font-weight: bold; color: #ef4444;">+{{total_oth_restored | number:3}}</div>
+                                            </div>
+                                            <div ng-show="total_vl_restored > 0" style="flex: 1; min-width: 80px; background: white; padding: 6px; border-radius: 3px; border-left: 2px solid #22c55e; font-size: 11px;">
+                                                <div style="color: #666;">VL</div>
+                                                <div style="font-weight: bold; color: #22c55e;">+{{total_vl_restored | number:3}}</div>
+                                            </div>
+                                            <div ng-show="total_sl_restore > 0" style="flex: 1; min-width: 80px; background: white; padding: 6px; border-radius: 3px; border-left: 2px solid #f59e0b; font-size: 11px;">
+                                                <div style="color: #666;">SL</div>
+                                                <div style="font-weight: bold; color: #f59e0b;">+{{total_sl_restore | number:3}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div ng-if="!cancellation_list || cancellation_list.length === 0" style="text-align: center; padding: 40px 20px;">
+                                    <i class="fa fa-inbox" style="font-size: 48px; color: #ccc; margin-bottom: 15px; display: block;"></i>
+                                    <h4 style="color: #999;">No Cancellation Records</h4>
+                                    <p style="color: #bbb; font-size: 13px;">No cancellation records found for this leave application.</p>
+                                </div>
+
+                                <!-- Cancellation Records List (shown when data exists) -->
+                                <div ng-if="cancellation_list && cancellation_list.length > 0">
+                                    <div ng-repeat="lst in cancellation_list" style="margin-bottom: 15px;">
+                                        <div class="panel panel-success" style="border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); margin-bottom: 0;">
+                                            <!-- Header with Status -->
+                                            <div class="panel-heading" style="border-radius: 8px 8px 0 0; padding: 12px; color: white;">
+                                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                    <div>
+                                                        <h5 style="margin: 0; font-weight: bold;">
+                                                            <strong style="color: white; font-size: 8px; display: block; margin-bottom: 3px;">
+                                                                LEAVE TYPE
+                                                            </strong>
+                                                            <span style="color: white; font-size: 14px;">
+                                                                {{lst.leavetype_descr}} ({{lst.leavetype_code}})
+                                                            </span>
+                                                        </h5>
+                                                    </div>
+                                                    <div style="text-align: right;">
+                                                        <span class="badge" style="background: rgba(255,255,255,0.3); padding: 6px 12px; font-size: 11px;">
+                                                            {{lst.leave_cancel_status == 'F' ? 'APPROVED' : (lst.leave_cancel_status == 'S' ? 'SUBMITTED' : lst.leave_cancel_status)}}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Body Content -->
+                                            <div class="panel-body" style="padding: 15px;">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div style="margin-bottom: 12px;">
+                                                            <strong style="color: #666; font-size: 8px; display: block; margin-bottom: 5px;">
+                                                                <i class="fa fa-calendar"></i> CANCEL DATE
+                                                            </strong>
+                                                            <span style="color: #333; font-size: 12px;font-weight:bold;font-style:oblique">
+                                                                {{lst.leave_cancel_date.replace('/Date(','').replace(')/','') | date:'MMMM dd, yyyy'}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div style="margin-bottom: 12px;">
+                                                            <strong style="color: #666; font-size: 8px; display: block; margin-bottom: 10px;">
+                                                                <i class="fa fa-tag"></i> CANCEL TYPE
+                                                            </strong>
+                                                            <span class="label" ng-class="{
+                                                                'label-danger': lst.leave_cancel_type == 'CNCEL_ONLY',
+                                                                'label-warning': lst.leave_cancel_type == 'HOL',
+                                                                'label-info': lst.leave_cancel_type == 'FL_TRNFR',
+                                                                'label-primary': lst.leave_cancel_type == 'WORK_SUS'
+                                                                }" style="font-size: 11px;  ">
+                                                                {{lst.leave_cancel_type == 'CNCEL_ONLY' ? 'Cancel Only' :
+                                                                  lst.leave_cancel_type == 'HOL' ? 'Holiday' :
+                                                                  lst.leave_cancel_type == 'FL_TRNFR' ? 'Transfer' :
+                                                                  lst.leave_cancel_type == 'WORK_SUS' ? 'Work Suspension' : lst.leave_cancel_type}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div style="margin-bottom: 12px;">
+                                                            <strong style="color: #666; font-size: 8px; display: block; margin-bottom: 10px;">
+                                                                <i class="fa fa-check"></i> POSTING STATUS
+                                                            </strong>
+                                                            <span class="label {{lst.is_posted==1?'label-danger':'label-success'}}" style="font-size: 11px; ">
+                                                                {{lst.is_posted==1?'Posted':'Not Posted'}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div style="margin-bottom: 12px;" ng-show="lst.leave_transfer_date">
+                                                            <strong style="color: #666; font-size: 8px; display: block; margin-bottom: 5px;">
+                                                                <i class="fa fa-exchange"></i> TRANSFER DATE
+                                                            </strong>
+                                                            <span style="color: #333; font-size: 12px; font-weight: bold;font-style:oblique">
+                                                                {{lst.leave_transfer_date.replace('/Date(','').replace(')/','') | date:'MMMM dd, yyyy'}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 m-t-sm">
+                                                        <strong style="color: #666; font-size: 8px; display: block; margin-bottom: 5px;">
+                                                            <i class="fa fa-info-circle"></i> REASON
+                                                        </strong>
+                                                        <div style="background: #f0f0f0; padding: 8px; border-radius: 4px; font-size: 12px; color: #444; min-height: 50px;">
+                                                            {{lst.reason || 'No reason provided'}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group row">
+                            <div class="col-lg-2">
+                                <button class="btn btn-danger pull-left" ng-click="btn_return_cancellation()">Return Cancellation</button>
+                            </div>
+                            <div class="col-lg-1 text-left">
+                                <label>Return Remarks</label>
+                            </div>
+                            <div class="col-lg-7">
+                                <textarea class="form-control" ng-model="returned_remarks" id="returned_remarks"></textarea>
+                            </div>
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary" ng-click="btn_approve_cancellation()">Approve Cancellation</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="modal_posted_leave" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-            <div class="modal-dialog modal-md" >
+            <div class="modal-dialog modal-md">
                 <div class="modal-content ">
                     <div class="modal-header blue-bg text-white">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -518,7 +740,7 @@
                                                 {{lst.employee_name_waiver}}
                                             </strong>
                                             &nbsp;&nbsp;
-                                        
+
                                             <br />
                                             <small class="text-muted">{{lst.department_short_name_waiver}}</small>
                                         </h3>

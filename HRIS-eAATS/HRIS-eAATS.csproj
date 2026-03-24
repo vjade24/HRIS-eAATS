@@ -293,6 +293,7 @@
     <Compile Include="Controllers\cStepIncrementController.cs" />
     <Compile Include="Controllers\cTimeScheduleController.cs" />
     <Compile Include="Controllers\cTravelTypeController.cs" />
+    <Compile Include="Controllers\cTSECheckController.cs" />
     <Compile Include="Controllers\cVLConversionDetailsController.cs" />
     <Compile Include="Controllers\cVLWithOutPayController.cs" />
     <Compile Include="Controllers\cWellnessMonitoringController.cs" />
@@ -1151,6 +1152,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_printing_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leave_restore_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_search_list_Result.cs">
@@ -2032,6 +2036,7 @@
     <Content Include="Angular\ng-cStepIncrement.js" />
     <Content Include="Angular\ng-cTimeSchedule.js" />
     <Content Include="Angular\ng-cTravelType.js" />
+    <Content Include="Angular\ng-cTSECheck.js" />
     <Content Include="Angular\ng-cVLConversionDetails.js" />
     <Content Include="Angular\ng-cVLWithOutPay.js" />
     <Content Include="Angular\ng-cWellnessMonitoring.js" />
@@ -3038,6 +3043,7 @@
     <Content Include="Views\cLoyalty\Index.cshtml" />
     <Content Include="Views\cStepIncrement\Index.cshtml" />
     <Content Include="Views\cWellnessMonitoring\Index.cshtml" />
+    <Content Include="Views\cTSECheck\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

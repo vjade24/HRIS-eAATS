@@ -91,7 +91,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                             else if (full["url_name"] == "../cCancellation")
                             {
                                 return '<div style="display:none;">' + full["url_name"] + '</div>' + '<center><div class="btn-group">' +
-                                    '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_preview_cancellation(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Approve Cancellation"><i class="fa fa-thumbs-up"></i> Approve Cancellation <span class="badge badge-danger">' + full["ledger_status"] +'</span></button >' +
+                                    '<button type="button" class="btn btn-primary btn-xs"  ng-click="btn_preview_cancellation_new(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Approve Cancellation"><i class="fa fa-thumbs-up"></i> Approve Cancellation <span class="badge badge-danger">' + full["ledger_status"] +'</span></button >' +
                                         '</div></center>';
                             }
                             else
@@ -162,7 +162,6 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
     }
 
     s.btn_redirect_posting = function (lst) {
-        console.log(s.datalistgrid[lst]);
         h.post("../Menu/RedirectParam", {
             par_empl_id             : s.datalistgrid[lst].empl_id
             , par_department_code   : s.datalistgrid[lst].department_code
@@ -207,7 +206,6 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                 //    init_table_data([]);
                 //}
                 //init_table_data([]);
-                console.log(d.data.info_list2)
                 s.oTable.fnClearTable();
                 s.datalistgrid = d.data.info_list2;
                 if (d.data.info_list2.length > 0)
@@ -454,17 +452,159 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         })
     }
 
+    s.btn_preview_cancellation_new = function (row_id)
+    {
+        h.post("../Menu/CheckIfRunningLeaveApplication",
+        {
+             p_leave_ctrlno : s.datalistgrid[row_id].leave_ctrlno
+            ,p_empl_id      : s.datalistgrid[row_id].empl_id
+        }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                if (d.data.data.length > 0)
+                {
+                    var status_descr = "";
+                    if (d.data.data[0].approval_status.toString().trim()  == "R")
+                    {
+                        status_descr = "(Reviewed)";
+                    }
+                    else if (d.data.data[0].approval_status.toString().trim() == "F")
+                    {
+                        status_descr = "(Final Approved)";
+                    }
+                    else if (d.data.data[0].approval_status.toString().trim() == "S")
+                    {
+                        status_descr = "(Submitted)";
+                    }
+                    swal("This employee has already processed " + status_descr + " Leave Application", "You cannot Proceed!", { icon: "warning" });
+                }
+                else
+                {
+
+                    var application_nbr = s.datalistgrid[row_id].leave_ctrlno
+                    var empl_id         = s.datalistgrid[row_id].empl_id
+                    var ReportName      = "CrystalReport"
+                    var SaveName        = "Crystal_Report"
+                    var ReportType      = "inline"
+                    var ReportPath      = ""
+                    var sp              = ""
+                    ReportPath          = "~/Reports/cryLeavePermission/cryLeaveCancellation.rpt";
+                    sp                  = "sp_leave_application_cancel_tbl_rep,par_empl_id," + empl_id + ",par_leave_ctrlno," + application_nbr;
+
+                    s.row_id_pass       = "";
+                    s.row_id_pass       = row_id;
+                    var cancel_leave_type   = s.datalistgrid[row_id].leave_type_code || "";
+                    // Fetch all employee leave balances
+                    h.post("../cLeaveLedger/ReloadBalances",
+                    {
+                        par_empl_id: empl_id
+                    }).then(function (d) 
+                    {
+                        if (d.data.message == "success" && d.data.data_all_bal)
+                        {
+                            // Get all balances
+                            var balances = d.data.data_all_bal;
+                            // Get VL balance
+                            var vl_balance = balances.find(b => b.leavetype_code == "VL");
+                            s.employee_vl_balance = vl_balance ? parseFloat(vl_balance.leaveledger_balance_current) || 0 : 0;
+
+                            // Get SL balance
+                            var sl_balance              = balances.find(b => b.leavetype_code == "SL");
+                            s.employee_sl_balance       = sl_balance ? parseFloat(sl_balance.leaveledger_balance_current) || 0 : 0;
+
+                            // Get the cancelled leave type balance
+                            var cancel_balance          = balances.find(b => b.leavetype_code == cancel_leave_type);
+                            s.employee_cancel_balance   = cancel_balance ? parseFloat(cancel_balance.leaveledger_balance_current) || 0 : 0;
+                            s.cancel_leave_type         = cancel_leave_type;
+                            s.cancel_leave_type_name    = cancel_balance ? cancel_balance.leavetype_descr || cancel_leave_type : cancel_leave_type;
+
+                            s.balance_last_updated = new Date();
+
+                            if (!s.$$phase) {
+                                s.$apply();
+                            }
+                        }
+                    });
+
+                    h.post("../Menu/GetCancellation", { empl_id: empl_id, leave_ctrlno: application_nbr }).then(function (d)
+                    {
+                        s.cancellation_list = []
+                        if (d.data.message == "success")
+                        {
+                            s.cancellation_list = d.data.data
+                            s.total_vl_restored     = 0
+                            s.total_sl_restore      = 0
+                            s.total_oth_restored    = 0
+                            for (var i = 0; i < s.cancellation_list.length; i++)
+                            {
+                                s.total_vl_restored     = s.total_vl_restored   + s.cancellation_list[i].vl_restored 
+                                s.total_sl_restore      = s.total_sl_restore    + s.cancellation_list[i].sl_restore  
+                                s.total_oth_restored    = s.total_oth_restored  + s.cancellation_list[i].oth_restored
+                            }
+                        }
+                    })
+
+
+                    // *******************************************************
+                    // *** VJA : 2021-07-14 - Validation and Loading hide ****
+                    // *******************************************************
+                    $("#loading_data").modal({ keyboard: false, backdrop: "static" })
+                    var iframe = document.getElementById('iframe_print_preview_cancellation');
+                    var iframe_page = $("#iframe_print_preview_cancellation")[0];
+                    iframe.style.visibility = "hidden";
+
+                    s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                                    + "&ReportName=" + ReportName
+                                    + "&SaveName=" + SaveName
+                                    + "&ReportType=" + ReportType
+                                    + "&ReportPath=" + ReportPath
+                                    + "&id=" + sp //+ parameters
+
+                    if (!/*@cc_on!@*/0) { //if not IE
+                        iframe.onload = function () {
+                            iframe.style.visibility = "visible";
+                            $("#loading_data").modal("hide")
+                        };
+                    }
+                    else if (iframe_page.innerHTML()) {
+                        // get and check the Title (and H tags if you want)
+                        var ifTitle = iframe_page.contentDocument.title;
+                        if (ifTitle.indexOf("404") >= 0) {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                        else if (ifTitle != "") {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                    }
+                    else {
+                        iframe.onreadystatechange = function () {
+                            if (iframe.readyState == "complete") {
+                                iframe.style.visibility = "visible";
+                                $("#loading_data").modal("hide")
+                            }
+                        };
+                    }
+                    iframe.src = s.embed_link;
+                    $('#modal_cancellation').modal({ backdrop: 'static', keyboard: false });
+                    // *******************************************************
+                    // *******************************************************
+                }
+            }
+            else
+            {
+                swal("There Something wrong", d.data.message, { icon: "warning" });
+            }
+
+        })
+    }
+
+
 
     s.btn_approve_cancellation = function ()
     {   
-        //var store_date = {
-        //                     par_empl_id            : s.datalistgrid[s.row_id_pass].empl_id
-        //                    ,par_department_code    : s.datalistgrid[s.row_id_pass].department_code
-        //                    ,par_employee_name      : s.datalistgrid[s.row_id_pass].employee_name
-        //                    ,par_leavetype_code     : s.datalistgrid[s.row_id_pass].leave_type_code
-        //                    ,par_view_mode          : $("#ddl_rep_mode option:selected").val()
-        //                  }
-
         h.post("../Menu/CheckIfPosted",
         {
             p_leave_ctrlno     : s.datalistgrid[s.row_id_pass].leave_ctrlno
@@ -478,81 +618,6 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                 {
                     $('#details_remarks').val("")
                     $('#modal_posted_leave').modal({ backdrop: 'static', keyboard: false });
-
-                    //swal("This Employee has already Leave Ledger Posted, Do you want to Restore Leave Application Balance?",
-                    //{
-                    //    buttons: {
-                    //        cancel: "Close!",
-                    //        restore:
-                    //        {
-                    //            text    : "Yes, Approved Cancellation and Restore Leave Application Balance",
-                    //            restore : "restore",
-                    //        }
-                    //    },
-                    //}).then((value) => {
-                    //    switch (value)
-                    //    {
-                    //        case "restore":
-                    //            h.post("../Menu/CancelLederPosted",
-                    //            {
-                    //                p_leave_ctrlno     : s.datalistgrid[s.row_id_pass].leave_ctrlno
-                    //                ,p_empl_id         : s.datalistgrid[s.row_id_pass].empl_id
-                    //            }).then(function (d)
-                    //            {
-                    //                if (d.data.message == "success")
-                    //                {
-                    //                    s.RetrieveList();
-                    //                    $('#modal_print_preview').modal("hide");
-                                        
-                    //                    swal("Successfully Approved and Restored Leave Application Balance","Do you want to Redirect to Leave Ledger?",
-                    //                    {
-                    //                        icon: "success",
-                    //                        buttons:
-                    //                        {
-                    //                            cancel  : "No!",
-                    //                            catch   :
-                    //                            {
-                    //                                text    : "Go, Redirect to Leave Ledger",
-                    //                                value   : "catch",
-                    //                            },
-                    //                        },
-                    //                    }).then((value) =>
-                    //                    {
-                    //                        switch (value)
-                    //                        { 
-                    //                            case "catch":
-                    //                                h.post("../Menu/RedirectParam",
-                    //                                    {
-                    //                                         par_empl_id            : store_date.par_empl_id        
-                    //                                        ,par_department_code    : store_date.par_department_code
-                    //                                        ,par_employee_name      : store_date.par_employee_name  
-                    //                                        ,par_leavetype_code     : store_date.par_leavetype_code 
-                    //                                        ,par_view_mode          : store_date.par_view_mode      
-                    //                                    }).then(function (d)
-                    //                                    {
-                    //                                        if (d.data == "success")
-                    //                                        {
-                    //                                            location.href = "../cLeaveLedger/Index"
-                    //                                        }
-                    //                                    });
-                    //                                break;
-                    //                            default:
-                    //                                swal("You pressed No!");
-                    //                        }
-                    //                    });
-                    //                }
-                    //                else
-                    //                {
-                    //                    swal("There Something wrong", d.data.message, { icon: "warning" });
-                    //                }
-                                    
-                    //            })
-
-                    //            break;
-                    //        default:
-                    //            swal("Closed!");
-                    //    }
-                    //});
                 }
                 else
                 {
@@ -584,6 +649,51 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
         });
     }
 
+    s.btn_approve_cancellation_new = function ()
+    {
+        h.post("../Menu/CheckIfPosted",
+        {
+            p_leave_ctrlno     : s.datalistgrid[s.row_id_pass].leave_ctrlno
+            ,p_empl_id         : s.datalistgrid[s.row_id_pass].empl_id
+        }
+        ).then(function (i)
+        {
+            if (i.data.message == "success") 
+            {
+                if (i.data.data.length > 0)
+                {
+                    $('#details_remarks').val("")
+                    $('#modal_posted_leave').modal({ backdrop: 'static', keyboard: false });
+                }
+                else
+                {
+                    $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+                    h.post("../Menu/ApprovedCancellation",
+                     {
+                         empl_id        : s.datalistgrid[s.row_id_pass].empl_id
+                         ,leave_ctrlno  : s.datalistgrid[s.row_id_pass].leave_ctrlno
+                     }).then(function (d)
+                     {
+                         if (d.data.message == "success")
+                         {
+                             s.RetrieveList();
+                             $('#modal_print_preview').modal("hide");
+                             swal("Successfully Approved","", { icon: "success" });
+                         }
+                         else
+                         {
+                             swal("There Something wrong", d.data.message, { icon: "warning" });
+                         }
+                         $("#modal_initializing").modal("hide");
+                     });
+                }
+            }
+            else
+            {
+                swal("There Something wrong", i.data.message, { icon: "warning" });
+            }
+        });
+    }
 
     s.RetrieveList = function ()
     {

@@ -4157,6 +4157,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_user_id" Type="varchar" Mode="In" />
           <Parameter Name="par_show_printed" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_leave_restore" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_leave_ctrlno" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_leave_search_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_year" Type="varchar" Mode="In" />
@@ -4687,9 +4691,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <Function Name="sp_vl_fractionconvertion_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_vl_wop_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_vlslearned_dailybasis_tbl_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="sp_wellness_application_schedules" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_application" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_wellness_breakdown_applied" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_applied_date" Type="date" Mode="In" />
@@ -9499,8 +9500,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_active_only" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_wellness_application_schedules" ReturnType="Collection(HRIS_ATSModel.sp_wellness_application_schedules_Result)">
-            <Parameter Name="par_application" Mode="In" Type="String" />
+          <FunctionImport Name="sp_leave_restore" ReturnType="Collection(HRIS_ATSModel.sp_leave_restore_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -13734,14 +13736,23 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="Decimal" Name="total_2nd" Nullable="false" Precision="19" />
           <Property Type="String" Name="empl_photo_img" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_wellness_application_schedules_Result">
-          <Property Type="DateTime" Name="tse_date" Nullable="false" />
-          <Property Type="String" Name="time_in_am" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="time_out_am" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="time_in_pm" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="time_out_pm" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="ts_descr" Nullable="true" MaxLength="150" />
-          <Property Type="Double" Name="ts_day_equivalent" Nullable="true" />
+        <ComplexType Name="sp_leave_restore_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="DateTime" Name="leave_cancel_date" Nullable="false" />
+          <Property Type="DateTime" Name="leave_transfer_date" Nullable="true" />
+          <Property Type="String" Name="reason" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="leave_cancel_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="leave_cancel_type" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="leavetype_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leavetype_descr" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="leavesubtype_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="leaveledger_period" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="is_posted" Nullable="false" />
+          <Property Type="Decimal" Name="date_num_day" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="vl_restored" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="sl_restore" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="oth_restored" Nullable="true" Precision="19" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -21144,16 +21155,25 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_wellness_application_schedules" FunctionName="HRIS_ATSModel.Store.sp_wellness_application_schedules">
+          <FunctionImportMapping FunctionImportName="sp_leave_restore" FunctionName="HRIS_ATSModel.Store.sp_leave_restore">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_application_schedules_Result">
-                <ScalarProperty Name="tse_date" ColumnName="tse_date" />
-                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
-                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
-                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
-                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
-                <ScalarProperty Name="ts_descr" ColumnName="ts_descr" />
-                <ScalarProperty Name="ts_day_equivalent" ColumnName="ts_day_equivalent" />
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_restore_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
+                <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="leave_cancel_status" ColumnName="leave_cancel_status" />
+                <ScalarProperty Name="leave_cancel_type" ColumnName="leave_cancel_type" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
+                <ScalarProperty Name="leavesubtype_descr" ColumnName="leavesubtype_descr" />
+                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
+                <ScalarProperty Name="is_posted" ColumnName="is_posted" />
+                <ScalarProperty Name="date_num_day" ColumnName="date_num_day" />
+                <ScalarProperty Name="vl_restored" ColumnName="vl_restored" />
+                <ScalarProperty Name="sl_restore" ColumnName="sl_restore" />
+                <ScalarProperty Name="oth_restored" ColumnName="oth_restored" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

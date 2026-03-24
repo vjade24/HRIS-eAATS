@@ -746,5 +746,279 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult GetCancellation(string empl_id, string leave_ctrlno)
+        {
+            try
+            {
+                var data = db_ats.sp_leave_restore(empl_id,leave_ctrlno).ToList();
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public async Task<ActionResult> ApprovedCancellation(string empl_id, string leave_ctrlno)
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+                var data    = db_ats.sp_leave_restore(empl_id, leave_ctrlno).ToList();
+                var message = "";
+                var user_id = Session["user_id"].ToString().Trim();
+
+                if (data.Count == 0)
+                {
+                    return Json(new { message = "no data found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                var data_sp = data.FirstOrDefault();
+
+                // ======================================================
+                // STEP 1: If posted, restore leave ledger balances
+                // ======================================================
+                if (data_sp.is_posted == 1)
+                {
+                    var query_hdr = db_ats.lv_ledger_hdr_tbl
+                        .Where(a => a.empl_id == data_sp.empl_id && a.leave_ctrlno == data_sp.leave_ctrlno)
+                        .OrderByDescending(a => a.created_dttm)
+                        .FirstOrDefault();
+
+                    if (query_hdr == null)
+                    {
+                        return Json(new { message = "Ledger header not found" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    // Mark the existing ledger as cancelled
+                    query_hdr.approval_status = "L";
+
+                    // Generate new ledger control number for the restore entry
+                    var new_appl_nbr       = db_ats.sp_generate_appl_nbr("lv_ledger_hdr_tbl", 10, "ledger_ctrl_no").FirstOrDefault();
+                    var leaveledger_date   = DateTime.Now.Year == data_sp.leave_cancel_date.Year
+                                             ? DateTime.Now
+                                             : new DateTime(data_sp.leave_cancel_date.Year, data_sp.leave_cancel_date.Month, 1).AddMonths(1).AddDays(-1);
+                    var leaveledger_period = string.Join(", ", data.Select(x => x.leave_cancel_date).ToList().Select(d => d.ToString("M/d/yyyy")));
+                    var leave_count        = data.Sum(a => a.date_num_day);
+
+                    // Create new ledger header for balance restoration
+                    lv_ledger_hdr_tbl lv_hdr    = new lv_ledger_hdr_tbl();
+                    lv_hdr.ledger_ctrl_no           = new_appl_nbr.ToString()          ;
+                    lv_hdr.empl_id                  = query_hdr.empl_id                ;
+                    lv_hdr.leaveledger_date         = leaveledger_date                 ;
+                    lv_hdr.leaveledger_period       = query_hdr.lv_nodays == leave_count ? "" : leaveledger_period;
+                    lv_hdr.leavetype_code           = query_hdr.leavetype_code         ;
+                    lv_hdr.leavesubtype_code        = query_hdr.leavesubtype_code      ;
+                    lv_hdr.leaveledger_particulars  = query_hdr.leaveledger_entry_type == "MZ" ? query_hdr.leaveledger_particulars : leave_count.ToString() + "-0-0";
+                    lv_hdr.leaveledger_entry_type   = "T"                              ;
+                    lv_hdr.details_remarks          = "Ledger Post - Cancellation"     ;
+                    lv_hdr.approval_status          = "F"                              ;
+                    lv_hdr.approval_id              = query_hdr.approval_id            ;
+                    lv_hdr.leave_ctrlno             = query_hdr.leave_ctrlno           ;
+                    lv_hdr.date_applied             = query_hdr.date_applied           ;
+                    lv_hdr.created_dttm             = DateTime.Now                     ;
+                    lv_hdr.created_by_user          = user_id                          ;
+                    lv_hdr.updated_dttm             = null                             ;
+                    lv_hdr.updated_by_user          = ""                               ;
+                    lv_hdr.sig_name3_ovrd           = query_hdr.sig_name3_ovrd         ;
+                    lv_hdr.sig_pos3_ovrd            = query_hdr.sig_pos3_ovrd          ;
+                    lv_hdr.lv_nodays                = query_hdr.lv_nodays              ;
+                    lv_hdr.lwop_date                = query_hdr.lwop_date              ;
+                    lv_hdr.lwop_body_1              = query_hdr.lwop_body_1            ;
+                    lv_hdr.lwop_body_2              = query_hdr.lwop_body_2            ;
+
+                    // Create ledger detail records for each leave type to restore
+                    List<lv_ledger_dtl_tbl> lv_dtl = new List<lv_ledger_dtl_tbl>();
+
+                    var sl  = data.Sum(a => a.sl_restore) ?? 0;
+                    var vl  = data.Sum(a => a.vl_restored) ?? 0;
+                    var oth = data.Sum(a => a.oth_restored) ?? 0;
+
+                    if (sl > 0)
+                    {
+                        var sl_bal = db_ats.sp_leaveledger_curr_bal(query_hdr.empl_id, DateTime.Now.Year.ToString(), "SL").FirstOrDefault();
+                        lv_dtl.Add(new lv_ledger_dtl_tbl
+                        {
+                             ledger_ctrl_no               = new_appl_nbr.ToString()
+                            ,leavetype_code               = "SL"
+                            ,leavesubtype_code            = ""
+                            ,leaveledger_balance_as_of    = sl_bal != null ? sl_bal.leaveledger_balance_current : 0
+                            ,leaveledger_restore_deduct   = sl
+                            ,leaveledger_abs_und_wp       = 0
+                            ,leaveledger_abs_und_wop      = 0
+                        });
+                    }
+                    if (vl > 0)
+                    {
+                        var vl_bal = db_ats.sp_leaveledger_curr_bal(query_hdr.empl_id, DateTime.Now.Year.ToString(), "VL").FirstOrDefault();
+                        lv_dtl.Add(new lv_ledger_dtl_tbl
+                        {
+                             ledger_ctrl_no               = new_appl_nbr.ToString()
+                            ,leavetype_code               = "VL"
+                            ,leavesubtype_code            = ""
+                            ,leaveledger_balance_as_of    = vl_bal != null ? vl_bal.leaveledger_balance_current : 0
+                            ,leaveledger_restore_deduct   = vl
+                            ,leaveledger_abs_und_wp       = 0
+                            ,leaveledger_abs_und_wop      = 0
+                        });
+                    }
+                    if (oth > 0)
+                    {
+                        var oth_bal = db_ats.sp_leaveledger_curr_bal(query_hdr.empl_id, DateTime.Now.Year.ToString(), query_hdr.leavetype_code).FirstOrDefault();
+                        lv_dtl.Add(new lv_ledger_dtl_tbl
+                        {
+                             ledger_ctrl_no               = new_appl_nbr.ToString()
+                            ,leavetype_code               = query_hdr.leavetype_code
+                            ,leavesubtype_code            = ""
+                            ,leaveledger_balance_as_of    = oth_bal != null ? oth_bal.leaveledger_balance_current : 0
+                            ,leaveledger_restore_deduct   = oth
+                            ,leaveledger_abs_und_wp       = 0
+                            ,leaveledger_abs_und_wop      = 0
+                        });
+                    }
+
+                    db_ats.lv_ledger_hdr_tbl.Add(lv_hdr);
+                    if (lv_dtl.Any())
+                    {
+                        db_ats.lv_ledger_dtl_tbl.AddRange(lv_dtl);
+                    }
+                }
+
+                // ======================================================
+                // STEP 2: Handle leave transfer for applicable cancel types
+                // ======================================================
+                var lv_app_hdr      = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == leave_ctrlno).FirstOrDefault();
+                var lv_app_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == leave_ctrlno).ToList();
+                var lv_app_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == leave_ctrlno).ToList();
+
+                foreach (var item in data)
+                {
+                    // Insert transferred leave application if transfer date exists
+                    if (item.leave_transfer_date != null)
+                    {
+                        decimal date_num_day_total = 0;
+                        if (lv_app_dtl[0].leave_date_from == lv_app_dtl[0].leave_date_to)
+                        {
+                            date_num_day_total = decimal.Parse(lv_app_dtl[0].date_num_day_total.ToString());
+                        }
+                        else
+                        {
+                            date_num_day_total = (lv_app_hdr.leave_type_code == "CTO" ? 8 : 1);
+                        }
+
+                        var new_leave_nbr = db_ats.sp_generate_appl_nbr("leave_application_hdr_tbl", 8, "leave_ctrlno").FirstOrDefault();
+
+                        leave_application_hdr_tbl data_hdr_insert = new leave_application_hdr_tbl();
+                        data_hdr_insert.leave_ctrlno                  = new_leave_nbr.ToString()       ;
+                        data_hdr_insert.empl_id                       = lv_app_hdr.empl_id             ;
+                        data_hdr_insert.date_applied                  = lv_app_hdr.date_applied        ;
+                        data_hdr_insert.leave_comments                = lv_app_hdr.leave_comments      ;
+                        data_hdr_insert.leave_type_code               = lv_app_hdr.leave_type_code     ;
+                        data_hdr_insert.leave_subtype_code            = lv_app_hdr.leave_subtype_code  ;
+                        data_hdr_insert.number_of_days                = date_num_day_total              ;
+                        data_hdr_insert.sl_restore_deduct             = (lv_app_hdr.leave_type_code == "SL" ? date_num_day_total : 0);
+                        data_hdr_insert.vl_restore_deduct             = (lv_app_hdr.leave_type_code == "VL" || lv_app_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
+                        data_hdr_insert.oth_restore_deduct            = lv_app_hdr.oth_restore_deduct  ;
+                        data_hdr_insert.leave_class                   = lv_app_hdr.leave_class         ;
+                        data_hdr_insert.leave_descr                   = lv_app_hdr.leave_descr         ;
+                        data_hdr_insert.details_remarks               = "Tranfered Leave"              ;
+                        data_hdr_insert.approval_status               = "N"                            ;
+                        data_hdr_insert.posting_status                = false                          ;
+                        data_hdr_insert.approval_id                   = ""                             ;
+                        data_hdr_insert.justification_flag            = lv_app_hdr.justification_flag  ;
+                        data_hdr_insert.commutation                   = lv_app_hdr.commutation         ;
+                        data_hdr_insert.created_dttm                  = DateTime.Now                   ;
+                        data_hdr_insert.created_by_user               = user_id                        ;
+                        data_hdr_insert.updated_dttm                  = null                           ;
+                        data_hdr_insert.updated_by_user               = ""                             ;
+                        data_hdr_insert.leaveledger_date              = lv_app_hdr.leaveledger_date    ;
+                        data_hdr_insert.leaveledger_balance_as_of_sl  = lv_app_hdr.leaveledger_balance_as_of_sl ;
+                        data_hdr_insert.leaveledger_balance_as_of_vl  = lv_app_hdr.leaveledger_balance_as_of_vl ;
+                        data_hdr_insert.leaveledger_balance_as_of_oth = lv_app_hdr.leaveledger_balance_as_of_oth;
+                        data_hdr_insert.leaveledger_balance_as_of_sp  = lv_app_hdr.leaveledger_balance_as_of_sp ;
+                        data_hdr_insert.leaveledger_balance_as_of_fl  = lv_app_hdr.leaveledger_balance_as_of_fl ;
+                        data_hdr_insert.sp_restore_deduct             = (lv_app_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
+                        data_hdr_insert.fl_restore_deduct             = (lv_app_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
+                        data_hdr_insert.first_name                    = lv_app_hdr.first_name          ;
+                        data_hdr_insert.last_name                     = lv_app_hdr.last_name           ;
+                        data_hdr_insert.middle_name                   = lv_app_hdr.middle_name         ;
+                        data_hdr_insert.employment_type               = lv_app_hdr.employment_type     ;
+                        data_hdr_insert.department_code               = lv_app_hdr.department_code     ;
+                        data_hdr_insert.department_short_name         = lv_app_hdr.department_short_name;
+                        data_hdr_insert.position_long_title           = lv_app_hdr.position_long_title ;
+                        data_hdr_insert.monthly_rate                  = lv_app_hdr.monthly_rate        ;
+                        data_hdr_insert.suffix_name                   = lv_app_hdr.suffix_name         ;
+                        data_hdr_insert.courtisy_title                = lv_app_hdr.courtisy_title      ;
+                        data_hdr_insert.postfix_name                  = lv_app_hdr.postfix_name        ;
+
+                        leave_application_dtl_tbl data_dtl_insert = new leave_application_dtl_tbl();
+                        data_dtl_insert.leave_ctrlno                  = new_leave_nbr.ToString()                                    ;
+                        data_dtl_insert.leave_date_from               = DateTime.Parse(item.leave_transfer_date.ToString())             ;
+                        data_dtl_insert.leave_date_to                 = DateTime.Parse(item.leave_transfer_date.ToString())             ;
+                        data_dtl_insert.date_num_day                  = lv_app_dtl[0].date_num_day                                     ;
+                        data_dtl_insert.date_num_day_total = date_num_day_total                                           ;
+                        data_dtl_insert.empl_id                       = lv_app_dtl[0].empl_id                                          ;
+                        data_dtl_insert.rcrd_status                   = "N"                                                            ;
+
+                        db_ats.leave_application_hdr_tbl.Add(data_hdr_insert);
+                        db_ats.leave_application_dtl_tbl.Add(data_dtl_insert);
+
+                        if (lv_app_dtl_cto.Count > 0)
+                        {
+                            leave_application_dtl_cto_tbl data_dtl_cto_insert = new leave_application_dtl_cto_tbl();
+                            data_dtl_cto_insert.leave_ctrlno    = new_leave_nbr.ToString()                            ;
+                            data_dtl_cto_insert.leave_date_from = DateTime.Parse(item.leave_transfer_date.ToString())     ;
+                            data_dtl_cto_insert.leave_date_to   = DateTime.Parse(item.leave_transfer_date.ToString())     ;
+                            data_dtl_cto_insert.cto_remarks     = lv_app_dtl_cto[0].cto_remarks                          ;
+                            db_ats.leave_application_dtl_cto_tbl.Add(data_dtl_cto_insert);
+                        }
+                        
+                    }
+                }
+
+                // ======================================================
+                // STEP 3: Update cancellation status to Final Approved
+                // ======================================================
+                var chk_aprv = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == leave_ctrlno).ToList();
+
+                chk_aprv.ForEach(a => a.leave_cancel_status = "F");
+                chk_aprv.ForEach(a => a.final_approved_user = user_id);
+                chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
+
+                // ======================================================
+                // STEP 4: Check if all days are cancelled and update leave application status
+                // ======================================================
+                var cancel_count = chk_aprv.Count;
+                var days_count   = db_ats.leave_application_dtl_tbl
+                                    .Where(b => b.empl_id == empl_id && b.leave_ctrlno == leave_ctrlno)
+                                    .Sum(x => DbFunctions.DiffDays(DbFunctions.TruncateTime(x.leave_date_from), DbFunctions.TruncateTime(x.leave_date_to)) + 1);
+
+                if (days_count == cancel_count && lv_app_hdr != null)
+                {
+                    lv_app_hdr.posting_status  = false;
+                    lv_app_hdr.approval_status = "L";
+                    lv_app_dtl.ForEach(a => a.rcrd_status = "L");
+                }
+
+                // ======================================================
+                // STEP 5: Insert Leave Ledger History
+                // ======================================================
+                var appl_status = data_sp.is_posted == 1 ? "Cancellation Approved & Balance Restored" : "Cancellation Approved";
+                db_ats.sp_lv_ledger_history_insert("", leave_ctrlno, empl_id, appl_status, "", user_id);
+
+                // ======================================================
+                // STEP 6: Save all changes
+                // ======================================================
+                await db_ats.SaveChangesAsync();
+                message = "success";
+
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.InnerException != null ? e.InnerException.Message : e.Message;
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

@@ -5592,13 +5592,17 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_monitoring_list_Result>("sp_wellness_monitoring_list", par_payroll_yearParameter, par_department_codeParameter, par_employment_typeParameter, par_active_onlyParameter);
         }
     
-        public virtual ObjectResult<sp_wellness_application_schedules_Result> sp_wellness_application_schedules(string par_application)
+        public virtual ObjectResult<sp_leave_restore_Result> sp_leave_restore(string par_empl_id, string par_leave_ctrlno)
         {
-            var par_applicationParameter = par_application != null ?
-                new ObjectParameter("par_application", par_application) :
-                new ObjectParameter("par_application", typeof(string));
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_wellness_application_schedules_Result>("sp_wellness_application_schedules", par_applicationParameter);
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_restore_Result>("sp_leave_restore", par_empl_idParameter, par_leave_ctrlnoParameter);
         }
     }
 }

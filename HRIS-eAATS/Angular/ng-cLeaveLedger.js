@@ -1094,18 +1094,18 @@
                     s.txtb_empl_name      = $("#ddl_name option:selected").html().substring(6, $("#ddl_name option:selected").html().length);
                     s.SelectEntryType();
 
-                    //var p_empl_id       = $("#ddl_name option:selected").val()
-                    //var p_date_fr       = $("#txtb_date_fr").val()
-                    //var p_date_to       = $("#txtb_date_to").val()
-                    //var p_report_type   = "LEAVE";
-                    //var par_rep_mode    = "2";
-                    //if (s.ddl_leave_type == "CTO" || s.ddl_rep_mode == "3")
-                    //{
-                    //    p_report_type   = "CTO";
-                    //    par_rep_mode    = "3";
-                    //}
-                    //var par_iframe_id = "iframe_print_preview_carding_review"
-                    //s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type, par_iframe_id)
+                    var p_empl_id       = $("#ddl_name option:selected").val()
+                    var p_date_fr       = $("#txtb_date_fr").val()
+                    var p_date_to       = $("#txtb_date_to").val()
+                    var p_report_type   = "LEAVE";
+                    var par_rep_mode    = "2";
+                    if (s.ddl_leave_type == "CTO" || s.ddl_rep_mode == "3")
+                    {
+                        p_report_type   = "CTO";
+                        par_rep_mode    = "3";
+                    }
+                    var par_iframe_id = "iframe_print_preview_carding_review"
+                    s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type, par_iframe_id)
 
                     $('#main_modal').modal({ backdrop: 'static', keyboard: false });
                 }
@@ -1358,17 +1358,17 @@
                     // **************************************************************************
                     // **************************************************************************
 
-                    //var p_empl_id = s.datalistgrid2[row_id].empl_id
-                    //var p_date_fr = $("#txtb_date_fr").val()
-                    //var p_date_to = $("#txtb_date_to").val()
-                    //var p_report_type = "LEAVE";
-                    //var par_rep_mode = "2";
-                    //if (s.datalistgrid2[row_id].leave_type_code == "CTO") {
-                    //    p_report_type = "CTO";
-                    //    par_rep_mode = "3";
-                    //}
-                    //var par_iframe_id = "iframe_print_preview_carding_review"
-                    //s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type,par_iframe_id)
+                    var p_empl_id = s.datalistgrid2[row_id].empl_id
+                    var p_date_fr = $("#txtb_date_fr").val()
+                    var p_date_to = $("#txtb_date_to").val()
+                    var p_report_type = "LEAVE";
+                    var par_rep_mode = "2";
+                    if (s.datalistgrid2[row_id].leave_type_code == "CTO") {
+                        p_report_type = "CTO";
+                        par_rep_mode = "3";
+                    }
+                    var par_iframe_id = "iframe_print_preview_carding_review"
+                    s.RetrieveCardingReport(p_empl_id, p_date_fr, p_date_to, par_rep_mode, p_report_type,par_iframe_id)
                     $('#modal_initializing').modal("hide");
                     $('#main_modal').modal({ backdrop: 'static', keyboard: false })
                 }
