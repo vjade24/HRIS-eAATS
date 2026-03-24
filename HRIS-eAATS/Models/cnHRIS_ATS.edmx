@@ -4687,6 +4687,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <Function Name="sp_vl_fractionconvertion_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_vl_wop_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_vlslearned_dailybasis_tbl_List" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_wellness_application_schedules" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_application" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_wellness_breakdown_applied" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_applied_date" Type="date" Mode="In" />
@@ -9496,6 +9499,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_active_only" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_wellness_application_schedules" ReturnType="Collection(HRIS_ATSModel.sp_wellness_application_schedules_Result)">
+            <Parameter Name="par_application" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -13727,6 +13733,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="Wdays_2nd" Nullable="false" />
           <Property Type="Decimal" Name="total_2nd" Nullable="false" Precision="19" />
           <Property Type="String" Name="empl_photo_img" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_wellness_application_schedules_Result">
+          <Property Type="DateTime" Name="tse_date" Nullable="false" />
+          <Property Type="String" Name="time_in_am" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_out_am" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_in_pm" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="time_out_pm" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="ts_descr" Nullable="true" MaxLength="150" />
+          <Property Type="Double" Name="ts_day_equivalent" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -21126,6 +21141,19 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="Wdays_2nd" ColumnName="Wdays_2nd" />
                 <ScalarProperty Name="total_2nd" ColumnName="total_2nd" />
                 <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_wellness_application_schedules" FunctionName="HRIS_ATSModel.Store.sp_wellness_application_schedules">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_wellness_application_schedules_Result">
+                <ScalarProperty Name="tse_date" ColumnName="tse_date" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="ts_descr" ColumnName="ts_descr" />
+                <ScalarProperty Name="ts_day_equivalent" ColumnName="ts_day_equivalent" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

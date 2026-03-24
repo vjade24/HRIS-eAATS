@@ -246,7 +246,8 @@ namespace HRIS_eAATS.Controllers
                 DateTime applied_date   = DateTime.Parse(flpDtlLst[0].as_dtr_date);
                 var breakdown           = db_ats.sp_wellness_breakdown_applied(empl_id, applied_date, 1).ToList();
                 var wellness_list       = db_ats.sp_authorization_wellness_dayoff_tbl(empl_id, applied_date).ToList();
-                return JSON(new { message = "success", flpDtlLst, breakdown, wellness_list }, JsonRequestBehavior.AllowGet);
+                var schedules           = db_ats.sp_wellness_application_schedules(p_application_nbr).ToList();
+                return JSON(new { message = "success", flpDtlLst, breakdown, wellness_list, schedules }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
