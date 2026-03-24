@@ -2,6 +2,7 @@
     var s = $scope;
     var h = $http;
     var cs = commonScript;
+    s.moment = moment;
 
     s.dis_when_s                = false;
     s.year                      = [];
@@ -13,6 +14,7 @@
     s.wellness                  = false;
     s.wellnesslist              = [];
     s.wellnessbreakdown         = [];
+    s.schedules                 = [];
     s.employment_type           = "";
     s.first_sem_val             = 0;
     s.second_sem_val            = 0;
@@ -774,6 +776,16 @@
                 {
                     if (d.data.message == "success")
                     {
+                        s.schedules = [];
+                        $("#img_view").css("background", "url('https://img-repo.davaodeoro.gov.ph/api/images/serve/"+ s.for_approval_list[row_id]["empl_photo_img"] + "')");
+                        s.txtb_empl_id      = s.for_approval_list[row_id]["empl_id"];
+                        $("#txtb_empl_id").val(s.for_approval_list[row_id]["empl_id"]);
+
+                        if (d.data.schedules.length > 0)
+                        {
+                            s.schedules = d.data.schedules;
+                        }
+
                         $('#btn_approve').prop('ngx-data', row_id);
                         $('#btn_disapprove').prop('ngx-data', row_id);
                         $('#btn_cancel_pending').prop('ngx-data', row_id);
@@ -784,16 +796,16 @@
                         $('#btn_cancel_pending').html('<i class="fa fa-ban"></i> Cancel Pending');
                         $('#btn_cancel').html('<i class="fa fa-ban"></i> Cancel AS');
 
-                        $("#txtb_reviewer_name").val(s.for_approval_list[row_id].reviewed_by)
-                        s.txtb_reviewer_name = s.for_approval_list[row_id].reviewed_by
+                        $("#txtb_reviewer_name").val(s.for_approval_list[row_id].reviewed_by);
+                        s.txtb_reviewer_name = s.for_approval_list[row_id].reviewed_by;
 
                         if (s.for_approval_list[row_id].reviewed_date == "1900-01-01")
                             s.for_approval_list[row_id].reviewed_date = ""
-                        $("#txtb_reviewed_date").val(s.for_approval_list[row_id].reviewed_date)
-                        s.txtb_reviewed_date = s.for_approval_list[row_id].reviewed_date
+                        $("#txtb_reviewed_date").val(moment(s.for_approval_list[row_id].reviewed_date).format("YYYY-MM-DD"));
+                        s.txtb_reviewed_date = moment(s.for_approval_list[row_id].reviewed_date).format("YYYY-MM-DD");
 
-                        $("#txtb_level_name").val(s.for_approval_list[row_id].level1_approved_by)
-                        s.txtb_level_name = s.for_approval_list[row_id].level1_approved_by
+                        $("#txtb_level_name").val(s.for_approval_list[row_id].level1_approved_by);
+                        s.txtb_level_name = s.for_approval_list[row_id].level1_approved_by;
 
 
                         if (s.for_approval_list[row_id].level1_approval_date == "1900-01-01")
@@ -807,7 +819,7 @@
                         s.temp_row_id       = row_id;
                         s.txtb_appl_nbr     = s.for_approval_list[row_id].application_nbr;
                         s.txtb_date_applied = s.for_approval_list[row_id].date_applied;
-                        s.txtb_empl_name = s.for_approval_list[row_id].owner_name;
+                        s.txtb_empl_name    = s.for_approval_list[row_id].owner_name;
 
                         s.txtb_created_by = s.for_approval_list[row_id].creator_name;
                         s.txtb_empl_id      = s.for_approval_list[row_id].empl_id_owner;
@@ -836,14 +848,14 @@
                                 s.firstsem_used = s.wellnesslist
                                     .filter(a => {
                                         var m = moment(a.date_breakdown);
-                                        return m.month() >= 0 && m.month() <= 5; // Jan(0) to June(5)
+                                        return m.month() >= 0 && m.month() <= 5 && (a.approval_status != "D" && a.approval_status != "L"); // Jan(0) to June(5)
                                     })
                                     .reduce((sum, a) => sum + Number(a.val), 0);
 
                                 s.secondsem_used = s.wellnesslist
                                     .filter(a => {
                                         var m = moment(a.date_breakdown);
-                                        return m.month() > 5; // Jan(0) to June(5)
+                                        return m.month() > 5 && (a.approval_status != "D" && a.approval_status != "L"); // Jan(0) to June(5)
                                     })
                                     .reduce((sum, a) => sum + Number(a.val), 0);
                                 s.first_sem_val = 2.5 - (isNaN(s.firstsem_used) ? 0 : s.firstsem_used);
@@ -852,8 +864,8 @@
 
                             }
                             else {
-                                s.first_sem_val = 2.5;
-                                s.second_sem_val = 2.5 + 2.5;
+                                s.first_sem_val     = 2.5;
+                                s.second_sem_val    = 2.5 + 2.5;
                                 s.txtb_wellness_value = 1;
                             }
                         }
