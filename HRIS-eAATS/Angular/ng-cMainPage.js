@@ -45,7 +45,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                     {
                         "mData": "employee_name",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-left btn-block'>" + full["empl_id"] + " - " +data + "</span>"
+                            return "<span class='text-left btn-block'>" + full["empl_id"] + " - " + data + "<small class='badge'>"+ full["department_short_name"] +"</span>"+ "</span>"
                         }
                     },
                     {
@@ -69,7 +69,7 @@ ng_HRD_App.controller("cMainPageCtrlr", function ($scope, $http, $compile, $filt
                     {
                         "mData": "created_date_only",
                         "mRender": function (data, type, full, row) {
-                            return "<span class='text-center btn-block'>" + data + "</span>"
+                            return "<span class='text-center btn-block'>" + moment(data).format('LL') + "</span>"
                         }
                     },
                     {

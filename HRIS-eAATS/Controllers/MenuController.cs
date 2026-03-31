@@ -68,6 +68,8 @@ namespace HRIS_eAATS.Controllers
                 //var info_list           = db_ats.sp_lv_info(user_id).ToList();
                 //var info_list2          = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
                 var info_list2           = from a in db_ats.sp_lv_info2(user_id).ToList()
+                                           join r in db.vw_departments_tbl_list
+                                            on a.department_code equals r.department_code
                                            join b in db_ats.leave_application_mone_tbl 
                                            on new { a.empl_id,a.leave_ctrlno } equals new { b.empl_id,b.leave_ctrlno} into temp
                                            from b in temp.DefaultIfEmpty()
@@ -87,6 +89,7 @@ namespace HRIS_eAATS.Controllers
                                             ,a.url_name    
                                             ,a.ledger_status 
                                             ,a.disapproved_remakrs
+                                            ,r.department_short_name
                                             ,mone = b
                                            };
                 info_list2 = info_list2.OrderBy(a => a.url_name).ToList();

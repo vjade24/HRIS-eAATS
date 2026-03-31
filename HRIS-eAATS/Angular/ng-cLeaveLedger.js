@@ -302,7 +302,7 @@
                                         lastIndex = i; 
                                     }
                                 }
-                                if (s.btn_disable_row == false && (row.row == lastIndex + 1) && lastIndex >=0)
+                                if (s.btn_disable_row == false && ((row.row == lastIndex + 1 && lastIndex >= 0) || (lastIndex == -1 && row.row == 0)))
                                 {
                                     s.btn_disable_row = true;
                                 }
