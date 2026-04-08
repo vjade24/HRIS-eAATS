@@ -139,6 +139,7 @@ namespace HRIS_eAATS.Controllers
                                                     ,a.department_code
                                                     ,a.department_short_name
                                                     ,a.evaluated_by
+                                                    ,a.empl_photo_img
                                                     ,mone = b
                                                 };
                 return JSON(new { message = "success", um , leaveType, leaveSubType, ledgerposting_for_approval_list, lv_admin_dept_list, info_list2_chart, admin_names, log_empl_id }, JsonRequestBehavior.AllowGet);
@@ -285,6 +286,7 @@ namespace HRIS_eAATS.Controllers
                                                     ,a.department_code
                                                     ,a.department_short_name
                                                     ,a.evaluated_by
+                                                    ,a.empl_photo_img
                                                     ,mone = b
                                                 };
 

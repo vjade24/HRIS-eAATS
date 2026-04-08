@@ -3,7 +3,7 @@
     var h           = $http
     var cs          = commonScript
     s.rowLen = "10";
-    s.image_link    = cs.img_link('local') + "/storage/images/photo/thumb/";
+    s.image_link    = cs.img_link('local') + "/images/serve/";
     s.ModalAction   = "ADD";
     s.leavelist = []
     function init()
@@ -49,7 +49,7 @@
         if (!state.id) {
             return state.text;
         }
-        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.id);
+        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.empl_photo_img);
         var $state = $(
             '<a class="pull-left">' +
             '<img alt="image" class="img-circle" width="60" height="60" src="' + baseUrl + '" >' +
@@ -82,13 +82,14 @@
                 processResults: (data, params) => {
                     const results = data.data.map(item => {
                         return {
-                            id          : item.empl_id,
-                            text        : item.empl_id + " - " + item.employee_name,
-                            empl_photo  : item.empl_photo,
-                            pos         : item.position_long_title == null ? "--" : item.position_long_title,
-                            dep         : (item.department_short_name == null ? "" : item.department_short_name ),
-                            dep_code    : (item.department_code == null ? "" : item.department_code),
-                            empl_name   : item.employee_name,
+                            id              : item.empl_id,
+                            text            : item.empl_id + " - " + item.employee_name,
+                            empl_photo      : item.empl_photo,
+                            pos             : item.position_long_title == null ? "--" : item.position_long_title,
+                            dep             : (item.department_short_name == null ? "" : item.department_short_name ),
+                            dep_code        : (item.department_code == null ? "" : item.department_code),
+                            empl_name       : item.employee_name,
+                            empl_photo_img  : item.empl_photo_img + "?thumbnail=1",
                         };
                     });
                     return {

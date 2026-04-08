@@ -5,7 +5,7 @@
     var cs      = commonScript
     s.rowLen    = "10";
     
-    s.image_link        = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.image_link        = cs.img_link('local')+"/images/serve/";
     s.dtl               = []
     s.action_mode       = "";
     s.loading_div       = false;
@@ -104,7 +104,7 @@
                                         var temp        = moment();
                                         for (var i = 0; i < full.dtl.length && i < limit; i++)
                                         {
-                                           img += '<img class="img-circle m-r-n-sm" onerror="this.onerror=null;this.src=\'' + def_images + '\';" width="35" height="35" src="' + s.image_link + full.dtl[i]["empl_id"] + '?v=' + temp + ' " />' 
+                                            img += '<img class="img-circle m-r-n-sm" onerror="this.onerror=null;this.src=\'' + def_images + '\';" width="35" height="35" src="' + s.image_link + full.dtl[i]["empl_photo_img"] + '?v=' + temp + ' " />' 
                                         }
                                         if (full.dtl.length > limit)
                                         {

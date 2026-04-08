@@ -43,7 +43,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.extract_selected = {}
     s.biometrics_location = []
     s.lst_time_out = []
-    s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.image_link = cs.img_link('local') + "/images/serve/";
     s.lbl_shift_flag = "";
     var biotype = [
           { bio_type:"0",bio_type_descr: "AM IN" }
@@ -766,7 +766,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                         //    swal("DTR for this Year-Month is already transmitted to PHRMDO", msg2, {icon:"success"})
                         //}
 
-                        if (((parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10) || parseInt(par_year) > 2024)   && d.data.checkShiftFlag[0].shift_flag == 1)
+                        if (((parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10) || parseInt(par_year) > 2024))
                         {
                             ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
                             sp = "sp_dtr_rep2,par_year," + par_year +
@@ -1133,7 +1133,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         if (!state.id) {
             return state.text;
         }
-        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.id) ;
+         var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.empl_photo_img) ;
         //var $state = $(
         //    '<span><img alt="image" class="img-circle" width="50" height="50" src="' + baseUrl + '" class="img-flag" /> ' + state.text + '</span>'
         //);
@@ -1172,6 +1172,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                             empl_photo: item.empl_photo,
                             pos: item.position_long_title == null ? "--" : item.position_long_title,
                             dep: (item.department_short_name == null ? "" : " (" + item.department_short_name + ")"),
+                            empl_photo_img: item.empl_photo_img + "?thumbnail=1",
                         };
                     });
                     return {
