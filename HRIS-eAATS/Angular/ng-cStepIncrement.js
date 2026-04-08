@@ -491,6 +491,7 @@
         }).then(
             function (d)
             {
+                s.filterDept = "";
                 s.viewStatsData         = d.data.static_step;
                 s.results_to_generate   = 0;
                 var result = {};
