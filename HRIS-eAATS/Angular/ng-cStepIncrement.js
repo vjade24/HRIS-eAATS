@@ -18,7 +18,8 @@
     s.ddl_name = "";
     // Pagination variables
     $scope.currentPage  = 0;
-    s.pageSize          = '10'; // items per page
+    s.pageSize = '10'; // items per page
+    s.generateAll = false;
     var vPageSize = 0;
     // Sample data
     $scope.data = [];
@@ -77,7 +78,7 @@
                             var disable_print = full["already_have_rep"].toString() == "" ? true:false; 
                             return '<center><div class="btn-group">' +
                                 '<button type="button" ng-disabled="!' + disable_print + '" class="btn btn-success btn-sm"       ng-click="btn_generate_NOSI(\'' + full["empl_id"] + '\')" data-toggle="tooltip" data-placement="top" title="Edit">  <i class="fa fa-refresh"></i></button >' +
-                                '<button type="button" ng-disabled="' + disable_print + '" class="btn btn-primary btn-sm"   ng-click="print_report_nosi(\'' + full["empl_id"] + '\',\'' + moment(full["date_generated"]).format("YYYY-MM-DD") +'\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
+                                '<button type="button" ng-disabled="' + disable_print + '" class="btn btn-primary btn-sm"   ng-click="print_report_nosi(\'' + full["empl_id"] + '\',\'' + moment(full["date_generated"]).format("YYYY-MM-DD") +'\',\'\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i></button>' +
                                 '</div></center>';
                         }
                     }
@@ -278,7 +279,7 @@
                 return "";
             }
             else {
-                if (((((moment($("#txtb_from").val()).year() - rekon_year) / 3) + 1) >= 8) && (parseInt(lst) == (moment(employee.rekoning_date).month() + 1)) && ((moment($("#txtb_from").val()).year() - rekon_year) % 3)== 0) {
+                if (((((moment($("#txtb_from").val()).year() - rekon_year) / 3) + 1) > 8) && (parseInt(lst) == (moment(employee.rekoning_date).month() + 1)) && ((moment($("#txtb_from").val()).year() - rekon_year) % 3)== 0) {
                     return 'MAX';
                 }
                 else if (parseInt(lst) == (moment(employee.rekoning_date).month() + 1)) {
@@ -302,7 +303,7 @@
             else {
                 var myStep  = 0;
                 myStep      = ((lst - rekon_year) / 3) + employee.rekon_step;
-                if (myStep >= 8) {
+                if (myStep > 8) {
                     return 'MAX';
                 }
                 else {
@@ -574,7 +575,7 @@
                                             <i class="fa fa-cog"></i>
                                         </a>
                                         <ul class="dropdown-menu dropdown-user" id="btn_action_option_dropdown">
-                                            <li ng-click="print_report_nosi('LIST_TO_STEP','')"><a><i class="fa fa-print"></i> Print</a></li>
+                                            <li ng-click="print_report_nosi('LIST_TO_STEP','','')"><a><i class="fa fa-print"></i> Print</a></li>
                                             <li ng-class="{disabled: true}">
                                                 <a ng-class="{disabled: true}">
                                                     <i class="fa fa-share-square-o"></i> Export to Excel
@@ -727,7 +728,7 @@
         }
     }
 
-    s.print_report_nosi = function (empl_id, date_generated)
+    s.print_report_nosi = function (empl_id, date_generated,month)
     {
         $("#loader").css("display", "block");
         $("#rep_view").css("display", "none");
@@ -736,10 +737,10 @@
         var ReportType = "inline";
         var ReportPath = "";
         var sp = "";
-
+        console.log(month);
         if (empl_id === "LIST_TO_STEP")
         {
-            sp          = "sp_NOSI_list_report,par_year," +$("#txtb_from").val() + ",par_department,";
+            sp = "sp_NOSI_list_report,par_year," + $("#txtb_from").val() + ",par_department,,par_month," + month;
             ReportPath  = "~/Reports/cryNosiList/cryNosiList.rpt";
         }
         else
@@ -820,17 +821,23 @@
 
         myBarChart.on('click', function (i, row)
         {
-            addFilterBadge(row);
+            addFilterBadge(row,"dept");
         });
     }
 
-    function addFilterBadge(dept) {
+    s.addFilterBadgeM = function (dept, filtertype)
+    {
+        addFilterBadge(dept, filtertype);
+    }
+
+    function addFilterBadge(dept,filtertypeX) {
 
         // Prevent duplicate
         //if ($('#datalist_grid_filter .filter-badge[data-dept="' + dept.department_short_name + '"]').length > 0)
         //    return;
         s.filterDept = "";
-        if (dept == "")
+        var data = [];
+        if (dept.toString() == "")
         {
             s.oTable.fnClearTable();
             if (s.list_to_step.length > 0) {
@@ -840,38 +847,78 @@
         }
         else
         {
-            var data        = s.list_to_step.filter(item => item.department_code == dept.department_code);
-            s.filterDept    = dept.department_code;
-            s.filteredList  = data;
-            if (data.length > 0)
-            {
-                $("#datalist_grid_filter .filter-badge").remove();
-
-                let badge = `<span class="filter-badge badge badge-warning mr-2"
-                          data-dept="${dept.department_short_name}"
-                          style="cursor:pointer;margin-top:-5px; !important;">
-                        ${dept.department_short_name} &times;
-                    </span>`;
-
-                $('#datalist_grid_filter').prepend(badge);
-                s.oTable.fnClearTable();
-                if (s.data.length > 0) {
-                    s.oTable.fnAddData(data);
-                }
-              
-                $('#datalist_grid_filter .filter-badge').on("click", function () 
+         
+            $("#datalist_grid_filter .filter-badge").remove();
+            $("#datalist_grid_filter .btn-generate-all").remove();
+                if (filtertypeX == "dept")
                 {
-                    $("#datalist_grid_filter .filter-badge").remove();
-                    s.oTable.fnClearTable();
-                    if (s.list_to_step.length > 0) {
-                        s.oTable.fnAddData(s.list_to_step);
-                    }
-                    $compile($("#datalist_grid"))($scope);
-                });
+                    data            = s.list_to_step.filter(item => item.department_code == dept.department_code);
+                    s.filterDept    = dept.department_code;
+                    s.filteredList  = data;
+                    if (data.length > 0)
+                    {
+                        let badge = `<span class="filter-badge badge badge-warning mr-2"
+                              data-dept="${dept.department_short_name}"
+                              style="cursor:pointer;margin-top:-5px; !important;">
+                            ${dept.department_short_name} &times;
+                        </span>`;
 
-                $compile($("#datalist_grid"))($scope);
+                        $('#datalist_grid_filter').prepend(badge);
+                        s.oTable.fnClearTable();
+                        if (s.data.length > 0) {
+                            s.oTable.fnAddData(data);
+                        }
+
+                        $('#datalist_grid_filter .filter-badge').on("click", function () {
+                            $("#datalist_grid_filter .filter-badge").remove();
+                            s.oTable.fnClearTable();
+                            if (s.list_to_step.length > 0) {
+                                s.oTable.fnAddData(s.list_to_step);
+                            }
+                            $compile($("#datalist_grid"))($scope);
+                        });
+                        $compile($("#datalist_grid"))($scope);
+                    }
+                }
+                else if (filtertypeX == "month")
+                {
+                    var monthF = s.months[dept].month;
+                    data            = s.list_to_step.filter(item => moment(item.rekoning_date).month() == (parseInt(monthF)-1));
+                    s.filterDept    = dept;
+                    s.filteredList  = data;
+                    if (data.length > 0)
+                    {
+                        let badge = `<span class="filter-badge badge badge-warning mr-2"
+                              data-dept="${s.months[dept].month}"
+                              style="cursor:pointer;margin-top:-5px; !important;">
+                            ${s.months[dept].month_name} &times;
+                        </span> <button class="btn btn-sm btn-info btn-generate-all">Generate All  ${s.months[dept].month_name}</button>`;
+
+                        $('#datalist_grid_filter').prepend(badge);
+                        s.oTable.fnClearTable();
+                        if (s.data.length > 0) {
+                            s.oTable.fnAddData(data);
+                        }
+
+                        $('#datalist_grid_filter .filter-badge').on("click", function () {
+                            $("#datalist_grid_filter .filter-badge").remove();
+                            $("#datalist_grid_filter .btn-generate-all").remove();
+                            s.oTable.fnClearTable();
+                            if (s.list_to_step.length > 0) {
+                                s.oTable.fnAddData(s.list_to_step);
+                            }
+                            $compile($("#datalist_grid"))($scope);
+                        });
+                        $('#datalist_grid_filter .btn-generate-all').on("click", function () {
+                            s.btn_generate_NOSI("ALL");
+                        });
+                        $compile($("#datalist_grid"))($scope);
+                        $compile(badge)($scope);
+                    }
+
+                }
+                
             }
-        }
       
     }
 
@@ -973,15 +1020,35 @@
             if (willDelete)
             {
                 $("#modalLoader").modal({ backdrop: 'static', keyboard: false });
-                var lst     = s.list_to_step.filter(item => item.empl_id == empl_id)[0];
-                var years   = parseInt(moment().format("YYYY")) - parseInt(moment(lst.rekoning_date).format("YYYY"));
-                var par_tbl = {
-                    empl_id             :lst.empl_id,
-                    date_of_effectivity :moment(lst.rekoning_date).add(years, "years").format("YYYY-MM-DD"),
-                    step_increment_new: lst.rekon_step + (years / 3),
-                    salary_grade: lst.salary_grade
+                var lst     = [];
+                var years   = "";
+                var par_tbl = [];
 
-                };
+                if (empl_id == "ALL")
+                {
+                    s.filteredList.forEach(function (item) {
+                        years = parseInt(moment().format("YYYY")) - parseInt(moment(item.rekoning_date).format("YYYY"))
+                        par_tbl.push({
+                            empl_id: item.empl_id,
+                            date_of_effectivity: moment(item.rekoning_date).add(years, "years").format("YYYY-MM-DD"),
+                            step_increment_new: item.rekon_step + (years / 3),
+                            salary_grade: item.salary_grade
+
+                        });
+                    });
+                }
+                else {
+
+                    lst = s.list_to_step.filter(item => item.empl_id == empl_id)[0];
+                    years = parseInt(moment().format("YYYY")) - parseInt(moment(lst.rekoning_date).format("YYYY"))
+                    par_tbl.push({
+                        empl_id: lst.empl_id,
+                        date_of_effectivity: moment(lst.rekoning_date).add(years, "years").format("YYYY-MM-DD"),
+                        step_increment_new: lst.rekon_step + (years / 3),
+                        salary_grade: lst.salary_grade
+
+                    });
+                }
               
                 h.post("../cStepIncrement/BtnGenerateNOSI",
                 {
@@ -1053,10 +1120,22 @@
                                         s.oTable.fnClearTable();
                                         if (s.list_to_step.length > 0)
                                         {
-                                            if (s.filterDept != "") {
-                                                var data = s.list_to_step.filter(item => item.department_code == s.filterDept);
-                                                s.oTable.fnAddData(data);
-                                                s.oTable.fnPageChange(currentPage);
+                                            if (s.filterDept != "")
+                                            {
+                                                var data = [];
+                                                if (empl_id == "ALL")
+                                                {
+                                                    var monthF = s.months[s.filterDept].month;
+                                                     data = s.list_to_step.filter(item => moment(item.rekoning_date).month() == (parseInt(monthF) - 1));
+                                                    s.oTable.fnAddData(data);
+                                                    s.oTable.fnPageChange(currentPage);
+                                                }
+                                                else {
+                                                     data = s.list_to_step.filter(item => item.department_code == s.filterDept);
+                                                    s.oTable.fnAddData(data);
+                                                    s.oTable.fnPageChange(currentPage);
+                                                }
+                                               
                                             }
                                             else {
                                                 s.oTable.fnAddData(s.list_to_step);

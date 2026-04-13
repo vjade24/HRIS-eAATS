@@ -120,7 +120,14 @@ namespace HRIS_eAATS.Reports
             }
             else if (ls_splitvalue.Length == 7)
             {
-                dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4], ls_splitvalue[5], ls_splitvalue[6]);
+                if (ls_splitvalue[0] == "sp_NOSI_list_report")
+                {
+                    dt = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4], ls_splitvalue[5], ls_splitvalue[6]);
+                }
+                else
+                {
+                    dt = MyCmn.RetrieveDataATS(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4], ls_splitvalue[5], ls_splitvalue[6]);
+                }
             }
             if (ls_splitvalue.Length == 9)
             {

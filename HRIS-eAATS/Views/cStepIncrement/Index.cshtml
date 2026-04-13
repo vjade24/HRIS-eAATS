@@ -384,7 +384,7 @@
                                 </div>
                                 <div class="ibox-footer">
                                     <div class="row">
-                                        <div class="col-lg-9">
+                                        <div class="col-lg-9" style="min-height:550px !important;">
                                             <div class="row">
                                                 <div class="col-lg-12 table-resposive">
                                                     <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
@@ -407,9 +407,9 @@
                                                 <div class="col-lg-7"><label>MONTH</label></div>
                                                 <div class="col-lg-5 text-right"><label>COUNTS</label></div>
                                             </div>
-                                            <div class="row" ng-repeat="per_month in months">
-                                                <div class="col-lg-7"><label>{{per_month.month_name}}</label></div>
-                                                <div class="col-lg-5 text-right"><b>{{per_month.mo_step}}</b></div>
+                                            <div class="row" ng-repeat="per_month in months track by $index">
+                                                <div class="col-lg-7"><button class="btn btn-sm btn-success" ng-disabled="(per_month.mo_step == 0 ? true:false)" ng-click="addFilterBadgeM($index,'month')"><i class="fa fa-angle-double-left "></i></button><label style="margin-top:7px;">&nbsp;&nbsp;{{per_month.month_name}}</label></div>
+                                                <div class="col-lg-5 text-right"><label style="margin-top:7px;">{{per_month.mo_step}}</label>&nbsp;&nbsp;<button class="btn btn-sm btn-primary" ng-disabled="(per_month.mo_step == 0 ? true:false)" ng-click="print_report_nosi('LIST_TO_STEP','',per_month.month)"><i class="fa fa-print"></i></button></div>
                                             </div>
                                             <hr style="margin-top:5px; margin-bottom:5px;" />
                                             <div class="row mt10">
@@ -611,7 +611,7 @@
 
                                                 <div class="img-badge-wrapper">
                                                     <img id="m{{employee_rekon.empl_id}}"
-                                                         ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
+                                                         ng-src="https://img-repo.davaodeoro.gov.ph/api/images/serve/{{employee_rekon.empl_photo_img}}?thumb"
                                                          width="50"
                                                          height="50"
                                                          class="profile-img"

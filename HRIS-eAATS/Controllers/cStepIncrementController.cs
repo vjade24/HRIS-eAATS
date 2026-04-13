@@ -250,56 +250,166 @@ namespace HRIS_eAATS.Controllers
             }
         }
 
-
-        public ActionResult BtnGenerateNOSI(newstepincrement_tbl data, string action)
+        public ActionResult BtnGenerateNOSI(List<newstepincrement_tbl> data, string action)
         {
             try
             {
-                db.Database.CommandTimeout  = Int32.MaxValue;
-                data.created_dttm           = DateTime.Now;
+                db.Database.CommandTimeout = Int32.MaxValue;
+                var now = DateTime.Now;
+                var userId = Session["user_id"]?.ToString() ?? "SYSTEM";
 
                 if (action == "ADD")
                 {
-                    newstepincrement_tbl tbl = new newstepincrement_tbl();
-                    var newstepdata     = db.newstepincrement_tbl.Where(a => a.empl_id == data.empl_id && a.date_of_effectivity == data.date_of_effectivity && a.step_increment_new == data.step_increment_new).FirstOrDefault();
-                    string budget_code  = DateTime.Now.Year.ToString() + "-2";
-                    var plantilla       = db.plantilla_tbl.Where(a => a.empl_id == data.empl_id && a.employment_type == "RE" && a.budget_code == budget_code).FirstOrDefault();
-                    if (newstepdata == null && plantilla != null)
+                    foreach (var data2 in data)
                     {
-                        tbl.empl_id             = data.empl_id;
-                        tbl.date_generated      = DateTime.Now;
-                        tbl.date_of_effectivity = data.date_of_effectivity;
-                        tbl.item_no             = plantilla.item_no;
-                        tbl.step_increment_new  = data.step_increment_new;
-                        tbl.approval_status     = "F";
-                        tbl.posting_status      = false;
-                        tbl.approval_id         = "";
-                        tbl.budget_code         = plantilla.budget_code;
-                        tbl.created_by_user     = Session["user_id"].ToString();
-                        tbl.updated_by_user     = null;
-                        tbl.created_dttm        = DateTime.Now;
-                        tbl.updated_dttm        = null;
-                        tbl.step_type           = "length";
-                        tbl.salary_grade        = data.salary_grade;
-                        db.newstepincrement_tbl.Add(tbl);
-                        db.sp_servicerecord_automation(data.empl_id,data.date_of_effectivity,"NOSI","RE",data.salary_grade,data.step_increment_new);
+                        string budget_code = $"{now.Year}-2";
+
+                        var newstepdata = db.newstepincrement_tbl
+                            .FirstOrDefault(a =>
+                                a.empl_id == data2.empl_id &&
+                                a.date_of_effectivity == data2.date_of_effectivity &&
+                                a.step_increment_new == data2.step_increment_new);
+
+                        var plantilla = db.plantilla_tbl
+                            .FirstOrDefault(a =>
+                                a.empl_id == data2.empl_id &&
+                                a.employment_type == "RE" &&
+                                a.budget_code == budget_code);
+
+                        if (plantilla == null) continue;
+
+                        if (newstepdata == null)
+                        {
+                            var tbl = new newstepincrement_tbl
+                            {
+                                empl_id             = data2.empl_id,
+                                date_generated      = now,
+                                date_of_effectivity = data2.date_of_effectivity,
+                                item_no             = plantilla.item_no,
+                                step_increment_new  = data2.step_increment_new,
+                                approval_status     = "F",
+                                posting_status      = false,
+                                approval_id         = "",
+                                budget_code         = plantilla.budget_code,
+                                created_by_user     = userId,
+                                created_dttm        = now,
+                                step_type           = "length",
+                                salary_grade        = data2.salary_grade
+                            };
+
+                            db.newstepincrement_tbl.Add(tbl);
+                        }
+                        else
+                        {
+                            newstepdata.updated_by_user = userId;
+                            newstepdata.updated_dttm = now;
+                            newstepdata.salary_grade = data2.salary_grade;
+                        }
+
+                        db.sp_servicerecord_automation(
+                            data2.empl_id,
+                            data2.date_of_effectivity,
+                            "NOSI",
+                            "RE",
+                            data2.salary_grade,
+                            data2.step_increment_new);
                     }
-                    db.SaveChangesAsync();
+
+                    db.SaveChanges();
                 }
                 else if (action == "DELETE")
                 {
-                    var datadel = db.newstepincrement_tbl.Where(a => a.empl_id == data.empl_id && a.date_generated == data.date_generated && a.date_of_effectivity == data.date_of_effectivity).FirstOrDefault();
-                    db.newstepincrement_tbl.Remove(datadel);
-                    db.SaveChangesAsync();
+                    var datadel = db.newstepincrement_tbl.FirstOrDefault(a =>
+                        a.empl_id == data[0].empl_id &&
+                        a.date_generated == data[0].date_generated &&
+                        a.date_of_effectivity == data[0].date_of_effectivity);
+
+                    if (datadel != null)
+                    {
+                        db.newstepincrement_tbl.Remove(datadel);
+                        db.SaveChanges();
+                    }
                 }
-                return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
+
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
-
-                return JSON(new { message =e.Message }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+
+        //public ActionResult BtnGenerateNOSI(List<newstepincrement_tbl> data, string action)
+        //{
+        //    try
+        //    {
+        //        db.Database.CommandTimeout  = Int32.MaxValue;
+
+        //        if (action == "ADD")
+        //        {
+        //            foreach (var data2 in data)
+        //            {
+        //                data2.created_dttm        = DateTime.Now;
+        //                newstepincrement_tbl tbl = new newstepincrement_tbl();
+        //                var newstepdata     = db.newstepincrement_tbl.Where(a => a.empl_id == data2.empl_id && a.date_of_effectivity == data2.date_of_effectivity && a.step_increment_new == data2.step_increment_new).FirstOrDefault();
+        //                string budget_code  = DateTime.Now.Year.ToString() + "-2";
+        //                var plantilla       = db.plantilla_tbl.Where(a => a.empl_id == data2.empl_id && a.employment_type == "RE" && a.budget_code == budget_code).FirstOrDefault();
+        //                if (newstepdata == null && plantilla != null)
+        //                {
+        //                    tbl.empl_id             = data2.empl_id;
+        //                    tbl.date_generated      = DateTime.Now;
+        //                    tbl.date_of_effectivity = data2.date_of_effectivity;
+        //                    tbl.item_no             = plantilla.item_no;
+        //                    tbl.step_increment_new  = data2.step_increment_new;
+        //                    tbl.approval_status     = "F";
+        //                    tbl.posting_status      = false;
+        //                    tbl.approval_id         = "";
+        //                    tbl.budget_code         = plantilla.budget_code;
+        //                    tbl.created_by_user     = Session["user_id"].ToString();
+        //                    tbl.updated_by_user     = null;
+        //                    tbl.created_dttm        = DateTime.Now;
+        //                    tbl.updated_dttm        = null;
+        //                    tbl.step_type           = "length";
+        //                    tbl.salary_grade        = data2.salary_grade;
+        //                    db.newstepincrement_tbl.Add(tbl);
+        //                    db.sp_servicerecord_automation(data2.empl_id, data2.date_of_effectivity,"NOSI","RE", data2.salary_grade, data2.step_increment_new);
+        //                }
+        //                else if(newstepdata != null && plantilla != null)
+        //                {
+        //                    newstepdata.empl_id             = data2.empl_id;
+        //                    newstepdata.date_generated      = DateTime.Now;
+        //                    newstepdata.date_of_effectivity = data2.date_of_effectivity;
+        //                    newstepdata.item_no             = plantilla.item_no;
+        //                    newstepdata.step_increment_new  = data2.step_increment_new;
+        //                    newstepdata.approval_status     = "F";
+        //                    newstepdata.posting_status      = false;
+        //                    newstepdata.approval_id         = "";
+        //                    newstepdata.budget_code         = plantilla.budget_code;
+        //                    newstepdata.updated_by_user     =  Session["user_id"].ToString();
+        //                    newstepdata.updated_dttm        = DateTime.Now;
+        //                    newstepdata.step_type           = "length";
+        //                    newstepdata.salary_grade        = data2.salary_grade;
+        //                    db.sp_servicerecord_automation(data2.empl_id, data2.date_of_effectivity,"NOSI","RE", data2.salary_grade, data2.step_increment_new);
+        //                }
+        //            }
+
+        //            db.SaveChangesAsync();
+        //        }
+        //        else if (action == "DELETE")
+        //        {
+        //            var datadel = db.newstepincrement_tbl.Where(a => a.empl_id == data[0].empl_id && a.date_generated == data[0].date_generated && a.date_of_effectivity == data[0].date_of_effectivity).FirstOrDefault();
+        //            db.newstepincrement_tbl.Remove(datadel);
+        //            db.SaveChangesAsync();
+        //        }
+        //        return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+
+        //        return JSON(new { message =e.Message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
 
 
     }
