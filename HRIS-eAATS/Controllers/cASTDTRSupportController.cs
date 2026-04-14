@@ -281,34 +281,7 @@ namespace HRIS_eAATS.Controllers
             var message = "";
             try
             {
-                //var empl_names = from s in db.vw_personnelnames_tbl
-                //                join r in db.personnel_tbl
-                //                on s.empl_id equals r.empl_id
-                //                join t in db.vw_payrollemployeemaster_hdr_tbl
-                //                on s.empl_id equals t.empl_id
-                //                where r.emp_status == true
-                //                 where r.empl_id == empl_id
-                //                 orderby s.last_name
-
-                //                select new
-                //                {
-                //                    s.empl_id,
-                //                    s.employee_name,
-                //                    s.last_name,
-                //                    s.first_name,
-                //                    s.middle_name,
-                //                    s.suffix_name,
-                //                    s.courtisy_title,
-                //                    s.postfix_name,
-                //                    s.employee_name_format2,
-                //                    t.department_code,
-                //                    t.employment_type,
-                //                };
-
-                //var employment_type    = empl_names.FirstOrDefault().employment_type;
-                //var department_code    = empl_names.FirstOrDefault().department_code;
-                // var user_id            = "";
-                // var par_print_generate = "";
+                
 
                 var employment_type = db_ats.sp_get_empl_employment_type(empl_id).ToList()[0].employment_type;
                 var department_code = db_ats.sp_get_empl_employment_type(empl_id).ToList()[0].department_code;
@@ -340,6 +313,7 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message = message, icon = icn }, JsonRequestBehavior.AllowGet);
             }
         }
+
         //*********************************************************************//
         // Created By : JMTJR - Created Date : 03/04/2020
         // Description: Initialize Page
