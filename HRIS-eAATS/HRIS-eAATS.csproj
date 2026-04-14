@@ -1047,10 +1047,10 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leaveappl_dtl_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1246,6 +1246,9 @@
     </Compile>
     <Compile Include="Models\sp_prcmonitor_users_list_SS_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_process_biodata_2dtr_stg2_Result.cs">
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_process_biodata_2dtr_stg_in_perEmpl_id_Result.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
@@ -1482,7 +1485,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\timeentries_mysql_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>

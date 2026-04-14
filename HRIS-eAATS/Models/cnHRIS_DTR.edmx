@@ -309,6 +309,10 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="p_user_id" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_process_biodata_2dtr_stg2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_process_nbr" Type="bigint" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -715,6 +719,10 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_bio_date" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="sp_process_biodata_2dtr_stg2" ReturnType="Collection(HRIS_DTRModel.sp_process_biodata_2dtr_stg2_Result)">
+            <Parameter Name="p_process_nbr" Mode="In" Type="Int64" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_as_alerts_Result">
           <Property Type="Int32" Name="AS_day" Nullable="true" />
@@ -951,6 +959,10 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
         <ComplexType Name="sp_time_out_ot_list_Result">
           <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
           <Property Type="String" Name="bio_dttm" Nullable="false" MaxLength="19" />
+        </ComplexType>
+        <ComplexType Name="sp_process_biodata_2dtr_stg2_Result">
+          <Property Type="String" Name="result_value" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1397,6 +1409,14 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
               <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_time_out_ot_list_Result">
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="bio_dttm" ColumnName="bio_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_process_biodata_2dtr_stg2" FunctionName="HRIS_DTRModel.Store.sp_process_biodata_2dtr_stg2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_process_biodata_2dtr_stg2_Result">
+                <ScalarProperty Name="result_value" ColumnName="result_value" />
+                <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

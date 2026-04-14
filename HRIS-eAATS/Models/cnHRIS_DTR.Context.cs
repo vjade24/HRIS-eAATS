@@ -765,5 +765,18 @@ namespace HRIS_eAATS.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_out_ot_list_Result>("sp_time_out_ot_list", par_empl_idParameter, par_bio_dateParameter);
         }
+    
+        public virtual ObjectResult<sp_process_biodata_2dtr_stg2_Result> sp_process_biodata_2dtr_stg2(Nullable<long> p_process_nbr, string p_user_id)
+        {
+            var p_process_nbrParameter = p_process_nbr.HasValue ?
+                new ObjectParameter("p_process_nbr", p_process_nbr) :
+                new ObjectParameter("p_process_nbr", typeof(long));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_process_biodata_2dtr_stg2_Result>("sp_process_biodata_2dtr_stg2", p_process_nbrParameter, p_user_idParameter);
+        }
     }
 }

@@ -319,32 +319,10 @@ namespace HRIS_eAATS.Controllers
             var user_id = Session["user_id"].ToString();
             try
             {
+                
+                db_dtr.sp_process_biodata_2dtr_stg2(process_nbr, user_id).FirstOrDefault();
+                message = "Succesfully re-run sp_process_biodata_2dtr_stg";
                
-                if (extracttype == 1)
-                {
-                    if (bio_terminal == "114") // PASIAN
-                    {
-                        db_dtr.sp_process_biodata_2dtr_stg_shift_pagro_pasian(process_nbr, user_id).FirstOrDefault();
-                    }
-                    else
-                    {
-                        db_dtr.sp_process_biodata_2dtr_stg(process_nbr, user_id).FirstOrDefault();
-                    }
-
-                    db_dtr.sp_process_biodata_2dtr_stg_shift(process_nbr, user_id).FirstOrDefault();
-
-                    message = "Succesfully re-run sp_process_biodata_2dtr_stg";
-                }
-                else if (extracttype == 2)
-                {
-                    db_dtr.sp_process_biodata_2dtr_stg_in(process_nbr, user_id).FirstOrDefault();
-                    message = "Succesfully re-run sp_process_biodata_2dtr_stg_in";
-                }
-                else if (extracttype == 3)
-                {
-                    db_dtr.sp_process_biodata_2dtr_stg_out(process_nbr, user_id).FirstOrDefault();
-                    message = "Succesfully re-run sp_process_biodata_2dtr_stg_out";
-                }
 
                 return JSON(new { message = message, icon = "success" }, JsonRequestBehavior.AllowGet);
 
