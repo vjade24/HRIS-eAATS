@@ -5,7 +5,7 @@
     var cs      = commonScript
     s.rowLen    = "10";
     
-    s.image_link        = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.image_link        = cs.img_link('local')+"/images/serve/";
     s.dtl               = []
     s.action_mode       = "";
     s.loading_div       = false;
@@ -104,7 +104,7 @@
                                         var temp        = moment();
                                         for (var i = 0; i < full.dtl.length && i < limit; i++)
                                         {
-                                           img += '<img class="img-circle m-r-n-sm" onerror="this.onerror=null;this.src=\'' + def_images + '\';" width="35" height="35" src="' + s.image_link + full.dtl[i]["empl_id"] + '?v=' + temp + ' " />' 
+                                            img += '<img class="img-circle m-r-n-sm" onerror="this.onerror=null;this.src=\'' + def_images + '\';" width="35" height="35" src="' + s.image_link + full.dtl[i]["empl_photo_img"] + '?v=' + temp + ' " />' 
                                         }
                                         if (full.dtl.length > limit)
                                         {
@@ -165,7 +165,7 @@
                                             (full.hdr["submitted_dttm"] != null ? '' : '<button type="button" class="btn btn-warning" ng-click="btn_view(' + row["row"] + ')"   data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i>   </button >') +
                                             (full.hdr["submitted_dttm"] != null ? '' :'<button type="button" class="btn btn-danger"  ng-click="btn_action_header(\'delete\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i> </button >') +
                                             '<button type="button" class="btn btn-primary" ng-click="btn_print(\''+full.hdr['transmittal_nbr']+'\')" data-toggle="tooltip" data-placement="top" title="Print"><i class="fa fa-print"></i> </button >' +
-                                            (full.hdr["received_dttm"] == null ? '' :'<button type="button" class="btn btn-primary" ng-click="btn_action_header(\'received_null\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Received"><i class="fa fa-truck"></i> </button >') +
+                                            //(full.hdr["received_dttm"] == null ? '' :'<button type="button" class="btn btn-primary" ng-click="btn_action_header(\'received_null\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Received"><i class="fa fa-truck"></i> </button >') +
                                             (full.hdr["submitted_dttm"] != null ? '' :'<button type="button" class="btn btn-success" ng-click="btn_action_header(\'transmit\','+ row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Transmit"><i class="fa fa-truck"></i> </button >') +
                                         '</center>';
                             }
@@ -215,13 +215,18 @@
             var ReportType  = "inline"
             var ReportPath  = ""
             var sp          = ""
-            var par_period_from = moment(par_period_from).format("YYYY-MM-DD")
-            var par_period_to   = moment(par_period_to).format("YYYY-MM-DD")
+            //var par_period_from = moment(par_period_from).format("YYYY-MM-DD")
+            //var par_period_to   = moment(par_period_to).format("YYYY-MM-DD")
 
             if (print_mode == 'BEST')
             {
                 sp          = "sp_best_in_attendance_rep,par_transmittal_nbr," + par_transmittal_nbr;
                 ReportPath  = "~/Reports/cryBestAttendance/BestAttendanceTransmittal.rpt";
+            }
+            else if (print_mode == 'TO')
+            {
+                sp = "sp_travelorder_employee_rep,par_empl_id," + par_transmittal_nbr + ",par_year," + par_period_from + ",par_month," + par_period_to;
+                ReportPath = "~/Reports/cryTravelOrderPerEmployeeReport/cryTravelOrderPerEmployeeReport.rpt";
             }
             //else
             //{
@@ -269,6 +274,7 @@
                 };
             }
             iframe.src = s.embed_link;
+            console.log(iframe.src)
             $('#print_modal').modal({ backdrop: 'static', keyboard: false });
             // *******************************************************
             // *******************************************************
@@ -501,40 +507,90 @@
     }
     s.btn_action_dtl = function (action, data,row_id)
     {
-        swal({
-            title       : "Are you sure to "+action+" this record?" + " \n " + data.employee_name,
-            text        : "Once "+action+", you will not be able to recover this record!",
-            icon        : "warning",
-            buttons     : true,
-        }).then(function (willContinue)
+        if (action == "print_to")
         {
-            data.transmittal_nbr = s.form.transmittal_nbr
-            if (willContinue)
+            swal({
+                title: "Select Year and Month",
+                content: {
+                    element: "div",
+                    attributes: {
+                        innerHTML: `<label>Year:</label>
+                                    <select id="yearSelect" style="margin-bottom:5px;width:100%;" class="form-control">
+                                        ${(() => {
+                                                    const currentYear = new Date().getFullYear();
+                                                    let options = "";
+                                                    for (let y = currentYear - 3; y <= currentYear + 3; y++) {
+                                                        const selected = (y === currentYear) ? "selected" : "";
+                                                        options += `<option value="${y}" ${selected}>${y}</option>`;
+                                                    }
+                                                    return options;
+                                                })()}
+                                    </select>
+                                    <label>Month:</label>
+                                    <select id="monthSelect" style="width:100%;" class="form-control">
+                                        <option value="01">January</option>
+                                        <option value="02">February</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>`
+                    }
+                },
+                buttons: true
+            }).then(function (willContinue)
             {
-                h.post("../cBestInAttendance/DetailAction",
+                if (willContinue)
                 {
-                    action  : action
-                    ,data   : data
-                }).then(function (d) 
-                {
-                    if (d.data.message == "success")
-                    {
-                        if (action == "delete")
+                    const selectedYear  = document.getElementById("yearSelect").value;
+                    const selectedMonth = document.getElementById("monthSelect").value;
+                    
+                    var par_transmittal_nbr = data.empl_id
+                    var print_mode          = "TO";
+                    var iframe_id           = "iframe_print_preview";
+                    s.PrintPreview(par_transmittal_nbr, print_mode, iframe_id, selectedYear, selectedMonth);
+
+                }
+            });
+        }
+        else
+        {
+            swal({
+                title: "Are you sure to " + action + " this record?" + " \n " + data.employee_name,
+                text: "Once " + action + ", you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+            }).then(function (willContinue) {
+                data.transmittal_nbr = s.form.transmittal_nbr
+                if (willContinue) {
+                    h.post("../cBestInAttendance/DetailAction",
                         {
-                            if (row_id != -1)
-                            {
-                                s.dtl.splice(row_id, 1);
+                            action: action
+                            , data: data
+                        }).then(function (d) {
+                            if (d.data.message == "success") {
+                                if (action == "delete") {
+                                    if (row_id != -1) {
+                                        s.dtl.splice(row_id, 1);
+                                    }
+                                }
+                                swal("Your record has been " + action + "!", { icon: "success", });
                             }
-                        }
-                        swal("Your record has been "+action+"!", { icon: "success", });
-                    }
-                    else
-                    {
-                        swal(d.data.message, { icon: "warning", });
-                    }
-                })
-            }
-        });
+                            else {
+                                swal(d.data.message, { icon: "warning", });
+                            }
+                        })
+                }
+            });
+
+            
+        }
     }
     s.FilterGrid = function ()
     {

@@ -7,7 +7,7 @@
     var date            = new Date();
     s.date_from         = new Date(date.getFullYear(), date.getMonth(), 1);
     s.date_to           = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    s.image_link        = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.image_link        = cs.img_link('local')+"/images/serve/";
     init()
     function init()
     {
@@ -80,7 +80,7 @@
                                 var def_images = '../../ResourcesImages/upload_profile.png';
                                 return '<div class="text-center" >' +
                                     '<div class="img-circle">' +
-                                    '<img class="img-circle" onerror="this.onerror=null;this.src=\'' + def_images + '\';" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
+                                    '<img class="img-circle" onerror="this.onerror=null;this.src=\'' + def_images + '\';" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_photo_img"] + "?thumbnail=10" + '?v=' + temp + ' " />' +
                                     '</div>' +
                                     '</div>'
                             }

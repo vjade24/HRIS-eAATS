@@ -96,31 +96,196 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-        //*********************************************************************//
-        // Created By   : Vincent Jade H. Alivio 
-        // Created Date : 04/03/2020
-        // Description  : Filter Page Grid
-        //*********************************************************************//
-        public ActionResult GenerateEarn(
-            string par_year,
-            string par_month,
-            string par_department_code,
-            string par_empl_id,
-            string par_earning_type
-        )
-        {
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
-                var par_user_id = Session["user_id"].ToString();
-                var data = db_ats.sp_lv_ledger_generate_earning(par_year, par_month, par_department_code, par_empl_id, par_user_id, par_earning_type).ToList().FirstOrDefault();
-                return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message.ToString();
-                return Json(new { message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-    }
-}
+                //*********************************************************************//
+                // Created By   : Vincent Jade H. Alivio 
+                // Created Date : 04/03/2020
+                // Description  : Filter Page Grid
+                //*********************************************************************//
+                public ActionResult GenerateEarn(
+                    string par_year,
+                    string par_month,
+                    string par_department_code,
+                    string par_empl_id,
+                    string par_earning_type
+                )
+                {
+                    try
+                    {
+                        db_ats.Database.CommandTimeout = int.MaxValue;
+                        var par_user_id = Session["user_id"].ToString();
+                        var data = db_ats.sp_lv_ledger_generate_earning(par_year, par_month, par_department_code, par_empl_id, par_user_id, par_earning_type).ToList().FirstOrDefault();
+                        return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                    }
+                    catch (Exception e)
+                    {
+                        string message = e.Message.ToString();
+                        return Json(new { message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                //*********************************************************************//
+                // Created Date : Auto-generated
+                // Description  : Get Summary Report after GenerateEarn execution
+                //*********************************************************************//
+                public ActionResult GetGenerateSummaryReport(
+                    string par_year,
+                    string par_month,
+                    string par_department_code,
+                    string par_earning_type
+                )
+                {
+                    try
+                    {
+                        db_ats.Database.CommandTimeout = int.MaxValue;
+                        var summaryData = (from a in db_ats.lv_ledger_earn_history_tbl
+                                           join e in db_ats.vw_personnelnames_tbl_HRIS_ATS on a.empl_id equals e.empl_id into empJoin
+                                           from emp in empJoin.DefaultIfEmpty()
+                                           where a.gen_year == par_year && a.gen_month == par_month && a.earning_type == par_earning_type
+                                           && (string.IsNullOrEmpty(par_department_code) || a.department_code == par_department_code)
+                                           orderby a.created_dttm descending
+                                           select new
+                                           {
+                                               a.id,
+                                               a.gen_year,
+                                               a.gen_month,
+                                               a.empl_id,
+                                               employee_name = emp != null ? emp.employee_name : "",
+                                               a.earning_type,
+                                               a.remarks_flag,
+                                               a.remarks_descr,
+                                               a.department_code,
+                                               a.created_dttm,
+                                               a.created_user_id,
+                                               a.ledger_ctrl_no,
+                                               a.prev_balance_as_of_vl,
+                                               a.curr_restore_deduct_vl,
+                                               a.curr_abs_und_wp_vl,
+                                               a.curr_balance_as_of_vl,
+                                               a.prev_balance_as_of_sl,
+                                               a.curr_restore_deduct_sl,
+                                               a.curr_abs_und_wp_sl,
+                                               a.curr_balance_as_of_sl
+                                           }).ToList();
+
+                        int total_count = summaryData.Count;
+                        int success_count = summaryData.Count(a => a.remarks_flag == "Y" || (a.remarks_descr ?? "").ToUpper().Contains("SUCCESSFULLY") || (a.remarks_descr ?? "").ToUpper().Contains("EARN EXISTS"));
+                        int failed_count = total_count - success_count;
+
+                        // Calculate discrepancy count
+                        // Formula: |PREV BAL + RESTORE - ABS/UND - CURR BAL| > 1.25
+                        int discrepancy_count = 0;
+                        foreach (var item in summaryData)
+                        {
+                            // VL Discrepancy
+                            decimal prevBalVL = item.prev_balance_as_of_vl ?? 0;
+                            decimal restoreVL = item.curr_restore_deduct_vl ?? 0;
+                            decimal absUndVL = item.curr_abs_und_wp_vl ?? 0;
+                            decimal currBalVL = item.curr_balance_as_of_vl ?? 0;
+                            decimal discVL = Math.Abs(prevBalVL + restoreVL - absUndVL - currBalVL);
+
+                            // SL Discrepancy
+                            decimal prevBalSL = item.prev_balance_as_of_sl ?? 0;
+                            decimal restoreSL = item.curr_restore_deduct_sl ?? 0;
+                            decimal absUndSL = item.curr_abs_und_wp_sl ?? 0;
+                            decimal currBalSL = item.curr_balance_as_of_sl ?? 0;
+                            decimal discSL = Math.Abs(prevBalSL + restoreSL - absUndSL - currBalSL);
+
+                            if (discVL > 1.25m || discSL > 1.25m)
+                            {
+                                discrepancy_count++;
+                            }
+                        }
+
+                        var summary = new
+                        {
+                            total_count,
+                            success_count,
+                            failed_count,
+                            discrepancy_count,
+                            data = summaryData.OrderBy(x => x.employee_name)
+                        };
+
+                        return JSON(new { message = "success", summary }, JsonRequestBehavior.AllowGet);
+                    }
+                    catch (Exception e)
+                    {
+                        string message = e.Message.ToString();
+                        return Json(new { message }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                        //*********************************************************************//
+                        // Created Date : Auto-generated
+                        // Description  : Regenerate Earnings for selected employees
+                        //*********************************************************************//
+                        public ActionResult RegenerateEarnings(
+                            string par_year,
+                            string par_month,
+                            string par_department_code,
+                            string par_earning_type,
+                            string[] par_employee_ids
+                        )
+                        {
+                            try
+                            {
+                                db_ats.Database.CommandTimeout = int.MaxValue;
+                                var par_user_id = Session["user_id"].ToString();
+                                var results = new List<object>();
+                                int success_count = 0;
+                                int failed_count = 0;
+
+                                if (par_employee_ids != null && par_employee_ids.Length > 0)
+                                {
+                                    foreach (var empl_id in par_employee_ids)
+                                    {
+                                        var data = db_ats.sp_lv_ledger_generate_earning(par_year, par_month, par_department_code, empl_id, par_user_id, par_earning_type).ToList().FirstOrDefault();
+
+                                        bool is_success = false;
+                                        string return_flag = "";
+                                        string return_msg = "";
+
+                                        if (data != null)
+                                        {
+                                            var dataType = data.GetType();
+                                            var flagProp = dataType.GetProperty("return_flag");
+                                            var msgProp = dataType.GetProperty("return_msg");
+
+                                            if (flagProp != null)
+                                                return_flag = flagProp.GetValue(data)?.ToString() ?? "";
+                                            if (msgProp != null)
+                                                return_msg = msgProp.GetValue(data)?.ToString() ?? "";
+
+                                            is_success = return_flag == "Y";
+                                        }
+
+                                        if (is_success)
+                                            success_count++;
+                                        else
+                                            failed_count++;
+
+                                        results.Add(new
+                                        {
+                                            empl_id,
+                                            return_flag,
+                                            return_msg,
+                                            is_success
+                                        });
+                                    }
+                                }
+
+                                var report = new
+                                {
+                                    total_processed = par_employee_ids?.Length ?? 0,
+                                    success_count,
+                                    failed_count,
+                                    results
+                                };
+
+                                return JSON(new { message = "success", report }, JsonRequestBehavior.AllowGet);
+                            }
+                            catch (Exception e)
+                            {
+                                string message = e.Message.ToString();
+                                return Json(new { message }, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                    }
+                }

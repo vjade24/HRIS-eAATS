@@ -37,5 +37,7 @@ namespace HRIS_eAATS.Models
         public Nullable<bool> ldnf { get; set; }
         public Nullable<bool> to_emergency { get; set; }
         public string late_justification { get; set; }
+        public Nullable<bool> routinary { get; set; }
+        public Nullable<bool> hazard { get; set; }
     }
 }

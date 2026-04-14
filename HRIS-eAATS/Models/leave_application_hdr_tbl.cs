@@ -44,5 +44,16 @@ namespace HRIS_eAATS.Models
         public Nullable<decimal> leaveledger_balance_as_of_fl { get; set; }
         public Nullable<decimal> sp_restore_deduct { get; set; }
         public Nullable<decimal> fl_restore_deduct { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string middle_name { get; set; }
+        public string employment_type { get; set; }
+        public string department_code { get; set; }
+        public string department_short_name { get; set; }
+        public string position_long_title { get; set; }
+        public Nullable<decimal> monthly_rate { get; set; }
+        public string suffix_name { get; set; }
+        public string courtisy_title { get; set; }
+        public string postfix_name { get; set; }
     }
 }

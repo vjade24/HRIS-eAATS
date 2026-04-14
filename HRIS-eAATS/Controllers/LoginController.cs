@@ -65,7 +65,9 @@ namespace HRIS_eAATS.Controllers
 
             try
             {
-                var data = db.sp_user_login_ATS(username.Trim(), Cmn.EncryptString(password.Trim(), Cmn.CONST_WORDENCRYPTOR)).FirstOrDefault();
+                var data      = db.sp_user_login_ATS(username.Trim(), Cmn.EncryptString(password.Trim(), Cmn.CONST_WORDENCRYPTOR)).FirstOrDefault();
+                //ADDED BY JOSEPH 2026-03-23
+                var personnel = db.personnel_tbl.Where(a => a.empl_id == data.empl_id).FirstOrDefault();
                 if (data.log_in_flag == "Y")
                 {
                     Session["user_id"]          = data.user_id;
@@ -81,6 +83,8 @@ namespace HRIS_eAATS.Controllers
                     Session["budget_code"]      = data.budget_code;
                     Session["department_code"]  = data.department_code;
                     Session["employment_type"]  = data.employment_type;
+                    //ADDED BY JOSEPH 2026-03-23
+                    Session["login_uuid"]       = personnel.empl_photo_img;
                 }
                
 

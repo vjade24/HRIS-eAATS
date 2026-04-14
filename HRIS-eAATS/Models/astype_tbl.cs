@@ -18,5 +18,8 @@ namespace HRIS_eAATS.Models
         public string astype_descr { get; set; }
         public string astype_abbrv { get; set; }
         public Nullable<bool> astype_show_dtr { get; set; }
+        public Nullable<bool> allow_jo { get; set; }
+        public Nullable<bool> allow_casual { get; set; }
+        public Nullable<bool> allow_regular { get; set; }
     }
 }

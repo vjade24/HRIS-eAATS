@@ -26,5 +26,6 @@ namespace HRIS_eAATS.Models
         public string inputtype_sub_descr { get; set; }
         public string remarks { get; set; }
         public string appl_type { get; set; }
+        public string as_sub_type { get; set; }
     }
 }

@@ -19,11 +19,18 @@
         localStorage.clear();
         $('#login_icon').removeClass();
         $('#login_icon').addClass('fa fa-refresh fa-spin');
-        
+        var chk = document.getElementById('chk_terms');
             if ((s.txt_username == "" || s.txt_username == null)&& (s.txt_password =="" || s.txt_password == null))
             {
                 alert("Field should not be empty");
 
+                $('#login_icon').removeClass();
+                $('#login_icon').addClass('fa fa-sign-in');
+            }
+            else if (!chk.checked)
+            {
+                alert("You must accept the Terms and Conditions to continue.");
+                $("#lbl_txtb_password_req").text("You must accept the Terms and Conditions to continue.");
                 $('#login_icon').removeClass();
                 $('#login_icon').addClass('fa fa-sign-in');
             }

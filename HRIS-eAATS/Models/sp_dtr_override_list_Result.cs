@@ -64,5 +64,14 @@ namespace HRIS_eAATS.Models
         public string override_status_descr { get; set; }
         public string transmitted_flag { get; set; }
         public Nullable<int> ticket_number { get; set; }
+        public Nullable<int> late_in_am { get; set; }
+        public Nullable<int> undertime_out_am { get; set; }
+        public Nullable<int> late_in_pm { get; set; }
+        public Nullable<int> undertime_out_pm { get; set; }
+        public string tse_in_am { get; set; }
+        public string tse_out_am { get; set; }
+        public string tse_in_pm { get; set; }
+        public string tse_out_pm { get; set; }
+        public string leavetype_code { get; set; }
     }
 }

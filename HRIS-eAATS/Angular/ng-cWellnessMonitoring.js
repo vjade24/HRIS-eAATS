@@ -1,0 +1,1048 @@
+﻿ng_HRD_App.controller("cWellnessMonitoring_ctrl", function (commonScript, $scope, $compile, $http, $filter) {
+    var s = $scope;
+    var h = $http;
+    var cs = commonScript;
+    s.moment = moment;
+
+    s.dis_when_s                = false;
+    s.year                      = [];
+    s.user_id                   = "";
+    s.ddl_empl_type             = "JO";
+    s.for_approval_list         = [];
+    s.for_monitoring            = [];
+    $('.collapse').collapse();
+    s.wellness                  = false;
+    s.wellnesslist              = [];
+    s.wellnessbreakdown         = [];
+    s.schedules                 = [];
+    s.employment_type           = "";
+    s.first_sem_val             = 0;
+    s.second_sem_val            = 0;
+    s.is_2ndsem_available       = false;
+    s.oTable_wellnessrecords    = [];
+    s.list_type         = "For_Approval";
+    s.empl_id = "";
+    s.txtb_approved_from = moment().format('YYYY-MM-DD');
+    s.txtb_approved_to = moment().format('YYYY-MM-DD');
+    s.log_user_id = "";
+
+    s.get_monitoring_list = function ()
+    {
+        h.post("../cWellnessMonitoring/GetMonitoringList", { department_code: s.ddl_dept, employment_type: s.ddl_empl_type, show_only: "Y", year: str_to_year($("#txtb_dtr_mon_year").val())}).then(function (d) {
+            if (d.data.message == "success")
+            {
+                if (
+                    str_to_year($("#txtb_dtr_mon_year").val()) < moment().year()
+                    ||
+                    (str_to_year($("#txtb_dtr_mon_year").val()) >= moment().year() && (moment().month() + 1) >= 7)
+                ) {
+                    s.is_2ndsem_available = true;
+                }
+                else
+                {
+                    s.is_2ndsem_available = false;
+                }
+                s.for_monitoring = d.data.monitoring_list;
+               
+                s.for_monitoring.forEach(function (item) {
+                    item.Wdays_1st_obj = s.parseWellnessDays(item.Wdays_1st);
+                    item.Wdays_2nd_obj = s.parseWellnessDays(item.Wdays_2nd);
+                });
+                
+                if (d.data.monitoring_list.length > 0)
+                {
+                    s.oTable.fnClearTable();
+                    s.oTable.fnAddData(s.for_monitoring);
+                }
+            }
+
+        });
+    }
+
+    s.get_forapproval_list = function () {
+        h.post("../cWellnessMonitoring/GetForApprovalList",
+            {
+                list_type:s.list_type
+            }).then(function (d) {
+            if (d.data.message == "success")
+            {
+                s.for_approval_list = d.data.for_approval_list;
+                s.log_user_id       = d.data.log_user_id;
+                s.oTable_for_approval.fnClearTable();
+              
+                if (s.for_approval_list.length > 0)
+                {
+
+                    s.for_approval_list.forEach(function (item) {
+                        item.Wdays_1st_obj = s.parseWellnessDays(item.Wdays_1st);
+                    });
+                    s.oTable_for_approval.fnClearTable();
+                    s.oTable_for_approval.fnAddData(s.for_approval_list);
+                }
+            }
+        });
+    }
+
+    function init() {
+
+        RetrieveYear();
+
+        $("#ddl_dept").select2().on('change', function (e) {
+            s.ddl_dept = $("#ddl_dept").val();
+            s.get_monitoring_list();
+        });
+
+        $("#ddl_empl_type").select2().on('change', function (e) {
+            s.get_monitoring_list();
+        });
+        $("#txtb_dtr_mon_year").on('change', function (e) {
+            s.get_monitoring_list();
+        });
+
+        $("#txtb_dtr_mon_year").datepicker({
+            format: "MM - yyyy",
+            startView: "years",
+            minViewMode: "months",
+            autoclose: true,
+        });
+        var ddate = new Date();
+        s.txtb_dtr_mon_year = moment(ddate).format("MMMM - YYYY");
+        //s.txtb_dtr_mon_year_earn = moment(ddate).format("MMMM - YYYY");
+
+        $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+      
+        //**********************************************
+        // Initialize data during page loads
+        //**********************************************
+        h.post("../cWellnessMonitoring/InitializeData").then(function (d) {
+            if (d.data.message == "success") {
+                s.lv_admin_dept_list    = d.data.lv_admin_dept_list;
+                s.empl_id               = d.data.log_empl_id;
+                s.log_user_id           = d.data.log_user_id;
+                if (s.lv_admin_dept_list.length > 0)
+                {
+                    s.ddl_dept = s.lv_admin_dept_list[0].department_code;
+                    $("#ddl_dept").val(s.lv_admin_dept_list[0].department_code);
+
+                    s.get_monitoring_list();
+
+                }
+                init_table_data([]);
+                init_table_data2([]);
+                init_wellness_tbl([]);
+                init_table_forapproval([]);
+                s.get_forapproval_list();
+                $('.ApprovalFilters').html("");
+                var template = `<label style="margin-bottom:0;margin-right:10px;">
+                                        <input type="radio"
+                                                name="approvalFilter"
+                                                value="For_Approval"
+                                                ng-model="list_type"
+                                                ng-change="get_forapproval_list()">
+                                        <i></i> FOR APPROVAL
+                                    </label>
+
+                                    <label style="margin-bottom:0;margin-right:10px;">
+                                        <input type="radio"
+                                                name="approvalFilter"
+                                                value="Approved_only"
+                                                ng-model="list_type"
+                                                ng-change="get_forapproval_list()">
+                                        <i></i> APPROVED ONLY
+                                    </label>
+                                    <label style="margin-top:5px;margin-right:10px;">
+                                        <input type="radio"
+                                                name="approvalFilter"
+                                                value="For_with_cancellation"
+                                                ng-model="list_type"
+                                                ng-change="get_forapproval_list()">
+                                        <i></i> FOR CANCELLATION
+                                    </label>
+                                    `;
+
+                var compiled = $compile(template)($scope);
+                $('.ApprovalFilters').prepend(compiled);
+
+                $("#modal_initializing").modal("hide");
+            }
+            else {
+                swal(d.data.message, { icon: "warning", });
+                $("#modal_initializing").modal("hide");
+            }
+
+        });
+    }
+    init();
+
+    s.parseWellnessDays = function(wdays) {
+
+        if (!wdays || wdays === "0") return [];
+
+        return wdays.split(',').map(function (item) {
+
+            var parts = item.trim().split(':');
+
+            return {
+                date_breakdown: parts[0],
+                val: parts[1]
+            };
+        });
+    }
+
+    s.set_active_tag = function (elem_id)
+    {
+        $(".btn-active-tab").removeClass("btn-active-tab");
+        $("#" + elem_id).addClass("btn-active-tab");
+    }
+
+
+    var init_table_data         = function (par_data) {
+        try {
+            s.datalistgrid = par_data;
+            s.oTable = $('#datalistgrid').dataTable(
+                {
+                    data: s.datalistgrid,
+                    bSort: false,
+                    bAutoWidth: false,
+                    sDom: '<"top"fl <"chartFilters text-right">>rt<"bottom"ip>',
+                    //sDom: '<"top"<"chartFilters">f>rt<"bottom"ip>',
+                    columns: [
+                        {
+                            "width": "5%",
+                            "targets": 0,
+                            "mData": "employee_name",
+                            "mRender": function (data, type, full, row) {
+                                return `<span class='btn-block text-center'><div class="img-badge-wrapper text-center">
+                                                    <img id="m{{employee_rekon.empl_id}}"
+                                                        src="https://img-repo.davaodeoro.gov.ph/api/images/serve/`+ full["empl_photo_img"]+`"
+                                                         width="50"
+                                                         height="50"
+                                                         class="profile-img"
+                                                         onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
+
+                                                    <!-- Badge -->
+                                                    <span class="img-badge">
+                                                        <small>sg</small> {{employee_rekon.salary_grade}}
+                                                    </span>
+                                                </div></span>`;
+
+                            }
+                        },
+                        {
+                            "width": "20%",
+                            "targets": 0,
+                            "mData": "employee_name",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='btn-block'>&nbsp;&nbsp<label>" + data + "</label></span> ";
+
+                            }
+                        },
+                        {
+                            "width": "22%",
+                            "targets": 1,
+                            "mData": "position",
+                            "mRender": function (data, type, full, row) {
+                               
+                                return "<span class='btn-block' ><label>&nbsp;&nbsp" + data + "</label></span>";
+                               
+                            }
+                        },
+                        {
+                            "width": "15%",
+                            "targets": 2,
+                            "mRender": function (data, type, full, row) {
+                                var html_return = "";
+                                var not_available = (2.5 - parseFloat(full["total_1st"])) < 1 ?  `<div class="overlay-text2">CONSUMED</div>`:'';
+                                html_return = `<div class="widget-overlay-wrapper2" style="padding:5px 10px 5px 10px;"><div class="row" ><div class="col-lg-12"><div class="pull-left" style="width:70%;">AVAILABLE</div><div class="pull-right text-right text-success" style="width:30%;"><label>` + 2.5 + `</label>&nbsp;&nbsp;</div></div>` +
+                                    `<div class="col-lg-12"><div class="pull-left" style="width:70%;">APPLIED</div><div class="pull-right text-right text-warning" style="width:30%;"><label>` + full["total_1st"] + `</label>&nbsp;&nbsp;</div></div>` + not_available+`</div>`;
+
+                                return html_return;
+
+                            }
+                        },
+                        {
+                            "width": "15%",
+                            "targets": 3,
+                            "mRender": function (data, type, full, row) {
+                                var sencod_sem_val = (parseFloat(2.5) - parseFloat(full["total_1st"])) + parseFloat(2.5);
+                                var html_return = "";
+                                var not_available = `<div class="overlay-text2" ng-show="!`+s.is_2ndsem_available+`">
+                                                NOT AVAILABLE
+                                            </div>`;
+                                html_return = ` <div class="widget-overlay-wrapper" style="padding:5px 10px 5px 10px;"><div class="row" ><div class="col-lg-12"><div class="pull-left" style="width:70%;">AVAILABLE</div><div class="pull-right text-right text-success" style="width:30%;"><label>` + sencod_sem_val + `</label>&nbsp;&nbsp;</div></div>` +
+                                    `<div class="col-lg-12" ><div class="pull-left" style="width:70%;">APPLIED</div><div class="pull-right text-right text-warning" style="width:30%;"><label>` + full["total_2nd"] + `</label>&nbsp;&nbsp;</div></div>` + not_available+`</div`;
+
+                                return html_return;
+                            }
+                        }
+                    ],
+                    "createdRow": function (row, data) {
+                        if (data['nbr_quarter'] == "1" && s.nbr_quarter == 1) {
+                            $(row).css("background-color", "#ccc");
+                        }
+                        else if (data['nbr_quarter'] == "2" && s.nbr_quarter == 2) {
+                            $(row).css("background-color", "#ccc");
+                        }
+                        else if (data['nbr_quarter'] == "3" && s.nbr_quarter == 3) {
+                            $(row).css("background-color", "#ccc");
+                        }
+                        else if (data['nbr_quarter'] == "4" && s.nbr_quarter == 4) {
+                            $(row).css("background-color", "#ccc");
+                        }
+
+
+
+
+
+                        $compile(row)($scope);
+                    }
+                });
+        }
+        catch (err) {
+            swal({ icon: "warning", title: err.message });
+        }
+    };
+    var init_table_forapproval  = function (par_data)
+    {
+        try {
+            s.oTable_for_approval = $('#datalist_grid_for_approval').dataTable(
+                {
+                    data: par_data,
+                    bSort: false,
+                    bAutoWidth: false,
+                    sDom: '<"top"fl <"ApprovalFilters text-right">>rt<"bottom"ip>',
+                    //sDom: '<"top"<"chartFilters">f>rt<"bottom"ip>',
+                    columns: [
+                        {
+                            "width": "5%",
+                            "targets": 0,
+                            "mData": "employee_name",
+                            "mRender": function (data, type, full, row) {
+
+                                return `<span class='btn-block text-center'><div class="img-badge-wrapper text-center">
+                                                    <img id="m{{employee_rekon.empl_id}}"
+                                                        src="https://img-repo.davaodeoro.gov.ph/api/images/serve/`+ full["empl_photo_img"] +`"
+                                                         width="50"
+                                                         height="50"
+                                                         class="profile-img"
+                                                         onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" /><br/>
+                                                     <span class="label label-info ">` + full["department_short_name"] +`</span>
+                                                </span>`;
+
+                            }
+                        },
+                        {
+                            "width": "20%",
+                            "targets": 0,
+                            "mData": "employee_name",
+                            "mRender": function (data, type, full, row) {
+                                return `<span class='btn-block' style='padding:0px !important;margin:0px !important;'>&nbsp;&nbsp<label>`+ full["empl_id"]+" - "+ data + "</label></span> " +
+                                    "<span class='btn-block' style='padding:0px !important;margin:0px !important;font-size:10px;'>&nbsp;&nbsp<small>Created By: " + full["creator_name"] + `</small></span> ` +
+                                    "<span class='btn-block' style='padding:0px !important;margin:0px !important;font-size:10px;'>&nbsp;&nbsp<small>Application #: " + full["application_nbr"] + `</small></span> `
+                                    ;
+
+                            }
+                        },
+                        {
+                            "width": "22%",
+                            "targets": 1,
+                            "mData": "date_applied",
+                            "mRender": function (data, type, full, row) {
+
+                                return `<div class="row"><div class="col-lg-2">Applied</div><div class="col-lg-1">:</div><div class="col-lg-9">` + data +` - ` + full["time_ago"] + `</div></div>`
+                                    + `<div class="row"><div class="col-lg-2">Reviewed</div><div class="col-lg-1">:</div><div class="col-lg-9">` + moment(full["reviewed_date"]).format("YYYY-MM-DD hh:MM A") + `</div></div>`
+                                    + `<div class="row"><div class="col-lg-2">Level 1</div><div class="col-lg-1">:</div><div class="col-lg-9">` + moment(full["level1_approval_date"]).format("YYYY-MM-DD hh:MM A") + `</div></div>`
+                                    
+                                    + (s.list_type != "For_Approval" ? `<div class="row"><div class="col-lg-2">Final</div><div class="col-lg-1">:</div><div class="col-lg-9">` + moment(full["final_approval_date"]).format("YYYY-MM-DD hh:MM A") + `</div></div>` :"")
+                                    ;
+
+                            }
+                        },
+                        {
+                            "width": "15%",
+                            "targets": 2,
+                            "mRender": function (data, type, full, row)
+                            {
+                                var html_return     = "";
+                                var not_available   = (2.5 - parseFloat(full["total_1st"])) < 1 ? `<div class="overlay-text2">CONSUMED</div>` : '';
+                                var html_breakdown = "";
+                                for (var x = 0; x < full["Wdays_1st_obj"].length;x++)
+                                {
+                                    html_breakdown += 
+                                        `<div class="col-lg-12">`
+                                        + `<div class="pull-left" style="width:70%;">` + full["Wdays_1st_obj"][x]["date_breakdown"]+`</div>`
+                                        + `<div class="pull-right text-right text-success" style="width:30%;"><label>` + full["Wdays_1st_obj"][x]["val"]  + `</label>&nbsp;&nbsp;</div></div>`;
+                                }
+
+
+                                html_return = `<div class="widget-overlay-wrapper2" style="padding:5px 10px 5px 10px;">`
+                                    + `<div class="row" >`
+                                    + html_breakdown
+                                    + `<div class="col-lg-12"><div class="pull-left" style="width:70%;">Total</div><div class="pull-right text-right text-warning" style="width:30%;"><label>` + parseFloat(full["total_1st"]).toFixed(2) + `</label>&nbsp;&nbsp;</div></div></div>`;
+
+                                return html_return;
+
+                            }
+                        },
+                        {
+                            "width": "5%",
+                            "targets": 3,
+                            "mRender": function (data, type, full, row) {
+                                var html_return = `<div class="col-lg-12 text-center">
+                                                    <a ng-click="btn_edit_action(`+ row["row"] +`)" class="btn btn-success btn-facebook btn-outline btn-md btn-block">
+                                                        <i class="fa fa-th-large pull-left" style="margin-top:4px;"> </i> VIEW WELLNESS
+                                                    </a>
+                                                    <a ng-click="print_wellness('`+ full["application_nbr"].toString() +`')" class="btn btn-primary btn-facebook btn-outline btn-md btn-block">
+                                                        <i class="fa fa-print pull-left" style="margin-top:4px;"> </i> PRINT WELLNESS
+                                                    </a>
+                                                 </div>`;
+                                return html_return;
+                            }
+                        }
+                    ],
+                    "createdRow": function (row, data)
+                    {
+                        if (data['mydep'] != "1")
+                        {
+                          // $(row).addClass("blurred");
+                        }
+                        $compile(row)($scope);
+                    }
+                });
+        }
+        catch (err) {
+            swal({ icon: "warning", title: err.message });
+        }
+    };
+
+    var init_wellness_tbl = function (par_data) {
+        try {
+            s.oTable_wellnessrecords = $('#table_applied_willness').dataTable(
+                {
+                    data: par_data,
+                    bSort: true,
+                    bAutoWidth: false,
+                    sDom: 'rt<"bottom">',
+                    paging: false,
+                    columns: [
+                        {
+                            "width": "30%",
+                            "targets": 0,
+                            "mData": "date_breakdown",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='text-center btn-block'><b>" + moment(data).format('YYYY-MM-DD') + "</b></span>";
+                            }
+                        },
+                        {
+                            "width": "55%",
+                            "targets": 0,
+                            "mData": "date_breakdown",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class=' btn-block'><b> &nbsp;&nbsp;&nbsp;" + moment(data).format("MMMM DD, YYYY -- dddd") + "</b></span>";
+                            }
+                        },
+                        {
+                            "width": "15%",
+                            "targets": 3,
+                            "mData": null,
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='text-center btn-block'><b>" + full["val"] + "</b></span>";
+                            }
+                        }
+                    ],
+                    "createdRow": function (row, data, index) {
+                        $compile(row)($scope);  //add this to compile the DOM
+                    },
+
+                });
+            //$('#table_applied_willness > thead').remove();
+        }
+        catch (err) {
+            swal({ icon: "warning", title: err.message });
+        }
+
+    }
+
+    var init_table_data2 = function (par_data) {
+        try {
+            s.datalistgrid2 = par_data;
+            s.oTable2 = $('#datalist_grid2').dataTable(
+                {
+                    data: s.datalistgrid2,
+                    bSort: true,
+                    bAutoWidth: false,
+                    sDom: 'rt<"bottom">',
+                    paging: false,
+                    columns: [
+                        {
+                            "width": "15%",
+                            "targets": 0,
+                            "mData": "as_dtr_date",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='text-center btn-block'>" + data + "</span>"
+                            }
+                        },
+                        {
+                            "width": "30%",
+                            "targets": 1,
+                            "mData": "astype_descr",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='text-center btn-block'>" + data + "</span>"
+                            }
+                        },
+                        {
+                            "width": "13%",
+                            "targets": 2,
+                            "mData": null,
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='text-center btn-block'>" + (full["as_am_in"] == "" ? "--:--" : full["as_am_in"]) + "|" + (full["as_am_out"] == "" ? "--:--" : full["as_am_out"]) + "</span>"
+                            }
+                        },
+                        {
+                            "width": "13%",
+                            "targets": 3,
+                            "mData": null,
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='text-center btn-block'>" + (full["as_pm_in"] == "" ? "--:--" : full["as_pm_in"]) + "|" + (full["as_pm_out"] == "" ? "--:--" : full["as_pm_out"]) + "</span>"
+                            }
+                        },
+                        {
+                            "width": "15%",
+                            "targets": 4,
+                            "mData": "rcrd_status_descr",
+                            "mRender": function (data, type, full, row) {
+                                return "<span class='text-center btn-block'>" + data + "</span>"
+                            }
+                        },
+                        {
+                            "width": "14%",
+                            "targets": 5,
+                            "mData": null,
+                            "bSortable": false,
+                            "mRender": function (data, type, full, row) {
+                                var temp = "";
+                                temp = '<center><div class="btn-group">' +
+                                    '<button type="button" ng-disabled="false" class="btn btn-success btn-sm" ng-click="btn_show_details(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-edit"></i>SHOW DETAILS</button>' +
+                                    '</div></center>';
+                                return temp;
+                            }
+                        }
+                    ],
+                    "createdRow": function (row, data, index) {
+                        $compile(row)($scope);  //add this to compile the DOM
+                    },
+
+                });
+        }
+        catch (err) {
+            swal({ icon: "warning", title: err.message });
+        }
+
+    };
+
+    s.btn_approve_click = function ()
+    {
+        var row_id = $('#btn_approve').prop('ngx-data');
+        var data =
+        {
+             application_nbr    : s.for_approval_list[row_id].application_nbr
+            ,approval_id        : s.for_approval_list[row_id].approval_id
+            ,approval_status    : 'F'
+            ,detail_remarks    : s.txtb_remarks
+        }
+        
+
+        if (s.for_approval_list[row_id].next_status == "R")
+        {
+            $('#btn_approve').html('<i class="fa fa-spinner fa-spin"></i> Review');
+        }
+        if (s.for_approval_list[row_id].next_status == "1") {
+            $('#btn_approve').html('<i class="fa fa-spinner fa-spin"></i> Level 1 Approve');
+        }
+        if (s.for_approval_list[row_id].next_status == "2") {
+            $('#btn_approve').html('<i class="fa fa-spinner fa-spin"></i> Level 2 Approve');
+        }
+        if (s.for_approval_list[row_id].next_status == "F")
+        {
+            $('#btn_approve').html('<i class="fa fa-spinner fa-spin"></i> Final Approve');
+        }
+        h.post("../cWellnessMonitoring/ReviewApprovedAction",
+            {
+                data: data
+                ,data2: s.datalistgrid2
+            }).then(function (d)
+            {
+                if (d.data.message == "success")
+                {
+                    s.get_forapproval_list();
+                    s.get_monitoring_list();
+                    s.for_approval_list[row_id].next_status = "";
+
+                    if (data.approval_status == "R")
+                    {
+                        s.for_approval_list[row_id].worklist_status = "Reviewed";
+                        s.for_approval_list[row_id].worklist_action = "View Details";
+                        s.for_approval_list[row_id].approval_status = "R";
+                    }
+                    else if (data.approval_status == "1") {
+                        s.for_approval_list[row_id].worklist_status = "Level 1 Approved";
+                        s.for_approval_list[row_id].worklist_action = "View Details";
+                        s.for_approval_list[row_id].approval_status = "1";
+                    }
+                    else if (data.approval_status == "2") {
+                        s.for_approval_list[row_id].worklist_status = "Level 2 Approved";
+                        s.for_approval_list[row_id].worklist_action = "View Details";
+                        s.for_approval_list[row_id].approval_status = "2";
+                    }
+                    else if (data.approval_status == "F")
+                    {
+                        s.for_approval_list[row_id].worklist_status  = "Final Approved";
+                        s.for_approval_list[row_id].worklist_action  = "View Details";
+                        s.for_approval_list[row_id].approval_status  = "F";
+                        s.for_approval_list[row_id].next_status      = "L";
+                    }
+
+                    
+                    
+                    //s.oTable.fnClearTable();
+                    //if (s.for_approval_list.length > 0)
+                    //{
+                    //    s.oTable.fnAddData(s.for_approval_list);
+                    //}
+
+                    swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
+                    setTimeout(function ()
+                    {
+                        if (s.for_approval_list[row_id].next_status == "R") {
+                            $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Review');
+                        }
+                        if (s.for_approval_list[row_id].next_status == "1") {
+                            $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Level 1 Approve');
+                        }
+                        if (s.for_approval_list[row_id].next_status == "2") {
+                            $('#btn_approve').html('<i class="fa fa-thumbs-upn"></i> Level 2 Approve');
+                        }
+                        if (s.for_approval_list[row_id].next_status == "F")
+                        {
+                            $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Final Approve');
+                        }
+                        $('#main_modal').modal('hide');
+                    }, 300);
+                }
+
+                localStorage["minus_as"] = parseInt(localStorage["minus_as"]) - 1
+                minusOne("9403")
+            });
+        
+        
+    }
+    
+    s.btn_disapprove_click = function ()
+    {
+        var row_id = $('#btn_disapprove').prop('ngx-data');
+        if (ValidateFields())
+        {
+            var data =
+            {
+                application_nbr     : s.for_approval_list[row_id].application_nbr
+                , approval_id       : s.for_approval_list[row_id].approval_id
+                , approval_status   : "D"
+                , detail_remarks: s.txtb_remarks
+            }
+            $('#btn_disapprove').html('<i class="fa fa-spinner fa-spin"></i> Disapprove');
+            h.post("../cWellnessMonitoring/ReviewApprovedAction",
+                {
+                    data: data
+                }).then(function (d) {
+                    if (d.data.message == "success")
+                    {
+                        s.get_forapproval_list();
+                        s.get_monitoring_list();
+                        //s.for_approval_list[row_id].next_status = "";
+                        //s.for_approval_list[row_id].worklist_status = "Disapproved";
+                        //s.for_approval_list[row_id].worklist_action = "View Details";
+                        //s.for_approval_list[row_id].approval_status = "D";
+                        
+
+                        //s.oTable.fnClearTable();
+                        //if (s.for_approval_list.length > 0) {
+                        //    s.oTable.fnAddData(s.for_approval_list);
+                        //}
+
+                        swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
+                        setTimeout(function () {
+                            $('#btn_disapprove').html('<i class="fa fa-thumbs-up"></i> Disapprove');
+                            $('#main_modal').modal('hide');
+                        }, 300);
+                    }
+                });
+
+        }
+    }
+
+    s.btn_cancel_pending_click = function ()
+    {
+        var row_id = $('#btn_cancel_pending').prop('ngx-data');
+        if (ValidateFields())
+        {
+            var data =
+            {
+                application_nbr  : s.for_approval_list[row_id].application_nbr
+                , approval_id    : s.for_approval_list[row_id].approval_id
+                , approval_status: "C"
+                , detail_remarks: s.txtb_remarks
+            }
+            $('#btn_cancel_pending').html('<i class="fa fa-spinner fa-spin"></i> Cancel Pending');
+            h.post("../cWellnessMonitoring/ReviewApprovedAction",
+                {
+                    data: data
+                }).then(function (d) {
+                    if (d.data.message == "success")
+                    {
+                        
+
+                        s.get_forapproval_list();
+                        s.get_monitoring_list();
+                        //s.oTable.fnClearTable();
+                        //if (s.for_approval_list.length > 0) {
+                        //    s.oTable.fnAddData(s.for_approval_list);
+                        //}
+
+                        swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
+                        setTimeout(function ()
+                        {
+                            $('#btn_cancel_pending').html('<i class="fa fa-ban"></i> Cancel Pending');
+                            $('#main_modal').modal('hide');
+                        }, 300);
+                    }
+                });
+        }
+    }
+
+    s.btn_cancel_click = function () {
+        var row_id = $('#btn_cancel').prop('ngx-data');
+        if (ValidateFields()) {
+            var data =
+            {
+                application_nbr : s.for_approval_list[row_id].application_nbr
+                , approval_id   : s.for_approval_list[row_id].approval_id
+                , approval_status: "L"
+                , detail_remarks: s.txtb_remarks
+            }
+            $('#btn_cancel').html('<i class="fa fa-spinner fa-spin"></i> Cancel AS');
+            h.post("../cWellnessMonitoring/ReviewApprovedAction",
+                {
+                    data: data
+                }).then(function (d) {
+                    if (d.data.message == "success")
+                    {
+                        s.get_forapproval_list();
+                        s.get_monitoring_list();
+                        //s.oTable.fnClearTable();
+                        //if (s.for_approval_list.length > 0) {
+                        //    s.oTable.fnAddData(s.for_approval_list);
+                        //}
+
+                        swal({ icon: "success", title: "Application Successfully " + s.for_approval_list[row_id].worklist_status+"!" });
+                        setTimeout(function () {
+                            $('#btn_cancel').html('<i class="fa fa-ban"></i> Cancel AS');
+                            $('#main_modal').modal('hide');
+                        }, 300);
+                    }
+                });
+        }
+    }
+
+
+    s.btn_edit_action = function (row_id)
+    {
+        try
+        {
+            s.show_footer = true;
+            //ValidationResultColor("ALL", false);
+            //s.btn_clear_inputs();
+            s.isEdit = true
+            s.ModalTitle = "AS APPLICATION DETAILS";
+
+            $("#add1").addClass("hidden")
+            if (s.ddl_dept == "03") {
+                $("#add1").removeClass("hidden")
+            }
+
+            h.post("../cWellnessMonitoring/GetDetailsData",
+                {
+                    p_application_nbr: s.for_approval_list[row_id].application_nbr
+                }).then(function (d)
+                {
+                    if (d.data.message == "success")
+                    {
+                        s.schedules = [];
+                        $("#img_view").css("background", "url('https://img-repo.davaodeoro.gov.ph/api/images/serve/"+ s.for_approval_list[row_id]["empl_photo_img"] + "')");
+                        s.txtb_empl_id      = s.for_approval_list[row_id]["empl_id"];
+                        $("#txtb_empl_id").val(s.for_approval_list[row_id]["empl_id"]);
+
+                        if (d.data.schedules.length > 0)
+                        {
+                            s.schedules = d.data.schedules;
+                        }
+
+                        $('#btn_approve').prop('ngx-data', row_id);
+                        $('#btn_disapprove').prop('ngx-data', row_id);
+                        $('#btn_cancel_pending').prop('ngx-data', row_id);
+                        $('#btn_cancel').prop('ngx-data', row_id);
+
+                        $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Approve');
+                        $('#btn_disapprove').html('<i class="fa fa-thumbs-down"></i> Disapprove');
+                        $('#btn_cancel_pending').html('<i class="fa fa-ban"></i> Cancel Pending');
+                        $('#btn_cancel').html('<i class="fa fa-ban"></i> Cancel AS');
+
+                        $("#txtb_reviewer_name").val(s.for_approval_list[row_id].reviewed_by);
+                        s.txtb_reviewer_name = s.for_approval_list[row_id].reviewed_by;
+
+                        if (s.for_approval_list[row_id].reviewed_date == "1900-01-01")
+                            s.for_approval_list[row_id].reviewed_date = ""
+                        $("#txtb_reviewed_date").val(moment(s.for_approval_list[row_id].reviewed_date).format("YYYY-MM-DD"));
+                        s.txtb_reviewed_date = moment(s.for_approval_list[row_id].reviewed_date).format("YYYY-MM-DD");
+
+                        $("#txtb_level_name").val(s.for_approval_list[row_id].level1_approved_by);
+                        s.txtb_level_name = s.for_approval_list[row_id].level1_approved_by;
+
+
+                        if (s.for_approval_list[row_id].level1_approval_date == "1900-01-01")
+                            s.for_approval_list[row_id].level1_approval_date = ""
+
+                        $("#txtb_level_date").val(moment(s.for_approval_list[row_id].level1_approval_date).format("YYYY-MM-DD"));
+                        s.txtb_level_date = moment(s.for_approval_list[row_id].level1_approval_date).format("YYYY-MM-DD");
+
+                        s.edit_appr_ctrl    = s.for_approval_list[row_id].application_nbr;
+                        s.edit_approval_id  = s.for_approval_list[row_id].approval_id;
+                        s.temp_row_id       = row_id;
+                        s.txtb_appl_nbr     = s.for_approval_list[row_id].application_nbr;
+                        s.txtb_date_applied = s.for_approval_list[row_id].date_applied;
+                        s.txtb_empl_name    = s.for_approval_list[row_id].owner_name;
+
+                        s.txtb_created_by = s.for_approval_list[row_id].creator_name;
+                        s.txtb_empl_id      = s.for_approval_list[row_id].empl_id_owner;
+                        s.txtb_remarks      = "";
+
+                        s.oTable2.fnClearTable();
+                        s.datalistgrid2 = d.data.flpDtlLst;
+
+
+                        if (d.data.flpDtlLst.length > 0)
+                        {
+                            s.oTable2.fnAddData(d.data.flpDtlLst);
+                        }
+                        s.wellness = d.data.flpDtlLst[0].astype_code == "12" ? true : false;
+
+                        //WELLNESS CODE HERE
+                        if (s.wellness)
+                        {
+                            s.oTable_wellnessrecords.fnClearTable();
+                            s.oTable_wellnessrecords.fnAddData(d.data.breakdown);
+
+                            s.wellnesslist = d.data.wellness_list;
+                            if (s.wellnesslist.length > 0)
+                            {
+
+                                s.firstsem_used = s.wellnesslist
+                                    .filter(a => {
+                                        var m = moment(a.date_breakdown);
+                                        return m.month() >= 0 && m.month() <= 5 && (a.approval_status != "D" && a.approval_status != "L"); // Jan(0) to June(5)
+                                    })
+                                    .reduce((sum, a) => sum + Number(a.val), 0);
+
+                                s.secondsem_used = s.wellnesslist
+                                    .filter(a => {
+                                        var m = moment(a.date_breakdown);
+                                        return m.month() > 5 && (a.approval_status != "D" && a.approval_status != "L"); // Jan(0) to June(5)
+                                    })
+                                    .reduce((sum, a) => sum + Number(a.val), 0);
+                                s.first_sem_val = 2.5 - (isNaN(s.firstsem_used) ? 0 : s.firstsem_used);
+                                s.second_sem_val = (s.first_sem_val + 2.5) - (isNaN(s.secondsem_used) ? 0 : s.secondsem_used);
+                                s.first_sem_val = s.second_sem_val < 1 ? 0 : s.first_sem_val;
+
+                            }
+                            else {
+                                s.first_sem_val     = 2.5;
+                                s.second_sem_val    = 2.5 + 2.5;
+                                s.txtb_wellness_value = 1;
+                            }
+                        }
+                        s.show_btn_approve  = true;
+                        s.btn_show_cancel   = false;
+                        if (s.for_approval_list[row_id].approval_status == "1")
+                        {
+                            $('#btn_approve').html('<i class="fa fa-thumbs-up"></i> Final Approve');
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "F")
+                        {
+                            s.show_footer       = true;
+                            s.show_btn_approve  = false;
+                            s.btn_show_cancel   = false;
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "")
+                        {
+                            s.show_footer       = false;
+                            s.show_btn_approve  = false;
+                        }
+
+                        if (s.for_approval_list[row_id].approval_status == "1") {
+                            s.txtb_remarks = s.for_approval_list[row_id].level1_approval_comment;
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "2") {
+                            s.txtb_remarks = s.for_approval_list[row_id].level2_approval_comment;
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "C") {
+                            s.txtb_remarks = s.for_approval_list[row_id].cancel_pending_comment;
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "D") {
+                            s.txtb_remarks = s.for_approval_list[row_id].disapproval_comment;
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "F") {
+                            s.txtb_remarks = s.for_approval_list[row_id].final_approval_comment;
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "L") {
+                            s.txtb_remarks = s.for_approval_list[row_id].cancelled_comment;
+                        }
+                        else if (s.for_approval_list[row_id].approval_status == "R") {
+                            s.txtb_remarks = s.for_approval_list[row_id].reviewed_comment;
+                        }
+
+                        if (s.for_approval_list[row_id].worklist_action == "View Details") {
+                            s.dis_remarks = true;
+                        }
+                        else {
+                            s.dis_remarks = false;
+                        }
+                        
+                        setTimeout(function ()
+                        {
+                            $('#main_modal').modal({ backdrop: 'static', keyboard: false });
+                        }, 300);
+                    }
+                });
+
+        } catch (e)
+        {
+            swal({ icon: "warning", title: e.message });
+        }
+    }
+
+    function str_to_year(str) {
+        var year = str.substr(str.length - 4);
+        return year;
+    }
+
+    //************************************//
+    // Select Year +-3
+    //************************************// 
+    function RetrieveYear()
+    {
+        var currentYear = new Date().getFullYear();
+        var prev_year = currentYear - 3;
+        for (var i = 1; i <= 7; i++) {
+            s.year.push({ "year": prev_year })
+            prev_year++;
+        }
+    }
+
+
+    s.print_wellness = function (application_nbr)
+    {
+       
+        //if (application_nbr.trim() == "")
+        //{
+        //    s.txtb_approved_from = moment().format('YYYY-MM-DD');
+        //    s.txtb_approved_to   = moment().format('YYYY-MM-DD');
+        //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+        //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
+        //}
+
+        $("#loader").css("display", "block");
+        $("#rep_view").css("display", "none");
+        var ReportName   = "CrystalReport";
+        var SaveName     = "Crystal_Report";
+        var ReportType   = "inline";
+        var ReportPath   = "";
+        var sp           = "";
+        sp = "sp_wellness_pbb_reportV2,par_user_empl_id," + s.empl_id +",par_application_nbr," + application_nbr + ",par_period_from," + $("#txtb_approved_from").val() + ",par_period_to," + $("#txtb_approved_to").val() +"";
+        ReportPath = "~/Reports/cryWellnessReport/cryWellnessV2.rpt";
+        // *******************************************************
+        // *** VJA : 2021-07-14 - Validation and Loading hide ****
+        // *******************************************************
+        var iframe = document.getElementById('iframe_print_preview2');
+        var iframe_page = $("#iframe_print_preview2")[0];
+        iframe.style.visibility = "hidden";
+
+        s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+            + "&ReportName=" + ReportName
+            + "&SaveName=" + SaveName
+            + "&ReportType=" + ReportType
+            + "&ReportPath=" + ReportPath
+            + "&id=" + sp // + "," + parameters
+
+        if (!/*@cc_on!@*/0) { //if not IE
+            iframe.onload = function () {
+                iframe.style.visibility = "visible";
+                $("#loader").css("display", "none");
+                $("#rep_view").css("display", "block");
+            };
+        }
+        else if (iframe_page.innerHTML()) {
+            // get and check the Title (and H tags if you want)
+            var ifTitle = iframe_page.contentDocument.title;
+            if (ifTitle.indexOf("404") >= 0) {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+            else if (ifTitle != "") {
+                swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                iframe.src = "";
+            }
+        }
+        else {
+            iframe.onreadystatechange = function () {
+                if (iframe.readyState == "complete") {
+                    iframe.style.visibility = "visible";
+                }
+
+            };
+        }
+
+        iframe.src = s.embed_link;
+        $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    //***********************************************************//
+    //***Field validation for remittance type before opening add modal
+    //***********************************************************// 
+    function ValidateFields() {
+        var return_val = true;
+        ValidationResultColor("ALL", false);
+
+        if ($('#txtb_remarks').val().trim() == "") {
+            ValidationResultColor("txtb_remarks", true);
+            return_val = false;
+        }
+
+        return return_val;
+    }
+
+
+    //***********************************************************//
+    //***Field validation for remittance type before opening add modal
+    //***********************************************************// 
+    function ValidationResultColor(par_object_id, par_v_result) {
+        if (par_v_result) {
+            //Add class to the obect that need to focus as a required..
+            $("#" + par_object_id).addClass("required");
+            $("#lbl_" + par_object_id + "_req").text("Required Field");
+        }
+        else {
+            //remove of refresh the object form being required
+            $("#txtb_remarks").removeClass("required");
+            $("#lbl_txtb_remarks_req").text("");
+        }
+    }
+});

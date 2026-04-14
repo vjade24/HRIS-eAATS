@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
+      <HintPath>..\packages\BouncyCastle.Cryptography.2.4.0\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="CrystalDecisions.CrystalReports.Engine">
       <HintPath>c:\program files (x86)\sap businessobjects\crystal reports for .net framework 4.0\common\sap businessobjects enterprise xi 4.0\win32_x86\dotnet\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
     </Reference>
@@ -69,6 +72,9 @@
       <HintPath>..\..\..\MARVIN\working folder\WORKING SOLUTION\HRIS-eSelfService2\HRIS-eSelfService-Development\HRIS-eSelfService\bin\Interop.zkemkeeper.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.4, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.4\lib\net461\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Cors, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Cors.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Cors.dll</HintPath>
     </Reference>
@@ -81,24 +87,33 @@
     <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0\lib\netstandard2.0\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.8.0.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Logging, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.8.0.1\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.2\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.Options, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.8.0.2\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.8.0.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
@@ -117,10 +132,16 @@
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\netstandard2.0\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Formats.Asn1, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Asn1.8.0.1\lib\netstandard2.0\System.Formats.Asn1.dll</HintPath>
+    </Reference>
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
@@ -131,11 +152,27 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Cng, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Cng.5.0.0\lib\net461\System.Security.Cryptography.Cng.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Pkcs, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Pkcs.8.0.1\lib\netstandard2.0\System.Security.Cryptography.Pkcs.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
@@ -214,9 +251,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.TelemetryCorrelation">
       <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
     </Reference>
@@ -230,19 +264,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Common_Code\CommonDB.cs" />
-    <Compile Include="Common_Code\DeviceManipulator.cs" />
     <Compile Include="Common_Code\HRIS_Common.cs" />
     <Compile Include="Common_Code\UniversalStatic.cs" />
-    <Compile Include="Common_Code\ZkemClient.cs" />
     <Compile Include="Controllers\APIcBestInAttendanceController.cs" />
     <Compile Include="Controllers\APILeaveHistoryController.cs" />
-    <Compile Include="Controllers\BioExtractController.cs" />
     <Compile Include="Controllers\cAATSInstallationController.cs" />
     <Compile Include="Controllers\cASTDTRSupportController.cs" />
     <Compile Include="Controllers\cASTypeController.cs" />
     <Compile Include="Controllers\cBestInAttendanceController.cs" />
     <Compile Include="Controllers\cExtractToExcelController.cs" />
+    <Compile Include="Controllers\cForfeitBalanceController.cs" />
     <Compile Include="Controllers\cLeaveAdminController.cs" />
+    <Compile Include="Controllers\cSoloParentController.cs" />
     <Compile Include="Controllers\cLeaveCTOBalanceController.cs" />
     <Compile Include="Controllers\cLeaveEarnedVLSLController.cs" />
     <Compile Include="Controllers\cLeaveLedgerApprController.cs" />
@@ -257,10 +290,13 @@
     <Compile Include="Controllers\cMonthEarnsController.cs" />
     <Compile Include="Controllers\cLeaveHistoryController.cs" />
     <Compile Include="Controllers\cRepForgot2PunchController.cs" />
+    <Compile Include="Controllers\cStepIncrementController.cs" />
     <Compile Include="Controllers\cTimeScheduleController.cs" />
     <Compile Include="Controllers\cTravelTypeController.cs" />
+    <Compile Include="Controllers\cTSECheckController.cs" />
     <Compile Include="Controllers\cVLConversionDetailsController.cs" />
     <Compile Include="Controllers\cVLWithOutPayController.cs" />
+    <Compile Include="Controllers\cWellnessMonitoringController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -289,6 +325,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\authorization_slip_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\authorization_wellness_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\best_in_attendance_dtl_tbl.cs">
@@ -381,6 +420,9 @@
     </Compile>
     <Compile Include="Models\DeviceTimeInfo.cs" />
     <Compile Include="Models\Dev_Version_Name.cs" />
+    <Compile Include="Models\dtr_bio_extract2.cs">
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\dtr_empl_national_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -498,6 +540,9 @@
     <Compile Include="Models\func_get_travelorder_dates_dtl_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_leaveledger_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_leave_application_cancel_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -594,6 +639,9 @@
     <Compile Include="Models\lv_ledger_earn_history_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\lv_ledger_forfeitbal_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\lv_ledger_hdr_oth_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -606,10 +654,16 @@
     <Compile Include="Models\lv_ledger_history_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\lv_lv_ledger_extract.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MachineInfo.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\monthly_working_hrs_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\newstepincrement_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ot_request_dates_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -629,11 +683,20 @@
     <Compile Include="Models\payrollemployeemaster_pos_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\personnelstatutory_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\personnel_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\plantilla_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\positions_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\solo_parent_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_aats_installation_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -684,6 +747,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_authorization_slip_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_authorization_wellness_dayoff_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_auto_apply_force_leave_Result.cs">
@@ -887,6 +953,9 @@
     <Compile Include="Models\sp_employee_list_without_jo_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_employee_steps_dtl_list_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_exc_inc_empl_attendance_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1085,6 +1154,9 @@
     <Compile Include="Models\sp_leave_printing_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leave_restore_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leave_search_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1119,6 +1191,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_lv_ledger_earn_history_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_ledger_forfeitbal_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_lv_ledger_generate_earning_Result.cs">
@@ -1208,6 +1283,18 @@
     <Compile Include="Models\sp_ss_auto_approval_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_stepincrement_rekon_list_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_step_reckoning_overrid_tbl_lwop_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_step_record_status_list_tbl_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_step_status_details_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_timeentries_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1222,6 +1309,9 @@
     </Compile>
     <Compile Include="Models\sp_timeschedule_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_time_out_ot_list_Result.cs">
+      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_time_schedule_empl_hdr_tbl1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1367,14 +1457,29 @@
     <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_vlslearned_dailybasis_tbl_List_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_vl_fractionconvertion_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_vl_wop_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_wellness_application_schedules_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_wellness_breakdown_applied_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_wellness_dayoff_for_approval_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_wellness_monitoring_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\step_reckoning_overrid_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\step_reckoning_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1619,43 +1724,22 @@
       <DependentUpon>cryCOC_Earn.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryCTONew\cryCTONew.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryCTONew\cryCTONew1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryCTONew.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Reports\cryCTO\cryCTO.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryCTO.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryDTR\cryDTR 08-02-2023.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryDTR 08-02-2023.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryDTR\cryDTR.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryDTR.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryDTR\xcryDTR.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>xcryDTR.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Reports\cryExtractTrackingHistoryLeaveApplication\cryExtractTrackingHistoryLeaveApplication.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryExtractTrackingHistoryLeaveApplication.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryForfeited\cryForfeited.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryForfeited.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryForgotPunchList\cryForgotPunchList.cs">
@@ -1668,9 +1752,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLeaveCertification.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification1.cs">
@@ -1697,10 +1778,22 @@
       <DependentUpon>cryLeaveLedgerSummaryTerminal.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger2.cs">
+    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger_Summary.cs">
+      <DependentUpon>cryLeaveLedger_Summary.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger_20260120.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeaveLedger.rpt</DependentUpon>
+      <DependentUpon>cryLeaveLedger_20260120.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryLeaveLedger\LeaveLedgerCard1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LeaveLedgerCard.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
@@ -1725,6 +1818,150 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLWOP_HR.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryNosiList\cryNosiList.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryNosiList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryNosi\cryNosi.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryNosi.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryNosi\cryNosiXX.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryNosiXX.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDCivilService.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDCivilService.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSLND.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSLND.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSMain.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSMain.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSMainOLD.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSMainOLD.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSMainOLD2025.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSMainOLD2025.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSNameOfChildren.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSNameOfChildren.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOtherInformation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOtherInformation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOtherInformation_Membership.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOtherInformation_Membership.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOtherInformation_Recognation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOtherInformation_Recognation.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOtherInformation_Skills.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOtherInformation_Skills.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOther_page1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOther_page1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOther_page2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOther_page2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOther_page3.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOther_page3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSOther_page3x.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSOther_page3x.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSPersonalInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSPersonalInfo.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSPersonReference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSPersonReference.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSVoluntaryWork.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSVoluntaryWork.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryPDSWorkExperience.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPDSWorkExperience.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryPDS\cryTest.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryTest.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryServiceRecord\cryServiceRecord.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryServiceRecord.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryServiceRecord\cryServiceRecordX.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryServiceRecordX.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\CrystalViewer.aspx.cs">
@@ -1758,6 +1995,18 @@
       <DependentUpon>cryUndTardAbs.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryWellnessReport\cryWellnessReport.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryWellnessReport.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryWellnessReport\cryWellnessV2.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryWellnessV2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Angular\Angular-route.min.js" />
@@ -1765,6 +2014,7 @@
     <Content Include="Angular\ng-cAATSInstallation.js" />
     <Content Include="Angular\ng-cASType.js" />
     <Content Include="Angular\ng-cExtractToExcel.js" />
+    <Content Include="Angular\ng-cSoloParent.js" />
     <Content Include="Angular\ng-cLeaveAdmin.js" />
     <Content Include="Angular\ng-cBestInAttendance.js" />
     <Content Include="Angular\ng-cLWOP.js" />
@@ -1775,6 +2025,7 @@
     <Content Include="Angular\ng-cLeavePrinting.js" />
     <Content Include="Angular\ng-cLeaveTracking.js" />
     <Content Include="Angular\ng-cLeaveTransmittal.js" />
+    <Content Include="Angular\ng-cForfeitBalance.js" />
     <Content Include="Angular\ng-cMonthEarns.js" />
     <Content Include="Angular\ng-cLeaveLedgerAppr.js" />
     <Content Include="Angular\ng-cLeaveSubType.js" />
@@ -1782,10 +2033,13 @@
     <Content Include="Angular\ng-cMainPage.js" />
     <Content Include="Angular\ng-cRepForgot2Punch.js" />
     <Content Include="Angular\ng-cASTDTRSupport.js" />
+    <Content Include="Angular\ng-cStepIncrement.js" />
     <Content Include="Angular\ng-cTimeSchedule.js" />
     <Content Include="Angular\ng-cTravelType.js" />
+    <Content Include="Angular\ng-cTSECheck.js" />
     <Content Include="Angular\ng-cVLConversionDetails.js" />
     <Content Include="Angular\ng-cVLWithOutPay.js" />
+    <Content Include="Angular\ng-cWellnessMonitoring.js" />
     <Content Include="Angular\ng-file-upload.min.js" />
     <Content Include="Angular\ng-Login.js" />
     <Content Include="Angular\ng-Reports.js" />
@@ -2544,6 +2798,8 @@
     <Content Include="Reports\CrystalViewer.aspx" />
     <Content Include="ResourcesImages\add_background.png" />
     <Content Include="ResourcesImages\bg-login-system.jpg" />
+    <Content Include="ResourcesImages\capitol_line.png" />
+    <Content Include="ResourcesImages\capitol_line1.png" />
     <Content Include="ResourcesImages\Davao de Oro Provincial Capitol Building.JPG" />
     <Content Include="ResourcesImages\DDO Building Blur.jpg" />
     <Content Include="ResourcesImages\DDO Building Blury Gold.jpg" />
@@ -2610,6 +2866,8 @@
     <Content Include="Models\cnHRIS_ATS.edmx.diagram">
       <DependentUpon>cnHRIS_ATS.edmx</DependentUpon>
     </Content>
+    <Content Include="BALANCE_DISCREPANCY_UPDATED.md" />
+    <Content Include="BALANCE_DISCREPANCY_IMPLEMENTATION.md" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -2780,10 +3038,16 @@
     <Content Include="Views\cLeaveCTOBalance\Index.cshtml" />
     <Content Include="Views\cLWOP\Index.cshtml" />
     <Content Include="Views\cBestInAttendance\Index.cshtml" />
+    <Content Include="Views\cForfeitBalance\Index.cshtml" />
+    <Content Include="Views\cSoloParent\Index.cshtml" />
+    <Content Include="Views\cLoyalty\Index.cshtml" />
+    <Content Include="Views\cStepIncrement\Index.cshtml" />
+    <Content Include="Views\cWellnessMonitoring\Index.cshtml" />
+    <Content Include="Views\cTSECheck\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\BioExtract\" />
+    <Folder Include="ExportedFiles\" />
     <Folder Include="Views\Menu\" />
   </ItemGroup>
   <ItemGroup>
@@ -2808,9 +3072,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryApplicationForLeaveRep.cs</LastGenOutput>
     </Content>
-    <Content Include="Reports\cryLeaveLedger\cryLeaveLedger.rpt">
+    <Content Include="Reports\cryLeaveLedger\cryLeaveLedger_20260120.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryLeaveLedger2.cs</LastGenOutput>
+      <LastGenOutput>cryLeaveLedger_20260120.cs</LastGenOutput>
     </Content>
     <Content Include="Reports\cryForgotPunchList\cryForgotPunchList.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -2872,10 +3136,6 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>crySubLeavePermission.cs</LastGenOutput>
     </Content>
-    <Content Include="Reports\cryDTR\cryDTR.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryDTR.cs</LastGenOutput>
-    </Content>
     <Content Include="Reports\cryCOC_Earn\cryCOC_Earn.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryCOC_Earn.cs</LastGenOutput>
@@ -2912,21 +3172,141 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BestAttendanceTransmittal.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\cryDTR\cryDTR 08-02-2023.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryDTR 08-02-2023.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Reports\cryDTR\xcryDTR.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>xcryDTR.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Content Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.rpt">
+    <EmbeddedResource Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummary.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedgerSummary.cs</LastGenOutput>
-    </Content>
+    </EmbeddedResource>
     <Content Include="Reports\cryLeaveLedgerSummary\cryLeaveLedgerSummaryTerminal.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveLedgerSummaryTerminal.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryForfeited\cryForfeited.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryForfeited.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryDTR\cryDTR.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryDTR.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryDTR\cryDTRV2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryDTRV2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="Reports\cryLeaveLedger\cryLeaveLedger_Summary.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedger_Summary.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryLeaveLedger\cryLeaveLedger.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveLedger.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryLeaveLedger\LeaveLedgerCard.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>LeaveLedgerCard1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="Reports\cryNosi\cryNosi.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNosi.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryNosiList\cryNosiList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNosiList.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryNosi\cryNosiXX.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryNosiXX.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDCivilService.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDCivilService.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSLND.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSLND.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSMain.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSMain.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSMainOLD.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSMainOLD.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSMainOLD2025.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSMainOLD2025.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSNameOfChildren.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSNameOfChildren.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOtherInformation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOtherInformation.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOtherInformation_Membership.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOtherInformation_Membership.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOtherInformation_Recognation.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOtherInformation_Recognation.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOtherInformation_Skills.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOtherInformation_Skills.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOther_page1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOther_page1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOther_page2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOther_page2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOther_page3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOther_page3.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSOther_page3x.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSOther_page3x.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSPersonalInfo.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSPersonalInfo.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSPersonReference.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSPersonReference.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSVoluntaryWork.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSVoluntaryWork.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryPDSWorkExperience.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPDSWorkExperience.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryPDS\cryTest.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryTest.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="Reports\cryServiceRecord\cryServiceRecord.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryServiceRecord.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryServiceRecord\cryServiceRecordX.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryServiceRecordX.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Content Include="Reports\cryWellnessReport\cryWellnessReport.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryWellnessReport.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryWellnessReport\cryWellnessV2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryWellnessV2.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@
     var row_id_printing     = "";
     s.var_daily_monthly     = "";
     s.div_show_date_grid    = false;
-    s.image_link            = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.image_link            = cs.img_link('local')+"/images/serve/";
     s.lv_admin_dept_filter  = ""
 
     var date_cvrd           = new Date();
@@ -155,7 +155,7 @@
                             var def_images = '../../ResourcesImages/upload_profile.png';
                             return '<div class="text-center" >' +
                                         '<div class="img-circle">' +
-                                            '<img class="img-circle" onerror="this.onerror=null;this.src=\''+ def_images+'\';" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_id"] + '?v=' + temp + ' " />' +
+                                            '<img class="img-circle" onerror="this.onerror=null;this.src=\''+ def_images+'\';" alt="../ResourcesImages/upload_profile.png" width="30" height="30" src="' + s.image_link + full["empl_photo_img"]+ "?thumbnail=1" + '?v=' + temp + ' " />' +
                                         '</div>' +
                                     '</div>'
                         }
@@ -554,6 +554,9 @@
 
                 $('#modal_generating_remittance').modal("hide")
                 $('.modal-backdrop').remove()
+            }
+            else {
+                swal(d.data.meesage, {icon:"warning"})
             }
         })
     }
@@ -2242,7 +2245,7 @@
                     temp_append = '<div class="feed-element">'+
                                        '<div class="pull-left">'+
                                          '<div class="img-circle">' +
-                                            '<img class="img-circle"  alt="image" width="30" height="30" src="'+ (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U","") + '?v=' + temp)+' " />'+
+                        '<img class="img-circle"  alt="image" width="30" height="30" src="' + (s.data_history[i].empl_photo_img == "" || s.data_history[i].empl_photo_img == null ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].empl_photo_img + "?thumbnail=1" + '?v=' + temp)+' " />'+
                                         '</div>'+
                                        '</div>'+
                                         '<div class="media-body ">'+

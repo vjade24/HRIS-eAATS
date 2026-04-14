@@ -63,7 +63,7 @@ namespace HRIS_eAATS.Controllers
                 var um                  = GetAllowAccess();
                 var log_empl_id         = Session["empl_id"].ToString();
                 var data = db_ats.sp_leave_history("").ToList();
-                return JSON(new { message = "success", um, data }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", um, data, log_empl_id }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -82,7 +82,8 @@ namespace HRIS_eAATS.Controllers
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
                 var data = db_ats.sp_leave_history(par_empl_id).ToList();
-                return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                var leave_card = db_ats.func_leaveledger_report(par_empl_id,null,null,"2").ToList();
+                return JSON(new { message = "success", data , leave_card }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

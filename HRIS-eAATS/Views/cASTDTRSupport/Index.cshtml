@@ -185,7 +185,22 @@
                                                     </li>
                                                 </ul>
                                             </div>
-
+                                            <div class="col-lg-6">
+                                                <label>TIME-IN OT</label>
+                                                <select class="form-control" >
+                                                    <option value="">--Select Here--</option>
+                                                    <option ng-repeat="lst in lst_time_out" value="{{lst.bio_dttm}}">{{lst.bio_dttm}}</option>
+                                                </select>
+                                                @*<input type="text" class="form-control" id="txtb_time_in_ot" ng-model="txtb_time_in_ot" />*@
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label>TIME-OUT OT</label>
+                                                <select class="form-control" id="txtb_time_out_ot" ng-model="txtb_time_out_ot">
+                                                    <option value="">--Select Here--</option>
+                                                    <option ng-repeat="lst in lst_time_out" value="{{lst.bio_dttm}}">{{lst.bio_dttm}}</option>
+                                                </select>
+                                                @*<input type="text" class="form-control" id="txtb_time_out_ot" ng-model="txtb_time_out_ot" />*@
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="tab-2" class="tab-pane">
@@ -323,6 +338,44 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row">
+                            <div class="col-lg-6" ng-show="trnsmt.length > 0">
+                                <div class="alert alert-warning" ng-repeat="lst in trnsmt">
+                                    <div class="form-group row">
+                                        <div class="col-lg-4">
+                                            1st Quincena: 
+                                            @*<span class="badge badge-primary">{{lst.frst_qcna_posted_ddtm}}</span>*@
+                                            <br />
+                                            {{lst.frst_employee_name}}
+                                            <br />
+                                            <small>({{lst.frst_qcna_posted_ddtm}})</small>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            2nd Quincena: 
+                                            @*<span class="badge badge-primary">{{lst.sec_qcna_posted_ddtm}}</span>*@
+                                            <br />
+                                            {{lst.sec_employee_name}}
+                                            <br />
+                                            <small>({{lst.sec_qcna_posted_ddtm}})</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" ng-show="trnsmt_list.length > 0">
+                                <div class="alert alert-warning" >
+                                    <div class="form-group row" >
+                                        <div class="col-lg-6" ng-repeat="lst in trnsmt_list">
+                                            {{lst.transmittal_nbr}}
+                                            <span class="badge badge-danger">{{lst.view_type_descr}}</span>
+                                            <span class="badge badge-primary">{{lst.transmittal_type_descr}}</span>
+                                            - <small>{{lst.approval_status_descr}}</small>
+                                            <br />
+                                            {{lst.created_name}}
+                                            <br />
+                                            <small>({{lst.created_dttm}})</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-lg-12 m-b-md">
                                 <div class="tabs-container">
                                     <ul class="nav nav-tabs">

@@ -3,6 +3,7 @@
     var h = $http
     var cs = commonScript
     s.rowLen = "10";
+    s.log_empl_id = "";
 
 
     var ddate_from_to = new Date();
@@ -10,7 +11,7 @@
     s.txtb_date_fr = "2021" + "-01-01";
     s.txtb_date_to = ddate_from_to.getFullYear() + "-12-31";
     s.ddl_rep_mode = "2"
-    s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.image_link = cs.img_link('local')+"/images/serve/";
     function init()
     {
         
@@ -46,13 +47,14 @@
                 {
                     init_table_data([]);
                 }
-                
                 //**********************************************
                 //  Show/Hide ADD, EDIT, DELETE button 
                 //**********************************************
                 d.data.um.allow_add     == "1" ? s.ShowAdd    = true : s.ShowAdd = false;
                 d.data.um.allow_delete  == "1" ? s.ShowDelete = true : s.ShowDelete = false;
-                d.data.um.allow_edit    == "1" ? s.ShowEdit   = true : s.ShowEdit = false;
+                d.data.um.allow_edit    == "1" ? s.ShowEdit = true : s.ShowEdit = false;
+                s.log_empl_id = d.data.log_empl_id
+                console.log(d.data.log_empl_id)
                 $("#modal_generating_remittance").modal("hide");
             }
             else {
@@ -141,6 +143,7 @@
                 {
                     s.oTable.fnAddData(d.data.data);
                 }
+                
                 $('#modal_generating_remittance').modal("hide")
             }
         })
@@ -193,7 +196,7 @@
             temp_append = '<div class="feed-element">' +
                                 '<div class="pull-left">' +
                                         '<div class="img-circle">' +
-                                        '<img class="img-circle"  alt="image" width="30" height="30" src="' + (s.data_history[i].empl_photo_img == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].created_by.replace("U", "") + '?v=' + temp) + ' " />' +
+                                        '<img class="img-circle"  alt="image" width="30" height="30" src="' + (s.data_history[i].empl_photo_img == "" || s.data_history[i].empl_photo_img == null ? "../ResourcesImages/upload_profile.png" : s.image_link + s.data_history[i].empl_photo_img + "?thumbnail=1" + '?v=' + temp) + ' " />' +
                                         '</div>' +
                                     '</div>' +
                                     '<div class="media-body ">' +
@@ -290,7 +293,7 @@
         if (!state.id) {
             return state.text;
         }
-        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.id) ;
+        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.empl_photo_img) ;
         var $state = $(
             '<span><img alt="image" class="img-circle" width="50" height="50" src="' + baseUrl + '" class="img-flag" /> ' + state.text + '</span>'
         );
@@ -317,6 +320,7 @@
                             id: item.empl_id,
                             text: item.empl_id + " - " + item.employee_name,
                             empl_photo: item.empl_photo,
+                            empl_photo_img: item.empl_photo_img + "?thumbnail=1",
                         };
                     });
                     return {

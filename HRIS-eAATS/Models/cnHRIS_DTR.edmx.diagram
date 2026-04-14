@@ -11,7 +11,8 @@
         <EntityTypeShape EntityType="HRIS_DTRModel.bio_extract_stg_tbl" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_DTRModel.bio_machine_info_tbl" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_DTRModel.vw_personnelnames_tbl_DTR" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_DTRModel.dtr_from_bio_tbl" Width="1.5" PointX="6.75" PointY="4.25" />
+        <EntityTypeShape EntityType="HRIS_DTRModel.dtr_from_bio_tbl" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HRIS_DTRModel.dtr_bio_extract2" Width="1.5" PointX="0.75" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

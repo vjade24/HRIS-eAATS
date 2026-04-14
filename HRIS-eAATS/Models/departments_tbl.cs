@@ -26,5 +26,7 @@ namespace HRIS_eAATS.Models
         public string designation_head2 { get; set; }
         public string function_code { get; set; }
         public string department_proper_name { get; set; }
+        public string office_email { get; set; }
+        public string contact_number { get; set; }
     }
 }

@@ -29,5 +29,6 @@ namespace HRIS_eAATS.Models
         public string prepared_by_desig { get; set; }
         public string noted_by { get; set; }
         public string noted_by_desig { get; set; }
+        public string empl_photo_img { get; set; }
     }
 }

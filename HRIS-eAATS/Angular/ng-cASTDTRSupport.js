@@ -25,6 +25,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.txtb_template_descr   = "PHIC Share";//Hard coded for now based on the descussion.
     s.template_code         = "996";       //Hard coded for now based on the descussion.
     s.grouplist = [];
+    s.trnsmt = [];
+    s.trnsmt_list = [];
     s.ddl_department  = "21"
     s.employment_type = "";
     s.rate_basis = "";
@@ -40,7 +42,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     s.process_number = ""
     s.extract_selected = {}
     s.biometrics_location = []
-    s.image_link = cs.img_link('local')+"/storage/images/photo/thumb/";
+    s.lst_time_out = []
+    s.image_link = cs.img_link('local') + "/images/serve/";
     s.lbl_shift_flag = "";
     var biotype = [
           { bio_type:"0",bio_type_descr: "AM IN" }
@@ -257,6 +260,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                 
             }).then(function (d)
             {
+                s.trnsmt =[]
+                s.trnsmt_list =[]
                 if (d.data.message == "success")
                 {
                     s.TimeSked_HDR($("#ddl_name option:selected").val(), s.ddl_year);
@@ -272,6 +277,20 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                     
                     s.datalistgrid_data = d.data.data;
                     s.datalistgrid_data.refreshTable1('oTable', '');
+
+                    s.trnsmt      = d.data.trnsmt
+                    s.trnsmt_list = d.data.trnsmt_list
+
+                    for (var i = 0; i < d.data.trnsmt.length; i++)
+                    {
+                        s.trnsmt[i].frst_qcna_posted_ddtm = moment(s.trnsmt[i].frst_qcna_posted_ddtm).format('LLLL')
+                        s.trnsmt[i].sec_qcna_posted_ddtm  = moment(s.trnsmt[i].sec_qcna_posted_ddtm).format('LLLL')
+                    }
+
+                    for (var i = 0; i < d.data.trnsmt_list.length; i++)
+                    {
+                        s.trnsmt_list[i].created_dttm = moment(s.trnsmt_list[i].created_dttm).format('LLLL')
+                    }
                     $("#modal_initializing").modal('hide');
                 }
                 else
@@ -410,7 +429,6 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         $("#txtb_time_out_pm").val(moment(time_out_pm, "HH:mm").format("hh:mmA").replace("Invalid date", ""));
         
         s.GetBioExtractDetails();
-
         s.ModalTitle = "Edit Record";
         $('#main_modal').modal({ keyboard: false, backdrop: "static" });
     }
@@ -558,6 +576,12 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         //    $("#lbl_txtb_wtax_perc_req").text("Invalid Number !");
         //    return_val = false;
         //}
+
+        if ($("#ddl_name option:selected").val() == "")
+        {
+            swal("REQUIRED FIELD!","Please Select Employee", { icon: "warning" });
+            return_val = false;
+        }
         
         return return_val;
     }
@@ -606,6 +630,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
             if (d.data.message == "success")
             {
                 s.lst_extract = d.data.data;
+                s.lst_time_out = d.data.lst_time_out;
+                console.log(s.lst_time_out)
             }
             else
             {
@@ -733,13 +759,33 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
 
                     if (d.data.icon == "success")
                     {
-                        ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
-                        sp = "sp_dtr_rep,par_year," + par_year +
-                            ",par_month," + par_mons +
-                            ",par_empl_id," + par_empl_id +
-                            ",par_view_type," + par_viewtype +
-                            ",par_department_code," + d.data.department_code +
-                            ",par_user_id," + d.data.session_user_id;
+                        //if (d.data.checkShiftFlag[0].user_hr_rcvd != "")
+                        //{ 
+                        //    var xx = d.data.checkShiftFlag[0]
+                        //    var msg2 = "Submitted By:\n" + xx.user_submitted + "\n" + "HR Received By:\n" + xx.user_hr_rcvd + "\n" + "Payroll Approved By:\n" + xx.user_payroll_appr ;
+                        //    swal("DTR for this Year-Month is already transmitted to PHRMDO", msg2, {icon:"success"})
+                        //}
+
+                        if (((parseInt(par_year) >= 2024 && parseInt(par_mons) >= 10) || parseInt(par_year) > 2024))
+                        {
+                            ReportPath = "~/Reports/cryDTR/cryDTRV2.rpt";
+                            sp = "sp_dtr_rep2,par_year," + par_year +
+                                ",par_month," + par_mons +
+                                ",par_empl_id," + par_empl_id +
+                                ",par_view_type," + par_viewtype +
+                                ",par_department_code," + d.data.department_code +
+                                ",par_user_id," + d.data.session_user_id;
+
+                        } else
+                        {
+                            ReportPath = "~/Reports/cryDTR/cryDTR.rpt";
+                            sp = "sp_dtr_rep,par_year," + par_year +
+                                ",par_month," + par_mons +
+                                ",par_empl_id," + par_empl_id +
+                                ",par_view_type," + par_viewtype +
+                                ",par_department_code," + d.data.department_code +
+                                ",par_user_id," + d.data.session_user_id;
+                        }
 
                         // s.embed_link4 = "../" + controller + "/" + action + "?ReportName=" + ReportName
                         //     + "&SaveName=" + SaveName
@@ -763,8 +809,6 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                             + "&ReportType=" + ReportType
                             + "&ReportPath=" + ReportPath
                             + "&id=" + sp // + "," + parameters
-
-                        console.log(s.embed_link)
 
                         if (!/*@cc_on!@*/0) { //if not IE
                             iframe.onload = function () {
@@ -1089,7 +1133,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
         if (!state.id) {
             return state.text;
         }
-        var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.id) ;
+         var baseUrl = (state.empl_photo == "" ? "../ResourcesImages/upload_profile.png" : s.image_link + state.empl_photo_img) ;
         //var $state = $(
         //    '<span><img alt="image" class="img-circle" width="50" height="50" src="' + baseUrl + '" class="img-flag" /> ' + state.text + '</span>'
         //);
@@ -1128,6 +1172,7 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
                             empl_photo: item.empl_photo,
                             pos: item.position_long_title == null ? "--" : item.position_long_title,
                             dep: (item.department_short_name == null ? "" : " (" + item.department_short_name + ")"),
+                            empl_photo_img: item.empl_photo_img + "?thumbnail=1",
                         };
                     });
                     return {

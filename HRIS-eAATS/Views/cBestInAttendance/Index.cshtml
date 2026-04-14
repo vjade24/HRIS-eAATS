@@ -225,14 +225,15 @@
                                         <h2 class="m-t-xxs m-b-xxs"><strong>{{form.period_covered}}</strong></h2>
                                     </div>
                                     <div class="col-lg-12 text-center">
-                                        <hr class="m-b-xxs" />
+                                        <hr class="m-b-xs" />
                                         @*<img alt="image" ng-repeat="lst in dtl | limitTo: 5" class="img-circle m-r-n-md" width="50" height="50" ng-src="{{image_link+lst.empl_id}}" onError="this.onerror=null;this.src='/ResourcesImages/upload_profile.png';">
                                         <div class="rounded-box" ng-if="dtl.length > 5">
                                             {{dtl.length - 5}}<sup>+</sup>
                                         </div>*@
+                                        <input type="search" class="form-control" placeholder="Search Employee name..." ng-model="seach_employee" />
                                     </div>
                                 </div>
-                                <div class="form-group row" style="width: auto; height: 400px; overflow:auto;">
+                                <div class="form-group row" style="width: auto; height: 450px; overflow:auto;">
                                     <div class="loader-container" ng-show="loading_div">
                                         <div class="loader">
                                             <div></div>
@@ -240,7 +241,7 @@
                                             <div></div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 p-xxs" ng-show="dtl.length>0" ng-repeat="lst in dtl">
+                                    <div class="col-lg-4 p-xxs" ng-show="dtl.length>0" ng-repeat="lst in dtl | filter: { employee_name :seach_employee}">
                                             <div class="border-box">
                                                 <a class="pull-left">
                                                     <img alt="image" class="img-circle" width="70" height="70" ng-src="{{image_link+lst.empl_id}}" onError="this.onerror=null;this.src='/ResourcesImages/upload_profile.png';">
@@ -251,6 +252,8 @@
                                                     <br />
                                                     <button class="btn btn-primary btn-outline btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapse{{lst.id}}"><i class="fa fa-eye"></i> View</button>
                                                     <button class="btn btn-danger btn-outline btn-xs" ng-click="btn_action_dtl('delete',lst,$index)"><i class="fa fa-trash"></i> Remove</button>
+                                                    <button class="btn btn-success btn-outline btn-xs btn-block m-t-xs" ng-click="btn_action_dtl('print_to',lst,$index)"><i class="fa fa-print"></i> Travel Order</button>
+
                                                 </div>
                                                 <div id="collapse{{lst.id}}" class="panel-collapse collapse">
                                                     <div class="panel-body">

@@ -41,5 +41,14 @@ namespace HRIS_eAATS.Models
         public string approval_status { get; set; }
         public string approved_by { get; set; }
         public Nullable<System.DateTime> approved_dttm { get; set; }
+        public Nullable<int> late_in_am { get; set; }
+        public Nullable<int> undertime_out_am { get; set; }
+        public Nullable<int> late_in_pm { get; set; }
+        public Nullable<int> undertime_out_pm { get; set; }
+        public string tse_in_am { get; set; }
+        public string tse_out_am { get; set; }
+        public string tse_in_pm { get; set; }
+        public string tse_out_pm { get; set; }
+        public string leavetype_code { get; set; }
     }
 }

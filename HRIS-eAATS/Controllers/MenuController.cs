@@ -1,6 +1,7 @@
-﻿using HRIS_eAATS.Models;
+using HRIS_eAATS.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,34 +33,17 @@ namespace HRIS_eAATS.Controllers
         public ActionResult GetMenuList()
         {
             Session["history_page"] = "";
-            //menulst = (List<Object>)Session["menu"];
             if (Session["user_id"] != null)
             {
                 var empl_id = Session["empl_id"].ToString();
-
-                //var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
-
-                // string imreBase64Data = "";
                 var url = Request.Url.Host;
-                //string imgDataURL = (url == "hris.dvodeoro.ph" ? "http://122.53.120.18:8050/storage/images" + emp_photo_byte_arr : "http://192.168.5.218/storage/images" + emp_photo_byte_arr);
                 var img_link = System.Configuration.ConfigurationManager.AppSettings["img_link_local"];
                 if (Request.Url.Host == "hris.dvodeoro.ph")
                 {
                     img_link = System.Configuration.ConfigurationManager.AppSettings["img_link_online"];
                 }
-                string imgDataURL = img_link + "/storage/images/photo/thumb/"  +empl_id;
-                //***************convert byte array to image***********************************
-                //if (emp_photo_byte_arr != null)
-                //{
-                //    imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
-                //    imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                //}
-                //else
-                //{
-                //    imgDataURL = "../ResourcesImages/upload_profile.png";
-                //}
-                //*****************************************************************************
-
+                string imgDataURL = img_link + "/images/serve/" + Session["login_uuid"];
+                
                 var data = db.sp_user_menu_access_role_list_ATS(Session["user_id"].ToString()).ToList();
                 
                 var User_Name = Session["first_name"].ToString() + " " + Session["last_name"];
@@ -69,29 +53,9 @@ namespace HRIS_eAATS.Controllers
             else
             {
                 return RedirectToAction("Index", "Login");
-                //return Json(new { data = 0, success = 0 }, JsonRequestBehavior.AllowGet);
             }
 
         }
-
-        //public ActionResult GetNotification()
-        //{
-        //    if (Session["user_id"] != null)
-        //    {
-        //        var user_id = Session["user_id"].ToString();
-                
-        //        var notif_list  = "";
-        //        var info_list = "";
-                
-        //        return JSON(new { message = "success", notif_list, info_list }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index", "Login");
-        //    }
-
-        //}
-
         public ActionResult GetLedgerInfo(string par_view_mode, string par_department_code)
         {
             Session["cLV_Ledger_employee_name"] = "";
@@ -104,6 +68,8 @@ namespace HRIS_eAATS.Controllers
                 //var info_list           = db_ats.sp_lv_info(user_id).ToList();
                 //var info_list2          = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
                 var info_list2           = from a in db_ats.sp_lv_info2(user_id).ToList()
+                                           join r in db.vw_departments_tbl_list
+                                            on a.department_code equals r.department_code
                                            join b in db_ats.leave_application_mone_tbl 
                                            on new { a.empl_id,a.leave_ctrlno } equals new { b.empl_id,b.leave_ctrlno} into temp
                                            from b in temp.DefaultIfEmpty()
@@ -123,6 +89,7 @@ namespace HRIS_eAATS.Controllers
                                             ,a.url_name    
                                             ,a.ledger_status 
                                             ,a.disapproved_remakrs
+                                            ,r.department_short_name
                                             ,mone = b
                                            };
                 info_list2 = info_list2.OrderBy(a => a.url_name).ToList();
@@ -139,7 +106,6 @@ namespace HRIS_eAATS.Controllers
                                            department_short_name = (from l in g select l.department_short_name).Distinct(),
                                          Count = (from l in g select l.department_short_name).Count()
                                        };
-                //var info_list2_donut_chart = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N",DateTime.Now, DateTime.Now).ToList();
                 var init_donut             = db_ats.sp_ledgerposting_for_approval_list(Session["user_id"].ToString(), "N", DateTime.Now, DateTime.Now).ToList();
                 var info_list2_donut_chart = from t1 in init_donut
                                                       where (from t2 in lv_admin_dept_list.ToList()
@@ -184,7 +150,7 @@ namespace HRIS_eAATS.Controllers
                 var total_leave_review_leave  = info_list2_no_filter.Where(a => a.url_name == "../cLeaveLedger" && a.leave_type_code != "CTO").ToList().Count;
                 var total_leave_review_cto    = info_list2_no_filter.Where(a => a.url_name == "../cLeaveLedger" && a.leave_type_code == "CTO").ToList().Count;
                 var total_leave_cancellation  = info_list2_no_filter.Where(a => a.url_name != "../cLeaveLedger").ToList().Count;
-                var total_leave_printing      = 0; //db_ats.sp_leave_printing_list(null, null, "", user_id,"N").ToList().Count;
+                var total_leave_printing      = 0; 
                 var total_leave_transmittal   = db_ats.transmittal_leave_hdr_tbl.Where(a => a.created_by.Replace("U", "") == user_id.Replace("U","") && a.doc_status == "N" ).ToList().Count ;
                 var total_leave_posted_cancellation  = info_list2_no_filter.Where(a => a.url_name == "").ToList().Count;
 
@@ -206,42 +172,6 @@ namespace HRIS_eAATS.Controllers
             }
 
         }
-
-        //public ActionResult ConvertImage(string empl_id)
-        //{
-        //    try
-        //    {
-        //        var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
-
-        //        string imreBase64Data = "";
-        //        string imgDataURL = "";
-        //        //***************convert byte array to image***********************************
-        //        if (emp_photo_byte_arr != null)
-        //        {
-        //            imreBase64Data = Convert.ToBase64String(emp_photo_byte_arr);
-        //            imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-        //        }
-        //        else
-        //        {
-        //            imgDataURL = "../ResourcesImages/upload_profile.png";
-        //        }
-
-        //        return JSON(new { photo = imgDataURL }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        string message = e.Message;
-        //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-
-        //public ActionResult getUserImageId()
-        //{
-        //    var empl_id = Session["empl_id"].ToString();
-        //    var emp_photo_byte_arr = db.personnel_tbl.Where(a => a.empl_id == empl_id).FirstOrDefault().empl_photo_img;
-
-        //    return Json(emp_photo_byte_arr, JsonRequestBehavior.AllowGet);
-        //}
         public ActionResult expandedAdd(string id, int menulevel)
         {
             List<String> ls = new List<string>();
@@ -380,6 +310,17 @@ namespace HRIS_eAATS.Controllers
                             data_hdr_insert.leaveledger_balance_as_of_fl  = lv_hdr.leaveledger_balance_as_of_fl  ;
                             data_hdr_insert.sp_restore_deduct             = (lv_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
                             data_hdr_insert.fl_restore_deduct             = (lv_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
+                            data_hdr_insert.first_name                    = lv_hdr.first_name                    ;
+                            data_hdr_insert.last_name                     = lv_hdr.last_name                     ;
+                            data_hdr_insert.middle_name                   = lv_hdr.middle_name                   ;
+                            data_hdr_insert.employment_type               = lv_hdr.employment_type               ;
+                            data_hdr_insert.department_code               = lv_hdr.department_code               ;
+                            data_hdr_insert.department_short_name         = lv_hdr.department_short_name         ;
+                            data_hdr_insert.position_long_title           = lv_hdr.position_long_title           ;
+                            data_hdr_insert.monthly_rate                  = lv_hdr.monthly_rate                  ;
+                            data_hdr_insert.suffix_name                   = lv_hdr.suffix_name                   ;
+                            data_hdr_insert.courtisy_title                = lv_hdr.courtisy_title                ;
+                            data_hdr_insert.postfix_name                  = lv_hdr.postfix_name                  ;
                             
                             data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                             data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
@@ -388,6 +329,7 @@ namespace HRIS_eAATS.Controllers
                             data_dtl_insert.date_num_day_total            = date_num_day_total;
                             data_dtl_insert.empl_id                       = lv_dtl[0].empl_id              ;
                             data_dtl_insert.rcrd_status                   = "N"          ;
+
 
                             if (lv_dtl_cto.Count > 0)
                             {
@@ -406,8 +348,6 @@ namespace HRIS_eAATS.Controllers
                         }
                         else
                         {
-                            // Insert to Override if HOLIDAY AND WORK SUSPENSION (Type of Cancellation)
-                            //var ovr_inst = db_ats.sp_approve_cancellation(p_empl_id, DateTime.Parse(chk_aprv[i].leave_cancel_date.ToString()).ToString("yyyy-MM-dd"), user_id);
                             message = "success";
                         }
                     }
@@ -417,21 +357,19 @@ namespace HRIS_eAATS.Controllers
                         chk_aprv.ForEach(a => a.leave_cancel_status = "F");
                         chk_aprv.ForEach(a => a.final_approved_user = user_id);
                         chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
+                        
+                        var cancel_count = 0;
+                        var days_count   = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => DbFunctions.DiffDays(DbFunctions.TruncateTime(x.leave_date_from),DbFunctions.TruncateTime(x.leave_date_to)) + 1);
 
-                        double days_count = 0;
-                        double hours_count = 0;
-                        for (int i = 0; i < lv_dtl.Count; i++)
+                        cancel_count = db_ats.leave_application_cancel_tbl.Where(x => x.leave_ctrlno == p_leave_ctrlno && x.empl_id == p_empl_id).Count(x => x.empl_id != null);
+
+                        if (days_count == cancel_count)
                         {
-                            days_count += (lv_dtl[i].leave_date_to - lv_dtl[i].leave_date_from).TotalDays;
-                            hours_count += double.Parse(lv_dtl[i].date_num_day_total.ToString());
-                        }
-                        if ((lv_hdr.leave_type_code != "CTO" && days_count <= 0) ||
-                            (lv_hdr.leave_type_code == "CTO" && days_count <= 0 && hours_count <= 8))
-                        {
-                            lv_hdr.posting_status = false; ;
-                            lv_hdr.approval_status = "L";
+                            lv_hdr.posting_status       = false; ;
+                            lv_hdr.approval_status      = "L";
                             lv_dtl.ForEach(a => a.rcrd_status = "L");
                         }
+
 
                         // *************************************************************
                         // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
@@ -507,7 +445,7 @@ namespace HRIS_eAATS.Controllers
                 var approval_status = "L";
                 var user_id         = Session["user_id"].ToString();
 
-                var chk         = db_ats.lv_ledger_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno && a.approval_status == "F").OrderByDescending(a=> a.created_dttm).FirstOrDefault();
+                var chk         = db_ats.lv_ledger_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno && (a.approval_status == "F" || a.approval_status == "S")).OrderByDescending(a=> a.created_dttm).FirstOrDefault();
                 var lv_appl     = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).FirstOrDefault();
 
                 if (chk != null)
@@ -577,7 +515,18 @@ namespace HRIS_eAATS.Controllers
                                     data_hdr_insert.leaveledger_balance_as_of_fl  = lv_hdr.leaveledger_balance_as_of_fl  ;
                                     data_hdr_insert.sp_restore_deduct             = (lv_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
                                     data_hdr_insert.fl_restore_deduct             = (lv_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
-                            
+                                    data_hdr_insert.first_name                    = lv_hdr.first_name                    ;
+                                    data_hdr_insert.last_name                     = lv_hdr.last_name                     ;
+                                    data_hdr_insert.middle_name                   = lv_hdr.middle_name                   ;
+                                    data_hdr_insert.employment_type               = lv_hdr.employment_type               ;
+                                    data_hdr_insert.department_code               = lv_hdr.department_code               ;
+                                    data_hdr_insert.department_short_name         = lv_hdr.department_short_name         ;
+                                    data_hdr_insert.position_long_title           = lv_hdr.position_long_title           ;
+                                    data_hdr_insert.monthly_rate                  = lv_hdr.monthly_rate                  ;
+                                    data_hdr_insert.suffix_name                   = lv_hdr.suffix_name                   ;
+                                    data_hdr_insert.courtisy_title                = lv_hdr.courtisy_title                ;
+                                    data_hdr_insert.postfix_name                  = lv_hdr.postfix_name                  ;
+
                                     data_dtl_insert.leave_ctrlno                  = new_appl_nbr[0].ToString()  ;
                                     data_dtl_insert.leave_date_from               = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
                                     data_dtl_insert.leave_date_to                 = DateTime.Parse(chk_aprv[i].leave_transfer_date.ToString());
@@ -603,9 +552,6 @@ namespace HRIS_eAATS.Controllers
                                 }
                                 else
                                 {
-                                    // Insert to Override if HOLIDAY AND WORK SUSPENSION (Type of Cancellation)
-                                    //var ovr_inst = db_ats.sp_approve_cancellation(p_empl_id, DateTime.Parse(chk_aprv[i].leave_cancel_date.ToString()).ToString("yyyy-MM-dd"), user_id);
-
                                     message = "success";
                                 }
                             }
@@ -616,19 +562,16 @@ namespace HRIS_eAATS.Controllers
                                 chk_aprv.ForEach(a => a.final_approved_user = user_id);
                                 chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
                                 chk.details_remarks = p_details_remarks;
+                                
+                                var cancel_count = 0;
+                                var days_count   = db_ats.leave_application_dtl_tbl.Where(b => b.empl_id == p_empl_id && b.leave_ctrlno == p_leave_ctrlno).Sum(x => DbFunctions.DiffDays(DbFunctions.TruncateTime(x.leave_date_from),DbFunctions.TruncateTime(x.leave_date_to)) + 1);
 
-                                double days_count = 0;
-                                double hours_count =0;
-                                for (int i = 0; i < lv_dtl.Count; i++)
+                                cancel_count = db_ats.leave_application_cancel_tbl.Where(x => x.leave_ctrlno == p_leave_ctrlno && x.empl_id == p_empl_id).Count(x => x.empl_id != null);
+
+                                if (days_count == cancel_count)
                                 {
-                                    days_count  += (lv_dtl[i].leave_date_to - lv_dtl[i].leave_date_from).TotalDays;
-                                    hours_count += double.Parse(lv_dtl[i].date_num_day_total.ToString());
-                                }
-                                if ((lv_hdr.leave_type_code != "CTO" && days_count <= 0) ||
-                                    (lv_hdr.leave_type_code == "CTO" && days_count <= 0 && hours_count <= 8))
-                                {
-                                    lv_hdr.posting_status   = false; ;
-                                    lv_hdr.approval_status  = "L";
+                                    lv_hdr.posting_status       = false; ;
+                                    lv_hdr.approval_status      = "L";
                                     lv_dtl.ForEach(a => a.rcrd_status = "L");
                                 }
 
@@ -676,63 +619,6 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-
-        //public class JqueryDatatableParam
-        //{
-        //    public string sEcho { get; set; }
-        //    public string sSearch { get; set; }
-        //    public int iDisplayLength { get; set; }
-        //    public int iDisplayStart { get; set; }
-        //    public int iColumns { get; set; }
-        //    public int iSortCol_0 { get; set; }
-        //    public string sSortDir_0 { get; set; }
-        //    public int iSortingCols { get; set; }
-        //    public string sColumns { get; set; }
-        //}
-
-        //public ActionResult GetData(JqueryDatatableParam param)
-        //{
-        //    var user_id = Session["user_id"].ToString();
-        //    var employees = db_ats.sp_lv_info2(user_id).ToList().OrderBy(a => a.url_name).ToList();
-
-        //    if (!string.IsNullOrEmpty(param.sSearch))
-        //    {
-        //        employees = employees.Where(x => x.employee_name.ToLower().Contains(param.sSearch.ToLower())).ToList();
-        //    }
-
-        //    var sortColumnIndex = Convert.ToInt32(HttpContext.Request.QueryString["iSortCol_0"]);
-        //    var sortDirection = HttpContext.Request.QueryString["sSortDir_0"];
-        //    //if (sortColumnIndex == 3)
-        //    //{
-        //    //    employees = sortDirection == "asc" ? employees.OrderBy(c => c.Age) : employees.OrderByDescending(c => c.Age);
-        //    //}
-        //    //else if (sortColumnIndex == 4)
-        //    //{
-        //    //    employees = sortDirection == "asc" ? employees.OrderBy(c => c.StartDate) : employees.OrderByDescending(c => c.StartDate);
-        //    //}
-        //    //else if (sortColumnIndex == 5)
-        //    //{
-        //    //    employees = sortDirection == "asc" ? employees.OrderBy(c => c.Salary) : employees.OrderByDescending(c => c.Salary);
-        //    //}
-        //    //else
-        //    //{
-        //    //    Func<Employee, string> orderingFunction = e => sortColumnIndex == 0 ? e.Name : sortColumnIndex == 1 ? e.Position : e.Location;
-        //    //    employees = sortDirection == "asc" ? employees.OrderBy(orderingFunction) : employees.OrderByDescending(orderingFunction);
-        //    //}
-
-        //    var displayResult = employees.Skip(param.iDisplayStart)
-        //       .Take(param.iDisplayLength).ToList();
-        //    var totalRecords = employees.Count();
-
-        //    return Json(new
-        //    {
-        //        param.sEcho,
-        //        iTotalRecords = totalRecords,
-        //        iTotalDisplayRecords = totalRecords,
-        //        aaData = displayResult
-        //    }, JsonRequestBehavior.AllowGet);
-
-        //}
         public ActionResult CheckIfRunningLeaveApplication(string p_leave_ctrlno, string p_empl_id)
         {
             try
@@ -743,6 +629,398 @@ namespace HRIS_eAATS.Controllers
             catch (Exception e)
             {
                 return Json(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //*********************************************************************//
+        // Description  : Get Cancellation Details from leave_application_cancel_tbl
+        //                and calculate restore amounts based on cancelled application
+        //*********************************************************************//
+        public ActionResult GetCancellationDetails(string par_leave_ctrlno, string par_empl_id)
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+
+                // Get cancellation details as list
+                var cancellation = db_ats.leave_application_cancel_tbl
+                    .Where(c => c.leave_ctrlno == par_leave_ctrlno && c.empl_id == par_empl_id).ToList();
+
+                if (cancellation.Count == 0)
+                {
+                    return JSON(new { message = "no_data" }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Get leave application header (linked via leave_ctrlno) to get total days
+                var leave_app = db_ats.leave_application_hdr_tbl
+                    .FirstOrDefault(l => l.leave_ctrlno == par_leave_ctrlno && l.empl_id == par_empl_id);
+
+                if (leave_app == null)
+                {
+                    return JSON(new { message = "no_leave_app" }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Calculate restore amounts based on leave application data
+                var restore_amounts = new Dictionary<string, decimal>();
+
+                // Use the total days from the leave application header
+                if (leave_app.number_of_days.HasValue && leave_app.number_of_days > 0)
+                {
+                    var leave_type = leave_app.leave_type_code;
+                    var total_days = leave_app.number_of_days.Value;
+
+                    // Add the restore amount for the cancelled leave type
+                    if (!restore_amounts.ContainsKey(leave_type))
+                    {
+                        restore_amounts[leave_type] = total_days;
+                    }
+                }
+
+                // Also include pre-calculated restore/deduct amounts for other leave types
+                // Add VL restore/deduct if present
+                if (leave_app.vl_restore_deduct.HasValue && leave_app.vl_restore_deduct > 0)
+                {
+                    if (!restore_amounts.ContainsKey("VL"))
+                    {
+                        restore_amounts["VL"] = leave_app.vl_restore_deduct.Value;
+                    }
+                }
+
+                // Add SL restore/deduct if present
+                if (leave_app.sl_restore_deduct.HasValue && leave_app.sl_restore_deduct > 0)
+                {
+                    if (!restore_amounts.ContainsKey("SL"))
+                    {
+                        restore_amounts["SL"] = leave_app.sl_restore_deduct.Value;
+                    }
+                }
+
+                // Add other leave type restore/deduct if present
+                if (leave_app.oth_restore_deduct.HasValue && leave_app.oth_restore_deduct > 0)
+                {
+                    if (!restore_amounts.ContainsKey("OTH"))
+                    {
+                        restore_amounts["OTH"] = leave_app.oth_restore_deduct.Value;
+                    }
+                }
+
+                // Add SP restore/deduct if present
+                if (leave_app.sp_restore_deduct.HasValue && leave_app.sp_restore_deduct > 0)
+                {
+                    if (!restore_amounts.ContainsKey("SP"))
+                    {
+                        restore_amounts["SP"] = leave_app.sp_restore_deduct.Value;
+                    }
+                }
+
+                // Add FL restore/deduct if present
+                if (leave_app.fl_restore_deduct.HasValue && leave_app.fl_restore_deduct > 0)
+                {
+                    if (!restore_amounts.ContainsKey("FL"))
+                    {
+                        restore_amounts["FL"] = leave_app.fl_restore_deduct.Value;
+                    }
+                }
+
+                // Build cancellation info from list
+                var cancellation_info_list = new List<dynamic>();
+                foreach (var cancel_record in cancellation)
+                {
+                    cancellation_info_list.Add(new
+                    {
+                        leave_ctrlno = cancel_record.leave_ctrlno,
+                        cancel_date = cancel_record.leave_cancel_date,
+                        cancel_status = cancel_record.leave_cancel_status,
+                        cancel_type = cancel_record.leave_cancel_type,
+                        reason = cancel_record.reason,
+                        approved_by = cancel_record.approved_by,
+                        approved_by_desig = cancel_record.approved_by_desig,
+                        returned_remarks = cancel_record.returned_remarks,
+                        final_approved_dttm = cancel_record.final_approved_dttm,
+                        transfer_date = cancel_record.leave_transfer_date
+                    });
+                }
+
+                return JSON(new { message = "success", cancellation_data = cancellation_info_list, restore_amounts = restore_amounts }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult GetCancellation(string empl_id, string leave_ctrlno)
+        {
+            try
+            {
+                var data = db_ats.sp_leave_restore(empl_id,leave_ctrlno).ToList();
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public async Task<ActionResult> ApprovedCancellation(string empl_id, string leave_ctrlno)
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+                var data    = db_ats.sp_leave_restore(empl_id, leave_ctrlno).ToList();
+                var message = "";
+                var user_id = Session["user_id"].ToString().Trim();
+
+                if (data.Count == 0)
+                {
+                    return Json(new { message = "no data found" }, JsonRequestBehavior.AllowGet);
+                }
+
+                var data_sp = data.FirstOrDefault();
+
+                // ======================================================
+                // STEP 1: If posted, restore leave ledger balances
+                // ======================================================
+                if (data_sp.is_posted == 1)
+                {
+                    var query_hdr = db_ats.lv_ledger_hdr_tbl
+                        .Where(a => a.empl_id == data_sp.empl_id && a.leave_ctrlno == data_sp.leave_ctrlno)
+                        .OrderByDescending(a => a.created_dttm)
+                        .FirstOrDefault();
+
+                    if (query_hdr == null)
+                    {
+                        return Json(new { message = "Ledger header not found" }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    // Mark the existing ledger as cancelled
+                    query_hdr.approval_status = "L";
+
+                    // Generate new ledger control number for the restore entry
+                    var new_appl_nbr       = db_ats.sp_generate_appl_nbr("lv_ledger_hdr_tbl", 10, "ledger_ctrl_no").FirstOrDefault();
+                    var leaveledger_date   = DateTime.Now.Year == data_sp.leave_cancel_date.Year
+                                             ? DateTime.Now
+                                             : new DateTime(data_sp.leave_cancel_date.Year, data_sp.leave_cancel_date.Month, 1).AddMonths(1).AddDays(-1);
+                    var leaveledger_period = string.Join(", ", data.Select(x => x.leave_cancel_date).ToList().Select(d => d.ToString("M/d/yyyy")));
+                    var leave_count        = data.Sum(a => a.date_num_day);
+
+                    // Create new ledger header for balance restoration
+                    lv_ledger_hdr_tbl lv_hdr    = new lv_ledger_hdr_tbl();
+                    lv_hdr.ledger_ctrl_no           = new_appl_nbr.ToString()          ;
+                    lv_hdr.empl_id                  = query_hdr.empl_id                ;
+                    lv_hdr.leaveledger_date         = leaveledger_date                 ;
+                    lv_hdr.leaveledger_period       = query_hdr.lv_nodays == leave_count ? "" : leaveledger_period;
+                    lv_hdr.leavetype_code           = query_hdr.leavetype_code         ;
+                    lv_hdr.leavesubtype_code        = query_hdr.leavesubtype_code      ;
+                    lv_hdr.leaveledger_particulars  = query_hdr.leaveledger_entry_type == "MZ" ? query_hdr.leaveledger_particulars : leave_count.ToString() + "-0-0";
+                    lv_hdr.leaveledger_entry_type   = "T"                              ;
+                    lv_hdr.details_remarks          = "Ledger Post - Cancellation"     ;
+                    lv_hdr.approval_status          = "F"                              ;
+                    lv_hdr.approval_id              = query_hdr.approval_id            ;
+                    lv_hdr.leave_ctrlno             = query_hdr.leave_ctrlno           ;
+                    lv_hdr.date_applied             = query_hdr.date_applied           ;
+                    lv_hdr.created_dttm             = DateTime.Now                     ;
+                    lv_hdr.created_by_user          = user_id                          ;
+                    lv_hdr.updated_dttm             = null                             ;
+                    lv_hdr.updated_by_user          = ""                               ;
+                    lv_hdr.sig_name3_ovrd           = query_hdr.sig_name3_ovrd         ;
+                    lv_hdr.sig_pos3_ovrd            = query_hdr.sig_pos3_ovrd          ;
+                    lv_hdr.lv_nodays                = query_hdr.lv_nodays              ;
+                    lv_hdr.lwop_date                = query_hdr.lwop_date              ;
+                    lv_hdr.lwop_body_1              = query_hdr.lwop_body_1            ;
+                    lv_hdr.lwop_body_2              = query_hdr.lwop_body_2            ;
+
+                    // Create ledger detail records for each leave type to restore
+                    List<lv_ledger_dtl_tbl> lv_dtl = new List<lv_ledger_dtl_tbl>();
+
+                    var sl  = data.Sum(a => a.sl_restore) ?? 0;
+                    var vl  = data.Sum(a => a.vl_restored) ?? 0;
+                    var oth = data.Sum(a => a.oth_restored) ?? 0;
+
+                    if (sl > 0)
+                    {
+                        var sl_bal = db_ats.sp_leaveledger_curr_bal(query_hdr.empl_id, DateTime.Now.Year.ToString(), "SL").FirstOrDefault();
+                        lv_dtl.Add(new lv_ledger_dtl_tbl
+                        {
+                             ledger_ctrl_no               = new_appl_nbr.ToString()
+                            ,leavetype_code               = "SL"
+                            ,leavesubtype_code            = ""
+                            ,leaveledger_balance_as_of    = sl_bal != null ? sl_bal.leaveledger_balance_current : 0
+                            ,leaveledger_restore_deduct   = sl
+                            ,leaveledger_abs_und_wp       = 0
+                            ,leaveledger_abs_und_wop      = 0
+                        });
+                    }
+                    if (vl > 0)
+                    {
+                        var vl_bal = db_ats.sp_leaveledger_curr_bal(query_hdr.empl_id, DateTime.Now.Year.ToString(), "VL").FirstOrDefault();
+                        lv_dtl.Add(new lv_ledger_dtl_tbl
+                        {
+                             ledger_ctrl_no               = new_appl_nbr.ToString()
+                            ,leavetype_code               = "VL"
+                            ,leavesubtype_code            = ""
+                            ,leaveledger_balance_as_of    = vl_bal != null ? vl_bal.leaveledger_balance_current : 0
+                            ,leaveledger_restore_deduct   = vl
+                            ,leaveledger_abs_und_wp       = 0
+                            ,leaveledger_abs_und_wop      = 0
+                        });
+                    }
+                    if (oth > 0)
+                    {
+                        var oth_bal = db_ats.sp_leaveledger_curr_bal(query_hdr.empl_id, DateTime.Now.Year.ToString(), query_hdr.leavetype_code).FirstOrDefault();
+                        lv_dtl.Add(new lv_ledger_dtl_tbl
+                        {
+                             ledger_ctrl_no               = new_appl_nbr.ToString()
+                            ,leavetype_code               = query_hdr.leavetype_code
+                            ,leavesubtype_code            = ""
+                            ,leaveledger_balance_as_of    = oth_bal != null ? oth_bal.leaveledger_balance_current : 0
+                            ,leaveledger_restore_deduct   = oth
+                            ,leaveledger_abs_und_wp       = 0
+                            ,leaveledger_abs_und_wop      = 0
+                        });
+                    }
+
+                    db_ats.lv_ledger_hdr_tbl.Add(lv_hdr);
+                    if (lv_dtl.Any())
+                    {
+                        db_ats.lv_ledger_dtl_tbl.AddRange(lv_dtl);
+                    }
+                }
+
+                // ======================================================
+                // STEP 2: Handle leave transfer for applicable cancel types
+                // ======================================================
+                var lv_app_hdr      = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == leave_ctrlno).FirstOrDefault();
+                var lv_app_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == leave_ctrlno).ToList();
+                var lv_app_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == leave_ctrlno).ToList();
+
+                foreach (var item in data)
+                {
+                    // Insert transferred leave application if transfer date exists
+                    if (item.leave_transfer_date != null)
+                    {
+                        decimal date_num_day_total = 0;
+                        if (lv_app_dtl[0].leave_date_from == lv_app_dtl[0].leave_date_to)
+                        {
+                            date_num_day_total = decimal.Parse(lv_app_dtl[0].date_num_day_total.ToString());
+                        }
+                        else
+                        {
+                            date_num_day_total = (lv_app_hdr.leave_type_code == "CTO" ? 8 : 1);
+                        }
+
+                        var new_leave_nbr = db_ats.sp_generate_appl_nbr("leave_application_hdr_tbl", 8, "leave_ctrlno").FirstOrDefault();
+
+                        leave_application_hdr_tbl data_hdr_insert = new leave_application_hdr_tbl();
+                        data_hdr_insert.leave_ctrlno                  = new_leave_nbr.ToString()       ;
+                        data_hdr_insert.empl_id                       = lv_app_hdr.empl_id             ;
+                        data_hdr_insert.date_applied                  = lv_app_hdr.date_applied        ;
+                        data_hdr_insert.leave_comments                = lv_app_hdr.leave_comments      ;
+                        data_hdr_insert.leave_type_code               = lv_app_hdr.leave_type_code     ;
+                        data_hdr_insert.leave_subtype_code            = lv_app_hdr.leave_subtype_code  ;
+                        data_hdr_insert.number_of_days                = date_num_day_total              ;
+                        data_hdr_insert.sl_restore_deduct             = (lv_app_hdr.leave_type_code == "SL" ? date_num_day_total : 0);
+                        data_hdr_insert.vl_restore_deduct             = (lv_app_hdr.leave_type_code == "VL" || lv_app_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
+                        data_hdr_insert.oth_restore_deduct            = lv_app_hdr.oth_restore_deduct  ;
+                        data_hdr_insert.leave_class                   = lv_app_hdr.leave_class         ;
+                        data_hdr_insert.leave_descr                   = lv_app_hdr.leave_descr         ;
+                        data_hdr_insert.details_remarks               = "Tranfered Leave"              ;
+                        data_hdr_insert.approval_status               = "N"                            ;
+                        data_hdr_insert.posting_status                = false                          ;
+                        data_hdr_insert.approval_id                   = ""                             ;
+                        data_hdr_insert.justification_flag            = lv_app_hdr.justification_flag  ;
+                        data_hdr_insert.commutation                   = lv_app_hdr.commutation         ;
+                        data_hdr_insert.created_dttm                  = DateTime.Now                   ;
+                        data_hdr_insert.created_by_user               = user_id                        ;
+                        data_hdr_insert.updated_dttm                  = null                           ;
+                        data_hdr_insert.updated_by_user               = ""                             ;
+                        data_hdr_insert.leaveledger_date              = lv_app_hdr.leaveledger_date    ;
+                        data_hdr_insert.leaveledger_balance_as_of_sl  = lv_app_hdr.leaveledger_balance_as_of_sl ;
+                        data_hdr_insert.leaveledger_balance_as_of_vl  = lv_app_hdr.leaveledger_balance_as_of_vl ;
+                        data_hdr_insert.leaveledger_balance_as_of_oth = lv_app_hdr.leaveledger_balance_as_of_oth;
+                        data_hdr_insert.leaveledger_balance_as_of_sp  = lv_app_hdr.leaveledger_balance_as_of_sp ;
+                        data_hdr_insert.leaveledger_balance_as_of_fl  = lv_app_hdr.leaveledger_balance_as_of_fl ;
+                        data_hdr_insert.sp_restore_deduct             = (lv_app_hdr.leave_type_code == "SP" ? date_num_day_total : 0);
+                        data_hdr_insert.fl_restore_deduct             = (lv_app_hdr.leave_type_code == "FL" ? date_num_day_total : 0);
+                        data_hdr_insert.first_name                    = lv_app_hdr.first_name          ;
+                        data_hdr_insert.last_name                     = lv_app_hdr.last_name           ;
+                        data_hdr_insert.middle_name                   = lv_app_hdr.middle_name         ;
+                        data_hdr_insert.employment_type               = lv_app_hdr.employment_type     ;
+                        data_hdr_insert.department_code               = lv_app_hdr.department_code     ;
+                        data_hdr_insert.department_short_name         = lv_app_hdr.department_short_name;
+                        data_hdr_insert.position_long_title           = lv_app_hdr.position_long_title ;
+                        data_hdr_insert.monthly_rate                  = lv_app_hdr.monthly_rate        ;
+                        data_hdr_insert.suffix_name                   = lv_app_hdr.suffix_name         ;
+                        data_hdr_insert.courtisy_title                = lv_app_hdr.courtisy_title      ;
+                        data_hdr_insert.postfix_name                  = lv_app_hdr.postfix_name        ;
+
+                        leave_application_dtl_tbl data_dtl_insert = new leave_application_dtl_tbl();
+                        data_dtl_insert.leave_ctrlno                  = new_leave_nbr.ToString()                                    ;
+                        data_dtl_insert.leave_date_from               = DateTime.Parse(item.leave_transfer_date.ToString())             ;
+                        data_dtl_insert.leave_date_to                 = DateTime.Parse(item.leave_transfer_date.ToString())             ;
+                        data_dtl_insert.date_num_day                  = lv_app_dtl[0].date_num_day                                     ;
+                        data_dtl_insert.date_num_day_total = date_num_day_total                                           ;
+                        data_dtl_insert.empl_id                       = lv_app_dtl[0].empl_id                                          ;
+                        data_dtl_insert.rcrd_status                   = "N"                                                            ;
+
+                        db_ats.leave_application_hdr_tbl.Add(data_hdr_insert);
+                        db_ats.leave_application_dtl_tbl.Add(data_dtl_insert);
+
+                        if (lv_app_dtl_cto.Count > 0)
+                        {
+                            leave_application_dtl_cto_tbl data_dtl_cto_insert = new leave_application_dtl_cto_tbl();
+                            data_dtl_cto_insert.leave_ctrlno    = new_leave_nbr.ToString()                            ;
+                            data_dtl_cto_insert.leave_date_from = DateTime.Parse(item.leave_transfer_date.ToString())     ;
+                            data_dtl_cto_insert.leave_date_to   = DateTime.Parse(item.leave_transfer_date.ToString())     ;
+                            data_dtl_cto_insert.cto_remarks     = lv_app_dtl_cto[0].cto_remarks                          ;
+                            db_ats.leave_application_dtl_cto_tbl.Add(data_dtl_cto_insert);
+                        }
+                        
+                    }
+                }
+
+                // ======================================================
+                // STEP 3: Update cancellation status to Final Approved
+                // ======================================================
+                var chk_aprv = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == empl_id && a.leave_ctrlno == leave_ctrlno).ToList();
+
+                chk_aprv.ForEach(a => a.leave_cancel_status = "F");
+                chk_aprv.ForEach(a => a.final_approved_user = user_id);
+                chk_aprv.ForEach(a => a.final_approved_dttm = DateTime.Now);
+
+                // ======================================================
+                // STEP 4: Check if all days are cancelled and update leave application status
+                // ======================================================
+                var cancel_count = chk_aprv.Count;
+                var days_count   = db_ats.leave_application_dtl_tbl
+                                    .Where(b => b.empl_id == empl_id && b.leave_ctrlno == leave_ctrlno)
+                                    .Sum(x => DbFunctions.DiffDays(DbFunctions.TruncateTime(x.leave_date_from), DbFunctions.TruncateTime(x.leave_date_to)) + 1);
+
+                if (days_count == cancel_count && lv_app_hdr != null)
+                {
+                    lv_app_hdr.posting_status  = false;
+                    lv_app_hdr.approval_status = "L";
+                    lv_app_dtl.ForEach(a => a.rcrd_status = "L");
+                }
+
+                // ======================================================
+                // STEP 5: Insert Leave Ledger History
+                // ======================================================
+                var appl_status = data_sp.is_posted == 1 ? "Cancellation Approved & Balance Restored" : "Cancellation Approved";
+                db_ats.sp_lv_ledger_history_insert("", leave_ctrlno, empl_id, appl_status, "", user_id);
+
+                // ======================================================
+                // STEP 6: Save all changes
+                // ======================================================
+                await db_ats.SaveChangesAsync();
+                message = "success";
+
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.InnerException != null ? e.InnerException.Message : e.Message;
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

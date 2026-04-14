@@ -56,6 +56,23 @@ warning 6002: The table/view 'HRIS_DTR.dbo.bio_machine_info_tbl' does not have a
           <Property Name="bio_status" Type="int" />
           <Property Name="extract_type" Type="int" />
         </EntityType>
+        <EntityType Name="dtr_bio_extract2">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="bio_date" />
+            <PropertyRef Name="bio_time" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="bio_date" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="bio_time" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="bio_terminal" Type="varchar" MaxLength="3" />
+          <Property Name="bio_etype" Type="varchar" MaxLength="10" />
+          <Property Name="bio_filler1" Type="varchar" MaxLength="2" />
+          <Property Name="bio_filler2" Type="varchar" MaxLength="5" />
+          <Property Name="process_nbr" Type="bigint" />
+          <Property Name="uploaded_by" Type="varchar" MaxLength="30" />
+          <Property Name="uploaded_dttm" Type="datetime" />
+        </EntityType>
         <EntityType Name="dtr_from_bio_tbl">
           <Key>
             <PropertyRef Name="dtr_date" />
@@ -68,7 +85,7 @@ warning 6002: The table/view 'HRIS_DTR.dbo.bio_machine_info_tbl' does not have a
           <Property Name="time_in_pm" Type="varchar" MaxLength="5" />
           <Property Name="time_out_pm" Type="varchar" MaxLength="5" />
           <Property Name="time_in_ot" Type="varchar" MaxLength="5" />
-          <Property Name="time_out_ot" Type="varchar" MaxLength="5" />
+          <Property Name="time_out_ot" Type="varchar" MaxLength="255" />
           <Property Name="dtr_status" Type="varchar" MaxLength="6" />
           <Property Name="processed_by_user" Type="varchar" MaxLength="30" />
           <Property Name="processed_dttm" Type="datetime" />
@@ -297,6 +314,10 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
           <Parameter Name="owner_id" Type="int" Mode="In" />
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="sp_time_out_ot_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_bio_date" Type="date" Mode="In" />
+        </Function>
         <Function Name="sp_timefilter_bioextract" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_update_bio_log_info_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_log_date" Type="datetime" Mode="In" />
@@ -337,6 +358,7 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
         </Function>
         <EntityContainer Name="HRIS_DTRModelStoreContainer">
           <EntitySet Name="bio_log_info_tbl" EntityType="Self.bio_log_info_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dtr_bio_extract2" EntityType="Self.dtr_bio_extract2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dtr_from_bio_tbl" EntityType="Self.dtr_from_bio_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="dtr_processed_files_tbl" EntityType="Self.dtr_processed_files_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -649,7 +671,6 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
             <Parameter Name="p_updated_dttm" Mode="In" Type="String" />
             <Parameter Name="p_updated_userby" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="dtr_from_bio_tbl" EntityType="HRIS_DTRModel.dtr_from_bio_tbl" />
           <FunctionImport Name="sp_dtr_from_bio_tbl_list" ReturnType="Collection(HRIS_DTRModel.sp_dtr_from_bio_tbl_list_Result)">
             <Parameter Name="p_dtr_date" Mode="In" Type="DateTime" />
             <Parameter Name="p_empl_id_ao" Mode="In" Type="String" />
@@ -687,6 +708,12 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
             <Parameter Name="p_month" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
             <Parameter Name="p_extract_type" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="dtr_from_bio_tbl" EntityType="HRIS_DTRModel.dtr_from_bio_tbl" />
+          <EntitySet Name="dtr_bio_extract2" EntityType="HRIS_DTRModel.dtr_bio_extract2" />
+          <FunctionImport Name="sp_time_out_ot_list" ReturnType="Collection(HRIS_DTRModel.sp_time_out_ot_list_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_bio_date" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_as_alerts_Result">
@@ -837,23 +864,6 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
           <Property Type="String" Name="process_nbr" Nullable="true" MaxLength="10" />
           <Property Type="String" Name="shift_flag" Nullable="true" MaxLength="1" />
         </ComplexType>
-        <EntityType Name="dtr_from_bio_tbl">
-          <Key>
-            <PropertyRef Name="dtr_date" />
-            <PropertyRef Name="empl_id" />
-          </Key>
-          <Property Name="dtr_date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="time_in_am" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="time_out_am" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="time_in_pm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="time_out_pm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="time_in_ot" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="time_out_ot" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="dtr_status" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
-          <Property Name="processed_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="processed_dttm" Type="DateTime" Precision="3" />
-        </EntityType>
         <ComplexType Name="sp_dtr_from_bio_tbl_list_Result">
           <Property Type="String" Name="dtr_date" Nullable="true" MaxLength="4000" />
           <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
@@ -903,6 +913,44 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
           <Property Type="String" Name="result_value_descr" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="prc_parameter" Nullable="true" MaxLength="500" />
           <Property Type="Int64" Name="process_nbr" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="dtr_from_bio_tbl">
+          <Key>
+            <PropertyRef Name="dtr_date" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="dtr_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="time_in_am" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_out_am" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_in_pm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_out_pm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_in_ot" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="time_out_ot" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="dtr_status" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="processed_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="processed_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="dtr_bio_extract2">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="bio_date" />
+            <PropertyRef Name="bio_time" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="bio_date" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="bio_time" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="bio_terminal" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="bio_etype" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="bio_filler1" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="bio_filler2" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="process_nbr" Type="Int64" />
+          <Property Name="uploaded_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="uploaded_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_time_out_ot_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="bio_dttm" Nullable="false" MaxLength="19" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1229,23 +1277,6 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="dtr_from_bio_tbl">
-            <EntityTypeMapping TypeName="HRIS_DTRModel.dtr_from_bio_tbl">
-              <MappingFragment StoreEntitySet="dtr_from_bio_tbl">
-                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
-                <ScalarProperty Name="processed_by_user" ColumnName="processed_by_user" />
-                <ScalarProperty Name="dtr_status" ColumnName="dtr_status" />
-                <ScalarProperty Name="time_out_ot" ColumnName="time_out_ot" />
-                <ScalarProperty Name="time_in_ot" ColumnName="time_in_ot" />
-                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
-                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
-                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
-                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_dtr_from_bio_tbl_list" FunctionName="HRIS_DTRModel.Store.sp_dtr_from_bio_tbl_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_dtr_from_bio_tbl_list_Result">
@@ -1325,6 +1356,47 @@ warning 6002: The table/view 'HRIS_DTR.dbo.vw_personnelnames_tbl_DTR' does not h
                 <ScalarProperty Name="result_value_descr" ColumnName="result_value_descr" />
                 <ScalarProperty Name="prc_parameter" ColumnName="prc_parameter" />
                 <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="dtr_from_bio_tbl">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.dtr_from_bio_tbl">
+              <MappingFragment StoreEntitySet="dtr_from_bio_tbl">
+                <ScalarProperty Name="processed_dttm" ColumnName="processed_dttm" />
+                <ScalarProperty Name="processed_by_user" ColumnName="processed_by_user" />
+                <ScalarProperty Name="dtr_status" ColumnName="dtr_status" />
+                <ScalarProperty Name="time_out_ot" ColumnName="time_out_ot" />
+                <ScalarProperty Name="time_in_ot" ColumnName="time_in_ot" />
+                <ScalarProperty Name="time_out_pm" ColumnName="time_out_pm" />
+                <ScalarProperty Name="time_in_pm" ColumnName="time_in_pm" />
+                <ScalarProperty Name="time_out_am" ColumnName="time_out_am" />
+                <ScalarProperty Name="time_in_am" ColumnName="time_in_am" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dtr_bio_extract2">
+            <EntityTypeMapping TypeName="HRIS_DTRModel.dtr_bio_extract2">
+              <MappingFragment StoreEntitySet="dtr_bio_extract2">
+                <ScalarProperty Name="uploaded_dttm" ColumnName="uploaded_dttm" />
+                <ScalarProperty Name="uploaded_by" ColumnName="uploaded_by" />
+                <ScalarProperty Name="process_nbr" ColumnName="process_nbr" />
+                <ScalarProperty Name="bio_filler2" ColumnName="bio_filler2" />
+                <ScalarProperty Name="bio_filler1" ColumnName="bio_filler1" />
+                <ScalarProperty Name="bio_etype" ColumnName="bio_etype" />
+                <ScalarProperty Name="bio_terminal" ColumnName="bio_terminal" />
+                <ScalarProperty Name="bio_time" ColumnName="bio_time" />
+                <ScalarProperty Name="bio_date" ColumnName="bio_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_time_out_ot_list" FunctionName="HRIS_DTRModel.Store.sp_time_out_ot_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_DTRModel.sp_time_out_ot_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="bio_dttm" ColumnName="bio_dttm" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -24,5 +24,14 @@ namespace HRIS_eAATS.Models
         public string department_code { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }
         public string created_user_id { get; set; }
+        public string ledger_ctrl_no { get; set; }
+        public Nullable<decimal> prev_balance_as_of_vl { get; set; }
+        public Nullable<decimal> curr_restore_deduct_vl { get; set; }
+        public Nullable<decimal> curr_abs_und_wp_vl { get; set; }
+        public Nullable<decimal> curr_balance_as_of_vl { get; set; }
+        public Nullable<decimal> prev_balance_as_of_sl { get; set; }
+        public Nullable<decimal> curr_restore_deduct_sl { get; set; }
+        public Nullable<decimal> curr_abs_und_wp_sl { get; set; }
+        public Nullable<decimal> curr_balance_as_of_sl { get; set; }
     }
 }
