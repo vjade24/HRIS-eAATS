@@ -470,5 +470,40 @@ namespace HRIS_eAATS.Controllers
             }
         }
 
+        //*********************************************************************//
+        // Description  : Retrieve COA Leave Summary Report
+        //*********************************************************************//
+        public ActionResult RetrieveCOAReport(DateTime p_leave_date_from, DateTime p_leave_date_to, string p_empl_id)
+        {
+            try
+            {
+                var data = db_ats.sp_leaveledger_report_extract(p_leave_date_from, p_leave_date_to, p_empl_id).ToList();
+                if (data == null || data.Count == 0)
+                    return JSON(new { message = "no-data-found" }, JsonRequestBehavior.AllowGet);
+
+                return JSON(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return JSON(new { message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult RetrieveCOADetail(string p_empl_id, DateTime p_date_fr, DateTime p_date_to)
+        {
+            try
+            {
+                var data = db_ats.sp_leaveledger_report(p_empl_id, null, null, 2).Where(x=>x.created_dttm >= p_date_fr && x.created_dttm <= p_date_to).ToList();
+                if (data == null || data.Count == 0)
+                    return JSON(new { message = "no-data-found" }, JsonRequestBehavior.AllowGet);
+
+                return JSON(new { message = "success", data = data.OrderBy(a=>a.created_dttm) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return JSON(new { message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }

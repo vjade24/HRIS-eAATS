@@ -149,6 +149,38 @@ ng_HRD_App.controller("cExtractToExcel_ctrlr", function ($scope, $compile, $http
     {
         if (ValidateFields())
         {
+            s.show_coa_table = false;
+            s.coa_data = [];
+
+            if (s.ddl_report_type == "COA-REPORT")
+            {
+                $("#modal_generating_tax").modal({ keyboard: false, backdrop: "static" });
+                h.post("../cExtractToExcel/RetrieveCOAReport",
+                {
+                    p_leave_date_from : $('#txtb_leave_date_from').val(),
+                    p_leave_date_to   : $('#txtb_leave_date_to').val(),
+                    p_empl_id         : "ALL"
+                }).then(function (d)
+                {
+                    $("#modal_generating_tax").modal("hide");
+                    if (d.data.message == "success")
+                    {
+                        s.coa_data = d.data.data;
+                        s.show_coa_table = true;
+                        $('html, body').animate({ scrollTop: $('#tbl_coa_report').offset().top - 20 }, 500);
+                    }
+                    else if (d.data.message == "no-data-found")
+                    {
+                        swal("No Data Found!", "No records matched the selected period.", "warning");
+                    }
+                    else
+                    {
+                        swal(d.data.message, "Error retrieving COA Report", "error");
+                    }
+                });
+                return;
+            }
+
             $("#modal_generating_tax").modal({ keyboard: false, backdrop: "static" });
 
             if (s.ddl_report_type == "HISTORY")
@@ -359,7 +391,9 @@ ng_HRD_App.controller("cExtractToExcel_ctrlr", function ($scope, $compile, $http
         s.show_period   = false;
         s.show_emptype  = true;
         s.showdept      = true;
-        
+        s.show_coa_table = false;
+        s.coa_data = [];
+
         if (s.ddl_report_type == "UND_TARD" ||
             s.ddl_report_type == "BEST" ||
             s.ddl_report_type == "LWOP")
@@ -384,6 +418,11 @@ ng_HRD_App.controller("cExtractToExcel_ctrlr", function ($scope, $compile, $http
         if (s.ddl_report_type == "BEST")
         {
             s.show_inc_exc = true
+        }
+        if (s.ddl_report_type == "COA-REPORT")
+        {
+            s.show_emptype  = false;
+            s.showdept      = false;
         }
 
     }
@@ -637,14 +676,58 @@ ng_HRD_App.controller("cExtractToExcel_ctrlr", function ($scope, $compile, $http
     }
     function clearentry()
     {
-
         s.ddl_name = "";
         s.txtb_remarks_1 = "";
         s.txtb_remarks_2 = "";
         s.txtb_empl_id = "";
         s.txtb_employee_name = "";
-
     }
+
+    // Sum a numeric field across a filtered array for COA totals row
+    s.coa_sum = function (arr, field) {
+        if (!arr || arr.length === 0) return 0;
+        return arr.reduce(function (acc, row) {
+            var val = parseFloat(row[field]) || 0;
+            return acc + val;
+        }, 0);
+    };
+
+    s.coa_detail_data    = [];
+    s.coa_detail_loading = false;
+    s.coa_detail_row     = {};
+
+    s.coa_open_detail = function (row) {
+        s.coa_detail_row     = row;
+        s.coa_detail_data    = [];
+        s.coa_detail_loading = true;
+
+        var dateFrom = $('#txtb_leave_date_from').val();
+        var dateTo   = $('#txtb_leave_date_to').val();
+        $('#coa_detail_period_label').text(dateFrom + ' – ' + dateTo);
+
+        $('#modal_coa_detail').modal({ backdrop: 'static', keyboard: false });
+
+        h.post("../cExtractToExcel/RetrieveCOADetail", {
+            p_empl_id : row.empl_id,
+            p_date_fr : dateFrom,
+            p_date_to : dateTo
+        }).then(function (d) {
+            s.coa_detail_loading = false;
+            if (d.data.message === 'success') {
+                
+                s.coa_detail_data = d.data.data;
+                for (var i = 0; i < d.data.data.length; i++)
+                {
+                    s.coa_detail_data[i].created_ddtm_descr = moment(d.data.data[i].created_dttm).format('LLL');
+                }
+                console.log(s.coa_detail_data)
+            } else {
+                s.coa_detail_data = [];
+            }
+        }, function () {
+            s.coa_detail_loading = false;
+        });
+    };
     
 
     //-----------------UPDATE BY JADE -------------------------------------------------------------

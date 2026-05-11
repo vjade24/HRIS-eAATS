@@ -1047,10 +1047,10 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leaveappl_dtl_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1071,6 +1071,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leaveledger_posted_leave_app_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leaveledger_report_extract_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leaveledger_report_Result.cs">
@@ -1485,7 +1488,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\timeentries_mysql_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1792,12 +1795,6 @@
       <AutoGen>True</AutoGen>
       <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Reports\cryLeaveLedger\cryLeaveLedger_20260120.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeaveLedger_20260120.rpt</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryLeaveLedger\LeaveLedgerCard1.cs">
       <AutoGen>True</AutoGen>
@@ -3080,10 +3077,6 @@
     <Content Include="Reports\cryApplicationForLeaveRep\cryApplicationForLeaveRep.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryApplicationForLeaveRep.cs</LastGenOutput>
-    </Content>
-    <Content Include="Reports\cryLeaveLedger\cryLeaveLedger_20260120.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryLeaveLedger_20260120.cs</LastGenOutput>
     </Content>
     <Content Include="Reports\cryForgotPunchList\cryForgotPunchList.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

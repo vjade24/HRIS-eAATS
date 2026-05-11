@@ -65,6 +65,284 @@
     .modal-xl {
         width: 90% !important;
     }
+
+    /* COA REPORT TABLE STYLES */
+    #coa-report-wrapper {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+    }
+    #coa-report-header {
+        background: linear-gradient(135deg, #1a3f6f 0%, #2e6da4 60%, #3a87c8 100%);
+        color: white;
+        padding: 14px 20px 12px 20px;
+        border-radius: 8px 8px 0 0;
+    }
+    #coa-report-header h4 {
+        font-weight: 700;
+        margin: 0 0 2px 0;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+    }
+    #coa-report-header small {
+        opacity: 0.88;
+        font-size: 12px;
+    }
+    #coa-toolbar {
+        background: #f4f6fa;
+        border-bottom: 1px solid #dde3ec;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    #coa-search-input {
+        border: 1px solid #c8d0dd;
+        border-radius: 20px;
+        padding: 5px 14px;
+        font-size: 12px;
+        width: 240px;
+        outline: none;
+        transition: border 0.2s;
+    }
+    #coa-search-input:focus { border-color: #2e6da4; }
+    #coa-record-badge {
+        margin-left: auto;
+        background: #2e6da4;
+        color: #fff;
+        font-size: 12px;
+        border-radius: 12px;
+        padding: 4px 14px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+    #tbl_coa_report {
+        margin: 0;
+        font-size: 11px;
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        table-layout: fixed;
+    }
+    /* ---- HEADER ROWS ---- */
+    #tbl_coa_report thead tr:first-child th {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+    }
+    #tbl_coa_report thead tr:last-child th {
+        position: sticky;
+        top: 46px;
+        z-index: 2;
+    }
+    #tbl_coa_report thead tr:first-child th.coa-th-seq,
+    #tbl_coa_report thead tr:first-child th.coa-th-info {
+        background: #1a3f6f !important;
+        color: #fff !important;
+        border: 1px solid #12305a !important;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 7px 6px !important;
+        vertical-align: middle !important;
+        white-space: nowrap;
+    }
+    #tbl_coa_report thead tr:first-child th.coa-th-vl-group {
+        background: linear-gradient(180deg, #d4622a 0%, #e8935a 100%) !important;
+        color: #fff !important;
+        border: 1px solid #b84e1f !important;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 7px 6px !important;
+        text-align: center;
+        letter-spacing: 0.3px;
+        border-left: 3px solid #a03a10 !important;
+        border-right: 3px solid #a03a10 !important;
+        white-space: nowrap;
+    }
+    #tbl_coa_report thead tr:first-child th.coa-th-sl-group {
+        background: linear-gradient(180deg, #4a8a30 0%, #7ab65c 100%) !important;
+        color: #fff !important;
+        border: 1px solid #3a7022 !important;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 7px 6px !important;
+        text-align: center;
+        letter-spacing: 0.3px;
+        border-left: 3px solid #2e5a18 !important;
+        border-right: 3px solid #2e5a18 !important;
+        white-space: nowrap;
+    }
+    #tbl_coa_report thead tr:first-child th.coa-th-remarks {
+        background: #1a3f6f !important;
+        color: #fff !important;
+        border: 1px solid #12305a !important;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 7px 6px !important;
+        vertical-align: middle !important;
+    }
+    #tbl_coa_report thead tr:last-child th.coa-th-vl-sub {
+        background: #f7dece !important;
+        color: #7a3010 !important;
+        border: 1px solid #e0a882 !important;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 5px 4px !important;
+        text-align: center;
+        white-space: normal;
+        line-height: 1.3;
+    }
+    #tbl_coa_report thead tr:last-child th.coa-th-vl-sub:first-child,
+    #tbl_coa_report thead tr:last-child th.coa-th-vl-sub:last-child {
+        border-left: 2px solid #c06030 !important;
+        border-right: 2px solid #c06030 !important;
+    }
+    #tbl_coa_report thead tr:last-child th.coa-th-sl-sub {
+        background: #daf0d0 !important;
+        color: #2a5a14 !important;
+        border: 1px solid #90c870 !important;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 5px 4px !important;
+        text-align: center;
+        white-space: normal;
+        line-height: 1.3;
+    }
+    /* ---- BODY CELLS ---- */
+    #tbl_coa_report td {
+        padding: 4px 5px !important;
+        vertical-align: middle !important;
+        border: 1px solid #e0e4ec !important;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* Remarks column wraps */
+    #tbl_coa_report td:last-child {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+        word-break: break-word;
+    }
+    #tbl_coa_report td.coa-td-seq {
+        background: #edf1f8 !important;
+        color: #556 !important;
+        font-weight: 600;
+        text-align: center;
+    }
+    #tbl_coa_report td.coa-vl-cell {
+        background: #fff8f4 !important;
+        border-left: 1px solid #f0c8a8 !important;
+        border-right: 1px solid #f0c8a8 !important;
+    }
+    #tbl_coa_report td.coa-vl-cell-first {
+        border-left: 2px solid #c06030 !important;
+    }
+    #tbl_coa_report td.coa-vl-cell-last {
+        border-right: 2px solid #c06030 !important;
+    }
+    #tbl_coa_report td.coa-sl-cell {
+        background: #f4fbf0 !important;
+        border-left: 1px solid #b0d898 !important;
+        border-right: 1px solid #b0d898 !important;
+    }
+    #tbl_coa_report td.coa-sl-cell-first {
+        border-left: 2px solid #3a8020 !important;
+    }
+    #tbl_coa_report td.coa-sl-cell-last {
+        border-right: 2px solid #3a8020 !important;
+    }
+    /* zebra */
+    #tbl_coa_report tbody tr:nth-child(even) td { background: #f8fafb !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td.coa-vl-cell { background: #fff0e6 !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td.coa-sl-cell { background: #eaf6e4 !important; }
+    #tbl_coa_report tbody tr:hover td { background: #fffde6 !important; transition: background 0.12s; }
+    #tbl_coa_report tbody tr:hover td.coa-vl-cell { background: #ffe8cc !important; }
+    #tbl_coa_report tbody tr:hover td.coa-sl-cell { background: #d8f0cc !important; }
+    /* totals row */
+    #tbl_coa_report tfoot tr td {
+        background: #1a3f6f !important;
+        color: #fff !important;
+        font-weight: 700;
+        font-size: 12px;
+        border: 1px solid #12305a !important;
+        padding: 6px 7px !important;
+    }
+    #tbl_coa_report tfoot tr td.coa-vl-cell,
+    #tbl_coa_report tfoot tr td.coa-vl-cell-first,
+    #tbl_coa_report tfoot tr td.coa-vl-cell-last {
+        background: #c06030 !important;
+        color: #fff !important;
+        border: 1px solid #a03a10 !important;
+    }
+    #tbl_coa_report tfoot tr td.coa-sl-cell,
+    #tbl_coa_report tfoot tr td.coa-sl-cell-first,
+    #tbl_coa_report tfoot tr td.coa-sl-cell-last {
+        background: #3a8020 !important;
+        color: #fff !important;
+        border: 1px solid #2a5a14 !important;
+    }
+    /* no-data row */
+    .coa-no-data td {
+        padding: 28px !important;
+        color: #aaa;
+        font-style: italic;
+        text-align: center;
+        background: #fafafa !important;
+    }
+    /* sticky tfoot */
+    #tbl_coa_report tfoot tr td {
+        position: sticky;
+        bottom: 0;
+        z-index: 2;
+    }
+    /* row hover highlight */
+    #tbl_coa_report tbody tr:hover td {
+        background-color: #fffbe6 !important;
+    }
+    /* COA Detail Modal */
+    #tbl_coa_detail { font-size: 11px; width: 100%; border-collapse: collapse; }
+    #tbl_coa_detail th {
+        background: #1a3f6f;
+        color: #fff;
+        padding: 5px 7px;
+        border: 1px solid #12305a;
+        white-space: nowrap;
+        text-align: center;
+    }
+    #tbl_coa_detail td {
+        padding: 4px 6px;
+        border: 1px solid #dde3ee;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    #tbl_coa_detail tbody tr:nth-child(even) td { background: #f4f7fb; }
+    #tbl_coa_detail tbody tr:hover td { background: #e8f0fb !important; }
+    .coa-detail-vl { background: #fff0e8 !important; color: #7a3010; }
+    .coa-detail-sl { background: #edfae8 !important; color: #2a5a14; }
+    #tbl_coa_detail th.coa-detail-vl { background: #d4622a !important; color:#fff; border-color:#b84e1f !important; }
+    #tbl_coa_detail th.coa-detail-sl { background: #4a8a30 !important; color:#fff; border-color:#3a7022 !important; }
+    #tbl_coa_detail tfoot td {
+        background: #1a3f6f !important;
+        color: #fff !important;
+        font-weight: 700;
+        font-size: 11px;
+        border: 1px solid #12305a !important;
+        padding: 5px 7px !important;
+        position: sticky;
+        bottom: 0;
+        z-index: 2;
+    }
+    #tbl_coa_detail tfoot td.coa-detail-vl {
+        background: #c06030 !important;
+        border-color: #a03a10 !important;
+    }
+    #tbl_coa_detail tfoot td.coa-detail-sl {
+        background: #3a8020 !important;
+        border-color: #2a5a14 !important;
+    }
 </style>
 
 <section ng-app="ng_HRD_App" ng-controller="cExtractToExcel_ctrlr">
@@ -94,6 +372,7 @@
                                 @*<option value="BEST">Employees with NO UT, TARDY, CTO, VL+FL>5, SL AND LWOP (Best Attendance) </option>
                                   <option value="LWOP">Leave Without Pay </option>*@
                                 <option value="HISTORY-SPENT-TIME">History for Level 1 to Posting Approved</option>
+                                <option value="COA-REPORT">Leave Summary Report</option>
                             </select>
                         </div>
                     </div>
@@ -307,6 +586,291 @@
             </div>
         </div>
     </div>
+
+    <!-- COA REPORT TABLE -->
+    <div class="row" style="padding:0 40px 40px 40px;" ng-show="show_coa_table">
+        <div class="col-lg-12">
+            <div id="coa-report-wrapper">
+                <!-- Header -->
+                <div id="coa-report-header">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h4><i class="fa fa-file-text-o"></i>&nbsp; LEAVE SUMMARY REPORT <span style="opacity:0.7;font-weight:400;font-size:13px;">(COA)</span></h4>
+                            <small><i class="fa fa-calendar"></i>&nbsp; Period:&nbsp;<strong>{{txtb_leave_date_from}}</strong>&nbsp;&mdash;&nbsp;<strong>{{txtb_leave_date_to}}</strong></small>
+                        </div>
+                        <div class="col-sm-5 text-right" style="padding-top:8px;">
+                            <span id="coa-record-badge"><i class="fa fa-users"></i>&nbsp; {{coa_filtered.length || coa_data.length}} Record(s)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Toolbar -->
+                <div id="coa-toolbar">
+                    <span style="font-size:12px;color:#556;font-weight:600;"><i class="fa fa-search" style="color:#2e6da4;"></i>&nbsp; Search:</span>
+                    <input type="text" id="coa-search-input" ng-model="coa_search" placeholder="Filter by name, office, status..." />
+                    <span style="font-size:11px;color:#888;margin-left:4px;">
+                        <i class="fa fa-info-circle"></i> Showing {{(coa_data | filter:coa_search).length}} of {{coa_data.length}} record(s)
+                    </span>
+                    <span style="margin-left:auto;">
+                        <span style="display:inline-block;background:#e8935a;width:12px;height:12px;border-radius:2px;vertical-align:middle;"></span>
+                        <span style="font-size:11px;color:#7a3010;font-weight:600;vertical-align:middle;">&nbsp;Vacation Leave</span>
+                        &nbsp;&nbsp;
+                        <span style="display:inline-block;background:#7ab65c;width:12px;height:12px;border-radius:2px;vertical-align:middle;"></span>
+                        <span style="font-size:11px;color:#2a5a14;font-weight:600;vertical-align:middle;">&nbsp;Sick Leave</span>
+                    </span>
+                </div>
+                <!-- Table -->
+                <div style="overflow-x:hidden;overflow-y:auto;max-height:520px;width:100%;">
+                    <table id="tbl_coa_report">
+                        <colgroup>
+                            <col style="width:36px;" />   <!-- # -->
+                            <col style="width:58px;" />   <!-- ID No -->
+                            <col style="width:160px;" />  <!-- Employee Name -->
+                            <col style="width:80px;" />   <!-- Office -->
+                            <col style="width:58px;" />   <!-- Status -->
+                            <col style="width:58px;" />   <!-- Emp Status -->
+                            <col style="width:82px;" />   <!-- Monthly Rate -->
+                            <!-- VL 7 cols -->
+                            <col style="width:62px;" />
+                            <col style="width:52px;" />
+                            <col style="width:54px;" />
+                            <col style="width:90px;" />
+                            <col style="width:58px;" />
+                            <col style="width:64px;" />
+                            <col style="width:72px;" />
+                            <!-- SL 7 cols -->
+                            <col style="width:62px;" />
+                            <col style="width:52px;" />
+                            <col style="width:54px;" />
+                            <col style="width:90px;" />
+                            <col style="width:58px;" />
+                            <col style="width:64px;" />
+                            <col style="width:72px;" />
+                            <!-- Remarks -->
+                            <col style="width:auto;" />
+                        </colgroup>
+                        <thead>
+                            <!-- ROW 1: Group headers -->
+                            <tr>
+                                <th rowspan="2" class="coa-th-seq text-center" style="width:40px;">#</th>
+                                <th rowspan="2" class="coa-th-info text-center" style="width:60px;">ID No</th>
+                                <th rowspan="2" class="coa-th-info text-center" style="min-width:170px;">Employee Name</th>
+                                <th rowspan="2" class="coa-th-info text-center" style="min-width:90px;">Office</th>
+                                <th rowspan="2" class="coa-th-info text-center" style="width:65px;">Status</th>
+                                <th rowspan="2" class="coa-th-info text-center" style="width:75px;">Emp. Status</th>
+                                <th rowspan="2" class="coa-th-info text-center" style="width:90px;">Monthly Rate</th>
+                                <th colspan="7" class="coa-th-vl-group">
+                                    <i class="fa fa-sun-o"></i>&nbsp; VACATION LEAVE
+                                    <div style="font-size:10px;font-weight:400;opacity:0.9;margin-top:2px;">{{txtb_leave_date_from}} &mdash; {{txtb_leave_date_to}}</div>
+                                </th>
+                                <th colspan="7" class="coa-th-sl-group">
+                                    <i class="fa fa-medkit"></i>&nbsp; SICK LEAVE
+                                    <div style="font-size:10px;font-weight:400;opacity:0.9;margin-top:2px;">{{txtb_leave_date_from}} &mdash; {{txtb_leave_date_to}}</div>
+                                </th>
+                                <th rowspan="2" class="coa-th-remarks text-center" style="min-width:130px;vertical-align:middle;">Remarks</th>
+                            </tr>
+                            <!-- ROW 2: Sub-column headers -->
+                            <tr>
+                                <th class="coa-th-vl-sub" style="width:68px;">Previous<br/>Balance</th>
+                                <th class="coa-th-vl-sub" style="width:55px;">Earned</th>
+                                <th class="coa-th-vl-sub" style="width:60px;">Restored</th>
+                                <th class="coa-th-vl-sub" style="width:100px;">Prev + Earned<br/>+ Restored</th>
+                                <th class="coa-th-vl-sub" style="width:62px;">Incurred</th>
+                                <th class="coa-th-vl-sub" style="width:72px;">Total<br/>Balance</th>
+                                <th class="coa-th-vl-sub" style="width:80px;">Total<br/>Amount</th>
+                                <th class="coa-th-sl-sub" style="width:68px;">Previous<br/>Balance</th>
+                                <th class="coa-th-sl-sub" style="width:55px;">Earned</th>
+                                <th class="coa-th-sl-sub" style="width:60px;">Restored</th>
+                                <th class="coa-th-sl-sub" style="width:100px;">Prev + Earned<br/>+ Restored</th>
+                                <th class="coa-th-sl-sub" style="width:62px;">Incurred</th>
+                                <th class="coa-th-sl-sub" style="width:72px;">Total<br/>Balance</th>
+                                <th class="coa-th-sl-sub" style="width:80px;">Total<br/>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="coa-no-data" ng-if="(coa_data | filter:coa_search).length == 0">
+                                <td colspan="22"><i class="fa fa-inbox" style="font-size:22px;display:block;margin-bottom:6px;"></i> No records found.</td>
+                            </tr>
+                            <tr ng-repeat="row in coa_data | filter:coa_search"
+                                ng-click="coa_open_detail(row)"
+                                style="cursor:pointer;"
+                                title="Click to view ledger details">
+                                <td class="coa-td-seq">{{$index + 1}}</td>
+                                <td class="text-center" style="font-weight:600;color:#2e6da4;">{{row.empl_id}}</td>
+                                <td style="font-weight:500;">{{row.employee_name}}</td>
+                                <td class="text-center">{{row.department_short_name}}</td>
+                                <td class="text-center">
+                                    <span ng-if="row.status == 'Active'" style="color:#3a8020;font-weight:700;">{{row.status}}</span>
+                                    <span ng-if="row.status != 'Active'" style="color:#c06030;font-weight:700;">{{row.status}}</span>
+                                </td>
+                                <td class="text-center">{{row.employment_type}}</td>
+                                <td class="text-right" style="font-weight:600;">{{row.monthly_rate }}</td>
+                                <!-- VL -->
+                                <td class="text-right coa-vl-cell coa-vl-cell-first">{{row.vl_bal | number:3}}</td>
+                                <td class="text-right coa-vl-cell">{{row.vl_earned | number:3}}</td>
+                                <td class="text-right coa-vl-cell">{{row.vl_restored | number:0}}</td>
+                                <td class="text-right coa-vl-cell" style="font-weight:600;">{{row.total_vl_earned | number:3}}</td>
+                                <td class="text-right coa-vl-cell">{{row.vl_incurred | number:3}}</td>
+                                <td class="text-right coa-vl-cell" style="font-weight:600;">{{row.total_vl | number:3}}</td>
+                                <td class="text-right coa-vl-cell coa-vl-cell-last" style="font-weight:700;">{{row.total_vl_amount }}</td>
+                                <!-- SL -->
+                                <td class="text-right coa-sl-cell coa-sl-cell-first">{{row.sl_bal | number:3}}</td>
+                                <td class="text-right coa-sl-cell">{{row.sl_earned | number:3}}</td>
+                                <td class="text-right coa-sl-cell">{{row.sl_restored | number:0}}</td>
+                                <td class="text-right coa-sl-cell" style="font-weight:600;">{{row.total_sl_earned | number:3}}</td>
+                                <td class="text-right coa-sl-cell">{{row.sl_incurred | number:3}}</td>
+                                <td class="text-right coa-sl-cell" style="font-weight:600;">{{row.total_sl | number:3}}</td>
+                                <td class="text-right coa-sl-cell coa-sl-cell-last" style="font-weight:700;">{{row.total_sl_amount }}</td>
+                                <td style="font-style:italic;color:#666;white-space:normal;word-break:break-word;">{{row.remarks}}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot ng-if="(coa_data | filter:coa_search).length > 0">
+                            <tr>
+                                <td colspan="7" style="text-align:left;letter-spacing:0.5px;"><i class="fa fa-calculator"></i>&nbsp; TOTALS ({{(coa_data | filter:coa_search).length}} records)</td>
+                                <!-- VL totals -->
+                                <td class="text-right coa-vl-cell coa-vl-cell-first">{{coa_sum(coa_data | filter:coa_search, 'vl_bal') | number:3}}</td>
+                                <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'vl_earned') | number:3}}</td>
+                                <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'vl_restored') | number:0}}</td>
+                                <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_vl_earned') | number:3}}</td>
+                                <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'vl_incurred') | number:3}}</td>
+                                <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_vl') | number:3}}</td>
+                                <td class="text-right coa-vl-cell coa-vl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_vl_amount') }}</td>
+                                <!-- SL totals -->
+                                <td class="text-right coa-sl-cell coa-sl-cell-first">{{coa_sum(coa_data | filter:coa_search, 'sl_bal') | number:3}}</td>
+                                <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'sl_earned') | number:3}}</td>
+                                <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'sl_restored') | number:0}}</td>
+                                <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_sl_earned') | number:3}}</td>
+                                <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'sl_incurred') | number:3}}</td>
+                                <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_sl') | number:3}}</td>
+                                <td class="text-right coa-sl-cell coa-sl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_sl_amount') }}</td>
+                                <td style="white-space:normal;word-break:break-word;font-size:10px;text-align:center;"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END COA REPORT TABLE -->
+
+    <!-- COA DETAIL MODAL -->
+    <div class="modal fade" id="modal_coa_detail" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#1a3f6f;color:#fff;padding:10px 16px;">
+                    <h5 class="modal-title" style="font-weight:700;font-size:14px;">
+                        <i class="fa fa-list-alt"></i>&nbsp;
+                        LEAVE LEDGER DETAILS &nbsp;&mdash;&nbsp;
+                        <span style="color:#aad0ff;">{{coa_detail_row.employee_name}}</span>
+                        &nbsp;
+                        <small style="font-size:11px;color:#c8daf8;">({{coa_detail_row.empl_id}}) &bull; {{coa_detail_row.department_short_name}}</small>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" style="color:#fff;opacity:1;">&times;</button>
+                </div>
+                <div class="modal-body" style="padding:12px 14px;">
+                    <!-- info bar -->
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;">
+                        <span class="label label-default" style="padding:4px 8px;border-radius:3px;">
+                            <i class="fa fa-calendar"></i>&nbsp;
+                            Period: <b id="coa_detail_period_label"></b>
+                        </span>
+                        <span class="label label-info" style="padding:4px 8px;border-radius:3px;">
+                            <i class="fa fa-user"></i>&nbsp; {{coa_detail_row.status}} &bull; {{coa_detail_row.employment_type}}
+                        </span>
+                        <span class="label label-success" style="padding:4px 8px;border-radius:3px;" ng-if="coa_detail_data.length > 0">
+                            <i class="fa fa-table"></i>&nbsp; {{coa_detail_data.length}} record(s)
+                        </span>
+                    </div>
+                    <!-- loading -->
+                    <div ng-if="coa_detail_loading" class="text-center" style="padding:30px;color:#888;">
+                        <i class="fa fa-spinner fa-spin fa-2x"></i><br/><small>Loading ledger details...</small>
+                    </div>
+                    <!-- no data -->
+                    <div ng-if="!coa_detail_loading && coa_detail_data.length == 0" class="text-center" style="padding:30px;color:#aaa;">
+                        <i class="fa fa-inbox fa-2x" style="display:block;margin-bottom:8px;"></i>No ledger records found for this period.
+                    </div>
+                    <!-- table -->
+                    <div ng-if="!coa_detail_loading && coa_detail_data.length > 0"
+                         style="overflow-x:auto;overflow-y:auto;max-height:420px;width:100%;">
+                        <table id="tbl_coa_detail">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">#</th>
+                                    <th rowspan="2">Date</th>
+                                    <th rowspan="2">Period</th>
+                                    <th rowspan="2">Leave Type</th>
+                                    <th rowspan="2">Particulars</th>
+                                    <th colspan="4" class="coa-detail-vl">VACATION LEAVE</th>
+                                    <th colspan="4" class="coa-detail-sl">SICK LEAVE</th>
+                                    @*<th colspan="4">OTHER LEAVE</th>
+                                    <th rowspan="2">Status</th>
+                                    <th rowspan="2">Remarks</th>*@
+                                </tr>
+                                <tr>
+                                    <th class="coa-detail-vl">Earned</th>
+                                    <th class="coa-detail-vl">W/ Pay</th>
+                                    @*<th class="coa-detail-vl">W/O Pay</th>*@
+                                    <th class="coa-detail-vl">Balance</th>
+                                    <th class="coa-detail-sl">Earned</th>
+                                    <th class="coa-detail-sl">W/ Pay</th>
+                                    @*<th class="coa-detail-sl">W/O Pay</th>*@
+                                    <th class="coa-detail-sl">Balance</th>
+                                    @*<th>Earned</th>
+                                    <th>W/ Pay</th>
+                                    <th>W/O Pay</th>
+                                    <th>Balance</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="d in coa_detail_data">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td >&nbsp;&nbsp;{{d.created_ddtm_descr }}</td>
+                                    <td class="text-center">{{d.leaveledger_period}}</td>
+                                    <td>{{d.leavetype_str}}</td>
+                                    <td style="white-space:normal;word-break:break-word;min-width:140px;">{{d.leaveledger_particulars}}</td>
+                                    <td class="text-right coa-detail-vl">{{d.vl_earned}}</td>
+                                    <td class="text-right coa-detail-vl">{{d.vl_wp}}</td>
+                                    @*<td class="text-right coa-detail-vl">{{d.vl_wop}}</td>*@
+                                    <td class="text-right coa-detail-vl" style="font-weight:700;">{{d.vl_bal}}</td>
+                                    <td class="text-right coa-detail-sl">{{d.sl_earned}}</td>
+                                    <td class="text-right coa-detail-sl">{{d.sl_wp}}</td>
+                                    @*<td class="text-right coa-detail-sl">{{d.sl_wop}}</td>*@
+                                    <td class="text-right coa-detail-sl" style="font-weight:700;">{{d.sl_bal}}</td>
+                                    @*<td class="text-right">{{d.oth_earned}}</td>
+                                    <td class="text-right">{{d.oth_wp}}</td>
+                                    <td class="text-right">{{d.oth_wop}}</td>
+                                    <td class="text-right" style="font-weight:700;">{{d.oth_bal}}</td>
+                                    <td class="text-center">
+                                        <span ng-if="d.approval_status == 'Approved'" style="color:#3a8020;font-weight:700;">{{d.approval_status}}</span>
+                                        <span ng-if="d.approval_status != 'Approved'" style="color:#c06030;font-weight:700;">{{d.approval_status}}</span>
+                                    </td>
+                                    <td style="white-space:normal;word-break:break-word;min-width:120px;">{{d.details_remarks}}</td>*@
+                                </tr>
+                            </tbody>
+                            <tfoot ng-if="coa_detail_data.length > 0">
+                                <tr>
+                                    <td colspan="5" style="text-align:left;letter-spacing:0.4px;">
+                                        <i class="fa fa-calculator"></i>&nbsp; TOTALS &mdash; {{coa_detail_data.length}} record(s)
+                                    </td>
+                                    <td class="text-right coa-detail-vl">{{coa_sum(coa_detail_data, 'vl_earned') | number:3}}</td>
+                                    <td class="text-right coa-detail-vl">{{coa_sum(coa_detail_data, 'vl_wp') | number:3}}</td>
+                                    <td class="text-right coa-detail-vl">{{coa_sum(coa_detail_data, 'vl_bal') | number:3}}</td>
+                                    <td class="text-right coa-detail-sl">{{coa_sum(coa_detail_data, 'sl_earned') | number:3}}</td>
+                                    <td class="text-right coa-detail-sl">{{coa_sum(coa_detail_data, 'sl_wp') | number:3}}</td>
+                                    <td class="text-right coa-detail-sl">{{coa_sum(coa_detail_data, 'sl_bal') | number:3}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer"
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                        <i class="fa fa-times"></i>&nbsp; Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END COA DETAIL MODAL -->
 
     <div class="modal fade" id="modal_generating_tax">
         <div class="modal-dialog text-center">

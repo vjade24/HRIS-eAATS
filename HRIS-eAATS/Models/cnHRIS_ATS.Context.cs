@@ -5452,27 +5452,6 @@ namespace HRIS_eAATS.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_leaveledger_report_Result>("[HRIS_ATSEntities].[func_leaveledger_report](@p_empl_id, @p_date_fr, @p_date_to, @p_rep_mode)", p_empl_idParameter, p_date_frParameter, p_date_toParameter, p_rep_modeParameter);
         }
     
-        public virtual ObjectResult<sp_leaveledger_report_Result> sp_leaveledger_report(string p_empl_id, Nullable<System.DateTime> p_date_fr, Nullable<System.DateTime> p_date_to, Nullable<int> p_rep_mode)
-        {
-            var p_empl_idParameter = p_empl_id != null ?
-                new ObjectParameter("p_empl_id", p_empl_id) :
-                new ObjectParameter("p_empl_id", typeof(string));
-    
-            var p_date_frParameter = p_date_fr.HasValue ?
-                new ObjectParameter("p_date_fr", p_date_fr) :
-                new ObjectParameter("p_date_fr", typeof(System.DateTime));
-    
-            var p_date_toParameter = p_date_to.HasValue ?
-                new ObjectParameter("p_date_to", p_date_to) :
-                new ObjectParameter("p_date_to", typeof(System.DateTime));
-    
-            var p_rep_modeParameter = p_rep_mode.HasValue ?
-                new ObjectParameter("p_rep_mode", p_rep_mode) :
-                new ObjectParameter("p_rep_mode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_report_Result>("sp_leaveledger_report", p_empl_idParameter, p_date_frParameter, p_date_toParameter, p_rep_modeParameter);
-        }
-    
         public virtual ObjectResult<sp_wellness_breakdown_applied_Result> sp_wellness_breakdown_applied(string par_empl_id, Nullable<System.DateTime> par_applied_date, Nullable<decimal> par_value)
         {
             var par_empl_idParameter = par_empl_id != null ?
@@ -5612,6 +5591,44 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_earning_type", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_lv_ledger_earn_history_tbl_list_Result>("sp_lv_ledger_earn_history_tbl_list", par_gen_yearParameter, par_gen_monthParameter, par_department_codeParameter, par_earning_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_report_extract_Result> sp_leaveledger_report_extract(Nullable<System.DateTime> p_period_from, Nullable<System.DateTime> p_period_to, string p_empl_id)
+        {
+            var p_period_fromParameter = p_period_from.HasValue ?
+                new ObjectParameter("p_period_from", p_period_from) :
+                new ObjectParameter("p_period_from", typeof(System.DateTime));
+    
+            var p_period_toParameter = p_period_to.HasValue ?
+                new ObjectParameter("p_period_to", p_period_to) :
+                new ObjectParameter("p_period_to", typeof(System.DateTime));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_report_extract_Result>("sp_leaveledger_report_extract", p_period_fromParameter, p_period_toParameter, p_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_leaveledger_report_Result> sp_leaveledger_report(string p_empl_id, Nullable<System.DateTime> p_date_fr, Nullable<System.DateTime> p_date_to, Nullable<int> p_rep_mode)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_date_frParameter = p_date_fr.HasValue ?
+                new ObjectParameter("p_date_fr", p_date_fr) :
+                new ObjectParameter("p_date_fr", typeof(System.DateTime));
+    
+            var p_date_toParameter = p_date_to.HasValue ?
+                new ObjectParameter("p_date_to", p_date_to) :
+                new ObjectParameter("p_date_to", typeof(System.DateTime));
+    
+            var p_rep_modeParameter = p_rep_mode.HasValue ?
+                new ObjectParameter("p_rep_mode", p_rep_mode) :
+                new ObjectParameter("p_rep_mode", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leaveledger_report_Result>("sp_leaveledger_report", p_empl_idParameter, p_date_frParameter, p_date_toParameter, p_rep_modeParameter);
         }
     }
 }

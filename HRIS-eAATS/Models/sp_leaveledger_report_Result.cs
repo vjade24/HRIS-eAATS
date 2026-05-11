@@ -13,6 +13,7 @@ namespace HRIS_eAATS.Models
     
     public partial class sp_leaveledger_report_Result
     {
+        public Nullable<long> RowNum { get; set; }
         public string ledger_ctrl_no { get; set; }
         public string empl_id { get; set; }
         public string employee_name { get; set; }
@@ -24,10 +25,12 @@ namespace HRIS_eAATS.Models
         public string vl_earned { get; set; }
         public string vl_wp { get; set; }
         public string vl_bal { get; set; }
+        public string vl_bal_running { get; set; }
         public string vl_wop { get; set; }
         public string sl_earned { get; set; }
         public string sl_wp { get; set; }
         public string sl_bal { get; set; }
+        public string sl_bal_running { get; set; }
         public string sl_wop { get; set; }
         public string oth_earned { get; set; }
         public string oth_wp { get; set; }
@@ -59,5 +62,14 @@ namespace HRIS_eAATS.Models
         public int nbr_quarter { get; set; }
         public string hr_head_name { get; set; }
         public string hr_head_desig { get; set; }
+        public int groupby_terminal { get; set; }
+        public Nullable<decimal> vl_earned_cnrtd { get; set; }
+        public Nullable<decimal> vl_wp_cnrtd { get; set; }
+        public Nullable<decimal> vl_bal_cnrtd { get; set; }
+        public Nullable<decimal> vl_wop_cnrtd { get; set; }
+        public Nullable<decimal> sl_earned_cnrtd { get; set; }
+        public Nullable<decimal> sl_wp_cnrtd { get; set; }
+        public Nullable<decimal> sl_bal_cnrtd { get; set; }
+        public Nullable<decimal> sl_wop_cnrtd { get; set; }
     }
 }
