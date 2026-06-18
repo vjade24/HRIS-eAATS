@@ -311,6 +311,11 @@ namespace HRIS_eAATS.Controllers
                                 // Monetization (11-up days)
                                 data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MZ" && a.mone_type != "50%" && a.nbr_mone >= 11).ToList();
                             }
+                            else if (data.route_nbr == "22")
+                            {
+                                // Monetization Leave (1-30 days)
+                                data_dtl_insert = data_dtl_insert.Where(a => a.leavetype_code == "MZ" && a.mone_type != "50%" && a.nbr_mone >= 1 && a.nbr_mone <= 30).ToList();
+                            }
                             else if (data.route_nbr == "12")
                             {
                                 data_dtl_insert = data_dtl_insert.Where(a => a.leave_class == 1).ToList();

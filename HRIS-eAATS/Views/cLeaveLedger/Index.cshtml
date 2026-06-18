@@ -1704,8 +1704,19 @@
         <div class="modal-dialog">
             <div class="modal-content animated bounceInDown" style="background-color: #273A4A;border-radius:20px !important;" id="modal_content">
                 <div class="modal-header">
-                    <h2 class="text-white">YOU NEED TO APPROVE <br />MONETIZATION WAIVER TO CONTINUE</h2>
-                    <small style="color: #369AFD;font-size:11pt;font-weight:bold;">Human Resource</small><small style="color: #FE6500;font-size:11pt;font-weight:bold;"> Information System</small>
+                    @*<h2 class="text-white">YOU NEED TO APPROVE <br />MONETIZATION WAIVER TO CONTINUE</h2>*@
+                    <h2 class="text-white">
+                        {{data_mone[0].employee_name}} ({{data_mone[0].department_short_name}})
+                    </h2>
+                    <small class="badge badge-info">
+                        {{ data_mone && data_mone.length > 0
+                            ? (data_mone[0].mone_type == 'input_days'
+                                ? data_mone[0].nbr_mone + ' days'
+                                : data_mone[0].mone_type + ' ' + data_mone[0].nbr_mone + ' days')
+                            : ''
+                        }}
+                    </small>
+                    
                 </div>
                 <div class="modal-body">
                     <div class="row" ng-repeat="lst in data_mone">

@@ -225,13 +225,14 @@
                             "mData": "leavetype_str",
                             "mRender": function (data, type, full, row)
                             {
+                                var mone = full["leavetype_code"] == "MZ" ? "&nbsp;<button class='btn btn-xs btn-info' ng-click='btn_mone_waiver(" + row['row'] + ", \"L\")'><i class='fa fa-info-circle'></i> </button>" : ""
                                 if (full["approval_status"] == "C" || full["approval_status"] == "D")
                                 {
-                                    return "<span class='text-center btn-block text-danger' >" + data + "</span>";
+                                    return "<span class='text-center btn-block text-danger' >" + data + mone + "</span>";
                                 }
                                 else
                                 {
-                                    return "<span class='text-center btn-block' >" + data + "</span>";
+                                    return "<span class='text-center btn-block' >" + data + mone + "</span>";
                                 }
                             }
                         },
@@ -3919,6 +3920,10 @@
         if (view == "P")
         {
             view_row = s.datalistgrid3
+        }
+        else if (view == "L")
+        {
+            view_row = s.datalistgrid
         }
         h.post("../Menu/Getmonewaiver",
         {
