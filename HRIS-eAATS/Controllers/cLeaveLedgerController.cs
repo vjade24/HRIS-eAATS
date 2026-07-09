@@ -144,7 +144,7 @@ namespace HRIS_eAATS.Controllers
                                     ,a.disapproved_remakrs
                                     ,mone = b
                                 };
-
+                var terminal = db.voucher_tbl.Where(a => a.empl_id == log_empl_id && new[] { "603", "703", "803" }.Contains(a.payrolltemplate_code)).ToList().OrderByDescending(a => a.created_dttm); ;
                 return JSON(new { message = "success"
                     , um
                     , lv_admin_dept_list
@@ -154,6 +154,7 @@ namespace HRIS_eAATS.Controllers
                     , cLV_Ledger_employee_name
                     , lv_unposted
                     ,lv_ledger_report
+                    ,terminal
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -279,7 +280,7 @@ namespace HRIS_eAATS.Controllers
                                     ,a.disapproved_remakrs
                                     ,mone = b
                                 };
-
+                var terminal = db.voucher_tbl.Where(a => a.empl_id == par_empl_id && new[] { "603", "703", "803" }.Contains(a.payrolltemplate_code)).ToList().OrderByDescending(a=>a.created_dttm);
                 return JSON(new
                 {
                     message = "success"
@@ -288,6 +289,7 @@ namespace HRIS_eAATS.Controllers
                     ,lv_posted
                     ,total_undertime
                     ,leavetype_balances
+                    ,terminal
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

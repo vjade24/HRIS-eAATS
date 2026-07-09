@@ -102,7 +102,7 @@ namespace HRIS_eAATS.Controllers
                 var empl_id     = Session["user_id"].ToString().Replace("U", "");
                 var prepared    = db.vw_payrollemployeemaster_hdr_pos_tbl.Where(a=>a.empl_id == empl_id).FirstOrDefault();
                 var noted       = db.vw_payrollemployeemaster_hdr_pos_tbl.Where(a=>a.empl_id == "0029").FirstOrDefault();
-                var approved    = db.vw_payrollemployeemaster_hdr_pos_tbl.Where(a=>a.empl_id == "0027").FirstOrDefault();
+                var approved    = db.vw_payrollemployeemaster_hdr_pos_tbl.Where(a=>a.empl_id == "0028").FirstOrDefault();
                 var nbr         = db_ats.sp_generate_key("best_in_attendance_hdr_tbl", "transmittal_nbr", 8).ToList().FirstOrDefault();
                 return JSON(new { message = "success",prepared,noted,approved, nbr }, JsonRequestBehavior.AllowGet);
             }

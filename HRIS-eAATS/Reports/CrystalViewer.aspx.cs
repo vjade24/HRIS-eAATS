@@ -102,7 +102,7 @@ namespace HRIS_eAATS.Reports
                 crvPrint.HasPrintButton = false;
                 lnkbtn_export.Visible = true;
             }
-            else if (ls_splitvalue.Length == 5 && ls_splitvalue[0] == "sp_leave_application_cancel_tbl_rep")
+            else if (ls_splitvalue.Length == 5 && (ls_splitvalue[0] == "sp_leave_application_cancel_tbl_rep" || ls_splitvalue[0] == "sp_edocument_trk_tbl_history"))
             {
                 dt = MyCmn.RetrieveData(ls_splitvalue[0], ls_splitvalue[1], ls_splitvalue[2], ls_splitvalue[3], ls_splitvalue[4]);               
             }

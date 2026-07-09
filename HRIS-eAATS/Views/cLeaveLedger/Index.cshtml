@@ -560,11 +560,11 @@
                                                                 </small>
                                                                 <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" ng-show="ddl_entry_type == '2' ? true : false" />
                                                             </div>
-                                                            <div class="col-lg-12" >
+                                                            <div class="col-lg-12">
                                                                 <label class="font-bold"><b>Signatory Name:</b></label>
                                                                 <input class="form-control text-left" id="txtb_signame3_ovrd" ng-model="txtb_signame3_ovrd" />
                                                             </div>
-                                                            <div class="col-lg-12" >
+                                                            <div class="col-lg-12">
                                                                 <label class="font-bold"><b> Signatory Position:</b></label>
                                                                 <input class="form-control text-left" id="txtb_sigpos3_ovrd" ng-model="txtb_sigpos3_ovrd" />
                                                             </div>
@@ -666,7 +666,7 @@
                                                                                                                                    && lst.leavetype_code != 'RH'
                                                                                                                                    && lst.leavetype_code != 'CTO'
                                                                                                                                     ">
-                                                                    <div class="col-lg-8"><span >{{lst.leavetype_descr}} </span></div>
+                                                                    <div class="col-lg-8"><span>{{lst.leavetype_descr}} </span></div>
                                                                     <div class="col-lg-4"><input type="text" ng-model="lst.balance" class="form-control-sm form-control text-right" /></div>
                                                                 </div>
                                                             </div>
@@ -842,10 +842,10 @@
                         </div>
                         <div class="col-lg-6">
                             @*<div class="form-group row">
-                                <div class="col-lg-12 text-center">
-                                    <button class="btn btn-primary btn-sm dim" ng-click="RetrieveCardingReport(txtb_empl_id,'','',ddl_rep_mode == '3' ?'3':'2',ddl_rep_mode == '3' ?'CTO':'','iframe_print_preview_carding_review')"> View Card</button>
-                                </div>
-                            </div>*@
+                                    <div class="col-lg-12 text-center">
+                                        <button class="btn btn-primary btn-sm dim" ng-click="RetrieveCardingReport(txtb_empl_id,'','',ddl_rep_mode == '3' ?'3':'2',ddl_rep_mode == '3' ?'CTO':'','iframe_print_preview_carding_review')"> View Card</button>
+                                    </div>
+                                </div>*@
                             <div class="print_preview_iframe_css">
                                 <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview_carding_review" scrolling="no" src=""></iframe>
                             </div>
@@ -911,7 +911,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <label class="font-bold" style="padding-top:9px;"><b> Balance as of:</b></label>
-                                <input class="form-control text-right" id="txtb_balance_as_of" ng-model="txtb_balance_as_of" ng-disabled="ddl_entry_type == '6' ? true : false"/>
+                                <input class="form-control text-right" id="txtb_balance_as_of" ng-model="txtb_balance_as_of" ng-disabled="ddl_entry_type == '6' ? true : false" />
                                 <label id="lbl_txtb_balance_as_of_req" class="lbl_required"></label>
                             </div>
                             <div class="col-lg-12" ng-show="(ddl_entry_type == '6' || ddl_entry_type == '7') ? false : true">
@@ -988,6 +988,29 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Print Leave Ledger Modal -->
+    <div class="modal fade" id="print_modal_terminal_leave" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content animated bounceInDown modal-content-add-edit">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Terminal Leave Report</h4>
+                </div>
+                <div class="modal-body" >
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview_terminal" scrolling="no" src=""></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Print Leave Application Modal -->
     <div class="modal fade" id="leave_app_print_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
@@ -1078,7 +1101,7 @@
                 </div>
             </div>
         </div>
-     </div>
+    </div>
 
     <!-- Leave Sync Modal-->
     <div class="modal fade" id="sync_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
@@ -1090,9 +1113,9 @@
                     <small class="font-bold">{{sync_description}}</small>
                 </div>
                 <div class="modal-body">
-                    <table class="table-bordered table m-b-none" >
-                        <thead >
-                            <tr >
+                    <table class="table-bordered table m-b-none">
+                        <thead>
+                            <tr>
                                 <th>PERIOD</th>
                                 <th>EARNED</th>
                                 <th>UND.WP</th>
@@ -1145,7 +1168,7 @@
                     <div class="feed-activity-list" id="history_view">
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -1221,7 +1244,7 @@
                                 </select>
                                 <label id="lbl_ddl_name_req" class="lbl_required"></label>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -1289,7 +1312,16 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-lg-12 m-t-sm" ng-show="terminal.length > 0">
+                        <div class="form-group row">
+                            <div class="col-lg-2">
+                                <label class="font-bold"><b> Terminal Leave Payroll Status:</b></label>
+                            </div>
+                            <div class="col-lg-10">
+                                <button class="btn btn-primary pull-left btn-sm dim" ng-repeat="lst in terminal" ng-click="btn_print_terminal(lst)"> <i class="fa fa-print"></i>  {{lst.voucher_descr1}} <br /><span class="label label-danger"> {{lst.post_status_descr}}</span> &nbsp;<span class="badge badge-danger"> {{lst.period_covered}}</span></button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1474,10 +1506,10 @@
                                             <div class="col-lg-7" style="padding-top:5px;">
                                                 <div class="form-group row">
                                                     <div class="col-lg-2">
-                                                        <select class="form-control" id="ddl_extract_year" >
+                                                        <select class="form-control" id="ddl_extract_year">
                                                             <option value="2025" selected>2025</option>
                                                             @*<option value="2026" >2026</option>
-                                                            <option value="2027">2027</option>*@
+                                                                <option value="2027">2027</option>*@
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-10">
@@ -1503,10 +1535,10 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="pull-right">
-                                                            <button class="btn btn-danger btn-with-badge" 
+                                                            <button class="btn btn-danger btn-with-badge"
                                                                     ng-click="btn_show_discre()"
                                                                     ng-class="{'btn-generate-warning': discrepancyCount > 0}">
-                                                                <i class="fa fa-exclamation-triangle"></i> 
+                                                                <i class="fa fa-exclamation-triangle"></i>
                                                                 Show Discrepancy
                                                                 <span class="btn-discrepancy-label" ng-show="discrepancyCount > 0">
                                                                     {{discrepancyCount}} Issue<span ng-show="discrepancyCount > 1">s</span>
@@ -1716,7 +1748,7 @@
                             : ''
                         }}
                     </small>
-                    
+
                 </div>
                 <div class="modal-body">
                     <div class="row" ng-repeat="lst in data_mone">
@@ -1747,231 +1779,231 @@
         </div>
     </div>
 
-        <!-- Discrepancy Summary Report Modal (Similar to Monthly Earning) -->
-        <div class="modal fade modal-discrepancy-report" id="balance_discrepancy_modal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 15px 20px;">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 0.8;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <div style="display: flex; align-items: center; gap: 15px;">
-                            <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa fa-exclamation-triangle fa-2x"></i>
+    <!-- Discrepancy Summary Report Modal (Similar to Monthly Earning) -->
+    <div class="modal fade modal-discrepancy-report" id="balance_discrepancy_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; padding: 15px 20px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white; opacity: 0.8;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa fa-exclamation-triangle fa-2x"></i>
+                        </div>
+                        <div>
+                            <h4 class="modal-title" style="margin: 0; font-weight: 700;">Leave Balance Discrepancy Report</h4>
+                            <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 12px;">
+                                {{discrepancySummary.employee_name}} (ID: {{discrepancySummary.empl_id}}) | Period: {{discrepancySummary.date_from}} to {{discrepancySummary.date_to}}
+                            </p>
+                        </div>
+                        <div style="margin-left: auto; text-align: center; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px;">
+                            <div style="font-size: 24px; font-weight: 700;">{{discrepancySummary.discrepancy_count || 0}}</div>
+                            <div style="font-size: 10px; text-transform: uppercase;">Discrepancies</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" style="padding: 15px;">
+                    <!-- Summary Cards -->
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                        <div class="report-card" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
+                            <div style="font-size: 24px; font-weight: 700;">{{discrepancySummary.total_count || 0}}</div>
+                            <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+                                <i class="fa fa-list"></i> Total Records
                             </div>
-                            <div>
-                                <h4 class="modal-title" style="margin: 0; font-weight: 700;">Leave Balance Discrepancy Report</h4>
-                                <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 12px;">
-                                    {{discrepancySummary.employee_name}} (ID: {{discrepancySummary.empl_id}}) | Period: {{discrepancySummary.date_from}} to {{discrepancySummary.date_to}}
-                                </p>
+                        </div>
+                        <div class="report-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <div style="font-size: 24px; font-weight: 700;">{{(discrepancySummary.total_count || 0) - (discrepancySummary.discrepancy_count || 0)}}</div>
+                            <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+                                <i class="fa fa-check-circle"></i> No Issues
                             </div>
-                            <div style="margin-left: auto; text-align: center; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 8px;">
-                                <div style="font-size: 24px; font-weight: 700;">{{discrepancySummary.discrepancy_count || 0}}</div>
-                                <div style="font-size: 10px; text-transform: uppercase;">Discrepancies</div>
+                        </div>
+                        <div class="report-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            <div style="font-size: 24px; font-weight: 700;">{{discrepancySummary.discrepancy_count || 0}}</div>
+                            <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
+                                <i class="fa fa-exclamation-triangle"></i> Discrepancies
                             </div>
                         </div>
                     </div>
-                    <div class="modal-body" style="padding: 15px;">
-                        <!-- Summary Cards -->
-                        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
-                            <div class="report-card" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
-                                <div style="font-size: 24px; font-weight: 700;">{{discrepancySummary.total_count || 0}}</div>
-                                <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
-                                    <i class="fa fa-list"></i> Total Records
-                                </div>
-                            </div>
-                            <div class="report-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
-                                <div style="font-size: 24px; font-weight: 700;">{{(discrepancySummary.total_count || 0) - (discrepancySummary.discrepancy_count || 0)}}</div>
-                                <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
-                                    <i class="fa fa-check-circle"></i> No Issues
-                                </div>
-                            </div>
-                            <div class="report-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
-                                <div style="font-size: 24px; font-weight: 700;">{{discrepancySummary.discrepancy_count || 0}}</div>
-                                <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.5px;">
-                                    <i class="fa fa-exclamation-triangle"></i> Discrepancies
-                                </div>
-                            </div>
+
+                    <!-- Search and Export -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div style="position: relative; flex: 1; max-width: 300px;">
+                            <i class="fa fa-search" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
+                            <input type="text"
+                                   ng-model="discrepancySearchText"
+                                   placeholder="Search period or leave type..."
+                                   style="width: 100%; padding: 8px 12px 8px 35px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 12px;">
                         </div>
-
-                        <!-- Search and Export -->
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <div style="position: relative; flex: 1; max-width: 300px;">
-                                <i class="fa fa-search" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #9ca3af;"></i>
-                                <input type="text" 
-                                       ng-model="discrepancySearchText" 
-                                       placeholder="Search period or leave type..."
-                                       style="width: 100%; padding: 8px 12px 8px 35px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 12px;">
-                            </div>
-                            <button class="btn btn-success btn-sm" ng-click="exportDiscrepancyReport()">
-                                <i class="fa fa-file-excel-o"></i> Export Report
-                            </button>
-                        </div>
-
-						<!-- Report Table - VL and SL Only -->
-						<div ng-show="discrepancySummary.data.length > 0">
-							<!-- Running Total Summary Cards -->
-							<div style="display: flex; gap: 12px; margin-bottom: 12px;">
-								<div style="flex: 1; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 12px 16px; border-radius: 8px;">
-									<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase;">VL Running Total</div>
-									<div style="font-size: 20px; font-weight: 700;">{{discrepancySummary.final_running_total_vl | number:3}}</div>
-								</div>
-								<div style="flex: 1; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 12px 16px; border-radius: 8px;">
-									<div style="font-size: 11px; opacity: 0.9; text-transform: uppercase;">SL Running Total</div>
-									<div style="font-size: 20px; font-weight: 700;">{{discrepancySummary.final_running_total_sl | number:3}}</div>
-								</div>
-							</div>
-
-							<!-- Table with Sticky Header -->
-							<div class="discrepancy-table-wrapper">
-								<table class="table table-bordered table-hover" style="font-size: 10px; min-width: 1100px; table-layout: fixed;">
-									<thead>
-										<tr style="background: #1e293b;">
-											<th class="text-center disc-col-num" style="background: #1e293b; color: #fff; vertical-align: middle;">#</th>
-											<th class="text-center disc-col-disc" style="background: #1e293b; color: #fff; vertical-align: middle;"><i class="fa fa-exclamation-triangle"></i> STATUS</th>
-											<th class="text-center disc-col-period" style="background: #1e293b; color: #fff; vertical-align: middle;">PERIOD</th>
-											<th class="text-center disc-col-type" style="background: #1e293b; color: #fff; vertical-align: middle;">LEAVE TYPE</th>
-											<th class="text-center disc-col-val" style="background: #166534; color: #fff;">VL OLD</th>
-											<th class="text-center disc-col-val" style="background: #166534; color: #fff;">VL EARN</th>
-											<th class="text-center disc-col-val" style="background: #166534; color: #fff;">VL DED</th>
-											<th class="text-center disc-col-exp" style="background: #15803d; color: #fff;">VL EXPECT</th>
-											<th class="text-center disc-col-curr" style="background: #22c55e; color: #fff;">VL CURR</th>
-											<th class="text-center disc-col-val" style="background: #92400e; color: #fff;">SL OLD</th>
-											<th class="text-center disc-col-val" style="background: #92400e; color: #fff;">SL EARN</th>
-											<th class="text-center disc-col-val" style="background: #92400e; color: #fff;">SL DED</th>
-											<th class="text-center disc-col-exp" style="background: #b45309; color: #fff;">SL EXPECT</th>
-											<th class="text-center disc-col-curr" style="background: #f59e0b; color: #000;">SL CURR</th>
-										</tr>
-									</thead>
-									<tbody>
-									<tr ng-repeat="item in discrepancySummary.data | filter:filterDiscrepancyList track by $index" >
-										<td class="text-center disc-col-num">{{$index + 1}}</td>
-										<td class="text-center disc-col-disc">
-											<span ng-show="!item.has_vl_discrepancy && !item.has_sl_discrepancy"><i class="fa fa-check-circle text-success"></i> OK</span>
-											<span ng-show="item.has_vl_discrepancy && item.has_sl_discrepancy" class="discrepancy-badge-both" 
-												  data-toggle="tooltip" title="VL Diff: {{item.discrepancy_vl | number:3}}, SL Diff: {{item.discrepancy_sl | number:3}}">
-												<i class="fa fa-exclamation-triangle"></i> VL&SL
-											</span>
-											<span ng-show="item.has_vl_discrepancy && !item.has_sl_discrepancy" class="discrepancy-badge-vl"
-												  data-toggle="tooltip" title="VL: Old={{item.old_balance_vl | number:3}}, Expected={{item.expected_balance_vl | number:3}}, Current={{item.curr_balance_vl | number:3}}, Diff={{item.discrepancy_vl | number:3}}">
-												<i class="fa fa-exclamation-triangle"></i> VL
-											</span>
-											<span ng-show="!item.has_vl_discrepancy && item.has_sl_discrepancy" class="discrepancy-badge-sl"
-												  data-toggle="tooltip" title="SL: Old={{item.old_balance_sl | number:3}}, Expected={{item.expected_balance_sl | number:3}}, Current={{item.curr_balance_sl | number:3}}, Diff={{item.discrepancy_sl | number:3}}">
-												<i class="fa fa-exclamation-triangle"></i> SL
-											</span>
-										</td>
-										<td class="disc-col-period"><strong>{{item.period}}</strong></td>
-										<td class="disc-col-type">{{item.leave_type}}</td>
-										<!-- VL Columns (5 columns) -->
-										<td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_vl_discrepancy}">{{item.old_balance_vl | number:3}}</td>
-										<td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_vl_discrepancy}" style="color: #16a34a;">
-											<span ng-show="item.earned_vl > 0">+</span>{{item.earned_vl | number:3}}
-										</td>
-										<td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_vl_discrepancy}" style="color: #dc2626;">
-											<span ng-show="item.abs_und_wp_vl > 0">-</span>{{item.abs_und_wp_vl | number:3}}
-										</td>
-										<td class="text-right disc-col-exp" ng-style="{'background': item.has_vl_discrepancy ? '#fef2f2' : '#f0fdf4', 'border': item.has_vl_discrepancy ? '2px dashed #f87171' : 'none'}">
-											<strong ng-class="{'text-danger': item.has_vl_discrepancy}">{{item.expected_balance_vl | number:3}}</strong>
-											<small ng-show="item.has_vl_discrepancy" style="display: block; font-size: 7px; color: #dc2626;">EXPECTED</small>
-										</td>
-										<td class="text-right disc-col-curr" ng-style="{'background': item.has_vl_discrepancy ? '#fee2e2' : '#dcfce7', 'border': item.has_vl_discrepancy ? '3px solid #dc2626' : 'none'}">
-											<strong ng-class="{'discrepancy-value': item.has_vl_discrepancy, 'text-success': !item.has_vl_discrepancy}">{{item.curr_balance_vl | number:3}}</strong>
-											<small ng-show="item.has_vl_discrepancy" style="display: block; font-size: 7px; color: #dc2626; font-weight: bold;">≠ MISMATCH</small>
-										</td>
-										<!-- SL Columns (5 columns) -->
-										<td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_sl_discrepancy}">{{item.old_balance_sl | number:3}}</td>
-										<td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_sl_discrepancy}" style="color: #16a34a;">
-											<span ng-show="item.earned_sl > 0">+</span>{{item.earned_sl | number:3}}
-										</td>
-										<td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_sl_discrepancy}" style="color: #dc2626;">
-											<span ng-show="item.abs_und_wp_sl > 0">-</span>{{item.abs_und_wp_sl | number:3}}
-										</td>
-										<td class="text-right disc-col-exp" ng-style="{'background': item.has_sl_discrepancy ? '#fef2f2' : '#fefce8', 'border': item.has_sl_discrepancy ? '2px dashed #f59e0b' : 'none'}">
-											<strong ng-class="{'text-warning': item.has_sl_discrepancy}">{{item.expected_balance_sl | number:3}}</strong>
-											<small ng-show="item.has_sl_discrepancy" style="display: block; font-size: 7px; color: #b45309;">EXPECTED</small>
-										</td>
-										<td class="text-right disc-col-curr" ng-style="{'background': item.has_sl_discrepancy ? '#fef3c7' : '#fffbeb', 'border': item.has_sl_discrepancy ? '3px solid #f59e0b' : 'none'}">
-											<strong ng-class="{'discrepancy-value': item.has_sl_discrepancy, 'text-warning': !item.has_sl_discrepancy}">{{item.curr_balance_sl | number:3}}</strong>
-											<small ng-show="item.has_sl_discrepancy" style="display: block; font-size: 7px; color: #b45309; font-weight: bold;">≠ MISMATCH</small>
-										</td>
-									</tr>
-								</tbody>
-								<tfoot style="background: #1e293b; color: #fff; font-weight: bold;">
-									<tr>
-										<td colspan="4" class="text-right" style="font-size: 11px; background: #1e293b; color: #fff;">RUNNING TOTALS:</td>
-										<td colspan="5" class="text-center" style="background: #166534; color: #fff; font-size: 11px;">
-											VL: {{discrepancySummary.final_running_total_vl | number:3}}
-										</td>
-										<td colspan="5" class="text-center" style="background: #92400e; color: #fff; font-size: 11px;">
-											SL: {{discrepancySummary.final_running_total_sl | number:3}}
-										</td>
-									</tr>
-								</tfoot>
-							</table>
-							</div>
-
-						<!-- Empty State -->
-						<div ng-show="!discrepancySummary || discrepancySummary.data.length === 0" style="text-align: center; padding: 40px;">
-							<i class="fa fa-folder-open-o fa-3x" style="color: #d1d5db;"></i>
-							<h5 style="margin-top: 15px; color: #6b7280;">No VL/SL Records</h5>
-							<p style="color: #9ca3af;">No Vacation Leave or Sick Leave records available for this period.</p>
-						</div>
-
-						<!-- Discrepancy Alert -->
-						<div class="alert alert-info" style="margin-top: 15px; border-left: 4px solid #3b82f6;">
-							<i class="fa fa-calculator"></i> 
-							<strong>Discrepancy Detection Formula (VL & SL Only):</strong>
-							<ul style="margin: 10px 0; padding-left: 20px;">
-								<li><strong>Old Balance</strong> = Previous row's Current Balance</li>
-								<li><strong>Expected Balance</strong> = Old Balance + Earned - Abs/Und</li>
-								<li><strong>Discrepancy</strong> = |Expected Balance - Current Balance|</li>
-								<li><strong>Flag as Discrepancy</strong> when difference <strong>> 1.25</strong></li>
-							</ul>
-							<small class="text-muted">Example: Old=3.273, Earned=1.25, Abs/Und=0 → Expected=4.523, Current=13.633 → Discrepancy=9.11 (FLAGGED!)</small>
-						</div>
-						<div class="alert alert-warning" style="margin-top: 10px;" ng-show="discrepancySummary.discrepancy_count > 0">
-							<i class="fa fa-exclamation-triangle"></i> 
-							<strong>{{discrepancySummary.discrepancy_count}} Discrepancies Found!</strong>
-							<br>
-							Please review and correct the highlighted rows where Expected Balance differs from Current Balance by more than 1.25 days.
-						</div>
-						</div>
+                        <button class="btn btn-success btn-sm" ng-click="exportDiscrepancyReport()">
+                            <i class="fa fa-file-excel-o"></i> Export Report
+                        </button>
                     </div>
-                    <div class="modal-footer" style="padding: 10px 20px; background: #f8fafc; border-top: 1px solid #e5e7eb;">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <i class="fa fa-times"></i> Close
-                        </button>
-                        <button type="button" class="btn btn-primary" ng-click="btn_view_ledger_details()">
-                            <i class="fa fa-eye"></i> View Ledger Details
-                        </button>
+
+                    <!-- Report Table - VL and SL Only -->
+                    <div ng-show="discrepancySummary.data.length > 0">
+                        <!-- Running Total Summary Cards -->
+                        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+                            <div style="flex: 1; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 12px 16px; border-radius: 8px;">
+                                <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase;">VL Running Total</div>
+                                <div style="font-size: 20px; font-weight: 700;">{{discrepancySummary.final_running_total_vl | number:3}}</div>
+                            </div>
+                            <div style="flex: 1; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; padding: 12px 16px; border-radius: 8px;">
+                                <div style="font-size: 11px; opacity: 0.9; text-transform: uppercase;">SL Running Total</div>
+                                <div style="font-size: 20px; font-weight: 700;">{{discrepancySummary.final_running_total_sl | number:3}}</div>
+                            </div>
+                        </div>
+
+                        <!-- Table with Sticky Header -->
+                        <div class="discrepancy-table-wrapper">
+                            <table class="table table-bordered table-hover" style="font-size: 10px; min-width: 1100px; table-layout: fixed;">
+                                <thead>
+                                    <tr style="background: #1e293b;">
+                                        <th class="text-center disc-col-num" style="background: #1e293b; color: #fff; vertical-align: middle;">#</th>
+                                        <th class="text-center disc-col-disc" style="background: #1e293b; color: #fff; vertical-align: middle;"><i class="fa fa-exclamation-triangle"></i> STATUS</th>
+                                        <th class="text-center disc-col-period" style="background: #1e293b; color: #fff; vertical-align: middle;">PERIOD</th>
+                                        <th class="text-center disc-col-type" style="background: #1e293b; color: #fff; vertical-align: middle;">LEAVE TYPE</th>
+                                        <th class="text-center disc-col-val" style="background: #166534; color: #fff;">VL OLD</th>
+                                        <th class="text-center disc-col-val" style="background: #166534; color: #fff;">VL EARN</th>
+                                        <th class="text-center disc-col-val" style="background: #166534; color: #fff;">VL DED</th>
+                                        <th class="text-center disc-col-exp" style="background: #15803d; color: #fff;">VL EXPECT</th>
+                                        <th class="text-center disc-col-curr" style="background: #22c55e; color: #fff;">VL CURR</th>
+                                        <th class="text-center disc-col-val" style="background: #92400e; color: #fff;">SL OLD</th>
+                                        <th class="text-center disc-col-val" style="background: #92400e; color: #fff;">SL EARN</th>
+                                        <th class="text-center disc-col-val" style="background: #92400e; color: #fff;">SL DED</th>
+                                        <th class="text-center disc-col-exp" style="background: #b45309; color: #fff;">SL EXPECT</th>
+                                        <th class="text-center disc-col-curr" style="background: #f59e0b; color: #000;">SL CURR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in discrepancySummary.data | filter:filterDiscrepancyList track by $index">
+                                        <td class="text-center disc-col-num">{{$index + 1}}</td>
+                                        <td class="text-center disc-col-disc">
+                                            <span ng-show="!item.has_vl_discrepancy && !item.has_sl_discrepancy"><i class="fa fa-check-circle text-success"></i> OK</span>
+                                            <span ng-show="item.has_vl_discrepancy && item.has_sl_discrepancy" class="discrepancy-badge-both"
+                                                  data-toggle="tooltip" title="VL Diff: {{item.discrepancy_vl | number:3}}, SL Diff: {{item.discrepancy_sl | number:3}}">
+                                                <i class="fa fa-exclamation-triangle"></i> VL&SL
+                                            </span>
+                                            <span ng-show="item.has_vl_discrepancy && !item.has_sl_discrepancy" class="discrepancy-badge-vl"
+                                                  data-toggle="tooltip" title="VL: Old={{item.old_balance_vl | number:3}}, Expected={{item.expected_balance_vl | number:3}}, Current={{item.curr_balance_vl | number:3}}, Diff={{item.discrepancy_vl | number:3}}">
+                                                <i class="fa fa-exclamation-triangle"></i> VL
+                                            </span>
+                                            <span ng-show="!item.has_vl_discrepancy && item.has_sl_discrepancy" class="discrepancy-badge-sl"
+                                                  data-toggle="tooltip" title="SL: Old={{item.old_balance_sl | number:3}}, Expected={{item.expected_balance_sl | number:3}}, Current={{item.curr_balance_sl | number:3}}, Diff={{item.discrepancy_sl | number:3}}">
+                                                <i class="fa fa-exclamation-triangle"></i> SL
+                                            </span>
+                                        </td>
+                                        <td class="disc-col-period"><strong>{{item.period}}</strong></td>
+                                        <td class="disc-col-type">{{item.leave_type}}</td>
+                                        <!-- VL Columns (5 columns) -->
+                                        <td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_vl_discrepancy}">{{item.old_balance_vl | number:3}}</td>
+                                        <td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_vl_discrepancy}" style="color: #16a34a;">
+                                            <span ng-show="item.earned_vl > 0">+</span>{{item.earned_vl | number:3}}
+                                        </td>
+                                        <td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_vl_discrepancy}" style="color: #dc2626;">
+                                            <span ng-show="item.abs_und_wp_vl > 0">-</span>{{item.abs_und_wp_vl | number:3}}
+                                        </td>
+                                        <td class="text-right disc-col-exp" ng-style="{'background': item.has_vl_discrepancy ? '#fef2f2' : '#f0fdf4', 'border': item.has_vl_discrepancy ? '2px dashed #f87171' : 'none'}">
+                                            <strong ng-class="{'text-danger': item.has_vl_discrepancy}">{{item.expected_balance_vl | number:3}}</strong>
+                                            <small ng-show="item.has_vl_discrepancy" style="display: block; font-size: 7px; color: #dc2626;">EXPECTED</small>
+                                        </td>
+                                        <td class="text-right disc-col-curr" ng-style="{'background': item.has_vl_discrepancy ? '#fee2e2' : '#dcfce7', 'border': item.has_vl_discrepancy ? '3px solid #dc2626' : 'none'}">
+                                            <strong ng-class="{'discrepancy-value': item.has_vl_discrepancy, 'text-success': !item.has_vl_discrepancy}">{{item.curr_balance_vl | number:3}}</strong>
+                                            <small ng-show="item.has_vl_discrepancy" style="display: block; font-size: 7px; color: #dc2626; font-weight: bold;">≠ MISMATCH</small>
+                                        </td>
+                                        <!-- SL Columns (5 columns) -->
+                                        <td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_sl_discrepancy}">{{item.old_balance_sl | number:3}}</td>
+                                        <td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_sl_discrepancy}" style="color: #16a34a;">
+                                            <span ng-show="item.earned_sl > 0">+</span>{{item.earned_sl | number:3}}
+                                        </td>
+                                        <td class="text-right disc-col-val" ng-class="{'discrepancy-value': item.has_sl_discrepancy}" style="color: #dc2626;">
+                                            <span ng-show="item.abs_und_wp_sl > 0">-</span>{{item.abs_und_wp_sl | number:3}}
+                                        </td>
+                                        <td class="text-right disc-col-exp" ng-style="{'background': item.has_sl_discrepancy ? '#fef2f2' : '#fefce8', 'border': item.has_sl_discrepancy ? '2px dashed #f59e0b' : 'none'}">
+                                            <strong ng-class="{'text-warning': item.has_sl_discrepancy}">{{item.expected_balance_sl | number:3}}</strong>
+                                            <small ng-show="item.has_sl_discrepancy" style="display: block; font-size: 7px; color: #b45309;">EXPECTED</small>
+                                        </td>
+                                        <td class="text-right disc-col-curr" ng-style="{'background': item.has_sl_discrepancy ? '#fef3c7' : '#fffbeb', 'border': item.has_sl_discrepancy ? '3px solid #f59e0b' : 'none'}">
+                                            <strong ng-class="{'discrepancy-value': item.has_sl_discrepancy, 'text-warning': !item.has_sl_discrepancy}">{{item.curr_balance_sl | number:3}}</strong>
+                                            <small ng-show="item.has_sl_discrepancy" style="display: block; font-size: 7px; color: #b45309; font-weight: bold;">≠ MISMATCH</small>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot style="background: #1e293b; color: #fff; font-weight: bold;">
+                                    <tr>
+                                        <td colspan="4" class="text-right" style="font-size: 11px; background: #1e293b; color: #fff;">RUNNING TOTALS:</td>
+                                        <td colspan="5" class="text-center" style="background: #166534; color: #fff; font-size: 11px;">
+                                            VL: {{discrepancySummary.final_running_total_vl | number:3}}
+                                        </td>
+                                        <td colspan="5" class="text-center" style="background: #92400e; color: #fff; font-size: 11px;">
+                                            SL: {{discrepancySummary.final_running_total_sl | number:3}}
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div ng-show="!discrepancySummary || discrepancySummary.data.length === 0" style="text-align: center; padding: 40px;">
+                            <i class="fa fa-folder-open-o fa-3x" style="color: #d1d5db;"></i>
+                            <h5 style="margin-top: 15px; color: #6b7280;">No VL/SL Records</h5>
+                            <p style="color: #9ca3af;">No Vacation Leave or Sick Leave records available for this period.</p>
+                        </div>
+
+                        <!-- Discrepancy Alert -->
+                        <div class="alert alert-info" style="margin-top: 15px; border-left: 4px solid #3b82f6;">
+                            <i class="fa fa-calculator"></i>
+                            <strong>Discrepancy Detection Formula (VL & SL Only):</strong>
+                            <ul style="margin: 10px 0; padding-left: 20px;">
+                                <li><strong>Old Balance</strong> = Previous row's Current Balance</li>
+                                <li><strong>Expected Balance</strong> = Old Balance + Earned - Abs/Und</li>
+                                <li><strong>Discrepancy</strong> = |Expected Balance - Current Balance|</li>
+                                <li><strong>Flag as Discrepancy</strong> when difference <strong>> 1.25</strong></li>
+                            </ul>
+                            <small class="text-muted">Example: Old=3.273, Earned=1.25, Abs/Und=0 → Expected=4.523, Current=13.633 → Discrepancy=9.11 (FLAGGED!)</small>
+                        </div>
+                        <div class="alert alert-warning" style="margin-top: 10px;" ng-show="discrepancySummary.discrepancy_count > 0">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <strong>{{discrepancySummary.discrepancy_count}} Discrepancies Found!</strong>
+                            <br>
+                            Please review and correct the highlighted rows where Expected Balance differs from Current Balance by more than 1.25 days.
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 20px; background: #f8fafc; border-top: 1px solid #e5e7eb;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <i class="fa fa-times"></i> Close
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="btn_view_ledger_details()">
+                        <i class="fa fa-eye"></i> View Ledger Details
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inialiazing Modal -->
+    <div class="modal fade" id="modal_initializing">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                <div class="col-lg-12" style="background-color:transparent !important;margin-top:30% !important;">
+                    <div class="spiner-example fa-2x">
+                        <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
+                            <span style="color:#f8ac59 !important;"> Initializing Data </span>
+                            <div class="sk-bounce1" style="background-color: #f8ac59 !important;"></div>
+                            <div class="sk-bounce2" style="background-color: #f8ac59 !important;"></div>
+                            <div class="sk-bounce3" style="background-color: #f8ac59 !important;"></div>
+                            <br />
+                            <span style="color:#f8ac59 !important;font-size:18px;"> This might take a while </span>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Inialiazing Modal -->
-        <div class="modal fade" id="modal_initializing">
-            <div class="modal-dialog modal-force-center modal-md">
-                <div class="modal-dialog text-center">
-                    <div class="col-lg-12" style="background-color:transparent !important;margin-top:30% !important;">
-                        <div class="spiner-example fa-2x">
-                            <div class="sk-spinner sk-spinner-three-bounce" style="width:300px;height:300px;">
-                                <span style="color:#f8ac59 !important;"> Initializing Data </span>
-                                <div class="sk-bounce1" style="background-color: #f8ac59 !important;"></div>
-                                <div class="sk-bounce2" style="background-color: #f8ac59 !important;"></div>
-                                <div class="sk-bounce3" style="background-color: #f8ac59 !important;"></div>
-                                <br />
-                                <span style="color:#f8ac59 !important;font-size:18px;"> This might take a while </span>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
 
 
-    </section>
+</section>
     
 

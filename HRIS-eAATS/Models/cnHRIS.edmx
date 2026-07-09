@@ -310,7 +310,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="50" />
           <Property Name="token" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="token_expiry_date" Type="date" Nullable="false" />
         </EntityType>
@@ -330,6 +330,99 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="last_updated_date" Type="date" />
           <Property Name="last_updated_by" Type="varchar" MaxLength="30" />
           <Property Name="user_accesslevel" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="voucher_tbl">
+          <Key>
+            <PropertyRef Name="payroll_year" />
+            <PropertyRef Name="voucher_ctrl_nbr" />
+          </Key>
+          <Property Name="payroll_year" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="voucher_ctrl_nbr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="payroll_month" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="payrolltemplate_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="voucher_period_from" Type="date" />
+          <Property Name="voucher_period_to" Type="date" />
+          <Property Name="voucher_descr1" Type="varchar(max)" />
+          <Property Name="voucher_descr2" Type="varchar(max)" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="gross_pay" Type="money" />
+          <Property Name="net_pay" Type="money" />
+          <Property Name="rate_basis" Type="varchar" MaxLength="1" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="daily_rate" Type="money" />
+          <Property Name="hourly_rate" Type="money" />
+          <Property Name="no_of_days" Type="float" />
+          <Property Name="other_amt1" Type="money" />
+          <Property Name="other_amt2" Type="money" />
+          <Property Name="other_amt3" Type="money" />
+          <Property Name="wtax" Type="money" />
+          <Property Name="lowp_amount_salary" Type="money" />
+          <Property Name="lowp_amount_pera" Type="money" />
+          <Property Name="gsis_gs" Type="money" />
+          <Property Name="gsis_ps" Type="money" />
+          <Property Name="sif_gs" Type="money" />
+          <Property Name="hdmf_gs" Type="money" />
+          <Property Name="hdmf_ps" Type="money" />
+          <Property Name="phic_gs" Type="money" />
+          <Property Name="phic_ps" Type="money" />
+          <Property Name="nhmfc_hsing" Type="money" />
+          <Property Name="nafc_svlf" Type="money" />
+          <Property Name="sss_ps" Type="money" />
+          <Property Name="hdmf_ps2" Type="money" />
+          <Property Name="hdmf_mp2" Type="money" />
+          <Property Name="philamlife_ps" Type="money" />
+          <Property Name="gsis_ehp" Type="money" />
+          <Property Name="gsis_hip" Type="money" />
+          <Property Name="gsis_ceap" Type="money" />
+          <Property Name="gsis_addl_ins" Type="money" />
+          <Property Name="gsis_conso_ln" Type="money" />
+          <Property Name="gsis_policy_reg_ln" Type="money" />
+          <Property Name="gsis_policy_opt_ln" Type="money" />
+          <Property Name="gsis_uoli_ln" Type="money" />
+          <Property Name="gsis_emergency_ln" Type="money" />
+          <Property Name="gsis_ecard_ln" Type="money" />
+          <Property Name="gsis_educ_asst_ln" Type="money" />
+          <Property Name="gsis_real_state_ln" Type="money" />
+          <Property Name="gsis_sos_ln" Type="money" />
+          <Property Name="gsis_help" Type="money" />
+          <Property Name="gsis_housing_ln" Type="money" />
+          <Property Name="hdmf_mpl_ln" Type="money" />
+          <Property Name="hdmf_hse_ln" Type="money" />
+          <Property Name="hdmf_cal_ln" Type="money" />
+          <Property Name="hdmf_loyalty_card" Type="money" />
+          <Property Name="nico_ln" Type="money" />
+          <Property Name="network_ln" Type="money" />
+          <Property Name="ccmpc_ln" Type="money" />
+          <Property Name="preparedby_name" Type="varchar" MaxLength="150" />
+          <Property Name="preparedby_designation" Type="varchar" MaxLength="150" />
+          <Property Name="date_posted" Type="date" />
+          <Property Name="post_status" Type="varchar" MaxLength="1" />
+          <Property Name="voucher_nbr" Type="varchar" MaxLength="15" />
+          <Property Name="created_by_user" Type="varchar" MaxLength="30" />
+          <Property Name="updated_by_user" Type="varchar" MaxLength="30" />
+          <Property Name="posted_by_user" Type="varchar" MaxLength="30" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="voucher_type" Type="varchar" MaxLength="1" />
+          <Property Name="claimant_name" Type="varchar" MaxLength="150" />
+          <Property Name="claimant_rel" Type="varchar" MaxLength="150" />
+          <Property Name="other_premium1" Type="money" />
+          <Property Name="other_premium2" Type="money" />
+          <Property Name="other_premium3" Type="money" />
+          <Property Name="other_premium4" Type="money" />
+          <Property Name="other_premium5" Type="money" />
+          <Property Name="other_loan1" Type="money" />
+          <Property Name="other_loan2" Type="money" />
+          <Property Name="other_loan3" Type="money" />
+          <Property Name="other_loan4" Type="money" />
+          <Property Name="other_loan5" Type="money" />
+          <Property Name="lates_mins_hrs" Type="money" />
+          <Property Name="lates_amount" Type="money" />
+          <Property Name="refund_sal_amt" Type="money" />
+          <Property Name="department_code_trk" Type="varchar" MaxLength="2" />
+          <Property Name="function_code_trk" Type="varchar" MaxLength="8" />
+          <Property Name="allotment_code_trk" Type="varchar" MaxLength="8" />
+          <Property Name="voucher_remarks" Type="varchar(max)" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_PAY.dbo.vw_approvalworkflow_tbl' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -613,6 +706,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_prime_token_tbl" EntityType="Self.user_prime_token_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usersprofile_tbl" EntityType="Self.usersprofile_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="voucher_tbl" EntityType="Self.voucher_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_hdr_tbl" EntityType="Self.payrollemployeemaster_hdr_tbl" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [payrollemployeemaster_hdr_tbl].[empl_id] AS [empl_id], 
@@ -860,6 +954,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
             <Parameter Name="par_salary_grade" Mode="In" Type="String" />
             <Parameter Name="par_step" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="voucher_tbl" EntityType="HRIS_PAYModel.voucher_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -1312,7 +1407,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="token" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="token_expiry_date" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
@@ -1537,6 +1632,99 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="updated_dttm" Type="DateTime" Precision="3" />
           <Property Name="step_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="salary_grade" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="voucher_tbl">
+          <Key>
+            <PropertyRef Name="payroll_year" />
+            <PropertyRef Name="voucher_ctrl_nbr" />
+          </Key>
+          <Property Name="payroll_year" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="voucher_ctrl_nbr" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="payroll_month" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="payrolltemplate_code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="voucher_period_from" Type="DateTime" Precision="0" />
+          <Property Name="voucher_period_to" Type="DateTime" Precision="0" />
+          <Property Name="voucher_descr1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="voucher_descr2" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="gross_pay" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="net_pay" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="rate_basis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="no_of_days" Type="Double" />
+          <Property Name="other_amt1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_amt2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_amt3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="wtax" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="lowp_amount_salary" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="lowp_amount_pera" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_gs" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_ps" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sif_gs" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_gs" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_ps" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="phic_gs" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="phic_ps" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="nhmfc_hsing" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="nafc_svlf" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sss_ps" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_ps2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_mp2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="philamlife_ps" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_ehp" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_hip" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_ceap" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_addl_ins" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_conso_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_policy_reg_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_policy_opt_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_uoli_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_emergency_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_ecard_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_educ_asst_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_real_state_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_sos_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_help" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="gsis_housing_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_mpl_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_hse_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_cal_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hdmf_loyalty_card" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="nico_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="network_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ccmpc_ln" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="preparedby_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="preparedby_designation" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="date_posted" Type="DateTime" Precision="0" />
+          <Property Name="post_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="voucher_nbr" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="posted_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="voucher_type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="claimant_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="claimant_rel" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="other_premium1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_premium2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_premium3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_premium4" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_premium5" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_loan1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_loan2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_loan3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_loan4" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="other_loan5" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="lates_mins_hrs" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="lates_amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="refund_sal_amt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="department_code_trk" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="function_code_trk" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="allotment_code_trk" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="voucher_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2211,6 +2399,99 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_servicerecord_automation" FunctionName="HRIS_PAYModel.Store.sp_servicerecord_automation" />
+          <EntitySetMapping Name="voucher_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.voucher_tbl">
+              <MappingFragment StoreEntitySet="voucher_tbl">
+                <ScalarProperty Name="voucher_remarks" ColumnName="voucher_remarks" />
+                <ScalarProperty Name="allotment_code_trk" ColumnName="allotment_code_trk" />
+                <ScalarProperty Name="function_code_trk" ColumnName="function_code_trk" />
+                <ScalarProperty Name="department_code_trk" ColumnName="department_code_trk" />
+                <ScalarProperty Name="refund_sal_amt" ColumnName="refund_sal_amt" />
+                <ScalarProperty Name="lates_amount" ColumnName="lates_amount" />
+                <ScalarProperty Name="lates_mins_hrs" ColumnName="lates_mins_hrs" />
+                <ScalarProperty Name="other_loan5" ColumnName="other_loan5" />
+                <ScalarProperty Name="other_loan4" ColumnName="other_loan4" />
+                <ScalarProperty Name="other_loan3" ColumnName="other_loan3" />
+                <ScalarProperty Name="other_loan2" ColumnName="other_loan2" />
+                <ScalarProperty Name="other_loan1" ColumnName="other_loan1" />
+                <ScalarProperty Name="other_premium5" ColumnName="other_premium5" />
+                <ScalarProperty Name="other_premium4" ColumnName="other_premium4" />
+                <ScalarProperty Name="other_premium3" ColumnName="other_premium3" />
+                <ScalarProperty Name="other_premium2" ColumnName="other_premium2" />
+                <ScalarProperty Name="other_premium1" ColumnName="other_premium1" />
+                <ScalarProperty Name="claimant_rel" ColumnName="claimant_rel" />
+                <ScalarProperty Name="claimant_name" ColumnName="claimant_name" />
+                <ScalarProperty Name="voucher_type" ColumnName="voucher_type" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="posted_by_user" ColumnName="posted_by_user" />
+                <ScalarProperty Name="updated_by_user" ColumnName="updated_by_user" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="voucher_nbr" ColumnName="voucher_nbr" />
+                <ScalarProperty Name="post_status" ColumnName="post_status" />
+                <ScalarProperty Name="date_posted" ColumnName="date_posted" />
+                <ScalarProperty Name="preparedby_designation" ColumnName="preparedby_designation" />
+                <ScalarProperty Name="preparedby_name" ColumnName="preparedby_name" />
+                <ScalarProperty Name="ccmpc_ln" ColumnName="ccmpc_ln" />
+                <ScalarProperty Name="network_ln" ColumnName="network_ln" />
+                <ScalarProperty Name="nico_ln" ColumnName="nico_ln" />
+                <ScalarProperty Name="hdmf_loyalty_card" ColumnName="hdmf_loyalty_card" />
+                <ScalarProperty Name="hdmf_cal_ln" ColumnName="hdmf_cal_ln" />
+                <ScalarProperty Name="hdmf_hse_ln" ColumnName="hdmf_hse_ln" />
+                <ScalarProperty Name="hdmf_mpl_ln" ColumnName="hdmf_mpl_ln" />
+                <ScalarProperty Name="gsis_housing_ln" ColumnName="gsis_housing_ln" />
+                <ScalarProperty Name="gsis_help" ColumnName="gsis_help" />
+                <ScalarProperty Name="gsis_sos_ln" ColumnName="gsis_sos_ln" />
+                <ScalarProperty Name="gsis_real_state_ln" ColumnName="gsis_real_state_ln" />
+                <ScalarProperty Name="gsis_educ_asst_ln" ColumnName="gsis_educ_asst_ln" />
+                <ScalarProperty Name="gsis_ecard_ln" ColumnName="gsis_ecard_ln" />
+                <ScalarProperty Name="gsis_emergency_ln" ColumnName="gsis_emergency_ln" />
+                <ScalarProperty Name="gsis_uoli_ln" ColumnName="gsis_uoli_ln" />
+                <ScalarProperty Name="gsis_policy_opt_ln" ColumnName="gsis_policy_opt_ln" />
+                <ScalarProperty Name="gsis_policy_reg_ln" ColumnName="gsis_policy_reg_ln" />
+                <ScalarProperty Name="gsis_conso_ln" ColumnName="gsis_conso_ln" />
+                <ScalarProperty Name="gsis_addl_ins" ColumnName="gsis_addl_ins" />
+                <ScalarProperty Name="gsis_ceap" ColumnName="gsis_ceap" />
+                <ScalarProperty Name="gsis_hip" ColumnName="gsis_hip" />
+                <ScalarProperty Name="gsis_ehp" ColumnName="gsis_ehp" />
+                <ScalarProperty Name="philamlife_ps" ColumnName="philamlife_ps" />
+                <ScalarProperty Name="hdmf_mp2" ColumnName="hdmf_mp2" />
+                <ScalarProperty Name="hdmf_ps2" ColumnName="hdmf_ps2" />
+                <ScalarProperty Name="sss_ps" ColumnName="sss_ps" />
+                <ScalarProperty Name="nafc_svlf" ColumnName="nafc_svlf" />
+                <ScalarProperty Name="nhmfc_hsing" ColumnName="nhmfc_hsing" />
+                <ScalarProperty Name="phic_ps" ColumnName="phic_ps" />
+                <ScalarProperty Name="phic_gs" ColumnName="phic_gs" />
+                <ScalarProperty Name="hdmf_ps" ColumnName="hdmf_ps" />
+                <ScalarProperty Name="hdmf_gs" ColumnName="hdmf_gs" />
+                <ScalarProperty Name="sif_gs" ColumnName="sif_gs" />
+                <ScalarProperty Name="gsis_ps" ColumnName="gsis_ps" />
+                <ScalarProperty Name="gsis_gs" ColumnName="gsis_gs" />
+                <ScalarProperty Name="lowp_amount_pera" ColumnName="lowp_amount_pera" />
+                <ScalarProperty Name="lowp_amount_salary" ColumnName="lowp_amount_salary" />
+                <ScalarProperty Name="wtax" ColumnName="wtax" />
+                <ScalarProperty Name="other_amt3" ColumnName="other_amt3" />
+                <ScalarProperty Name="other_amt2" ColumnName="other_amt2" />
+                <ScalarProperty Name="other_amt1" ColumnName="other_amt1" />
+                <ScalarProperty Name="no_of_days" ColumnName="no_of_days" />
+                <ScalarProperty Name="hourly_rate" ColumnName="hourly_rate" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="rate_basis" ColumnName="rate_basis" />
+                <ScalarProperty Name="net_pay" ColumnName="net_pay" />
+                <ScalarProperty Name="gross_pay" ColumnName="gross_pay" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="voucher_descr2" ColumnName="voucher_descr2" />
+                <ScalarProperty Name="voucher_descr1" ColumnName="voucher_descr1" />
+                <ScalarProperty Name="voucher_period_to" ColumnName="voucher_period_to" />
+                <ScalarProperty Name="voucher_period_from" ColumnName="voucher_period_from" />
+                <ScalarProperty Name="payrolltemplate_code" ColumnName="payrolltemplate_code" />
+                <ScalarProperty Name="payroll_month" ColumnName="payroll_month" />
+                <ScalarProperty Name="voucher_ctrl_nbr" ColumnName="voucher_ctrl_nbr" />
+                <ScalarProperty Name="payroll_year" ColumnName="payroll_year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

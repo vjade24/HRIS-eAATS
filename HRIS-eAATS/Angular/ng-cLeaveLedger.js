@@ -28,6 +28,7 @@
     s.sync_leave_type           = ""
     s.generated_covered_descr   = ""
     s.leave_type_data           = []
+    s.terminal           = []
     function init()
     {
         
@@ -153,7 +154,34 @@
                 s.oTable3.fnClearTable();
                 s.datalistgrid3 = []
                 s.lst_all_bal   = []
-
+                s.terminal = d.data.terminal
+                for (var i = 0; i < s.terminal.length; i++) {
+                    s.terminal[i].period_covered = moment(s.terminal[i].voucher_period_from).format('LL') + ' - ' + moment(s.terminal[i].voucher_period_to).format('LL')
+                    switch (s.terminal[i].post_status || '') {
+                        case '':
+                        case 'N':
+                            s.terminal[i].post_status_descr = 'NOT POSTED';
+                            break;
+                        case 'Y':
+                            s.terminal[i].post_status_descr = 'POSTED';
+                            break;
+                        case 'A':
+                            s.terminal[i].post_status_descr = 'AUDITED';
+                            break;
+                        case 'R':
+                            s.terminal[i].post_status_descr = 'RELEASED';
+                            break;
+                        case 'T':
+                            s.terminal[i].post_status_descr = 'RETURNED';
+                            break;
+                        case 'X':
+                            s.terminal[i].post_status_descr = 'VOIDED';
+                            break;
+                        default:
+                            s.terminal[i].post_status_descr = '--';
+                            break;
+                    }
+                }
                 $("#modal_initializing").modal("hide");
             }
             else
@@ -827,7 +855,34 @@
                 s.oTable3.fnClearTable();
                 s.datalistgrid3 = []
                 s.lst_all_bal   = []
-
+                s.terminal = d.data.terminal
+                for (var i = 0; i < s.terminal.length; i++) {
+                    s.terminal[i].period_covered = moment(s.terminal[i].voucher_period_from).format('LL') + ' - ' + moment(s.terminal[i].voucher_period_to).format('LL')
+                    switch (s.terminal[i].post_status || '') {
+                        case '':
+                        case 'N':
+                            s.terminal[i].post_status_descr = 'NOT POSTED';
+                            break;
+                        case 'Y':
+                            s.terminal[i].post_status_descr = 'POSTED';
+                            break;
+                        case 'A':
+                            s.terminal[i].post_status_descr = 'AUDITED';
+                            break;
+                        case 'R':
+                            s.terminal[i].post_status_descr = 'RELEASED';
+                            break;
+                        case 'T':
+                            s.terminal[i].post_status_descr = 'RETURNED';
+                            break;
+                        case 'X':
+                            s.terminal[i].post_status_descr = 'VOIDED';
+                            break;
+                        default:
+                            s.terminal[i].post_status_descr = '--';
+                            break;
+                    }
+                }
                 $("#info_vl_balance").text(d.data.leavetype_balances[0].leaveledger_balance_as_of_vl);
                 $("#info_sl_balance").text(d.data.leavetype_balances[0].leaveledger_balance_as_of_sl);
                 $("#info_sp_balance").text(d.data.leavetype_balances[0].leaveledger_balance_as_of_sp);
@@ -4648,6 +4703,62 @@
         // END OF BALANCE DISCREPANCY CHECK FUNCTIONS
         // ===========================================================================================
 
+        s.btn_print_terminal = function (row)
+        {
+            var ReportName  = "CrystalReport"
+            var SaveName    = "Crystal_Report"
+            var ReportType  = "inline"
+            var ReportPath  = ""
+            var sp          = ""
+            sp              = "sp_edocument_trk_tbl_history,p_doc_ctrl_nbr," + row.voucher_ctrl_nbr + ",p_docmnt_type," + "01-V" ;
+            ReportPath      = "~/Reports/cryDocTracking/cryDocsHistory.rpt";
+            // *******************************************************
+            // *** VJA : 2021-07-14 - Validation and Loading hide ****
+            // *******************************************************
+            $("#modal_initializing").modal({ keyboard: false, backdrop: "static" })
+            var iframe = document.getElementById('iframe_print_preview_terminal');
+            var iframe_page = $("#iframe_print_preview_terminal")[0];
+            iframe.style.visibility = "hidden";
+
+            s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                + "&ReportName=" + ReportName
+                + "&SaveName=" + SaveName
+                + "&ReportType=" + ReportType
+                + "&ReportPath=" + ReportPath
+                + "&id=" + sp // + "," + parameters
+
+            if (!/*@cc_on!@*/0) { //if not IE
+                iframe.onload = function () {
+                    iframe.style.visibility = "visible";
+                    $("#modal_initializing").modal("hide")
+                };
+            }
+            else if (iframe_page.innerHTML()) {
+                // get and check the Title (and H tags if you want)
+                var ifTitle = iframe_page.contentDocument.title;
+                if (ifTitle.indexOf("404") >= 0) {
+                    swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                    iframe.src = "";
+                }
+                else if (ifTitle != "") {
+                    swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                    iframe.src = "";
+                }
+            }
+            else {
+                iframe.onreadystatechange = function () {
+                    if (iframe.readyState == "complete") {
+                        iframe.style.visibility = "visible";
+                        $("#modal_initializing").modal("hide")
+                    }
+                };
+            }
+
+            iframe.src = s.embed_link;
+            $('#print_modal_terminal_leave').modal({ backdrop: 'static', keyboard: false });
+            // *******************************************************
+            // *******************************************************
+        }
         
         //*********************************************************************************************************
         // ************************ END OF CODE *******************************************************************
