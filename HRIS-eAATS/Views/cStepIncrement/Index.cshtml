@@ -223,7 +223,44 @@
         border-radius: 10px;
         font-weight: bold;
     }
+    .ribbon-breadcrumb {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 250px;
+        height: 50px;
+        padding: 0 35px;
+        background: linear-gradient(135deg,#2196F3,#1565C0);
+        color: #fff;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 6px 0 0 6px;
+        box-shadow: 0 4px 12px rgba(0,0,0,.2);
+    }
 
+        /* Ribbon Point */
+        .ribbon-breadcrumb::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -25px;
+            width: 0;
+            height: 0;
+            border-top: 25px solid transparent;
+            border-bottom: 25px solid transparent;
+            border-left: 25px solid #1565C0;
+        }
+
+    /* Small fold effect */
+    /*.ribbon-breadcrumb::before {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            border-top: 8px solid rgba(0,0,0,.25);
+            border-left: 8px solid transparent;
+        }*/
 </style>
 <script src="~/Angular/ng-cStepIncrement.js"></script>
 <section ng-app="ng_HRD_App" ng-controller="cStepIncrement_ctrlr">
@@ -240,7 +277,7 @@
                             <div class="row" ng-hide="addoverride">
                                 <div class="col-lg-5">
 
-                                    <img id="m{{viewRecord.empl_id}}" ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{viewRecord.empl_id}}"
+                                    <img id="m{{viewRecord.empl_id}}" ng-src="https://img-repo.davaodeoro.gov.ph/api/images/serve/{{viewRecord.empl_photo_img}}?thumb"
                                          style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
                                          width="100"
                                          height="100"
@@ -493,6 +530,12 @@
 
     <div class="row">
         <div class="col-lg-12 mt10">
+            <div class="ribbon-breadcrumb">
+                <span>Employee Step Increment Monitoring</span>
+            </div>
+        </div>
+
+        <div class="col-lg-12 mt10">
             <div class="ibox float-e-margins">
                 <div class="ibox-title" style="padding-right:30px;">
                     <div class="row">
@@ -559,16 +602,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="ibox-content" style="padding-bottom:0px !important;padding-top:0px !important;">
+                <div class="ibox-content" style="padding-bottom:0px !important;padding:0px !important;">
                     @*<div class="row">
-                            <div class="col-lg-2" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
+                        <div class="col-lg-2" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
 
-                            </div>
-                        </div>*@
+                        </div>
+                    </div>*@
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="container" style="padding-left:0px !important;max-height:630px;">
-                                <div class="col-lg-12" style="display:flex; position: sticky !important;top:0 !important;z-index:2;">
+                            <div class="container" style="padding:0px !important;max-height:630px;">
+                                <div class="col-lg-12" style="display:flex; position: sticky !important;top:0 !important;z-index:2;padding:0px !important;">
                                     <div class="box" style="width:500px !important; position: sticky;left:0;border-right:0.2px solid gray;flex:0 0 500px;justify-content:flex-start;align-items:center;display:flex;">
                                         <div class="col-lg-3" style="padding-top:10px !important;padding-bottom:10px !important;">
                                             <div class="row form-group form-group-sm">
@@ -590,7 +633,7 @@
                                         {{(moment(txtb_from).year() == moment(txtb_to).year() ? getHeaderVal(lst):lst)}}
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="align-content:flex-start !important;display:flex;z-index:0;" ng-repeat="employee_rekon in employee_pagenated_record track by $index">
+                                <div class="col-lg-12" style="align-content:flex-start !important;display:flex;z-index:0;padding:0px !important;" ng-repeat="employee_rekon in employee_pagenated_record track by $index">
                                     <div class="box2" style="z-index:9999; box-sizing:border-box; background-color:#E5B807;width:500px !important; position: sticky;left:0;border:1px solid #FCEC65 !important;flex:0 0 500px;padding-top:2px;padding-bottom:2px;">
                                         <div class="col-lg-2" style="z-index:99999;flex:0 0 10%;display:flex;justify-content:flex-start;align-items:center;">
                                             <div class="dropup" style="z-index:99999;">
@@ -604,24 +647,24 @@
                                                 </ul>
                                             </div>
                                             @*<img id="m{{employee_rekon.empl_id}}" ng-src="http://images.dvodeoro.local/storage/images/photo/thumb/{{employee_rekon.empl_id}}"
-                                                 style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
-                                                 width="50"
-                                                 height="50"
-                                                 onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />*@
+                                            style="border-radius: 50%; border: 0.5px solid #442B02; flex: 0 0 50px;"
+                                            width="50"
+                                            height="50"
+                                            onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />*@
 
-                                                <div class="img-badge-wrapper">
-                                                    <img id="m{{employee_rekon.empl_id}}"
-                                                         ng-src="https://img-repo.davaodeoro.gov.ph/api/images/serve/{{employee_rekon.empl_photo_img}}?thumb"
-                                                         width="50"
-                                                         height="50"
-                                                         class="profile-img"
-                                                         onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
+                                            <div class="img-badge-wrapper">
+                                                <img id="m{{employee_rekon.empl_id}}"
+                                                     ng-src="https://img-repo.davaodeoro.gov.ph/api/images/serve/{{employee_rekon.empl_photo_img}}?thumb"
+                                                     width="50"
+                                                     height="50"
+                                                     class="profile-img"
+                                                     onerror="this.onerror=null; this.src='../../ResourcesImages/upload_profile.png';" />
 
-                                                    <!-- Badge -->
-                                                    <span class="img-badge">
-                                                        <small>sg</small> {{employee_rekon.salary_grade}}
-                                                    </span>
-                                                </div>
+                                                <!-- Badge -->
+                                                <span class="img-badge">
+                                                    <small>sg</small> {{employee_rekon.salary_grade}}
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="col-lg-10 " style="text-overflow:ellipsis;padding-top:5px;">
                                             <div class="row">
@@ -649,7 +692,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ibox-footer" style="padding-top:0px !important;padding-bottom:0px !important;">
+                <div class="ibox-footer" style="padding-top:5px !important;padding-bottom:0px !important;">
                     <div class="row" style="margin-top:0px !important;margin-bottom:0px !important;">
                         <div class="col-lg-3" style="padding-left:30px;margin-top:0px !important;margin-bottom:0px !important;padding-top:0px !important;">
                             <ul class="pagination" ng-show="totalPages.length == 1 ? false:true">

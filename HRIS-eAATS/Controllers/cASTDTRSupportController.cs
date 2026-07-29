@@ -630,6 +630,7 @@ namespace HRIS_eAATS.Controllers
                                 ,c.position_long_title
                                 ,d.department_short_name
                                 ,d.department_code
+                                ,c.employment_type
                            };
 
                 return Json(new { data }, JsonRequestBehavior.AllowGet);

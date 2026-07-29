@@ -275,6 +275,7 @@
     <Compile Include="Controllers\cExtractToExcelController.cs" />
     <Compile Include="Controllers\cForfeitBalanceController.cs" />
     <Compile Include="Controllers\cLeaveAdminController.cs" />
+    <Compile Include="Controllers\cLoyaltyController.cs" />
     <Compile Include="Controllers\cSoloParentController.cs" />
     <Compile Include="Controllers\cLeaveCTOBalanceController.cs" />
     <Compile Include="Controllers\cLeaveEarnedVLSLController.cs" />
@@ -629,6 +630,9 @@
     </Compile>
     <Compile Include="Models\leave_transmittal_type_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\loyalty_reckon_tbl.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lv_days_frac_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1174,6 +1178,12 @@
     </Compile>
     <Compile Include="Models\sp_ledger_info_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_loyalty_reckon_ledger_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_loyalty_tracking_status_Result.cs">
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_lv_empl_lst_wout_jo_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -2023,6 +2033,7 @@
     <Content Include="Angular\ng-cAATSInstallation.js" />
     <Content Include="Angular\ng-cASType.js" />
     <Content Include="Angular\ng-cExtractToExcel.js" />
+    <Content Include="Angular\ng-CLoyalty.js" />
     <Content Include="Angular\ng-cSoloParent.js" />
     <Content Include="Angular\ng-cLeaveAdmin.js" />
     <Content Include="Angular\ng-cBestInAttendance.js" />

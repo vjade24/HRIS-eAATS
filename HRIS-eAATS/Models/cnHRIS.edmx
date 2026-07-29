@@ -32,6 +32,21 @@
           <Property Name="office_email" Type="varchar" MaxLength="300" />
           <Property Name="contact_number" Type="varchar" MaxLength="300" />
         </EntityType>
+        <EntityType Name="loyalty_reckon_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="original_date" Type="date" Nullable="false" />
+          <Property Name="loyalty_year" Type="int" Nullable="false" />
+          <Property Name="remarks" Type="varchar" MaxLength="255" />
+          <Property Name="rec_status" Type="varchar" MaxLength="100" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="255" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="newstepincrement_tbl">
           <Key>
             <PropertyRef Name="empl_id" />
@@ -656,6 +671,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_empl_id_waiver" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_loyalty_reckon_ledger" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_year" Type="int" Mode="In" />
+          <Parameter Name="par_status" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_loyalty_tracking_status" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_year" Type="int" Mode="In" />
+          <Parameter Name="par_type_of_data" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_servicerecord_automation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_effective_date" Type="date" Mode="In" />
@@ -695,6 +719,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
         <EntityContainer Name="HRIS_PAYModelStoreContainer">
           <EntitySet Name="approvalstatus_tbl" EntityType="Self.approvalstatus_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="loyalty_reckon_tbl" EntityType="Self.loyalty_reckon_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="newstepincrement_tbl" EntityType="Self.newstepincrement_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollemployeemaster_pos_tbl" EntityType="Self.payrollemployeemaster_pos_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="personnel_tbl" EntityType="Self.personnel_tbl" Schema="dbo" store:Type="Tables" />
@@ -955,6 +980,16 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
             <Parameter Name="par_step" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="voucher_tbl" EntityType="HRIS_PAYModel.voucher_tbl" />
+          <EntitySet Name="loyalty_reckon_tbl" EntityType="HRIS_PAYModel.loyalty_reckon_tbl" />
+          <FunctionImport Name="sp_loyalty_reckon_ledger" ReturnType="Collection(HRIS_PAYModel.sp_loyalty_reckon_ledger_Result)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_year" Mode="In" Type="Int32" />
+            <Parameter Name="par_status" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_loyalty_tracking_status" ReturnType="Collection(HRIS_PAYModel.sp_loyalty_tracking_status_Result)">
+            <Parameter Name="par_year" Mode="In" Type="Int32" />
+            <Parameter Name="par_type_of_data" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -1726,6 +1761,46 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="allotment_code_trk" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="voucher_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="loyalty_reckon_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="original_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="loyalty_year" Type="Int32" Nullable="false" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="rec_status" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_loyalty_reckon_ledger_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="empl_photo_img" Nullable="true" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="courtisy_title" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="DateTime" Name="original_date" Nullable="false" />
+          <Property Type="Int32" Name="loyalty_year" Nullable="false" />
+          <Property Type="String" Name="remarks" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="rec_status" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="255" />
+          <Property Type="Int32" Name="loyal_years" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_loyalty_tracking_status_Result">
+          <Property Type="Int32" Name="loyalty_count" Nullable="true" />
+          <Property Type="Int32" Name="loyalty_travel" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2492,6 +2567,55 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="loyalty_reckon_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.loyalty_reckon_tbl">
+              <MappingFragment StoreEntitySet="loyalty_reckon_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="rec_status" ColumnName="rec_status" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="loyalty_year" ColumnName="loyalty_year" />
+                <ScalarProperty Name="original_date" ColumnName="original_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_loyalty_reckon_ledger" FunctionName="HRIS_PAYModel.Store.sp_loyalty_reckon_ledger">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_loyalty_reckon_ledger_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="original_date" ColumnName="original_date" />
+                <ScalarProperty Name="loyalty_year" ColumnName="loyalty_year" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="rec_status" ColumnName="rec_status" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="loyal_years" ColumnName="loyal_years" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_loyalty_tracking_status" FunctionName="HRIS_PAYModel.Store.sp_loyalty_tracking_status">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_PAYModel.sp_loyalty_tracking_status_Result">
+                <ScalarProperty Name="loyalty_count" ColumnName="loyalty_count" />
+                <ScalarProperty Name="loyalty_travel" ColumnName="loyalty_travel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

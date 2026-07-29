@@ -48,6 +48,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<step_reckoning_tbl> step_reckoning_tbl { get; set; }
         public virtual DbSet<newstepincrement_tbl> newstepincrement_tbl { get; set; }
         public virtual DbSet<voucher_tbl> voucher_tbl { get; set; }
+        public virtual DbSet<loyalty_reckon_tbl> loyalty_reckon_tbl { get; set; }
     
         public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
         {
@@ -223,6 +224,36 @@ namespace HRIS_eAATS.Models
                 new ObjectParameter("par_step", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_servicerecord_automation", par_empl_idParameter, par_effective_dateParameter, par_data_fromParameter, par_employment_typeParameter, par_salary_gradeParameter, par_stepParameter);
+        }
+    
+        public virtual ObjectResult<sp_loyalty_reckon_ledger_Result> sp_loyalty_reckon_ledger(string par_department_code, Nullable<int> par_year, string par_status)
+        {
+            var par_department_codeParameter = par_department_code != null ?
+                new ObjectParameter("par_department_code", par_department_code) :
+                new ObjectParameter("par_department_code", typeof(string));
+    
+            var par_yearParameter = par_year.HasValue ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(int));
+    
+            var par_statusParameter = par_status != null ?
+                new ObjectParameter("par_status", par_status) :
+                new ObjectParameter("par_status", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_loyalty_reckon_ledger_Result>("sp_loyalty_reckon_ledger", par_department_codeParameter, par_yearParameter, par_statusParameter);
+        }
+    
+        public virtual ObjectResult<sp_loyalty_tracking_status_Result> sp_loyalty_tracking_status(Nullable<int> par_year, string par_type_of_data)
+        {
+            var par_yearParameter = par_year.HasValue ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(int));
+    
+            var par_type_of_dataParameter = par_type_of_data != null ?
+                new ObjectParameter("par_type_of_data", par_type_of_data) :
+                new ObjectParameter("par_type_of_data", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_loyalty_tracking_status_Result>("sp_loyalty_tracking_status", par_yearParameter, par_type_of_dataParameter);
         }
     }
 }
