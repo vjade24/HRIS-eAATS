@@ -41,9 +41,78 @@
         border: 1px solid #f3f3f3;
         border-radius:10px ;
         padding:5px;
-        min-height:40%;
+        min-height:50%;
         box-shadow:inherit;
     }
+    /* Authorization Slip Modal */
+    #modal_auth_slip .modal-header {
+        background: #1a3f6f;
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 4px 4px 0 0;
+    }
+    #modal_auth_slip .as-info-bar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+        font-size: 11px;
+    }
+    #modal_auth_slip .as-info-bar .badge-pill {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    #tbl_auth_slip {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+    }
+    #tbl_auth_slip thead th {
+        background: #1a3f6f;
+        color: #fff;
+        padding: 6px 8px;
+        border: 1px solid #12305a;
+        text-align: center;
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    #tbl_auth_slip tbody td {
+        padding: 5px 8px;
+        border: 1px solid #dde3ee;
+        vertical-align: middle;
+    }
+    #tbl_auth_slip tbody tr:nth-child(even) td { background: #f4f7fb; }
+    #tbl_auth_slip tbody tr:hover td { background: #e8f0fb !important; }
+    #tbl_auth_slip tfoot td {
+        background: #1a3f6f;
+        color: #fff;
+        font-weight: 700;
+        font-size: 11px;
+        padding: 5px 8px;
+        border: 1px solid #12305a;
+        position: sticky;
+        bottom: 0;
+        z-index: 2;
+    }
+    .as-badge-approved  { background:#2e7d32; color:#fff; }
+    .as-badge-pending   { background:#e65100; color:#fff; }
+    .as-badge-rejected  { background:#c62828; color:#fff; }
+    .as-badge-default   { background:#546e7a; color:#fff; }
+    .as-type-tag {
+        display: inline-block;
+        padding: 2px 7px;
+        border-radius: 10px;
+        font-size: 10px;
+        font-weight: 700;
+        background: #e3f2fd;
+        color: #1565c0;
+        border: 1px solid #90caf9;
+    }
+    .as-time-cell { font-family: monospace; font-size: 11px; color: #37474f; }
 </style>
 <link href="~/Content/loading_div.css" rel="stylesheet" />
 <section ng-app="ng_selfService_App" ng-controller="cBestInAttendance_ctrlr">
@@ -253,6 +322,7 @@
                                                     <button class="btn btn-primary btn-outline btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapse{{lst.id}}"><i class="fa fa-eye"></i> View</button>
                                                     <button class="btn btn-danger btn-outline btn-xs" ng-click="btn_action_dtl('delete',lst,$index)"><i class="fa fa-trash"></i> Remove</button>
                                                     <button class="btn btn-success btn-outline btn-xs btn-block m-t-xs" ng-click="btn_action_dtl('print_to',lst,$index)"><i class="fa fa-print"></i> Travel Order</button>
+                                                    <button class="btn btn-info btn-outline btn-xs btn-block m-t-xs" ng-click="btn_open_auth_slip(lst)"><i class="fa fa-id-card"></i> Authorization Slip</button>
 
                                                 </div>
                                                 <div id="collapse{{lst.id}}" class="panel-collapse collapse">
@@ -332,6 +402,121 @@
             </div>
         </div>
     </div>
+
+    <!-- AUTHORIZATION SLIP MODAL -->
+    <div class="modal fade" id="modal_auth_slip" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" style="color:#fff;opacity:1;font-size:22px;">&times;</button>
+                    <h4 class="modal-title" style="font-weight:700;font-size:15px;">
+                        <i class="fa fa-id-card"></i>&nbsp; AUTHORIZATION SLIP
+                        &nbsp;<span style="color:#aad0ff;">{{as_employee_name}}</span>
+                        <small style="font-size:11px;color:#c8daf8;">&nbsp;&mdash;&nbsp;{{as_empl_id}}</small>
+                    </h4>
+                </div>
+                <div class="modal-body" style="padding:12px 16px;">
+                    <!-- Info Bar -->
+                    <div class="as-info-bar">
+                        <span class="badge badge-pill" style="background:#37474f;color:#fff;padding:5px 10px;">
+                            <i class="fa fa-calendar"></i>&nbsp; Period:&nbsp;<b id="as_period_label"></b>
+                        </span>
+                        <span class="badge badge-pill" style="background:#1565c0;color:#fff;padding:5px 10px;">
+                            <i class="fa fa-building"></i>&nbsp; {{as_department}}
+                        </span>
+                        <span class="badge badge-pill" style="background:#2e7d32;color:#fff;padding:5px 10px;" ng-if="as_data.length > 0">
+                            <i class="fa fa-list"></i>&nbsp; {{as_data.length}} record(s)
+                        </span>
+                    </div>
+                    <!-- Loading -->
+                    <div ng-if="as_loading" class="text-center" style="padding:36px;color:#888;">
+                        <i class="fa fa-spinner fa-spin fa-2x"></i><br/><small style="display:block;margin-top:8px;">Loading Authorization Slip records...</small>
+                    </div>
+                    <!-- No data -->
+                    <div ng-if="!as_loading && as_data.length == 0" class="text-center" style="padding:36px;color:#aaa;">
+                        <i class="fa fa-inbox fa-2x" style="display:block;margin-bottom:8px;"></i>
+                        No authorization slip records found for this period.
+                    </div>
+                    <!-- Table -->
+                    <div ng-if="!as_loading && as_data.length > 0"
+                         style="overflow-x:auto;overflow-y:auto;max-height:480px;width:100%;">
+                        <table id="tbl_auth_slip">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="width:30px;">#</th>
+                                    <th rowspan="2">Application No.</th>
+                                    <th rowspan="2">DTR Date</th>
+                                    <th rowspan="2">Type</th>
+                                    <th rowspan="2">Reason</th>
+                                    <th colspan="2" style="background:#c75b2a;">AM</th>
+                                    <th colspan="2" style="background:#3a7a20;">PM</th>
+                                    <th rowspan="2">Venue</th>
+                                    <th rowspan="2">Comment</th>
+                                    <th rowspan="2">Status</th>
+                                    <th rowspan="2">Date Applied</th>
+                                </tr>
+                                <tr>
+                                    <th style="background:#d4622a;">In</th>
+                                    <th style="background:#d4622a;">Out</th>
+                                    <th style="background:#4a8a30;">In</th>
+                                    <th style="background:#4a8a30;">Out</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="r in as_data">
+                                    <td class="text-center">{{$index + 1}}</td>
+                                    <td style="font-weight:600;color:#1565c0;white-space:nowrap;">{{r.Detail.application_nbr}}</td>
+                                    <td class="text-center" style="white-space:nowrap;font-weight:600;">{{r.Detail.as_dtr_date | date:'MM/dd/yyyy'}}</td>
+                                    <td class="text-center">
+                                        <span class="as-type-tag">{{r.AsType.astype_descr}}</span>
+                                    </td>
+                                    <td style="white-space:normal;word-break:break-word;min-width:120px;">{{r.Reason ? r.Reason.reason_descr : '—'}}</td>
+                                    <td class="text-center as-time-cell">{{r.Detail.as_am_in  || '—'}}</td>
+                                    <td class="text-center as-time-cell">{{r.Detail.as_am_out || '—'}}</td>
+                                    <td class="text-center as-time-cell">{{r.Detail.as_pm_in  || '—'}}</td>
+                                    <td class="text-center as-time-cell">{{r.Detail.as_pm_out || '—'}}</td>
+                                    
+                                    <td style="white-space:normal;word-break:break-word;min-width:100px;">{{r.Detail.as_venue || '—'}}</td>
+                                    <td style="white-space:normal;word-break:break-word;min-width:100px;">{{r.Detail.as_comment || '—'}}</td>
+                                    <td class="text-center">
+                                        <span class="badge badge-pill"
+                                              ng-class="{
+                                                'as-badge-approved' : r.Header.approval_status == 'F',
+                                                'as-badge-pending'  : r.Header.approval_status == 'C',
+                                                'as-badge-rejected' : r.Header.approval_status == 'D',
+                                                'as-badge-default'  : r.Header.approval_status != 'F' && r.Header.approval_status != 'C' && r.Header.approval_status != 'D'
+                                              }"
+                                              style="padding:3px 8px;font-size:10px;">
+                                            {{r.approval_status_descr.approval_status_descr }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center" style="white-space:nowrap;">{{r.Header.created_dttm | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot ng-if="as_data.length > 0">
+                                <tr>
+                                    <td colspan="14" style="text-align:left;letter-spacing:0.4px;">
+                                        <i class="fa fa-check-circle"></i>&nbsp;
+                                        TOTAL: {{as_data.length}} record(s) &nbsp;&mdash;&nbsp;
+                                        Approved: <b>{{as_count('F')}}</b>
+                                        &nbsp;|&nbsp; Pending: <b>{{as_count('C')}}</b>
+                                        &nbsp;|&nbsp; Rejected: <b>{{as_count('D')}}</b>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:8px 14px;">
+                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                        <i class="fa fa-times"></i>&nbsp; Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END AUTHORIZATION SLIP MODAL -->
 
     <div class="modal fade" id="modal_generating">
         <div class="modal-dialog modal-force-center modal-md">

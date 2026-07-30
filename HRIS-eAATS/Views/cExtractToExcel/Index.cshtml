@@ -70,13 +70,15 @@
     #coa-report-wrapper {
         border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+        border: 1px solid #ECC925;
+        box-shadow: 0 5px 20px rgba(93,48,8,0.18);
     }
     #coa-report-header {
-        background: linear-gradient(135deg, #1a3f6f 0%, #2e6da4 60%, #3a87c8 100%);
+        background: linear-gradient(120deg, #211401 0%, #592701 72%, #743801 100%);
         color: white;
         padding: 14px 20px 12px 20px;
         border-radius: 8px 8px 0 0;
+        border-bottom: 4px solid #ECC925;
     }
     #coa-report-header h4 {
         font-weight: 700;
@@ -89,8 +91,8 @@
         font-size: 12px;
     }
     #coa-toolbar {
-        background: #f4f6fa;
-        border-bottom: 1px solid #dde3ec;
+        background: linear-gradient(90deg, #fffdf3 0%, #fff7d0 100%);
+        border-bottom: 1px solid #e6cf78;
         padding: 8px 16px;
         display: flex;
         align-items: center;
@@ -98,7 +100,7 @@
         flex-wrap: wrap;
     }
     #coa-search-input {
-        border: 1px solid #c8d0dd;
+        border: 1px solid #d6b95d;
         border-radius: 20px;
         padding: 5px 14px;
         font-size: 12px;
@@ -106,11 +108,14 @@
         outline: none;
         transition: border 0.2s;
     }
-    #coa-search-input:focus { border-color: #2e6da4; }
+    #coa-search-input:focus {
+        border-color: #592701;
+        box-shadow: 0 0 0 2px rgba(236,201,37,0.22);
+    }
     #coa-record-badge {
         margin-left: auto;
-        background: #2e6da4;
-        color: #fff;
+        background: #ECC925;
+        color: #211401;
         font-size: 12px;
         border-radius: 12px;
         padding: 4px 14px;
@@ -122,7 +127,8 @@
         font-size: 11px;
         border-collapse: separate;
         border-spacing: 0;
-        width: 100%;
+        width: 1880px !important;
+        min-width: 1880px !important;
         table-layout: fixed;
     }
     /* ---- HEADER ROWS ---- */
@@ -138,9 +144,9 @@
     }
     #tbl_coa_report thead tr:first-child th.coa-th-seq,
     #tbl_coa_report thead tr:first-child th.coa-th-info {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
-        border: 1px solid #12305a !important;
+        border: 1px solid #592701 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
@@ -148,44 +154,44 @@
         white-space: nowrap;
     }
     #tbl_coa_report thead tr:first-child th.coa-th-vl-group {
-        background: linear-gradient(180deg, #d4622a 0%, #e8935a 100%) !important;
-        color: #fff !important;
-        border: 1px solid #b84e1f !important;
+        background: linear-gradient(180deg, #f2d84f 0%, #ECC925 100%) !important;
+        color: #211401 !important;
+        border: 1px solid #a98200 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
         text-align: center;
         letter-spacing: 0.3px;
-        border-left: 3px solid #a03a10 !important;
-        border-right: 3px solid #a03a10 !important;
+        border-left: 3px solid #592701 !important;
+        border-right: 3px solid #592701 !important;
         white-space: nowrap;
     }
     #tbl_coa_report thead tr:first-child th.coa-th-sl-group {
-        background: linear-gradient(180deg, #4a8a30 0%, #7ab65c 100%) !important;
+        background: linear-gradient(180deg, #743801 0%, #592701 100%) !important;
         color: #fff !important;
-        border: 1px solid #3a7022 !important;
+        border: 1px solid #211401 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
         text-align: center;
         letter-spacing: 0.3px;
-        border-left: 3px solid #2e5a18 !important;
-        border-right: 3px solid #2e5a18 !important;
+        border-left: 3px solid #211401 !important;
+        border-right: 3px solid #211401 !important;
         white-space: nowrap;
     }
     #tbl_coa_report thead tr:first-child th.coa-th-remarks {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
-        border: 1px solid #12305a !important;
+        border: 1px solid #592701 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
         vertical-align: middle !important;
     }
     #tbl_coa_report thead tr:last-child th.coa-th-vl-sub {
-        background: #f7dece !important;
-        color: #7a3010 !important;
-        border: 1px solid #e0a882 !important;
+        background: #fff2ad !important;
+        color: #211401 !important;
+        border: 1px solid #dfbd43 !important;
         font-size: 10px;
         font-weight: 700;
         padding: 5px 4px !important;
@@ -195,13 +201,13 @@
     }
     #tbl_coa_report thead tr:last-child th.coa-th-vl-sub:first-child,
     #tbl_coa_report thead tr:last-child th.coa-th-vl-sub:last-child {
-        border-left: 2px solid #c06030 !important;
-        border-right: 2px solid #c06030 !important;
+        border-left: 2px solid #b57a00 !important;
+        border-right: 2px solid #b57a00 !important;
     }
     #tbl_coa_report thead tr:last-child th.coa-th-sl-sub {
-        background: #daf0d0 !important;
-        color: #2a5a14 !important;
-        border: 1px solid #90c870 !important;
+        background: #f0ded0 !important;
+        color: #592701 !important;
+        border: 1px solid #c79a78 !important;
         font-size: 10px;
         font-weight: 700;
         padding: 5px 4px !important;
@@ -227,62 +233,65 @@
         word-break: break-word;
     }
     #tbl_coa_report td.coa-td-seq {
-        background: #edf1f8 !important;
-        color: #556 !important;
+        background: #f8f0d9 !important;
+        color: #592701 !important;
         font-weight: 600;
         text-align: center;
     }
     #tbl_coa_report td.coa-vl-cell {
-        background: #fff8f4 !important;
-        border-left: 1px solid #f0c8a8 !important;
-        border-right: 1px solid #f0c8a8 !important;
+        background: #fffdf1 !important;
+        border-left: 1px solid #edda8c !important;
+        border-right: 1px solid #edda8c !important;
     }
     #tbl_coa_report td.coa-vl-cell-first {
-        border-left: 2px solid #c06030 !important;
+        border-left: 2px solid #b57a00 !important;
     }
     #tbl_coa_report td.coa-vl-cell-last {
-        border-right: 2px solid #c06030 !important;
+        border-right: 2px solid #b57a00 !important;
     }
     #tbl_coa_report td.coa-sl-cell {
-        background: #f4fbf0 !important;
-        border-left: 1px solid #b0d898 !important;
-        border-right: 1px solid #b0d898 !important;
+        background: #fcf6f1 !important;
+        border-left: 1px solid #d8bda8 !important;
+        border-right: 1px solid #d8bda8 !important;
     }
     #tbl_coa_report td.coa-sl-cell-first {
-        border-left: 2px solid #3a8020 !important;
+        border-left: 2px solid #592701 !important;
     }
     #tbl_coa_report td.coa-sl-cell-last {
-        border-right: 2px solid #3a8020 !important;
+        border-right: 2px solid #592701 !important;
     }
     /* zebra */
-    #tbl_coa_report tbody tr:nth-child(even) td { background: #f8fafb !important; }
-    #tbl_coa_report tbody tr:nth-child(even) td.coa-vl-cell { background: #fff0e6 !important; }
-    #tbl_coa_report tbody tr:nth-child(even) td.coa-sl-cell { background: #eaf6e4 !important; }
-    #tbl_coa_report tbody tr:hover td { background: #fffde6 !important; transition: background 0.12s; }
-    #tbl_coa_report tbody tr:hover td.coa-vl-cell { background: #ffe8cc !important; }
-    #tbl_coa_report tbody tr:hover td.coa-sl-cell { background: #d8f0cc !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td { background: #fcfaf3 !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td.coa-vl-cell { background: #fff8d9 !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td.coa-sl-cell { background: #f4e5da !important; }
+    #tbl_coa_report tbody tr:hover td { background: #fff2ad !important; transition: background 0.12s; }
+    #tbl_coa_report tbody tr:hover td.coa-vl-cell { background: #ffe98a !important; }
+    #tbl_coa_report tbody tr:hover td.coa-sl-cell { background: #ead0bc !important; }
     /* totals row */
     #tbl_coa_report tfoot tr td {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
         font-weight: 700;
-        font-size: 12px;
-        border: 1px solid #12305a !important;
-        padding: 6px 7px !important;
+        font-size: 11px;
+        border: 1px solid #592701 !important;
+        padding: 6px 4px !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
     }
     #tbl_coa_report tfoot tr td.coa-vl-cell,
     #tbl_coa_report tfoot tr td.coa-vl-cell-first,
     #tbl_coa_report tfoot tr td.coa-vl-cell-last {
-        background: #c06030 !important;
-        color: #fff !important;
-        border: 1px solid #a03a10 !important;
+        background: #ECC925 !important;
+        color: #211401 !important;
+        border: 1px solid #a98200 !important;
     }
     #tbl_coa_report tfoot tr td.coa-sl-cell,
     #tbl_coa_report tfoot tr td.coa-sl-cell-first,
     #tbl_coa_report tfoot tr td.coa-sl-cell-last {
-        background: #3a8020 !important;
+        background: #592701 !important;
         color: #fff !important;
-        border: 1px solid #2a5a14 !important;
+        border: 1px solid #211401 !important;
     }
     /* no-data row */
     .coa-no-data td {
@@ -298,50 +307,115 @@
         bottom: 0;
         z-index: 2;
     }
-    /* row hover highlight */
-    #tbl_coa_report tbody tr:hover td {
-        background-color: #fffbe6 !important;
-    }
     /* COA Detail Modal */
-    #tbl_coa_detail { font-size: 11px; width: 100%; border-collapse: collapse; }
-    #tbl_coa_detail th {
-        background: #1a3f6f;
+    #modal_coa_detail .modal-content {
+        border: 1px solid #ECC925;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 10px 32px rgba(33,20,1,0.28);
+    }
+    #modal_coa_detail .modal-header {
+        background: linear-gradient(120deg, #211401 0%, #592701 100%) !important;
+        border-bottom: 4px solid #ECC925;
+    }
+    #modal_coa_detail .modal-header .modal-title {
+        letter-spacing: 0.35px;
+    }
+    #modal_coa_detail .modal-header .modal-title > span {
+        color: #ECC925 !important;
+    }
+    #modal_coa_detail .modal-header .modal-title small {
+        color: #f8edbc !important;
+    }
+    #modal_coa_detail .modal-body {
+        background: #fffdf6;
+    }
+    #modal_coa_detail .label-default,
+    #modal_coa_detail .label-info,
+    #modal_coa_detail .label-success {
+        border: 1px solid #d8b53a;
+        font-weight: 600;
+        box-shadow: none;
+    }
+    #modal_coa_detail .label-default {
+        background: #211401;
         color: #fff;
-        padding: 5px 7px;
-        border: 1px solid #12305a;
+    }
+    #modal_coa_detail .label-info {
+        background: #592701;
+        color: #fff;
+    }
+    #modal_coa_detail .label-success {
+        background: #ECC925;
+        color: #211401;
+    }
+    #tbl_coa_detail {
+        font-size: 11px;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        box-shadow: 0 2px 8px rgba(33,20,1,0.10);
+    }
+    #tbl_coa_detail th {
+        background: #211401;
+        color: #fff;
+        padding: 7px;
+        border: 1px solid #592701;
         white-space: nowrap;
         text-align: center;
     }
     #tbl_coa_detail td {
-        padding: 4px 6px;
-        border: 1px solid #dde3ee;
+        padding: 5px 7px;
+        border: 1px solid #eadfce;
         vertical-align: middle;
         white-space: nowrap;
     }
-    #tbl_coa_detail tbody tr:nth-child(even) td { background: #f4f7fb; }
-    #tbl_coa_detail tbody tr:hover td { background: #e8f0fb !important; }
-    .coa-detail-vl { background: #fff0e8 !important; color: #7a3010; }
-    .coa-detail-sl { background: #edfae8 !important; color: #2a5a14; }
-    #tbl_coa_detail th.coa-detail-vl { background: #d4622a !important; color:#fff; border-color:#b84e1f !important; }
-    #tbl_coa_detail th.coa-detail-sl { background: #4a8a30 !important; color:#fff; border-color:#3a7022 !important; }
+    #tbl_coa_detail tbody tr:nth-child(even) td { background: #fcf8ee; }
+    #tbl_coa_detail tbody tr:hover td { background: #fff0a6 !important; }
+    .coa-detail-vl { background: #fff9dc !important; color: #211401; }
+    .coa-detail-sl { background: #fcf2eb !important; color: #592701; }
+    #tbl_coa_detail th.coa-detail-vl {
+        background: #ECC925 !important;
+        color: #211401;
+        border-color: #a98200 !important;
+    }
+    #tbl_coa_detail th.coa-detail-sl {
+        background: #592701 !important;
+        color: #fff;
+        border-color: #211401 !important;
+    }
     #tbl_coa_detail tfoot td {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
         font-weight: 700;
         font-size: 11px;
-        border: 1px solid #12305a !important;
+        border: 1px solid #592701 !important;
         padding: 5px 7px !important;
         position: sticky;
         bottom: 0;
         z-index: 2;
     }
     #tbl_coa_detail tfoot td.coa-detail-vl {
-        background: #c06030 !important;
-        border-color: #a03a10 !important;
+        background: #ECC925 !important;
+        color: #211401 !important;
+        border-color: #a98200 !important;
     }
     #tbl_coa_detail tfoot td.coa-detail-sl {
-        background: #3a8020 !important;
-        border-color: #2a5a14 !important;
+        background: #592701 !important;
+        border-color: #211401 !important;
+    }
+    #modal_coa_detail .modal-footer {
+        background: #f8edbc;
+        border-top: 1px solid #dcc15a;
+    }
+    #modal_coa_detail .modal-footer .btn {
+        background: #592701;
+        border-color: #211401;
+        color: #fff;
+    }
+    #modal_coa_detail .modal-footer .btn:hover {
+        background: #211401;
+        color: #ECC925;
     }
 </style>
 
@@ -605,21 +679,21 @@
                 </div>
                 <!-- Toolbar -->
                 <div id="coa-toolbar">
-                    <span style="font-size:12px;color:#556;font-weight:600;"><i class="fa fa-search" style="color:#2e6da4;"></i>&nbsp; Search:</span>
+                    <span style="font-size:12px;color:#592701;font-weight:600;"><i class="fa fa-search" style="color:#592701;"></i>&nbsp; Search:</span>
                     <input type="text" id="coa-search-input" ng-model="coa_search" placeholder="Filter by name, office, status..." />
                     <span style="font-size:11px;color:#888;margin-left:4px;">
                         <i class="fa fa-info-circle"></i> Showing {{(coa_data | filter:coa_search).length}} of {{coa_data.length}} record(s)
                     </span>
                     <span style="margin-left:auto;">
-                        <span style="display:inline-block;background:#e8935a;width:12px;height:12px;border-radius:2px;vertical-align:middle;"></span>
-                        <span style="font-size:11px;color:#7a3010;font-weight:600;vertical-align:middle;">&nbsp;Vacation Leave</span>
+                        <span style="display:inline-block;background:#ECC925;width:12px;height:12px;border:1px solid #592701;border-radius:2px;vertical-align:middle;"></span>
+                        <span style="font-size:11px;color:#211401;font-weight:600;vertical-align:middle;">&nbsp;Vacation Leave</span>
                         &nbsp;&nbsp;
-                        <span style="display:inline-block;background:#7ab65c;width:12px;height:12px;border-radius:2px;vertical-align:middle;"></span>
-                        <span style="font-size:11px;color:#2a5a14;font-weight:600;vertical-align:middle;">&nbsp;Sick Leave</span>
+                        <span style="display:inline-block;background:#592701;width:12px;height:12px;border:1px solid #211401;border-radius:2px;vertical-align:middle;"></span>
+                        <span style="font-size:11px;color:#592701;font-weight:600;vertical-align:middle;">&nbsp;Sick Leave</span>
                     </span>
                 </div>
                 <!-- Table -->
-                <div style="overflow-x:hidden;overflow-y:auto;max-height:520px;width:100%;">
+                <div style="overflow-x:auto;overflow-y:auto;max-height:520px;width:100%;">
                     <table id="tbl_coa_report">
                         <colgroup>
                             <col style="width:36px;" />   <!-- # -->
@@ -630,21 +704,21 @@
                             <col style="width:58px;" />   <!-- Emp Status -->
                             <col style="width:82px;" />   <!-- Monthly Rate -->
                             <!-- VL 7 cols -->
-                            <col style="width:62px;" />
-                            <col style="width:52px;" />
-                            <col style="width:54px;" />
-                            <col style="width:90px;" />
-                            <col style="width:58px;" />
+                            <col style="width:82px;" />
+                            <col style="width:76px;" />
                             <col style="width:64px;" />
-                            <col style="width:72px;" />
+                            <col style="width:100px;" />
+                            <col style="width:80px;" />
+                            <col style="width:92px;" />
+                            <col style="width:112px;" />
                             <!-- SL 7 cols -->
-                            <col style="width:62px;" />
-                            <col style="width:52px;" />
-                            <col style="width:54px;" />
-                            <col style="width:90px;" />
-                            <col style="width:58px;" />
+                            <col style="width:82px;" />
+                            <col style="width:76px;" />
                             <col style="width:64px;" />
-                            <col style="width:72px;" />
+                            <col style="width:100px;" />
+                            <col style="width:80px;" />
+                            <col style="width:92px;" />
+                            <col style="width:112px;" />
                             <!-- Remarks -->
                             <col style="width:auto;" />
                         </colgroup>
@@ -695,12 +769,12 @@
                                 style="cursor:pointer;"
                                 title="Click to view ledger details">
                                 <td class="coa-td-seq">{{$index + 1}}</td>
-                                <td class="text-center" style="font-weight:600;color:#2e6da4;">{{row.empl_id}}</td>
+                                <td class="text-center" style="font-weight:600;color:#592701;">{{row.empl_id}}</td>
                                 <td style="font-weight:500;">{{row.employee_name}}</td>
                                 <td class="text-center">{{row.department_short_name}}</td>
                                 <td class="text-center">
-                                    <span ng-if="row.status == 'Active'" style="color:#3a8020;font-weight:700;">{{row.status}}</span>
-                                    <span ng-if="row.status != 'Active'" style="color:#c06030;font-weight:700;">{{row.status}}</span>
+                                    <span ng-if="row.status == 'Active'" style="color:#592701;font-weight:700;">{{row.status}}</span>
+                                    <span ng-if="row.status != 'Active'" style="color:#8a6c00;font-weight:700;">{{row.status}}</span>
                                 </td>
                                 <td class="text-center">{{row.employment_type}}</td>
                                 <td class="text-right" style="font-weight:600;">{{row.monthly_rate }}</td>
@@ -733,7 +807,7 @@
                                 <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_vl_earned') | number:3}}</td>
                                 <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'vl_incurred') | number:3}}</td>
                                 <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_vl') | number:3}}</td>
-                                <td class="text-right coa-vl-cell coa-vl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_vl_amount') }}</td>
+                                <td class="text-right coa-vl-cell coa-vl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_vl_amount') | number:2}}</td>
                                 <!-- SL totals -->
                                 <td class="text-right coa-sl-cell coa-sl-cell-first">{{coa_sum(coa_data | filter:coa_search, 'sl_bal') | number:3}}</td>
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'sl_earned') | number:3}}</td>
@@ -741,7 +815,7 @@
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_sl_earned') | number:3}}</td>
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'sl_incurred') | number:3}}</td>
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_sl') | number:3}}</td>
-                                <td class="text-right coa-sl-cell coa-sl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_sl_amount') }}</td>
+                                <td class="text-right coa-sl-cell coa-sl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_sl_amount') | number:2}}</td>
                                 <td style="white-space:normal;word-break:break-word;font-size:10px;text-align:center;"></td>
                             </tr>
                         </tfoot>
@@ -756,13 +830,13 @@
     <div class="modal fade" id="modal_coa_detail" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background:#1a3f6f;color:#fff;padding:10px 16px;">
+                <div class="modal-header" style="background:#211401;color:#fff;padding:10px 16px;">
                     <h5 class="modal-title" style="font-weight:700;font-size:14px;">
                         <i class="fa fa-list-alt"></i>&nbsp;
                         LEAVE LEDGER DETAILS &nbsp;&mdash;&nbsp;
-                        <span style="color:#aad0ff;">{{coa_detail_row.employee_name}}</span>
+                        <span style="color:#ECC925;">{{coa_detail_row.employee_name}}</span>
                         &nbsp;
-                        <small style="font-size:11px;color:#c8daf8;">({{coa_detail_row.empl_id}}) &bull; {{coa_detail_row.department_short_name}}</small>
+                        <small style="font-size:11px;color:#f8edbc;">({{coa_detail_row.empl_id}}) &bull; {{coa_detail_row.department_short_name}}</small>
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" style="color:#fff;opacity:1;">&times;</button>
                 </div>
@@ -862,7 +936,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer"
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                         <i class="fa fa-times"></i>&nbsp; Close
                     </button>

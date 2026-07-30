@@ -592,6 +592,61 @@
             
         }
     }
+    // Authorization Slip
+    s.as_data          = [];
+    s.as_loading       = false;
+    s.as_employee_name = '';
+    s.as_empl_id       = '';
+    s.as_department    = '';
+
+    s.btn_open_auth_slip = function (lst) {
+        s.as_data          = [];
+        s.as_loading       = true;
+        s.as_employee_name = lst.employee_name;
+        s.as_empl_id       = lst.empl_id;
+        s.as_department    = lst.department_short_name || '';
+
+        var pFrom = moment(s.form.period_from).format('YYYY-MM-DD');
+        var pTo   = moment(s.form.period_to).format('YYYY-MM-DD');
+        $('#as_period_label').text(moment(s.form.period_from).format('LL') + ' \u2013 ' + moment(s.form.period_to).format('LL'));
+
+        $('#modal_auth_slip').modal({ backdrop: 'static', keyboard: false });
+
+        h.post('../cBestInAttendance/AuthorizationSlip', {
+            empl_id     : lst.empl_id,
+            period_from : pFrom,
+            period_to   : pTo
+        }).then(function (d) {
+            s.as_loading = false;
+            if (d.data.message === 'success') {
+                s.as_data = d.data.data;
+                for (var i = 0; i < s.as_data.length; i++) {
+                    var row = s.as_data[i];
+                    if (row.Detail && row.Detail.as_dtr_date) {
+                        row.Detail.as_dtr_date = new Date(parseInt(row.Detail.as_dtr_date.replace(/\/Date\((\d+)\)\//, '$1')));
+                    }
+                    if (row.Header && row.Header.date_applied) {
+                        row.Header.date_applied = new Date(parseInt(row.Header.date_applied.replace(/\/Date\((\d+)\)\//, '$1')));
+                    }
+                    if (row.Header && row.Header.created_dttm) {
+                        row.Header.created_dttm = new Date(parseInt(row.Header.created_dttm.replace(/\/Date\((\d+)\)\//, '$1')));
+                    }
+                }
+            } else {
+                s.as_data = [];
+            }
+        }, function () {
+            s.as_loading = false;
+        });
+    };
+
+    s.as_count = function (status) {
+        if (!s.as_data || s.as_data.length === 0) return 0;
+        return s.as_data.filter(function (r) {
+            return r.Header && r.Header.approval_status === status;
+        }).length;
+    };
+
     s.FilterGrid = function ()
     {
         $('#modal_generating').modal({ backdrop: 'static', keyboard: false });

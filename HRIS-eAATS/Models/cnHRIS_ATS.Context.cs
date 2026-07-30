@@ -151,6 +151,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<lv_lv_ledger_extract> lv_lv_ledger_extract { get; set; }
         public virtual DbSet<lv_ledger_earn_history_tbl> lv_ledger_earn_history_tbl { get; set; }
         public virtual DbSet<authorization_wellness_dtl_tbl> authorization_wellness_dtl_tbl { get; set; }
+        public virtual DbSet<lv_ledger_summary> lv_ledger_summary { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)

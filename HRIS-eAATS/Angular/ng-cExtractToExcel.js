@@ -687,7 +687,13 @@ ng_HRD_App.controller("cExtractToExcel_ctrlr", function ($scope, $compile, $http
     s.coa_sum = function (arr, field) {
         if (!arr || arr.length === 0) return 0;
         return arr.reduce(function (acc, row) {
-            var val = parseFloat(row[field]) || 0;
+            // Amount fields are returned as display strings (for example
+            // "10,192.47"); remove formatting before converting to a number.
+            var raw = row[field];
+            var normalized = angular.isString(raw)
+                ? raw.replace(/,/g, '').replace(/^\((.*)\)$/, '-$1')
+                : raw;
+            var val = parseFloat(normalized) || 0;
             return acc + val;
         }, 0);
     };

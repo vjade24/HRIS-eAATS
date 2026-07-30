@@ -692,6 +692,10 @@
           <Property Name="suffix_name" Type="varchar" MaxLength="10" />
           <Property Name="courtisy_title" Type="varchar" MaxLength="10" />
           <Property Name="postfix_name" Type="varchar" MaxLength="35" />
+          <Property Name="leaveledger_balance_as_of_wl" Type="money" />
+          <Property Name="leaveledger_balance_as_of_solo" Type="money" />
+          <Property Name="wl_restore_deduct" Type="money" />
+          <Property Name="solo_restore_deduct" Type="money" />
         </EntityType>
         <EntityType Name="leave_application_mone_tbl">
           <Key>
@@ -1036,6 +1040,30 @@
           <Property Name="appl_remarks" Type="varchar" MaxLength="255" />
           <Property Name="created_dttm" Type="datetime" />
           <Property Name="created_by" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="lv_ledger_summary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="leaveledger_period" Type="varchar" MaxLength="150" />
+          <Property Name="leavetype_str" Type="varchar" MaxLength="150" />
+          <Property Name="leavetype_code" Type="varchar" MaxLength="4" />
+          <Property Name="leavesubtype_code" Type="varchar" MaxLength="4" />
+          <Property Name="leaveledger_particulars" Type="varchar" MaxLength="150" />
+          <Property Name="vl_earned" Type="money" />
+          <Property Name="vl_wp" Type="money" />
+          <Property Name="vl_bal" Type="money" />
+          <Property Name="vl_wop" Type="money" />
+          <Property Name="sl_earned" Type="money" />
+          <Property Name="sl_wp" Type="money" />
+          <Property Name="sl_bal" Type="money" />
+          <Property Name="sl_wop" Type="money" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
         </EntityType>
         <EntityType Name="lv_lv_ledger_extract">
           <Key>
@@ -4772,6 +4800,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="lv_ledger_hdr_reprint_tbl" EntityType="Self.lv_ledger_hdr_reprint_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_hdr_tbl" EntityType="Self.lv_ledger_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_history_tbl" EntityType="Self.lv_ledger_history_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lv_ledger_summary" EntityType="Self.lv_ledger_summary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_lv_ledger_extract" EntityType="Self.lv_lv_ledger_extract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="monthly_working_hrs_tbl" EntityType="Self.monthly_working_hrs_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ot_request_dates_dtl_tbl" EntityType="Self.ot_request_dates_dtl_tbl" Schema="dbo" store:Type="Tables" />
@@ -9520,6 +9549,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_date_to" Mode="In" Type="DateTime" />
             <Parameter Name="p_rep_mode" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="lv_ledger_summary" EntityType="HRIS_ATSModel.lv_ledger_summary" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -13278,6 +13308,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="suffix_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="courtisy_title" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="postfix_name" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="leaveledger_balance_as_of_wl" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="leaveledger_balance_as_of_solo" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="wl_restore_deduct" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="solo_restore_deduct" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <EntityType Name="dtr_overrides_tbl">
           <Key>
@@ -13817,6 +13851,30 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="Decimal" Name="sl_bal_cnrtd" Nullable="true" Precision="19" />
           <Property Type="Decimal" Name="sl_wop_cnrtd" Nullable="true" Precision="19" />
         </ComplexType>
+        <EntityType Name="lv_ledger_summary">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="leaveledger_period" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="leavetype_str" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="leavetype_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="leavesubtype_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="leaveledger_particulars" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="vl_earned" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="vl_wp" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="vl_bal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="vl_wop" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sl_earned" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sl_wp" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sl_bal" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="sl_wop" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -20652,6 +20710,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="leave_application_hdr_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_hdr_tbl">
               <MappingFragment StoreEntitySet="leave_application_hdr_tbl">
+                <ScalarProperty Name="solo_restore_deduct" ColumnName="solo_restore_deduct" />
+                <ScalarProperty Name="wl_restore_deduct" ColumnName="wl_restore_deduct" />
+                <ScalarProperty Name="leaveledger_balance_as_of_solo" ColumnName="leaveledger_balance_as_of_solo" />
+                <ScalarProperty Name="leaveledger_balance_as_of_wl" ColumnName="leaveledger_balance_as_of_wl" />
                 <ScalarProperty Name="postfix_name" ColumnName="postfix_name" />
                 <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
                 <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
@@ -21295,6 +21357,31 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="lv_ledger_summary">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_summary">
+              <MappingFragment StoreEntitySet="lv_ledger_summary">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="sl_wop" ColumnName="sl_wop" />
+                <ScalarProperty Name="sl_bal" ColumnName="sl_bal" />
+                <ScalarProperty Name="sl_wp" ColumnName="sl_wp" />
+                <ScalarProperty Name="sl_earned" ColumnName="sl_earned" />
+                <ScalarProperty Name="vl_wop" ColumnName="vl_wop" />
+                <ScalarProperty Name="vl_bal" ColumnName="vl_bal" />
+                <ScalarProperty Name="vl_wp" ColumnName="vl_wp" />
+                <ScalarProperty Name="vl_earned" ColumnName="vl_earned" />
+                <ScalarProperty Name="leaveledger_particulars" ColumnName="leaveledger_particulars" />
+                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
+                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
+                <ScalarProperty Name="leavetype_str" ColumnName="leavetype_str" />
+                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

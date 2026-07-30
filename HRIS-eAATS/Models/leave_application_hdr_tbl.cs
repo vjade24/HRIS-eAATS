@@ -55,5 +55,9 @@ namespace HRIS_eAATS.Models
         public string suffix_name { get; set; }
         public string courtisy_title { get; set; }
         public string postfix_name { get; set; }
+        public Nullable<decimal> leaveledger_balance_as_of_wl { get; set; }
+        public Nullable<decimal> leaveledger_balance_as_of_solo { get; set; }
+        public Nullable<decimal> wl_restore_deduct { get; set; }
+        public Nullable<decimal> solo_restore_deduct { get; set; }
     }
 }
