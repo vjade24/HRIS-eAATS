@@ -26,7 +26,11 @@
         <EntityTypeShape EntityType="HRIS_PAYModel.step_reckoning_tbl" Width="1.5" PointX="3.375" PointY="13.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.newstepincrement_tbl" Width="1.5" PointX="5.375" PointY="13.75" />
         <EntityTypeShape EntityType="HRIS_PAYModel.voucher_tbl" Width="1.5" PointX="7.375" PointY="13.75" />
+<<<<<<< HEAD
         <EntityTypeShape EntityType="HRIS_PAYModel.reasons_tbl" Width="1.5" PointX="0.75" PointY="15.75" />
+=======
+        <EntityTypeShape EntityType="HRIS_PAYModel.loyalty_reckon_tbl" Width="1.5" PointX="0.75" PointY="15.75" />
+>>>>>>> b7041aa8890f41e7bcb4dd3886afb574e886b524
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
