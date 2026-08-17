@@ -489,6 +489,204 @@ namespace HRIS_eAATS.Controllers
             }
         }
 
+        //*********************************************************************//
+        // Description  : Extract COA Leave Summary Report to a formatted Excel
+        //*********************************************************************//
+        public ActionResult ExtractCOAExcel(DateTime p_leave_date_from, DateTime p_leave_date_to, string p_empl_id)
+        {
+            Excel.Application xlApp = null;
+            Excel.Workbook xlWorkBook = null;
+            Excel.Worksheet xlWorkSheet = null;
+
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+                var data = db_ats.sp_leaveledger_report_extract(p_leave_date_from, p_leave_date_to, p_empl_id).ToList();
+
+                if (data == null || data.Count == 0)
+                    return JSON(new { message = "no-data-found" }, JsonRequestBehavior.AllowGet);
+
+                xlApp = new Excel.Application();
+                xlWorkBook = xlApp.Workbooks.Add(Missing.Value);
+                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.get_Item(1);
+                xlWorkSheet.Name = "Leave Summary";
+
+                string[] fixedHeaders = { "ID No", "Employee Name", "Office", "Status", "Employment Status", "Monthly Rate" };
+                string[] leaveHeaders = { "Previous Balance", "Earned", "Restored", "Previous Balance + Earned + Restored", "Incurred", "Total Balance", "Total Amount" };
+
+                for (int col = 1; col <= 6; col++)
+                {
+                    Excel.Range header = xlWorkSheet.Range[xlWorkSheet.Cells[1, col], xlWorkSheet.Cells[2, col]];
+                    header.Merge();
+                    header.Value2 = fixedHeaders[col - 1];
+                    Marshal.ReleaseComObject(header);
+                }
+
+                Excel.Range vlGroup = xlWorkSheet.Range["G1", "M1"];
+                vlGroup.Merge();
+                vlGroup.Value2 = "VACATION LEAVE";
+
+                Excel.Range slGroup = xlWorkSheet.Range["N1", "T1"];
+                slGroup.Merge();
+                slGroup.Value2 = "SICK LEAVE";
+
+                Excel.Range remarksHeader = xlWorkSheet.Range["U1", "U2"];
+                remarksHeader.Merge();
+                remarksHeader.Value2 = "Remarks";
+
+                for (int x = 0; x < leaveHeaders.Length; x++)
+                {
+                    xlWorkSheet.Cells[2, 7 + x] = leaveHeaders[x];
+                    xlWorkSheet.Cells[2, 14 + x] = leaveHeaders[x];
+                }
+
+                int startRow = 3;
+                for (int x = 0; x < data.Count; x++)
+                {
+                    var row = data[x];
+                    int excelRow = startRow + x;
+
+                    xlWorkSheet.Cells[excelRow, 1] = row.empl_id;
+                    xlWorkSheet.Cells[excelRow, 2] = row.employee_name;
+                    xlWorkSheet.Cells[excelRow, 3] = row.department_short_name;
+                    xlWorkSheet.Cells[excelRow, 4] = row.status;
+                    xlWorkSheet.Cells[excelRow, 5] = row.employment_type;
+                    xlWorkSheet.Cells[excelRow, 6] = ToExcelNumber(row.monthly_rate);
+                    xlWorkSheet.Cells[excelRow, 7] = row.vl_bal;
+                    xlWorkSheet.Cells[excelRow, 8] = row.vl_earned;
+                    xlWorkSheet.Cells[excelRow, 9] = row.vl_restored;
+                    xlWorkSheet.Cells[excelRow, 10] = row.total_vl_earned;
+                    xlWorkSheet.Cells[excelRow, 11] = row.vl_incurred;
+                    xlWorkSheet.Cells[excelRow, 12] = row.total_vl;
+                    xlWorkSheet.Cells[excelRow, 13] = ToExcelNumber(row.total_vl_amount);
+                    xlWorkSheet.Cells[excelRow, 14] = row.sl_bal;
+                    xlWorkSheet.Cells[excelRow, 15] = row.sl_earned;
+                    xlWorkSheet.Cells[excelRow, 16] = row.sl_restored;
+                    xlWorkSheet.Cells[excelRow, 17] = row.total_sl_earned;
+                    xlWorkSheet.Cells[excelRow, 18] = row.sl_incurred;
+                    xlWorkSheet.Cells[excelRow, 19] = row.total_sl;
+                    xlWorkSheet.Cells[excelRow, 20] = ToExcelNumber(row.total_sl_amount);
+                    xlWorkSheet.Cells[excelRow, 21] = row.remarks;
+                }
+
+                int lastRow = startRow + data.Count - 1;
+                Excel.Range allRange = xlWorkSheet.Range["A1", "U" + lastRow];
+                allRange.Font.Name = "Arial";
+                allRange.Font.Size = 9;
+                allRange.Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
+                allRange.Borders.Weight = Excel.XlBorderWeight.xlThin;
+                allRange.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+
+                Excel.Range mainHeaders = xlWorkSheet.Range["A1", "U2"];
+                mainHeaders.Font.Bold = true;
+                mainHeaders.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                mainHeaders.WrapText = true;
+
+                Excel.Range fixedHeaderRange = xlWorkSheet.Range["A1", "F2"];
+                fixedHeaderRange.Interior.Color = ColorTranslator.ToOle(Color.FromArgb(255, 255, 255));
+                Excel.Range remarksRange = xlWorkSheet.Range["U1", "U2"];
+                remarksRange.Interior.Color = ColorTranslator.ToOle(Color.FromArgb(255, 255, 255));
+                vlGroup.Interior.Color = ColorTranslator.ToOle(Color.FromArgb(248, 202, 171));
+                slGroup.Interior.Color = ColorTranslator.ToOle(Color.FromArgb(198, 224, 180));
+
+                Excel.Range numericRange = xlWorkSheet.Range["F3", "T" + lastRow];
+                numericRange.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                numericRange.NumberFormat = "#,##0.000";
+                xlWorkSheet.Range["F3", "F" + lastRow].NumberFormat = "#,##0.00";
+                xlWorkSheet.Range["M3", "M" + lastRow].NumberFormat = "#,##0.00";
+                xlWorkSheet.Range["T3", "T" + lastRow].NumberFormat = "#,##0.00";
+
+                xlWorkSheet.Range["A3", "A" + lastRow].NumberFormat = "@";
+                xlWorkSheet.Range["A3", "A" + lastRow].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                xlWorkSheet.Range["C3", "E" + lastRow].HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
+                xlWorkSheet.Range["U3", "U" + lastRow].WrapText = true;
+
+                xlWorkSheet.Columns[1].ColumnWidth = 10;
+                xlWorkSheet.Columns[2].ColumnWidth = 32;
+                xlWorkSheet.Columns[3].ColumnWidth = 16;
+                xlWorkSheet.Columns[4].ColumnWidth = 12;
+                xlWorkSheet.Columns[5].ColumnWidth = 14;
+                xlWorkSheet.Columns[6].ColumnWidth = 14;
+                for (int col = 7; col <= 20; col++)
+                    xlWorkSheet.Columns[col].ColumnWidth = (col == 10 || col == 17) ? 17 : 12;
+                xlWorkSheet.Columns[21].ColumnWidth = 34;
+                xlWorkSheet.Rows[1].RowHeight = 25;
+                xlWorkSheet.Rows[2].RowHeight = 48;
+
+                Excel.Range filterRange = xlWorkSheet.Range["A2", "U" + lastRow];
+                filterRange.AutoFilter(1);
+
+                xlWorkSheet.Activate();
+                xlApp.ActiveWindow.SplitRow = 2;
+                xlApp.ActiveWindow.FreezePanes = true;
+
+                string userId = Session["user_id"].ToString().Trim();
+                string filename = "Leave Summary Report-" +
+                    p_leave_date_from.ToString("yyyy_MM_dd") + "-" +
+                    p_leave_date_to.ToString("yyyy_MM_dd") + "-" +
+                    userId + "_" + DateTime.Now.ToString("yyyy_MM_dd_HHmm") + ".xlsx";
+                string physicalPath = Server.MapPath("~/UploadedFile/" + filename);
+
+                xlWorkBook.SaveAs(physicalPath, Excel.XlFileFormat.xlOpenXMLWorkbook,
+                    Missing.Value, Missing.Value, Missing.Value, Missing.Value,
+                    Excel.XlSaveAsAccessMode.xlNoChange,
+                    Excel.XlSaveConflictResolution.xlLocalSessionChanges,
+                    Missing.Value, Missing.Value, Missing.Value, Missing.Value);
+
+                Marshal.ReleaseComObject(filterRange);
+                Marshal.ReleaseComObject(numericRange);
+                Marshal.ReleaseComObject(fixedHeaderRange);
+                Marshal.ReleaseComObject(mainHeaders);
+                Marshal.ReleaseComObject(allRange);
+                Marshal.ReleaseComObject(remarksHeader);
+                Marshal.ReleaseComObject(slGroup);
+                Marshal.ReleaseComObject(vlGroup);
+
+                return JSON(new { message = "success", filePath = "/UploadedFile/" + filename }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return JSON(new { message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+            finally
+            {
+                if (xlWorkSheet != null)
+                {
+                    try { Marshal.ReleaseComObject(xlWorkSheet); }
+                    catch { }
+                }
+                if (xlWorkBook != null)
+                {
+                    try { xlWorkBook.Close(false); }
+                    catch { }
+                    try { Marshal.ReleaseComObject(xlWorkBook); }
+                    catch { }
+                }
+                if (xlApp != null)
+                {
+                    try { xlApp.Quit(); }
+                    catch { }
+                    try { Marshal.ReleaseComObject(xlApp); }
+                    catch { }
+                }
+            }
+        }
+
+        private static object ToExcelNumber(string value)
+        {
+            if (String.IsNullOrWhiteSpace(value))
+                return null;
+
+            decimal number;
+            string normalized = value.Replace(",", "").Trim();
+            if (normalized.StartsWith("(") && normalized.EndsWith(")"))
+                normalized = "-" + normalized.Substring(1, normalized.Length - 2);
+
+            return Decimal.TryParse(normalized, NumberStyles.Any, CultureInfo.InvariantCulture, out number)
+                ? (object)number
+                : value;
+        }
+
         public ActionResult RetrieveCOADetail(string p_empl_id, DateTime p_date_fr, DateTime p_date_to)
         {
             try

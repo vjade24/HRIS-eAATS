@@ -253,5 +253,47 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult AuthorizationSlip(string empl_id, DateTime? period_from, DateTime? period_to)
+        {
+            try
+            {
+                var reasons = db.reasons_tbl.ToList();
+                var status = db.approvalstatus_tbl.ToList();
+
+                var data = (
+                    from a in db_ats.authorization_slipt_hdr_tbl
+                    join b in db_ats.authorization_slipt_dtl_tbl
+                        on a.application_nbr equals b.application_nbr
+                    join c in db_ats.astype_tbl
+                        on b.astype_code equals c.astype_code
+                    where a.empl_id == empl_id
+                       && b.as_dtr_date >= period_from.Value
+                       && b.as_dtr_date <= period_to.Value
+                    select new
+                    {
+                        Header = a,
+                        Detail = b,
+                        AsType = c
+                    }
+                ).ToList();
+
+                var result = data.Select(x => new
+                {
+                    x.Header,
+                    x.Detail,
+                    x.AsType,
+                    Reason = reasons.FirstOrDefault(r => r.reason_code == x.Detail.reason_code),
+                    approval_status_descr = status.FirstOrDefault(r => r.approval_status == x.Header.approval_status)
+                }).ToList().OrderBy(x => x.Detail.as_dtr_date);
+
+                return Json(new { data = result, message = "success" }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

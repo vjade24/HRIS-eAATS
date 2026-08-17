@@ -687,9 +687,58 @@ ng_HRD_App.controller("cExtractToExcel_ctrlr", function ($scope, $compile, $http
     s.coa_sum = function (arr, field) {
         if (!arr || arr.length === 0) return 0;
         return arr.reduce(function (acc, row) {
-            var val = parseFloat(row[field]) || 0;
+            // Amount fields are returned as display strings (for example
+            // "10,192.47"); remove formatting before converting to a number.
+            var raw = row[field];
+            var normalized = angular.isString(raw)
+                ? raw.replace(/,/g, '').replace(/^\((.*)\)$/, '-$1')
+                : raw;
+            var val = parseFloat(normalized) || 0;
             return acc + val;
         }, 0);
+    };
+
+    s.btn_extract_coa_excel = function () {
+        $("#modal_generating_tax").modal({ keyboard: false, backdrop: "static" });
+
+        h.post("../cExtractToExcel/ExtractCOAExcel", {
+            p_leave_date_from: $('#txtb_leave_date_from').val(),
+            p_leave_date_to: $('#txtb_leave_date_to').val(),
+            p_empl_id: "ALL"
+        }).then(function (d) {
+            $("#modal_generating_tax").modal("hide");
+
+            if (d.data.message == "success") {
+                window.open(d.data.filePath, '', '');
+            }
+            else if (d.data.message == "no-data-found") {
+                swal("No Data Found!", "No records matched the selected period.", "warning");
+            }
+            else {
+                swal(d.data.message, "Error extracting Leave Summary Report", "error");
+            }
+        }, function (error) {
+            $("#modal_generating_tax").modal("hide");
+            var message = "Unable to generate the Excel file.";
+
+            if (error && error.data) {
+                if (angular.isString(error.data)) {
+                    // ASP.NET may return an HTML error page. Extract its title
+                    // without displaying the full markup in the alert.
+                    var titleMatch = error.data.match(/<title>(.*?)<\/title>/i);
+                    if (titleMatch && titleMatch[1])
+                        message = titleMatch[1].replace(/\s+/g, ' ').trim();
+                }
+                else if (error.data.message) {
+                    message = error.data.message;
+                }
+            }
+
+            if (error && error.status)
+                message += " (HTTP " + error.status + ")";
+
+            swal(message, "Generation Message", "error");
+        });
     };
 
     s.coa_detail_data    = [];

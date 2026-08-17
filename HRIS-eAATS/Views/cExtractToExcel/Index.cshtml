@@ -45,6 +45,255 @@
         text-shadow: none;
     }
 
+    /* PAGE AND FILTER PANEL */
+    .extract-page {
+        --extract-ink: #211401;
+        --extract-brown: #592701;
+        --extract-brown-light: #743801;
+        --extract-gold: #ECC925;
+        --extract-cream: #fffdf6;
+        --extract-cream-deep: #f8edbc;
+        padding: 32px 40px 26px;
+        background:
+            radial-gradient(circle at 92% 8%, rgba(236,201,37,0.16), transparent 24%),
+            linear-gradient(180deg, #fffdf8 0%, #f8f1df 100%);
+        min-height: 100vh;
+    }
+    .extract-filter-card {
+        max-width: 1320px;
+        margin: 0 auto;
+        border: 1px solid #d8b53a;
+        border-radius: 12px;
+        background: var(--extract-cream);
+        box-shadow: 0 10px 30px rgba(33,20,1,0.16);
+        overflow: hidden;
+    }
+    .extract-filter-header {
+        position: relative;
+        padding: 20px 24px 18px 76px;
+        color: #fff;
+        background: linear-gradient(120deg, var(--extract-ink) 0%, var(--extract-brown) 68%, var(--extract-brown-light) 100%);
+        border-bottom: 4px solid var(--extract-gold);
+    }
+    .extract-filter-header-icon {
+        position: absolute;
+        left: 22px;
+        top: 19px;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--extract-ink);
+        background: var(--extract-gold);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.22);
+        font-size: 19px;
+    }
+    .extract-filter-header h2 {
+        margin: 0 0 4px;
+        color: #fff;
+        font-size: 20px;
+        line-height: 1.25;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+    .extract-filter-header p {
+        margin: 0;
+        color: #f8edbc;
+        font-size: 12px;
+    }
+    .extract-filter-body {
+        padding: 22px 24px 10px;
+    }
+    .extract-section-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 15px;
+        color: var(--extract-brown);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+    }
+    .extract-section-label:after {
+        content: "";
+        height: 1px;
+        flex: 1;
+        background: linear-gradient(90deg, #d8b53a, transparent);
+    }
+    .extract-field {
+        margin-bottom: 16px;
+    }
+    .extract-field label {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--extract-ink);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.35px;
+        text-transform: uppercase;
+    }
+    .extract-field label i {
+        width: 15px;
+        color: var(--extract-brown);
+        text-align: center;
+        margin-right: 5px;
+    }
+    .extract-field .form-control,
+    .extract-field .select2-container .select2-selection--single {
+        border: 1px solid #d9c9ad !important;
+        border-radius: 6px !important;
+        background: #fff;
+        color: #38230c;
+        box-shadow: none;
+        transition: border-color .18s, box-shadow .18s, background .18s;
+    }
+    .extract-field .form-control {
+        height: 38px;
+        padding: 8px 11px;
+        font-size: 12px;
+    }
+    .extract-field .form-control:focus,
+    .extract-field .select2-container--focus .select2-selection--single {
+        border-color: var(--extract-gold) !important;
+        background: #fffef8;
+        box-shadow: 0 0 0 3px rgba(236,201,37,0.20) !important;
+    }
+    .extract-field .input-group-addon {
+        min-width: 40px;
+        border-color: #d8b53a;
+        background: var(--extract-cream-deep);
+        color: var(--extract-brown);
+    }
+    .extract-field-hint {
+        display: block;
+        margin-top: 5px;
+        color: #8a765e;
+        font-size: 10px;
+    }
+    .extract-filter-footer {
+        padding: 14px 24px;
+        background: linear-gradient(90deg, #f8edbc 0%, #fff8d8 100%);
+        border-top: 1px solid #dfc762;
+    }
+    .extract-filter-footer:before,
+    .extract-filter-footer:after {
+        content: " ";
+        display: table;
+    }
+    .extract-filter-footer:after { clear: both; }
+    .extract-action {
+        min-width: 124px;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        transition: transform .15s, box-shadow .15s, background .15s;
+    }
+    .extract-action:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 12px rgba(33,20,1,0.18);
+    }
+    .extract-action-primary {
+        border: 1px solid var(--extract-ink);
+        background: var(--extract-brown);
+        color: #fff;
+    }
+    .extract-action-primary:hover,
+    .extract-action-primary:focus {
+        background: var(--extract-ink);
+        color: var(--extract-gold);
+    }
+    .extract-action-secondary {
+        border: 1px solid #b48d10;
+        background: var(--extract-gold);
+        color: var(--extract-ink);
+    }
+    .extract-action-secondary:hover,
+    .extract-action-secondary:focus {
+        background: #f5d83e;
+        color: var(--extract-ink);
+    }
+    .extract-action + .extract-action { margin-left: 7px; }
+    .extract-report-area {
+        padding: 0 40px 40px;
+        background: #f8f1df;
+    }
+    #modal_print_preview .modal-content,
+    #modal_include_exclude .modal-content,
+    #modal_include_exclude_add_edit .modal-content {
+        border: 1px solid #ECC925;
+        border-radius: 9px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(33,20,1,0.28);
+    }
+    #modal_print_preview .modal-header,
+    #modal_include_exclude .modal-header,
+    #modal_include_exclude_add_edit .modal-header {
+        background: linear-gradient(120deg, #211401 0%, #592701 100%) !important;
+        color: #fff !important;
+        border-bottom: 4px solid #ECC925;
+    }
+    #modal_print_preview .modal-header .close,
+    #modal_include_exclude .modal-header .close,
+    #modal_include_exclude_add_edit .modal-header .close {
+        color: #fff;
+        opacity: .9;
+        text-shadow: none;
+    }
+    #modal_print_preview .modal-body,
+    #modal_include_exclude .modal-body,
+    #modal_include_exclude_add_edit .modal-body {
+        background: #fffdf6;
+    }
+    #modal_include_exclude .ibox-title,
+    #modal_include_exclude_add_edit .ibox-title {
+        border-color: #e2cf91;
+        background: #fff9df;
+    }
+    #modal_include_exclude .text-primary,
+    #modal_include_exclude_add_edit .text-primary {
+        color: #592701 !important;
+    }
+    #modal_include_exclude .btn-primary,
+    #modal_include_exclude_add_edit .btn-primary {
+        background: #592701;
+        border-color: #211401;
+        color: #fff;
+    }
+    #modal_include_exclude .btn-primary:hover,
+    #modal_include_exclude_add_edit .btn-primary:hover {
+        background: #211401;
+        color: #ECC925;
+    }
+    #modal_include_exclude #datalist_grid thead th {
+        background: #211401;
+        color: #fff;
+        border-color: #592701;
+        font-size: 11px;
+        letter-spacing: .3px;
+        text-align: center;
+    }
+    #modal_include_exclude_add_edit .modal-footer {
+        background: #f8edbc;
+        border-top-color: #dcc15a;
+    }
+    @@media (max-width: 767px) {
+        .extract-page { padding: 16px 10px 20px; }
+        .extract-filter-header { padding: 17px 16px 16px 62px; }
+        .extract-filter-header-icon { left: 14px; top: 16px; width: 36px; height: 36px; }
+        .extract-filter-header h2 { font-size: 17px; }
+        .extract-filter-body { padding: 18px 15px 5px; }
+        .extract-filter-footer { padding: 12px 15px; }
+        .extract-filter-footer .pull-left,
+        .extract-filter-footer .pull-right { float: none !important; }
+        .extract-action { width: 100%; margin: 5px 0 0 !important; }
+        .extract-report-area { padding: 0 10px 25px; }
+    }
+
 
     span.details-control {
         background: url('../../ResourcesImages/show.jpg') no-repeat center center;
@@ -70,13 +319,15 @@
     #coa-report-wrapper {
         border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.13);
+        border: 1px solid #ECC925;
+        box-shadow: 0 5px 20px rgba(93,48,8,0.18);
     }
     #coa-report-header {
-        background: linear-gradient(135deg, #1a3f6f 0%, #2e6da4 60%, #3a87c8 100%);
+        background: linear-gradient(120deg, #211401 0%, #592701 72%, #743801 100%);
         color: white;
         padding: 14px 20px 12px 20px;
         border-radius: 8px 8px 0 0;
+        border-bottom: 4px solid #ECC925;
     }
     #coa-report-header h4 {
         font-weight: 700;
@@ -89,8 +340,8 @@
         font-size: 12px;
     }
     #coa-toolbar {
-        background: #f4f6fa;
-        border-bottom: 1px solid #dde3ec;
+        background: linear-gradient(90deg, #fffdf3 0%, #fff7d0 100%);
+        border-bottom: 1px solid #e6cf78;
         padding: 8px 16px;
         display: flex;
         align-items: center;
@@ -98,7 +349,7 @@
         flex-wrap: wrap;
     }
     #coa-search-input {
-        border: 1px solid #c8d0dd;
+        border: 1px solid #d6b95d;
         border-radius: 20px;
         padding: 5px 14px;
         font-size: 12px;
@@ -106,23 +357,42 @@
         outline: none;
         transition: border 0.2s;
     }
-    #coa-search-input:focus { border-color: #2e6da4; }
+    #coa-search-input:focus {
+        border-color: #592701;
+        box-shadow: 0 0 0 2px rgba(236,201,37,0.22);
+    }
     #coa-record-badge {
         margin-left: auto;
-        background: #2e6da4;
-        color: #fff;
+        background: #ECC925;
+        color: #211401;
         font-size: 12px;
         border-radius: 12px;
         padding: 4px 14px;
         font-weight: 600;
         letter-spacing: 0.3px;
     }
+    #coa-excel-button {
+        margin-left: 8px;
+        background: #ECC925;
+        color: #211401;
+        border: 1px solid #ECC925;
+        border-radius: 4px;
+        padding: 6px 13px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.25px;
+    }
+    #coa-excel-button:hover {
+        background: #fff;
+        color: #592701;
+    }
     #tbl_coa_report {
         margin: 0;
         font-size: 11px;
         border-collapse: separate;
         border-spacing: 0;
-        width: 100%;
+        width: 1880px !important;
+        min-width: 1880px !important;
         table-layout: fixed;
     }
     /* ---- HEADER ROWS ---- */
@@ -138,9 +408,9 @@
     }
     #tbl_coa_report thead tr:first-child th.coa-th-seq,
     #tbl_coa_report thead tr:first-child th.coa-th-info {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
-        border: 1px solid #12305a !important;
+        border: 1px solid #592701 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
@@ -148,44 +418,44 @@
         white-space: nowrap;
     }
     #tbl_coa_report thead tr:first-child th.coa-th-vl-group {
-        background: linear-gradient(180deg, #d4622a 0%, #e8935a 100%) !important;
-        color: #fff !important;
-        border: 1px solid #b84e1f !important;
+        background: linear-gradient(180deg, #f2d84f 0%, #ECC925 100%) !important;
+        color: #211401 !important;
+        border: 1px solid #a98200 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
         text-align: center;
         letter-spacing: 0.3px;
-        border-left: 3px solid #a03a10 !important;
-        border-right: 3px solid #a03a10 !important;
+        border-left: 3px solid #592701 !important;
+        border-right: 3px solid #592701 !important;
         white-space: nowrap;
     }
     #tbl_coa_report thead tr:first-child th.coa-th-sl-group {
-        background: linear-gradient(180deg, #4a8a30 0%, #7ab65c 100%) !important;
+        background: linear-gradient(180deg, #743801 0%, #592701 100%) !important;
         color: #fff !important;
-        border: 1px solid #3a7022 !important;
+        border: 1px solid #211401 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
         text-align: center;
         letter-spacing: 0.3px;
-        border-left: 3px solid #2e5a18 !important;
-        border-right: 3px solid #2e5a18 !important;
+        border-left: 3px solid #211401 !important;
+        border-right: 3px solid #211401 !important;
         white-space: nowrap;
     }
     #tbl_coa_report thead tr:first-child th.coa-th-remarks {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
-        border: 1px solid #12305a !important;
+        border: 1px solid #592701 !important;
         font-size: 11px;
         font-weight: 700;
         padding: 7px 6px !important;
         vertical-align: middle !important;
     }
     #tbl_coa_report thead tr:last-child th.coa-th-vl-sub {
-        background: #f7dece !important;
-        color: #7a3010 !important;
-        border: 1px solid #e0a882 !important;
+        background: #fff2ad !important;
+        color: #211401 !important;
+        border: 1px solid #dfbd43 !important;
         font-size: 10px;
         font-weight: 700;
         padding: 5px 4px !important;
@@ -195,13 +465,13 @@
     }
     #tbl_coa_report thead tr:last-child th.coa-th-vl-sub:first-child,
     #tbl_coa_report thead tr:last-child th.coa-th-vl-sub:last-child {
-        border-left: 2px solid #c06030 !important;
-        border-right: 2px solid #c06030 !important;
+        border-left: 2px solid #b57a00 !important;
+        border-right: 2px solid #b57a00 !important;
     }
     #tbl_coa_report thead tr:last-child th.coa-th-sl-sub {
-        background: #daf0d0 !important;
-        color: #2a5a14 !important;
-        border: 1px solid #90c870 !important;
+        background: #f0ded0 !important;
+        color: #592701 !important;
+        border: 1px solid #c79a78 !important;
         font-size: 10px;
         font-weight: 700;
         padding: 5px 4px !important;
@@ -227,62 +497,65 @@
         word-break: break-word;
     }
     #tbl_coa_report td.coa-td-seq {
-        background: #edf1f8 !important;
-        color: #556 !important;
+        background: #f8f0d9 !important;
+        color: #592701 !important;
         font-weight: 600;
         text-align: center;
     }
     #tbl_coa_report td.coa-vl-cell {
-        background: #fff8f4 !important;
-        border-left: 1px solid #f0c8a8 !important;
-        border-right: 1px solid #f0c8a8 !important;
+        background: #fffdf1 !important;
+        border-left: 1px solid #edda8c !important;
+        border-right: 1px solid #edda8c !important;
     }
     #tbl_coa_report td.coa-vl-cell-first {
-        border-left: 2px solid #c06030 !important;
+        border-left: 2px solid #b57a00 !important;
     }
     #tbl_coa_report td.coa-vl-cell-last {
-        border-right: 2px solid #c06030 !important;
+        border-right: 2px solid #b57a00 !important;
     }
     #tbl_coa_report td.coa-sl-cell {
-        background: #f4fbf0 !important;
-        border-left: 1px solid #b0d898 !important;
-        border-right: 1px solid #b0d898 !important;
+        background: #fcf6f1 !important;
+        border-left: 1px solid #d8bda8 !important;
+        border-right: 1px solid #d8bda8 !important;
     }
     #tbl_coa_report td.coa-sl-cell-first {
-        border-left: 2px solid #3a8020 !important;
+        border-left: 2px solid #592701 !important;
     }
     #tbl_coa_report td.coa-sl-cell-last {
-        border-right: 2px solid #3a8020 !important;
+        border-right: 2px solid #592701 !important;
     }
     /* zebra */
-    #tbl_coa_report tbody tr:nth-child(even) td { background: #f8fafb !important; }
-    #tbl_coa_report tbody tr:nth-child(even) td.coa-vl-cell { background: #fff0e6 !important; }
-    #tbl_coa_report tbody tr:nth-child(even) td.coa-sl-cell { background: #eaf6e4 !important; }
-    #tbl_coa_report tbody tr:hover td { background: #fffde6 !important; transition: background 0.12s; }
-    #tbl_coa_report tbody tr:hover td.coa-vl-cell { background: #ffe8cc !important; }
-    #tbl_coa_report tbody tr:hover td.coa-sl-cell { background: #d8f0cc !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td { background: #fcfaf3 !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td.coa-vl-cell { background: #fff8d9 !important; }
+    #tbl_coa_report tbody tr:nth-child(even) td.coa-sl-cell { background: #f4e5da !important; }
+    #tbl_coa_report tbody tr:hover td { background: #fff2ad !important; transition: background 0.12s; }
+    #tbl_coa_report tbody tr:hover td.coa-vl-cell { background: #ffe98a !important; }
+    #tbl_coa_report tbody tr:hover td.coa-sl-cell { background: #ead0bc !important; }
     /* totals row */
     #tbl_coa_report tfoot tr td {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
         font-weight: 700;
-        font-size: 12px;
-        border: 1px solid #12305a !important;
-        padding: 6px 7px !important;
+        font-size: 11px;
+        border: 1px solid #592701 !important;
+        padding: 6px 4px !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
     }
     #tbl_coa_report tfoot tr td.coa-vl-cell,
     #tbl_coa_report tfoot tr td.coa-vl-cell-first,
     #tbl_coa_report tfoot tr td.coa-vl-cell-last {
-        background: #c06030 !important;
-        color: #fff !important;
-        border: 1px solid #a03a10 !important;
+        background: #ECC925 !important;
+        color: #211401 !important;
+        border: 1px solid #a98200 !important;
     }
     #tbl_coa_report tfoot tr td.coa-sl-cell,
     #tbl_coa_report tfoot tr td.coa-sl-cell-first,
     #tbl_coa_report tfoot tr td.coa-sl-cell-last {
-        background: #3a8020 !important;
+        background: #592701 !important;
         color: #fff !important;
-        border: 1px solid #2a5a14 !important;
+        border: 1px solid #211401 !important;
     }
     /* no-data row */
     .coa-no-data td {
@@ -298,72 +571,133 @@
         bottom: 0;
         z-index: 2;
     }
-    /* row hover highlight */
-    #tbl_coa_report tbody tr:hover td {
-        background-color: #fffbe6 !important;
-    }
     /* COA Detail Modal */
-    #tbl_coa_detail { font-size: 11px; width: 100%; border-collapse: collapse; }
-    #tbl_coa_detail th {
-        background: #1a3f6f;
+    #modal_coa_detail .modal-content {
+        border: 1px solid #ECC925;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 10px 32px rgba(33,20,1,0.28);
+    }
+    #modal_coa_detail .modal-header {
+        background: linear-gradient(120deg, #211401 0%, #592701 100%) !important;
+        border-bottom: 4px solid #ECC925;
+    }
+    #modal_coa_detail .modal-header .modal-title {
+        letter-spacing: 0.35px;
+    }
+    #modal_coa_detail .modal-header .modal-title > span {
+        color: #ECC925 !important;
+    }
+    #modal_coa_detail .modal-header .modal-title small {
+        color: #f8edbc !important;
+    }
+    #modal_coa_detail .modal-body {
+        background: #fffdf6;
+    }
+    #modal_coa_detail .label-default,
+    #modal_coa_detail .label-info,
+    #modal_coa_detail .label-success {
+        border: 1px solid #d8b53a;
+        font-weight: 600;
+        box-shadow: none;
+    }
+    #modal_coa_detail .label-default {
+        background: #211401;
         color: #fff;
-        padding: 5px 7px;
-        border: 1px solid #12305a;
+    }
+    #modal_coa_detail .label-info {
+        background: #592701;
+        color: #fff;
+    }
+    #modal_coa_detail .label-success {
+        background: #ECC925;
+        color: #211401;
+    }
+    #tbl_coa_detail {
+        font-size: 11px;
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        box-shadow: 0 2px 8px rgba(33,20,1,0.10);
+    }
+    #tbl_coa_detail th {
+        background: #211401;
+        color: #fff;
+        padding: 7px;
+        border: 1px solid #592701;
         white-space: nowrap;
         text-align: center;
     }
     #tbl_coa_detail td {
-        padding: 4px 6px;
-        border: 1px solid #dde3ee;
+        padding: 5px 7px;
+        border: 1px solid #eadfce;
         vertical-align: middle;
         white-space: nowrap;
     }
-    #tbl_coa_detail tbody tr:nth-child(even) td { background: #f4f7fb; }
-    #tbl_coa_detail tbody tr:hover td { background: #e8f0fb !important; }
-    .coa-detail-vl { background: #fff0e8 !important; color: #7a3010; }
-    .coa-detail-sl { background: #edfae8 !important; color: #2a5a14; }
-    #tbl_coa_detail th.coa-detail-vl { background: #d4622a !important; color:#fff; border-color:#b84e1f !important; }
-    #tbl_coa_detail th.coa-detail-sl { background: #4a8a30 !important; color:#fff; border-color:#3a7022 !important; }
+    #tbl_coa_detail tbody tr:nth-child(even) td { background: #fcf8ee; }
+    #tbl_coa_detail tbody tr:hover td { background: #fff0a6 !important; }
+    .coa-detail-vl { background: #fff9dc !important; color: #211401; }
+    .coa-detail-sl { background: #fcf2eb !important; color: #592701; }
+    #tbl_coa_detail th.coa-detail-vl {
+        background: #ECC925 !important;
+        color: #211401;
+        border-color: #a98200 !important;
+    }
+    #tbl_coa_detail th.coa-detail-sl {
+        background: #592701 !important;
+        color: #fff;
+        border-color: #211401 !important;
+    }
     #tbl_coa_detail tfoot td {
-        background: #1a3f6f !important;
+        background: #211401 !important;
         color: #fff !important;
         font-weight: 700;
         font-size: 11px;
-        border: 1px solid #12305a !important;
+        border: 1px solid #592701 !important;
         padding: 5px 7px !important;
         position: sticky;
         bottom: 0;
         z-index: 2;
     }
     #tbl_coa_detail tfoot td.coa-detail-vl {
-        background: #c06030 !important;
-        border-color: #a03a10 !important;
+        background: #ECC925 !important;
+        color: #211401 !important;
+        border-color: #a98200 !important;
     }
     #tbl_coa_detail tfoot td.coa-detail-sl {
-        background: #3a8020 !important;
-        border-color: #2a5a14 !important;
+        background: #592701 !important;
+        border-color: #211401 !important;
+    }
+    #modal_coa_detail .modal-footer {
+        background: #f8edbc;
+        border-top: 1px solid #dcc15a;
+    }
+    #modal_coa_detail .modal-footer .btn {
+        background: #592701;
+        border-color: #211401;
+        color: #fff;
+    }
+    #modal_coa_detail .modal-footer .btn:hover {
+        background: #211401;
+        color: #ECC925;
     }
 </style>
 
 <section ng-app="ng_HRD_App" ng-controller="cExtractToExcel_ctrlr">
 
     <label id="user_id_session" ng-hide="true" ng-model="user_id_session">@Session["user_id"].ToString().Trim()</label>
-    <div class="row" style="padding:50px;">
-        <div class="col-lg-12" style="padding:5% 5% 5% 5%;border: 1px solid gray;border-radius:10px;background-color:lightgray;">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title" style="background-color:#507CD1;color:white;">
-                    <div class="row" style="margin-top:-5px;">
-                        <div class="col-lg-12">
-                            <h2 style="font-weight:bold;">On-Demand Extract to Excel</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="ibox-content">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <span>EXTRACT/REPORT TYPE:</span>
-                        </div>
-                        <div class="col-lg-9">
+    <div class="extract-page">
+        <div class="extract-filter-card">
+            <div class="extract-filter-header">
+                <span class="extract-filter-header-icon"><i class="fa fa-file-excel-o"></i></span>
+                <h2>On-Demand Extract to Excel</h2>
+                <p>Select a report and narrow the records using the filters below.</p>
+            </div>
+            <div class="extract-filter-body">
+                <div class="extract-section-label"><i class="fa fa-sliders"></i> Report Filters</div>
+                <div class="row">
+                    <div class="col-lg-12 extract-field">
+                        <label for="ddl_report_type"><i class="fa fa-file-text-o"></i>Extract / Report Type</label>
                             <select class="form-control" id="ddl_report_type" ng-model="ddl_report_type" ng-change="RetrieveRepotType()">
                                 <option value="HISTORY"> Approved Leave application and Approved Leave Posting History</option>
                                 <option value="CANCEL_LEAVE">All Leave Application Cancel Pending and Disapproved</option>
@@ -374,22 +708,19 @@
                                 <option value="HISTORY-SPENT-TIME">History for Level 1 to Posting Approved</option>
                                 <option value="COA-REPORT">Leave Summary Report</option>
                             </select>
-                        </div>
+                        <span class="extract-field-hint">Choose the dataset or report you want to generate.</span>
                     </div>
-                    <div class="row" style="padding-top:5px !important" ng-show="show_period">
-                        <div class="col-lg-3">
-                            <span>YEAR:</span>
-                        </div>
-                        <div class="col-lg-3">
+                </div>
+                <div class="row" ng-show="show_period">
+                        <div class="col-sm-6 extract-field">
+                            <label for="ddl_year"><i class="fa fa-calendar-o"></i>Year</label>
                             <select class="form-control" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
                                 <option value="">--All--</option>
                                 <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
                             </select>
                         </div>
-                        <div class="col-lg-3">
-                            <span>MONTH:</span>
-                        </div>
-                        <div class="col-lg-3">
+                        <div class="col-sm-6 extract-field">
+                            <label for="ddl_month"><i class="fa fa-calendar"></i>Month</label>
                             <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
                                 <option value="">--All--</option>
                                 <option value="01">January</option>
@@ -406,12 +737,10 @@
                                 <option value="12">December</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="row" style="padding-top:5px !important" ng-show="!show_period">
-                        <div class="col-lg-3">
-                            <span>LEAVE DATE FROM:</span>
-                        </div>
-                        <div class="col-lg-3">
+                </div>
+                <div class="row" ng-show="!show_period">
+                        <div class="col-sm-6 extract-field">
+                            <label for="txtb_leave_date_from"><i class="fa fa-calendar-minus-o"></i>Leave Date From</label>
                             <div class="input-group date" data-provide="datepicker">
                                 <input type="text" id="txtb_leave_date_from" ng-model="txtb_leave_date_from" class="form-control form-control-sm text-center font-bold" maxlength="10" />
                                 <span class="input-group-addon">
@@ -420,10 +749,8 @@
                             </div>
                             <label id="lbl_txtb_leave_date_from_req" class="lbl_required"></label>
                         </div>
-                        <div class="col-lg-3">
-                            <span>LEAVE DATE TO:</span>
-                        </div>
-                        <div class="col-lg-3">
+                        <div class="col-sm-6 extract-field">
+                            <label for="txtb_leave_date_to"><i class="fa fa-calendar-plus-o"></i>Leave Date To</label>
                             <div class="input-group date" data-provide="datepicker">
                                 <input type="text" id="txtb_leave_date_to" ng-model="txtb_leave_date_to" class="form-control form-control-sm text-center font-bold" maxlength="10" />
                                 <span class="input-group-addon">
@@ -432,12 +759,10 @@
                             </div>
                             <label id="lbl_txtb_leave_date_to_req" class="lbl_required"></label>
                         </div>
-                    </div>
-                    <div class="row" style="padding-top:5px !important" ng-show="show_emptype">
-                        <div class="col-lg-3">
-                            <span>EMPLOYMENT TYPE:</span>
-                        </div>
-                        <div class="col-lg-9">
+                </div>
+                <div class="row">
+                        <div class="col-sm-6 extract-field" ng-show="show_emptype">
+                            <label for="ddl_employment_type"><i class="fa fa-id-card-o"></i>Employment Type</label>
                             <select class="form-control" id="ddl_employment_type" ng-model="ddl_employment_type">
                                 <option value=""> -- All Employment Type --</option>
                                 <option value="RE">Regular Employees</option>
@@ -445,27 +770,26 @@
                                 <option value="JO">Job-Order Employees</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="row" style="padding-top:5px !important" ng-show="showdept">
-                        <div class="col-lg-3">
-                            <span>DEPARTMENT:</span>
-                        </div>
-                        <div class="col-lg-9">
+                        <div class="col-sm-6 extract-field" ng-show="showdept">
+                            <label for="ddl_department"><i class="fa fa-building-o"></i>Department</label>
                             <select class="form-control" id="ddl_department" ng-model="ddl_department">
                                 <option value=""> -- All Department --</option>
                                 <option ng-repeat="lst in dep_lst" value="{{lst.department_code}}">{{lst.department_name1}}</option>
                             </select>
                         </div>
-                    </div>
                 </div>
-                <div class="ibox-footer">
-                    <div class="row">
-                        <div class="col-lg-12 text-right">
-                            <button class="btn btn-success pull-left" id="btn_inc_excl" ng-show="show_inc_exc" ng-click="btn_inc_excl()"> <i class="fa fa-plus-square-o"></i> INCLUDE/EXCLUDE</button>
-                            <button class="btn btn-success" id="btn_extract" ng-show="!showprint" ng-click="btn_extract()"> <i class="fa fa-file-excel-o"></i> EXTRACT</button>
-                            <button class="btn btn-primary" id="btn_print" ng-show="showprint" ng-click="btn_print(ddl_report_type)"> <i class="fa fa-print"></i> PRINT</button>
-                        </div>
-                    </div>
+            </div>
+            <div class="extract-filter-footer">
+                <button class="btn extract-action extract-action-secondary pull-left" id="btn_inc_excl" ng-show="show_inc_exc" ng-click="btn_inc_excl()">
+                    <i class="fa fa-users"></i>&nbsp; INCLUDE / EXCLUDE
+                </button>
+                <div class="pull-right">
+                    <button class="btn extract-action extract-action-primary" id="btn_extract" ng-show="!showprint" ng-click="btn_extract()">
+                        <i class="fa fa-file-excel-o"></i>&nbsp; EXTRACT
+                    </button>
+                    <button class="btn extract-action extract-action-primary" id="btn_print" ng-show="showprint" ng-click="btn_print(ddl_report_type)">
+                        <i class="fa fa-print"></i>&nbsp; PRINT
+                    </button>
                 </div>
             </div>
         </div>
@@ -588,7 +912,7 @@
     </div>
 
     <!-- COA REPORT TABLE -->
-    <div class="row" style="padding:0 40px 40px 40px;" ng-show="show_coa_table">
+    <div class="row extract-report-area" ng-show="show_coa_table">
         <div class="col-lg-12">
             <div id="coa-report-wrapper">
                 <!-- Header -->
@@ -600,26 +924,29 @@
                         </div>
                         <div class="col-sm-5 text-right" style="padding-top:8px;">
                             <span id="coa-record-badge"><i class="fa fa-users"></i>&nbsp; {{coa_filtered.length || coa_data.length}} Record(s)</span>
+                            <button type="button" id="coa-excel-button" ng-click="btn_extract_coa_excel()">
+                                <i class="fa fa-file-excel-o"></i>&nbsp; EXTRACT TO EXCEL
+                            </button>
                         </div>
                     </div>
                 </div>
                 <!-- Toolbar -->
                 <div id="coa-toolbar">
-                    <span style="font-size:12px;color:#556;font-weight:600;"><i class="fa fa-search" style="color:#2e6da4;"></i>&nbsp; Search:</span>
+                    <span style="font-size:12px;color:#592701;font-weight:600;"><i class="fa fa-search" style="color:#592701;"></i>&nbsp; Search:</span>
                     <input type="text" id="coa-search-input" ng-model="coa_search" placeholder="Filter by name, office, status..." />
                     <span style="font-size:11px;color:#888;margin-left:4px;">
                         <i class="fa fa-info-circle"></i> Showing {{(coa_data | filter:coa_search).length}} of {{coa_data.length}} record(s)
                     </span>
                     <span style="margin-left:auto;">
-                        <span style="display:inline-block;background:#e8935a;width:12px;height:12px;border-radius:2px;vertical-align:middle;"></span>
-                        <span style="font-size:11px;color:#7a3010;font-weight:600;vertical-align:middle;">&nbsp;Vacation Leave</span>
+                        <span style="display:inline-block;background:#ECC925;width:12px;height:12px;border:1px solid #592701;border-radius:2px;vertical-align:middle;"></span>
+                        <span style="font-size:11px;color:#211401;font-weight:600;vertical-align:middle;">&nbsp;Vacation Leave</span>
                         &nbsp;&nbsp;
-                        <span style="display:inline-block;background:#7ab65c;width:12px;height:12px;border-radius:2px;vertical-align:middle;"></span>
-                        <span style="font-size:11px;color:#2a5a14;font-weight:600;vertical-align:middle;">&nbsp;Sick Leave</span>
+                        <span style="display:inline-block;background:#592701;width:12px;height:12px;border:1px solid #211401;border-radius:2px;vertical-align:middle;"></span>
+                        <span style="font-size:11px;color:#592701;font-weight:600;vertical-align:middle;">&nbsp;Sick Leave</span>
                     </span>
                 </div>
                 <!-- Table -->
-                <div style="overflow-x:hidden;overflow-y:auto;max-height:520px;width:100%;">
+                <div style="overflow-x:auto;overflow-y:auto;max-height:520px;width:100%;">
                     <table id="tbl_coa_report">
                         <colgroup>
                             <col style="width:36px;" />   <!-- # -->
@@ -630,21 +957,21 @@
                             <col style="width:58px;" />   <!-- Emp Status -->
                             <col style="width:82px;" />   <!-- Monthly Rate -->
                             <!-- VL 7 cols -->
-                            <col style="width:62px;" />
-                            <col style="width:52px;" />
-                            <col style="width:54px;" />
-                            <col style="width:90px;" />
-                            <col style="width:58px;" />
+                            <col style="width:82px;" />
+                            <col style="width:76px;" />
                             <col style="width:64px;" />
-                            <col style="width:72px;" />
+                            <col style="width:100px;" />
+                            <col style="width:80px;" />
+                            <col style="width:92px;" />
+                            <col style="width:112px;" />
                             <!-- SL 7 cols -->
-                            <col style="width:62px;" />
-                            <col style="width:52px;" />
-                            <col style="width:54px;" />
-                            <col style="width:90px;" />
-                            <col style="width:58px;" />
+                            <col style="width:82px;" />
+                            <col style="width:76px;" />
                             <col style="width:64px;" />
-                            <col style="width:72px;" />
+                            <col style="width:100px;" />
+                            <col style="width:80px;" />
+                            <col style="width:92px;" />
+                            <col style="width:112px;" />
                             <!-- Remarks -->
                             <col style="width:auto;" />
                         </colgroup>
@@ -695,12 +1022,12 @@
                                 style="cursor:pointer;"
                                 title="Click to view ledger details">
                                 <td class="coa-td-seq">{{$index + 1}}</td>
-                                <td class="text-center" style="font-weight:600;color:#2e6da4;">{{row.empl_id}}</td>
+                                <td class="text-center" style="font-weight:600;color:#592701;">{{row.empl_id}}</td>
                                 <td style="font-weight:500;">{{row.employee_name}}</td>
                                 <td class="text-center">{{row.department_short_name}}</td>
                                 <td class="text-center">
-                                    <span ng-if="row.status == 'Active'" style="color:#3a8020;font-weight:700;">{{row.status}}</span>
-                                    <span ng-if="row.status != 'Active'" style="color:#c06030;font-weight:700;">{{row.status}}</span>
+                                    <span ng-if="row.status == 'Active'" style="color:#592701;font-weight:700;">{{row.status}}</span>
+                                    <span ng-if="row.status != 'Active'" style="color:#8a6c00;font-weight:700;">{{row.status}}</span>
                                 </td>
                                 <td class="text-center">{{row.employment_type}}</td>
                                 <td class="text-right" style="font-weight:600;">{{row.monthly_rate }}</td>
@@ -733,7 +1060,7 @@
                                 <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_vl_earned') | number:3}}</td>
                                 <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'vl_incurred') | number:3}}</td>
                                 <td class="text-right coa-vl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_vl') | number:3}}</td>
-                                <td class="text-right coa-vl-cell coa-vl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_vl_amount') }}</td>
+                                <td class="text-right coa-vl-cell coa-vl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_vl_amount') | number:2}}</td>
                                 <!-- SL totals -->
                                 <td class="text-right coa-sl-cell coa-sl-cell-first">{{coa_sum(coa_data | filter:coa_search, 'sl_bal') | number:3}}</td>
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'sl_earned') | number:3}}</td>
@@ -741,7 +1068,7 @@
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_sl_earned') | number:3}}</td>
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'sl_incurred') | number:3}}</td>
                                 <td class="text-right coa-sl-cell">{{coa_sum(coa_data | filter:coa_search, 'total_sl') | number:3}}</td>
-                                <td class="text-right coa-sl-cell coa-sl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_sl_amount') }}</td>
+                                <td class="text-right coa-sl-cell coa-sl-cell-last">{{coa_sum(coa_data | filter:coa_search, 'total_sl_amount') | number:2}}</td>
                                 <td style="white-space:normal;word-break:break-word;font-size:10px;text-align:center;"></td>
                             </tr>
                         </tfoot>
@@ -756,13 +1083,13 @@
     <div class="modal fade" id="modal_coa_detail" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
-                <div class="modal-header" style="background:#1a3f6f;color:#fff;padding:10px 16px;">
+                <div class="modal-header" style="background:#211401;color:#fff;padding:10px 16px;">
                     <h5 class="modal-title" style="font-weight:700;font-size:14px;">
                         <i class="fa fa-list-alt"></i>&nbsp;
                         LEAVE LEDGER DETAILS &nbsp;&mdash;&nbsp;
-                        <span style="color:#aad0ff;">{{coa_detail_row.employee_name}}</span>
+                        <span style="color:#ECC925;">{{coa_detail_row.employee_name}}</span>
                         &nbsp;
-                        <small style="font-size:11px;color:#c8daf8;">({{coa_detail_row.empl_id}}) &bull; {{coa_detail_row.department_short_name}}</small>
+                        <small style="font-size:11px;color:#f8edbc;">({{coa_detail_row.empl_id}}) &bull; {{coa_detail_row.department_short_name}}</small>
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" style="color:#fff;opacity:1;">&times;</button>
                 </div>
@@ -795,12 +1122,12 @@
                             <thead>
                                 <tr>
                                     <th rowspan="2">#</th>
-                                    <th rowspan="2">Date</th>
                                     <th rowspan="2">Period</th>
                                     <th rowspan="2">Leave Type</th>
                                     <th rowspan="2">Particulars</th>
                                     <th colspan="4" class="coa-detail-vl">VACATION LEAVE</th>
                                     <th colspan="4" class="coa-detail-sl">SICK LEAVE</th>
+                                    <th rowspan="2">Date</th>
                                     @*<th colspan="4">OTHER LEAVE</th>
                                     <th rowspan="2">Status</th>
                                     <th rowspan="2">Remarks</th>*@
@@ -823,7 +1150,6 @@
                             <tbody>
                                 <tr ng-repeat="d in coa_detail_data">
                                     <td class="text-center">{{$index + 1}}</td>
-                                    <td >&nbsp;&nbsp;{{d.created_ddtm_descr }}</td>
                                     <td class="text-center">{{d.leaveledger_period}}</td>
                                     <td>{{d.leavetype_str}}</td>
                                     <td style="white-space:normal;word-break:break-word;min-width:140px;">{{d.leaveledger_particulars}}</td>
@@ -835,6 +1161,7 @@
                                     <td class="text-right coa-detail-sl">{{d.sl_wp}}</td>
                                     @*<td class="text-right coa-detail-sl">{{d.sl_wop}}</td>*@
                                     <td class="text-right coa-detail-sl" style="font-weight:700;">{{d.sl_bal}}</td>
+                                    <td>&nbsp;&nbsp;{{d.created_ddtm_descr}}</td>
                                     @*<td class="text-right">{{d.oth_earned}}</td>
                                     <td class="text-right">{{d.oth_wp}}</td>
                                     <td class="text-right">{{d.oth_wop}}</td>
@@ -848,7 +1175,7 @@
                             </tbody>
                             <tfoot ng-if="coa_detail_data.length > 0">
                                 <tr>
-                                    <td colspan="5" style="text-align:left;letter-spacing:0.4px;">
+                                    <td colspan="4" style="text-align:left;letter-spacing:0.4px;">
                                         <i class="fa fa-calculator"></i>&nbsp; TOTALS &mdash; {{coa_detail_data.length}} record(s)
                                     </td>
                                     <td class="text-right coa-detail-vl">{{coa_sum(coa_detail_data, 'vl_earned') | number:3}}</td>
@@ -857,12 +1184,13 @@
                                     <td class="text-right coa-detail-sl">{{coa_sum(coa_detail_data, 'sl_earned') | number:3}}</td>
                                     <td class="text-right coa-detail-sl">{{coa_sum(coa_detail_data, 'sl_wp') | number:3}}</td>
                                     <td class="text-right coa-detail-sl">{{coa_sum(coa_detail_data, 'sl_bal') | number:3}}</td>
+                                    <td></td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer"
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                         <i class="fa fa-times"></i>&nbsp; Close
                     </button>

@@ -271,6 +271,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.payrollemployeemaster_hdr_tbl' does n
           <Property Name="qs_training" Type="varchar(max)" />
           <Property Name="qs_eligibility" Type="varchar(max)" />
         </EntityType>
+        <EntityType Name="reasons_tbl">
+          <Key>
+            <PropertyRef Name="reason_code" />
+          </Key>
+          <Property Name="reason_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="reason_descr" Type="varchar" MaxLength="50" />
+          <Property Name="reason_report_subject" Type="varchar" MaxLength="150" />
+          <Property Name="transaction_code" Type="varchar" MaxLength="3" />
+        </EntityType>
         <EntityType Name="step_reckoning_overrid_tbl">
           <Key>
             <PropertyRef Name="id" />
@@ -726,6 +735,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <EntitySet Name="personnelstatutory_tbl" EntityType="Self.personnelstatutory_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="plantilla_tbl" EntityType="Self.plantilla_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="positions_tbl" EntityType="Self.positions_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reasons_tbl" EntityType="Self.reasons_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="step_reckoning_overrid_tbl" EntityType="Self.step_reckoning_overrid_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="step_reckoning_tbl" EntityType="Self.step_reckoning_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transactionsref_tbl" EntityType="Self.transactionsref_tbl" Schema="dbo" store:Type="Tables" />
@@ -980,6 +990,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
             <Parameter Name="par_step" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="voucher_tbl" EntityType="HRIS_PAYModel.voucher_tbl" />
+
           <EntitySet Name="loyalty_reckon_tbl" EntityType="HRIS_PAYModel.loyalty_reckon_tbl" />
           <FunctionImport Name="sp_loyalty_reckon_ledger" ReturnType="Collection(HRIS_PAYModel.sp_loyalty_reckon_ledger_Result)">
             <Parameter Name="par_department_code" Mode="In" Type="String" />
@@ -990,6 +1001,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
             <Parameter Name="par_year" Mode="In" Type="Int32" />
             <Parameter Name="par_type_of_data" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="reasons_tbl" EntityType="HRIS_PAYModel.reasons_tbl" />
         </EntityContainer>
         <ComplexType Name="sp_user_login_ATS_Result">
           <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
@@ -1761,6 +1773,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Name="allotment_code_trk" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="voucher_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
+
         <EntityType Name="loyalty_reckon_tbl">
           <Key>
             <PropertyRef Name="id" />
@@ -1801,6 +1814,15 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
           <Property Type="Int32" Name="loyalty_count" Nullable="true" />
           <Property Type="Int32" Name="loyalty_travel" Nullable="true" />
         </ComplexType>
+        <EntityType Name="reasons_tbl">
+          <Key>
+            <PropertyRef Name="reason_code" />
+          </Key>
+          <Property Name="reason_code" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="reason_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="reason_report_subject" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="transaction_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2567,6 +2589,7 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+
           <EntitySetMapping Name="loyalty_reckon_tbl">
             <EntityTypeMapping TypeName="HRIS_PAYModel.loyalty_reckon_tbl">
               <MappingFragment StoreEntitySet="loyalty_reckon_tbl">
@@ -2616,6 +2639,16 @@ warning 6002: The table/view 'HRIS_PAY.dbo.vw_personnelnames2_tbl' does not have
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="reasons_tbl">
+            <EntityTypeMapping TypeName="HRIS_PAYModel.reasons_tbl">
+              <MappingFragment StoreEntitySet="reasons_tbl">
+                <ScalarProperty Name="transaction_code" ColumnName="transaction_code" />
+                <ScalarProperty Name="reason_report_subject" ColumnName="reason_report_subject" />
+                <ScalarProperty Name="reason_descr" ColumnName="reason_descr" />
+                <ScalarProperty Name="reason_code" ColumnName="reason_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
