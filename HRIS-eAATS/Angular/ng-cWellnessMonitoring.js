@@ -269,6 +269,12 @@
                                 var not_available = `<div class="overlay-text2" ng-show="!`+s.is_2ndsem_available+`">
                                                 NOT AVAILABLE
                                             </div>`;
+                                if (sencod_sem_val == 2.5)
+                                {
+                                    not_available = `<div class="overlay-text2">
+                                                CONSUMED
+                                            </div>`;
+                                }
                                 html_return = ` <div class="widget-overlay-wrapper" style="padding:5px 10px 5px 10px;"><div class="row" ><div class="col-lg-12"><div class="pull-left" style="width:70%;">AVAILABLE</div><div class="pull-right text-right text-success" style="width:30%;"><label>` + sencod_sem_val + `</label>&nbsp;&nbsp;</div></div>` +
                                     `<div class="col-lg-12" ><div class="pull-left" style="width:70%;">APPLIED</div><div class="pull-right text-right text-warning" style="width:30%;"><label>` + full["total_2nd"] + `</label>&nbsp;&nbsp;</div></div>` + not_available+`</div`;
 
