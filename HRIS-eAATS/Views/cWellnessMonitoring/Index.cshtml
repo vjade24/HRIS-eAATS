@@ -972,8 +972,8 @@
                                                 <img id="fullImage" src="your-image.jpg" style="display:none; width: 100%; max-width: none;" />
                                             </div>
                                             @*<div class="col-lg-1 text-center" style="padding:0px;">
-                            <button class="btn btn-danger btn-block" ng-click="resetFileInput()" style="padding-bottom:10px;"><i class="fa fa-trash"></i></button>
-                        </div>*@
+                                                    <button class="btn btn-danger btn-block" ng-click="resetFileInput()" style="padding-bottom:10px;"><i class="fa fa-trash"></i></button>
+                                                </div>*@
                                         </div>
                                         <script type="text/javascript">
                                             // Detect when fullscreen is exited
@@ -1019,7 +1019,7 @@
                         </div>
 
 
-                       
+
                     </div>
                     <hr style="margin-top:5px;margin-bottom:20px;" ng-show="!show_footer" />
                     <div class="modal-footer" ng-show="show_footer" style="padding: 10px 30px 10px 30px !important">
@@ -1048,18 +1048,22 @@
                             <h5><b>Loading Report...</b></h5>
                         </div>
                         <div class="col-lg-12">
+                            <div class="row" style="margin-top:5px;">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2 text-right"><button class="btn btn-success btn-block" ng-click="btn_show_override_signatories()"><i class="fa fa-pencil-square-o pull-left" style="margin-top:4px;" aria-hidden="true"></i> Override Signatories</button></div>
+                            </div>
                             <div class="row">
-                                <div class="col-lg-2" style="padding-top:15px;padding-bottom:18px;">Approved From :</div>
-                                <div class="col-lg-3" style="padding-top:15px;padding-bottom:15px;">
+                                <div class="col-lg-2" style="padding-top:5px;padding-bottom:18px;">Approved From :</div>
+                                <div class="col-lg-3" style="padding-top:5px;padding-bottom:15px;">
                                     <input type="text" class="form-control text-left" data-provide="datepicker" id="txtb_approved_from" ng-model="txtb_approved_from">
                                     <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
                                 </div>
-                                <div class="col-lg-2" style="padding-top:15px;padding-bottom:18px;">Approved To :</div>
-                                <div class="col-lg-3" style="padding-top:15px;padding-bottom:15px;">
+                                <div class="col-lg-2" style="padding-top:5px;padding-bottom:18px;">Approved To :</div>
+                                <div class="col-lg-3" style="padding-top:5px;padding-bottom:15px;">
                                     <input type="text" class="form-control text-left" data-provide="datepicker" id="txtb_approved_to" ng-model="txtb_approved_to">
                                     <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
                                 </div>
-                                <div class="col-lg-2" style="padding-top:15px;padding-bottom:15px;">
+                                <div class="col-lg-2" style="padding-top:5px;padding-bottom:15px;">
                                     <a ng-click="print_wellness('')" class="btn btn-primary btn-facebook btn-outline btn-md btn-block">
                                         <i class="fa fa-print pull-left" style="margin-top:4px;"> </i> PRINT WELLNESS
                                     </a>
@@ -1069,6 +1073,63 @@
                         <div class="col-lg-12">
                             <iframe style="width:100% !important;height:700px !important;border:0px none;" id="iframe_print_preview2"></iframe>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal inmodal fade" id="modal_sign_overrides" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header bg-ddo-brown" style="padding-top:15px !important;padding-bottom:15px !important;">
+                    <small class="modal-title pull-left" style="font-size:16px;font-weight:bold;">Override Signatories</small>
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label>WELLNESS APPLICATION NBR: {{application_nbr_h}}</label>
+                        </div>
+                        <div class="col-lg-12 mt10">
+                            <label>7.A CERTIFICATION OF WELLNESS CREDITS</label>
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px">
+                            Enter Full Name
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px">
+                            <input class="form-control" ng-model="txtb_certify_name" id="txtb_certify_name" />
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px">
+                            Override Designation
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control" ng-model="txtb_certify_designation" id="txtb_certify_designation" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 mt10">
+                            <label>7.C By Authority of then Governor</label>
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px">
+                            Enter Full Name
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px">
+                            <input class="form-control" ng-model="txtb_authrize_name" id="txtb_authrize_name" />
+                        </div>
+                        <div class="col-lg-12" style="margin-top:5px">
+                            Override Designation
+                        </div>
+                        <div class="col-lg-12">
+                            <input class="form-control" ng-model="txtb_authrize_designation" id="txtb_authrize_designation" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding:10px;">
+                    <div class="row">
+                        <div class="col-lg-4"><button class="btn btn-danger" ng-click="btn_save_override('DEL')"> <i class="fa fa-trash"></i> REMOVE OVERRIDE</button></div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4"><button class="btn btn-success" ng-click="btn_save_override('ADD_OVERRIDE')"> <i class="fa fa-save"></i> Save Override</button></div>
                     </div>
                 </div>
             </div>

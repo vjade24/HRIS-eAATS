@@ -686,6 +686,33 @@
         }
     }
 
+    s.btn_show_override_signatories = function ()
+    {
+        $('#modal_sign_overrides').modal({ backdrop: 'static', keyboard: false });
+    }
+
+    s.btn_save_override = function (action)
+    {
+        var save_data = {
+             application_nbr        : s.application_nbr_h,		
+             certification_empl_id	:$("#txtb_certify_name").val(),
+             certification_design	:$("#txtb_certify_designation").val(),
+             approved_by_empl_id	:$("#txtb_authrize_name").val(),
+             approved_by_desig		:$("#txtb_authrize_designation").val()
+        };
+        console.log(save_data);
+        h.post("../cWellnessMonitoring/SaveOverride",
+            {
+                tbl: save_data,
+                action: action
+            }).then(function (d) {
+                if (d.data.message == "success")
+                {
+                    alert("Saved");
+                }
+            });
+    }
+
     s.btn_cancel_pending_click = function ()
     {
         var row_id = $('#btn_cancel_pending').prop('ngx-data');
@@ -964,7 +991,7 @@
         //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
         //    $("#txtb_approved_to").val(moment().format('YYYY-MM-DD'));
         //}
-
+        s.application_nbr_h = application_nbr;
         $("#loader").css("display", "block");
         $("#rep_view").css("display", "none");
         var ReportName   = "CrystalReport";

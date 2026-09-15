@@ -1568,6 +1568,21 @@
           <Property Name="vl_earned" Type="float" />
           <Property Name="sl_earned" Type="float" />
         </EntityType>
+        <EntityType Name="wellness_signatory_override_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="application_nbr" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="certification_empl_id" Type="varchar" MaxLength="1000" />
+          <Property Name="certification_design" Type="varchar" MaxLength="1000" />
+          <Property Name="approved_by_empl_id" Type="varchar" MaxLength="1000" />
+          <Property Name="approved_by_desig" Type="varchar" MaxLength="1000" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="255" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="255" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_ATS.dbo.vw_all_applications' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="vw_all_applications">
@@ -3086,8 +3101,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="leaveledger_period_actual" Type="date" />
                 <Property Name="created_dttm" Type="datetime" />
                 <Property Name="nbr_quarter" Type="int" Nullable="false" />
-                <Property Name="hr_head_name" Type="varchar" MaxLength="255" Nullable="false" />
-                <Property Name="hr_head_desig" Type="varchar" MaxLength="100" Nullable="false" />
+                <Property Name="hr_head_name" Type="varchar" MaxLength="200" Nullable="false" />
+                <Property Name="hr_head_desig" Type="varchar" MaxLength="200" Nullable="false" />
                 <Property Name="groupby_terminal" Type="int" Nullable="false" />
               </RowType>
             </CollectionType>
@@ -4834,6 +4849,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="vl_fractionconvertion_tbl" EntityType="Self.vl_fractionconvertion_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vl_wop_tbl" EntityType="Self.vl_wop_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vlslearned_dailybasis_tbl" EntityType="Self.vlslearned_dailybasis_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="wellness_signatory_override_tbl" EntityType="Self.wellness_signatory_override_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vw_all_applications" EntityType="Self.vw_all_applications" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [vw_all_applications].[empl_id] AS [empl_id], 
@@ -9550,6 +9566,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_rep_mode" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="lv_ledger_summary" EntityType="HRIS_ATSModel.lv_ledger_summary" />
+          <EntitySet Name="wellness_signatory_override_tbl" EntityType="HRIS_ATSModel.wellness_signatory_override_tbl" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -13874,6 +13891,21 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
           <Property Name="updated_dttm" Type="DateTime" Precision="3" />
           <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="wellness_signatory_override_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="application_nbr" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="certification_empl_id" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="certification_design" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="approved_by_empl_id" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="approved_by_desig" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -21378,6 +21410,22 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="leavetype_str" ColumnName="leavetype_str" />
                 <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="wellness_signatory_override_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.wellness_signatory_override_tbl">
+              <MappingFragment StoreEntitySet="wellness_signatory_override_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="approved_by_desig" ColumnName="approved_by_desig" />
+                <ScalarProperty Name="approved_by_empl_id" ColumnName="approved_by_empl_id" />
+                <ScalarProperty Name="certification_design" ColumnName="certification_design" />
+                <ScalarProperty Name="certification_empl_id" ColumnName="certification_empl_id" />
+                <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
