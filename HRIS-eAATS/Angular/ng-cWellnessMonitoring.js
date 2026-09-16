@@ -708,7 +708,60 @@
             }).then(function (d) {
                 if (d.data.message == "success")
                 {
-                    alert("Saved");
+                    swal({ icon: "success", title: "Signatories Successfully Override!" });
+                    $('#modal_sign_overrides').modal("hide");
+                    $("#loader").css("display", "block");
+                    $("#rep_view").css("display", "none");
+                    var ReportName = "CrystalReport";
+                    var SaveName = "Crystal_Report";
+                    var ReportType = "inline";
+                    var ReportPath = "";
+                    var sp = "";
+                    sp = "sp_wellness_pbb_reportV2,par_user_empl_id," + s.empl_id + ",par_application_nbr," + s.application_nbr_h + ",par_period_from," + $("#txtb_approved_from").val() + ",par_period_to," + $("#txtb_approved_to").val() + "";
+                    ReportPath = "~/Reports/cryWellnessReport/cryWellnessV2.rpt";
+                    // *******************************************************
+                    // *** VJA : 2021-07-14 - Validation and Loading hide ****
+                    // *******************************************************
+                    var iframe = document.getElementById('iframe_print_preview2');
+                    var iframe_page = $("#iframe_print_preview2")[0];
+                    iframe.style.visibility = "hidden";
+
+                    s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                        + "&ReportName=" + ReportName
+                        + "&SaveName=" + SaveName
+                        + "&ReportType=" + ReportType
+                        + "&ReportPath=" + ReportPath
+                        + "&id=" + sp // + "," + parameters
+
+                    if (!/*@cc_on!@*/0) { //if not IE
+                        iframe.onload = function () {
+                            iframe.style.visibility = "visible";
+                            $("#loader").css("display", "none");
+                            $("#rep_view").css("display", "block");
+                        };
+                    }
+                    else if (iframe_page.innerHTML()) {
+                        // get and check the Title (and H tags if you want)
+                        var ifTitle = iframe_page.contentDocument.title;
+                        if (ifTitle.indexOf("404") >= 0) {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                        else if (ifTitle != "") {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                    }
+                    else {
+                        iframe.onreadystatechange = function () {
+                            if (iframe.readyState == "complete") {
+                                iframe.style.visibility = "visible";
+                            }
+
+                        };
+                    }
+
+                    iframe.src = s.embed_link;
                 }
             });
     }
