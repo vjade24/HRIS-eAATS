@@ -1295,6 +1295,85 @@ namespace HRIS_eAATS.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
+        //*********************************************************************//
+        // Description  : Retrieve leave cancellations for the selected employee
+        //*********************************************************************//
+        [HttpPost]
+        public ActionResult RetrieveCancellationList(string par_empl_id)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(par_empl_id))
+                {
+                    return Json(new { message = "Please select an employee." }, JsonRequestBehavior.AllowGet);
+                }
+
+                var cancellationRecords = (from cancel in db_ats.leave_application_cancel_tbl
+                                           join application in db_ats.leave_application_hdr_tbl
+                                               on new { cancel.leave_ctrlno, cancel.empl_id }
+                                               equals new { application.leave_ctrlno, application.empl_id }
+                                               into applications
+                                           from application in applications.DefaultIfEmpty()
+                                           join leaveType in db_ats.leavetype_tbl
+                                               on application.leave_type_code equals leaveType.leavetype_code
+                                               into leaveTypes
+                                           from leaveType in leaveTypes.DefaultIfEmpty()
+                                           where cancel.empl_id == par_empl_id
+                                           select new
+                                           {
+                                               cancel.leave_ctrlno,
+                                               cancel.empl_id,
+                                               cancel.leave_cancel_date,
+                                               cancel.leave_transfer_date,
+                                               cancel.reason,
+                                               cancel.leave_cancel_status,
+                                               cancel.leave_cancel_type,
+                                               cancel.approved_by,
+                                               cancel.approved_by_desig,
+                                               cancel.created_dttm,
+                                               cancel.submitted_dttm,
+                                               cancel.final_approved_dttm,
+                                               cancel.returned_remarks,
+                                               leavetype_descr = leaveType == null ? "" : leaveType.leavetype_descr
+                                           }).ToList();
+
+                // One row per matching reason/type; dates, control numbers and leave types are combined.
+                var data = cancellationRecords
+                    .GroupBy(a => new
+                    {
+                        reason = a.reason ?? "",
+                        cancel_type = a.leave_cancel_type ?? ""
+                    })
+                    .Select(g => new
+                    {
+                        empl_id = par_empl_id,
+                        leave_ctrlno = String.Join(", ", g.Select(a => a.leave_ctrlno).Distinct()),
+                        leavetype_descr = String.Join(", ", g.Select(a => a.leavetype_descr)
+                            .Where(a => !String.IsNullOrWhiteSpace(a)).Distinct()),
+                        cancellation_dates = String.Join(", ", g.Select(a => a.leave_cancel_date.Date)
+                            .Distinct().OrderBy(a => a).Select(a => a.ToString("MM/dd/yyyy"))),
+                        leave_transfer_date = g.Max(a => a.leave_transfer_date),
+                        reason = g.Key.reason,
+                        leave_cancel_type = g.Key.cancel_type,
+                        leave_cancel_status = g.OrderByDescending(a => a.created_dttm)
+                            .Select(a => a.leave_cancel_status).FirstOrDefault(),
+                        report_records = g.Select(a => new
+                        {
+                            a.empl_id,
+                            a.leave_ctrlno,
+                            a.leave_cancel_date
+                        }).OrderBy(a => a.leave_cancel_date).ToList()
+                    })
+                    .OrderByDescending(a => a.report_records.Max(b => b.leave_cancel_date))
+                    .ToList();
+
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult Retrieve_Justification(string leave_ctrlno, string empl_id)
         {
             try

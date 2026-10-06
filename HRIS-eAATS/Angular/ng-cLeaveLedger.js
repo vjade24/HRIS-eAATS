@@ -4374,6 +4374,64 @@
         }
 
         // ===========================================================================================
+        // LEAVE CANCELLATION LIST AND REPORT
+        // ===========================================================================================
+        s.cancellationList = [];
+        s.cancellationSearchText = '';
+
+        s.btn_show_cancellations = function () {
+            var empl_id = $("#ddl_name option:selected").val();
+            if (!empl_id) {
+                swal("Please select an employee first", "", { icon: "warning" });
+                return;
+            }
+
+            $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+            h.post("../cLeaveLedger/RetrieveCancellationList", { par_empl_id: empl_id }).then(function (d) {
+                $('#modal_initializing').modal('hide');
+                if (d.data.message === "success") {
+                    s.cancellationList = d.data.data || [];
+                    angular.forEach(s.cancellationList, function (item) {
+                        item.leave_transfer_date_display = item.leave_transfer_date
+                            ? moment(item.leave_transfer_date).format('MM/DD/YYYY') : '--';
+                    });
+                    s.cancellationSearchText = '';
+                    s.cancellationEmployeeName = $("#ddl_name option:selected").text();
+                    $('#leave_cancellation_modal').modal({ backdrop: 'static', keyboard: false });
+                } else {
+                    swal("Error", d.data.message || "Failed to load leave cancellations.", "error");
+                }
+            }).catch(function () {
+                $('#modal_initializing').modal('hide');
+                swal("Error", "An error occurred while loading leave cancellations.", "error");
+            });
+        };
+
+        s.print_cancellation = function (item) {
+            if (!item || !item.empl_id || !item.leave_ctrlno) {
+                swal("Unable to print", "The cancellation record is incomplete.", "warning");
+                return;
+            }
+
+            var sp = "sp_leave_application_cancel_tbl_rep,par_empl_id," + item.empl_id
+                + ",par_leave_ctrlno," + item.leave_ctrlno;
+            var iframe = document.getElementById('iframe_print_cancellation');
+            iframe.style.visibility = 'hidden';
+            $('#modal_initializing').modal({ backdrop: 'static', keyboard: false });
+            iframe.onload = function () {
+                iframe.style.visibility = 'visible';
+                $('#modal_initializing').modal('hide');
+            };
+            iframe.src = "../Reports/CrystalViewer.aspx?Params="
+                + "&ReportName=CrystalReport"
+                + "&SaveName=Leave_Cancellation"
+                + "&ReportType=inline"
+                + "&ReportPath=~/Reports/cryLeavePermission/cryLeaveCancellation.rpt"
+                + "&id=" + sp;
+            $('#leave_cancellation_print_modal').modal({ backdrop: 'static', keyboard: false });
+        };
+
+        // ===========================================================================================
         // BALANCE DISCREPANCY CHECK FUNCTIONS
         // ===========================================================================================
 

@@ -356,6 +356,105 @@
         
     }
 
+    /* Leave cancellation palette: Black #211401, Yellow #ECC925, Brown #592701 */
+    .btn-cancellation {
+        color: #211401 !important;
+        background: #ECC925 !important;
+        border: 1px solid #d6b71e !important;
+        font-weight: 700;
+        box-shadow: 0 2px 6px rgba(33, 20, 1, .18);
+        transition: all .2s ease;
+    }
+    .btn-cancellation:hover,
+    .btn-cancellation:focus {
+        color: #fff !important;
+        background: #592701 !important;
+        border-color: #592701 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(33, 20, 1, .24);
+    }
+    .cancellation-modal .modal-dialog { width: 92%; max-width: 1120px; }
+    .cancellation-modal .modal-content {
+        overflow: hidden;
+        border: 0;
+        border-radius: 10px;
+        box-shadow: 0 18px 50px rgba(33, 20, 1, .28);
+    }
+    .cancellation-modal .cancellation-header {
+        position: relative;
+        padding: 20px 24px;
+        color: #fff;
+        background: linear-gradient(115deg, #211401 0%, #592701 100%);
+        border-bottom: 4px solid #ECC925;
+    }
+    .cancellation-modal .cancellation-header-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        margin-right: 12px;
+        color: #211401;
+        background: #ECC925;
+        border-radius: 8px;
+        vertical-align: middle;
+    }
+    .cancellation-modal .cancellation-heading { display: inline-block; vertical-align: middle; }
+    .cancellation-modal .cancellation-heading h4 { margin: 0 0 3px; font-weight: 700; letter-spacing: .3px; }
+    .cancellation-modal .cancellation-heading small { color: rgba(255,255,255,.76); }
+    .cancellation-modal .close { color: #fff; opacity: .8; text-shadow: none; }
+    .cancellation-modal .close:hover { color: #ECC925; opacity: 1; }
+    .cancellation-toolbar {
+        margin-bottom: 16px;
+        padding: 12px;
+        background: #faf8f3;
+        border: 1px solid #eee6d7;
+        border-radius: 7px;
+    }
+    .cancellation-toolbar .input-group-addon { color: #ECC925; background: #211401; border-color: #211401; }
+    .cancellation-toolbar .form-control:focus { border-color: #ECC925; box-shadow: 0 0 0 2px rgba(236,201,37,.18); }
+    .cancellation-count {
+        display: inline-block;
+        padding: 8px 14px;
+        color: #211401;
+        background: #ECC925;
+        border-radius: 18px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .35px;
+        text-transform: uppercase;
+    }
+    .cancellation-table-wrap { max-height: 480px; overflow: auto; border: 1px solid #e7dfd2; border-radius: 7px; }
+    .cancellation-table { margin-bottom: 0 !important; }
+    .cancellation-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 11px 10px !important;
+        color: #fff;
+        background: #592701;
+        border-color: #73400f !important;
+        font-size: 10px;
+        letter-spacing: .55px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    .cancellation-table tbody td { padding: 11px 10px !important; color: #382105; vertical-align: middle !important; border-color: #eadfbf !important; }
+    .cancellation-table tbody tr:nth-child(odd) { background: #fffdf5; }
+    .cancellation-table tbody tr:nth-child(even) { background: #fbf4d3; }
+    .cancellation-table tbody tr:hover { background: #f5df74 !important; }
+    .cancellation-control-no { color: #592701; font-weight: 800; }
+    .cancellation-status { display: inline-block; min-width: 76px; padding: 5px 8px; border-radius: 12px; text-align: center; font-size: 9px; letter-spacing: .4px; }
+    .cancellation-status-approved { color: #fff; background: #592701; }
+    .cancellation-status-submitted { color: #211401; background: #ECC925; }
+    .cancellation-status-cancelled { color: #fff; background: #211401; }
+    .btn-cancellation-print { color: #fff !important; background: #592701 !important; border-color: #592701 !important; font-weight: 700; }
+    .btn-cancellation-print:hover { color: #211401 !important; background: #ECC925 !important; border-color: #ECC925 !important; }
+    .cancellation-modal .modal-footer { padding: 12px 20px; background: #faf8f3; border-top: 1px solid #eee6d7; }
+    .cancellation-modal .btn-close-cancellation { color: #fff; background: #211401; border-color: #211401; }
+    .cancellation-empty { padding: 42px 20px !important; color: #8b7960; }
+    .cancellation-empty i { margin-bottom: 8px; color: #ECC925; }
+
     
 </style>
 
@@ -1545,6 +1644,9 @@
                                                                 </span>
                                                                 <span class="btn-badge" ng-show="discrepancyCount > 0">{{discrepancyCount}}</span>
                                                             </button>
+                                                            <button type="button" class="btn btn-cancellation" ng-click="btn_show_cancellations()">
+                                                                <i class="fa fa-ban"></i> View Cancellation
+                                                            </button>
                                                             <button id="add" class="btn btn-success" ng-click="btn_add_modal()"><i class="fa fa-plus-circle"> </i> Add </button>
                                                             @*<button id="add" class="btn btn-primary" ng-click="btn_print_ledger('OLD',0)"><i class="fa fa-print"> </i> Print Card </button>*@
                                                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Print Actions <span class="caret"></span></button>
@@ -1977,6 +2079,106 @@
                     <button type="button" class="btn btn-primary" ng-click="btn_view_ledger_details()">
                         <i class="fa fa-eye"></i> View Ledger Details
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leave Cancellation List Modal -->
+    <div class="modal fade cancellation-modal" id="leave_cancellation_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header cancellation-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="cancellation-header-icon"><i class="fa fa-file-text-o fa-lg"></i></span>
+                    <div class="cancellation-heading">
+                        <h4 class="modal-title">Leave Cancellation Records</h4>
+                        <small><i class="fa fa-user"></i> {{cancellationEmployeeName}}</small>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row cancellation-toolbar">
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                <input type="text" class="form-control" ng-model="cancellationSearchText" placeholder="Search control no., reason, type or status">
+                            </div>
+                        </div>
+                        <div class="col-sm-7 text-right">
+                            <span class="cancellation-count"><i class="fa fa-list-ul"></i>&nbsp; {{cancellationList.length}} record<span ng-show="cancellationList.length != 1">s</span></span>
+                        </div>
+                    </div>
+                    <div class="table-responsive cancellation-table-wrap">
+                        <table class="table table-bordered table-hover cancellation-table">
+                            <thead>
+                                <tr>
+                                    <th>Control No.</th>
+                                    <th>Leave Type</th>
+                                    <th>Cancellation Date</th>
+                                    <th>Transfer Date</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Reason</th>
+                                    <th class="text-center">Report</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in cancellationList | filter:cancellationSearchText track by $index">
+                                    <td><span class="cancellation-control-no">{{item.leave_ctrlno}}</span></td>
+                                    <td><strong>{{item.leavetype_descr || '--'}}</strong></td>
+                                    <td>{{item.cancellation_dates}}</td>
+                                    <td>{{item.leave_transfer_date_display}}</td>
+                                    <td>
+                                        {{item.leave_cancel_type == 'CNCEL_ONLY' ? 'Cancel Only' :
+                                          item.leave_cancel_type == 'HOL' ? 'Holiday' :
+                                          item.leave_cancel_type == 'FL_TRNFR' ? 'Transfer' :
+                                          item.leave_cancel_type == 'WORK_SUS' ? 'Work Suspension' : item.leave_cancel_type}}
+                                    </td>
+                                    <td>
+                                        <span class="cancellation-status" ng-class="{'cancellation-status-approved': item.leave_cancel_status == 'F', 'cancellation-status-submitted': item.leave_cancel_status == 'S', 'cancellation-status-cancelled': item.leave_cancel_status == 'C'}">
+                                            {{item.leave_cancel_status == 'F' ? 'APPROVED' : (item.leave_cancel_status == 'S' ? 'SUBMITTED' : (item.leave_cancel_status == 'C' ? 'CANCELLED' : item.leave_cancel_status))}}
+                                        </span>
+                                    </td>
+                                    <td style="white-space:normal;min-width:180px;">{{item.reason || '--'}}</td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-xs btn-cancellation-print"
+                                                
+                                                ng-click="print_cancellation(item)"
+                                                title="Print {{item.leave_ctrlno}}">
+                                            <i class="fa fa-print"></i> <span >Print</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr ng-show="cancellationList.length == 0">
+                                    <td colspan="8" class="text-center cancellation-empty">
+                                        <i class="fa fa-folder-open-o fa-3x"></i><br><strong>No cancellation records found</strong>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close-cancellation" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leave Cancellation Report Preview Modal -->
+    <div class="modal fade cancellation-modal" id="leave_cancellation_print_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header cancellation-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span class="cancellation-header-icon"><i class="fa fa-print fa-lg"></i></span>
+                    <div class="cancellation-heading"><h4 class="modal-title">Leave Cancellation Report</h4><small>Print preview</small></div>
+                </div>
+                <div class="modal-body" style="height:75vh;padding:5px;">
+                    <iframe id="iframe_print_cancellation" style="width:100%;height:100%;border:0 none;" scrolling="no" src=""></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close-cancellation" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                 </div>
             </div>
         </div>
