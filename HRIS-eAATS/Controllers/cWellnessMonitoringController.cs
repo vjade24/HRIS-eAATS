@@ -256,6 +256,52 @@ namespace HRIS_eAATS.Controllers
             }
         }
 
+        //*********************************************************************//
+        // Created By   : Joseph M. Tombo Jr. 
+        // Created Date : 03/02/2020
+        // Description  : Filter Page Grid
+        //*********************************************************************//
+        public ActionResult SaveOverride(wellness_signatory_override_tbl tbl, string action)
+        {
+            try
+            {
+                tbl.created_dttm    = DateTime.Now;
+                tbl.created_by      = Session["user_id"].ToString();
+
+                var existing = db_ats.wellness_signatory_override_tbl.Where(a => a.application_nbr == tbl.application_nbr).FirstOrDefault();
+                if (action == "DEL")
+                {
+                    if (existing != null)
+                    {
+                        db_ats.wellness_signatory_override_tbl.Remove(existing);
+                    }
+                }
+                else {
+                    if (existing != null)
+                    {
+                        existing.approved_by_desig      = tbl.approved_by_desig;
+                        existing.approved_by_empl_id    = tbl.approved_by_empl_id;
+                        existing.certification_empl_id  = tbl.certification_empl_id;
+                        existing.certification_design   = tbl.certification_design;
+                        existing.updated_dttm           = DateTime.Now;
+                        existing.updated_by             = Session["user_id"].ToString();
+                    }
+                    else
+                    {
+                        db_ats.wellness_signatory_override_tbl.Add(tbl);
+                    }
+                }
+
+                db_ats.SaveChanges();
+                return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = DbEntityValidationExceptionError(e);
+                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public String DbEntityValidationExceptionError(DbEntityValidationException e)
         {
             string message = "";

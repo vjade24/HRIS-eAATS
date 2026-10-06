@@ -101,6 +101,53 @@
         display: inline-flex;
         cursor: grab;
     }
+
+    /* Animated ring used to call attention to loyalty milestone cells. */
+    .loyalty-eligible-cell {
+        position: relative;
+        z-index: 2;
+        border: 3px solid #fff !important;
+        color: #111 !important;
+        text-shadow: 0 0 4px rgba(255, 255, 255, .95);
+        animation: loyalty-border-travel 1.8s linear infinite;
+    }
+
+    .loyalty-eligible-cell::after {
+        content: '✦';
+        position: absolute;
+        z-index: 3;
+        top: -13px;
+        left: -9px;
+        color: #fff;
+        font-size: 19px;
+        line-height: 19px;
+        pointer-events: none;
+        text-shadow: 0 0 4px #fff, 0 0 9px #ffd000, 0 0 15px #ff9800;
+        animation: loyalty-spark-travel 1.8s linear infinite;
+    }
+
+    @@keyframes loyalty-border-travel {
+        0%, 100% { box-shadow: inset 0 4px 0 #fff, 0 -3px 15px #fff, 0 0 0 3px rgba(255, 193, 7, .9); }
+        25%      { box-shadow: inset -4px 0 0 #fff, 3px 0 15px #fff, 0 0 0 3px rgba(255, 193, 7, .9); }
+        50%      { box-shadow: inset 0 -4px 0 #fff, 0 3px 15px #fff, 0 0 0 3px rgba(255, 193, 7, .9); }
+        75%      { box-shadow: inset 4px 0 0 #fff, -3px 0 15px #fff, 0 0 0 3px rgba(255, 193, 7, .9); }
+    }
+
+    @@keyframes loyalty-spark-travel {
+        0%, 100% { top: -13px; left: -9px; transform: scale(.8) rotate(0deg); opacity: .8; }
+        12.5%    { top: -13px; left: calc(50% - 9px); transform: scale(1.25) rotate(45deg); opacity: 1; }
+        25%      { top: -13px; left: calc(100% - 10px); transform: scale(.8) rotate(90deg); opacity: .8; }
+        37.5%    { top: calc(50% - 10px); left: calc(100% - 10px); transform: scale(1.25) rotate(135deg); opacity: 1; }
+        50%      { top: calc(100% - 10px); left: calc(100% - 10px); transform: scale(.8) rotate(180deg); opacity: .8; }
+        62.5%    { top: calc(100% - 10px); left: calc(50% - 9px); transform: scale(1.25) rotate(225deg); opacity: 1; }
+        75%      { top: calc(100% - 10px); left: -9px; transform: scale(.8) rotate(270deg); opacity: .8; }
+        87.5%    { top: calc(50% - 10px); left: -9px; transform: scale(1.25) rotate(315deg); opacity: 1; }
+    }
+
+    @@media (prefers-reduced-motion: reduce) {
+        .loyalty-eligible-cell,
+        .loyalty-eligible-cell::after { animation: none; }
+    }
     .text-middle-container {
         width: 100% !important;
         text-align: center;
@@ -586,7 +633,7 @@
                                         </div>
                                     </div>
                                     <div class="box2" ng-repeat="lst in table_header"
-                                         ng-class="getBG(lst, employee_rekon)"
+                                         ng-class="[getBG(lst, employee_rekon), {'loyalty-eligible-cell': isEligibleForLoyalty(lst, employee_rekon)}]"
                                          style="font-weight:bold;color:black;height:inherit;flex:0 0 100px;vertical-align:middle;text-align:center;align-content:center;display:flex;justify-content:center;align-items:center;" ng-style="{'background-color': getBackgroundColor(lst,employee_rekon, employee_rekon.rekoning_date)}">
                                         {{getYearsOrWhen(lst, employee_rekon)}}
                                     </div>

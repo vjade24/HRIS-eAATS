@@ -306,6 +306,19 @@
         return "";
     };
 
+    s.isEligibleForLoyalty = function (lst, employee) {
+        if (!employee || !employee.original_date || Number(lst) !== Number(s.txt_year)) {
+            return false;
+        }
+
+        // Only the selected active-year column is checked. Its value is the
+        // employee's completed service years for that year.
+        var serviceYears = Number(lst) - moment(employee.original_date).year();
+        var loyaltyMilestones = [10, 15, 20, 25, 30, 35, 40, 45];
+
+        return loyaltyMilestones.indexOf(serviceYears) !== -1;
+    };
+
     // Calculate total pages
     s.totalPages = [];
 
