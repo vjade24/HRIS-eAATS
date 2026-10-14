@@ -457,7 +457,10 @@ namespace HRIS_eAATS.Controllers
                         var transac_apprvr = db.sp_update_transaction_in_approvalworkflow_tbl(lv_appl.approval_id, user_id, approval_status, "Ledger Post - Cancellation");
 
                         var chk_aprv = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList();
-
+                        if (chk_aprv.Count>0)
+                        {
+                            var cancel_appr = db.sp_update_transaction_in_approvalworkflow_tbl(chk_aprv[0].approval_id, user_id, approval_status, p_details_remarks);
+                        }
                         var lv_hdr      = db_ats.leave_application_hdr_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList().FirstOrDefault();
                         var lv_dtl      = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.leave_ctrlno == p_leave_ctrlno).ToList();
                         var lv_dtl_cto  = db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == p_leave_ctrlno).ToList();

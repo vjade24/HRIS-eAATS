@@ -53,7 +53,6 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<force_leave_plan_hdr_tbl> force_leave_plan_hdr_tbl { get; set; }
         public virtual DbSet<force_leave_plan_tbl> force_leave_plan_tbl { get; set; }
         public virtual DbSet<forceleaveplan_tbl> forceleaveplan_tbl { get; set; }
-        public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
         public virtual DbSet<leave_application_dtl_cto_tbl> leave_application_dtl_cto_tbl { get; set; }
         public virtual DbSet<leave_application_dtl_tbl> leave_application_dtl_tbl { get; set; }
         public virtual DbSet<leave_application_hdr_justi_tbl> leave_application_hdr_justi_tbl { get; set; }
@@ -153,6 +152,7 @@ namespace HRIS_eAATS.Models
         public virtual DbSet<authorization_wellness_dtl_tbl> authorization_wellness_dtl_tbl { get; set; }
         public virtual DbSet<lv_ledger_summary> lv_ledger_summary { get; set; }
         public virtual DbSet<wellness_signatory_override_tbl> wellness_signatory_override_tbl { get; set; }
+        public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)

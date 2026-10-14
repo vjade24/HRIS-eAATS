@@ -32,5 +32,6 @@ namespace HRIS_eAATS.Models
         public string returned_user { get; set; }
         public Nullable<System.DateTime> returned_dttm { get; set; }
         public string returned_remarks { get; set; }
+        public string approval_id { get; set; }
     }
 }

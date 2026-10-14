@@ -585,6 +585,7 @@
           <Property Name="returned_user" Type="varchar" MaxLength="30" />
           <Property Name="returned_dttm" Type="datetime" />
           <Property Name="returned_remarks" Type="varchar" MaxLength="255" />
+          <Property Name="approval_id" Type="varchar" MaxLength="15" />
         </EntityType>
         <EntityType Name="leave_application_disapproved_tbl">
           <Key>
@@ -6309,31 +6310,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="details_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="leave_application_cancel_tbl">
-          <Key>
-            <PropertyRef Name="leave_ctrlno" />
-            <PropertyRef Name="empl_id" />
-            <PropertyRef Name="leave_cancel_date" />
-          </Key>
-          <Property Name="leave_ctrlno" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="leave_cancel_date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="leave_transfer_date" Type="DateTime" Precision="0" />
-          <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="leave_cancel_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="leave_cancel_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="approved_by" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="approved_by_desig" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Precision="3" />
-          <Property Name="created_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="submitted_dttm" Type="DateTime" Precision="3" />
-          <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
-          <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="returned_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="returned_dttm" Type="DateTime" Precision="3" />
-          <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="leave_application_dtl_cto_tbl">
           <Key>
             <PropertyRef Name="leave_ctrlno" />
@@ -7902,7 +7878,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="force_leave_plan_hdr_tbl" EntityType="Self.force_leave_plan_hdr_tbl" />
           <EntitySet Name="force_leave_plan_tbl" EntityType="Self.force_leave_plan_tbl" />
           <EntitySet Name="forceleaveplan_tbl" EntityType="Self.forceleaveplan_tbl" />
-          <EntitySet Name="leave_application_cancel_tbl" EntityType="Self.leave_application_cancel_tbl" />
           <EntitySet Name="leave_application_dtl_cto_tbl" EntityType="Self.leave_application_dtl_cto_tbl" />
           <EntitySet Name="leave_application_dtl_tbl" EntityType="Self.leave_application_dtl_tbl" />
           <EntitySet Name="leave_application_hdr_justi_tbl" EntityType="Self.leave_application_hdr_justi_tbl" />
@@ -9567,6 +9542,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           </FunctionImport>
           <EntitySet Name="lv_ledger_summary" EntityType="HRIS_ATSModel.lv_ledger_summary" />
           <EntitySet Name="wellness_signatory_override_tbl" EntityType="HRIS_ATSModel.wellness_signatory_override_tbl" />
+          <EntitySet Name="leave_application_cancel_tbl" EntityType="HRIS_ATSModel.leave_application_cancel_tbl" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -13907,6 +13883,32 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="updated_dttm" Type="DateTime" Precision="3" />
           <Property Name="updated_by" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="leave_application_cancel_tbl">
+          <Key>
+            <PropertyRef Name="leave_ctrlno" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="leave_cancel_date" />
+          </Key>
+          <Property Name="leave_ctrlno" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="leave_cancel_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="leave_transfer_date" Type="DateTime" Precision="0" />
+          <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="leave_cancel_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="leave_cancel_type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="approved_by" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="approved_by_desig" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="submitted_dttm" Type="DateTime" Precision="3" />
+          <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
+          <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_dttm" Type="DateTime" Precision="3" />
+          <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14357,30 +14359,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="posting_status" ColumnName="posting_status" />
                 <ScalarProperty Name="approval_id" ColumnName="approval_id" />
                 <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="leave_application_cancel_tbl">
-            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
-              <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
-                <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
-                <ScalarProperty Name="reason" ColumnName="reason" />
-                <ScalarProperty Name="leave_cancel_status" ColumnName="leave_cancel_status" />
-                <ScalarProperty Name="leave_cancel_type" ColumnName="leave_cancel_type" />
-                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
-                <ScalarProperty Name="approved_by_desig" ColumnName="approved_by_desig" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="created_user" ColumnName="created_user" />
-                <ScalarProperty Name="submitted_dttm" ColumnName="submitted_dttm" />
-                <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
-                <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
-                <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
-                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
-                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
-                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -21427,6 +21405,31 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="certification_empl_id" ColumnName="certification_empl_id" />
                 <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leave_application_cancel_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
+              <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
+                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
+                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
+                <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
+                <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
+                <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
+                <ScalarProperty Name="submitted_dttm" ColumnName="submitted_dttm" />
+                <ScalarProperty Name="created_user" ColumnName="created_user" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="approved_by_desig" ColumnName="approved_by_desig" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="leave_cancel_type" ColumnName="leave_cancel_type" />
+                <ScalarProperty Name="leave_cancel_status" ColumnName="leave_cancel_status" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
+                <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

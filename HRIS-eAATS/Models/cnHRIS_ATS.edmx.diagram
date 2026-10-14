@@ -31,7 +31,6 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.force_leave_plan_hdr_tbl" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.force_leave_plan_tbl" Width="1.5" PointX="8.75" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.forceleaveplan_tbl" Width="1.5" PointX="14.75" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_cancel_tbl" Width="1.5" PointX="0.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_dtl_cto_tbl" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_dtl_tbl" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_hdr_justi_tbl" Width="1.5" PointX="16.75" PointY="4.75" IsExpanded="true" />
@@ -131,6 +130,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.authorization_wellness_dtl_tbl" Width="1.5" PointX="0.75" PointY="37.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.lv_ledger_summary" Width="1.5" PointX="37.375" PointY="6.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.wellness_signatory_override_tbl" Width="1.5" PointX="9.375" PointY="37.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_cancel_tbl" Width="1.5" PointX="11.375" PointY="37.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
