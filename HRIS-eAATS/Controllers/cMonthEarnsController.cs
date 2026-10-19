@@ -166,6 +166,23 @@ namespace HRIS_eAATS.Controllers
                                                a.curr_balance_as_of_sl
                                            }).ToList();
 
+                        var doubleEarnData = (from a in db_ats.lv_ledger_earn_history_tbl
+                                              join b in db_ats.lv_ledger_hdr_tbl on a.ledger_ctrl_no equals b.ledger_ctrl_no
+                                              join c in db_ats.vw_personnelnames_tbl_HRIS_ATS on a.empl_id equals c.empl_id
+                                              where a.gen_year == par_year && a.gen_month == par_month
+                                              && a.earning_type == par_earning_type
+                                              && (string.IsNullOrEmpty(par_department_code) || a.department_code == par_department_code)
+                                              group a by new { a.empl_id, c.employee_name, a.department_code,
+                                                  a.gen_year, a.gen_month, a.remarks_descr, a.created_user_id } into g
+                                              where g.Count() > 1
+                                              orderby g.Key.gen_month, g.Key.employee_name
+                                              select new
+                                              {
+                                                  g.Key.empl_id, g.Key.employee_name, g.Key.department_code,
+                                                  g.Key.gen_year, g.Key.gen_month, g.Key.remarks_descr,
+                                                  g.Key.created_user_id, earn_count = g.Count()
+                                              }).ToList();
+
                         int total_count = summaryData.Count;
                         int success_count = summaryData.Count(a => a.remarks_flag == "Y" || (a.remarks_descr ?? "").ToUpper().Contains("SUCCESSFULLY") || (a.remarks_descr ?? "").ToUpper().Contains("EARN EXISTS"));
                         int failed_count = total_count - success_count;
@@ -201,6 +218,8 @@ namespace HRIS_eAATS.Controllers
                             success_count,
                             failed_count,
                             discrepancy_count,
+                            double_earn_count = doubleEarnData.Count,
+                            double_earn_data = doubleEarnData,
                             data = summaryData.OrderBy(x => x.employee_name)
                         };
 

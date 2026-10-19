@@ -602,7 +602,7 @@
         }).then(function (d) {
             if (d.data.message == "success" && d.data.summary) {
                 // Use discrepancy_count from server response
-                s.gridDiscrepancyCount = d.data.summary.discrepancy_count || 0;
+                s.gridDiscrepancyCount = (d.data.summary.discrepancy_count || 0) + (d.data.summary.double_earn_count || 0);
                 // No need to call $apply() - $http.then() already triggers digest
             } else {
                 s.gridDiscrepancyCount = 0;
@@ -785,6 +785,11 @@
                         s.generateSummaryReport = d.data.summary;
                         s.generateSummarySearchText = '';
                         $('#modal_generate_summary_report').modal('show');
+                        if (s.generateSummaryReport.double_earn_count > 0) {
+                            swal("Double Earn Detected", s.generateSummaryReport.double_earn_count +
+                                " duplicate earning group(s) found for " + s.ddl_year + "-" + s.ddl_month +
+                                ". Please review the Double Earn section in the summary report.", "warning");
+                        }
                     } else {
                         swal("Error", d.data.message || "Failed to load summary report.", "error");
                     }

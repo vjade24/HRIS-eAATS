@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -456,6 +456,23 @@
     .cancellation-empty i { margin-bottom: 8px; color: #ECC925; }
 
     
+    #balance_discrepancy_modal tr.balance-discrepancy-row > td {
+        background-color: #fee2e2 !important;
+    }
+    #balance_discrepancy_modal tr.double-earn-row > td {
+        background-color: #ffedd5 !important;
+    }
+    #balance_discrepancy_modal tr.double-earn-row > td:first-child {
+        border-left: 4px solid #ea580c;
+    }
+    #balance_discrepancy_modal tr.double-earn-row:hover > td {
+        background-color: #fed7aa !important;
+    }
+    #balance_discrepancy_modal .double-earn-status {
+        display: block;
+        color: #9a3412;
+        font-weight: bold;
+    }
 </style>
 
 <section ng-app="ng_HRD_App" ng-controller="cLeaveLedger_ctrlr">
@@ -1928,6 +1945,18 @@
                         </div>
                     </div>
 
+                    <div style="padding: 12px 16px; margin-bottom: 16px; background: #fff7ed; border-radius: 8px; color: #9a3412;">
+                        <strong><i class="fa fa-exclamation-triangle"></i> Double Earn Discrepancies: {{discrepancySummary.double_earn_count || 0}}</strong>
+                        <p ng-show="discrepancySummary.double_earn_count > 0">Multiple VL earning records were found in the same month. Please review these entries.</p>
+                        <table class="table table-bordered" ng-show="discrepancySummary.double_earn_count > 0">
+                            <thead><tr><th>Period</th><th>Employee ID</th><th>Employee Name</th><th>Department</th><th>Earn Count</th><th>Created By</th><th>Remarks</th></tr></thead>
+                            <tbody><tr class="double-earn-row" ng-repeat="item in discrepancySummary.double_earn_data track by $index">
+                                <td>{{item.gen_year}}-{{item.gen_month}}</td><td>{{item.empl_id}}</td><td>{{item.employee_name}}</td>
+                                <td>{{item.department_code}}</td><td><strong>{{item.earn_count}}</strong></td>
+                                <td>{{item.created_user_id}}</td><td>{{item.remarks_descr}}</td>
+                            </tr></tbody>
+                        </table>
+                    </div>
                     <!-- Search and Export -->
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div style="position: relative; flex: 1; max-width: 300px;">
@@ -1978,10 +2007,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="item in discrepancySummary.data | filter:filterDiscrepancyList track by $index">
+                                    <tr ng-repeat="item in discrepancySummary.data | filter:filterDiscrepancyList track by $index" ng-class="{'balance-discrepancy-row': item.has_discrepancy, 'double-earn-row': item.has_double_earn}">
                                         <td class="text-center disc-col-num">{{$index + 1}}</td>
                                         <td class="text-center disc-col-disc">
-                                            <span ng-show="!item.has_vl_discrepancy && !item.has_sl_discrepancy"><i class="fa fa-check-circle text-success"></i> OK</span>
+                                            <span ng-show="item.has_double_earn" class="double-earn-status"><i class="fa fa-exclamation-triangle"></i> DOUBLE EARN</span>
+                                            <span ng-show="!item.has_vl_discrepancy && !item.has_sl_discrepancy && !item.has_double_earn"><i class="fa fa-check-circle text-success"></i> OK</span>
                                             <span ng-show="item.has_vl_discrepancy && item.has_sl_discrepancy" class="discrepancy-badge-both"
                                                   data-toggle="tooltip" title="VL Diff: {{item.discrepancy_vl | number:3}}, SL Diff: {{item.discrepancy_sl | number:3}}">
                                                 <i class="fa fa-exclamation-triangle"></i> VL&SL

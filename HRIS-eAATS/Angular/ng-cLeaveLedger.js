@@ -1,4 +1,4 @@
-﻿ng_HRD_App.controller("cLeaveLedger_ctrlr", function (commonScript,$scope, $compile, $http, $filter) {
+ng_HRD_App.controller("cLeaveLedger_ctrlr", function (commonScript,$scope, $compile, $http, $filter) {
     var s = $scope
     var h = $http
     var cs = commonScript
@@ -4642,7 +4642,7 @@
 
                 if (d.data.message == "success") {
                     s.discrepancySummary = d.data.summary;
-                    s.discrepancyCount = d.data.summary.discrepancy_count || 0;
+                    s.discrepancyCount = (d.data.summary.discrepancy_count || 0) + (d.data.summary.double_earn_count || 0);
                     s.discrepancySearchText = '';
                     $('#balance_discrepancy_modal').modal('show');
                 } else {
@@ -4670,7 +4670,7 @@
                 par_view_mode: parseInt(s.ddl_rep_mode) || 2
             }).then(function (d) {
                 if (d.data.message == "success" && d.data.summary) {
-                    s.discrepancyCount = d.data.summary.discrepancy_count || 0;
+                    s.discrepancyCount = (d.data.summary.discrepancy_count || 0) + (d.data.summary.double_earn_count || 0);
                 } else {
                     s.discrepancyCount = 0;
                 }
@@ -4697,7 +4697,7 @@
          * Export discrepancy report to CSV - VL and SL only
          */
         s.exportDiscrepancyReport = function() {
-            if (!s.discrepancySummary || !s.discrepancySummary.data || s.discrepancySummary.data.length === 0) {
+            if (!s.discrepancySummary || !s.discrepancySummary.data || s.discrepancySummary.data.length === 0 && !s.discrepancySummary.double_earn_count) {
                 swal("No Data", "There are no VL/SL records to export.", "warning");
                 return;
             }
@@ -4727,6 +4727,14 @@
                 csvContent += row.join(',') + "\n";
             }
 
+            csvContent += "\nDouble Earn Discrepancies\nEmployee ID,Employee Name,Department,Period,Earn Count,Created By,Remarks\n";
+            (s.discrepancySummary.double_earn_data || []).forEach(function(item) {
+                csvContent += [item.empl_id, item.employee_name, item.department_code,
+                    item.gen_year + '-' + item.gen_month, item.earn_count, item.created_user_id,
+                    item.remarks_descr].map(function(value) {
+                        return '"' + String(value == null ? '' : value).replace(/"/g, '""') + '"';
+                    }).join(',') + "\n";
+            });
             csvContent += "\n";
             csvContent += "Summary (VL and SL Only)\n";
             csvContent += "Employee," + s.discrepancySummary.employee_name + "\n";

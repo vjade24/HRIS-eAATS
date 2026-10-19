@@ -1,4 +1,4 @@
-﻿//**********************************************************************************
+//**********************************************************************************
 // PROJECT NAME     :   HRIS - eComval
 // VERSION/RELEASE  :   HRIS Release #1
 // PURPOSE          :   Code Behind for PHIC Payroll Registry
@@ -15,6 +15,100 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     var s = $scope;
     var h = $http;
     var cs = commonScript
+    s.applicationType = 'leaves';
+    s.assignmentHistory = [];
+    s.assignmentSearch = '';
+    s.assignmentLoading = false;
+    var assignmentRequest = 0;
+    s.loadAssignments = function () {
+        var request = ++assignmentRequest;
+        var employee = $('#ddl_name').val();
+        s.assignmentHistory = [];
+        s.assignmentSearch = '';
+        s.assignmentError = '';
+        s.assignmentEmployee = employee;
+        s.assignmentLoading = false;
+        if (!employee) { return; }
+        s.assignmentLoading = true;
+        h.post('../cASTDTRSupport/GetAssignments', { p_empl_id: employee }).then(function (response) {
+            if (request !== assignmentRequest) { return; }
+            if (response.data.message === 'success') { s.assignmentHistory = response.data.assignments; }
+            else { s.assignmentError = response.data.message; }
+        }, function () {
+            if (request === assignmentRequest) { s.assignmentError = 'Unable to load assignment history. Please try again.'; }
+        }).finally(function () {
+            if (request === assignmentRequest) { s.assignmentLoading = false; }
+        });
+    };
+    s.applications = { leaves: [], slips: [], travels: [] };
+    s.applicationStatuses = [];
+    s.applicationSearch = '';
+    s.applicationError = '';
+    s.applicationSlipRows = [];
+    s.applicationRecordCount = function () {
+        if (s.applicationType === 'transmittals') { return (s.trnsmt_list || []).length; }
+        if (s.applicationType === 'payroll') { return (s.trnsmt || []).length; }
+        return (s.applications[s.applicationType] || []).length;
+    };
+    s.applicationStatusClass = function (code) {
+        return code === 'F' ? 'application-status-approved' : code === 'C' ? 'application-status-pending' : code === 'D' ? 'application-status-rejected' : 'application-status-default';
+    };
+    s.applicationSlipCount = function (code, rows) {
+        return (rows || []).filter(function (row) { return row.status_code === code; }).length;
+    };
+    var applicationRequest = 0;
+    s.applicationDate = function (value) {
+        return value && moment(value).isValid() ? moment(value).format('MMM DD, YYYY') : '--';
+    };
+    s.applicationStatus = function (value) {
+        var match = s.applicationStatuses.filter(function (item) { return item.approval_status === value; })[0];
+        return match ? match.approval_status_descr : (value || '--');
+    };
+    s.viewApplication = function (app) {
+        s.selectedApplication = app;
+        $('#application_details_modal').modal(app ? 'show' : 'hide');
+    };
+    s.viewSlipApplication = function (number) {
+        var app = s.applications.slips.filter(function (item) { return item.number === number; })[0];
+        if (app) { s.viewApplication(app); }
+    };
+    s.selectApplicationType = function (type) {
+        s.applicationType = type;
+        s.applicationSearch = '';
+        s.selectedApplication = null;
+    };
+    s.loadApplications = function () {
+        var request = ++applicationRequest;
+        s.applicationSlipRows = [];
+        s.applications = { leaves: [], slips: [], travels: [] };
+        s.selectedApplication = null;
+        s.applicationError = '';
+        s.applicationLoading = false;
+        var employee = $('#ddl_name').val();
+        s.applicationEmployee = employee;
+        s.applicationEmployeeName = employee ? $('#ddl_name option:selected').text() : '';
+        s.applicationPeriod = s.ddl_year && s.ddl_month ? moment(s.ddl_year + '-' + ('0' + s.ddl_month).slice(-2) + '-01').format('MMMM YYYY') : '';
+        if (!employee || !s.ddl_year || !s.ddl_month) { return; }
+        s.applicationLoading = true;
+        h.post('../cASTDTRSupport/GetApplications', {
+            p_empl_id: employee, p_year: s.ddl_year, p_month: s.ddl_month
+        }).then(function (response) {
+            if (request !== applicationRequest) { return; }
+            if (response.data.message === 'success') {
+                s.applications = response.data;
+                s.applicationStatuses = response.data.statuses;
+                angular.forEach(response.data.slips, function (app) {
+                    angular.forEach(app.dates, function (date) {
+                        s.applicationSlipRows.push({ number: app.number, filed: app.filed, status: app.status, status_code: app.status_code, remarks: app.remarks, date: date });
+                    });
+                });
+            } else { s.applicationError = response.data.message; }
+        }, function () {
+            if (request === applicationRequest) { s.applicationError = 'Unable to load applications. Please try again.'; }
+        }).finally(function () {
+            if (request === applicationRequest) { s.applicationLoading = false; }
+        });
+    };
     s.year                  = [];
     s.datalistgrid_data     = [];
     s.employment_type_lst   = "";
@@ -249,6 +343,8 @@ ng_HRD_App.controller("cASTDTRSupport_ctrl", function (commonScript,$scope, $com
     //********************************************// 
     s.FilterPageGrid = function ()
     {
+        s.loadApplications();
+        s.loadAssignments();
         //$('#loading_msg').html("LOADING");
         $("#modal_initializing").modal();
         try

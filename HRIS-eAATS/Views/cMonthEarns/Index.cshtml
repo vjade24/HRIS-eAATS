@@ -1,4 +1,4 @@
-﻿<script src="~/Angular/ng-cMonthEarns.js?v=@DateTime.Now.ToString()"></script>
+<script src="~/Angular/ng-cMonthEarns.js?v=@DateTime.Now.ToString()"></script>
 <style type="text/css">
     /* ============================================
        COMPACT PROFESSIONAL MONTHLY EARNINGS PAGE
@@ -2199,7 +2199,7 @@
 											<div class="modal fade modal-summary-detail modal-summary-report-large" id="modal_generate_summary_report" tabindex="-1" role="dialog" aria-hidden="true">
 												<div class="modal-dialog modal-dialog-centered">
 													<div class="modal-content">
-														<div class="modal-summary-header" ng-class="{'success': generateSummaryReport.failed_count === 0 && getDiscrepancyCount() === 0, 'warning': generateSummaryReport.failed_count > 0 || getDiscrepancyCount() > 0, 'primary': !generateSummaryReport}">
+														<div class="modal-summary-header" ng-class="{'success': generateSummaryReport.failed_count === 0 && getDiscrepancyCount() === 0 && !generateSummaryReport.double_earn_count, 'warning': generateSummaryReport.failed_count > 0 || getDiscrepancyCount() > 0 || generateSummaryReport.double_earn_count > 0, 'primary': !generateSummaryReport}">
 															<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeGenerateSummaryReport()">
 																<span aria-hidden="true">&times;</span>
 															</button>
@@ -2250,7 +2250,19 @@
 																</div>
 															</div>
 
-															<div class="modal-summary-toolbar">
+															<div class="report-card" style="padding: 12px 16px; margin: 0 15px 16px; background: #fff7ed; border-radius: 8px; color: #9a3412;">
+    <strong><i class="fa fa-exclamation-triangle"></i> Double Earn Discrepancies: {{generateSummaryReport.double_earn_count || 0}}</strong>
+    <p ng-show="generateSummaryReport.double_earn_count > 0">Multiple earning records were found in the selected month. Review the employees below.</p>
+    <table class="summary-detail-table" ng-show="generateSummaryReport.double_earn_count > 0">
+        <thead><tr><th>Employee ID</th><th>Employee Name</th><th>Department</th><th>Period</th><th>Earn Count</th><th>Created By</th><th>Remarks</th></tr></thead>
+        <tbody><tr ng-repeat="item in generateSummaryReport.double_earn_data track by $index">
+            <td>{{item.empl_id}}</td><td>{{item.employee_name}}</td><td>{{item.department_code}}</td>
+            <td>{{item.gen_year}}-{{item.gen_month}}</td><td><strong>{{item.earn_count}}</strong></td>
+            <td>{{item.created_user_id}}</td><td>{{item.remarks_descr}}</td>
+        </tr></tbody>
+    </table>
+</div>
+<div class="modal-summary-toolbar">
 																<div class="modal-search-wrapper">
 																	<i class="fa fa-search"></i>
 																	<input type="text" 

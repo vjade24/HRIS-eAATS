@@ -1,4 +1,4 @@
-﻿using HRIS_eAATS.Models;
+using HRIS_eAATS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
@@ -1658,6 +1658,42 @@ namespace HRIS_eAATS.Controllers
                 decimal running_total_sl = 0;
                 bool isFirstRow = true;
 
+                // Match the monthly double-earn query for this employee (VL history).
+                var doubleEarnGroups = (from a in db_ats.lv_ledger_earn_history_tbl
+                                        join b in db_ats.lv_ledger_hdr_tbl on a.ledger_ctrl_no equals b.ledger_ctrl_no
+                                        join c in db_ats.vw_personnelnames_tbl_HRIS_ATS on a.empl_id equals c.empl_id
+                                        where a.empl_id == par_empl_id && a.earning_type == "VL"
+                                        group a by new { a.empl_id, c.employee_name, a.department_code,
+                                            a.gen_year, a.gen_month, a.remarks_descr, a.created_user_id } into g
+                                        where g.Count() > 1
+                                        orderby g.Key.gen_year, g.Key.gen_month
+                                        select new
+                                        {
+                                            g.Key.empl_id, g.Key.employee_name, g.Key.department_code,
+                                            g.Key.gen_year, g.Key.gen_month, g.Key.remarks_descr,
+                                            g.Key.created_user_id, earn_count = g.Count()
+                                        }).ToList();
+                // Earning periods are months; include months overlapping the selected date range.
+                var doubleEarnData = doubleEarnGroups.Where(item =>
+                {
+                    int year, month;
+                    if (!int.TryParse(item.gen_year, out year) || !int.TryParse(item.gen_month, out month)
+                        || year < 1 || year > 9999 || month < 1 || month > 12)
+                        return false;
+                    var period = new DateTime(year, month, 1);
+                    return (!dateFrom.HasValue || period >= new DateTime(dateFrom.Value.Year, dateFrom.Value.Month, 1))
+                        && (!dateTo.HasValue || period <= new DateTime(dateTo.Value.Year, dateTo.Value.Month, 1));
+                }).ToList();
+
+                var employeeEarnHistory = db_ats.lv_ledger_earn_history_tbl
+                    .Where(a => a.empl_id == par_empl_id && a.earning_type == "VL")
+                    .Select(a => new { a.ledger_ctrl_no, a.department_code, a.gen_year, a.gen_month,
+                        a.remarks_descr, a.created_user_id }).ToList();
+                var doubleEarnLedgerIds = new HashSet<string>(employeeEarnHistory.Where(a =>
+                    doubleEarnData.Any(g => g.department_code == a.department_code
+                        && g.gen_year == a.gen_year && g.gen_month == a.gen_month
+                        && g.remarks_descr == a.remarks_descr && g.created_user_id == a.created_user_id))
+                    .Select(a => a.ledger_ctrl_no));
                 foreach (var item in filteredReport)
                 {
                     // VL calculations - parse from string fields
@@ -1717,6 +1753,7 @@ namespace HRIS_eAATS.Controllers
 
                     summaryData.Add(new
                     {
+                        has_double_earn = doubleEarnLedgerIds.Contains(item.ledger_ctrl_no),
                         ledger_ctrl_no = item.ledger_ctrl_no,
                         period = item.leaveledger_period,
                         leave_type = item.leavetype_str,
@@ -1751,6 +1788,8 @@ namespace HRIS_eAATS.Controllers
                 {
                     total_count,
                     discrepancy_count,
+                    double_earn_count = doubleEarnData.Count,
+                    double_earn_data = doubleEarnData,
                     employee_name,
                     empl_id = par_empl_id,
                     date_from = par_date_from,

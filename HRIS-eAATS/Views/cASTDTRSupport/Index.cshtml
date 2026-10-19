@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewBag.Title = "Index";
 }
@@ -50,8 +50,148 @@
         padding: 3px 8px;
         text-shadow: none;
     }
+    /* Application dashboard: warm brown and gold reference palette. */
+    #tab-22 { color:#301b08; }
+    #tab-22 > .panel-body { background:#f5f1e7; padding:20px; }
+    #tab-22 .application-heading { background:linear-gradient(110deg,#241600,#673000);color:#fff;padding:22px 24px;border-bottom:3px solid #edc91d;border-radius:12px;margin-bottom:18px;display:flex;align-items:center;gap:14px; }
+    #tab-22 .application-heading > i { color:#f3cf21;border:1px solid #927600;border-radius:12px;padding:13px;font-size:23px;background:rgba(244,204,23,.08); }
+    #tab-22 .application-heading h4 { margin:0 0 5px;font-size:23px;font-weight:700;color:#fff; }
+    #tab-22 .application-heading small { color:#f2cc1a;font-size:10px;letter-spacing:1px;text-transform:uppercase; }
+    #tab-22 .application-info { display:flex;flex-wrap:wrap;gap:12px;background:#fff;padding:16px 18px;border-radius:10px;border-top:2px solid #edc91d;margin-bottom:16px;box-shadow:0 6px 18px rgba(58,34,8,.07); }
+    #tab-22 .application-info > div { flex:1 1 180px; }
+    #tab-22 .application-info label { display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#673000;margin-bottom:6px; }
+    #tab-22 .application-info strong { font-size:13px; }
+    #tab-22 .application-types { display:flex;flex-wrap:wrap;gap:14px;margin-bottom:18px; }
+    #tab-22 .application-card { flex:1 1 145px;display:flex;align-items:center;gap:14px;text-align:left;background:#fff;border:1px solid #e8ddc9;border-top:3px solid transparent;border-radius:11px;padding:16px 18px;box-shadow:0 4px 12px rgba(58,34,8,.04);color:#301b08;transition:background .15s,border-color .15s; }
+    #tab-22 .application-card:hover { background:#fffbee;border-color:#ddbe39; }
+    #tab-22 .application-card:focus-visible { outline:3px solid #a67511;outline-offset:3px; }
+    #tab-22 .application-card.is-active { border-top-color:#edc91d;background:#fffdf6;box-shadow:0 4px 14px rgba(124,84,0,.12); }
+    #tab-22 .application-card i { display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex-shrink:0;border-radius:12px;background:#fbecae;color:#4f2800;font-size:19px; }
+    #tab-22 .application-card.travel-card i { background:#603000;color:#fff; }
+    #tab-22 .application-card strong { display:block;font-size:25px;line-height:1.15; }
+    #tab-22 .application-card small { display:block;margin-top:5px;font-size:11px;color:#725336; }
+    #tab-22 .application-results { background:#fff;border:1px solid #e8ddc9;border-top:3px solid #edc91d;border-radius:12px;overflow:hidden;box-shadow:0 5px 18px rgba(58,34,8,.05); }
+    #tab-22 .application-toolbar { padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid #e8ddc9; }
+    #tab-22 .application-toolbar h4 { margin:0 0 4px;font-size:15px;font-weight:700; }
+    #tab-22 .application-toolbar small { color:#8a735b; }
+    #tab-22 .application-search { flex:0 1 310px; }
+    #tab-22 .application-search label { font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:#725336; }
+    #tab-22 .form-control { border:1px solid #dfcfb5;border-radius:7px;box-shadow:none; }
+    #tab-22 .form-control:focus { border-color:#c49b14;box-shadow:0 0 0 2px rgba(237,201,29,.15); }
+    #tab-22 .application-pill { display:inline-block;padding:4px 9px;border-radius:20px;font-size:10px;font-weight:700;background:#f8edcc;border:1px solid #e5d3a8;color:#63360d;line-height:1.3; }
+    #tab-22 .application-scroll { max-height:480px;overflow:auto; }
+    #tab-22 table { width:100%;border-collapse:separate;border-spacing:0;font-size:12px;margin-bottom:0; }
+    #tab-22 table th { background:#faf6e9;color:#57310b;padding:10px 12px;border:0;border-bottom:1px solid #e2d2b0;text-align:left;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;white-space:nowrap; }
+    #tab-22 .application-scroll thead th { position:sticky;top:0;z-index:2; }
+    #tab-22 .application-slips thead tr:first-child th { height:34px; }
+    #tab-22 .application-slips thead tr:nth-child(2) th { top:34px; }
+    #tab-22 table td { background:#fff;padding:12px;border:0;border-bottom:1px solid #efe5d4;vertical-align:middle;overflow-wrap:anywhere; }
+    #tab-22 tbody tr:nth-child(even) td { background:#fff; }
+    #tab-22 tbody tr:hover td, #tab-22 tbody tr.info td { background:#fffae8; }
+    #tab-22 table .application-am { background:#faf6e9;color:#57310b;text-align:center; }
+    #tab-22 table .application-pm { background:#faf6e9;color:#57310b;text-align:center; }
+    #tab-22 .application-time { text-align:center;white-space:nowrap;font-weight:600;font-family:Consolas,monospace; }
+    #tab-22 .application-number { color:#603000;font-weight:700;white-space:nowrap; }
+    #tab-22 .application-secondary { display:block;color:#96836c;font-size:10px;margin-top:4px; }
+    #tab-22 .application-status-approved { background:#f8edcc;color:#603000;border-color:#e5d3a8; }
+    #tab-22 .application-status-pending { background:#fff4d2;color:#795500;border-color:#e9d18c; }
+    #tab-22 .application-status-rejected { background:#fbe9e4;color:#9e3925;border-color:#e6bdb2; }
+    #tab-22 .application-status-default { background:#f0ede7;color:#655b4e;border-color:#dcd5ca; }
+    #tab-22 .application-summary { background:#faf6e9;color:#63360d;padding:11px 16px;font-size:11px;border-top:1px solid #e2d2b0; }
+    #tab-22 .application-detail { margin:16px;border:1px solid #e5d6bc;border-radius:10px;overflow:hidden; }
+    #tab-22 .application-detail > .panel-heading { background:#603000;color:#fff;padding:13px 16px; }
+    #tab-22 .application-detail p { padding:9px 12px;background:#faf7ef;border-left:3px solid #edc91d; }
+    #tab-22 .btn-primary { background:#edc91d;border-color:#d8b715;color:#301b08;font-weight:700;border-radius:6px; }
+    #tab-22 .btn-primary:hover { background:#e0bb12; }
+    #tab-22 .application-empty { padding:30px;color:#8a735b;text-align:center; }
+    #tab-22 .application-note { color:#8a735b;font-size:11px; }
+    /* Compact application tables and modal details. */
+    #tab-22 > .panel-body { padding:10px;font-size:11px; }
+    #tab-22 .application-heading { padding:12px 16px;margin-bottom:10px;gap:10px;border-radius:8px; }
+    #tab-22 .application-heading h4 { font-size:17px;margin-bottom:3px; }
+    #tab-22 .application-heading > i { font-size:17px;padding:9px;border-radius:8px; }
+    #tab-22 .application-heading small { font-size:9px;letter-spacing:.5px; }
+    #tab-22 .application-info { padding:10px 12px;margin-bottom:10px;gap:8px; }
+    #tab-22 .application-info label { font-size:9px;margin-bottom:3px; }
+    #tab-22 .application-info strong { font-size:11px; }
+    #tab-22 .application-types { gap:8px;margin-bottom:10px; }
+    #tab-22 .application-card { padding:10px 12px;gap:10px;border-radius:8px; }
+    #tab-22 .application-card i { width:32px;height:32px;font-size:15px;border-radius:8px; }
+    #tab-22 .application-card strong { font-size:19px; }
+    #tab-22 .application-card small { font-size:10px;margin-top:3px; }
+    #tab-22 .application-toolbar { padding:9px 12px;gap:8px; }
+    #tab-22 .application-toolbar h4 { font-size:12px;margin-bottom:3px; }
+    #tab-22 .application-toolbar small, #tab-22 .application-secondary { font-size:9px; }
+    #tab-22 .application-search label { font-size:9px;margin-bottom:3px; }
+    #tab-22 .form-control { height:28px;font-size:11px;padding:4px 8px; }
+    #tab-22 table { font-size:10px; }
+    #tab-22 table th { padding:7px 8px;font-size:9px;text-align:center;vertical-align:middle;background:#faf6e9; }
+    #tab-22 table td { padding:7px 8px; }
+    #tab-22 .application-slips thead tr:first-child th { height:28px; }
+    #tab-22 .application-slips thead tr:nth-child(2) th { top:28px; }
+    #tab-22 .application-pill { font-size:9px;padding:3px 7px; }
+    #tab-22 .application-summary { font-size:10px;padding:8px 10px; }
+    #tab-22 .application-note { font-size:10px;margin:6px 0 10px; }
+    #tab-22 .btn-xs { font-size:10px;padding:3px 7px;white-space:nowrap; }
+    #application_details_modal { font-size:11px;color:#301b08; }
+    #application_details_modal .modal-content { border:1px solid #e5d6bc;border-radius:10px;overflow:hidden; }
+    #application_details_modal .modal-header { background:#603000;color:#fff;padding:12px 16px; }
+    #application_details_modal .modal-header h4 { margin:0;font-size:13px;color:#fff; }
+    #application_details_modal .close { color:#fff;opacity:1; }
+    #application_details_modal .modal-body { padding:12px;max-height:65vh;overflow-y:auto; }
+    #application_details_modal p { padding:7px 9px;margin-bottom:7px;background:#faf7ef;border-left:3px solid #edc91d; }
+    #application_details_modal table { font-size:10px;margin-bottom:8px; }
+    #application_details_modal table th { background:#faf6e9;color:#57310b;font-size:9px;text-transform:uppercase;text-align:center; }
+    #application_details_modal table th, #application_details_modal table td { padding:6px 8px;border-color:#e8ddc9; }
+    #application_details_modal .panel-heading { background:#faf6e9;font-size:11px;padding:8px 10px; }
+    #application_details_modal .panel-body { padding:10px; }
+    #application_details_modal .modal-footer { padding:8px 12px;background:#faf7ef; }
+    /* Exact header background sampled from the supplied reference. */
+    #tab-22 table thead tr th,
+    #application_details_modal table thead tr th {
+        background-color:#faf6e9 !important;
+        background-image:none !important;
+        color:#57310b !important;
+        border-bottom:1px solid #dfd2b8;
+    }
+    #tab-assignments > .panel-body { padding:12px;background:#f5f1e7;color:#301b08;font-size:11px; }
+    #tab-assignments .assignment-toolbar { display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:#fff;border-top:2px solid #edc91d;border-radius:8px;padding:10px 12px;margin-bottom:10px; }
+    #tab-assignments .assignment-toolbar strong { font-size:12px; }
+    #tab-assignments small { display:block;color:#96836c;font-size:9px;margin-top:3px; }
+    #tab-assignments label { font-size:9px;margin-bottom:3px;text-transform:uppercase; }
+    #tab-assignments input { font-size:11px;height:28px;min-width:240px;border-color:#dfcfb5;border-radius:6px; }
+    #tab-assignments .assignment-scroll { max-height:480px;overflow:auto;background:#fff;border:1px solid #e8ddc9;border-radius:8px; }
+    #tab-assignments table { font-size:9px;line-height:1.3;margin:0; }
+    #tab-assignments table thead th { background:#faf6e9 !important;color:#57310b !important;border-bottom:1px solid #dfd2b8;padding:6px;font-size:8px;text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;z-index:2; }
+    #tab-assignments table td { padding:5px 6px;border-top:0;border-bottom:1px solid #efe5d4;vertical-align:middle; }
+    #tab-assignments tbody tr:hover { background:#fffae8; }
+    #tab-assignments .assignment-date { white-space:nowrap; }
+    #tab-assignments .assignment-source { display:inline-block;border:1px solid #e5d3a8;border-radius:20px;background:#f8edcc;color:#63360d;padding:2px 5px;font-size:8px; }
+    #tab-assignments .assignment-note { margin:8px 0 0;color:#8a735b;font-size:10px; }
 </style>
 <section ng-app="ng_HRD_App" ng-controller="cASTDTRSupport_ctrl">
+<div class="modal fade" id="application_details_modal" tabindex="-1" role="dialog" aria-labelledby="application-details-title"><div class="modal-dialog modal-lg" role="document"><div class="modal-content application-detail">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 id="application-details-title"><strong>{{selectedApplication.number}}</strong> &mdash; {{selectedApplication.status}}</h4></div>
+                <div class="modal-body" style="overflow-wrap:break-word;"><p><strong>Employee:</strong> {{applicationEmployeeName}} &nbsp; <strong>Period:</strong> {{applicationPeriod}}</p>
+                    <p><strong>Date Filed:</strong> {{applicationDate(selectedApplication.filed)}}</p>
+                    <div ng-if="applicationType === 'leaves'">
+                        <p><strong>Leave Type:</strong> {{selectedApplication.type || '--'}} &nbsp; <strong>Total Days:</strong> {{selectedApplication.days == null ? '--' : selectedApplication.days}}</p>
+                        <p><strong>Description:</strong> {{selectedApplication.description || '--'}}</p><p><strong>Remarks:</strong> {{selectedApplication.remarks || '--'}}</p><p><strong>Comments:</strong> {{selectedApplication.comments || '--'}}</p>
+                        <div class="table-responsive"><table class="table table-bordered"><thead><tr><th>From</th><th>To</th><th>Days</th><th>Entry Status</th></tr></thead><tbody><tr ng-repeat="date in selectedApplication.dates"><td>{{applicationDate(date.from)}}</td><td>{{applicationDate(date.to)}}</td><td>{{date.days == null ? '--' : date.days}}</td><td>{{applicationStatus(date.status)}}</td></tr></tbody></table></div>
+                    </div>
+                    <div ng-if="applicationType === 'slips'">
+                        <p><strong>Remarks:</strong> {{selectedApplication.remarks || '--'}}</p>
+                        <div class="panel panel-default" ng-repeat="date in selectedApplication.dates"><div class="panel-heading"><strong>{{applicationDate(date.date)}}</strong> &mdash; {{date.type || '--'}} &mdash; {{applicationStatus(date.status)}}</div><div class="panel-body">
+                            <div class="table-responsive"><table class="table table-bordered"><thead><tr><th>AM In</th><th>AM Out</th><th>PM In</th><th>PM Out</th></tr></thead><tbody><tr><td>{{date.am_in || '--'}}</td><td>{{date.am_out || '--'}}</td><td>{{date.pm_in || '--'}}</td><td>{{date.pm_out || '--'}}</td></tr></tbody></table></div>
+                            <p><strong>Reason:</strong> {{date.reason || '--'}}</p><p><strong>Venue:</strong> {{date.venue || '--'}}</p><p><strong>Comments:</strong> {{date.comments || '--'}}</p><p><strong>Undertime (recorded value):</strong> {{date.undertime == null ? '--' : date.undertime}}</p>
+                        </div></div>
+                    </div>
+                    <div ng-if="applicationType === 'travels'">
+                        <p><strong>Travel Type:</strong> {{selectedApplication.type || '--'}}</p><p><strong>Destination:</strong> {{selectedApplication.destination || '--'}}</p><p><strong>Purpose:</strong> {{selectedApplication.purpose || '--'}}</p><p><strong>Details:</strong> {{selectedApplication.details || '--'}}</p><p><strong>Justification:</strong> {{selectedApplication.justification || '--'}}</p><p><strong>With Claims:</strong> {{selectedApplication.claims == null ? '--' : selectedApplication.claims ? 'Yes' : 'No'}}</p>
+                        <div class="table-responsive"><table class="table table-bordered"><thead><tr><th>From</th><th>To</th><th>Start Time</th><th>End Time</th><th>Entry Status</th></tr></thead><tbody><tr ng-repeat="date in selectedApplication.dates"><td>{{applicationDate(date.from)}}</td><td>{{applicationDate(date.to)}}</td><td>{{date.start_time || '--'}}</td><td>{{date.end_time || '--'}}</td><td>{{applicationStatus(date.status)}}</td></tr></tbody></table></div>
+                    </div>
+                </div>
+            <div class="modal-footer"><button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button></div></div></div></div>
 
     @*<div class="modal fade" id="modal_loading">
         <div class="modal-dialog">
@@ -338,53 +478,15 @@
                     </div>
                     <div class="ibox-content">
                         <div class="row">
-                            <div class="col-lg-6" ng-show="trnsmt.length > 0">
-                                <div class="alert alert-warning" ng-repeat="lst in trnsmt">
-                                    <div class="form-group row">
-                                        <div class="col-lg-4">
-                                            1st Quincena: 
-                                            @*<span class="badge badge-primary">{{lst.frst_qcna_posted_ddtm}}</span>*@
-                                            <br />
-                                            {{lst.frst_employee_name}}
-                                            <br />
-                                            <small>({{lst.frst_qcna_posted_ddtm}})</small>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            2nd Quincena: 
-                                            @*<span class="badge badge-primary">{{lst.sec_qcna_posted_ddtm}}</span>*@
-                                            <br />
-                                            {{lst.sec_employee_name}}
-                                            <br />
-                                            <small>({{lst.sec_qcna_posted_ddtm}})</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6" ng-show="trnsmt_list.length > 0">
-                                <div class="alert alert-warning" >
-                                    <div class="form-group row" >
-                                        <div class="col-lg-6" ng-repeat="lst in trnsmt_list">
-                                            {{lst.transmittal_nbr}}
-                                            <span class="badge badge-danger">{{lst.view_type_descr}}</span>
-                                            <span class="badge badge-primary">{{lst.transmittal_type_descr}}</span>
-                                            - <small>{{lst.approval_status_descr}}</small>
-                                            <br />
-                                            {{lst.created_name}}
-                                            <br />
-                                            <small>({{lst.created_dttm}})</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-lg-12 m-b-md">
                                 <div class="tabs-container">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a data-toggle="tab" href="#tab-11"> Time Entry from Bio-Machine</a></li>
-                                        @*<li class=""><a data-toggle="tab" href="#tab-22">All Applications</a></li>*@
+                                        <li><a data-toggle="tab" href="#tab-22">Application</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab-33">Daily Time Record and Time Schedule</a></li>
                                         <li class=""><a data-toggle="tab" href="#tab-44">Update Application Status</a></li>
                                       
-                                        <li class=""><a data-toggle="tab" href="#tab-55">Extract Biometrics Data</a></li>
+                                        <li><a data-toggle="tab" href="#tab-assignments">Assignments</a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div id="tab-11" class="tab-pane active">
@@ -411,69 +513,67 @@
 
                                             </div>
                                         </div>
-                                        @*<div id="tab-22" class="tab-pane">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-
-                                                </div>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="panel-group" id="accordion">
-                                                    <div class="panel panel-default" ng-repeat="lst in trans_lst">
-                                                        <div class="panel-heading">
-                                                            <div class="row">
-                                                                <div class="col-lg-9">
-                                                                    <h5 class="panel-title">
-                                                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{lst[0].transaction_code}}" ng-click="btn_collapsed(lst[0])">
-                                                                            <span> {{lst[0].transaction_descr}} </span>
-                                                                        </a>
-                                                                    </h5>
-                                                                </div>
-                                                                <div class="col-lg-3">
-                                                                    <span class="pull-right" style="background-color: #ed5565;color: white;padding: 2px 5px 2px 5px;border-radius: 10%;">{{appl_data(lst)}}</span>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <div id="collapse{{lst[0].transaction_code}}" class="panel-collapse collapse">
-                                                            <div class="panel-body">
-                                                                <div class="progress" style="margin-bottom:0px !important">
-                                                                    <div ng-repeat="lst1 in all_appl_cnt" class="progress-bar progress-bar-striped progress-bar-animated progress-bar-{{lst1[0].prog_stat_color}}" role="progressbar" style="width: {{lst1[0].prog_stat_perc}}%" aria-valuenow="{{lst1[0].prog_stat_perc}}" aria-valuemin="0" aria-valuemax="100">{{lst1.length}} {{lst1[0].rcrd_status_descr}}</div>
-                                                                </div>
-                                                                <ul class="stat-list m-t-sm">
-                                                                    <li ng-repeat="lst in all_appl">
-                                                                        <h2 class="no-margins">{{lst.application_date}} </h2>
-                                                                        <small>{{lst.transaction_descr}} - {{lst.application_nbr}} - {{lst.oth_info}}</small>
-                                                                        <div class="stat-percent text-{{lst.stat_color}}">{{lst.rcrd_status_descr}} <i class="{{lst.stat_icon}}"></i></div>
-                                                                        <div class="progress progress-mini ">
-                                                                            <div class="progress-bar progress-bar-{{lst.stat_color}}" style="width: 100%;"></div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-
-                                                            </div>
-                                                            <div class="panel-footer">
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-
-                                                                        <ul class="tag-list" style="padding: 0">
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Family</a></li>
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Work</a></li>
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Home</a></li>
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Children</a></li>
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Holidays</a></li>
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Music</a></li>
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Photography</a></li>
-                                                                            <li><a href=""><i class="fa fa-tag"></i> Film</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>*@
+                                        <div id="tab-22" class="tab-pane">
+    <div class="panel-body">
+        <div class="application-heading"><i class="fa fa-line-chart" aria-hidden="true"></i><div><h4>Application Monitoring</h4><small>Leave applications, authorization slips and travel orders</small></div></div>
+        <div class="application-info">
+            <div><label>Employee</label><strong>{{applicationEmployeeName || 'Select an employee'}}</strong><span class="application-secondary" ng-if="applicationEmployee">Employee ID: {{applicationEmployee}}</span></div>
+            <div><label>Period Covered</label><strong><i class="fa fa-calendar" aria-hidden="true"></i> {{applicationPeriod || 'Select a DTR period'}}</strong><span class="application-secondary">Based on the selected DTR month</span></div>
+        </div>
+        <div class="application-types" role="group" aria-label="Application type">
+            <button type="button" class="application-card" ng-class="{'is-active': applicationType === 'leaves'}" ng-attr-aria-pressed="{{applicationType === 'leaves'}}" ng-click="selectApplicationType('leaves')"><i class="fa fa-calendar" aria-hidden="true"></i><span><strong>{{applications.leaves.length}}</strong><small>Leave Applications</small></span></button>
+            <button type="button" class="application-card" ng-class="{'is-active': applicationType === 'slips'}" ng-attr-aria-pressed="{{applicationType === 'slips'}}" ng-click="selectApplicationType('slips')"><i class="fa fa-file-text-o" aria-hidden="true"></i><span><strong>{{applications.slips.length}}</strong><small>Authorization Slips</small></span></button>
+            <button type="button" class="application-card travel-card" ng-class="{'is-active': applicationType === 'travels'}" ng-attr-aria-pressed="{{applicationType === 'travels'}}" ng-click="selectApplicationType('travels')"><i class="fa fa-plane" aria-hidden="true"></i><span><strong>{{applications.travels.length}}</strong><small>Travel Orders</small></span></button>
+            <button type="button" class="application-card" ng-class="{'is-active': applicationType === 'transmittals'}" ng-attr-aria-pressed="{{applicationType === 'transmittals'}}" ng-click="selectApplicationType('transmittals')"><i class="fa fa-exchange" aria-hidden="true"></i><span><strong>{{trnsmt_list.length}}</strong><small>Transmittal</small></span></button>
+            <button type="button" class="application-card" ng-class="{'is-active': applicationType === 'payroll'}" ng-attr-aria-pressed="{{applicationType === 'payroll'}}" ng-click="selectApplicationType('payroll')"><i class="fa fa-money" aria-hidden="true"></i><span><strong>{{trnsmt.length}}</strong><small>Payroll Created</small></span></button>
+        </div>
+        <p class="m-t-sm application-note">Applications covering the selected DTR month. Date details below show entries overlapping this period. Leave totals refer to the entire application.</p>
+        <div ng-if="!applicationEmployee" class="alert alert-info">Select an employee to view applications.</div>
+        <div ng-if="applicationLoading" class="alert alert-info" role="status">Loading applications...</div>
+        <div ng-if="applicationError" class="alert alert-danger" role="alert">{{applicationError}} <button type="button" class="btn btn-default btn-xs" ng-click="loadApplications()">Retry</button></div>
+        <div class="application-results" ng-if="applicationEmployee && !applicationLoading && !applicationError">
+            <div class="application-toolbar"><div><h4>{{applicationType === 'leaves' ? 'Leave Applications' : applicationType === 'slips' ? 'Authorization Slips' : applicationType === 'travels' ? 'Travel Orders' : applicationType === 'transmittals' ? 'Transmittal' : 'Payroll Created'}} <span class="application-pill">{{applicationRecordCount()}}</span></h4><small>Applications within the selected period</small></div><div class="application-search"><label for="application-search">Search records</label><input id="application-search" class="form-control" type="search" ng-model="applicationSearch" placeholder="Number, status, purpose or details"></div></div>
+            <div class="application-scroll" ng-if="applicationType === 'transmittals'">
+                <table class="table"><thead><tr><th>Transmittal No.</th><th>Period</th><th>Purpose</th><th>Status</th><th>Created By</th><th>Date Created</th></tr></thead><tbody>
+                    <tr ng-repeat="item in visibleTransmittals = (trnsmt_list | filter:applicationSearch)"><td class="application-number">{{item.transmittal_nbr}}</td><td>{{item.view_type_descr || '--'}}</td><td>{{item.transmittal_type_descr || '--'}}</td><td><span class="application-pill" ng-class="applicationStatusClass(item.approval_status)">{{item.approval_status_descr || '--'}}</span></td><td>{{item.created_name || item.created_by || '--'}}</td><td>{{item.created_dttm || '--'}}</td></tr>
+                    <tr ng-if="!visibleTransmittals.length"><td colspan="6" class="application-empty">{{applicationSearch ? 'No matching transmittals.' : 'No transmittals for this period.'}}</td></tr>
+                </tbody></table>
+            </div>
+            <div class="application-scroll" ng-if="applicationType === 'payroll'">
+                <table class="table"><thead><tr><th>DTR Order No.</th><th>1st Quincena Created By</th><th>Date Created</th><th>2nd Quincena Created By</th><th>Date Created</th><th>Remarks</th></tr></thead><tbody>
+                    <tr ng-repeat="item in visiblePayroll = (trnsmt | filter:applicationSearch)"><td class="application-number">{{item.dtr_order_no || '--'}}</td><td>{{item.frst_employee_name || item.frst_qcna_posted_by || '--'}}</td><td>{{item.frst_qcna_posted_by ? item.frst_qcna_posted_ddtm : '--'}}</td><td>{{item.sec_employee_name || item.sec_qcna_posted_by || '--'}}</td><td>{{item.sec_qcna_posted_by ? item.sec_qcna_posted_ddtm : '--'}}</td><td>{{item.remarks || '--'}}</td></tr>
+                    <tr ng-if="!visiblePayroll.length"><td colspan="6" class="application-empty">{{applicationSearch ? 'No matching payroll records.' : 'No payroll creation records for this period.'}}</td></tr>
+                </tbody></table>
+            </div>
+            <div class="application-scroll" ng-if="applicationType === 'leaves' || applicationType === 'travels'">
+                <table class="table">
+                    <thead><tr><th>Application</th><th>Filed</th><th>Covered Dates</th><th>{{applicationType === 'leaves' ? 'Leave Type / Total Days' : applicationType === 'travels' ? 'Destination / Purpose' : 'Remarks'}}</th><th>Status</th><th>Details</th></tr></thead>
+                    <tbody>
+                        <tr ng-repeat="app in filteredApplications = (applications[applicationType] | filter:applicationSearch)" ng-class="{'info': selectedApplication === app}">
+                            <td><strong class="application-number">{{app.number}}</strong><span class="application-secondary">{{applicationEmployee}}</span></td><td>{{applicationDate(app.filed)}}</td><td><div ng-repeat="date in app.dates">{{applicationDate(date.date || date.from)}}<span ng-if="date.to"> - {{applicationDate(date.to)}}</span></div></td>
+                            <td><span ng-if="applicationType === 'leaves'"><strong>{{app.type || '--'}}</strong><span class="application-secondary">{{app.days == null ? '--' : app.days}} day(s)</span></span><span ng-if="applicationType === 'travels'"><strong>{{app.destination || '--'}}</strong><span class="application-secondary">{{app.purpose || '--'}}</span></span><span ng-if="applicationType === 'slips'">{{app.remarks || '--'}}</span></td>
+                            <td><span class="application-pill" ng-class="applicationStatusClass(app.status_code)">{{app.status || '--'}}</span></td><td><button type="button" class="btn btn-primary btn-xs" ng-click="viewApplication(app)">View Details</button></td>
+                        </tr>
+                        <tr ng-if="!filteredApplications.length"><td colspan="6" class="text-center">{{applicationSearch ? 'No matching applications.' : applicationType === 'leaves' ? 'No leave applications for this period.' : applicationType === 'slips' ? 'No authorization slips for this period.' : 'No travel orders for this period.'}}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-if="applicationType === 'slips'">
+                <div class="application-scroll">
+                    <table class="application-slips">
+                        <thead><tr><th rowspan="2">#</th><th rowspan="2">Application No.</th><th rowspan="2">DTR Date</th><th rowspan="2">Type</th><th rowspan="2">Reason</th><th colspan="2" class="application-am">AM</th><th colspan="2" class="application-pm">PM</th><th rowspan="2">Venue</th><th rowspan="2">Comment / Remarks</th><th rowspan="2">Status</th><th rowspan="2">Date Applied</th><th rowspan="2">Details</th></tr><tr><th class="application-am">In</th><th class="application-am">Out</th><th class="application-pm">In</th><th class="application-pm">Out</th></tr></thead>
+                        <tbody><tr ng-repeat="row in visibleSlipRows = (applicationSlipRows | filter:applicationSearch)">
+                            <td class="text-center">{{$index + 1}}</td><td class="application-number">{{row.number}}</td><td style="white-space:nowrap;">{{applicationDate(row.date.date)}}</td><td><span class="application-pill">{{row.date.type || '--'}}</span></td><td style="min-width:140px;">{{row.date.reason || '--'}}</td>
+                            <td class="application-time">{{row.date.am_in || '--'}}</td><td class="application-time">{{row.date.am_out || '--'}}</td><td class="application-time">{{row.date.pm_in || '--'}}</td><td class="application-time">{{row.date.pm_out || '--'}}</td>
+                            <td style="min-width:120px;">{{row.date.venue || '--'}}</td><td style="min-width:160px;">{{row.date.comments || '--'}}<div ng-if="row.remarks"><strong>Remarks:</strong> {{row.remarks}}</div><div ng-if="row.date.undertime != null"><strong>Undertime:</strong> {{row.date.undertime}}</div></td><td><span class="application-pill" ng-class="applicationStatusClass(row.status_code)">{{row.status || '--'}}</span><div ng-if="row.date.status && row.date.status !== row.status_code"><small>Entry: {{applicationStatus(row.date.status)}}</small></div></td><td style="white-space:nowrap;">{{applicationDate(row.filed)}}</td><td><button type="button" class="btn btn-primary btn-xs" ng-click="viewSlipApplication(row.number)"><i class="fa fa-eye" aria-hidden="true"></i> View Details</button></td>
+                        </tr><tr ng-if="!visibleSlipRows.length"><td colspan="14" class="application-empty"><i class="fa fa-inbox"></i> {{applicationSearch ? 'No matching authorization slips.' : 'No authorization slip records found for this period.'}}</td></tr></tbody>
+                    </table>
+                    <div class="application-summary">TOTAL: {{visibleSlipRows.length}} record(s) &nbsp;|&nbsp; Approved: {{applicationSlipCount('F', visibleSlipRows)}} &nbsp;|&nbsp; Pending: {{applicationSlipCount('C', visibleSlipRows)}} &nbsp;|&nbsp; Rejected: {{applicationSlipCount('D', visibleSlipRows)}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                                         <div id="tab-33" class="tab-pane">
                                             <div class="panel-body">
                                                 <div class="form-group row">
@@ -720,7 +820,22 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="tab-55" class="tab-pane">
+                                        <div id="tab-assignments" class="tab-pane">
+                                            <div class="panel-body">
+                                                <div class="assignment-toolbar"><div><strong><i class="fa fa-briefcase" aria-hidden="true"></i> Assignment History</strong><small>All recorded periods for the selected employee</small></div><div><label for="assignment-search">Search history</label><input id="assignment-search" type="search" class="form-control input-sm" ng-model="assignmentSearch" placeholder="Name, position, department or source"></div></div>
+                                                <div class="alert alert-info" ng-if="!assignmentEmployee">Select an employee to view assignment history.</div>
+                                                <div class="text-center" ng-if="assignmentLoading" role="status"><i class="fa fa-spinner fa-spin"></i> Loading assignment history...</div>
+                                                <div class="alert alert-danger" ng-if="assignmentError" role="alert">{{assignmentError}} <button type="button" class="btn btn-default btn-xs" ng-click="loadAssignments()">Retry</button></div>
+                                                <div ng-if="assignmentEmployee && !assignmentLoading && !assignmentError">
+                                                    <div class="assignment-scroll"><table class="table"><thead><tr><th>Name</th><th>Effective Date</th><th>Employment Type</th><th>Position</th><th>Department / Assignment</th><th>Period Covered</th><th>PHIC Share Flag</th><th>Source</th></tr></thead><tbody>
+                                                        <tr ng-repeat="item in visibleAssignments = (assignmentHistory | filter:assignmentSearch)"><td><strong>{{item.employee_name || '--'}}</strong><small>{{assignmentEmployee}}</small></td><td class="assignment-date">{{applicationDate(item.effective_date)}}</td><td>{{item.employment_type || '--'}}</td><td>{{item.position || '--'}}</td><td>{{item.department || '--'}}</td><td class="assignment-date">{{applicationDate(item.period_from)}}<span ng-if="applicationDate(item.period_from) !== applicationDate(item.period_to)"> &ndash; {{applicationDate(item.period_to)}}</span></td><td class="text-center">{{item.phic_share_flag == null ? '--' : item.phic_share_flag ? 'Yes' : 'No'}}</td><td><span class="assignment-source">{{item.source}}</span></td></tr>
+                                                        <tr ng-if="!visibleAssignments.length"><td colspan="8" class="text-center">{{assignmentSearch ? 'No matching assignments.' : 'No assignment history found.'}}</td></tr>
+                                                    </tbody></table></div>
+                                                    <p class="assignment-note">{{visibleAssignments.length}} record(s). Payroll periods use the master record dates. Assignment periods start on the effective date and end before the next assignment or payroll record, capped by the payroll period end. PHIC Share Flag uses the assignment phic_flag value. A dash means no value is recorded.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tab-55" class="tab-pane" ng-hide="true">
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-sm-2" style="padding-top:5px">

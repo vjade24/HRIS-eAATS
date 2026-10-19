@@ -1,4 +1,4 @@
-﻿//**********************************************************************************
+//**********************************************************************************
 // PROJECT NAME     :   HRIS - eComval
 // VERSION/RELEASE  :   HRIS Release #1
 // PURPOSE          :   Code Behind for PHIC Payroll Registry
@@ -237,6 +237,156 @@ namespace HRIS_eAATS.Controllers
         // Created By  : VJA - Created Date : 02/29/2020
         // Description :Save Edit Data to database
         //*********************************************************************//
+        public class AssignmentHistoryRow
+        {
+            public bool? phic_share_flag { get; set; }
+            public string employee_name { get; set; }
+            public string position { get; set; }
+            public string department { get; set; }
+            public string employment_type { get; set; }
+            public DateTime? period_from { get; set; }
+            public DateTime? period_to { get; set; }
+            public DateTime effective_date { get; set; }
+            public string source { get; set; }
+        }
+
+        public class AssignmentSourceRow
+        {
+            public bool? phic_share_flag { get; set; }
+            public string employment_type { get; set; }
+            public DateTime effective_date { get; set; }
+            public string department_code { get; set; }
+        }
+
+        [HttpPost]
+        public ActionResult GetAssignments(string p_empl_id)
+        {
+            if (Session["id"] == null)
+                return JSON(new { message = "Your session has expired. Please sign in again." }, JsonRequestBehavior.DenyGet);
+            if (string.IsNullOrWhiteSpace(p_empl_id))
+                return JSON(new { message = "Select an employee." }, JsonRequestBehavior.DenyGet);
+            try
+            {
+                var headers = db.payrollemployeemaster_hdr_tbl.AsNoTracking().Where(a => a.empl_id == p_empl_id).ToList();
+                // This HRIS table is not exposed as a DbSet in the generated context.
+                var assignments = db.Database.SqlQuery<AssignmentSourceRow>(
+                    "SELECT employment_type, effective_date, department_code, phic_flag AS phic_share_flag FROM dbo.payrollemployeemaster_asg_tbl WHERE empl_id = @p0", p_empl_id).ToList();
+                var positions = (from a in db.payrollemployeemaster_pos_tbl
+                                 join p in db.positions_tbl on new { a.position_code, a.employment_type } equals new { p.position_code, p.employment_type }
+                                 where a.empl_id == p_empl_id
+                                 select new { a.employment_type, a.effective_date, p.position_long_title }).ToList();
+                var name = db.vw_personnelnames_tbl.Where(a => a.empl_id == p_empl_id).Select(a => a.employee_name).FirstOrDefault();
+                var departments = db.vw_departments_tbl_list.ToList();
+                var rows = new List<AssignmentHistoryRow>();
+                foreach (var header in headers)
+                {
+                    rows.Add(new AssignmentHistoryRow {
+                        employee_name = name, employment_type = header.employment_type,
+                        position = positions.Where(p => p.employment_type == header.employment_type && p.effective_date <= header.effective_date)
+                            .OrderByDescending(p => p.effective_date).Select(p => p.position_long_title).FirstOrDefault(),
+                        department = departments.Where(d => d.department_code == header.department_code).Select(d => d.department_name1).FirstOrDefault() ?? header.department_code,
+                        period_from = header.period_from, period_to = header.period_to,
+                        effective_date = header.effective_date, source = "Payroll master"
+                    });
+                }
+                foreach (var assignment in assignments)
+                {
+                    var header = headers.Where(h => h.employment_type == assignment.employment_type && h.effective_date <= assignment.effective_date)
+                        .OrderByDescending(h => h.effective_date).FirstOrDefault();
+                    var nextDate = assignments.Where(a => a.employment_type == assignment.employment_type && a.effective_date > assignment.effective_date)
+                        .Select(a => (DateTime?)a.effective_date).Concat(headers.Where(h => h.employment_type == assignment.employment_type && h.effective_date > assignment.effective_date)
+                        .Select(h => (DateTime?)h.effective_date)).OrderBy(d => d).FirstOrDefault();
+                    DateTime? until = nextDate.HasValue ? nextDate.Value.Date.AddDays(-1) : (DateTime?)null;
+                    if (header != null && header.period_to.HasValue && (!until.HasValue || header.period_to < until))
+                        until = header.period_to;
+                    rows.Add(new AssignmentHistoryRow {
+                        employee_name = name, employment_type = assignment.employment_type, phic_share_flag = assignment.phic_share_flag,
+                        position = positions.Where(p => p.employment_type == assignment.employment_type && p.effective_date <= assignment.effective_date)
+                            .OrderByDescending(p => p.effective_date).Select(p => p.position_long_title).FirstOrDefault(),
+                        department = departments.Where(d => d.department_code == assignment.department_code).Select(d => d.department_name1).FirstOrDefault() ?? assignment.department_code,
+                        period_from = assignment.effective_date, period_to = until,
+                        effective_date = assignment.effective_date, source = "Assignment history"
+                    });
+                }
+                return JSON(new { message = "success", assignments = rows.OrderByDescending(r => r.period_from ?? r.effective_date).ThenBy(r => r.source) }, JsonRequestBehavior.DenyGet);
+            }
+            catch (Exception)
+            {
+                return JSON(new { message = "Unable to load assignment history. Please try again." }, JsonRequestBehavior.DenyGet);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetApplications(string p_empl_id, string p_year, string p_month)
+        {
+            if (Session["id"] == null)
+                return JSON(new { message = "Your session has expired. Please sign in again." }, JsonRequestBehavior.DenyGet);
+            int year, month;
+            if (string.IsNullOrWhiteSpace(p_empl_id) || !int.TryParse(p_year, out year) ||
+                !int.TryParse(p_month, out month) || year < 1 || year > 9998 || month < 1 || month > 12)
+                return JSON(new { message = "Select an employee and a valid DTR period." }, JsonRequestBehavior.DenyGet);
+            try
+            {
+                var start = new DateTime(year, month, 1);
+                var end = start.AddMonths(1);
+                var statuses = db_ats.vw_approvalstatus_tbl.AsNoTracking().ToList();
+                var leaveTypes = db_ats.leavetype_tbl.AsNoTracking().ToList();
+                var slipTypes = db_ats.astype_tbl.AsNoTracking().ToList();
+                var reasons = db.reasons_tbl.AsNoTracking().ToList();
+                var travelTypes = db_ats.traveltype_tbl.AsNoTracking().ToList();
+                var leaveDates = db_ats.leave_application_dtl_tbl.AsNoTracking()
+                    .Where(d => d.empl_id == p_empl_id && d.leave_date_from < end && d.leave_date_to >= start).ToList();
+                var leaveIds = leaveDates.Select(d => d.leave_ctrlno).Distinct().ToList();
+                var leaves = db_ats.leave_application_hdr_tbl.AsNoTracking()
+                    .Where(a => a.empl_id == p_empl_id && leaveIds.Contains(a.leave_ctrlno)).ToList()
+                    .OrderByDescending(a => a.date_applied).Select(a => new {
+                        number = a.leave_ctrlno, filed = a.date_applied, status_code = a.approval_status,
+                        status = statuses.Where(t => t.approval_status == a.approval_status).Select(t => t.approval_status_descr).FirstOrDefault() ?? a.approval_status,
+                        type = leaveTypes.Where(t => t.leavetype_code == a.leave_type_code).Select(t => t.leavetype_descr).FirstOrDefault() ?? a.leave_type_code,
+                        days = a.number_of_days, description = a.leave_descr, remarks = a.details_remarks, comments = a.leave_comments,
+                        dates = leaveDates.Where(d => d.leave_ctrlno == a.leave_ctrlno).OrderBy(d => d.leave_date_from)
+                            .Select(d => new { from = d.leave_date_from, to = d.leave_date_to, days = d.date_num_day, status = d.rcrd_status })
+                    }).ToList();
+                var slipDates = db_ats.authorization_slipt_dtl_tbl.AsNoTracking()
+                    .Where(d => d.empl_id == p_empl_id && d.as_dtr_date >= start && d.as_dtr_date < end).ToList();
+                var slipIds = slipDates.Select(d => d.application_nbr).Distinct().ToList();
+                var slips = db_ats.authorization_slipt_hdr_tbl.AsNoTracking()
+                    .Where(a => a.empl_id == p_empl_id && slipIds.Contains(a.application_nbr)).ToList()
+                    .OrderByDescending(a => a.date_applied).Select(a => new {
+                        number = a.application_nbr, filed = a.date_applied, status_code = a.approval_status, remarks = a.detail_remarks,
+                        status = statuses.Where(t => t.approval_status == a.approval_status).Select(t => t.approval_status_descr).FirstOrDefault() ?? a.approval_status,
+                        dates = slipDates.Where(d => d.application_nbr == a.application_nbr).OrderBy(d => d.as_dtr_date).Select(d => new {
+                            date = d.as_dtr_date, am_in = d.as_am_in, am_out = d.as_am_out, pm_in = d.as_pm_in, pm_out = d.as_pm_out,
+                            type = slipTypes.Where(t => t.astype_code == d.astype_code).Select(t => t.astype_descr).FirstOrDefault() ?? d.astype_code,
+                            reason = reasons.Where(t => t.reason_code == d.reason_code).Select(t => t.reason_descr).FirstOrDefault() ?? d.reason_code,
+                            venue = d.as_venue, comments = d.as_comment, undertime = d.as_under_time, status = d.rcrd_status
+                        })
+                    }).ToList();
+                var employeeTravelIds = db_ats.travelorder_empl_dtl_tbl.Where(d => d.empl_id == p_empl_id).Select(d => d.travel_order_no);
+                var travelDates = db_ats.travelorder_dates_dtl_tbl.AsNoTracking()
+                    .Where(d => employeeTravelIds.Contains(d.travel_order_no) && d.travel_date < end && (d.travel_date_to ?? d.travel_date) >= start).ToList();
+                var travelIds = travelDates.Select(d => d.travel_order_no).Distinct().ToList();
+                var travels = db_ats.travelorder_hdr_tbl.AsNoTracking().Where(a => travelIds.Contains(a.travel_order_no)).ToList()
+                    .OrderByDescending(a => a.travel_datefiled).Select(a => new {
+                        number = a.travel_order_no, filed = a.travel_datefiled, status_code = a.approval_status, destination = a.travel_place_visit,
+                        purpose = a.travel_purpose, details = a.travel_details, justification = a.travel_justification,
+                        claims = a.travel_with_claims,
+                        type = travelTypes.Where(t => t.travel_type_code == a.travel_type_code).Select(t => t.travel_type_descr).FirstOrDefault() ?? a.travel_type_code,
+                        status = statuses.Where(t => t.approval_status == a.approval_status).Select(t => t.approval_status_descr).FirstOrDefault() ?? a.approval_status,
+                        dates = travelDates.Where(d => d.travel_order_no == a.travel_order_no).OrderBy(d => d.travel_date).Select(d => new {
+                            from = d.travel_date, to = d.travel_date_to ?? d.travel_date,
+                            start_time = (d.travel_starttime + " " + d.travel_starttime_ampm).Trim(),
+                            end_time = (d.travel_endtime + " " + d.travel_endtime_ampm).Trim(), status = d.rcrd_status
+                        })
+                    }).ToList();
+                return JSON(new { message = "success", leaves, slips, travels, statuses }, JsonRequestBehavior.DenyGet);
+            }
+            catch (Exception)
+            {
+                return JSON(new { message = "Unable to load applications. Please try again." }, JsonRequestBehavior.DenyGet);
+            }
+        }
+
         public ActionResult SaveUpdateFromDatabase(dtr_from_bio_tbl data)
         {
             try
